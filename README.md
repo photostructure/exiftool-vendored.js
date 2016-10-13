@@ -1,6 +1,6 @@
 # exiftool-vendored
 
-This is a node v6.7.0+ cross-platform package for [Phil Harvey's ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/), the best-maintained, best-of-class metadata extracting package there is.
+This is a cross-platform `npm` package for [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).
 
 [![npm version](https://badge.fury.io/js/exiftool-vendored.svg)](https://badge.fury.io/js/exiftool-vendored)
 [![Build Status](https://travis-ci.org/mceachen/exiftool-vendored.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored)
