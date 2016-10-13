@@ -1,0 +1,4 @@
+.history
+node_modules
+*.log
+build/Release
