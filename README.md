@@ -45,14 +45,9 @@ Note that the fields from ExifTool are [PascalCased](https://en.wikipedia.org/wi
 
 ## stay_open
 
-Spinning up the perl version of exiftool is expensive, but is *especially* expensive on the executible version on Windows. A *distribution of perl* is extracted and run out of a temporary directory from the self-extracting `exiftool.exe` archive for *every invocation*.
+Spinning up the perl version of ExifTool is expensive, but is *especially* expensive on the version of ExifTool for Windows. A *distribution of perl* is extracted and run out of a temporary directory from the self-extracting `exiftool.exe` archive for *every invocation*. Windows virus scanners make this approach an even more expensive approach.
 
-Without `-stay_open`, this approach is like dipping ExifTool in molasses, made worse because you’re now  fighting your virus software as it scans through the thousands of files that encompass the majority of the perl5 interpreter and the entire code of ExifTool, just to fetch metadata for one file. With `-stay_open`, you only pay that cost once per node process.
-
-## Not implemented
-
-* thumbnail extraction
-* any write operations
+With `-stay_open`, these setup costs are only paid once per node process, dropping response latency dramatically. 
 
 ## Change history
 
