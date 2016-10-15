@@ -1,0 +1,55 @@
+{
+  "name": "exiftool-vendored",
+  "version": "0.0.1",
+  "description": "Platform-dependent vendored distribution of Exiftool",
+  "main": "dist/index.js",
+  "scripts": {
+    "preupdate": "tsc",
+    "update": "node dist/update.js",
+    "pretest": "tsc",
+    "test": "mocha dist/**/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mceachen/exiftool-vendored.git"
+  },
+  "keywords": [
+    "exiftool"
+  ],
+  "author": "Matthew McEachen <matthew-exiftoolvendored@mceachen.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mceachen/exiftool-vendored/issues"
+  },
+  "homepage": "https://github.com/mceachen/exiftool-vendored#readme",
+  "config": {
+    "platformDependentModules": {
+      "linux": [
+        "exiftool-vendored.pl"
+      ],
+      "darwin": [
+        "exiftool-vendored.pl"
+      ],
+      "win32": [
+        "exiftool-vendored.exe"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/jsdom": "^2.0.29",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.45",
+    "@types/xmldom": "^0.1.28",
+    "chai": "^3.5.0",
+    "decompress-zip": "^0.3.0",
+    "mocha": "^3.1.2",
+    "tar-fs": "^1.14.0",
+    "xmldom": "^0.1.22",
+    "xpath": "0.0.23"
+  },
+  "dependencies": {
+    "fraction.js": "^3.3.1",
+    "platform-dependent-modules": "0.0.14"
+  }
+}
