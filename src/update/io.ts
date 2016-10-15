@@ -2,6 +2,8 @@ import * as _fs from "fs"
 import * as _crypto from "crypto"
 import * as _http from "http"
 import * as _zlib from "zlib"
+import * as rimraf from "rimraf"
+
 const tar = require("tar-fs")
 const https = require("https")
 const http = require("http")
@@ -15,8 +17,7 @@ interface Consumer {
 class StringConsumer implements Consumer {
   private readonly data: string[] = []
   onData(data: Buffer | string) {
-    if (typeof data === "string")
-      this.data.push(data)
+    this.data.push(data.toString())
   }
   onEnd(): string {
     return this.data.join("")
@@ -78,6 +79,14 @@ export function writeFile(filename: string, content: string): Promise<string> {
   })
 }
 
+export function rename(before: string, after: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    _fs.rename(before, after, err => {
+      if (err) reject(err)
+      else resolve()
+    })
+  })
+}
 
 export function sha1(filename: string, expectedSha: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -142,6 +151,15 @@ export function updatePackageVersion(
   version: string
 ): Promise<void> {
   return editPackageJson(packageJson, (pkg => pkg.version = version))
+}
+
+export function rmrf(path: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    rimraf.apply(path, (err: any) => {
+      if (err) reject(err)
+      else resolve()
+    })
+  });
 }
 
 export function mkdir(path: string): Promise<void> {

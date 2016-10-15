@@ -1,6 +1,5 @@
 import { Checksums } from "./checksums"
-import { readFile, sha1, wgetFile, wgetString, writeFile } from "./io"
-
+import * as io from "./io"
 import * as _path from "path"
 import * as _url from "url"
 import * as xmldom from "xmldom"
@@ -15,7 +14,7 @@ export class Enclosure {
   ) { }
 
   // The file suffix and the path will already be stripped out at this point
-  private static readonly regex = /.*?([\d\.]+)$/
+  private static readonly regex = /.*?([\d\.]+)(\.tar\.gz|\.zip)$/
 
   static parsedPath(url: string): _path.ParsedPath | undefined {
     const parsedUrlPathname = _url.parse(url).pathname
@@ -26,7 +25,7 @@ export class Enclosure {
   }
 
   static versionFromParsedPath(parsedPath: _path.ParsedPath): string | undefined {
-    const match = Enclosure.regex.exec(parsedPath.name)
+    const match = Enclosure.regex.exec(parsedPath.base)
     if (match !== null) return match[1]
     else return undefined
   }
@@ -35,10 +34,14 @@ export class Enclosure {
     const url = enclosureNode.getAttributeNode("url").value
     const parsedPath = Enclosure.parsedPath(url)
     if (parsedPath) {
+      console.log("Parsed path" + JSON.stringify(parsedPath))
       const sha1 = checksums.sha1(parsedPath.base)
       const version = Enclosure.versionFromParsedPath(parsedPath)
-      if (version && sha1) {
-        return new Enclosure(url, parsedPath, sha1, version)
+      console.log("sha1:" + sha1)
+      console.log("version:" + version)
+      if (version && io.sha1) {
+        const e = new Enclosure(url, parsedPath, sha1, version)
+        return e
       }
     }
     return undefined
@@ -46,7 +49,7 @@ export class Enclosure {
 
   static get(): Promise<Enclosure[]> {
     return Checksums.get()
-      .then(checksums => wgetString("http://owl.phy.queensu.ca/~phil/exiftool/rss.xml")
+      .then(checksums => io.wgetString("http://owl.phy.queensu.ca/~phil/exiftool/rss.xml")
         .then(body => Enclosure.parseBody(body, checksums)))
   }
 

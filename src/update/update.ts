@@ -26,11 +26,17 @@ abstract class Update {
     return io.sha1(this.dlDest, this.enclosure.sha1)
   }
 
+  cleanDest(): Promise<void> {
+    return io.rmrf(this.unpackDest)
+      .then(() => io.mkdir(this.unpackDest))
+  }
+
   abstract unpack(): Promise<void>
 
   update(): Promise<void> {
     return this.download()
       .then(() => this.verify())
+      .then(() => this.cleanDest())
       .then(() => this.unpack())
       .then(() => io.updatePackageVersion(
         this.packageJson,
@@ -44,16 +50,21 @@ class ZipUpdate extends Update {
   readonly moduleDir = _path.join(__dirname, "..", "..", "..", "exiftool-vendored.exe")
   readonly packageJson = _path.join(this.moduleDir, "package.json")
   readonly unpackDest: string
+  readonly exePath: string
   readonly dlDest: string
 
   constructor(readonly enclosure: Enclosure, readonly dlDir: string) {
     super()
     this.dlDest = _path.join(dlDir, enclosure.path.base)
     this.unpackDest = _path.join(this.moduleDir, "bin")
+    this.exePath = _path.join(this.unpackDest, "exiftool(-k).exe")
   }
 
   unpack(): Promise<void> {
+    const before = _path.join(this.unpackDest, "exiftool(-k).exe")
+    const after = _path.join(this.unpackDest, "exiftool.exe")
     return io.unzip(this.dlDest, this.unpackDest)
+      .then(() => io.rename(before, after))
   }
 }
 
@@ -101,7 +112,8 @@ export function update(): Promise<void> {
       prev[enc.path.ext] = enc
       return prev
     }, <{ [ext: string]: Enclosure }>{})
-    const [tar, zip] = [byExt[".tar.gz"], byExt[".zip"]]
+    console.log("By extension: " + JSON.stringify(byExt))
+    const [tar, zip] = [byExt[".gz"], byExt[".zip"]]
     if (tar && zip) {
       const dl = _path.join(__dirname, "..", "..", "dl")
       const zipUpdate = new ZipUpdate(zip, dl)
@@ -124,4 +136,5 @@ export function update(): Promise<void> {
   })
 }
 
+console.log("boom")
 update()
