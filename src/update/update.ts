@@ -29,6 +29,7 @@ abstract class Update {
   cleanDest(): Promise<void> {
     return io.rmrf(this.unpackDest)
       .then(() => io.mkdir(this.unpackDest))
+      .then(() => console.log(`[ ✓ ] Cleaned ${this.unpackDest}`))
   }
 
   abstract unpack(): Promise<void>
@@ -108,17 +109,14 @@ const rootPatchVersion = ""
 
 export function update(): Promise<void> {
   return Enclosure.get().then(enclosures => {
-    const byExt = enclosures.reduce((prev, enc) => {
-      prev[enc.path.ext] = enc
-      return prev
-    }, <{ [ext: string]: Enclosure }>{})
-    console.log("By extension: " + JSON.stringify(byExt))
+    
+    // console.log("By extension: " + JSON.stringify(byExt))
     const [tar, zip] = [byExt[".gz"], byExt[".zip"]]
     if (tar && zip) {
       const dl = _path.join(__dirname, "..", "..", "dl")
       const zipUpdate = new ZipUpdate(zip, dl)
       const tarUpdate = new TarUpdate(tar, dl)
-      return io.mkdir(dl)
+      return io.rmrf(dl).then(() => io.mkdir(dl))
         .then(() => Promise.all([
           zipUpdate.update(),
           tarUpdate.update()

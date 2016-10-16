@@ -25,7 +25,6 @@ export class Checksums {
       const match = Checksums.regex.exec(line)
       if (match !== null) this.store[match[1]] = match[2]
     })
-    console.log(`Checksums: ${JSON.stringify(this.store)}`)
   }
 
   sha1(filename: string) {

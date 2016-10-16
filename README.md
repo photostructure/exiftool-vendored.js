@@ -1,6 +1,6 @@
 # exiftool-vendored
 
-This is a Node.js package providing performant and cross-platform access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/). 
+Efficient, cross-platform [node](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/). 
 
 [![npm version](https://badge.fury.io/js/exiftool-vendored.svg)](https://badge.fury.io/js/exiftool-vendored)
 [![Build Status](https://travis-ci.org/mceachen/exiftool-vendored.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored)
@@ -39,7 +39,7 @@ This is a Node.js package providing performant and cross-platform access to [Exi
     })
 ```
 
-Note that the field names that come from ExifTool are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. (I thought about "fixing" the field names to be camelCase, but this would result in ungainly `aFPointSelected` and `iSO` attrocities).
+Note that the field names that come from ExifTool are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. (I thought about "fixing" the field names to be camelCase, but this would result in ungainly `aFPointSelected` and `iSO` atrocities).
 
 ## stay_open
 

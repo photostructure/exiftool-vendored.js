@@ -16,9 +16,11 @@ interface Consumer {
 
 class StringConsumer implements Consumer {
   private readonly data: string[] = []
+
   onData(data: Buffer | string) {
     this.data.push(data.toString())
   }
+
   onEnd(): string {
     return this.data.join("")
   }
@@ -33,6 +35,7 @@ class FileConsumer implements Consumer {
   onData(data: Buffer | string) {
     this.out.write(data)
   }
+
   onEnd(): string {
     this.out.end()
     return this.destination
@@ -46,7 +49,7 @@ function wget(url: string, consumer: Consumer): Promise<string> {
       if (response.statusCode < 200 || response.statusCode > 299) {
         reject(new Error(`Failed to load page, status code: ${response.statusCode}`))
       }
-      response.on("data", (chunk: string) => consumer.onData(chunk))
+      response.on("data", (chunk: Buffer | string) => consumer.onData(chunk))
       response.on("end", () => resolve(consumer.onEnd()))
     })
     request.on("error", (err: any) => reject(err))
@@ -54,11 +57,16 @@ function wget(url: string, consumer: Consumer): Promise<string> {
 }
 
 export function wgetString(url: string): Promise<string> {
-  return wget(url, new StringConsumer())
+  return wget(url, new StringConsumer()).then(str => {
+    console.log(`[ ✓ ] ${url} downloaded (${str.length} bytes)`)
+    return str
+  })
 }
 
 export function wgetFile(url: string, destinationFile: string): Promise<void> {
-  return wget(url, new FileConsumer(destinationFile))
+  return wget(url, new FileConsumer(destinationFile)).then(() => {
+    console.log(`[ ✓ ] ${url} downloaded to ${destinationFile}`)
+  })
 }
 
 export function readFile(filename: string): Promise<string> {
@@ -74,7 +82,10 @@ export function writeFile(filename: string, content: string): Promise<string> {
   return new Promise((resolve, reject) => {
     _fs.writeFile(filename, content, "utf8", err => {
       if (err) reject(err)
-      else resolve()
+      else {
+        console.log(`[ ✓ ] Wrote ${filename}`)
+        resolve()
+      }
     })
   })
 }
@@ -106,6 +117,7 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
     if (expectedSha !== actualSha) {
       throw new Error(`SHA1 MISMATCH: expected ${expectedSha} for ${filename}, got ${actualSha}`)
     } else {
+      console.log(`[ ✓ ] ${filename} matches expected SHA, ${expectedSha}`)
       return actualSha
     }
   })
@@ -115,7 +127,10 @@ export function unzip(zipFile: string, destDir: string): Promise<void> {
   return new Promise((resolve, reject) => {
     let unzipper = new DecompressZip(zipFile)
     unzipper.on("error", (err: any) => reject(err))
-    unzipper.on("extract", () => resolve())
+    unzipper.on("extract", () => {
+      console.log(`[ ✓ ] ${zipFile} unzipped to ${destDir}`)
+      resolve()
+    })
     unzipper.extract({
       path: destDir
     })
@@ -130,7 +145,10 @@ export function tarxzf(targzFile: string, destDir: string): Promise<void> {
       .on("error", reject)
       .pipe(tar.extract(destDir))
       .on("error", reject)
-      .on("finish", resolve)
+      .on("finish", () => {
+        console.log(`[ ✓ ] ${targzFile} untargz'ed to ${destDir}`)
+        resolve()
+      })
   })
 }
 

@@ -9,7 +9,10 @@
     "pretest": "tsc",
     "test": "mocha dist/**/*.spec.js"
   },
-  "repository": "mceachen/exiftool-vendored",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mceachen/exiftool-vendored.git"
+  },
   "keywords": [
     "exiftool"
   ],

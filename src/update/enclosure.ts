@@ -34,11 +34,8 @@ export class Enclosure {
     const url = enclosureNode.getAttributeNode("url").value
     const parsedPath = Enclosure.parsedPath(url)
     if (parsedPath) {
-      console.log("Parsed path" + JSON.stringify(parsedPath))
       const sha1 = checksums.sha1(parsedPath.base)
       const version = Enclosure.versionFromParsedPath(parsedPath)
-      console.log("sha1:" + sha1)
-      console.log("version:" + version)
       if (version && io.sha1) {
         const e = new Enclosure(url, parsedPath, sha1, version)
         return e
