@@ -1,5 +1,4 @@
 .history
-node_modules
-*.log
 dist
 dl
+node_modules

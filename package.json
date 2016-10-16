@@ -1,11 +1,12 @@
 {
   "name": "exiftool-vendored",
   "version": "0.10.30",
-  "description": "Platform-dependent vendored distribution of Exiftool",
+  "description": "Efficient, cross-platform access to ExifTool",
   "main": "dist/index.js",
   "scripts": {
+    "lint": "tslint src/**/*.ts",
     "preupdate": "tsc",
-    "update": "node dist/update.js",
+    "update": "node dist/update/update.js",
     "pretest": "tsc",
     "test": "mocha dist/**/*.spec.js"
   },
@@ -48,6 +49,8 @@
     "mocha": "^3.1.2",
     "rimraf": "^2.5.4",
     "tar-fs": "^1.14.0",
+    "tslint-config-standard": "^1.5.0",
+    "typescript": "^2.0.3",
     "xmldom": "^0.1.22",
     "xpath": "0.0.23"
   },

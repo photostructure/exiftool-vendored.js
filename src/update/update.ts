@@ -1,11 +1,7 @@
-import { Enclosure } from "./enclosure"
-import * as io from "./io"
-import * as _url from "url"
-import * as _path from "path"
-import * as _http from "http"
-import * as _fs from "fs"
-import * as _crypto from "crypto"
-const globule = require("globule")
+import { Enclosure } from './enclosure'
+import * as io from './io'
+import * as _path from 'path'
+const globule = require('globule')
 
 abstract class Update {
   abstract readonly patchVersion: string
@@ -28,6 +24,7 @@ abstract class Update {
   }
 
   downloadMaybeAndVerify(): Promise<void> {
+    // tslint:disable-next-line: handle-callback-err
     return this.verify().catch(err =>
       io.rmrf(this.dlDest, true)
         .then(() => this.download())
@@ -55,21 +52,21 @@ abstract class Update {
 }
 
 class ZipUpdate extends Update {
-  readonly patchVersion = ""
-  readonly moduleDir = _path.join(__dirname, "..", "..", "..", "exiftool-vendored.exe")
-  readonly packageJson = _path.join(this.moduleDir, "package.json")
+  readonly patchVersion = ''
+  readonly moduleDir = _path.join(__dirname, '..', '..', '..', 'exiftool-vendored.exe')
+  readonly packageJson = _path.join(this.moduleDir, 'package.json')
   readonly unpackDest: string
   readonly dlDest: string
 
   constructor(readonly enclosure: Enclosure, readonly dlDir: string) {
     super()
     this.dlDest = _path.join(dlDir, enclosure.path.base)
-    this.unpackDest = _path.join(this.moduleDir, "bin")
+    this.unpackDest = _path.join(this.moduleDir, 'bin')
   }
 
   unpack(): Promise<void> {
-    const before = _path.join(this.unpackDest, "exiftool(-k).exe")
-    const after = _path.join(this.unpackDest, "exiftool.exe")
+    const before = _path.join(this.unpackDest, 'exiftool(-k).exe')
+    const after = _path.join(this.unpackDest, 'exiftool.exe')
     return io.unzip(this.dlDest, this.unpackDest)
       .then(() => io.rename(before, after))
       .then(() => console.log(`[ ✓ ] ${after}`))
@@ -77,25 +74,27 @@ class ZipUpdate extends Update {
 }
 
 class TarUpdate extends Update {
-  readonly patchVersion = ""
-  readonly moduleDir = _path.join(__dirname, "..", "..", "..", "exiftool-vendored.pl")
-  readonly packageJson = _path.join(this.moduleDir, "package.json")
+  readonly patchVersion = ''
+  readonly moduleDir = _path.join(__dirname, '..', '..', '..', 'exiftool-vendored.pl')
+  readonly packageJson = _path.join(this.moduleDir, 'package.json')
   readonly dlDest: string
   readonly unpackDest: string
 
   constructor(readonly enclosure: Enclosure, readonly dlDir: string) {
     super()
     this.dlDest = _path.join(dlDir, enclosure.path.base)
-    this.unpackDest = _path.join(this.moduleDir, "bin")
+    this.unpackDest = _path.join(this.moduleDir, 'bin')
   }
 
   unpack(): Promise<void> {
-    const tmpUnpack = _path.join(this.moduleDir, "tmp")
+    const tmpUnpack = _path.join(this.moduleDir, 'tmp')
     return io.tarxzf(this.dlDest, tmpUnpack)
       .then(() => {
         // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
         const subdir = globule.find(_path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`))
-        if (subdir.length !== 1) throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
+        if (subdir.length !== 1) {
+          throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
+        }
         return io.rmrf(this.unpackDest)
           .then(() => io.rename(subdir[0], this.unpackDest))
       })
@@ -108,7 +107,7 @@ function updatePlatformDependentModules(
   exeVersion: string
 ): Promise<void> {
   return io.editPackageJson(
-    _path.join(__dirname, "..", "..", "package.json"), (pkg => {
+    _path.join(__dirname, '..', '..', 'package.json'), (pkg => {
       pkg.version = rootVersion
       const mods = pkg.config.platformDependentModules
       const pl = [`exiftool-vendored.pl@${perlVersion}`]
@@ -120,15 +119,15 @@ function updatePlatformDependentModules(
   )
 }
 
-const rootApiVersion = "0."
-const rootPatchVersion = ""
+const rootApiVersion = '0.'
+const rootPatchVersion = ''
 
 export function update(): Promise<void> {
   return Enclosure.get().then(encs => {
-    const tar = encs.find(enc => enc.path.ext === ".gz")
-    const zip = encs.find(enc => enc.path.ext === ".zip")
+    const tar = encs.find(enc => enc.path.ext === '.gz')
+    const zip = encs.find(enc => enc.path.ext === '.zip')
     if (tar && zip) {
-      const dl = _path.join(__dirname, "..", "..", "dl")
+      const dl = _path.join(__dirname, '..', '..', 'dl')
       const zipUpdate = new ZipUpdate(zip, dl)
       const tarUpdate = new TarUpdate(tar, dl)
       return io.mkdir(dl, true)
@@ -144,7 +143,7 @@ export function update(): Promise<void> {
           )
         })
     } else {
-      throw new Error("Did not find both the .zip and .tar.gz enclosures.")
+      throw new Error('Did not find both the .zip and .tar.gz enclosures.')
     }
   })
 }
