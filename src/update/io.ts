@@ -94,7 +94,10 @@ export function rename(before: string, after: string): Promise<void> {
   return new Promise((resolve, reject) => {
     _fs.rename(before, after, err => {
       if (err) reject(err)
-      else resolve()
+      else {
+        console.log(`[ ✓ ] Renamed ${before} to ${after}`)
+        resolve()
+      }
     })
   })
 }

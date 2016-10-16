@@ -5,6 +5,7 @@ import * as _path from "path"
 import * as _http from "http"
 import * as _fs from "fs"
 import * as _crypto from "crypto"
+const globule = require("globule")
 
 abstract class Update {
   abstract readonly patchVersion: string
@@ -51,14 +52,12 @@ class ZipUpdate extends Update {
   readonly moduleDir = _path.join(__dirname, "..", "..", "..", "exiftool-vendored.exe")
   readonly packageJson = _path.join(this.moduleDir, "package.json")
   readonly unpackDest: string
-  readonly exePath: string
   readonly dlDest: string
 
   constructor(readonly enclosure: Enclosure, readonly dlDir: string) {
     super()
     this.dlDest = _path.join(dlDir, enclosure.path.base)
     this.unpackDest = _path.join(this.moduleDir, "bin")
-    this.exePath = _path.join(this.unpackDest, "exiftool(-k).exe")
   }
 
   unpack(): Promise<void> {
@@ -66,6 +65,7 @@ class ZipUpdate extends Update {
     const after = _path.join(this.unpackDest, "exiftool.exe")
     return io.unzip(this.dlDest, this.unpackDest)
       .then(() => io.rename(before, after))
+      .then(() => console.log(`[ ✓ ] ${after}`))
   }
 }
 
@@ -73,8 +73,8 @@ class TarUpdate extends Update {
   readonly patchVersion = ""
   readonly moduleDir = _path.join(__dirname, "..", "..", "..", "exiftool-vendored.pl")
   readonly packageJson = _path.join(this.moduleDir, "package.json")
-  readonly unpackDest: string
   readonly dlDest: string
+  readonly unpackDest: string
 
   constructor(readonly enclosure: Enclosure, readonly dlDir: string) {
     super()
@@ -83,7 +83,14 @@ class TarUpdate extends Update {
   }
 
   unpack(): Promise<void> {
-    return io.tarxzf(this.dlDest, this.unpackDest)
+     const tmpUnpack = _path.join(this.moduleDir, "tmp")
+     return io.tarxzf(this.dlDest, tmpUnpack)
+       .then(() => {
+         // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
+         const subdir = globule.find(_path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`))
+         if (subdir.length !== 1) throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
+         return io.rename(subdir[0], this.unpackDest)
+       })
   }
 }
 
@@ -108,10 +115,9 @@ function updatePlatformDependentModules(
 const rootPatchVersion = ""
 
 export function update(): Promise<void> {
-  return Enclosure.get().then(enclosures => {
-    
-    // console.log("By extension: " + JSON.stringify(byExt))
-    const [tar, zip] = [byExt[".gz"], byExt[".zip"]]
+  return Enclosure.get().then(encs => {
+    const tar = encs.find(enc => enc.path.ext === ".gz")
+    const zip = encs.find(enc => enc.path.ext === ".zip")
     if (tar && zip) {
       const dl = _path.join(__dirname, "..", "..", "dl")
       const zipUpdate = new ZipUpdate(zip, dl)
