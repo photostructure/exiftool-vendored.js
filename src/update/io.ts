@@ -120,7 +120,7 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
     if (expectedSha !== actualSha) {
       throw new Error(`SHA1 MISMATCH: expected ${expectedSha} for ${filename}, got ${actualSha}`)
     } else {
-      console.log(`[ ✓ ] ${filename} matches expected SHA, ${expectedSha}`)
+      console.log(`[ ✓ ] ${filename} matches expected SHA`)
       return actualSha
     }
   })
@@ -129,7 +129,7 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
 export function unzip(zipFile: string, destDir: string): Promise<void> {
   return new Promise((resolve, reject) => {
     let unzipper = new DecompressZip(zipFile)
-    unzipper.on("error", (err: any) => reject(err))
+    unzipper.on("error", reject)
     unzipper.on("extract", () => {
       console.log(`[ ✓ ] ${zipFile} unzipped to ${destDir}`)
       resolve()
@@ -174,19 +174,19 @@ export function updatePackageVersion(
   return editPackageJson(packageJson, (pkg => pkg.version = version))
 }
 
-export function rmrf(path: string): Promise<void> {
+export function rmrf(path: string, ignoreErrors: boolean = false): Promise<void> {
   return new Promise((resolve, reject) => {
-    rimraf.apply(path, (err: any) => {
-      if (err) reject(err)
+    rimraf(path, err => {
+      if (err && !ignoreErrors) reject(err)
       else resolve()
     })
-  });
+  })
 }
 
-export function mkdir(path: string): Promise<void> {
+export function mkdir(path: string, ignoreErrors: boolean = false): Promise<void> {
   return new Promise((resolve, reject) => {
     _fs.mkdir(path, err => {
-      if (err) reject(err)
+      if (err && !ignoreErrors) reject(err)
       else resolve()
     })
   })

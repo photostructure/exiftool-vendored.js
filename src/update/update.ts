@@ -27,8 +27,16 @@ abstract class Update {
     return io.sha1(this.dlDest, this.enclosure.sha1)
   }
 
+  downloadMaybeAndVerify(): Promise<void> {
+    return this.verify().catch(err =>
+      io.rmrf(this.dlDest, true)
+        .then(() => this.download())
+        .then(() => this.verify())
+    )
+  }
+
   cleanDest(): Promise<void> {
-    return io.rmrf(this.unpackDest)
+    return io.rmrf(this.unpackDest, true)
       .then(() => io.mkdir(this.unpackDest))
       .then(() => console.log(`[ ✓ ] Cleaned ${this.unpackDest}`))
   }
@@ -36,8 +44,7 @@ abstract class Update {
   abstract unpack(): Promise<void>
 
   update(): Promise<void> {
-    return this.download()
-      .then(() => this.verify())
+    return this.downloadMaybeAndVerify()
       .then(() => this.cleanDest())
       .then(() => this.unpack())
       .then(() => io.updatePackageVersion(
@@ -83,14 +90,15 @@ class TarUpdate extends Update {
   }
 
   unpack(): Promise<void> {
-     const tmpUnpack = _path.join(this.moduleDir, "tmp")
-     return io.tarxzf(this.dlDest, tmpUnpack)
-       .then(() => {
-         // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
-         const subdir = globule.find(_path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`))
-         if (subdir.length !== 1) throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
-         return io.rename(subdir[0], this.unpackDest)
-       })
+    const tmpUnpack = _path.join(this.moduleDir, "tmp")
+    return io.tarxzf(this.dlDest, tmpUnpack)
+      .then(() => {
+        // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
+        const subdir = globule.find(_path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`))
+        if (subdir.length !== 1) throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
+        return io.rmrf(this.unpackDest)
+          .then(() => io.rename(subdir[0], this.unpackDest))
+      })
   }
 }
 
@@ -112,6 +120,7 @@ function updatePlatformDependentModules(
   )
 }
 
+const rootApiVersion = "0."
 const rootPatchVersion = ""
 
 export function update(): Promise<void> {
@@ -122,14 +131,14 @@ export function update(): Promise<void> {
       const dl = _path.join(__dirname, "..", "..", "dl")
       const zipUpdate = new ZipUpdate(zip, dl)
       const tarUpdate = new TarUpdate(tar, dl)
-      return io.rmrf(dl).then(() => io.mkdir(dl))
+      return io.mkdir(dl, true)
         .then(() => Promise.all([
           zipUpdate.update(),
           tarUpdate.update()
         ]))
         .then(() => {
           updatePlatformDependentModules(
-            tarUpdate.enclosure.version + rootPatchVersion,
+            rootApiVersion + tarUpdate.enclosure.version + rootPatchVersion,
             tarUpdate.version,
             zipUpdate.version
           )
@@ -140,5 +149,4 @@ export function update(): Promise<void> {
   })
 }
 
-console.log("boom")
 update()

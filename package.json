@@ -1,6 +1,6 @@
 {
   "name": "exiftool-vendored",
-  "version": "0.0.1",
+  "version": "0.10.30",
   "description": "Platform-dependent vendored distribution of Exiftool",
   "main": "dist/index.js",
   "scripts": {
@@ -25,13 +25,13 @@
   "config": {
     "platformDependentModules": {
       "linux": [
-        "exiftool-vendored.pl"
+        "exiftool-vendored.pl@10.30"
       ],
       "darwin": [
-        "exiftool-vendored.pl"
+        "exiftool-vendored.pl@10.30"
       ],
       "win32": [
-        "exiftool-vendored.exe"
+        "exiftool-vendored.exe@10.30"
       ]
     }
   },
