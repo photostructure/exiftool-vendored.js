@@ -1,18 +1,29 @@
 {
   "name": "exiftool-vendored",
-  "version": "0.10.30",
+  "version": "0.1.0",
   "description": "Efficient, cross-platform access to ExifTool",
-  "main": "dist/index.js",
+  "main": "./lib/index.js",
   "scripts": {
+    "clean": "rimraf lib",
     "lint": "tslint src/**/*.ts",
-    "preupdate": "tsc",
-    "update": "node dist/update/update.js",
+    "compile": "tsc",
+    "preupdate": "run-s clean lint compile",
+    "update": "node lib/update/update.js",
     "pretest": "tsc",
-    "test": "mocha dist/**/*.spec.js"
+    "test": "mocha lib/**/*.spec.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "directories": {
+    "lib": "lib"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/mceachen/exiftool-vendored.git"
+  },
+  "engines": {
+    "node": ">= 6.4.0"
   },
   "keywords": [
     "exiftool"
@@ -26,13 +37,13 @@
   "config": {
     "platformDependentModules": {
       "linux": [
-        "exiftool-vendored.pl@10.30"
+        "exiftool-vendored.pl@10.30.0"
       ],
       "darwin": [
-        "exiftool-vendored.pl@10.30"
+        "exiftool-vendored.pl@10.30.0"
       ],
       "win32": [
-        "exiftool-vendored.exe@10.30"
+        "exiftool-vendored.exe@10.30.0"
       ]
     }
   },
@@ -47,6 +58,7 @@
     "decompress-zip": "^0.3.0",
     "globule": "^1.0.0",
     "mocha": "^3.1.2",
+    "npm-run-all": "^3.1.1",
     "rimraf": "^2.5.4",
     "tar-fs": "^1.14.0",
     "tslint-config-standard": "^1.5.0",
@@ -55,7 +67,6 @@
     "xpath": "0.0.23"
   },
   "dependencies": {
-    "fraction.js": "^3.3.1",
     "platform-dependent-modules": "0.0.14"
   }
 }

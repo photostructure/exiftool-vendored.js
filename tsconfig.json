@@ -11,7 +11,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitUseStrict": false,
-    "outDir": "./dist",
+    "outDir": "./lib",
     "pretty": true,
     "removeComments": true,
     "rootDir": "./src",

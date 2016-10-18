@@ -1,3 +1,4 @@
+import { ExifTool } from '../exiftool'
 import { Enclosure } from './enclosure'
 import * as io from './io'
 import * as _path from 'path'
@@ -12,7 +13,8 @@ abstract class Update {
   abstract readonly packageJson: string
 
   get version(): string {
-    return this.enclosure.version + this.patchVersion
+    return (this.enclosure.version + this.patchVersion)
+      .split('.').slice(0, 3).join('.')
   }
 
   download(): Promise<void> {
@@ -52,7 +54,7 @@ abstract class Update {
 }
 
 class ZipUpdate extends Update {
-  readonly patchVersion = ''
+  readonly patchVersion = '.0'
   readonly moduleDir = _path.join(__dirname, '..', '..', '..', 'exiftool-vendored.exe')
   readonly packageJson = _path.join(this.moduleDir, 'package.json')
   readonly unpackDest: string
@@ -74,7 +76,7 @@ class ZipUpdate extends Update {
 }
 
 class TarUpdate extends Update {
-  readonly patchVersion = ''
+  readonly patchVersion = '.0'
   readonly moduleDir = _path.join(__dirname, '..', '..', '..', 'exiftool-vendored.pl')
   readonly packageJson = _path.join(this.moduleDir, 'package.json')
   readonly dlDest: string
@@ -119,9 +121,6 @@ function updatePlatformDependentModules(
   )
 }
 
-const rootApiVersion = '0.'
-const rootPatchVersion = ''
-
 export function update(): Promise<void> {
   return Enclosure.get().then(encs => {
     const tar = encs.find(enc => enc.path.ext === '.gz')
@@ -137,7 +136,7 @@ export function update(): Promise<void> {
         ]))
         .then(() => {
           updatePlatformDependentModules(
-            rootApiVersion + tarUpdate.enclosure.version + rootPatchVersion,
+            ExifTool.VERSION,
             tarUpdate.version,
             zipUpdate.version
           )

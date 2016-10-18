@@ -12,26 +12,23 @@ Efficient, cross-platform [node](https://nodejs.org/) access to [ExifTool](http:
 1. Proper parsing of 
     - dates
     - latitudes & longitudes
-    - rational numbers as [fractions](https://github.com/ekg/fraction.js)
 
 1. Auditable ExifTool source code (the "vendored" code is [verifiable](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
 
 1. Automated updates to ExifTool ([as new versions come out monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. Supported on Node.js v6.7.0+ on Linux, Mac, & Windows.
+1. Tested on node v6+ on Linux, Mac, & Windows.
 
 ## Installation
 
     npm install --save exiftool-vendored
 
+The vendored version of ExifTool relevant for your platform will be installed via [platform-dependent-modules](https://www.npmjs.com/package/platform-dependent-modules).
+
 ## Usage
 
 ```js
-    import { ExifTool } from "ExiftoolVendored"
-
-    // ExifTool construction is expensive and stateless; 
-    // Optimally use it as a node-process singleton. 
-    const exiftool = new ExifTool() 
+    import { exiftool } from "exiftool-vendored"
 
     // ExifTool.read() returns a Promise of metadata
     exiftool.read("path/to/file.jpg").then(metadata => {
@@ -39,31 +36,31 @@ Efficient, cross-platform [node](https://nodejs.org/) access to [ExifTool](http:
     })
 ```
 
-Note that the field names that come from ExifTool are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. (I thought about "fixing" the field names to be camelCase, but this would result in ungainly `aFPointSelected` and `iSO` atrocities).
+Note that the [tag names that come from ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html) are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. ("Fixing" the field names to be camelCase, would result in ungainly `aFPointSelected` and `iSO` atrocities).
 
 ## stay_open
 
-Starting the perl version of ExifTool is expensive, but is *especially* expensive on the Windows version of ExifTool. 
+Starting the perl version of ExifTool is expensive, and is *especially* expensive on the Windows version of ExifTool. 
 
-A distribution of Perl is extracted, along with ~1000 files that make up ExifTool,into a temporary directory for **every invocation**. Windows virus scanners make this approach an even more expensive approach.
+On Windows, a distribution of Perl and the ~1000 files that make up ExifTool are extracted into a temporary directory for **every invocation**. Windows virus scanners that wedge reads on these files until they've been determined to be safe make this approach even more costly.
 
-With `-stay_open`, these setup costs are only paid once per node process, dropping response latency dramatically. 
+Using `-stay_open` we can reuse a single instance of ExifTool across all requests, which drops response latency dramatically. 
 
 ## Versioning
 
-Version numbers follow the following scheme:
-```js
-  [
-    EXIFTOOL_VENDORED_API_VERSION,
-    EXIFTOOL_VERSION,
-    EXIFTOOL_VENDORED_PATCH_RELEASE
-  ].join(".")
+I wanted to include the ExifTool's version number explicitly in the version number, but npm requires strict compliance with SemVer. Given that ExifTool sometimes includes patch releases, there aren't always enough spots to encode an API version **and* the ExifTool version.
+
+Given those constraints, version numbers follow the following scheme:
+```sh
+  $API.$UPDATE.$PATCH
 ```
 
-In the spirit of [SemVer](http://semver.org/), major version numbers track non-backward-compatible API updates to this package. Minor and patch versions follow ExifTool's to make it clear which version is being vendored. Unfortunately, ExifTool sometimes has patch releases, and this package may need multiple releases in the course of a single version of ExifTool, so the above scheme may result in > 3 numbers (which technically violates SemVer, but shouldn't cause an issue with `npm`).
+* Breaking API changes to this package will increment `API`.
+* Any bugfix or new release of ExifTool will increment `UPDATE`.
+* Metadata changes or trivial bugfixes will increment `PATCH`.
 
-As a worst case, `v2.10.30.1.3` encodes the third patch release of api v2 that vendors ExifTool v10.30.1.
+Note that the platform dependent modules **use the ExifTool version**, so you know what version you're getting if you look there, or at this `package.json`.
 
-### v0.10.30
+### v0.1.0
 
-Initial Release.
+Initial Release. Packages ExifTool v10.30.
