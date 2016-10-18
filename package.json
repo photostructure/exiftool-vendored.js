@@ -2,7 +2,7 @@
   "name": "exiftool-vendored",
   "version": "0.1.0",
   "description": "Efficient, cross-platform access to ExifTool",
-  "main": "./lib/index.js",
+  "main": "./lib/exiftool.js",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "tslint src/**/*.ts",
@@ -10,7 +10,9 @@
     "preupdate": "run-s clean lint compile",
     "update": "node lib/update/update.js",
     "pretest": "tsc",
-    "test": "mocha lib/**/*.spec.js"
+    "test": "mocha lib/**/*.spec.js",
+    "_platform-dependent": "platform-dependent-modules",
+    "postinstall": "npm run _platform-dependent"
   },
   "files": [
     "lib"
