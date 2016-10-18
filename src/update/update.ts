@@ -136,7 +136,7 @@ export function update(): Promise<void> {
         ]))
         .then(() => {
           updatePlatformDependentModules(
-            ExifTool.VERSION,
+            ExifTool.ModuleVersion,
             tarUpdate.version,
             zipUpdate.version
           )

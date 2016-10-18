@@ -1,6 +1,0 @@
-SHA1(Image-ExifTool-10.30.tar.gz)= 901d9ddcd4c17571a0262743ff001ece99789e98
-SHA1(exiftool-10.30.zip)= 6e90c80966610386b75480e37d418d52b30997ae
-SHA1(ExifTool-10.30.dmg)= a031aeb4d093f938d39ff96e649cda401197ec11
-MD5 (Image-ExifTool-10.30.tar.gz) = e0296d86163e845863374f319ae6636c
-MD5 (exiftool-10.30.zip) = e9ea7a36ff468b558e7977737a5c547f
-MD5 (ExifTool-10.30.dmg) = 8beb65b29564aeb7a30e30f139f0dc19
