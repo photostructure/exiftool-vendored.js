@@ -1,5 +1,6 @@
 import * as _fs from 'fs'
 import * as _cp from 'child_process'
+import * as _process from 'process'
 import * as _path from 'path'
 import { Metadata } from './exiftool'
 
@@ -23,6 +24,7 @@ const MetadataReader: OutputReader<Metadata> = (input) => {
 
 class DeferredReader<T> {
   readonly promise: Promise<T>
+  private warnings: string[] = []
   private _resolve: (value?: T) => void
   private _reject: (reason?: any) => void
 
@@ -37,8 +39,20 @@ class DeferredReader<T> {
     this._reject(reason)
   }
 
+  addWarning(warning: string) {
+    this.warnings.push(warning)
+  }
+
   apply(input: string) {
-    this._resolve(this.reader(input))
+    const result = this.reader(input)
+    if (this.warnings.length > 0) {
+      if (typeof result === 'object') {
+        (result as any)['warnings'] = this.warnings
+      } else {
+        console.dir(this.warnings)
+      }
+    }
+    this._resolve(result)
   }
 }
 
@@ -59,7 +73,7 @@ export class ExifToolProcess {
       ['-stay_open', 'True', '-@', '-']
     )
     this.proc.stdout.on('data', d => this.onData(d))
-    this.proc.stderr.on('data', d => console.log(`ExifTool error: ${d}`))
+    this.proc.stderr.on('data', d => this.onError(d))
     this.proc.on('close', (code: any) => {
       console.log(`ExifTool exited with code ${code}`)
       for (const reader of this.readers) { reader.reject('ExifTool closed') }
@@ -67,6 +81,7 @@ export class ExifToolProcess {
       this._ended = true
     })
     this.versionPromise = this.execute(StringReader, '-ver')
+    _process.on('beforeExit', () => this.end())
   }
 
   get version(): Promise<string> {
@@ -74,8 +89,23 @@ export class ExifToolProcess {
   }
 
   read(file: string): Promise<Metadata> {
-    const resolvedFile = _path.resolve(file)
-    return this.execute(MetadataReader, '-json', '-coordFormat %.8f', '-fast', resolvedFile)
+    const absPathToFile = _path.resolve(file)
+    return this.execute(
+      MetadataReader,
+      '-json',
+      '-coordFormat "%.8f"',
+      '-fast',
+      absPathToFile
+    )
+  }
+
+  private end(): void {
+    this.proc.stdin.write('\n-stay_open\nFalse\n')
+    this.proc.stdin.end()
+  }
+
+  get ended(): boolean {
+    return this._ended
   }
 
   private execute<T>(reader: OutputReader<T>, ...cmds: string[]): Promise<T> {
@@ -88,8 +118,12 @@ export class ExifToolProcess {
     return deferredReader.promise
   }
 
-  get ended(): boolean {
-    return this._ended
+  private onError(error: string | Buffer) {
+    if (this.readers.length === 0) {
+      console.error(`Error from ExifTool without any readers: ${error}`)
+    } else {
+      this.readers[0].addWarning(error.toString())
+    }
   }
 
   private onData(data: string | Buffer) {

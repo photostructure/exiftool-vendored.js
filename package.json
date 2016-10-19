@@ -9,8 +9,9 @@
     "compile": "tsc",
     "preupdate": "run-s clean lint compile",
     "update": "node lib/update/update.js",
-    "pretest": "tsc",
+    "pretest": "run-s compile _platform-dependent",
     "test": "mocha lib/**/*.spec.js",
+    "cleantest": "run-s clean lint test",
     "_platform-dependent": "platform-dependent-modules",
     "postinstall": "npm run _platform-dependent"
   },
@@ -28,7 +29,16 @@
     "node": ">= 6.4.0"
   },
   "keywords": [
-    "exiftool"
+    "ExifTool",
+    "EXIF",
+    "JPEG",
+    "TIFF",
+    "RAW",
+    "ORF",
+    "DNG",
+    "XMP",
+    "MakerNote",
+    "Metadata"
   ],
   "author": "Matthew McEachen <matthew-exiftoolvendored@mceachen.org>",
   "license": "MIT",
@@ -71,6 +81,7 @@
     "xpath": "0.0.23"
   },
   "dependencies": {
+    "moment": "^2.15.1",
     "platform-dependent-modules": "0.0.14"
   }
 }

@@ -1,4 +1,4 @@
-import { ExifTool } from '../exiftool'
+import { ExifToolVendoredVersion } from '../exiftool'
 import { Enclosure } from './enclosure'
 import * as io from './io'
 import * as _path from 'path'
@@ -136,7 +136,7 @@ export function update(): Promise<void> {
         ]))
         .then(() => {
           updatePlatformDependentModules(
-            ExifTool.ModuleVersion,
+            ExifToolVendoredVersion,
             tarUpdate.version,
             zipUpdate.version
           )
