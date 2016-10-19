@@ -1,217 +1,274 @@
 /**
- * Please note that this is not an exhaustive tag list, but only the most commonly consumed tags.
- * PRs are welcome.
+ * Please note that this is not an exhaustive tag list.
+ * PRs adding missing tags are welcome.
  */
-export interface Metadata extends FileMetadata, ExifMetadata, MakerNotesMetadata, CompositeMetadata {
+export interface Metadata
+  extends FileMetadata, ExifMetadata, ICCProfile, MakerNotes, CompositeMetadata {
+  warnings: string[]
 }
 
 export interface FileMetadata {
-  FileName: string
-  Directory: string
-  FileSize: string
-  FileModifyDate: Date
-  FileAccessDate: Date
-  FileInodeChangeDate: Date
-  FilePermissions: string
-  FileType: string
-  FileTypeExtension: string
-  MIMEType: string
-  ExifByteOrder: string
-  ImageWidth: number
-  ImageHeight: number
-  EncodingProcess: string
   BitsPerSample: number
   ColorComponents: number
+  Directory: string
+  EncodingProcess: string
+  ExifByteOrder: string
+  FileAccessDate: Date
+  FileInodeChangeDate: Date
+  FileModifyDate: Date
+  FileName: string
+  FilePermissions: string
+  FileSize: string
+  FileType: string
+  FileTypeExtension: string
+  ImageHeight: number
+  ImageWidth: number
+  MIMEType: string
   YCbCrSubSampling: string
 }
 
 export interface ExifMetadata {
-  ImageDescription: string
-  Make: string
-  Model: string
-  Orientation: string
-  XResolution: number
-  YResolution: number
-  ResolutionUnit: string
-  Software: string
-  ModifyDate: Date
+  ApertureValue: number
   Artist: string
-  YCbCrPositioning: string
-  Copyright: string
-  ExposureTime: number
-  FNumber: number
-  ExposureProgram: string
-  ISO: number
-  SensitivityType: string
-  ExifVersion: string
-  DateTimeOriginal: string
-  CreateDate: Date
-  ComponentsConfiguration: string
-  ExposureCompensation: string
-  MaxApertureValue: number
-  MeteringMode: string
-  LightSource: string
-  Flash: string
-  FocalLength: string
-  UserComment: string
-  FlashpixVersion: string
+  BrightnessValue: number
   ColorSpace: string
-  ExifImageWidth: number
+  ComponentsConfiguration: string
+  Compression: string
+  Contrast: string
+  Copyright: string
+  CreateDate: Date
+  CustomRendered: string
+  DateTimeOriginal: Date
+  DigitalZoomRatio: number
   ExifImageHeight: number
+  ExifImageWidth: number
+  ExifVersion: string
+  ExposureCompensation: string
+  ExposureMode: string
+  ExposureProgram: string
+  ExposureTime: number
+  FileSource: string
+  Flash: string
+  FlashpixVersion: string
+  FNumber: number
+  FocalLength: string
+  FocalLengthIn35mmFormat: string
+  GainControl: string
+  GPSAltitudeRef: string
+  GPSDateStamp: string
+  GPSLatitude: number
+  GPSLatitudeRef: string
+  GPSLongitude: number
+  GPSLongitudeRef: string
+  GPSTimeStamp: Date
+  GPSVersionID: string
+  ImageDescription: string
   InteropIndex: string
   InteropVersion: string
-  FileSource: string
-  CustomRendered: string
-  ExposureMode: string
-  WhiteBalance: string
-  DigitalZoomRatio: number
-  SceneCaptureType: string
-  GainControl: string
-  Contrast: string
-  Saturation: string
-  Sharpness: string
+  ISO: number
   LensInfo: string
   LensModel: string
-  GPSVersionID: string
-  Compression: string
-  ThumbnailOffset: number
+  LightSource: string
+  Make: string
+  MaxApertureValue: number
+  MeteringMode: string
+  Model: string
+  ModifyDate: Date
+  Orientation: string
+  ResolutionUnit: string
+  Saturation: string
+  SceneCaptureType: string
+  SceneType: string
+  SensingMethod: string
+  SensitivityType: string
+  Sharpness: string
+  ShutterSpeedValue: string
+  Software: string
+  SubSecTime: number
+  SubSecTimeDigitized: number
+  SubSecTimeOriginal: number
   ThumbnailLength: number
+  ThumbnailOffset: number
+  UserComment: string
+  WhiteBalance: string
+  XResolution: number
+  YCbCrPositioning: string
+  YResolution: number
 }
 
-export interface MakerNotesMetadata {
-  SpecialMode: string
-  CameraID: string
-  EquipmentVersion: string
-  CameraType2: string
-  SerialNumber: string
-  InternalSerialNumber: string
-  FocalPlaneDiagonal: string
-  BodyFirmwareVersion: number
-  LensType: string
-  LensSerialNumber: string
-  LensModel: string
-  LensFirmwareVersion: number
-  MaxApertureAtMinFocal: number
-  MaxApertureAtMaxFocal: number
-  MinFocalLength: number
-  MaxFocalLength: number
-  MaxAperture: number
-  LensProperties: string
-  Extender: string
-  ExtenderSerialNumber: string
-  ExtenderModel: string
-  ExtenderFirmwareVersion: number
-  ConversionLens: string
-  FlashType: string
-  FlashModel: string
-  FlashFirmwareVersion: number
-  FlashSerialNumber: string
-  CameraSettingsVersion: string
-  PreviewImageValid: string
-  PreviewImageStart: number
-  PreviewImageLength: number
-  ExposureMode: string
+export interface ICCProfile {
+  BlueMatrixColumn: string
+  BlueTRC: string
+  ChromaticAdaptation: string
+  CMMFlags: string
+  ColorSpaceData: string
+  ConnectionSpaceIlluminant: string
+  DeviceAttributes: string
+  DeviceManufacturer: string
+  DeviceModel: string
+  DeviceModelDesc: string
+  GreenMatrixColumn: string
+  GreenTRC: string
+  Luminance: string
+  MeasurementBacking: string
+  MeasurementFlare: string
+  MeasurementGeometry: string
+  MeasurementIlluminant: string
+  MeasurementObserver: string
+  MediaBlackPoint: string
+  MediaWhitePoint: string
+  PrimaryPlatform: string
+  ProfileClass: string
+  ProfileCMMType: string
+  ProfileConnectionSpace: string
+  ProfileCopyright: string
+  ProfileCreator: string
+  ProfileDateTime: Date
+  ProfileDescription: string
+  ProfileFileSignature: string
+  ProfileID: string
+  ProfileVersion: string
+  RedMatrixColumn: string
+  RedTRC: string
+  RenderingIntent: string
+  Technology: string
+  ViewingCondDesc: string
+}
+
+export interface MakerNotes {
   AELock: string
-  MeteringMode: string
-  ExposureShift: number
-  MacroMode: string
-  FocusMode: string
-  FocusProcess: string
-  AFSearch: string
   AFAreas: string
-  AFPointSelected: string
   AFFineTune: string
   AFFineTuneAdj: string
-  FlashMode: string
-  FlashExposureComp: number
-  FlashRemoteControl: string
-  FlashControlMode: string
-  FlashIntensity: string
-  ManualFlashStrength: string
-  WhiteBalance2: string
-  WhiteBalanceTemperature: number
-  WhiteBalanceBracket: string
-  CustomSaturation: string
-  ModifiedSaturation: string
-  ContrastSetting: string
-  SharpnessSetting: string
-  ColorSpace: string
-  SceneMode: string
-  NoiseReduction: string
-  DistortionCorrection: string
-  ShadingCompensation: string
-  CompressionFactor: number
-  Gradation: string
-  PictureMode: string
-  PictureModeSaturation: string
-  PictureModeContrast: string
-  PictureModeSharpness: string
-  PictureModeBWFilter: string
-  PictureModeTone: string
-  NoiseFilter: string
+  AFPoint: string
+  AFPointSelected: string
+  AFSearch: string
   ArtFilter: string
-  PictureModeEffect: string
-  ToneLevel: string
   ArtFilterEffect: string
-  DriveMode: string
-  PanoramaMode: string
-  ImageStabilization: string
-  StackedImage: string
-  ManometerPressure: string
-  ManometerReading: string
-  ExtendedWBDetect: string
-  DateTimeUTC: string
-  RawDevVersion: string
-  RawDevExposureBiasValue: number
-  RawDevWhiteBalanceValue: number
-  RawDevWBFineAdjustment: number
-  RawDevGrayPoint: string
-  RawDevSaturationEmphasis: string
-  RawDevMemoryColorEmphasis: number
-  RawDevContrastValue: string
-  RawDevSharpnessValue: string
-  RawDevColorSpace: string
-  RawDevEngine: string
-  RawDevNoiseReduction: string
-  RawDevEditStatus: string
-  RawDevSettings: string
-  ImageProcessingVersion: string
-  WB_RBLevels: string
-  ColorMatrix: string
+  AspectFrame: string
+  AspectRatio: string
   BlackLevel2: string
-  GainBase: number
+  BodyFirmwareVersion: number
+  CameraID: string
+  CameraSettingsVersion: string
+  CameraTemperature: number
+  CameraType2: string
+  ColorMatrix: string
+  ColorSpace: string
+  CompressionFactor: number
+  ContrastSetting: string
+  ConversionLens: string
+  CropHeight: number
   CropLeft: string
   CropTop: string
   CropWidth: number
-  CropHeight: number
-  SensorCalibration: string
-  NoiseReduction2: string
+  CustomSaturation: string
+  DateTimeUTC: Date
+  DistortionCorrection: string
   DistortionCorrection2: string
-  ShadingCompensation2: string
-  MultipleExposureMode: string
-  AspectRatio: string
-  AspectFrame: string
-  FacesDetected: string
-  FaceDetectArea: string
-  MaxFaces: string
-  FaceDetectFrameSize: string
-  FaceDetectFrameCrop: string
-  CameraTemperature: number
-  FocusInfoVersion: string
-  SceneDetect: number
-  ZoomStepCount: number
-  FocusStepCount: number
-  FocusStepInfinity: number
-  FocusStepNear: number
-  FocusDistance: string
-  AFPoint: string
+  DriveMode: string
+  EquipmentVersion: string
+  ExposureMode: string
+  ExposureShift: number
+  ExtendedWBDetect: string
+  Extender: string
+  ExtenderFirmwareVersion: number
+  ExtenderModel: string
+  ExtenderSerialNumber: string
   ExternalFlash: string
   ExternalFlashBounce: string
   ExternalFlashZoom: number
+  FaceDetectArea: string
+  FaceDetectFrameCrop: string
+  FaceDetectFrameSize: string
+  FacesDetected: string
+  FlashControlMode: string
+  FlashExposureComp: number
+  FlashFirmwareVersion: number
+  FlashIntensity: string
+  FlashMode: string
+  FlashModel: string
+  FlashRemoteControl: string
+  FlashSerialNumber: string
+  FlashType: string
+  FocalPlaneDiagonal: string
+  FocusDistance: string
+  FocusInfoVersion: string
+  FocusMode: string
+  FocusProcess: string
+  FocusStepCount: number
+  FocusStepInfinity: number
+  FocusStepNear: number
+  GainBase: number
+  Gradation: string
+  ImageProcessingVersion: string
+  ImageStabilization: string
   InternalFlash: string
-  ManualFlash: string
+  InternalSerialNumber: string
+  LensFirmwareVersion: number
+  LensModel: string
+  LensProperties: string
+  LensSerialNumber: string
+  LensType: string
   MacroLED: string
+  MacroMode: string
+  ManometerPressure: string
+  ManometerReading: string
+  ManualFlash: string
+  ManualFlashStrength: string
+  MaxAperture: number
+  MaxApertureAtMaxFocal: number
+  MaxApertureAtMinFocal: number
+  MaxFaces: string
+  MaxFocalLength: number
+  MeteringMode: string
+  MinFocalLength: number
+  ModifiedSaturation: string
+  MultipleExposureMode: string
+  NoiseFilter: string
+  NoiseReduction: string
+  NoiseReduction2: string
+  PanoramaMode: string
+  PictureMode: string
+  PictureModeBWFilter: string
+  PictureModeContrast: string
+  PictureModeEffect: string
+  PictureModeSaturation: string
+  PictureModeSharpness: string
+  PictureModeTone: string
+  PreviewImageLength: number
+  PreviewImageStart: number
+  PreviewImageValid: string
+  RawDevColorSpace: string
+  RawDevContrastValue: string
+  RawDevEditStatus: string
+  RawDevEngine: string
+  RawDevExposureBiasValue: number
+  RawDevGrayPoint: string
+  RawDevMemoryColorEmphasis: number
+  RawDevNoiseReduction: string
+  RawDevSaturationEmphasis: string
+  RawDevSettings: string
+  RawDevSharpnessValue: string
+  RawDevVersion: string
+  RawDevWBFineAdjustment: number
+  RawDevWhiteBalanceValue: number
+  SceneDetect: number
+  SceneMode: string
+  SensorCalibration: string
   SensorTemperature: string
+  SerialNumber: string
+  ShadingCompensation: string
+  ShadingCompensation2: string
+  SharpnessSetting: string
+  SpecialMode: string
+  StackedImage: string
+  ToneLevel: string
+  WB_RBLevels: string
+  WhiteBalance2: string
+  WhiteBalanceBracket: string
+  WhiteBalanceTemperature: number
+  ZoomStepCount: number
 }
 
 export interface CompositeMetadata {
