@@ -52,9 +52,6 @@ const onlyCorrectIfYouTookThePhotoInTheSameTimezoneOffsetAsItIsLocally: Date =
   d.toLocalDate()
 ```
 
-
-
-
 ## stay_open
 
 Starting the perl version of ExifTool is expensive, and is *especially* expensive on the Windows version of ExifTool. 
@@ -62,6 +59,18 @@ Starting the perl version of ExifTool is expensive, and is *especially* expensiv
 On Windows, a distribution of Perl and the ~1000 files that make up ExifTool are extracted into a temporary directory for **every invocation**. Windows virus scanners that wedge reads on these files until they've been determined to be safe make this approach even more costly.
 
 Using `-stay_open` we can reuse a single instance of ExifTool across all requests, which drops response latency dramatically. 
+
+## Metadata types
+
+After downloading more than 2,000 exemplars from the ExifTool site, this script generated the majority of `metadata.ts`:
+
+```sh
+# Fetch tags by popularity:
+$ find . -name \*.jpg | xargs -- exiftool -j -G | cut -d: -f1,2 | grep -vE '{|}' | sort | uniq -c | sort -rn > tags.txt
+
+# Take the top 1000 most popular tags
+$ head -1000 tags.txt | cut -d\" -f2 | sort -t:
+```
 
 ## Versioning
 

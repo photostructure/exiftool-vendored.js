@@ -5,6 +5,9 @@ export { Metadata } from './metadata'
 export interface ExifToolAPI {
   version: Promise<string>
   read(file: string): Promise<Metadata>
+
+  // For internal use, returns keys prefixed by the group name  
+  readGrouped(file: string): Promise<any>
   /**
    * This will be called automatically at by process.beforeExit,
    * but tests may need to call this proactively.
@@ -42,6 +45,11 @@ class ExifTool implements ExifToolAPI {
         throw err
       }
     })
+  }
+
+  // For internal use, returns keys prefixed by the group name  
+  readGrouped(file: string): Promise<any> {
+    return this.proc().readGrouped(file)
   }
 
   end() {

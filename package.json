@@ -9,6 +9,8 @@
     "compile": "tsc",
     "preupdate": "run-s clean lint compile",
     "update": "node lib/update/update.js",
+    "pretags": "tsc",
+    "tags": "node lib/tags/tags.js",
     "pretest": "tsc",
     "test": "mocha lib/**/*.spec.js",
     "cleantest": "run-s clean lint pdm test",

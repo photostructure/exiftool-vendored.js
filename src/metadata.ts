@@ -1,4 +1,5 @@
-import {ExifDate, ExifTime, ExifDateTime} from './datetime'
+import { ExifDate, ExifTime, ExifDateTime } from './datetime'
+
 /**
  * Please note that this is not an exhaustive tag list.
  * PRs adding missing tags are welcome.
@@ -24,9 +25,9 @@ export interface FileMetadata {
   Directory: string
   EncodingProcess: string
   ExifByteOrder: string
-  FileAccessDate: ExifDateTime
-  FileInodeChangeDate: ExifDateTime
-  FileModifyDate: ExifDateTime
+  FileAccessDate: ExifDateTime // most likely has a timezone
+  FileInodeChangeDate: ExifDateTime // most likely has a timezone
+  FileModifyDate: ExifDateTime // most likely has a timezone
   FileName: string
   FilePermissions: string
   FileSize: string
@@ -48,7 +49,7 @@ export interface JFIFMetadata {
 export interface GPSInfoMetadata {
   GPSAltitude: string // 73 m
   GPSAltitudeRef: string // Above Sea Level
-  GPSDateTimeUTC: Date // UTC-encoded Date and Time
+  GPSDateTimeUTC: ExifDateTime // UTC-encoded Date and Time
   GPSDateStamp: ExifDate // 2016:08:12
   GPSDestBearing: number // 31.18004866
   GPSDestBearingRef: string // True North
@@ -209,7 +210,7 @@ export interface MakerNotesMetadata {
   CropTop: string
   CropWidth: number
   CustomSaturation: string
-  DateTimeUTC: Date // rare tag only on some Olympus cameras
+  DateTimeUTC: ExifDateTime // rare tag only on some Olympus cameras, has tzoffset == 0
   DistortionCorrection: string
   DistortionCorrection2: string
   DriveMode: string

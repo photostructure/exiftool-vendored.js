@@ -1,6 +1,15 @@
-
 function pad2(i: number) {
   return `${i >= 10 ? '' : '0'}${i}`
+}
+
+function parseIntOrSign(s: string): number {
+  if (s === '+') {
+    return 1
+  } else if (s === '-') {
+    return -1
+  } else {
+    return parseInt(s, 10)
+  }
 }
 
 function parse(re: RegExp, input: string): number[] {
@@ -8,8 +17,19 @@ function parse(re: RegExp, input: string): number[] {
   if (match == null) {
     throw new Error(`Invalid input: ${input}`)
   } else {
-    return match.slice(1).map(i => parseInt(i, 10))
+    return match.slice(1).map(i => parseIntOrSign(i))
   }
+}
+
+/**
+ * @return 
+ */
+function isDefined<T>(...array: T[]): boolean {
+  return array.findIndex((elem) => elem !== undefined) === -1
+}
+
+function compactuniq<T>(array: T[]): T[] {
+  return array.filter((elem, idx, arr) => elem !== undefined && arr.indexOf(elem) >= idx)
 }
 
 export class ExifTime {
@@ -46,7 +66,7 @@ export class ExifDate {
  * Encodes an ExifDate (which most likely has no timezone offset)
  */
 export class ExifDateTime {
-  private static regex = /(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/
+  private static regex = /(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})(?:([-+])(\d{2}):(\d{2}))?/
 
   readonly year: number
   readonly month: number // 1-12, no crazy 0-11 nonsense
@@ -56,8 +76,38 @@ export class ExifDateTime {
   readonly second: number // 0-59
   readonly tzoffsetMinutes?: number
 
-  constructor(exifDateTime: string, readonly tzoffset?: number) {
-    [this.year, this.month, this.day, this.hour, this.minute, this.second] = parse(ExifDateTime.regex, exifDateTime)
+  constructor(exifDateTime: string, tzoffsetMinutes?: number) {
+    let offsetSign: number
+    let hourOffset: number
+    let minuteOffset: number
+    const offsets = [tzoffsetMinutes];
+
+    [this.year, this.month, this.day, this.hour, this.minute, this.second, offsetSign, hourOffset, minuteOffset]
+      = parse(ExifDateTime.regex, exifDateTime)
+    // Parse offsetSign separately so sub-hour offsets can still be negative
+    if (isDefined(offsetSign, hourOffset, minuteOffset)) {
+      offsets.push(offsetSign * (hourOffset * 60 + minuteOffset))
+    }
+    const definedOffsets = compactuniq(offsets)
+    if (definedOffsets.length > 1) {
+      throw new Error('Cannot specify inequal exifDateTime tz offset and tzoffsetMinutes')
+    } else {
+      this.tzoffsetMinutes = definedOffsets[0]
+    }
+  }
+
+  /**
+   * Note that this is most likely incorrect if the timezone offset is not set. See the README for details.
+   */
+  toDate(): Date {
+    if (this.tzoffsetMinutes === undefined) {
+      const d = new Date()
+      d.setFullYear(this.year, this.month - 1, this.day)
+      d.setHours(this.hour, this.minute, this.second)
+      return d
+    } else {
+      return new Date(this.toISOString())
+    }
   }
 
   toISOString(): string {

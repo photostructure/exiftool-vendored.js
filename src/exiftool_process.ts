@@ -1,3 +1,4 @@
+import { ExifDateTime } from "./datetime";
 import * as _fs from 'fs'
 import * as _cp from 'child_process'
 import * as _process from 'process'
@@ -34,6 +35,22 @@ export const VersionParser: Parser<string> = new class implements Parser<string>
   }
 }()
 
+export interface TagParser<T, U> {
+  parse(input: T): U
+}
+
+const UTCParser = new class implements TagParser<string, ExifDateTime> {
+  parse(input: string): ExifDateTime {
+    return new ExifDateTime(input, 0)
+  }
+}()
+
+const DateTimeParser = new class implements TagParser<string, ExifDateTime> {
+  parse(input: string): ExifDateTime {
+    return new ExifDateTime(input)
+  }
+}()
+
 export class MetadataParser implements Parser<Metadata> {
   readonly filename: string
   private warnings: string[] = []
@@ -57,6 +74,7 @@ export class MetadataParser implements Parser<Metadata> {
   }
 
   clean(m: Metadata): Metadata {
+    // If we have a GPS
     // TODO Handle GPS coords and dates properly
     return m
   }
@@ -124,6 +142,18 @@ export class ExifToolProcess {
     return this.execute(
       new DeferredParser(parser),
       '-json',
+      '-coordFormat "%.8f"',
+      '-fast',
+      parser.filename
+    )
+  }
+
+  readGrouped(file: string): Promise<Metadata> {
+    const parser = new MetadataParser(file)
+    return this.execute(
+      new DeferredParser(parser),
+      '-json',
+      '-G',
       '-coordFormat "%.8f"',
       '-fast',
       parser.filename
