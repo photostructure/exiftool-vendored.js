@@ -1,10 +1,21 @@
+import {ExifDate, ExifTime, ExifDateTime} from './datetime'
 /**
  * Please note that this is not an exhaustive tag list.
  * PRs adding missing tags are welcome.
  */
 export interface Metadata
-  extends FileMetadata, ExifMetadata, ICCProfile, MakerNotes, CompositeMetadata {
+  extends FileMetadata, JFIFMetadata, GPSInfoMetadata, EXIFMetadata, ICCProfile, MakerNotesMetadata, CompositeMetadata {
+  SourceFile: string
   warnings: string[]
+}
+
+export interface GroupedMetadata {
+  SourceFile: string
+  File: FileMetadata
+  JFIF: JFIFMetadata
+  EXIF: EXIFMetadata
+  MakerNotes: MakerNotesMetadata
+  Composite: CompositeMetadata
 }
 
 export interface FileMetadata {
@@ -13,9 +24,9 @@ export interface FileMetadata {
   Directory: string
   EncodingProcess: string
   ExifByteOrder: string
-  FileAccessDate: Date
-  FileInodeChangeDate: Date
-  FileModifyDate: Date
+  FileAccessDate: ExifDateTime
+  FileInodeChangeDate: ExifDateTime
+  FileModifyDate: ExifDateTime
   FileName: string
   FilePermissions: string
   FileSize: string
@@ -27,7 +38,50 @@ export interface FileMetadata {
   YCbCrSubSampling: string
 }
 
-export interface ExifMetadata {
+export interface JFIFMetadata {
+  JFIFVersion: string
+  ResolutionUnit: string
+  XResolution: number
+  YResolution: number
+}
+
+export interface GPSInfoMetadata {
+  GPSAltitude: string // 73 m
+  GPSAltitudeRef: string // Above Sea Level
+  GPSDateTimeUTC: Date // UTC-encoded Date and Time
+  GPSDateStamp: ExifDate // 2016:08:12
+  GPSDestBearing: number // 31.18004866
+  GPSDestBearingRef: string // True North
+  GPSHPositioningError: string // 16 m
+  GPSImgDirection: number // 31.18004866
+  GPSImgDirectionRef: string // True North
+  GPSLatitude: number // 32.33543889
+  GPSLatitudeRef: string // North
+  GPSLongitude: number // 100.16401667
+  GPSLongitudeRef: string // East
+  GPSSpeed: number // 0.487198608
+  GPSSpeedRef: string // km/h
+  GPSTimeStamp: ExifTime // 05:28:49
+  GPSVersionID: string
+
+  GPSSatellites: string
+  GPSStatus: string
+  GPSMeasureMode: string
+  GPSDOP: number
+  GPSTrackRef: string
+  GPSTrack: number
+  GPSMapDatum: string
+  GPSDestLatitudeRef: string
+  GPSDestLatitude: number
+  GPSDestLongitudeRef: string
+  GPSDestLongitude: number
+  GPSDestDistanceRef: string
+  GPSDestDistance: number
+  GPSProcessingMethod: string
+  GPSAreaInformation: string
+}
+
+export interface EXIFMetadata {
   ApertureValue: number
   Artist: string
   BrightnessValue: number
@@ -36,9 +90,9 @@ export interface ExifMetadata {
   Compression: string
   Contrast: string
   Copyright: string
-  CreateDate: Date
+  CreateDate: ExifDateTime
   CustomRendered: string
-  DateTimeOriginal: Date
+  DateTimeOriginal: ExifDateTime
   DigitalZoomRatio: number
   ExifImageHeight: number
   ExifImageWidth: number
@@ -54,14 +108,6 @@ export interface ExifMetadata {
   FocalLength: string
   FocalLengthIn35mmFormat: string
   GainControl: string
-  GPSAltitudeRef: string
-  GPSDateStamp: string
-  GPSLatitude: number
-  GPSLatitudeRef: string
-  GPSLongitude: number
-  GPSLongitudeRef: string
-  GPSTimeStamp: Date
-  GPSVersionID: string
   ImageDescription: string
   InteropIndex: string
   InteropVersion: string
@@ -73,7 +119,7 @@ export interface ExifMetadata {
   MaxApertureValue: number
   MeteringMode: string
   Model: string
-  ModifyDate: Date
+  ModifyDate: ExifDateTime
   Orientation: string
   ResolutionUnit: string
   Saturation: string
@@ -123,7 +169,7 @@ export interface ICCProfile {
   ProfileConnectionSpace: string
   ProfileCopyright: string
   ProfileCreator: string
-  ProfileDateTime: Date
+  ProfileDateTime: ExifDateTime
   ProfileDescription: string
   ProfileFileSignature: string
   ProfileID: string
@@ -135,7 +181,7 @@ export interface ICCProfile {
   ViewingCondDesc: string
 }
 
-export interface MakerNotes {
+export interface MakerNotesMetadata {
   AELock: string
   AFAreas: string
   AFFineTune: string
@@ -163,7 +209,7 @@ export interface MakerNotes {
   CropTop: string
   CropWidth: number
   CustomSaturation: string
-  DateTimeUTC: Date
+  DateTimeUTC: Date // rare tag only on some Olympus cameras
   DistortionCorrection: string
   DistortionCorrection2: string
   DriveMode: string

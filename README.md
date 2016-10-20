@@ -9,8 +9,8 @@ Efficient, cross-platform [node](https://nodejs.org/) access to [ExifTool](http:
 
 1. Uses `-stay_open` mode by default, which can be up to 60x faster than other packages[*](#stay_open)
 
-1. Proper parsing of 
-    - dates
+1. Parsing of 
+    - dates (even though EXIF doesn't include [timezone offset data](#dates))
     - latitudes & longitudes
 
 1. Auditable ExifTool source code (the "vendored" code is [verifiable](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
@@ -28,15 +28,32 @@ The vendored version of ExifTool relevant for your platform will be installed vi
 ## Usage
 
 ```js
-    import { exiftool } from "exiftool-vendored"
-
-    // ExifTool.read() returns a Promise of metadata
-    exiftool.read("path/to/file.jpg").then(metadata => {
-      console.log(`Make: ${metadata.Make}, Model: ${metadata.Model}`)
-    })
+import { exiftool } from "exiftool-vendored"
+// ExifTool.read() returns a Promise of metadata
+exiftool.read("path/to/file.jpg").then(metadata => {
+  console.log(`Make: ${metadata.Make}, Model: ${metadata.Model}`)
+})
 ```
 
-Note that the [tag names that come from ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html) are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. ("Fixing" the field names to be camelCase, would result in ungainly `aFPointSelected` and `iSO` atrocities).
+Note that the official [EXIF](http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf) tag names as well as those that come from ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html) are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. ("Fixing" the field names to be camelCase, would result in ungainly `aFPointSelected` and `iSO` atrocities).
+
+## Dates
+
+Generally, EXIF tags encode dates and times with **no timezone offset.** Presumably the time is captured in local time, but this means parsing the same file in different parts of the world results in a different *absolute* timestamp for the same file.
+
+Rather than returning a [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) (which encapsulates a timezone), this library returns classes that encode just the day, the time of day, or both.
+
+In cases where a GPS UTC timestamp is encoded with the image, the timezone offset can be inferred, and will encoded in all related `ExifDate`s. 
+
+```ts
+const d /*: ExifDate*/ = metadata.DateTimeOriginal
+// if you simply must have a Date
+const onlyCorrectIfYouTookThePhotoInTheSameTimezoneOffsetAsItIsLocally: Date = 
+  d.toLocalDate()
+```
+
+
+
 
 ## stay_open
 

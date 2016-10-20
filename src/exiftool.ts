@@ -5,6 +5,11 @@ export { Metadata } from './metadata'
 export interface ExifToolAPI {
   version: Promise<string>
   read(file: string): Promise<Metadata>
+  /**
+   * This will be called automatically at by process.beforeExit,
+   * but tests may need to call this proactively.
+   */
+  end(): void
 }
 
 /**
@@ -39,7 +44,11 @@ class ExifTool implements ExifToolAPI {
     })
   }
 
-  proc(): ExifToolProcess {
+  end() {
+    this._proc.end()
+  }
+
+  private proc(): ExifToolProcess {
     if (this._proc.ended) {
       this._proc = new ExifToolProcess()
       return this.proc()
