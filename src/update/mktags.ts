@@ -1,3 +1,4 @@
+import { ExecFileOptionsWithStringEncoding } from "child_process";
 import { exiftool } from '../exiftool'
 import * as process from 'process'
 import * as _fs from 'fs'
@@ -70,7 +71,7 @@ class Tag {
   }
 
   example(): string {
-    return ellipsize(JSON.stringify(this.values[0]), 60)
+    return ellipsize(JSON.stringify(this.values[0]), 80)
   }
 }
 type GroupedTags = { [groupName: string]: Tag[] }
@@ -95,7 +96,7 @@ class TagMap {
     this.maxValueCount = Math.max(values.length, this.maxValueCount)
   }
   tags(): Tag[] {
-    const minValues = this.maxValueCount * .01
+    const minValues = this.maxValueCount * .005
     const allTags = Array.from(this.map.values())
     console.log(`Skipping the following tags due to < ${minValues} occurances:`)
     console.log(allTags.filter(a => a.values.length < minValues).map(t => t.tag).join(', '))
@@ -119,6 +120,7 @@ const tagMap = new TagMap()
 
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
+const start = Date.now()
 Promise.all(files.map(file => {
   return exiftool.readGrouped(file).then((metadata: any) => {
     Object.keys(metadata).forEach(key => {
@@ -127,7 +129,9 @@ Promise.all(files.map(file => {
     process.stdout.write('.')
   }).catch(err => console.log(err))
 })).then(() => {
-  console.log(`\nRead ${tagMap.map.size} unique tags.`)
+  console.log(`\nRead ${tagMap.map.size} unique tags from ${files.length} files. `)
+  const elapsedMs = Date.now() - start
+  console.log(`Parsing took ${elapsedMs}ms (${(elapsedMs / files.length).toFixed(1)}ms / file)`)
   const destFile = _path.resolve(__dirname, '../../src/tags.ts')
   const tagWriter = _fs.createWriteStream(destFile)
   tagWriter.write('/* tslint:disable:class-name */\n') // because of ICC_Profile

@@ -67,12 +67,12 @@ export class TagsParser implements Parser<Tags> {
       tzoffset = gps.utcToLocalOffsetMinutes(local)
     }
     Object.keys(t).forEach(key => {
-      parsedTags[key] = this.parseTag(key, t[key], tzoffset)
+      parsedTags[key] = this.parseTag(t, key, t[key], tzoffset)
     })
     return parsedTags as Tags
   }
 
-  parseTag(tagName: string, value: any, tzoffset: number | undefined): any {
+  parseTag(rawTags: any, tagName: string, value: any, tzoffset: number | undefined): any {
     try {
       if (tagName.endsWith('DateStampMode') || tagName.endsWith('Sharpness')
         || tagName.endsWith('Firmware') || tagName.endsWith('DateDisplayFormat')) {
@@ -87,16 +87,14 @@ export class TagsParser implements Parser<Tags> {
         return new ExifTime(value.toString(), tzoffset)
       } else if (tagName.includes('Date')) {
         return new ExifDateTime(value.toString(), tzoffset)
-      } else if (tagName.endsWith('GPSLatitude') && (value.contains('N') || value.contains('S'))) {
-        const lat = parseFloat(value.split(' ')[0])
-        return (value.contains('S') ? -1 : 1) * lat
-      } else if (tagName.endsWith('GPSLongitude') && (value.contains('E') || value.contains('W'))) {
-        const lon = parseFloat(value.split(' ')[0])
-        return (value.contains('W') ? -1 : 1) * lon
+      } else if (tagName.endsWith('GPSLatitude') || tagName.endsWith('GPSLongitude')) {
+        const ref = (rawTags[tagName + 'Ref'] || value.split(' ')[1]).trim().toLowerCase()
+        const sorw = ref.startsWith('w') || ref.startsWith('s')
+        return parseFloat(value) * (sorw ? -1 : 1)
       } else {
         return value
       }
-    } catch (e) {
+    }  catch (e) {
       if (e instanceof BadDate) {
         return undefined
       } else {
