@@ -25,15 +25,16 @@ function parse(re: RegExp, input: string): number[] {
   }
 }
 
-/**
- * @return 
- */
 function isDefined<T>(...array: T[]): boolean {
   return array.findIndex((elem) => elem !== undefined) === -1
 }
 
+export function compact<T>(array: T[]): T[] {
+  return array.filter((elem) => elem !== undefined && elem !== null)
+}
+
 export function compactuniq<T>(array: T[]): T[] {
-  return array.filter((elem, idx, arr) => elem !== undefined && arr.indexOf(elem) >= idx)
+  return array.filter((elem, idx, arr) => elem !== undefined && elem !== null && arr.indexOf(elem) >= idx)
 }
 
 export class ExifTime {

@@ -1,4 +1,4 @@
-import { compactuniq } from '../datetime'
+import { compact } from '../datetime'
 import { exiftool } from '../exiftool'
 import * as process from 'process'
 import * as _fs from 'fs'
@@ -55,11 +55,10 @@ class Tag {
   get group(): string { return this.tag.split(':')[0] }
   get withoutGroup(): string { return this.tag.split(':')[1] }
   get valueType(): string {
-    const firstValue = this.values[0]
-    return valueType(firstValue)
+    return valueType(this.firstValue())
   }
   keep(minValues: number): boolean {
-    return this.important || this.values.length >= minValues
+    return this.firstValue() !== undefined && this.important || this.values.length >= minValues
   }
   popIcon(totalValues: number): string {
     const f = this.values.length / totalValues
@@ -67,8 +66,11 @@ class Tag {
     const important = (this.important) ? '✔' : ' '
     return `${stars} ${important}`
   }
+  firstValue(): any {
+    return compact(this.values)[0]
+  }
   example(): string {
-    return ellipsize(JSON.stringify(compactuniq(this.values)[0]), 80)
+    return ellipsize(JSON.stringify(this.firstValue()), 80)
   }
 }
 
@@ -96,7 +98,7 @@ class TagMap {
     this.maxValueCount = Math.max(values.length, this.maxValueCount)
   }
   tags(): Tag[] {
-    const minValues = this.maxValueCount * .01
+    const minValues = this.maxValueCount * .005
     const allTags = Array.from(this.map.values())
     console.log(`Skipping the following tags due to < ${minValues.toFixed(0)} occurances:`)
     console.log(allTags.filter(a => !a.keep(minValues)).map(t => t.tag).join(', '))

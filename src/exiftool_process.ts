@@ -1,142 +1,16 @@
-import { BadDate, ExifDate, ExifDateTime, ExifTime } from './datetime'
 import * as _fs from 'fs'
 import * as _cp from 'child_process'
 import * as _process from 'process'
-import * as _path from 'path'
 import { Tags } from './exiftool'
+import { DeferredParser } from './deferred_parser'
+import { TagsParser } from './tags_parser'
+import { ExifToolVersionParser } from './exiftool_version_parser'
 
 const isWin32 = process.platform === 'win32'
 const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
 
 if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
-}
-
-interface Parser<T> {
-  parse(input: string): T
-  onError(message: string): void
-}
-
-const VersionParser: Parser<string> = new class implements Parser<string> {
-  private const versionRegex = /\d{1,3}\.\d{1,3}(\.\d{1,3}})?/
-
-  parse(input: string): string {
-    const value = input.trim()
-    if (this.versionRegex.test(value)) {
-      return value
-    } else {
-      throw new Error(`Unexpected version $value`)
-    }
-  }
-
-  onError(message: string) {
-    console.dir(message)
-  }
-}()
-
-class TagsParser implements Parser<Tags> {
-  readonly filename: string
-  private warnings: string[] = []
-
-  constructor(filename: string) {
-    this.filename = _path.resolve(filename)
-  }
-
-  parse(input: string): Tags {
-    const value = this.parseTags(JSON.parse(input)[0])
-    const srcFile = _path.resolve(value.SourceFile)
-    if (srcFile !== this.filename) {
-      throw new Error(`unexpected source file result ${srcFile} for file ${this.filename}`)
-    }
-    if (this.warnings.length > 0) {
-      value['warnings'] = this.warnings
-    }
-    return value
-  }
-
-  onError(message: string) {
-    this.warnings.push(message)
-  }
-
-  parseTags(t: any): Tags {
-    const parsedTags: any = {}
-    let tzoffset: number | undefined
-    if (t.GPSDateTime && t.DateTimeOriginal) {
-      const gps = new ExifDateTime(t.GPSDateTime)
-      const local = new ExifDateTime(t.DateTimeOriginal)
-      tzoffset = gps.utcToLocalOffsetMinutes(local)
-    }
-    Object.keys(t).forEach(key => {
-      parsedTags[key] = this.parseTag(t, key, t[key], tzoffset)
-    })
-    return parsedTags as Tags
-  }
-
-  parseTag(rawTags: any, tagName: string, value: any, tzoffset: number | undefined): any {
-    try {
-      if (tagName.endsWith('DateStampMode') || tagName.endsWith('Sharpness')
-        || tagName.endsWith('Firmware') || tagName.endsWith('DateDisplayFormat')) {
-        return value.toString() // force to string
-      } else if (tagName.endsWith('BitsPerSample')) {
-        return value.toString().split(' ').map((i: string) => parseInt(i, 10))
-      } else if (tagName.endsWith('FlashFired')) {
-        const s = value.toString().toLowerCase()
-        return (s === 'yes' || s === '1' || s === 'true')
-      } else if (tagName.endsWith('GPSDateStamp')) {
-        return new ExifDate(value.toString(), 0)
-      } else if (tagName.endsWith('GPSTimeStamp')) {
-        return new ExifTime(value.toString(), 0)
-      } else if (tagName.includes('DateStamp')) {
-        return new ExifDate(value.toString(), tzoffset)
-      } else if (tagName.includes('TimeStamp')) {
-        return new ExifTime(value.toString(), tzoffset)
-      } else if (tagName.includes('Date')) {
-        return new ExifDateTime(value.toString(), tzoffset)
-      } else if (tagName.endsWith('GPSLatitude') || tagName.endsWith('GPSLongitude')) {
-        const ref = (rawTags[tagName + 'Ref'] || value.toString().split(' ')[1])
-        if (ref === undefined) {
-          return value // give up
-        } else {
-          const sorw = ref.trim().toLowerCase().startsWith('w') || ref.startsWith('s')
-          return parseFloat(value) * (sorw ? -1 : 1)
-        }
-      } else {
-        return value
-      }
-    } catch (e) {
-      if (e instanceof BadDate) {
-        return undefined
-      } else {
-        console.log(`Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`)
-        return value
-      }
-    }
-  }
-}
-
-class DeferredParser<T> {
-  readonly promise: Promise<T>
-  private _resolve: (value?: T) => void
-  private _reject: (reason?: any) => void
-
-  constructor(readonly reader: Parser<T>) {
-    this.promise = new Promise<T>((resolve, reject) => {
-      this._resolve = resolve
-      this._reject = reject
-    })
-  }
-
-  reject(reason?: any) { this._reject(reason) }
-
-  onError(message: string) { this.reader.onError(message) }
-
-  parse(input: string) {
-    try {
-      this._resolve(this.reader.parse(input))
-    } catch (e) {
-      this._reject(e)
-    }
-  }
 }
 
 /**
@@ -163,7 +37,7 @@ export class ExifToolProcess {
       // TODO: Cancel all pending promises?
       this._ended = true
     })
-    this.versionPromise = this.execute(new DeferredParser(VersionParser), '-ver')
+    this.versionPromise = this.execute(new DeferredParser(ExifToolVersionParser), '-ver')
     _process.on('beforeExit', () => this.end())
   }
 
