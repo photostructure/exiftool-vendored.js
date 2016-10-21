@@ -159,12 +159,12 @@ Promise.all(files.map(file => {
   tagWriter.write('export interface Tags extends\n')
   tagWriter.write(`  ${groupTagNames.map(s => s + 'Tags').join(',\n  ')} {\n`)
   tagWriter.write('  SourceFile: string\n')
-  tagWriter.write('  warnings: string[]\n')
+  tagWriter.write('  errors: string[]\n')
   tagWriter.write('}\n')
   tagWriter.write('\n')
   tagWriter.write('export interface GroupedTags {\n')
   tagWriter.write('  SourceFile: string\n')
-  tagWriter.write('  warnings: string[]\n')
+  tagWriter.write('  errors: string[]\n')
   for (const group of groupTagNames) {
     tagWriter.write(`  ${group}: ${group}Tags\n`)
   }

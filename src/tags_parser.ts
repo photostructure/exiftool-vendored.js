@@ -5,26 +5,31 @@ import * as _path from 'path'
 
 export class TagsParser implements Parser<Tags> {
   readonly filename: string
-  private warnings: string[] = []
+  private errors: string[] = []
 
   constructor(filename: string) {
     this.filename = _path.resolve(filename)
   }
 
   parse(input: string): Tags {
+    if (input.trim().length === 0) {
+      return { SourceFile: this.filename, errors: this.errors } as Tags
+    }
     const value = this.parseTags(JSON.parse(input)[0])
     const srcFile = _path.resolve(value.SourceFile)
+    // Sanity check that the result is for the file we want:
     if (srcFile !== this.filename) {
-      throw new Error(`unexpected source file result ${srcFile} for file ${this.filename}`)
+      // Throw an error rather than add an errors string because this is *really* bad:
+      throw new Error(`Internal error: unexpected SourceFile of ${value.SourceFile} for file ${this.filename}`)
     }
-    if (this.warnings.length > 0) {
-      value['warnings'] = this.warnings
+    if (this.errors.length > 0) {
+      value['errors'] = this.errors
     }
     return value
   }
 
   onError(message: string) {
-    this.warnings.push(message)
+    this.errors.push(message)
   }
 
   parseTags(t: any): Tags {

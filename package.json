@@ -14,7 +14,7 @@
     "mktags": "node lib/update/mktags.js",
     "pretest": "tsc",
     "test": "mocha lib/**/*.spec.js",
-    "cleantest": "run-s clean lint pdm test",
+    "cleantest": "run-s clean lint fmt pdm test",
     "pdm": "platform-dependent-modules",
     "postinstall": "npm run pdm"
   },

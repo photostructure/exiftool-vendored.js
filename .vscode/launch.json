@@ -7,7 +7,7 @@
       "request": "launch",
       "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
       "stopOnEntry": false,
-      "args": ["--debug", "lib/datetime.spec.js"],
+      "args": ["--debug", "lib/**/*.spec.js"],
       "cwd": "${workspaceRoot}",
       "preLaunchTask": "",
       "runtimeExecutable": null,

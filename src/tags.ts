@@ -2577,12 +2577,12 @@ export interface Tags extends
   MetaTags,
   APP4Tags {
   SourceFile: string
-  warnings: string[]
+  errors: string[]
 }
 
 export interface GroupedTags {
   SourceFile: string
-  warnings: string[]
+  errors: string[]
   ExifTool: ExifToolTags
   File: FileTags
   EXIF: EXIFTags
