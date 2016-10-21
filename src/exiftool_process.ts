@@ -60,7 +60,7 @@ export class MetadataParser implements Parser<Metadata> {
   }
 
   parse(input: string): Metadata {
-    const value = this.clean(JSON.parse(input))
+    const value = this.clean(JSON.parse(input)[0])
     const srcFile = _path.resolve(value.SourceFile)
     if (srcFile !== this.filename) {
       throw new Error(`unexpected source file result ${srcFile} for file ${this.filename}`)
@@ -154,8 +154,8 @@ export class ExifToolProcess {
       new DeferredParser(parser),
       '-json',
       '-G',
-      '-coordFormat "%.8f"',
-      '-fast',
+      // TODO: '-coordFormat "%.8f"',
+      // '-fast',
       parser.filename
     )
   }
