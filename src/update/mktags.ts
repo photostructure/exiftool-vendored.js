@@ -107,7 +107,7 @@ class TagMap {
     this.maxValueCount = Math.max(values.length, this.maxValueCount)
   }
   tags(): Tag[] {
-    const minValues = this.maxValueCount * .005
+    const minValues = this.maxValueCount * .01
     const allTags = Array.from(this.map.values())
     console.log(`Skipping the following tags due to < ${minValues.toFixed(0)} occurances:`)
     console.log(allTags.filter(a => !a.keep(minValues)).map(t => t.tag).join(', '))
