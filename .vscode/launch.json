@@ -2,24 +2,22 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch",
+      "name": "Test",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceRoot}\\dist\\update\\update.js",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
       "stopOnEntry": false,
-      "args": [],
+      "args": ["--debug", "lib/datetime.spec.js"],
       "cwd": "${workspaceRoot}",
       "preLaunchTask": "",
       "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--nolazy"
-      ],
+      "runtimeArgs": [],
       "env": {
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "sourceMaps": false,
-      "outFiles": []
+      "sourceMaps": true,
+      "outFiles": ["${workspaceRoot}/lib/**/*"]
     },
     {
       "name": "Attach",

@@ -3,7 +3,9 @@ function pad2(i: number) {
 }
 
 function parseIntOrSign(s: string): number {
-  if (s === '+') {
+  if (s === undefined) {
+    return s
+  } else if (s === '+') {
     return 1
   } else if (s === '-') {
     return -1
@@ -26,7 +28,7 @@ function parse(re: RegExp, input: string): number[] {
 }
 
 function isDefined<T>(...array: T[]): boolean {
-  return array.findIndex((elem) => elem !== undefined) === -1
+  return array.findIndex(elem => elem === undefined) === -1
 }
 
 export function compact<T>(array: T[]): T[] {
