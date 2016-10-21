@@ -80,7 +80,12 @@ export class ExifDateTime {
     let offsetSign: number
     let hourOffset: number
     let minuteOffset: number
-    const offsets = [tzoffsetMinutes];
+    const offsets = [tzoffsetMinutes]
+
+    if (exifDateTime.endsWith('Z') ) {
+      offsets.push(0)
+      exifDateTime = exifDateTime.slice(0, -1)
+    }
 
     [this.year, this.month, this.day, this.hour, this.minute, this.second, offsetSign, hourOffset, minuteOffset]
       = parse(ExifDateTime.regex, exifDateTime)
@@ -108,6 +113,10 @@ export class ExifDateTime {
     } else {
       return new Date(this.toISOString())
     }
+  }
+
+  utcToLocalOffsetMinutes(datetime: ExifDateTime): number {
+   return (this.toDate().getTime() - datetime.toDate().getTime()) / (1000 * 60)
   }
 
   toISOString(): string {

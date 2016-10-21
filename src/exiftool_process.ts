@@ -34,22 +34,6 @@ export const VersionParser: Parser<string> = new class implements Parser<string>
   }
 }()
 
-export interface TagParser<T, U> {
-  parse(input: T): U | undefined
-}
-
-const UTCParser = new class implements TagParser<string, ExifDateTime> {
-  parse(input: string): ExifDateTime {
-    return new ExifDateTime(input, 0)
-  }
-}()
-
-const DateTimeParser = new class implements TagParser<string, ExifDateTime> {
-  parse(input: string): ExifDateTime {
-    return new ExifDateTime(input)
-  }
-}()
-
 export class TagsParser implements Parser<Tags> {
   readonly filename: string
   private warnings: string[] = []
@@ -74,28 +58,42 @@ export class TagsParser implements Parser<Tags> {
     this.warnings.push(message)
   }
 
-  parseTags(t: Tags): Tags {
+  parseTags(t: any): Tags {
     const parsedTags: any = {}
-
-    if (t.GPSTimeStamp &&     
-    // TODO: first try to find the GPS 
+    let tzoffset: number | undefined
+    if (t.GPSDateTime && t.DateTimeOriginal) {
+      const gps = new ExifDateTime(t.GPSDateTime)
+      const local = new ExifDateTime(t.DateTimeOriginal)
+      tzoffset = gps.utcToLocalOffsetMinutes(local)
+    }
     Object.keys(t).forEach(key => {
-      parsedTags[key] = this.parseTag(key, t[key])
+      parsedTags[key] = this.parseTag(key, t[key], tzoffset)
     })
-      return parsedTags as Tags
+    return parsedTags as Tags
   }
 
-  parseTag(tagName: string, value: any): any {
-    if (tagName === 'DateStampMode' || tagName === 'Sharpness') {
-      return value
+  parseTag(tagName: string, value: any, tzoffset: number | undefined): any {
+    if (tagName === 'DateStampMode' || tagName === 'Sharpness' || tagName === 'Firmware') {
+      return value.toString() // force to string
+    } else if (tagName.includes('GPSDateStamp')) {
+      return new ExifDate(value.toString(), 0)
+    } else if (tagName.includes('GPSTimeStamp')) {
+      return new ExifTime(value.toString(), 0)
     } else if (tagName.includes('DateStamp')) {
-      return new ExifDate(value.toString())
+      return new ExifDate(value.toString(), tzoffset)
     } else if (tagName.includes('TimeStamp')) {
-      return 'ExifTime'
+      return new ExifTime(value.toString(), tzoffset)
     } else if (tagName.includes('Date')) {
-      return 'ExifDateTime'
+      return new ExifDateTime(value.toString(), tzoffset)
+    } else if (tagName === 'GPSLatitude' && (value.contains('N') || value.contains('S'))) {
+      const lat = parseFloat(value.split(' ')[0])
+      return (value.contains('S') ? -1 : 1) * lat
+    } else if (tagName === 'GPSLongitude' && (value.contains('E') || value.contains('W'))) {
+      const lon = parseFloat(value.split(' ')[0])
+      return (value.contains('W') ? -1 : 1) * lon
+    } else {
+      return value
     }
-
   }
 }
 
