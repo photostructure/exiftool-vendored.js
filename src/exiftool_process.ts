@@ -1,4 +1,4 @@
-import { ExifDate, ExifDateTime, ExifTime } from './datetime'
+import { BadDate, ExifDate, ExifDateTime, ExifTime } from './datetime'
 import * as _fs from 'fs'
 import * as _cp from 'child_process'
 import * as _process from 'process'
@@ -73,26 +73,36 @@ export class TagsParser implements Parser<Tags> {
   }
 
   parseTag(tagName: string, value: any, tzoffset: number | undefined): any {
-    if (tagName === 'DateStampMode' || tagName === 'Sharpness' || tagName === 'Firmware') {
-      return value.toString() // force to string
-    } else if (tagName.includes('GPSDateStamp')) {
-      return new ExifDate(value.toString(), 0)
-    } else if (tagName.includes('GPSTimeStamp')) {
-      return new ExifTime(value.toString(), 0)
-    } else if (tagName.includes('DateStamp')) {
-      return new ExifDate(value.toString(), tzoffset)
-    } else if (tagName.includes('TimeStamp')) {
-      return new ExifTime(value.toString(), tzoffset)
-    } else if (tagName.includes('Date')) {
-      return new ExifDateTime(value.toString(), tzoffset)
-    } else if (tagName === 'GPSLatitude' && (value.contains('N') || value.contains('S'))) {
-      const lat = parseFloat(value.split(' ')[0])
-      return (value.contains('S') ? -1 : 1) * lat
-    } else if (tagName === 'GPSLongitude' && (value.contains('E') || value.contains('W'))) {
-      const lon = parseFloat(value.split(' ')[0])
-      return (value.contains('W') ? -1 : 1) * lon
-    } else {
-      return value
+    try {
+      if (tagName.endsWith('DateStampMode') || tagName.endsWith('Sharpness')
+        || tagName.endsWith('Firmware') || tagName.endsWith('DateDisplayFormat')) {
+        return value.toString() // force to string
+      } else if (tagName.endsWith('GPSDateStamp')) {
+        return new ExifDate(value.toString(), 0)
+      } else if (tagName.endsWith('GPSTimeStamp')) {
+        return new ExifTime(value.toString(), 0)
+      } else if (tagName.includes('DateStamp')) {
+        return new ExifDate(value.toString(), tzoffset)
+      } else if (tagName.includes('TimeStamp')) {
+        return new ExifTime(value.toString(), tzoffset)
+      } else if (tagName.includes('Date')) {
+        return new ExifDateTime(value.toString(), tzoffset)
+      } else if (tagName === 'GPSLatitude' && (value.contains('N') || value.contains('S'))) {
+        const lat = parseFloat(value.split(' ')[0])
+        return (value.contains('S') ? -1 : 1) * lat
+      } else if (tagName === 'GPSLongitude' && (value.contains('E') || value.contains('W'))) {
+        const lon = parseFloat(value.split(' ')[0])
+        return (value.contains('W') ? -1 : 1) * lon
+      } else {
+        return value
+      }
+    } catch (e) {
+      if (e instanceof BadDate) {
+        return undefined
+      } else {
+        console.log(`Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`)
+        return value
+      }
     }
   }
 }

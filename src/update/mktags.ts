@@ -95,11 +95,11 @@ class TagMap {
     this.maxValueCount = Math.max(values.length, this.maxValueCount)
   }
   tags(): Tag[] {
-    const minValues = this.maxValueCount * .05
+    const minValues = this.maxValueCount * .01
     const allTags = Array.from(this.map.values())
-    console.log('Skipping the following tags due to low occurance rate:')
+    console.log(`Skipping the following tags due to < ${minValues} occurances:`)
     console.log(allTags.filter(a => a.values.length < minValues).map(t => t.tag).join(', '))
-    return allTags.filter(a => a.values.length > minValues)
+    return allTags.filter(a => a.values.length >= minValues)
   }
   groupedTags(): GroupedTags {
     const groupedTags: GroupedTags = {}
@@ -162,5 +162,8 @@ Promise.all(files.map(file => {
   }
   tagWriter.write('}\n')
   tagWriter.end()
+}).catch(err => {
+  console.log(err)
+}).then(() => {
   exiftool.end()
 })

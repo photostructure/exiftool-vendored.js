@@ -12,10 +12,14 @@ function parseIntOrSign(s: string): number {
   }
 }
 
+export class BadDate extends Error {
+  // yeah, http://indianajones.wikia.com/wiki/Date
+}
+
 function parse(re: RegExp, input: string): number[] {
   const match = re.exec(input)
   if (match == null) {
-    throw new Error(`Invalid input: ${input}`)
+    throw new BadDate('Invalid input')
   } else {
     return match.slice(1).map(i => parseIntOrSign(i))
   }
@@ -66,7 +70,7 @@ export class ExifDate {
  * Encodes an ExifDate (which most likely has no timezone offset)
  */
 export class ExifDateTime {
-  private static regex = /(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})(?:([-+])(\d{2}):(\d{2}))?/
+  private static regex = /(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(?:([-+])(\d{2}):(\d{2}))?/
 
   readonly year: number
   readonly month: number // 1-12, no crazy 0-11 nonsense
