@@ -14,9 +14,9 @@ export interface CompositeMetadata {
   FocalLength35efl: string // "3.3 mm (35 mm equivalent: 33.0 mm)"
   GPSAltitude: string // "54 m Above Sea Level"
   GPSDateTime: ExifDateTime // "2015:09:05 16:27:22.9Z"
-  GPSLatitude: string // "40 deg 51' 37.50\" N"
-  GPSLongitude: string // "25 deg 49' 49.46\" E"
-  GPSPosition: string // "40 deg 51' 37.50\" N, 25 deg 49' 49.46\" E"
+  GPSLatitude: number // "40.86041667 N"
+  GPSLongitude: number // "25.83040556 E"
+  GPSPosition: string // "40.86041667 N, 25.83040556 E"
   HyperfocalDistance: string // "1.51 m"
   ISO: number // 141
   ImageSize: string // "8x8"
@@ -101,9 +101,9 @@ export interface EXIFMetadata {
   GPSAltitude: string // "54 m"
   GPSAltitudeRef: string // "Above Sea Level"
   GPSDateStamp: ExifDate // "2015:09:05"
-  GPSLatitude: string // "40 deg 51' 37.50\""
+  GPSLatitude: number // 40.86041667
   GPSLatitudeRef: string // "North"
-  GPSLongitude: string // "25 deg 49' 49.46\""
+  GPSLongitude: number // 25.83040556
   GPSLongitudeRef: string // "East"
   GPSTimeStamp: ExifTime // "16:27:22.9"
   GPSVersionID: string // "2.2.0.0"
@@ -529,7 +529,7 @@ export interface MPFMetadata {
   TotalFrames: number // 1
 }
 
-export interface Metadata extends
+export interface Tags extends
   CompositeMetadata,
   ExifToolMetadata,
   FileMetadata,

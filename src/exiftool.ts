@@ -1,10 +1,10 @@
 import { ExifToolProcess } from './exiftool_process'
-import { Metadata } from './metadata'
-export { Metadata } from './metadata'
+import { Tags } from './tags'
+export { Tags } from './tags'
 
 export interface ExifToolAPI {
   version: Promise<string>
-  read(file: string): Promise<Metadata>
+  read(file: string): Promise<Tags>
 
   // For internal use, returns keys prefixed by the group name  
   readGrouped(file: string): Promise<any>
@@ -36,7 +36,7 @@ class ExifTool implements ExifToolAPI {
     return this.proc().version
   }
 
-  read(file: string, retries: number = 1): Promise<Metadata> {
+  read(file: string, retries: number = 1): Promise<Tags> {
     return this.proc().read(file).catch(err => {
       if (retries > 0) {
         console.error(`ExifTool: failed to read ${file}: ${err}. Retrying.`)

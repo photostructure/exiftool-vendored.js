@@ -3,7 +3,7 @@ import * as _fs from 'fs'
 import * as _cp from 'child_process'
 import * as _process from 'process'
 import * as _path from 'path'
-import { Metadata } from './exiftool'
+import { Tags } from './exiftool'
 
 const isWin32 = process.platform === 'win32'
 const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
@@ -51,7 +51,7 @@ const DateTimeParser = new class implements TagParser<string, ExifDateTime> {
   }
 }()
 
-export class MetadataParser implements Parser<Metadata> {
+export class MetadataParser implements Parser<Tags> {
   readonly filename: string
   private warnings: string[] = []
 
@@ -59,7 +59,7 @@ export class MetadataParser implements Parser<Metadata> {
     this.filename = _path.resolve(filename)
   }
 
-  parse(input: string): Metadata {
+  parse(input: string): Tags {
     const value = this.clean(JSON.parse(input)[0])
     const srcFile = _path.resolve(value.SourceFile)
     if (srcFile !== this.filename) {
@@ -73,7 +73,8 @@ export class MetadataParser implements Parser<Metadata> {
     this.warnings.push(message)
   }
 
-  clean(m: Metadata): Metadata {
+  clean(m: Tags): Tags {
+    
     // If we have a GPS
     // TODO Handle GPS coords and dates properly
     return m
@@ -137,25 +138,25 @@ export class ExifToolProcess {
     return this.versionPromise
   }
 
-  read(file: string): Promise<Metadata> {
+  read(file: string): Promise<Tags> {
     const parser = new MetadataParser(file)
     return this.execute(
       new DeferredParser(parser),
       '-json',
-      '-coordFormat "%.8f"',
+      '-coordFormat', '%.8f',
       '-fast',
       parser.filename
     )
   }
 
-  readGrouped(file: string): Promise<Metadata> {
+  readGrouped(file: string): Promise<Tags> {
     const parser = new MetadataParser(file)
     return this.execute(
       new DeferredParser(parser),
       '-json',
       '-G',
-      // TODO: '-coordFormat "%.8f"',
-      // '-fast',
+      '-coordFormat', '%.8f',
+      '-fast',
       parser.filename
     )
   }
