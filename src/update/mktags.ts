@@ -1,4 +1,4 @@
-import { ExecFileOptionsWithStringEncoding } from "child_process";
+import { compactuniq } from '../datetime'
 import { exiftool } from '../exiftool'
 import * as process from 'process'
 import * as _fs from 'fs'
@@ -11,6 +11,7 @@ import * as _path from 'path'
 const globule = require('globule')
 
 function ellipsize(str: string, max: number) {
+  str = '' + str
   return (str.length < max) ? str : str.substring(0, max - 1) + '…'
 }
 
@@ -50,7 +51,9 @@ class Tag {
   get valueType(): string {
     const n = this.withoutGroup
     const firstValue = this.values[0]
-    if (Array.isArray(firstValue)) {
+    if (n === 'BitsPerSample') {
+      return 'number[]'
+    } else if (Array.isArray(firstValue)) {
       return valueType(firstValue)
     } else if (n === 'DateStampMode' || n === 'Sharpness' || n === 'Firmware') {
       return 'string'
@@ -67,11 +70,11 @@ class Tag {
 
   popIcon(totalValues: number): string {
     const f = this.values.length / totalValues
-    return (f > .7) ? '★★★' : (f > .2) ? '★★☆' : '☆☆☆' // arbitrary is arbitrary
+    return (f > .75) ? '★★★' : (f > .5) ? '★★☆' : (f > .25) ? '★☆☆' : '☆☆☆'
   }
 
   example(): string {
-    return ellipsize(JSON.stringify(this.values[0]), 80)
+    return ellipsize(JSON.stringify(compactuniq(this.values)[0]), 80)
   }
 }
 type GroupedTags = { [groupName: string]: Tag[] }
@@ -98,7 +101,7 @@ class TagMap {
   tags(): Tag[] {
     const minValues = this.maxValueCount * .005
     const allTags = Array.from(this.map.values())
-    console.log(`Skipping the following tags due to < ${minValues} occurances:`)
+    console.log(`Skipping the following tags due to < ${minValues.toFixed(0)} occurances:`)
     console.log(allTags.filter(a => a.values.length < minValues).map(t => t.tag).join(', '))
     return allTags.filter(a => a.values.length >= minValues)
   }

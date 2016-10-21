@@ -14,7 +14,7 @@ function parseIntOrSign(s: string): number {
 
 export class BadDate extends Error {
   // yeah, http://indianajones.wikia.com/wiki/Date
-}
+  }
 
 function parse(re: RegExp, input: string): number[] {
   const match = re.exec(input)
@@ -32,7 +32,7 @@ function isDefined<T>(...array: T[]): boolean {
   return array.findIndex((elem) => elem !== undefined) === -1
 }
 
-function compactuniq<T>(array: T[]): T[] {
+export function compactuniq<T>(array: T[]): T[] {
   return array.filter((elem, idx, arr) => elem !== undefined && arr.indexOf(elem) >= idx)
 }
 

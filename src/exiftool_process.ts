@@ -88,13 +88,17 @@ export class TagsParser implements Parser<Tags> {
       } else if (tagName.includes('Date')) {
         return new ExifDateTime(value.toString(), tzoffset)
       } else if (tagName.endsWith('GPSLatitude') || tagName.endsWith('GPSLongitude')) {
-        const ref = (rawTags[tagName + 'Ref'] || value.split(' ')[1]).trim().toLowerCase()
-        const sorw = ref.startsWith('w') || ref.startsWith('s')
-        return parseFloat(value) * (sorw ? -1 : 1)
+        const ref = (rawTags[tagName + 'Ref'] || value.toString().split(' ')[1])
+        if (ref === undefined) {
+          return value // give up
+        } else {
+          const sorw = ref.trim().toLowerCase().startsWith('w') || ref.startsWith('s')
+          return parseFloat(value) * (sorw ? -1 : 1)
+        }
       } else {
         return value
       }
-    }  catch (e) {
+    } catch (e) {
       if (e instanceof BadDate) {
         return undefined
       } else {
