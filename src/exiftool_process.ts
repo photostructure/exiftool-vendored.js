@@ -87,10 +87,10 @@ export class TagsParser implements Parser<Tags> {
         return new ExifTime(value.toString(), tzoffset)
       } else if (tagName.includes('Date')) {
         return new ExifDateTime(value.toString(), tzoffset)
-      } else if (tagName === 'GPSLatitude' && (value.contains('N') || value.contains('S'))) {
+      } else if (tagName.endsWith('GPSLatitude') && (value.contains('N') || value.contains('S'))) {
         const lat = parseFloat(value.split(' ')[0])
         return (value.contains('S') ? -1 : 1) * lat
-      } else if (tagName === 'GPSLongitude' && (value.contains('E') || value.contains('W'))) {
+      } else if (tagName.endsWith('GPSLongitude') && (value.contains('E') || value.contains('W'))) {
         const lon = parseFloat(value.split(' ')[0])
         return (value.contains('W') ? -1 : 1) * lon
       } else {
