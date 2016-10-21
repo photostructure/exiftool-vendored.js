@@ -1,4 +1,4 @@
-import { ExifDateTime } from "./datetime";
+import { ExifDateTime } from './datetime'
 import * as _fs from 'fs'
 import * as _cp from 'child_process'
 import * as _process from 'process'
