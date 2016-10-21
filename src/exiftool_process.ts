@@ -12,12 +12,12 @@ if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
 }
 
-export interface Parser<T> {
+interface Parser<T> {
   parse(input: string): T
   onError(message: string): void
 }
 
-export const VersionParser: Parser<string> = new class implements Parser<string> {
+const VersionParser: Parser<string> = new class implements Parser<string> {
   private const versionRegex = /\d{1,3}\.\d{1,3}(\.\d{1,3}})?/
 
   parse(input: string): string {
@@ -34,7 +34,7 @@ export const VersionParser: Parser<string> = new class implements Parser<string>
   }
 }()
 
-export class TagsParser implements Parser<Tags> {
+class TagsParser implements Parser<Tags> {
   readonly filename: string
   private warnings: string[] = []
 
@@ -77,6 +77,11 @@ export class TagsParser implements Parser<Tags> {
       if (tagName.endsWith('DateStampMode') || tagName.endsWith('Sharpness')
         || tagName.endsWith('Firmware') || tagName.endsWith('DateDisplayFormat')) {
         return value.toString() // force to string
+      } else if (tagName.endsWith('BitsPerSample')) {
+        return value.toString().split(' ').map((i: string) => parseInt(i, 10))
+      } else if (tagName.endsWith('FlashFired')) {
+        const s = value.toString().toLowerCase()
+        return (s === 'yes' || s === '1' || s === 'true')
       } else if (tagName.endsWith('GPSDateStamp')) {
         return new ExifDate(value.toString(), 0)
       } else if (tagName.endsWith('GPSTimeStamp')) {

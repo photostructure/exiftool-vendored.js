@@ -23,12 +23,15 @@ describe('ExifDateTime', () => {
   })
 
   describe('example strings with tz', () => {
-    const dt = new ExifDateTime('2013:12:30 11:04:15-05:00')
+    const dt = new ExifDateTime('2013:12:30 11:04:15-05:00') // this is a non-local offset btw
     it('year/month/day', () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
     })
     it('hour/minute/second', () => {
       expect([dt.hour, dt.minute, dt.second]).to.eql([11, 4, 15])
+    })
+    it('tzoffset', () => {
+      expect(dt.tzoffsetMinutes).to.eql(-60*5)
     })
     it('.toISOString', () => {
       expect(dt.toISOString()).to.eql('2013-12-30T11:04:15-05:00')

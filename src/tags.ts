@@ -1078,8 +1078,8 @@ export interface MakerNotesTags {
   FlashExposureCompArea: string
   /** ☆☆☆ ✔ "Off" */
   FlashExposureLock: string
-  /** ☆☆☆   "Yes" */
-  FlashFired: string
+  /** ☆☆☆   false */
+  FlashFired: boolean
   /** ☆☆☆ ✔ 0 */
   FlashFirmwareVersion: number
   /** ☆☆☆ ✔ 0 */

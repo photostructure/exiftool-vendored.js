@@ -30,11 +30,16 @@ if (files.length === 0) {
 }
 
 function valueType(value: any): string {
-  if (Array.isArray(value)) {
-    if (value.length === 0) {
-      return 'any[]'
+  if (typeof value === 'object') {
+    const ctorName = value.constructor.name
+    if (ctorName === 'Array') {
+      if (value.length === 0) {
+        return 'any[]'
+      } else {
+        return `${valueType(value[0])}[]`
+      }
     } else {
-      return `${valueType(value[0])}[]`
+      return ctorName
     }
   } else {
     return typeof value
@@ -50,39 +55,23 @@ class Tag {
   get group(): string { return this.tag.split(':')[0] }
   get withoutGroup(): string { return this.tag.split(':')[1] }
   get valueType(): string {
-    const n = this.withoutGroup
     const firstValue = this.values[0]
-    if (n === 'BitsPerSample') {
-      return 'number[]'
-    } else if (Array.isArray(firstValue)) {
-      return valueType(firstValue)
-    } else if (n === 'DateStampMode' || n === 'Sharpness' || n === 'Firmware') {
-      return 'string'
-    } else if (n.includes('DateStamp')) {
-      return 'ExifDate'
-    } else if (n.includes('TimeStamp')) {
-      return 'ExifTime'
-    } else if (n.includes('Date')) {
-      return 'ExifDateTime'
-    } else {
-      return valueType(firstValue)
-    }
+    return valueType(firstValue)
   }
   keep(minValues: number): boolean {
     return this.important || this.values.length >= minValues
   }
-
   popIcon(totalValues: number): string {
     const f = this.values.length / totalValues
     const stars = (f > .75) ? '★★★' : (f > .5) ? '★★☆' : (f > .25) ? '★☆☆' : '☆☆☆'
     const important = (this.important) ? '✔' : ' '
     return `${stars} ${important}`
   }
-
   example(): string {
     return ellipsize(JSON.stringify(compactuniq(this.values)[0]), 80)
   }
 }
+
 type GroupedTags = { [groupName: string]: Tag[] }
 
 class TagMap {
