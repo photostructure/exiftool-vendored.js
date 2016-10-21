@@ -1,4 +1,4 @@
-import { ExifDateTime } from './datetime'
+import { ExifDate, ExifDateTime, ExifTime } from './datetime'
 import * as _fs from 'fs'
 import * as _cp from 'child_process'
 import * as _process from 'process'
@@ -11,7 +11,6 @@ const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
 if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
 }
-
 
 export interface Parser<T> {
   parse(input: string): T
@@ -36,7 +35,7 @@ export const VersionParser: Parser<string> = new class implements Parser<string>
 }()
 
 export interface TagParser<T, U> {
-  parse(input: T): U
+  parse(input: T): U | undefined
 }
 
 const UTCParser = new class implements TagParser<string, ExifDateTime> {
@@ -51,7 +50,7 @@ const DateTimeParser = new class implements TagParser<string, ExifDateTime> {
   }
 }()
 
-export class MetadataParser implements Parser<Tags> {
+export class TagsParser implements Parser<Tags> {
   readonly filename: string
   private warnings: string[] = []
 
@@ -60,12 +59,14 @@ export class MetadataParser implements Parser<Tags> {
   }
 
   parse(input: string): Tags {
-    const value = this.clean(JSON.parse(input)[0])
+    const value = this.parseTags(JSON.parse(input)[0])
     const srcFile = _path.resolve(value.SourceFile)
     if (srcFile !== this.filename) {
       throw new Error(`unexpected source file result ${srcFile} for file ${this.filename}`)
     }
-    if (this.warnings.length > 0) { value['warnings'] = this.warnings }
+    if (this.warnings.length > 0) {
+      value['warnings'] = this.warnings
+    }
     return value
   }
 
@@ -73,11 +74,28 @@ export class MetadataParser implements Parser<Tags> {
     this.warnings.push(message)
   }
 
-  clean(m: Tags): Tags {
-    
-    // If we have a GPS
-    // TODO Handle GPS coords and dates properly
-    return m
+  parseTags(t: Tags): Tags {
+    const parsedTags: any = {}
+
+    if (t.GPSTimeStamp &&     
+    // TODO: first try to find the GPS 
+    Object.keys(t).forEach(key => {
+      parsedTags[key] = this.parseTag(key, t[key])
+    })
+      return parsedTags as Tags
+  }
+
+  parseTag(tagName: string, value: any): any {
+    if (tagName === 'DateStampMode' || tagName === 'Sharpness') {
+      return value
+    } else if (tagName.includes('DateStamp')) {
+      return new ExifDate(value.toString())
+    } else if (tagName.includes('TimeStamp')) {
+      return 'ExifTime'
+    } else if (tagName.includes('Date')) {
+      return 'ExifDateTime'
+    }
+
   }
 }
 
@@ -139,7 +157,7 @@ export class ExifToolProcess {
   }
 
   read(file: string): Promise<Tags> {
-    const parser = new MetadataParser(file)
+    const parser = new TagsParser(file)
     return this.execute(
       new DeferredParser(parser),
       '-json',
@@ -150,7 +168,7 @@ export class ExifToolProcess {
   }
 
   readGrouped(file: string): Promise<Tags> {
-    const parser = new MetadataParser(file)
+    const parser = new TagsParser(file)
     return this.execute(
       new DeferredParser(parser),
       '-json',
