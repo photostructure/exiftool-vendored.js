@@ -1,7 +1,7 @@
 import { Parser } from './parser'
 
 export class ExifToolVersionParser implements Parser<string> {
-  private static readonly versionRegex = /\d{1,3}\.\d{1,3}(\.\d{1,3}})?/
+  private static readonly versionRegex = /^\d{1,3}\.\d{1,3}(\.\d{1,3}})?$/
 
   static looksVersionish(s: string) {
     return ExifToolVersionParser.versionRegex.test(s)
@@ -12,7 +12,7 @@ export class ExifToolVersionParser implements Parser<string> {
     if (ExifToolVersionParser.looksVersionish(value)) {
       return value
     } else {
-      throw new Error(`Unexpected version $value`)
+      throw new Error(`Unexpected version ${value}`)
     }
   }
 

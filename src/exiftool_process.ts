@@ -104,7 +104,7 @@ export class ExifToolProcess {
     if (idx >= 0) {
       return this.parsers.splice(idx, 1)[0]
     } else {
-      throw new Error("No pending parsers for ${key}")
+      throw new Error(`No pending parsers for ${key} (pending: ${this.parsers.map(p => p.key)})`)
     }
   }
 
