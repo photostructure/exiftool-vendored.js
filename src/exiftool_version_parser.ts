@@ -1,11 +1,15 @@
 import { Parser } from './parser'
 
-export const ExifToolVersionParser: Parser<string> = new class implements Parser<string> {
-  private const versionRegex = /\d{1,3}\.\d{1,3}(\.\d{1,3}})?/
+export class ExifToolVersionParser implements Parser<string> {
+  private static readonly versionRegex = /\d{1,3}\.\d{1,3}(\.\d{1,3}})?/
+
+  static looksVersionish(s: string) {
+    return ExifToolVersionParser.versionRegex.test(s)
+  }
 
   parse(input: string): string {
     const value = input.trim()
-    if (this.versionRegex.test(value)) {
+    if (ExifToolVersionParser.looksVersionish(value)) {
       return value
     } else {
       throw new Error(`Unexpected version $value`)
@@ -15,4 +19,4 @@ export const ExifToolVersionParser: Parser<string> = new class implements Parser
   onError(message: string) {
     console.error(message)
   }
-}()
+}
