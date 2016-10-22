@@ -13,6 +13,7 @@ describe('ExifTool', () => {
   it('returns error for missing file', () => {
     return expect(exiftool.read('bogus').then(tags => tags.errors[0])).to.eventually.include('File not found')
   })
-  xit('returns proper results for the proper files', () => {
+  it('returns expected results for a given file', () => {
+    return expect(exiftool.read('../test/img.jpg').then(tags => tags.Model)).to.eventually.eql('blurpo')
   })
 })
