@@ -11,7 +11,7 @@ export class TagsParser implements Parser<Tags> {
     this.filename = _path.resolve(filename)
   }
 
-  parse(input: string): Tags {
+  parse(value: string): Tags {
     if (input.trim().length === 0) {
       return { SourceFile: this.filename, errors: this.errors } as Tags
     }

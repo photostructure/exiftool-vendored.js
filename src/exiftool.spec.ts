@@ -1,5 +1,6 @@
 import { exiftool } from './exiftool'
 import { expect } from 'chai'
+import * as _path from 'path'
 
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
@@ -11,9 +12,10 @@ describe('ExifTool', () => {
     return expect(exiftool.version).to.become('10.30')
   })
   it('returns error for missing file', () => {
-    return expect(exiftool.read('bogus').then(tags => tags.errors[0])).to.eventually.include('File not found')
+    return expect(exiftool.read('bogus').then(tags => tags.errors[0])).to.eventually.include('File not found:')
   })
   it('returns expected results for a given file', () => {
-    return expect(exiftool.read('../test/img.jpg').then(tags => tags.Model)).to.eventually.eql('blurpo')
+    const img = _path.join(__dirname, '..', 'test', 'img.jpg')
+    return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql('blurpo')
   })
 })

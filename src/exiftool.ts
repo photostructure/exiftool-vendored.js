@@ -1,6 +1,6 @@
 import { ExifToolProcess } from './exiftool_process'
-import { Tags } from './tags'
-export { Tags } from './tags'
+import { GroupedTags, Tags } from './tags'
+export { GroupedTags, Tags } from './tags'
 
 export interface ExifToolAPI {
   version: Promise<string>
@@ -48,7 +48,7 @@ class ExifTool implements ExifToolAPI {
   }
 
   // For internal use, returns keys prefixed by the group name  
-  readGrouped(file: string): Promise<any> {
+  readGrouped(file: string): Promise<GroupedTags> {
     return this.proc().readGrouped(file)
   }
 

@@ -3,7 +3,7 @@ import * as _fs from 'fs'
 import * as _path from 'path'
 import * as _process from 'process'
 import { DeferredParser } from './deferred_parser'
-import { Tags } from './exiftool'
+import { GroupedTags, Tags } from './exiftool'
 import { ExifToolVersionParser } from './exiftool_version_parser'
 import { TagsParser } from './tags_parser'
 
@@ -20,6 +20,7 @@ if (!_fs.existsSync(exiftoolPath)) {
 export class ExifToolProcess {
   private static readonly ready = '{ready}'
   private static readonly versionKey = '__VERSION__'
+  private static readonly missingFile = 'File not found: '
   private _ended = false
   private readonly proc: _cp.ChildProcess
   private buff = ''
@@ -38,7 +39,8 @@ export class ExifToolProcess {
       for (const parser of this.parsers) { parser.reject('ExifTool closed') }
       this._ended = true
     })
-    this.versionPromise = this.execute(new DeferredParser(ExifToolProcess.versionKey, new ExifToolVersionParser()), '-ver')
+    const versionParser = new DeferredParser(ExifToolProcess.versionKey, new ExifToolVersionParser())
+    this.versionPromise = this.execute(versionParser, '-ver')
     _process.on('beforeExit', () => this.end())
   }
 
@@ -57,7 +59,7 @@ export class ExifToolProcess {
     )
   }
 
-  readGrouped(file: string): Promise<Tags> {
+  readGrouped(file: string): Promise<GroupedTags> {
     const parser = new TagsParser(file)
     return this.execute(
       new DeferredParser(parser.filename, parser),
@@ -91,11 +93,13 @@ export class ExifToolProcess {
   }
 
   private onError(error: string | Buffer) {
-    // Hope that theq first reader can handle the error
-    if (this.parsers.length === 0) {
-      console.error(`Error from ExifTool without any readers: ${error}`)
+    const errStr = error.toString()
+    // Missing file?
+    if (errStr.includes(ExifToolProcess.missingFile)) {
+      const filename = errStr.slice(ExifToolProcess.missingFile.length)
+      this.popParser(filename).reject(errStr)
     } else {
-      this.parsers[0].onError(error.toString())
+      console.error(`Error from ExifTool: ${errStr}`)
     }
   }
 
@@ -108,18 +112,13 @@ export class ExifToolProcess {
     }
   }
 
-  private handleVersionResult(buff: string): boolean {
-    if (ExifToolVersionParser.looksVersionish(buff)) {
-      this.popParser(ExifToolProcess.versionKey).parse(buff)
-      return true
-    } else {
-      return false
-    }
+  private handleVersionResult(buff: string): void {
+    this.popParser(ExifToolProcess.versionKey).parse(buff)
   }
 
   private handleExifResult(buff: string): void {
     JSON.parse(buff).forEach((result: any) => {
-      const sourceFile = result["SourceFile"]
+      const sourceFile = result['SourceFile']
       const absPath = _path.resolve(sourceFile)
       this.popParser(absPath).parse(result)
     })
@@ -131,7 +130,11 @@ export class ExifToolProcess {
     if (done) {
       const buff = this.buff.slice(0, -ExifToolProcess.ready.length).trim()
       this.buff = ''
-      this.handleVersionResult(buff) || this.handleExifResult(buff)
+      if (ExifToolVersionParser.looksVersionish(buff)) {
+        this.handleVersionResult(buff)
+      } else {
+        this.handleExifResult(buff)
+      }
     }
   }
 }
