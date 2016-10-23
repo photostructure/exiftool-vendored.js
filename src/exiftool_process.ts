@@ -1,17 +1,23 @@
-import * as _cp from 'child_process'
-import * as _fs from 'fs'
-import * as _path from 'path'
-import * as _process from 'process'
-import { DeferredParser } from './deferred_parser'
-import { GroupedTags, Tags } from './exiftool'
-import { ExifToolVersionParser } from './exiftool_version_parser'
-import { TagsParser } from './tags_parser'
+import * as cp from 'child_process'
+import * as fs from 'fs'
+import * as process from 'process'
+import { Task } from './task'
+import { logger } from './exiftool'
 
 const isWin32 = process.platform === 'win32'
 const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
 
-if (!_fs.existsSync(exiftoolPath)) {
+if (!fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
+}
+
+export interface TaskProvider {
+  (): Task<any> | undefined
+}
+
+export function ellipsize(str: string, max: number) {
+  str = '' + str
+  return (str.length < max) ? str : str.substring(0, max - 1) + '…'
 }
 
 /**
@@ -19,59 +25,29 @@ if (!_fs.existsSync(exiftoolPath)) {
  */
 export class ExifToolProcess {
   private static readonly ready = '{ready}'
-  private static readonly versionKey = '__VERSION__'
-  private static readonly missingFile = 'File not found: '
   private _ended = false
-  private readonly proc: _cp.ChildProcess
+  private readonly proc: cp.ChildProcess
   private buff = ''
-  private parsers: DeferredParser<any>[] = []
-  private readonly versionPromise: Promise<string>
+  private currentTask: Task<any> | undefined
 
-  constructor() {
-    this.proc = _cp.spawn(
+  constructor(private readonly taskProvider: TaskProvider) {
+    this.proc = cp.spawn(
       exiftoolPath,
       ['-stay_open', 'True', '-@', '-']
     )
+    this.proc.unref() // don't let node count ExifTool as a reason to stay alive
     this.proc.stdout.on('data', d => this.onData(d))
     this.proc.stderr.on('data', d => this.onError(d))
     this.proc.on('close', (code: any) => {
-      console.log(`ExifTool exited with code ${code}`)
-      for (const parser of this.parsers) { parser.reject('ExifTool closed') }
+      logger.log(`ExifTool exited with code ${code}`)
       this._ended = true
     })
-    const versionParser = new DeferredParser(ExifToolProcess.versionKey, new ExifToolVersionParser())
-    this.versionPromise = this.execute(versionParser, '-ver')
-    _process.on('beforeExit', () => this.end())
-  }
-
-  get version(): Promise<string> {
-    return this.versionPromise
-  }
-
-  read(file: string): Promise<Tags> {
-    const parser = new TagsParser(file)
-    return this.execute(
-      new DeferredParser(parser.filename, parser),
-      '-json',
-      '-coordFormat', '%.8f',
-      '-fast',
-      parser.filename
-    )
-  }
-
-  readGrouped(file: string): Promise<GroupedTags> {
-    const parser = new TagsParser(file)
-    return this.execute(
-      new DeferredParser(parser.filename, parser),
-      '-json',
-      '-G',
-      '-coordFormat', '%.8f',
-      '-fast',
-      parser.filename
-    )
+    process.on('beforeExit', () => this.end())
+    this.workIfIdle()
   }
 
   end(): void {
+    logger.info('end()')
     if (!this._ended) {
       this._ended = true
       this.proc.stdin.write('\n-stay_open\nFalse\n')
@@ -83,45 +59,34 @@ export class ExifToolProcess {
     return this._ended
   }
 
-  private execute<T>(deferredReader: DeferredParser<T>, ...cmds: string[]): Promise<T> {
-    this.parsers.push(deferredReader)
-    this.proc.stdin.write([...cmds,
-      '-execute',
-      '' // Need to end -execute with a newline
-    ].join('\n'))
-    return deferredReader.promise
+  get idle(): boolean {
+    return this.currentTask === undefined
+  }
+
+  workIfIdle(): void {
+    if (this.idle) {
+      this.currentTask = this.taskProvider()
+      if (this.currentTask) {
+        const cmd = [
+          ...this.currentTask.args,
+          '-ignoreMinorErrors',
+          '-execute',
+          '' // Need to end -execute with a newline
+        ].join('\n')
+        this.proc.stdin.write(cmd)
+      }
+    }
   }
 
   private onError(error: string | Buffer) {
     const errStr = error.toString()
-    // Missing file?
-    if (errStr.includes(ExifToolProcess.missingFile)) {
-      const filename = errStr.slice(ExifToolProcess.missingFile.length)
-      this.popParser(filename).reject(errStr)
+    if (this.currentTask) {
+      this.currentTask.reject(errStr)
+      this.currentTask = undefined
     } else {
-      console.error(`Error from ExifTool: ${errStr}`)
+      logger.error(`Error from ExifTool: ${errStr}`)
     }
-  }
-
-  private popParser(key: string): DeferredParser<any> {
-    const idx = this.parsers.findIndex(p => p.key === key)
-    if (idx >= 0) {
-      return this.parsers.splice(idx, 1)[0]
-    } else {
-      throw new Error(`No pending parsers for ${key} (pending: ${this.parsers.map(p => p.key)})`)
-    }
-  }
-
-  private handleVersionResult(buff: string): void {
-    this.popParser(ExifToolProcess.versionKey).parse(buff)
-  }
-
-  private handleExifResult(buff: string): void {
-    JSON.parse(buff).forEach((result: any) => {
-      const sourceFile = result['SourceFile']
-      const absPath = _path.resolve(sourceFile)
-      this.popParser(absPath).parse(result)
-    })
+    this.workIfIdle()
   }
 
   private onData(data: string | Buffer) {
@@ -129,11 +94,17 @@ export class ExifToolProcess {
     const done = this.buff.endsWith(ExifToolProcess.ready)
     if (done) {
       const buff = this.buff.slice(0, -ExifToolProcess.ready.length).trim()
+      const task = this.currentTask
       this.buff = ''
-      if (ExifToolVersionParser.looksVersionish(buff)) {
-        this.handleVersionResult(buff)
+      this.currentTask = undefined
+      this.workIfIdle() // start the next job running before parsing this one to minimize latency
+      if (task === undefined) {
+        if (buff.length > 0) {
+          logger.error('Internal error: stdin got data, with no current task')
+          logger.info(`Ignoring output >>>${buff}<<<`)
+        }
       } else {
-        this.handleExifResult(buff)
+        task.onData(buff)
       }
     }
   }

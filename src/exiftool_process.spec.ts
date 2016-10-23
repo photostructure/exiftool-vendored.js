@@ -11,8 +11,9 @@ function delay<T>(millis: number, value?: T): Promise<T> {
 
 describe('ExifToolProcess', () => {
   it('ends properly', () => {
-    const etp = new ExifToolProcess()
+    const etp = new ExifToolProcess(() => undefined)
     etp.end()
+    expect(etp.ended).to.eql(true)
     return expect(delay(300).then(() => etp.ended)).to.become(true)
   })
 })

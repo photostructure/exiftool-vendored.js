@@ -1,19 +1,31 @@
+import { TagsTask } from './tags_task'
+import { VersionTask } from './version_task'
 import { ExifToolProcess } from './exiftool_process'
-import { GroupedTags, Tags } from './tags'
-export { GroupedTags, Tags } from './tags'
+import { Tags } from './tags'
+import { Task } from './task'
+export { Tags } from './tags'
 
 export interface ExifToolAPI {
-  version: Promise<string>
-  read(file: string): Promise<Tags>
-
-  // For internal use, returns keys prefixed by the group name  
-  readGrouped(file: string): Promise<any>
   /**
-   * This will be called automatically at by process.beforeExit,
-   * but tests may need to call this proactively.
+   * @return a promise holding the version number of the vendored ExifTool
    */
-  end(): void
+  version(): Promise<string>
+  /**
+   * @return a Promise holding the metadata tags found in `file`.
+   */
+  read(file: string): Promise<Tags>
 }
+
+export interface Logger {
+  info(msg: string): void
+  warn(msg: string): void
+  error(msg: string): void
+}
+
+/**
+ * Assign your custom logger to this instance. 
+ */
+export let logger = console
 
 /**
  * This is the version of the `exiftool-vendored` npm module.
@@ -26,30 +38,29 @@ export const ExifToolVendoredVersion = '0.1.0'
  *
  * Instantiation is expensive: use the exported singleton instance of this class, `exiftool`.
  */
-class ExifTool implements ExifToolAPI {
-  private _proc = new ExifToolProcess()
+export class ExifTool implements ExifToolAPI {
+  private _proc: ExifToolProcess
+  private _tasks: Task<any>[] = []
 
   /**
    * @return a Promise to the vendored ExifTool's version 
    */
-  get version(): Promise<string> {
-    return this.proc().version
+  version(): Promise<string> {
+    return this.enqueueTask(new VersionTask()).promise
   }
 
-  read(file: string, retries: number = 1): Promise<Tags> {
-    return this.proc().read(file).catch(err => {
-      if (retries > 0) {
-        console.error(`ExifTool: failed to read ${file}: ${err}. Retrying.`)
-        return this.read(file, retries - 1)
-      } else {
-        throw err
-      }
-    })
+  read(file: string): Promise<Tags> {
+    return this.enqueueTask(TagsTask.for(file)).promise
   }
 
-  // For internal use, returns keys prefixed by the group name  
-  readGrouped(file: string): Promise<GroupedTags> {
-    return this.proc().readGrouped(file)
+  enqueueTask<T>(task: Task<T>): Task<T> {
+    this._tasks.push(task)
+    this.proc().workIfIdle()
+    return task
+  }
+
+  dequeueTask(): Task<any> | undefined {
+    return this._tasks.shift()
   }
 
   end() {
@@ -57,8 +68,8 @@ class ExifTool implements ExifToolAPI {
   }
 
   private proc(): ExifToolProcess {
-    if (this._proc.ended) {
-      this._proc = new ExifToolProcess()
+    if (this._proc === undefined || this._proc.ended) {
+      this._proc = new ExifToolProcess(() => this.dequeueTask())
       return this.proc()
     } else {
       return this._proc

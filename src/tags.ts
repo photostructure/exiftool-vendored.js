@@ -2579,23 +2579,3 @@ export interface Tags extends
   SourceFile: string
   errors: string[]
 }
-
-export interface GroupedTags {
-  SourceFile: string
-  errors: string[]
-  ExifTool: ExifToolTags
-  File: FileTags
-  EXIF: EXIFTags
-  Composite: CompositeTags
-  MakerNotes: MakerNotesTags
-  JFIF: JFIFTags
-  XMP: XMPTags
-  Photoshop: PhotoshopTags
-  ICC_Profile: ICC_ProfileTags
-  IPTC: IPTCTags
-  MPF: MPFTags
-  PrintIM: PrintIMTags
-  FlashPix: FlashPixTags
-  Meta: MetaTags
-  APP4: APP4Tags
-}

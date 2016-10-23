@@ -1,11 +1,12 @@
-import { Parser } from './parser'
-
-export class DeferredParser<T> {
+/**
+ * Emodies both a command (`args`), and a handler for the resulting output 
+ */
+export abstract class Task<T> {
   readonly promise: Promise<T>
   private _resolve: (value?: T) => void
   private _reject: (reason?: any) => void
 
-  constructor(readonly key: string, readonly reader: Parser<T>) {
+  constructor(readonly args: string[]) {
     this.promise = new Promise<T>((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
@@ -14,13 +15,13 @@ export class DeferredParser<T> {
 
   reject(reason?: any) { this._reject(reason) }
 
-  onError(message: string) { this.reader.onError(message) }
-
-  parse(input: string) {
+  onData(data: string) {
     try {
-      this._resolve(this.reader.parse(input))
+      this._resolve(this.parse(data))
     } catch (e) {
       this._reject(e)
     }
   }
+
+  protected abstract parse(data: string): T
 }

@@ -30,9 +30,10 @@ The vendored version of ExifTool relevant for your platform will be installed vi
 ## Usage
 
 ```js
+// `exiftool` is a singleton instance of the `ExifTool` class
 import { exiftool } from "exiftool-vendored"
-// ExifTool.read() returns a Promise of metadata
-exiftool.read("path/to/file.jpg").then(metadata => {
+// ExifTool.read() returns a Promise<Tags>
+exiftool.read("path/to/file.jpg").then(tags => {
   console.log(`Make: ${metadata.Make}, Model: ${metadata.Model}`)
 })
 ```

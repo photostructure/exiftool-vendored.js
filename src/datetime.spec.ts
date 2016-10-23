@@ -1,4 +1,4 @@
-import { ExifTime, ExifDate, ExifDateTime } from './datetime'
+import * as _dt from './datetime'
 import { expect } from 'chai'
 
 const chai = require('chai')
@@ -7,7 +7,7 @@ chai.use(chaiAsPromised)
 
 describe('ExifDateTime', () => {
   describe('example strings with no tz', () => {
-    const dt = new ExifDateTime('2016:08:12 07:28:50')
+    const dt = _dt.parse('DateTimeOriginal', '2016:08:12 07:28:50') as _dt.ExifDateTime
     it('year/month/day', () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
     })
@@ -23,7 +23,7 @@ describe('ExifDateTime', () => {
   })
 
   describe('example strings with UTC tzoffset', () => {
-    const dt = new ExifDateTime('2011:01:23 18:19:20', 0)
+    const dt = _dt.parse('GPSDateTime', '2011:01:23 18:19:20') as _dt.ExifDateTime
     it('year/month/day', () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2011, 1, 23])
     })
@@ -47,7 +47,7 @@ describe('ExifDateTime', () => {
   })
 
   describe('example strings with tz', () => {
-    const dt = new ExifDateTime('2013:12:30 11:04:15-05:00') // non-local offset
+    const dt = _dt.parse('DateTimeOriginal', '2013:12:30 11:04:15-05:00') as _dt.ExifDateTime // non-local offset
     it('year/month/day', () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
     })
@@ -72,15 +72,35 @@ describe('ExifDateTime', () => {
 })
 
 describe('ExifTime', () => {
-  const dt = new ExifTime('12:03:45')
+  const dt = _dt.parse('RunTimeSincePowerUp', '12:03:45') as _dt.ExifTime
   it('hour/minute/second', () => {
     expect([dt.hour, dt.minute, dt.second]).to.eql([12, 3, 45])
   })
 })
 
+describe('ExifTime from GPS', () => {
+  const dt = _dt.parse('GPSTimeStamp', '05:28:09') as _dt.ExifTime
+  it('hour/minute/second', () => {
+    expect([dt.hour, dt.minute, dt.second]).to.eql([5, 28, 9])
+  })
+  it('tzoffset', () => {
+    expect(dt.tzoffsetMinutes).to.eql(0)
+  })
+})
+
 describe('ExifDate', () => {
-  const dt = new ExifDate('2016:09:10')
+  const dt = _dt.parse('DateCreated', '2016:09:10') as _dt.ExifDate
   it('year/month/day', () => {
     expect([dt.year, dt.month, dt.day]).to.eql([2016, 9, 10])
+  })
+})
+
+describe('ExifDate from GPS', () => {
+  const dt = _dt.parse('GPSDateStamp', '2016:08:12') as _dt.ExifDate
+  it('year/month/day', () => {
+    expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
+  })
+  it('tzoffset', () => {
+    expect(dt.tzoffsetMinutes).to.eql(0)
   })
 })

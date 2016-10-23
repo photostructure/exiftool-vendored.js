@@ -1,5 +1,7 @@
 import { compact } from '../datetime'
-import { exiftool } from '../exiftool'
+import { ExifTool } from '../exiftool'
+import { TagsTask } from '../tags_task'
+import { ellipsize } from '../exiftool_process'
 import * as process from 'process'
 import * as _fs from 'fs'
 import * as _path from 'path'
@@ -9,11 +11,6 @@ import * as _path from 'path'
 // ☠☠ SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
 const globule = require('globule')
-
-function ellipsize(str: string, max: number) {
-  str = '' + str
-  return (str.length < max) ? str : str.substring(0, max - 1) + '…'
-}
 
 function usage() {
   console.log('Usage: `npm run mktags IMG_DIR`')
@@ -122,15 +119,18 @@ const tagMap = new TagMap()
 
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
+const exiftool = new ExifTool() // so I can use `enqueueTask`
+
 const start = Date.now()
 Promise.all(files.map(file => {
-  return exiftool.readGrouped(file).then((metadata: any) => {
+  const task = TagsTask.for(file, ['-G'])
+  return exiftool.enqueueTask(task).promise.then((metadata: any) => {
     const importantFile = file.toString().toLowerCase().includes('important')
     Object.keys(metadata).forEach(key => {
       if (saneTagRe.exec(key)) { tagMap.add(key, metadata[key], importantFile) }
     })
     process.stdout.write('.')
-  }).catch(err => console.log(err))
+  }).catch((err: any) => console.log(err))
 })).then(() => {
   console.log(`\nRead ${tagMap.map.size} unique tags from ${files.length} files. `)
   const elapsedMs = Date.now() - start
@@ -158,20 +158,11 @@ Promise.all(files.map(file => {
   tagWriter.write('\n')
   tagWriter.write('export interface Tags extends\n')
   tagWriter.write(`  ${groupTagNames.map(s => s + 'Tags').join(',\n  ')} {\n`)
-  tagWriter.write('  SourceFile: string\n')
   tagWriter.write('  errors: string[]\n')
+  tagWriter.write('  SourceFile: string\n')
   tagWriter.write('}\n')
   tagWriter.write('\n')
-  tagWriter.write('export interface GroupedTags {\n')
-  tagWriter.write('  SourceFile: string\n')
-  tagWriter.write('  errors: string[]\n')
-  for (const group of groupTagNames) {
-    tagWriter.write(`  ${group}: ${group}Tags\n`)
-  }
-  tagWriter.write('}\n')
   tagWriter.end()
 }).catch(err => {
   console.log(err)
-}).then(() => {
-  exiftool.end()
 })

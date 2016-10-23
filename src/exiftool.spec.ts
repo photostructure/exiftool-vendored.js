@@ -7,15 +7,14 @@ const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
 describe('ExifTool', () => {
-  after(() => exiftool.end())
   it('returns the correct version', () => {
-    return expect(exiftool.version).to.become('10.30')
+    return expect(exiftool.version()).to.become('10.30')
   })
   it('returns error for missing file', () => {
-    return expect(exiftool.read('bogus').then(tags => tags.errors[0])).to.eventually.include('File not found:')
+    return expect(exiftool.read('bogus')).to.eventually.be.rejectedWith(/File not found/)
   })
   it('returns expected results for a given file', () => {
     const img = _path.join(__dirname, '..', 'test', 'img.jpg')
-    return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql('blurpo')
+    return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql('iPhone 7 Plus')
   })
 })
