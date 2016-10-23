@@ -6,7 +6,6 @@ install:
   - npm install
 
 test_script:
-  - node platform
   - node --version
   - npm --version
   - npm test
