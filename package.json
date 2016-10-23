@@ -16,7 +16,8 @@
     "test": "mocha lib/**/*.spec.js",
     "cleantest": "run-s clean lint fmt pdm test",
     "pdm": "platform-dependent-modules",
-    "postinstall": "npm run pdm"
+    "postinstall": "npm run pdm",
+    "prepublish": "run-s cleantest"
   },
   "files": [
     "lib"
@@ -52,13 +53,13 @@
   "config": {
     "platformDependentModules": {
       "linux": [
-        "exiftool-vendored.pl@10.30.0"
+        "exiftool-vendored.pl@10.31.0"
       ],
       "darwin": [
-        "exiftool-vendored.pl@10.30.0"
+        "exiftool-vendored.pl@10.31.0"
       ],
       "win32": [
-        "exiftool-vendored.exe@10.30.0"
+        "exiftool-vendored.exe@10.31.0"
       ]
     }
   },
