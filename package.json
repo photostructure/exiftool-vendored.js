@@ -17,7 +17,7 @@
     "cleantest": "run-s clean lint fmt pdm test",
     "pdm": "platform-dependent-modules",
     "postinstall": "npm run pdm",
-    "prepublish": "run-s cleantest"
+    "publish": "run-s cleantest"
   },
   "files": [
     "lib"
