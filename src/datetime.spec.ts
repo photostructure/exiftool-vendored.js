@@ -1,5 +1,4 @@
 import * as _dt from './datetime'
-import { inspect } from 'util'
 import { expect } from 'chai'
 
 const chai = require('chai')
@@ -75,7 +74,6 @@ describe('ExifDateTime', () => {
 describe('ExifTime', () => {
   const dt = _dt.parse('RunTimeSincePowerUp', '12:03:45') as _dt.ExifTime
   it('hour/minute/second', () => {
-    console.log(inspect(dt))
     expect([dt.hour, dt.minute, dt.second]).to.eql([12, 3, 45])
   })
 })
@@ -83,7 +81,6 @@ describe('ExifTime', () => {
 describe('ExifTime from GPS', () => {
   const dt = _dt.parse('GPSTimeStamp', '05:28:09') as _dt.ExifTime
   it('hour/minute/second', () => {
-    console.log(inspect(dt))
     expect([dt.hour, dt.minute, dt.second]).to.eql([5, 28, 9])
   })
   it('tzoffset', () => {
@@ -94,7 +91,6 @@ describe('ExifTime from GPS', () => {
 describe('ExifDate', () => {
   const dt = _dt.parse('DateCreated', '2016:09:10') as _dt.ExifDate
   it('year/month/day', () => {
-    console.log(inspect(dt))
     expect([dt.year, dt.month, dt.day]).to.eql([2016, 9, 10])
   })
 })
@@ -102,7 +98,6 @@ describe('ExifDate', () => {
 describe('ExifDate from GPS', () => {
   const dt = _dt.parse('GPSDateStamp', '2016:08:12') as _dt.ExifDate
   it('year/month/day', () => {
-    console.log(inspect(dt))
     expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
   })
   it('tzoffset', () => {

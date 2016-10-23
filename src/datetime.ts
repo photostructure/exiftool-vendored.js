@@ -91,7 +91,6 @@ export class ExifDateTime extends Base {
       offsets.unshift(offsetSign * (hourOffset * 60 + minuteOffset))
     }
     this.tzoffsetMinutes = compact(offsets).shift() // first one wins
-    console.log(`ExifDateTime ${this.toISOString()}: tzoffsetMinutes: ${tzoffsetMinutes}`)
   }
 
   /**
@@ -138,7 +137,6 @@ function _new<T>(re: RegExp, ctor: (args: number[]) => T): ((input: string, tzof
       if (tzoffset !== undefined) {
         args.push(tzoffset)
       }
-      console.log(`args is now ${args}`)
       return ctor(args)
     } else {
       return undefined
@@ -170,8 +168,6 @@ export function parse(tagName: string, rawTagValue: string): ExifDate | ExifTime
   // These tzoffset hints aren't handled by the regexes, so we do them beforehand.
   const tzoffset = (tagName.includes('UTC') || tagName.includes('GPS') || rawTagValue.endsWith('Z'))
     ? 0 : undefined
-
-  console.log(`parse(${tagName}, ${rawTagValue}): tzoffset: ${tzoffset}`)
 
   const tagValue = rawTagValue.endsWith('Z') ? rawTagValue.slice(0, -1) : rawTagValue
 
