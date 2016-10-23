@@ -83,6 +83,6 @@ Given those constraints, version numbers follow the following scheme:
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
 
-### v0.1.0
+### v0.1.1
 
 Initial Release. Packages ExifTool v10.31.
