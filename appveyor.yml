@@ -1,5 +1,5 @@
 environment:
-  nodejs_version: "lts"
+  nodejs_version: "6.8.0"
 
 install:
   - ps: Install-Product node $env:nodejs_version
