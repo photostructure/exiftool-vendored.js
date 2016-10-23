@@ -6,9 +6,7 @@ import * as process from 'process'
 import * as _fs from 'fs'
 import * as _path from 'path'
 
-// THIS IS SAUSAGECODE. JUDGE ME NOT BY MY SAUSAGE. 
-
-// ☠☠ SCROLL DOWN AT YOUR OWN PERIL ☠☠
+// ☠☠ THIS IS PRETTY GRISLY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
 const globule = require('globule')
 
@@ -124,11 +122,14 @@ const exiftool = new ExifTool() // so I can use `enqueueTask`
 const start = Date.now()
 Promise.all(files.map(file => {
   const task = TagsTask.for(file, ['-G'])
-  return exiftool.enqueueTask(task).promise.then((metadata: any) => {
+  return exiftool.enqueueTask(task).promise.then((tags: any) => {
     const importantFile = file.toString().toLowerCase().includes('important')
-    Object.keys(metadata).forEach(key => {
-      if (saneTagRe.exec(key)) { tagMap.add(key, metadata[key], importantFile) }
+    Object.keys(tags).forEach(key => {
+      if (saneTagRe.exec(key)) { tagMap.add(key, tags[key], importantFile) }
     })
+    if (tags.errors.length > 0) {
+      console.log(`Error from ${file}: ${tags.errors}`)
+    }
     process.stdout.write('.')
   }).catch((err: any) => console.log(err))
 })).then(() => {
@@ -165,4 +166,6 @@ Promise.all(files.map(file => {
   tagWriter.end()
 }).catch(err => {
   console.log(err)
+}).then(() => {
+  exiftool.end()
 })
