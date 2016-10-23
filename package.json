@@ -16,8 +16,7 @@
     "test": "mocha lib/**/*.spec.js",
     "cleantest": "run-s clean lint fmt pdm test",
     "pdm": "platform-dependent-modules",
-    "postinstall": "npm run pdm",
-    "pub": "run-s cleantest publish"
+    "postinstall": "npm run pdm"
   },
   "files": [
     "lib"
