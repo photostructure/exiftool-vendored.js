@@ -88,19 +88,12 @@ describe('ExifTime from GPS', () => {
   })
 })
 
-describe('ExifDate', () => {
-  const dt = _dt.parse('DateCreated', '2016:09:10') as _dt.ExifDate
-  it('year/month/day', () => {
-    expect([dt.year, dt.month, dt.day]).to.eql([2016, 9, 10])
-  })
-})
-
-describe('ExifDate from GPS', () => {
-  const dt = _dt.parse('GPSDateStamp', '2016:08:12') as _dt.ExifDate
-  it('year/month/day', () => {
-    expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
-  })
-  it('tzoffset', () => {
-    expect(dt.tzoffsetMinutes).to.eql(0)
+describe('TimeZone', () => {
+  it('extracts the goodness', () => {
+    const tz = new _dt.TimeZone('FileModifyDate', '2016:09:30 09:24:53-09:00')
+    expect(tz.tagName).to.eql('FileModifyDate')
+    expect(tz.inputWithoutTimezone).to.eql('2016:09:30 09:24:53')
+    expect(tz.tzOffsetMinutes).to.eql(-9 * 60)
+    expect(tz.toString()).to.eql('-09:00')
   })
 })

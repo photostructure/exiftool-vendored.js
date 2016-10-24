@@ -1,4 +1,4 @@
-import { exiftool } from './exiftool'
+import { exiftool, ExifTool } from './exiftool'
 import { expect } from 'chai'
 import * as _path from 'path'
 
@@ -7,6 +7,7 @@ const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
 describe('ExifTool', () => {
+  after(() => (exiftool as ExifTool).end())
   it('returns the correct version', () => {
     return expect(exiftool.version()).to.become('10.31')
   })

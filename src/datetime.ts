@@ -35,7 +35,7 @@ export abstract class Base {
  * Encodes an ExifTime (which may not have a timezone offset)
  */
 export class ExifTime extends Base {
-  static regex = /(\d{2}):(\d{2}):(\d{2})/
+  static regex = /^(\d{2}):(\d{2}):(\d{2})$/
   constructor(
     readonly hour: number,   // 1-23
     readonly minute: number, // 0-59
@@ -52,7 +52,7 @@ export class ExifTime extends Base {
  * Encodes an ExifDate (which may not have a timezone offset)
  */
 export class ExifDate extends Base {
-  static regex = /(\d{4}):(\d{2}):(\d{2})/
+  static regex = /^(\d{4}):(\d{2}):(\d{2})$/
   constructor(
     readonly year: number,  // four-digit year
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
@@ -66,12 +66,11 @@ export class ExifDate extends Base {
 }
 
 /**
- * Encodes an ExifDateTime (which may not have a timezone offset)
+ * Encodes an ExifDateTime. 
  */
 export class ExifDateTime extends Base {
-  static regex = /(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(?:([-+])(\d{2}):(\d{2}))?/
-
-  readonly tzoffsetMinutes?: number
+  // The timezone offset will be extricated prior to this regex:
+  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})$/
 
   constructor(
     readonly year: number,
@@ -80,18 +79,8 @@ export class ExifDateTime extends Base {
     readonly hour: number,   // 1-23
     readonly minute: number, // 0-59
     readonly second: number, // 0-59
-    offsetSign: number,
-    hourOffset: number,
-    minuteOffset: number,
-    tzoffsetMinutes?: number
-  ) {
-    super()
-    const offsets = [tzoffsetMinutes]
-    if (isDefined(offsetSign, hourOffset, minuteOffset)) {
-      offsets.unshift(offsetSign * (hourOffset * 60 + minuteOffset))
-    }
-    this.tzoffsetMinutes = compact(offsets).shift() // first one wins
-  }
+    readonly tzoffsetMinutes?: number
+  ) { super() }
 
   /**
    * Note that this is most likely incorrect if the timezone offset is not set. See the README for details.
@@ -117,23 +106,11 @@ export class ExifDateTime extends Base {
   }
 }
 
-function parseIntOrSign(s: string): number {
-  if (s === undefined) {
-    return s
-  } else if (s === '+') {
-    return 1
-  } else if (s === '-') {
-    return -1
-  } else {
-    return parseInt(s, 10)
-  }
-}
-
 function _new<T>(re: RegExp, ctor: (args: number[]) => T): ((input: string, tzoffset?: number) => T | undefined) {
   return (input: string, tzoffset?: number) => {
     const match = re.exec(input)
-    if (match) {
-      const args = match.slice(1).map(i => parseIntOrSign(i))
+    if (match !== null) {
+      const args = match.slice(1).map(s => parseInt(s, 10))
       if (tzoffset !== undefined) {
         args.push(tzoffset)
       }
@@ -147,7 +124,7 @@ function _new<T>(re: RegExp, ctor: (args: number[]) => T): ((input: string, tzof
 // workaround for the fact that the spread operator doesn't work for constructors (!!?):
 
 const newDateTime = _new(ExifDateTime.regex, (a: number[]) => {
-  return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9])
+  return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6])
 })
 
 const newDate = _new(ExifDate.regex, (a: number[]) => {
@@ -160,18 +137,55 @@ const newTime = _new(ExifTime.regex, (a: number[]) => {
 
 const emptyRe = /^[\s:]*$/ // Some empty datetimes come back as "  :  :  "
 
-export function parse(tagName: string, rawTagValue: string): ExifDate | ExifTime | ExifDateTime | undefined {
+export function parse(
+  tagName: string,
+  rawTagValue: string,
+  globalTzOffset?: number
+): ExifDate | ExifTime | ExifDateTime | string {
   if (rawTagValue === undefined || emptyRe.exec(rawTagValue)) {
-    return undefined
+    return rawTagValue
   }
 
-  // These tzoffset hints aren't handled by the regexes, so we do them beforehand.
-  const tzoffset = (tagName.includes('UTC') || tagName.includes('GPS') || rawTagValue.endsWith('Z'))
-    ? 0 : undefined
-
-  const tagValue = rawTagValue.endsWith('Z') ? rawTagValue.slice(0, -1) : rawTagValue
+  const tz = new TimeZone(tagName, rawTagValue)
+  const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffset])[0]
+  const tagValue = tz.inputWithoutTimezone
 
   return newDateTime(tagValue, tzoffset)
     || newDate(tagValue, tzoffset)
     || newTime(tagValue, tzoffset)
+    || rawTagValue
+}
+
+export class TimeZone extends Base {
+  static regex = /([-+])(\d{2}):(\d{2})$/
+  readonly tzOffsetMinutes?: number
+  readonly inputWithoutTimezone: string
+
+  constructor(readonly tagName: string, readonly input: string) {
+    super()
+    if (input === undefined) {
+      this.tzOffsetMinutes = undefined
+      this.inputWithoutTimezone = input
+    } else if (tagName.includes('UTC') || tagName.includes('GPS') || input.toString().endsWith('Z')) {
+      this.tzOffsetMinutes = 0
+      this.inputWithoutTimezone = input.endsWith('Z') ? input.slice(0, -1) : input
+    } else {
+      const match = TimeZone.regex.exec(input)
+      if (match) {
+        const [wholeMatch, offsetSignS, hourOffsetS, minuteOffsetS] = match
+        const offsetSign = offsetSignS === '-' ? -1 : 1
+        const hourOffset = parseInt(hourOffsetS, 10)
+        const minuteOffset = parseInt(minuteOffsetS, 10)
+        this.tzOffsetMinutes = offsetSign * (hourOffset * 60 + minuteOffset)
+        this.inputWithoutTimezone = input.slice(0, -1 * wholeMatch.length)
+      } else {
+        this.tzOffsetMinutes = undefined
+        this.inputWithoutTimezone = input
+      }
+    }
+  }
+
+  toString(): string {
+    return this.tz(this.tzOffsetMinutes)
+  }
 }

@@ -42,12 +42,22 @@ export class TagsTask extends Task<Tags> {
     this.tags.errors.push(msg)
   }
 
-  private parseTags(): Tags {
-    const gps = _dt.parse('GPSDateTime', this.rawTags.GPSDateTime) as _dt.ExifDateTime
-    const local = _dt.parse('DateTimeOriginal', this.rawTags.DateTimeOriginal) as _dt.ExifDateTime
-    if (gps && local) {
-      this.tzoffset = gps.utcToLocalOffsetMinutes(local)
+  private extractTzoffset(): void {
+    // TimeZone just wins if we're just handed it, then use it:
+    const tze = new _dt.TimeZone('TimeZone', this.rawTags.TimeZone)
+    if (tze.tzOffsetMinutes !== undefined) {
+      this.tzoffset = tze.tzOffsetMinutes
+    } else {
+      const gps = _dt.parse('GPSDateTime', this.rawTags.GPSDateTime, undefined) as _dt.ExifDateTime
+      const local = _dt.parse('DateTimeOriginal', this.rawTags.DateTimeOriginal, undefined) as _dt.ExifDateTime
+      if (gps && local) {
+        this.tzoffset = gps.utcToLocalOffsetMinutes(local)
+      }
     }
+  }
+
+  private parseTags(): Tags {
+    this.extractTzoffset()
     Object.keys(this.rawTags).forEach(key => {
       (this.tags as any)[key] = this.parseTag(key, this.rawTags[key])
     })
@@ -65,7 +75,7 @@ export class TagsTask extends Task<Tags> {
         const s = value.toString().toLowerCase()
         return (s === 'yes' || s === '1' || s === 'true')
       } else if (typeof value === 'string' && tagName.includes('Date') || tagName.includes('Time')) {
-        return _dt.parse(tagName, value)
+        return _dt.parse(tagName, value, this.tzoffset)
       } else if (tagName.endsWith('GPSLatitude') || tagName.endsWith('GPSLongitude')) {
         const ref = (this.rawTags[tagName + 'Ref'] || value.toString().split(' ')[1])
         if (ref === undefined) {
