@@ -83,7 +83,6 @@ export class TagsTask extends Task<Tags> {
         } else {
           const direction = ref.trim().toLowerCase()
           const sorw = direction.startsWith('w') || direction.startsWith('s')
-          console.log({tagName, value, sorw})
           return parseFloat(value) * (sorw ? -1 : 1)
         }
       } else {
