@@ -4,6 +4,7 @@ import { ExifToolProcess } from './exiftool_process'
 import { Tags } from './tags'
 import { Task } from './task'
 export { Tags } from './tags'
+export { ExifDate, ExifTime, ExifDateTime, ExifTimeZone } from './datetime'
 
 export interface ExifToolAPI {
   /**

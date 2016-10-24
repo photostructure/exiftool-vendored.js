@@ -130,7 +130,7 @@ function _new<T>(re: RegExp, ctor: (args: number[]) => T): ((input: string, tzof
   }
 }
 
-export class TimeZone extends Base {
+export class ExifTimeZone extends Base {
   static regex = /([-+])(\d{2}):(\d{2})$/
   readonly tzOffsetMinutes?: number
   readonly inputWithoutTimezone: string
@@ -144,7 +144,7 @@ export class TimeZone extends Base {
       this.tzOffsetMinutes = 0
       this.inputWithoutTimezone = input.endsWith('Z') ? input.slice(0, -1) : input
     } else {
-      const match = TimeZone.regex.exec(input)
+      const match = ExifTimeZone.regex.exec(input)
       if (match) {
         const [wholeMatch, offsetSignS, hourOffsetS, minuteOffsetS] = match
         const offsetSign = offsetSignS === '-' ? -1 : 1
@@ -184,12 +184,12 @@ export function parse(
   tagName: string,
   rawTagValue: string,
   globalTzOffset?: number
-): ExifDate | ExifTime | ExifDateTime | TimeZone | string {
+): ExifDate | ExifTime | ExifDateTime | ExifTimeZone | string {
   if (rawTagValue === undefined || emptyRe.exec(rawTagValue)) {
     return rawTagValue
   }
 
-  const tz = new TimeZone(tagName, rawTagValue)
+  const tz = new ExifTimeZone(tagName, rawTagValue)
   // If it's just a timezone:
   if (tz.tzOffsetMinutes !== undefined && emptyRe.exec(tz.inputWithoutTimezone)) {
     return tz

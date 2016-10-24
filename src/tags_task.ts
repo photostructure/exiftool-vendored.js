@@ -44,7 +44,7 @@ export class TagsTask extends Task<Tags> {
 
   private extractTzoffset(): void {
     // TimeZone just wins if we're just handed it, then use it:
-    const tze = new _dt.TimeZone('TimeZone', this.rawTags.TimeZone)
+    const tze = new _dt.ExifTimeZone('TimeZone', this.rawTags.TimeZone)
     if (tze.tzOffsetMinutes !== undefined) {
       this.tzoffset = tze.tzOffsetMinutes
     } else {
