@@ -2041,7 +2041,7 @@ export interface MakerNotesTags {
   /** ☆☆☆   {"hour":6,"minute":22,"second":54} */
   Time: ExifTime
   /** ☆☆☆   "17:35:05.80" */
-  TimeCreated: string
+  TimeCreated: ExifTime
   /** ☆☆☆   "00:02:59.65" */
   TimeSincePowerOn: string
   /** ☆☆☆ ✔ "+00:00" */
@@ -2273,11 +2273,11 @@ export interface XMPTags {
   /** ☆☆☆ ✔ "Photos 1.0.1" */
   CreatorTool: string
   /** ☆☆☆ ✔ {"year":2015,"month":11,"day":11,"hour":11,"minute":27,"second":49} */
-  DateCreated: ExifDateTime
+  DateCreated: ExifDate
   /** ☆☆☆   "2010:12:19 15:23:21.00+09:00" */
   DateTimeDigitized: string
   /** ☆☆☆   "2010:12:19 15:23:21.00+09:00" */
-  DateTimeOriginal: string
+  DateTimeOriginal: ExifDateTime
   /** ☆☆☆ ✔ "Castle Rock" */
   Description: string
   /** ☆☆☆ ✔ "D2A319020F9FD0935CABCB60F534E0E0" */
