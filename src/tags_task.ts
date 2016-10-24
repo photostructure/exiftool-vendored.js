@@ -18,7 +18,7 @@ export class TagsTask extends Task<Tags> {
     const sourceFile = _path.resolve(filename)
     const args = [
       '-json',
-      '-coordFormat', '%.8f',
+      '-coordFormat', '%.8f', // Just a float, please, not the default of "22 deg 20' 7.58\" N" 
       '-fast',
       ...optionalArgs,
       sourceFile
@@ -26,7 +26,7 @@ export class TagsTask extends Task<Tags> {
     return new TagsTask(sourceFile, args)
   }
 
-  protected parse(data: string): Tags {
+  parse(data: string): Tags {
     this.rawTags = JSON.parse(data)[0]
     // ExifTool does humorous things to paths, like flip slashes. resolve() undoes that.
     const SourceFile = _path.resolve(this.rawTags.SourceFile)
@@ -81,7 +81,9 @@ export class TagsTask extends Task<Tags> {
         if (ref === undefined) {
           return value // give up
         } else {
-          const sorw = ref.trim().toLowerCase().startsWith('w') || ref.startsWith('s')
+          const direction = ref.trim().toLowerCase()
+          const sorw = direction.startsWith('w') || direction.startsWith('s')
+          console.log({tagName, value, sorw})
           return parseFloat(value) * (sorw ? -1 : 1)
         }
       } else {
