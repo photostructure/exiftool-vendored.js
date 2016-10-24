@@ -6,7 +6,7 @@ const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
-describe('Lat/Long parsing', () => {
+describe('Lat/Lon parsing', () => {
 
   function parse(tags: any): Tags {
     const tt = TagsTask.for('/tmp/example.jpg')
