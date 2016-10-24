@@ -2273,7 +2273,7 @@ export interface XMPTags {
   /** ☆☆☆ ✔ "Photos 1.0.1" */
   CreatorTool: string
   /** ☆☆☆ ✔ {"year":2015,"month":11,"day":11,"hour":11,"minute":27,"second":49,"millis":0} */
-  DateCreated: ExifDateTime
+  DateCreated: ExifDate
   /** ☆☆☆   {"year":2010,"month":12,"day":19,"hour":15,"minute":23,"second":21,"tzoffsetMin… */
   DateTimeDigitized: ExifDateTime
   /** ☆☆☆   {"year":2010,"month":12,"day":19,"hour":15,"minute":23,"second":21,"tzoffsetMin… */
