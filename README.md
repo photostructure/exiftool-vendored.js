@@ -45,16 +45,9 @@ Official [EXIF](http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf) tag names 
 
 Generally, EXIF tags encode dates and times with **no timezone offset.** Presumably the time is captured in local time, but this means parsing the same file in different parts of the world results in a different *absolute* timestamp for the same file.
 
-Rather than returning a [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date), which always includes a timezone, this library returns classes that encode the date, the time of day, or both, with an optional tzoffset. It's up to you, then to do what's right.
+Rather than returning a [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) which always includes a timezone, this library returns classes that encode the date, the time of day, or both, with an optional tzoffset. It's up to you, then, to do what's right.
 
-**It's not all bad news, though!** In cases where a GPS UTC timestamp is encoded with the image (like from most smartphone cameras), the timezone offset can be inferred, and will be encoded in the related `ExifDate`s for those files.
-
-```ts
-const d /*: ExifDate*/ = metadata.DateTimeOriginal
-// if you simply must have a Date
-const onlyCorrectIfSmartphoneOrYouTookThePhotoInTheSameTimezoneOffsetAsItIsLocally: Date = 
-  d.toDate()
-```
+In many cases, though, **a tzoffset can be determined**, either by the composite TimeZone tag, or by looking at the GPS UTC timestamp (which is present in most smartphone images). If a tzoffset can be determined, it is encoded in all related `ExifDateTime` tags for those files.
 
 ## stay_open
 
@@ -82,6 +75,11 @@ Given those constraints, version numbers follow the following scheme:
 * Metadata changes or trivial bugfixes will increment `PATCH`.
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
+
+### v0.2.0
+
+* More rigorous TimeZone extraction from assets, and added the `ExifTimeZoneOffset` to handle the `TimeZone` composite tag
+* Added support for millisecond timestamps
 
 ### v0.1.1
 

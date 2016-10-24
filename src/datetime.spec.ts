@@ -94,14 +94,14 @@ describe('ExifTime from GPS', () => {
 
 describe('TimeZone', () => {
   it('extracts timezone from a datetimestamp', () => {
-    const tz = new _dt.ExifTimeZone('FileModifyDate', '2016:09:30 09:24:53-09:00')
+    const tz = new _dt.ExifTimeZoneOffset('FileModifyDate', '2016:09:30 09:24:53-09:00')
     expect(tz.tagName).to.eql('FileModifyDate')
     expect(tz.inputWithoutTimezone).to.eql('2016:09:30 09:24:53')
     expect(tz.tzOffsetMinutes).to.eql(-9 * 60)
     expect(tz.toString()).to.eql('-09:00')
   })
   it('extracts just offsets', () => {
-    const tz = _dt.parse('RunTimeSincePowerUp', '+11:00') as _dt.ExifTimeZone
+    const tz = _dt.parse('RunTimeSincePowerUp', '+11:00') as _dt.ExifTimeZoneOffset
     expect(tz.tagName).to.eql('RunTimeSincePowerUp')
     expect(tz.inputWithoutTimezone).to.eql('')
     expect(tz.tzOffsetMinutes).to.eql(11 * 60)
