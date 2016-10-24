@@ -1,8 +1,4 @@
 
-function isDefined<T>(...array: T[]): boolean {
-  return array.findIndex(elem => elem === undefined) === -1
-}
-
 export function compact<T>(array: T[]): T[] {
   return array.filter((elem) => elem !== undefined && elem !== null)
 }
@@ -35,13 +31,20 @@ export abstract class Base {
  * Encodes an ExifTime (which may not have a timezone offset)
  */
 export class ExifTime extends Base {
-  static regex = /^(\d{2}):(\d{2}):(\d{2})$/
+  static regex = /^(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/
+
+  readonly millis: number
+
   constructor(
     readonly hour: number,   // 1-23
     readonly minute: number, // 0-59
     readonly second: number, // 0-59
+    secondFraction?: number, // 0-999
     readonly tzoffsetMinutes?: number
-  ) { super() }
+  ) {
+    super()
+    this.millis = (secondFraction !== undefined) ? parseFloat(`0.${secondFraction}`) * 1000 : 0
+  }
 
   toString(): string {
     return this.pad2(this.hour, this.minute, this.second).join(':')
@@ -70,7 +73,9 @@ export class ExifDate extends Base {
  */
 export class ExifDateTime extends Base {
   // The timezone offset will be extricated prior to this regex:
-  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})$/
+  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(?:\.(\d{1,3}))?$/
+
+  readonly millis: number
 
   constructor(
     readonly year: number,
@@ -79,8 +84,12 @@ export class ExifDateTime extends Base {
     readonly hour: number,   // 1-23
     readonly minute: number, // 0-59
     readonly second: number, // 0-59
+    secondFraction?: number, // 0-999
     readonly tzoffsetMinutes?: number
-  ) { super() }
+  ) {
+    super()
+    this.millis = (secondFraction !== undefined) ? parseFloat(`0.${secondFraction}`) * 1000 : 0
+  }
 
   /**
    * Note that this is most likely incorrect if the timezone offset is not set. See the README for details.
@@ -121,41 +130,6 @@ function _new<T>(re: RegExp, ctor: (args: number[]) => T): ((input: string, tzof
   }
 }
 
-// workaround for the fact that the spread operator doesn't work for constructors (!!?):
-
-const newDateTime = _new(ExifDateTime.regex, (a: number[]) => {
-  return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6])
-})
-
-const newDate = _new(ExifDate.regex, (a: number[]) => {
-  return new ExifDate(a[0], a[1], a[2], a[3])
-})
-
-const newTime = _new(ExifTime.regex, (a: number[]) => {
-  return new ExifTime(a[0], a[1], a[2], a[3])
-})
-
-const emptyRe = /^[\s:]*$/ // Some empty datetimes come back as "  :  :  "
-
-export function parse(
-  tagName: string,
-  rawTagValue: string,
-  globalTzOffset?: number
-): ExifDate | ExifTime | ExifDateTime | string {
-  if (rawTagValue === undefined || emptyRe.exec(rawTagValue)) {
-    return rawTagValue
-  }
-
-  const tz = new TimeZone(tagName, rawTagValue)
-  const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffset])[0]
-  const tagValue = tz.inputWithoutTimezone
-
-  return newDateTime(tagValue, tzoffset)
-    || newDate(tagValue, tzoffset)
-    || newTime(tagValue, tzoffset)
-    || rawTagValue
-}
-
 export class TimeZone extends Base {
   static regex = /([-+])(\d{2}):(\d{2})$/
   readonly tzOffsetMinutes?: number
@@ -188,4 +162,43 @@ export class TimeZone extends Base {
   toString(): string {
     return this.tz(this.tzOffsetMinutes)
   }
+}
+
+// workaround for the fact that the spread operator doesn't work for constructors (!!?):
+
+const newDateTime = _new(ExifDateTime.regex, (a: number[]) => {
+  return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7])
+})
+
+const newDate = _new(ExifDate.regex, (a: number[]) => {
+  return new ExifDate(a[0], a[1], a[2], a[3])
+})
+
+const newTime = _new(ExifTime.regex, (a: number[]) => {
+  return new ExifTime(a[0], a[1], a[2], a[3], a[4])
+})
+
+const emptyRe = /^[\s:]*$/ // Some empty datetimes come back as "  :  :  "
+
+export function parse(
+  tagName: string,
+  rawTagValue: string,
+  globalTzOffset?: number
+): ExifDate | ExifTime | ExifDateTime | TimeZone | string {
+  if (rawTagValue === undefined || emptyRe.exec(rawTagValue)) {
+    return rawTagValue
+  }
+
+  const tz = new TimeZone(tagName, rawTagValue)
+  // If it's just a timezone:
+  if (tz.tzOffsetMinutes !== undefined && emptyRe.exec(tz.inputWithoutTimezone)) {
+    return tz
+  }
+  const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffset])[0]
+  const tagValue = tz.inputWithoutTimezone
+
+  return newDateTime(tagValue, tzoffset)
+    || newDate(tagValue, tzoffset)
+    || newTime(tagValue, tzoffset)
+    || rawTagValue
 }

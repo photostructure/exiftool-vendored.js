@@ -7,12 +7,12 @@ chai.use(chaiAsPromised)
 
 describe('ExifDateTime', () => {
   describe('example strings with no tz', () => {
-    const dt = _dt.parse('DateTimeOriginal', '2016:08:12 07:28:50') as _dt.ExifDateTime
+    const dt = _dt.parse('DateTimeOriginal', '2016:08:12 07:28:50.9') as _dt.ExifDateTime
     it('year/month/day', () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
     })
     it('hour/minute/second', () => {
-      expect([dt.hour, dt.minute, dt.second]).to.eql([7, 28, 50])
+      expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([7, 28, 50, 900])
     })
     it('.toISOString', () => {
       expect(dt.toISOString()).to.eql('2016-08-12T07:28:50')
@@ -72,16 +72,20 @@ describe('ExifDateTime', () => {
 })
 
 describe('ExifTime', () => {
-  const dt = _dt.parse('RunTimeSincePowerUp', '12:03:45') as _dt.ExifTime
   it('hour/minute/second', () => {
-    expect([dt.hour, dt.minute, dt.second]).to.eql([12, 3, 45])
+    const dt = _dt.parse('RunTimeSincePowerUp', '12:03:45') as _dt.ExifTime
+    expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([12, 3, 45, 0])
+  })
+  it('hour/minute/second/millis', () => {
+    const dt = _dt.parse('RunTimeSincePowerUp', '18:08:05.813') as _dt.ExifTime
+    expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([18, 8, 5, 813])
   })
 })
 
 describe('ExifTime from GPS', () => {
-  const dt = _dt.parse('GPSTimeStamp', '05:28:09') as _dt.ExifTime
-  it('hour/minute/second', () => {
-    expect([dt.hour, dt.minute, dt.second]).to.eql([5, 28, 9])
+  const dt = _dt.parse('GPSTimeStamp', '05:28:09.123') as _dt.ExifTime
+  it('hour/minute/second/millis', () => {
+    expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([5, 28, 9, 123])
   })
   it('tzoffset', () => {
     expect(dt.tzoffsetMinutes).to.eql(0)
@@ -89,11 +93,18 @@ describe('ExifTime from GPS', () => {
 })
 
 describe('TimeZone', () => {
-  it('extracts the goodness', () => {
+  it('extracts timezone from a datetimestamp', () => {
     const tz = new _dt.TimeZone('FileModifyDate', '2016:09:30 09:24:53-09:00')
     expect(tz.tagName).to.eql('FileModifyDate')
     expect(tz.inputWithoutTimezone).to.eql('2016:09:30 09:24:53')
     expect(tz.tzOffsetMinutes).to.eql(-9 * 60)
     expect(tz.toString()).to.eql('-09:00')
+  })
+  it('extracts just offsets', () => {
+    const tz = _dt.parse('RunTimeSincePowerUp', '+11:00') as _dt.TimeZone
+    expect(tz.tagName).to.eql('RunTimeSincePowerUp')
+    expect(tz.inputWithoutTimezone).to.eql('')
+    expect(tz.tzOffsetMinutes).to.eql(11 * 60)
+    expect(tz.toString()).to.eql('+11:00')
   })
 })
