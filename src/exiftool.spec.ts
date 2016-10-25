@@ -1,4 +1,4 @@
-import { exiftool, ExifTool } from './exiftool'
+import { ExifTool } from './exiftool'
 import { expect } from 'chai'
 import * as _path from 'path'
 
@@ -7,24 +7,37 @@ const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
 describe('ExifTool', () => {
-  after(() => (exiftool as ExifTool).end())
+  const exiftool = new ExifTool(2)
+  const truncated = _path.join(__dirname, '..', 'test', 'truncated.jpg')
+  const noexif = _path.join(__dirname, '..', 'test', 'noexif.jpg')
+  const img = _path.join(__dirname, '..', 'test', 'img.jpg')
+
+  function runningProcs(): number {
+    return exiftool['procs']().length
+  }
+
+  after(() => {
+    (exiftool as ExifTool).end()
+  })
   it('returns the correct version', () => {
     return expect(exiftool.version()).to.become('10.31')
+  })
+  it('ends with multiple procs', () => {
+    const promises = [exiftool.read(img), exiftool.read(img)]
+    expect(runningProcs()).to.eql(2)
+    return expect(Promise.all(promises).then(() => exiftool.end()).then(() => runningProcs())).to.become(0)
   })
   it('returns error for missing file', () => {
     return expect(exiftool.read('bogus')).to.eventually.be.rejectedWith(/File not found/)
   })
   it('returns expected results for a given file', () => {
-    const img = _path.join(__dirname, '..', 'test', 'img.jpg')
     return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql('iPhone 7 Plus')
   })
   it('returns warning for a truncated file', () => {
-    const img = _path.join(__dirname, '..', 'test', 'truncated.jpg')
-    return expect(exiftool.read(img).then(tags => tags.Warning)).to.eventually.eql('JPEG format error')
+    return expect(exiftool.read(truncated).then(tags => tags.Warning)).to.eventually.eql('JPEG format error')
   })
   it('returns no exif metadata for an image with no headers', () => {
-    const img = _path.join(__dirname, '..', 'test', 'noexif.jpg')
-    return expect(exiftool.read(img).then(tags => Object.keys(tags).sort())).to.become([
+    return expect(exiftool.read(noexif).then(tags => Object.keys(tags).sort())).to.become([
       'BitsPerSample',
       'ColorComponents',
       'Directory',
