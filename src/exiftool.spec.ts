@@ -22,11 +22,6 @@ describe('ExifTool', () => {
   it('returns error for missing file', () => {
     return expect(exiftool.read('bogus')).to.eventually.be.rejectedWith(/File not found/)
   })
-  it('ends with multiple procs', () => {
-    const promises = [exiftool.read(img), exiftool.read(img)]
-    expect(runningProcs()).to.eql(2)
-    return expect(Promise.all(promises).then(() => exiftool.end()).then(() => runningProcs())).to.become(0)
-  })
   it('returns expected results for a given file', () => {
     return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql('iPhone 7 Plus')
   })
@@ -35,7 +30,7 @@ describe('ExifTool', () => {
   })
 
   function normalize(tagNames: string[]): string[] {
-    return tagNames.filter(i => i !== "FileInodeChangeDate" && i !=='FileCreateDate').sort()
+    return tagNames.filter(i => i !== "FileInodeChangeDate" && i !== 'FileCreateDate').sort()
   }
 
   it('returns no exif metadata for an image with no headers', () => {
@@ -62,4 +57,11 @@ describe('ExifTool', () => {
       'errors'
     ]))
   })
+
+  it('ends with multiple procs', () => {
+    const promises = [exiftool.read(img), exiftool.read(img)]
+    expect(runningProcs()).to.eql(2)
+    return expect(Promise.all(promises).then(() => exiftool.end()).then(() => runningProcs())).to.become(0)
+  })
+
 })
