@@ -3,26 +3,36 @@ export function compact<T>(array: T[]): T[] {
   return array.filter((elem) => elem !== undefined && elem !== null)
 }
 
-export abstract class Base {
-  /**
-   * numbers are expected to be > 0.
-   * wth node.sprintf, srsly
-   */
-  protected pad2(...numbers: number[]): string[] {
-    return numbers.map(i => `${i >= 10 ? '' : '0'}${i}`)
-  }
+export function pad2(...numbers: number[]): string[] {
+  return numbers.map(i => {
+    const s = i.toString(10)
+    return (s.length >= 2) ? s : '0' + s
+  })
+}
 
+export function pad3(...numbers: number[]): string[] {
+  return numbers.map(i => {
+    if (i < 0) {
+      const s = Math.abs(i).toString(10)
+      return '-' + ((s.length >= 2) ? s : '0' + s)
+    } else {
+      return `000${i}`.slice(Math.min(-3, -(Math.ceil(Math.log10(i)))))
+    }
+  })
+}
+
+export abstract class Base {
   protected tz(tzoffsetMinutes: number | undefined): string {
     if (tzoffsetMinutes === undefined) {
       return ''
     } else if (tzoffsetMinutes === 0) {
       return 'Z'
     } else {
-      const sign = (tzoffsetMinutes > 0) ? '+' : '-'
+      const sign = (tzoffsetMinutes >= 0) ? '+' : '-'
       const tzoff = Math.abs(tzoffsetMinutes)
       const hours = Math.floor(tzoff / 60)
       const mins = tzoff - (hours * 60)
-      return `${sign}${this.pad2(hours, mins).join(':')}`
+      return `${sign}${pad2(hours)}:${pad2(mins)}`
     }
   }
 }
@@ -30,8 +40,8 @@ export abstract class Base {
 /**
  * Encodes an ExifTime (which may not have a timezone offset)
  */
-export class ExifTime extends Base {
-  static regex = /^(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/
+export class ExifTime {
+  static regex = /^(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,6}))?$/
 
   readonly millis: number
 
@@ -42,29 +52,31 @@ export class ExifTime extends Base {
     secondFraction?: number, // 0-999
     readonly tzoffsetMinutes?: number
   ) {
-    super()
     this.millis = (secondFraction !== undefined) ? parseFloat(`0.${secondFraction}`) * 1000 : 0
   }
 
   toString(): string {
-    return this.pad2(this.hour, this.minute, this.second).join(':')
+    return pad2(this.hour, this.minute, this.second).join(':')
   }
 }
 
 /**
- * Encodes an ExifDate (which may not have a timezone offset)
+ * Encodes an ExifDate
  */
-export class ExifDate extends Base {
+export class ExifDate {
   static regex = /^(\d{4}):(\d{2}):(\d{2})$/
   constructor(
     readonly year: number,  // four-digit year
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
     readonly day: number,   // 1-31
-    readonly tzoffsetMinutes?: number
-  ) { super() }
+  ) { } // tslint:disable-line
 
   toString(): string {
-    return `${this.year}-${this.pad2(this.month, this.day).join('-')}`
+    return `${this.year}-${pad2(this.month)}-${pad2(this.day)}`
+  }
+
+  toDate(): Date {
+    return new Date(this.year, this.month - 1, this.day)
   }
 }
 
@@ -73,8 +85,11 @@ export class ExifDate extends Base {
  */
 export class ExifDateTime extends Base {
   // The timezone offset will be extricated prior to this regex:
-  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(?:\.(\d{1,3}))?$/
+  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(?:\.(\d{1,6}))?$/
 
+  /**
+   * Note that this may have fractional precision (123.456ms)
+   */
   readonly millis: number
 
   constructor(
@@ -92,7 +107,9 @@ export class ExifDateTime extends Base {
   }
 
   /**
-   * Note that this is most likely incorrect if the timezone offset is not set. See the README for details.
+   * Note that this is most likely incorrect if the timezone offset is not set. 
+   *
+   * See the README for details.
    */
   toDate(): Date {
     if (this.tzoffsetMinutes === undefined) {
@@ -100,18 +117,17 @@ export class ExifDateTime extends Base {
       d.setFullYear(this.year, this.month - 1, this.day)
       d.setHours(this.hour, this.minute, this.second)
       return d
+    } else if (this.tzoffsetMinutes === 0) {
+      // Don't leave it up to string parsing
+      return new Date(Date.UTC(this.year, this.month - 1, this.day, this.hour, this.minute, this.second, this.millis))
     } else {
       return new Date(this.toISOString())
     }
   }
 
-  utcToLocalOffsetMinutes(datetime: ExifDateTime): number {
-    return (this.toDate().getTime() - datetime.toDate().getTime()) / (1000 * 60)
-  }
-
   toISOString(): string {
-    const [mo, da, ho, mi, se] = this.pad2(this.month, this.day, this.hour, this.minute, this.second)
-    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${this.tz(this.tzoffsetMinutes)}`
+    const [mo, da, ho, mi, se] = pad2(this.month, this.day, this.hour, this.minute, this.second)
+    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}.${pad3(this.millis)}${this.tz(this.tzoffsetMinutes)}`
   }
 }
 
@@ -171,7 +187,7 @@ const newDateTime = _new(ExifDateTime.regex, (a: number[]) => {
 })
 
 const newDate = _new(ExifDate.regex, (a: number[]) => {
-  return new ExifDate(a[0], a[1], a[2], a[3])
+  return new ExifDate(a[0], a[1], a[2])
 })
 
 const newTime = _new(ExifTime.regex, (a: number[]) => {

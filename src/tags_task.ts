@@ -1,3 +1,4 @@
+import * as console from 'console';
 import * as _dt from './datetime'
 import { Tags } from './tags'
 import { Task } from './task'
@@ -48,10 +49,13 @@ export class TagsTask extends Task<Tags> {
     if (tze.tzOffsetMinutes !== undefined) {
       this.tzoffset = tze.tzOffsetMinutes
     } else {
-      const gps = _dt.parse('GPSDateTime', this.rawTags.GPSDateTime, undefined) as _dt.ExifDateTime
-      const local = _dt.parse('DateTimeOriginal', this.rawTags.DateTimeOriginal, undefined) as _dt.ExifDateTime
+      const gps = _dt.parse('GPSDateTime', this.rawTags.GPSDateTime, 0) as _dt.ExifDateTime
+      const local = _dt.parse('DateTimeOriginal', this.rawTags.DateTimeOriginal, 0) as _dt.ExifDateTime
       if (gps && local) {
-        this.tzoffset = gps.utcToLocalOffsetMinutes(local)
+        // timezone offsets are never less than 30 minutes.
+        const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
+        const localToHalfHour = local.toDate().getTime() / (30 * 60 * 1000)
+        this.tzoffset = 30 * Math.round(localToHalfHour - gpsToHalfHour)
       }
     }
   }

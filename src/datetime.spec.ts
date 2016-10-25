@@ -15,7 +15,7 @@ describe('ExifDateTime', () => {
       expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([7, 28, 50, 900])
     })
     it('.toISOString', () => {
-      expect(dt.toISOString()).to.eql('2016-08-12T07:28:50')
+      expect(dt.toISOString()).to.eql('2016-08-12T07:28:50.900')
     })
     it('Renders a Date assuming the current timezone offset', () => {
       expect(dt.toDate().toLocaleString('en-US')).to.eql('8/12/2016, 7:28:50 AM')
@@ -34,7 +34,7 @@ describe('ExifDateTime', () => {
       expect(dt.tzoffsetMinutes).to.eql(0)
     })
     it('.toISOString', () => {
-      expect(dt.toISOString()).to.eql('2011-01-23T18:19:20Z')
+      expect(dt.toISOString()).to.eql('2011-01-23T18:19:20.000Z')
     })
     it('Renders a Date assuming the current timezone offset', () => {
       const d = dt.toDate()
@@ -58,7 +58,7 @@ describe('ExifDateTime', () => {
       expect(dt.tzoffsetMinutes).to.eql(-60 * 5)
     })
     it('.toISOString', () => {
-      expect(dt.toISOString()).to.eql('2013-12-30T11:04:15-05:00')
+      expect(dt.toISOString()).to.eql('2013-12-30T11:04:15.000-05:00')
     })
     it('Renders a Date assuming the forced timezone offset', () => {
       const d = dt.toDate()
@@ -106,5 +106,40 @@ describe('TimeZone', () => {
     expect(tz.inputWithoutTimezone).to.eql('')
     expect(tz.tzOffsetMinutes).to.eql(11 * 60)
     expect(tz.toString()).to.eql('+11:00')
+  })
+})
+
+describe('pad2', () => {
+  it('renders positive values', () => {
+    expect(_dt.pad2(0)).to.eql(['00'])
+    expect(_dt.pad2(1)).to.eql(['01'])
+    expect(_dt.pad2(9)).to.eql(['09'])
+    expect(_dt.pad2(10)).to.eql(['10'])
+    expect(_dt.pad2(11)).to.eql(['11'])
+    expect(_dt.pad2(99)).to.eql(['99'])
+    expect(_dt.pad2(100)).to.eql(['100'])
+  })
+  it('renders negative values', () => {
+    expect(_dt.pad2(-1)).to.eql(['-1'])
+    expect(_dt.pad2(-10)).to.eql(['-10'])
+  })
+})
+
+describe('pad3', () => {
+  it('renders positive values', () => {
+    expect(_dt.pad3(0)).to.eql(['000'])
+    expect(_dt.pad3(1)).to.eql(['001'])
+    expect(_dt.pad3(9)).to.eql(['009'])
+    expect(_dt.pad3(10)).to.eql(['010'])
+    expect(_dt.pad3(11)).to.eql(['011'])
+    expect(_dt.pad3(99)).to.eql(['099'])
+    expect(_dt.pad3(100)).to.eql(['100'])
+  })
+  it('renders negative values', () => {
+    expect(_dt.pad3(-1)).to.eql(['-01'])
+    expect(_dt.pad3(-9)).to.eql(['-09'])
+    expect(_dt.pad3(-10)).to.eql(['-10'])
+    expect(_dt.pad3(-99)).to.eql(['-99'])
+    expect(_dt.pad3(-100)).to.eql(['-100'])
   })
 })
