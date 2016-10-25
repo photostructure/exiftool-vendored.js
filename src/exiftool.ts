@@ -80,8 +80,9 @@ export class ExifTool implements ExifToolAPI {
    * This may need to be called in `after` or `finally` clauses in tests
    * or scripts for them to exit cleanly.
    */
-  end() {
+  end() : Promise<void> {
     this._procs.forEach(p => p.end())
+    return Promise.all(this._procs.map(p => p.closedPromise))
   }
 
   enqueueTask<T>(task: Task<T>): Task<T> {

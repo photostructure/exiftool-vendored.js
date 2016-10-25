@@ -16,19 +16,16 @@ describe('ExifTool', () => {
     return exiftool['procs']().length
   }
 
-  after(() => {
-    (exiftool as ExifTool).end()
-  })
   it('returns the correct version', () => {
     return expect(exiftool.version()).to.become('10.31')
+  })
+  it('returns error for missing file', () => {
+    return expect(exiftool.read('bogus')).to.eventually.be.rejectedWith(/File not found/)
   })
   it('ends with multiple procs', () => {
     const promises = [exiftool.read(img), exiftool.read(img)]
     expect(runningProcs()).to.eql(2)
     return expect(Promise.all(promises).then(() => exiftool.end()).then(() => runningProcs())).to.become(0)
-  })
-  it('returns error for missing file', () => {
-    return expect(exiftool.read('bogus')).to.eventually.be.rejectedWith(/File not found/)
   })
   it('returns expected results for a given file', () => {
     return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql('iPhone 7 Plus')
@@ -36,15 +33,19 @@ describe('ExifTool', () => {
   it('returns warning for a truncated file', () => {
     return expect(exiftool.read(truncated).then(tags => tags.Warning)).to.eventually.eql('JPEG format error')
   })
+
+  function normalize(tagNames: string[]): string[] {
+    return tagNames.filter(i => i !== "FileInodeChangeDate" && i !=='FileCreateDate').sort()
+  }
+
   it('returns no exif metadata for an image with no headers', () => {
-    return expect(exiftool.read(noexif).then(tags => Object.keys(tags).sort())).to.become([
+    return expect(exiftool.read(noexif).then(tags => normalize(Object.keys(tags)))).to.become(normalize([
       'BitsPerSample',
       'ColorComponents',
       'Directory',
       'EncodingProcess',
       'ExifToolVersion',
       'FileAccessDate',
-      'FileCreateDate',
       'FileModifyDate',
       'FileName',
       'FilePermissions',
@@ -59,6 +60,6 @@ describe('ExifTool', () => {
       'SourceFile',
       'YCbCrSubSampling',
       'errors'
-    ].sort())
+    ]))
   })
 })
