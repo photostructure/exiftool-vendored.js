@@ -1,6 +1,7 @@
 import * as cp from 'child_process'
 import * as fs from 'fs'
 import * as process from 'process'
+import { Deferred } from './deferred'
 import { Task } from './task'
 import { logger } from './exiftool'
 
@@ -26,6 +27,7 @@ export function ellipsize(str: string, max: number) {
 export class ExifToolProcess {
   private static readonly ready = '{ready}'
   private _ended = false
+  private _closedDeferred = new Deferred<void>()
   private readonly proc: cp.ChildProcess
   private buff = ''
   private currentTask: Task<any> | undefined
@@ -39,15 +41,14 @@ export class ExifToolProcess {
     this.proc.stdout.on('data', d => this.onData(d))
     this.proc.stderr.on('data', d => this.onError(d))
     this.proc.on('close', (code: any) => {
-      logger.log(`ExifTool exited with code ${code}`)
       this._ended = true
+      this._closedDeferred.resolve()
     })
     process.on('beforeExit', () => this.end())
     this.workIfIdle()
   }
 
   end(): void {
-    logger.info('end()')
     if (!this._ended) {
       this._ended = true
       this.proc.stdin.write('\n-stay_open\nFalse\n')
@@ -55,8 +56,22 @@ export class ExifToolProcess {
     }
   }
 
+  /**
+   * @return true if `end()` was called, or the child process has closed
+   */
   get ended(): boolean {
     return this._ended
+  }
+
+  /**
+   * @return true if the child process has closed
+   */
+  get closed(): boolean {
+    return this._closedDeferred.fulfilled
+  }
+
+  get closedPromise(): Promise<void> {
+    return this._closedDeferred.promise
   }
 
   get idle(): boolean {

@@ -136,7 +136,7 @@ const tagMap = new TagMap()
 
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
-const exiftool = new ExifTool() // so I can use `enqueueTask`
+const exiftool = new ExifTool(4) // so I can use `enqueueTask`
 
 const start = Date.now()
 Promise.all(files.map(file => {

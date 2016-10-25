@@ -1,55 +1,65 @@
 # exiftool-vendored
 
-Efficient, cross-platform [node](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/). 
+**Blazing-fast, cross-platform [node](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
 
 [![npm version](https://badge.fury.io/js/exiftool-vendored.svg)](https://badge.fury.io/js/exiftool-vendored)
 [![Build Status](https://travis-ci.org/mceachen/exiftool-vendored.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
 
-## Unique Features
+## Features
 
-1. Uses `-stay_open` mode by default, which can be up to 60x faster than other packages[*](#stay_open)
+1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism), with [7-300x faster](#performance) than competing packages
 
-1. Parsing of 
-    - dates (even though EXIF doesn't include [timezone offset data](#dates))
-    - latitudes & longitudes into proper floats (where negative values indicate W or S of the meridian)
+1. Proper extraction of 
+    - **dates** with [correct timezone offset encoding, when available](#dates))
+    - **latitudes & longitudes** as floats (where negative values indicate W or S of the meridian)
 
-1. Robust [type definitions](#tags) of the top 99.5% of tags used by over 3,000 different camera makes and models
+1. Robust **[type definitions](#tags)** of the top 99.5% of tags used by over 3,000 different camera makes and models
 
-1. Auditable ExifTool source code (the "vendored" code is [verifiable](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
+1. **Auditable ExifTool source code** (the "vendored" code is [verifiable](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
 
-1. Automated updates to ExifTool ([as new versions come out monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
+1. **Automated updates** to ExifTool ([as new versions come out monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. Tested on node v6+ on Linux, Mac, & Windows.
+1. **Robust test suite**, performed with node v6+ on [Linux, Mac,](https://travis-ci.org/mceachen/exiftool-vendored) & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 ## Installation
 
-    npm install --save exiftool-vendored
+```sh
+npm install --save exiftool-vendored
+```
 
-The vendored version of ExifTool relevant for your platform will be installed via [platform-dependent-modules](https://www.npmjs.com/package/platform-dependent-modules).
+The vendored version of ExifTool relevant for your platform will be installed via [platform-dependent-modules](https://www.npmjs.com/package/platform-dependent-modules). You shouldn't include either the `exiftool-vendored.exe` or `exiftool-vendored.pl` as direct dependencies to your project.
 
 ## Usage
 
 ```js
-// `exiftool` is a singleton instance of the `ExifTool` class
-import { exiftool } from "exiftool-vendored"
-// ExifTool.read() returns a Promise<Tags>
-exiftool.read("path/to/file.jpg").then(tags => {
+import { exiftool, Tags } from "exiftool-vendored"
+exiftool.read("path/to/file.jpg").then((tags /*: Tags */) => {
   console.log(`Make: ${metadata.Make}, Model: ${metadata.Model}`)
 })
 ```
 
-Official [EXIF](http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf) tag names are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. ("Fixing" the field names to be camelCase, would result in ungainly `aFPointSelected` and `iSO` atrocities).
+## Performance
 
-## Dates
+With the `npm run mktags` target, > 3000 sample images, and `maxProcs` set to 4, reading tags on my laptop takes ~6 ms per image:
 
-Generally, EXIF tags encode dates and times with **no timezone offset.** Presumably the time is captured in local time, but this means parsing the same file in different parts of the world results in a different *absolute* timestamp for the same file.
+```sh
+Read 2236 unique tags from 3011 files.
+Parsing took 16191ms (5.4ms / file) # win32, core i7, maxProcs 4
+Parsing took 27141ms (9.0ms / file) # ubuntu, core i3, maxProcs 1
+Parsing took 12545ms (4.2ms / file) # ubuntu, core i3, maxProcs 4
+```
 
-Rather than returning a [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) which always includes a timezone, this library returns classes that encode the date, the time of day, or both, with an optional tzoffset. It's up to you, then, to do what's right.
+For reference, using the `exiftool` npm package (which doesn't work on Windows) took 85 seconds (almost 7x the time):
 
-In many cases, though, **a tzoffset can be determined**, either by the composite TimeZone tag, or by looking at the GPS UTC timestamp (which is present in most smartphone images). If a tzoffset can be determined, it is encoded in all related `ExifDateTime` tags for those files.
+```sh
+Reading 3011 files...
+Parsing took 85654ms (28.4ms / file) # ubuntu, core i3
+```
 
-## stay_open
+This package is so much faster due to `ExifTool` child process reuse, as well as delegation to > 1 child processes.
+
+### stay_open
 
 Starting the perl version of ExifTool is expensive, and is *especially* expensive on the Windows version of ExifTool. 
 
@@ -57,9 +67,32 @@ On Windows, a distribution of Perl and the ~1000 files that make up ExifTool are
 
 Using `-stay_open` we can reuse a single instance of ExifTool across all requests, which drops response latency dramatically. 
 
+### Parallelism
+
+The `exiftool` singleton is configured with a `maxProcs` of 1; 
+no more than 1 child process of ExifTool will be spawned, even if there are many read requests outstanding.
+
+If you want higher throughput, instantiate your own singleton reference of `ExifTool` with a higher maxProcs. Note that exceeding your cpu count won't increase throughput, and that each child process consumes between 10 and 50 MB of RAM.
+
+You may want to call `.end()` on your singleton reference when your script terminates. This gracefully shuts down all child processes.
+
+## Dates
+
+Generally, EXIF tags encode dates and times with **no timezone offset.** Presumably the time is captured in local time, but this means parsing the same file in different parts of the world results in a different *absolute* timestamp for the same file.
+
+Rather than returning a [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) which always includes a timezone, this library returns classes that encode the date, the time of day, or both, with an optional tzoffset. It's up to you, then, to do what's right.
+
+In many cases, though, **a tzoffset can be determined**, either by the composite `TimeZone` tag, or by looking at the difference between the local `DateTimeOriginal` and `GPSDateTime` tags. `GPSDateTime` is present in most smartphone images. 
+
+If a tzoffset can be determined, it is encoded in all related `ExifDateTime` tags for those files.
+
 ## Tags
 
-The `tags.ts` file is autogenerated by parsing through images of more than 3,000 different camera makes and models taken from the ExifTool site. It groups tags, their type, frequency, and example values such that your IDE can autocomplete
+Official [EXIF](http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf) tag names are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like `AFPointSelected` and `ISO`. ("Fixing" the field names to be camelCase, would result in ungainly `aFPointSelected` and `iSO` atrocities).
+
+The `tags.ts` file is autogenerated by parsing through images of more than 3,000 different camera makes and models taken from the ExifTool site. It groups tags, their type, frequency, and example values such that your IDE can autocomplete.
+
+Note that tag existence and types is **not guaranteed**. If parsing fails (for, example, and datetime string), the raw string will be returned. Consuming code should verify both existence and type as reasonable for safety. 
 
 ## Versioning
 
@@ -75,6 +108,15 @@ Given those constraints, version numbers follow the following scheme:
 * Metadata changes or trivial bugfixes will increment `PATCH`.
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
+
+v1.0.0 with a stable API will be released in winter of 2016.
+
+### v0.3.0
+
+* Multithreading support with the `maxProcs` ctor param
+* Added tests for reading images with truncated or missing EXIF headers
+* Added tests for timezone offset extraction and rendering
+* Subsecond resolution from the Google Pixel has 8 significant digits(!!), added support for that. 
 
 ### v0.2.0
 
