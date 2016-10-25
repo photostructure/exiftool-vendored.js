@@ -1,25 +1,18 @@
+import { Deferred } from './deferred'
+
 /**
  * Emodies both a command (`args`), and a handler for the resulting output 
  */
-export abstract class Task<T> {
-  readonly promise: Promise<T>
-  private _resolve: (value?: T) => void
-  private _reject: (reason?: any) => void
-
+export abstract class Task<T> extends Deferred<T> {
   constructor(readonly args: string[]) {
-    this.promise = new Promise<T>((resolve, reject) => {
-      this._resolve = resolve
-      this._reject = reject
-    })
+    super()
   }
-
-  reject(reason?: any) { this._reject(reason) }
 
   onData(data: string) {
     try {
-      this._resolve(this.parse(data))
+      this.resolve(this.parse(data))
     } catch (e) {
-      this._reject(e)
+      this.reject(e)
     }
   }
 
