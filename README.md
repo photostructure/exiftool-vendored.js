@@ -8,9 +8,7 @@
 
 ## Features
 
-1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism). (**60x-400x faster** than competing packages!)
-
-1. **Multithreading support** via delegation to up to `maxProcs` child processes, providing linear scaling up to the number of local CPUs
+1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism), with [7-300x faster](#performance) than competing packages
 
 1. Proper extraction of 
     - **dates** with [correct timezone offset encoding, when available](#dates))
@@ -23,17 +21,6 @@
 1. **Automated updates** to ExifTool ([as new versions come out monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
 1. **Robust test suite**, performed with node v6+ on [Linux, Mac,](https://travis-ci.org/mceachen/exiftool-vendored) & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
-
-## Performance
-
-With the `npm run mktags` target, > 3000 sample images, and `maxProcs` set to 4, reading tags on my laptop takes ~6 ms per image:
-
-```
-Read 2236 unique tags from 3011 files.
-Parsing took 16191ms (5.4ms / file)
-```
-
-For reference, other node packages average between 300ms and 800ms on windows per image, and 150ms on linux.
 
 ## Installation
 
@@ -52,7 +39,35 @@ exiftool.read("path/to/file.jpg").then((tags /*: Tags */) => {
 })
 ```
 
-## Parallelism
+## Performance
+
+With the `npm run mktags` target, > 3000 sample images, and `maxProcs` set to 4, reading tags on my laptop takes ~6 ms per image:
+
+```sh
+Read 2236 unique tags from 3011 files.
+Parsing took 16191ms (5.4ms / file) # win32, core i7, maxProcs 4
+Parsing took 27141ms (9.0ms / file) # ubuntu, core i3, maxProcs 1
+Parsing took 12545ms (4.2ms / file) # ubuntu, core i3, maxProcs 4
+```
+
+For reference, using the `exiftool` npm package (which doesn't work on Windows) took 85 seconds (almost 7x the time):
+
+```sh
+Reading 3011 files...
+Parsing took 85654ms (28.4ms / file) # ubuntu, core i3
+```
+
+This package is so much faster due to `ExifTool` child process reuse, as well as delegation to > 1 child processes.
+
+### stay_open
+
+Starting the perl version of ExifTool is expensive, and is *especially* expensive on the Windows version of ExifTool. 
+
+On Windows, a distribution of Perl and the ~1000 files that make up ExifTool are extracted into a temporary directory for **every invocation**. Windows virus scanners that wedge reads on these files until they've been determined to be safe make this approach even more costly.
+
+Using `-stay_open` we can reuse a single instance of ExifTool across all requests, which drops response latency dramatically. 
+
+### Parallelism
 
 The `exiftool` singleton is configured with a `maxProcs` of 1; 
 no more than 1 child process of ExifTool will be spawned, even if there are many read requests outstanding.
@@ -70,14 +85,6 @@ Rather than returning a [Date](https://developer.mozilla.org/en-US/docs/Web/Java
 In many cases, though, **a tzoffset can be determined**, either by the composite `TimeZone` tag, or by looking at the difference between the local `DateTimeOriginal` and `GPSDateTime` tags. `GPSDateTime` is present in most smartphone images. 
 
 If a tzoffset can be determined, it is encoded in all related `ExifDateTime` tags for those files.
-
-## stay_open
-
-Starting the perl version of ExifTool is expensive, and is *especially* expensive on the Windows version of ExifTool. 
-
-On Windows, a distribution of Perl and the ~1000 files that make up ExifTool are extracted into a temporary directory for **every invocation**. Windows virus scanners that wedge reads on these files until they've been determined to be safe make this approach even more costly.
-
-Using `-stay_open` we can reuse a single instance of ExifTool across all requests, which drops response latency dramatically. 
 
 ## Tags
 

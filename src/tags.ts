@@ -23,21 +23,21 @@ export interface FileTags {
   Comment: string
   /** ☆☆☆ ✔ "d41d8cd98f00b204e9800998ecf8427e" */
   CurrentIPTCDigest: string
-  /** ★★★ ✔ "C:/Users/mrm/src/exif/test-images/Apple" */
+  /** ★★★ ✔ "/home/mrm/src/test-images/Apple" */
   Directory: string
   /** ★★★ ✔ "Baseline DCT, Huffman coding" */
   EncodingProcess: string
   /** ★★★ ✔ "Big-endian (Motorola, MM)" */
   ExifByteOrder: string
-  /** ★★★ ✔ {"year":2016,"month":10,"day":18,"hour":20,"minute":12,"second":15,"tzoffsetMin… */
+  /** ★★★ ✔ {"year":2016,"month":10,"day":24,"hour":17,"minute":30,"second":25,"tzoffsetMin… */
   FileAccessDate: ExifDateTime
-  /** ★★★ ✔ {"year":2016,"month":10,"day":18,"hour":20,"minute":12,"second":15,"tzoffsetMin… */
-  FileCreateDate: ExifDateTime
+  /** ★★★ ✔ {"year":2016,"month":10,"day":21,"hour":17,"minute":43,"second":59,"tzoffsetMin… */
+  FileInodeChangeDate: ExifDateTime
   /** ★★★ ✔ {"year":2013,"month":1,"day":23,"hour":6,"minute":30,"second":4,"tzoffsetMinute… */
   FileModifyDate: ExifDateTime
   /** ★★★ ✔ "Apple_iPad_mini.jpg" */
   FileName: string
-  /** ★★★ ✔ "rw-rw-rw-" */
+  /** ★★★ ✔ "rwxrwx---" */
   FilePermissions: string
   /** ★★★ ✔ "12 kB" */
   FileSize: string
@@ -120,15 +120,15 @@ export interface EXIFTags {
   FocalLengthIn35mmFormat: string
   /** ★☆☆ ✔ "inches" */
   FocalPlaneResolutionUnit: string
-  /** ★☆☆ ✔ 12401.91388 */
+  /** ★☆☆ ✔ 12307.69231 */
   FocalPlaneXResolution: number
-  /** ★☆☆ ✔ 12461.53846 */
+  /** ★☆☆ ✔ 9230.769231 */
   FocalPlaneYResolution: number
   /** ☆☆☆ ✔ "101.7727738 m" */
   GPSAltitude: string
   /** ☆☆☆ ✔ "Above Sea Level" */
   GPSAltitudeRef: string
-  /** ☆☆☆ ✔ {"year":2015,"month":9,"day":5,"tzoffsetMinutes":0} */
+  /** ☆☆☆ ✔ {"year":2015,"month":9,"day":5} */
   GPSDateStamp: ExifDate
   /** ☆☆☆ ✔ 274.8004158 */
   GPSDestBearing: number
@@ -188,9 +188,9 @@ export interface EXIFTags {
   LensInfo: string
   /** ☆☆☆ ✔ "Apple" */
   LensMake: string
-  /** ☆☆☆ ✔ "iPad Air back camera 3.3mm f/2.4" */
+  /** ☆☆☆ ✔ "iPad mini 2 back camera 3.3mm f/2.4" */
   LensModel: string
-  /** ☆☆☆ ✔ "00001027b4" */
+  /** ☆☆☆ ✔ "0000000000" */
   LensSerialNumber: string
   /** ★☆☆ ✔ "Daylight" */
   LightSource: string
@@ -224,9 +224,9 @@ export interface EXIFTags {
   RecommendedExposureIndex: number
   /** ☆☆☆   "0 255 128 255 128 255" */
   ReferenceBlackWhite: string
-  /** ☆☆☆   1944 */
+  /** ☆☆☆   1080 */
   RelatedImageHeight: number
-  /** ☆☆☆   2592 */
+  /** ☆☆☆   1920 */
   RelatedImageWidth: number
   /** ☆☆☆   "RelatedSound" */
   RelatedSoundFile: string
@@ -246,7 +246,7 @@ export interface EXIFTags {
   SensingMethod: string
   /** ☆☆☆ ✔ "Recommended Exposure Index" */
   SensitivityType: string
-  /** ☆☆☆ ✔ "033021006685" */
+  /** ☆☆☆ ✔ "000500065821" */
   SerialNumber: string
   /** ★☆☆ ✔ "Normal" */
   Sharpness: string
@@ -260,9 +260,9 @@ export interface EXIFTags {
   StripOffsets: number
   /** ☆☆☆ ✔ 234 */
   SubSecTime: number
-  /** ☆☆☆ ✔ 145 */
+  /** ☆☆☆ ✔ 718 */
   SubSecTimeDigitized: number
-  /** ☆☆☆ ✔ 145 */
+  /** ☆☆☆ ✔ 718 */
   SubSecTimeOriginal: number
   /** ☆☆☆ ✔ "1836 859 484 484" */
   SubjectArea: string
@@ -315,13 +315,13 @@ export interface CompositeTags {
   DateTimeCreated: ExifDateTime
   /** ☆☆☆ ✔ {"year":2016,"month":8,"day":12,"hour":13,"minute":28,"second":50,"millis":0} */
   DigitalCreationDateTime: ExifDateTime
-  /** ☆☆☆ ✔ "Continuous Shooting" */
+  /** ☆☆☆ ✔ "Single-frame Shooting" */
   DriveMode: string
   /** ☆☆☆ ✔ "Not attached" */
   ExtenderStatus: string
   /** ★★☆ ✔ "57.2 deg" */
   FOV: string
-  /** ☆☆☆ ✔ "100-0285" */
+  /** ☆☆☆ ✔ "100-0042" */
   FileNumber: string
   /** ☆☆☆   "Off, Did not fire" */
   Flash: string
@@ -347,7 +347,7 @@ export interface CompositeTags {
   ImageSize: string
   /** ☆☆☆ ✔ "6.1 - 61.0 mm" */
   Lens: string
-  /** ☆☆☆ ✔ "6.1 - 61.0 mm (35 mm equivalent: 39.8 - 398.4 mm)" */
+  /** ☆☆☆ ✔ "6.1 - 61.0 mm (35 mm equivalent: 53.3 - 532.9 mm)" */
   Lens35efl: string
   /** ☆☆☆ ✔ "Unknown 6-61mm" */
   LensID: string
@@ -367,7 +367,7 @@ export interface CompositeTags {
   RedBalance: number
   /** ☆☆☆   "Off" */
   RedEyeReduction: string
-  /** ☆☆☆ ✔ "8:42:58" */
+  /** ☆☆☆ ✔ "1 days 3:22:16" */
   RunTimeSincePowerUp: ExifTime
   /** ★★☆ ✔ 10 */
   ScaleFactor35efl: number
@@ -377,9 +377,9 @@ export interface CompositeTags {
   ShutterCurtainHack: string
   /** ★★★ ✔ "1/604" */
   ShutterSpeed: string
-  /** ☆☆☆ ✔ {"year":2014,"month":7,"day":18,"hour":10,"minute":32,"second":59,"millis":145} */
+  /** ☆☆☆ ✔ {"year":2015,"month":2,"day":14,"hour":16,"minute":36,"second":19,"millis":718} */
   SubSecCreateDate: ExifDateTime
-  /** ☆☆☆ ✔ {"year":2014,"month":7,"day":18,"hour":10,"minute":32,"second":59,"millis":145} */
+  /** ☆☆☆ ✔ {"year":2015,"month":2,"day":14,"hour":16,"minute":36,"second":19,"millis":718} */
   SubSecDateTimeOriginal: ExifDateTime
   /** ☆☆☆ ✔ {"year":2008,"month":4,"day":23,"hour":14,"minute":28,"second":17,"millis":234} */
   SubSecModifyDate: ExifDateTime
@@ -396,8 +396,8 @@ export interface MakerNotesTags {
   AEApertureSteps: number
   /** ☆☆☆   "On" */
   AEBAutoCancel: string
-  /** ☆☆☆ ✔ "+0.25" */
-  AEBBracketValue: string
+  /** ☆☆☆ ✔ 0 */
+  AEBBracketValue: number
   /** ☆☆☆   "0,-,+" */
   AEBSequence: string
   /** ☆☆☆ ✔ "0,-,+/Enabled" */
@@ -420,7 +420,7 @@ export interface MakerNotesTags {
   AEMaxAperture2: number
   /** ☆☆☆   "Multi-segment" */
   AEMeteringMode: string
-  /** ☆☆☆   "8.6 8.8 9.4 9.1 9.1 9.0 9.1 8.9 9.3 9.1 9.1 8.8 9.1 8.6 10.0 9.0" */
+  /** ☆☆☆   "8.6 8.8 9.4 9.1 9.1 9.0 9.1 8.9 9.2 9.1 9.1 8.8 9.1 8.6 10.0 9.0" */
   AEMeteringSegments: string
   /** ☆☆☆   23 */
   AEMinAperture: number
@@ -510,13 +510,13 @@ export interface MakerNotesTags {
   AFPointsInFocus: number
   /** ☆☆☆ ✔ "Auto (A3,A4,A5,A6,A7,B5,B6,B7,B8)" */
   AFPointsInFocus1D: string
-  /** ☆☆☆ ✔ "0,1,2,3,4,5,6" */
-  AFPointsSelected: string
+  /** ☆☆☆ ✔ 4 */
+  AFPointsSelected: number
   /** ☆☆☆ ✔ "Center, Upper-right, Right, Lower-right, Upper-left, Far Left, Lower-middle, N… */
   AFPointsUsed: string
   /** ☆☆☆   27 */
   AFPredictor: number
-  /** ☆☆☆   "" */
+  /** ☆☆☆   "Standard" */
   AFResponse: string
   /** ☆☆☆   0 */
   AFResult: number
@@ -572,11 +572,11 @@ export interface MakerNotesTags {
   AutoDistortionControl: string
   /** ☆☆☆   "100%" */
   AutoDynamicRange: string
-  /** ☆☆☆ ✔ "On" */
+  /** ☆☆☆ ✔ "Off" */
   AutoExposureBracketing: string
   /** ☆☆☆ ✔ 100 */
   AutoISO: number
-  /** ☆☆☆ ✔ "Enable" */
+  /** ☆☆☆ ✔ "Disable" */
   AutoLightingOptimizer: string
   /** ☆☆☆ ✔ "None" */
   AutoRotate: string
@@ -660,13 +660,13 @@ export interface MakerNotesTags {
   CanonFlashMode: string
   /** ☆☆☆ ✔ 1840 */
   CanonImageHeight: number
-  /** ☆☆☆ ✔ "Large" */
+  /** ☆☆☆ ✔ "Widescreen" */
   CanonImageSize: string
-  /** ☆☆☆ ✔ "IMG:iVIS DC50 JPEG" */
+  /** ☆☆☆ ✔ "IMG:iVIS HR10 JPEG" */
   CanonImageType: string
   /** ☆☆☆ ✔ 3264 */
   CanonImageWidth: number
-  /** ☆☆☆ ✔ "DC50" */
+  /** ☆☆☆ ✔ "HR10" */
   CanonModelID: string
   /** ☆☆☆   "(none)" */
   Categories: string
@@ -714,9 +714,9 @@ export interface MakerNotesTags {
   ColorTempFlash: number
   /** ☆☆☆ ✔ 3901 */
   ColorTempFluorescent: number
-  /** ☆☆☆ ✔ 5190 */
+  /** ☆☆☆ ✔ 5200 */
   ColorTempKelvin: number
-  /** ☆☆☆ ✔ 4276 */
+  /** ☆☆☆ ✔ 5119 */
   ColorTempMeasured: number
   /** ☆☆☆ ✔ 4076 */
   ColorTempPC1: number
@@ -762,7 +762,7 @@ export interface MakerNotesTags {
   Compression: string
   /** ☆☆☆ ✔ 4 */
   CompressionFactor: number
-  /** ☆☆☆ ✔ "Continuous" */
+  /** ☆☆☆ ✔ "Single" */
   ContinuousDrive: string
   /** ★☆☆ ✔ "Normal" */
   Contrast: string
@@ -804,7 +804,7 @@ export interface MakerNotesTags {
   CoringFilter: number
   /** ☆☆☆   "" */
   CountryCode: string
-  /** ☆☆☆ ✔ 0 */
+  /** ☆☆☆ ✔ 14 */
   CropBottomMargin: number
   /** ☆☆☆ ✔ 3456 */
   CropHeight: number
@@ -812,23 +812,23 @@ export interface MakerNotesTags {
   CropHiSpeed: string
   /** ☆☆☆ ✔ "8 0" */
   CropLeft: string
-  /** ☆☆☆ ✔ 0 */
+  /** ☆☆☆ ✔ 22 */
   CropLeftMargin: number
-  /** ☆☆☆ ✔ 0 */
+  /** ☆☆☆ ✔ 20 */
   CropRightMargin: number
   /** ☆☆☆ ✔ "8 0" */
   CropTop: string
-  /** ☆☆☆ ✔ 0 */
+  /** ☆☆☆ ✔ 14 */
   CropTopMargin: number
   /** ☆☆☆ ✔ 4608 */
   CropWidth: number
-  /** ☆☆☆ ✔ 3456 */
+  /** ☆☆☆ ✔ 2848 */
   CroppedImageHeight: number
   /** ☆☆☆ ✔ 0 */
   CroppedImageLeft: number
   /** ☆☆☆ ✔ 0 */
   CroppedImageTop: number
-  /** ☆☆☆ ✔ 5184 */
+  /** ☆☆☆ ✔ 4272 */
   CroppedImageWidth: number
   /** ☆☆☆   "0 0 1 0 0 1" */
   CustomControls: string
@@ -1006,11 +1006,11 @@ export interface MakerNotesTags {
   FacesDetected: number
   /** ☆☆☆   "JPEG (lossy/non-quantization toggled)" */
   FileFormat: string
-  /** ☆☆☆ ✔ 285 */
+  /** ☆☆☆ ✔ 42 */
   FileIndex: number
   /** ☆☆☆ ✔ "0100" */
   FileInfoVersion: string
-  /** ☆☆☆ ✔ "196-9624" */
+  /** ☆☆☆ ✔ "101-0114" */
   FileNumber: string
   /** ☆☆☆ ✔ "Enable" */
   FillFlashAutoReduction: string
@@ -1044,7 +1044,7 @@ export interface MakerNotesTags {
   Firmware: string
   /** ☆☆☆   "1.00 rev 3.00" */
   FirmwareRevision: string
-  /** ☆☆☆ ✔ "1.0.3" */
+  /** ☆☆☆ ✔ "1.0.4" */
   FirmwareVersion: string
   /** ☆☆☆ ✔ "Off" */
   FisheyeFilter: string
@@ -1132,11 +1132,11 @@ export interface MakerNotesTags {
   FlashSyncSpeedAv: string
   /** ☆☆☆ ✔ "" */
   FlashType: string
-  /** ☆☆☆ ✔ "15.53 mm" */
+  /** ☆☆☆ ✔ "6.1 mm" */
   FocalLength: string
   /** ☆☆☆ ✔ "21.6 mm" */
   FocalPlaneDiagonal: string
-  /** ☆☆☆ ✔ "5.44 mm" */
+  /** ☆☆☆ ✔ "5.41 mm" */
   FocalPlaneXSize: string
   /** ☆☆☆ ✔ "4.06 mm" */
   FocalPlaneYSize: string
@@ -1186,7 +1186,7 @@ export interface MakerNotesTags {
   FocusingScreen: string
   /** ☆☆☆   1 */
   FrameNumber: number
-  /** ☆☆☆ ✔ "On" */
+  /** ☆☆☆ ✔ "Off" */
   FujiFlashMode: string
   /** ☆☆☆ ✔ "Virtual Horizon" */
   FuncButton: string
@@ -1288,11 +1288,11 @@ export interface MakerNotesTags {
   ImageQuality2: string
   /** ☆☆☆ ✔ "4 s" */
   ImageReviewMonitorOffTime: string
-  /** ☆☆☆ ✔ "On" */
+  /** ☆☆☆ ✔ "Off" */
   ImageStabilization: string
   /** ☆☆☆   "Bright" */
   ImageTone: string
-  /** ☆☆☆   "a0b737ef5edacc6516ecb392c5b081cb" */
+  /** ☆☆☆   "25c584939cdf2fe47ac7af920c3ef487" */
   ImageUniqueID: string
   /** ☆☆☆   "Off" */
   IntelligentContrast: string
@@ -1300,7 +1300,7 @@ export interface MakerNotesTags {
   InternalFlash: string
   /** ☆☆☆   75 */
   InternalFlashTable: number
-  /** ☆☆☆ ✔ "K0027622" */
+  /** ☆☆☆ ✔ "KFFFFFFF" */
   InternalSerialNumber: string
   /** ☆☆☆ ✔ 7 */
   JPEGQuality: number
@@ -1344,11 +1344,11 @@ export interface MakerNotesTags {
   LensFocusFunctionButtons: string
   /** ☆☆☆ ✔ 129 */
   LensIDNumber: number
-  /** ☆☆☆ ✔ "EF-S18-55mm f/3.5-5.6 IS" */
+  /** ☆☆☆ ✔ "EF50mm f/2.5 Compact Macro +LSC" */
   LensModel: string
   /** ☆☆☆ ✔ "0xc041" */
   LensProperties: string
-  /** ☆☆☆ ✔ "00001027b4" */
+  /** ☆☆☆ ✔ "00002042bc" */
   LensSerialNumber: string
   /** ☆☆☆ ✔ "n/a" */
   LensType: string
@@ -1434,7 +1434,7 @@ export interface MakerNotesTags {
   MemoryCardNumber: number
   /** ☆☆☆ ✔ "1 min" */
   MenuMonitorOffTime: string
-  /** ★☆☆ ✔ "Evaluative" */
+  /** ★☆☆ ✔ "Default" */
   MeteringMode: string
   /** ☆☆☆   "Multi-segment" */
   MeteringMode2: string
@@ -1504,7 +1504,7 @@ export interface MakerNotesTags {
   NoMemoryCard: string
   /** ☆☆☆ ✔ "Off" */
   NoiseFilter: string
-  /** ☆☆☆ ✔ "Normal" */
+  /** ☆☆☆ ✔ "n/a" */
   NoiseReduction: string
   /** ☆☆☆ ✔ "(none)" */
   NoiseReduction2: string
@@ -1622,7 +1622,7 @@ export interface MakerNotesTags {
   PF3Value: number
   /** ☆☆☆ ✔ "Off" */
   PF4ExposureTimeLimits: string
-  /** ☆☆☆ ✔ 31.3 */
+  /** ☆☆☆ ✔ 31.2 */
   PF4ExposureTimeMax: number
   /** ☆☆☆ ✔ "1/8389" */
   PF4ExposureTimeMin: string
@@ -1646,7 +1646,7 @@ export interface MakerNotesTags {
   POILevel: number
   /** ☆☆☆ ✔ "Off" */
   PaintingFilter: string
-  /** ☆☆☆   "0220" */
+  /** ☆☆☆   "0200" */
   PanasonicExifVersion: string
   /** ☆☆☆ ✔ "Off" */
   PanoramaMode: string
@@ -1658,7 +1658,7 @@ export interface MakerNotesTags {
   PentaxModelType: number
   /** ☆☆☆   "6.0.0.0" */
   PentaxVersion: string
-  /** ☆☆☆ ✔ "1023 1024 1023 1024" */
+  /** ☆☆☆ ✔ "1024 1024 1024 1024" */
   PerChannelBlackLevel: string
   /** ☆☆☆ ✔ "On" */
   PeripheralIlluminationCorr: string
@@ -1682,7 +1682,7 @@ export interface MakerNotesTags {
   PictureControlQuickAdjust: string
   /** ☆☆☆ ✔ "0200" */
   PictureControlVersion: string
-  /** ☆☆☆ ✔ "Auto" */
+  /** ☆☆☆ ✔ "Program AE" */
   PictureMode: string
   /** ☆☆☆   "Program AE" */
   PictureMode2: string
@@ -1704,8 +1704,8 @@ export interface MakerNotesTags {
   PictureStylePC: string
   /** ☆☆☆ ✔ "Standard; Standard; Standard" */
   PictureStyleUserDef: string
-  /** ☆☆☆ ✔ "+0.40" */
-  Pitch: string
+  /** ☆☆☆ ✔ -4.4 */
+  Pitch: number
   /** ☆☆☆ ✔ 5776 */
   PitchAngle: number
   /** ☆☆☆ ✔ "10 s" */
@@ -1806,7 +1806,7 @@ export interface MakerNotesTags {
   RawDevelopmentProcess: string
   /** ☆☆☆ ✔ "Large" */
   RawJpgSize: string
-  /** ☆☆☆ ✔ "40661 82449 82146 41069" */
+  /** ☆☆☆ ✔ "315023 621515 608551 445739" */
   RawMeasuredRGGB: string
   /** ☆☆☆ ✔ "JPEG" */
   RecordMode: string
@@ -1814,7 +1814,7 @@ export interface MakerNotesTags {
   RedBalance: number
   /** ☆☆☆ ✔ "No" */
   ReleaseButtonToUseDial: string
-  /** ☆☆☆   2 */
+  /** ☆☆☆   1 */
   Resolution: number
   /** ☆☆☆   "HI" */
   ResolutionMode: string
@@ -1838,7 +1838,7 @@ export interface MakerNotesTags {
   RunTimeFlags: string
   /** ☆☆☆ ✔ 1000000000 */
   RunTimeScale: number
-  /** ☆☆☆ ✔ 31378022286250 */
+  /** ☆☆☆ ✔ 98536337937083 */
   RunTimeValue: number
   /** ☆☆☆ ✔ "n/a" */
   SRAWQuality: string
@@ -1852,7 +1852,7 @@ export interface MakerNotesTags {
   SafetyShift: string
   /** ☆☆☆ ✔ "Disable" */
   SafetyShiftInAvOrTv: string
-  /** ☆☆☆   "Various Models (0x3000000)" */
+  /** ☆☆☆   "Various Models (0x4001025)" */
   SamsungModelID: string
   /** ★☆☆ ✔ "Normal" */
   Saturation: string
@@ -1888,7 +1888,7 @@ export interface MakerNotesTags {
   SecondarySlotFunction: string
   /** ☆☆☆ ✔ "Off" */
   SelfTimer: string
-  /** ☆☆☆ ✔ 0.1 */
+  /** ☆☆☆ ✔ 0 */
   SelfTimer2: number
   /** ☆☆☆ ✔ 1 */
   SelfTimerShotCount: number
@@ -2014,7 +2014,7 @@ export interface MakerNotesTags {
   SourceFileIndex: number
   /** ☆☆☆ ✔ "Normal, Sequence: 0, Panorama: (none)" */
   SpecialMode: string
-  /** ☆☆☆ ✔ 15120 */
+  /** ☆☆☆ ✔ 14000 */
   SpecularWhiteLevel: number
   /** ☆☆☆   "Center" */
   SpotMeteringMode: string
@@ -2034,7 +2034,7 @@ export interface MakerNotesTags {
   TextEncoding: string
   /** ☆☆☆   120 */
   ThumbnailHeight: number
-  /** ☆☆☆ ✔ "0 0 0 0" */
+  /** ☆☆☆ ✔ "0 159 15 104" */
   ThumbnailImageValidArea: string
   /** ☆☆☆   160 */
   ThumbnailWidth: number
@@ -2042,7 +2042,7 @@ export interface MakerNotesTags {
   Time: ExifTime
   /** ☆☆☆   {"hour":17,"minute":35,"second":5,"millis":800} */
   TimeCreated: ExifTime
-  /** ☆☆☆   {"hour":0,"minute":4,"second":43,"millis":610} */
+  /** ☆☆☆   {"hour":0,"minute":2,"second":59,"millis":650} */
   TimeSincePowerOn: ExifTime
   /** ☆☆☆ ✔ {"tagName":"MakerNotes:TimeZone","input":"+00:00","tzOffsetMinutes":0,"inputWit… */
   TimeZone: ExifTimeZoneOffset
@@ -2106,7 +2106,7 @@ export interface MakerNotesTags {
   VignetteControl: string
   /** ☆☆☆ ✔ 0 */
   VignettingCorrVersion: number
-  /** ☆☆☆   1791 */
+  /** ☆☆☆   394 */
   WBBlueLevel: number
   /** ☆☆☆ ✔ "Off" */
   WBBracketMode: string
@@ -2116,11 +2116,11 @@ export interface MakerNotesTags {
   WBBracketValueGM: number
   /** ☆☆☆ ✔ "WB Bracketing Disabled" */
   WBBracketingSteps: string
-  /** ☆☆☆   1054 */
+  /** ☆☆☆   264 */
   WBGreenLevel: number
   /** ☆☆☆   "Auto" */
   WBMode: string
-  /** ☆☆☆   2033 */
+  /** ☆☆☆   569 */
   WBRedLevel: number
   /** ☆☆☆ ✔ 0 */
   WBShiftAB: number
@@ -2188,9 +2188,9 @@ export interface MakerNotesTags {
   WB_RGGBLevelsFluorescentN: string
   /** ☆☆☆   "10943 8192 8192 12318" */
   WB_RGGBLevelsFluorescentW: string
-  /** ☆☆☆ ✔ "2185 1024 1024 1535" */
+  /** ☆☆☆ ✔ "2162 1024 1024 1460" */
   WB_RGGBLevelsKelvin: string
-  /** ☆☆☆ ✔ "1912 1028 1019 1791" */
+  /** ☆☆☆ ✔ "1995 1022 1025 1397" */
   WB_RGGBLevelsMeasured: string
   /** ☆☆☆ ✔ "8191 1024 1024 8191" */
   WB_RGGBLevelsPC1: string
@@ -2204,7 +2204,7 @@ export interface MakerNotesTags {
   WB_RGGBLevelsTungsten: string
   /** ☆☆☆ ✔ "Off" */
   WatercolorFilter: string
-  /** ★☆☆ ✔ "Auto" */
+  /** ★☆☆ ✔ "Daylight" */
   WhiteBalance: string
   /** ☆☆☆ ✔ "Auto (Keep Warm Color Off)" */
   WhiteBalance2: string
@@ -2244,11 +2244,11 @@ export interface MakerNotesTags {
   YawAngle: number
   /** ☆☆☆   2005 */
   YearCreated: number
-  /** ☆☆☆ ✔ 2584 */
+  /** ☆☆☆ ✔ 1920 */
   ZoomSourceWidth: number
   /** ☆☆☆ ✔ 31 */
   ZoomStepCount: number
-  /** ☆☆☆ ✔ 2584 */
+  /** ☆☆☆ ✔ 1920 */
   ZoomTargetWidth: number
 }
 
@@ -2352,25 +2352,25 @@ export interface XMPTags {
   RegionAppliedToDimensionsUnit: string
   /** ☆☆☆ ✔ 1280 */
   RegionAppliedToDimensionsW: number
-  /** ☆☆☆ ✔ 0.425 */
+  /** ☆☆☆ ✔ 0.391667 */
   RegionAreaH: number
   /** ☆☆☆ ✔ "normalized" */
   RegionAreaUnit: string
-  /** ☆☆☆ ✔ 0.31875 */
+  /** ☆☆☆ ✔ 0.29375 */
   RegionAreaW: number
-  /** ☆☆☆ ✔ 0.5875 */
+  /** ☆☆☆ ✔ 0.46875 */
   RegionAreaX: number
-  /** ☆☆☆ ✔ 0.241667 */
+  /** ☆☆☆ ✔ 0.670833 */
   RegionAreaY: number
-  /** ☆☆☆ ✔ 300 */
+  /** ☆☆☆ ✔ 270 */
   RegionExtensionsAngleInfoRoll: number
   /** ☆☆☆ ✔ 0 */
   RegionExtensionsAngleInfoYaw: number
-  /** ☆☆☆ ✔ 308 */
+  /** ☆☆☆ ✔ 306 */
   RegionExtensionsConfidenceLevel: number
   /** ☆☆☆ ✔ 1 */
   RegionExtensionsFaceID: number
-  /** ☆☆☆ ✔ 798600042 */
+  /** ☆☆☆ ✔ 925958091 */
   RegionExtensionsTimeStamp: number
   /** ☆☆☆ ✔ "Face" */
   RegionType: string
@@ -2538,7 +2538,7 @@ export interface FlashPixTags {
   ExtensionName: string
   /** ☆☆☆   "Invalidated By Modification" */
   ExtensionPersistence: string
-  /** ☆☆☆ ✔ "(Binary data 60440 bytes, use -b option to extract)" */
+  /** ☆☆☆ ✔ "(Binary data 58388 bytes, use -b option to extract)" */
   PreviewImage: string
   /** ☆☆☆ ✔ 480 */
   PreviewImageHeight: number
