@@ -194,7 +194,7 @@ const newTime = _new(ExifTime.regex, (a: number[]) => {
   return new ExifTime(a[0], a[1], a[2], a[3], a[4])
 })
 
-const emptyRe = /^[\s:]*$/ // Some empty datetimes come back as "  :  :  "
+const emptyRe = /^[\s:0]*$/ // Some empty datetimes come back as "  :  :  "
 
 export function parse(
   tagName: string,

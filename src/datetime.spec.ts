@@ -143,3 +143,11 @@ describe('pad3', () => {
     expect(_dt.pad3(-100)).to.eql(['-100'])
   })
 })
+
+describe('parsing empty/invalid input', () => {
+  ['', '     ', '0000:00:00 00:00:00', '    :  :     :  :  '].forEach(bad => {
+    it(bad, () => {
+      expect(_dt.parse('DateTimeOriginal', bad)).to.eql(bad)
+    })
+  })
+})
