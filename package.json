@@ -15,6 +15,7 @@
     "pretest": "tsc",
     "test": "mocha lib/**/*.spec.js",
     "cleantest": "run-s clean lint fmt pdm test",
+    "preversion": "run-s lint pdm",
     "pdm": "platform-dependent-modules",
     "postinstall": "npm run pdm"
   },
@@ -75,6 +76,7 @@
     "decompress-zip": "^0.3.0",
     "globule": "^1.0.0",
     "mocha": "^3.1.2",
+    "np": "^2.9.0",
     "npm-run-all": "^3.1.1",
     "rimraf": "^2.5.4",
     "tar-fs": "^1.14.0",
