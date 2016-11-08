@@ -116,6 +116,7 @@ v1.0.0 with a stable API will be released in winter of 2016.
 ### v0.4.0
 
 * Fixed packaging (maintain jsdocs in .d.ts)
+* Using [np](https://www.npmjs.com/package/np) for packaging
 
 ### v0.3.0
 
