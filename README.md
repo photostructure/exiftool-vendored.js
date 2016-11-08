@@ -113,6 +113,10 @@ Note that the platform dependent modules use the ExifTool version with an option
 
 v1.0.0 with a stable API will be released in winter of 2016.
 
+### v0.4.0
+
+* Fixed packaging (maintain jsdocs in .d.ts)
+
 ### v0.3.0
 
 * Multithreading support with the `maxProcs` ctor param
