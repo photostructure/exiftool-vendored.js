@@ -1,4 +1,3 @@
-import { ExifToolVendoredVersion } from '../exiftool'
 import { Enclosure } from './enclosure'
 import * as io from './io'
 import * as _path from 'path'
@@ -104,13 +103,11 @@ class TarUpdate extends Update {
 }
 
 function updatePlatformDependentModules(
-  rootVersion: string,
   perlVersion: string,
   exeVersion: string
 ): Promise<void> {
   return io.editPackageJson(
     _path.join(__dirname, '..', '..', 'package.json'), (pkg => {
-      pkg.version = rootVersion
       const mods = pkg.config.platformDependentModules
       const pl = [`exiftool-vendored.pl@${perlVersion}`]
       const exe = [`exiftool-vendored.exe@${exeVersion}`]
@@ -136,7 +133,6 @@ export function update(): Promise<void> {
         ]))
         .then(() => {
           updatePlatformDependentModules(
-            ExifToolVendoredVersion,
             tarUpdate.version,
             zipUpdate.version
           )
