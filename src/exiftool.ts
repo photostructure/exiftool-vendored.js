@@ -40,7 +40,7 @@ export let logger = console
  * This is the version of the `exiftool-vendored` npm module.
  * The package.json value is made to match this value by `npm run update`. 
  */
-export const ExifToolVendoredVersion = '0.3.0'
+export const ExifToolVendoredVersion = '0.4.0'
 
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
