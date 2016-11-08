@@ -30,7 +30,7 @@ describe('ExifTool', () => {
   })
 
   function normalize(tagNames: string[]): string[] {
-    return tagNames.filter(i => i !== "FileInodeChangeDate" && i !== 'FileCreateDate').sort()
+    return tagNames.filter(i => i !== 'FileInodeChangeDate' && i !== 'FileCreateDate').sort()
   }
 
   it('returns no exif metadata for an image with no headers', () => {

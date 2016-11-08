@@ -1,4 +1,3 @@
-import * as console from 'console';
 import * as _dt from './datetime'
 import { Tags } from './tags'
 import { Task } from './task'

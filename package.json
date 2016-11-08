@@ -80,8 +80,9 @@
     "npm-run-all": "^3.1.1",
     "rimraf": "^2.5.4",
     "tar-fs": "^1.14.0",
+    "tslint": "^3.15.1",
     "tslint-config-standard": "^1.5.0",
-    "typescript": "^2.0.6",
+    "typescript": "^2.0.8",
     "typescript-formatter": "^4.0.0",
     "xmldom": "^0.1.22",
     "xpath": "0.0.23"

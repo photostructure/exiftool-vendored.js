@@ -27,7 +27,7 @@ abstract class Update {
 
   downloadMaybeAndVerify(): Promise<void> {
     // tslint:disable-next-line: handle-callback-err
-    return this.verify().catch(err =>
+    return this.verify().catch(() =>
       io.rmrf(this.dlDest, true)
         .then(() => this.download())
         .then(() => this.verify())

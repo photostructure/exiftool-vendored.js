@@ -40,7 +40,7 @@ export class ExifToolProcess {
     this.proc.unref() // don't let node count ExifTool as a reason to stay alive
     this.proc.stdout.on('data', d => this.onData(d))
     this.proc.stderr.on('data', d => this.onError(d))
-    this.proc.on('close', (code: any) => {
+    this.proc.on('close', () => {
       this._ended = true
       this._closedDeferred.resolve()
     })

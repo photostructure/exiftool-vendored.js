@@ -182,7 +182,6 @@ Promise.all(files.map(file => {
     tagWriter.write('  errors: string[]\n')
     tagWriter.write('  SourceFile: string\n')
     tagWriter.write('}\n')
-    tagWriter.write('\n')
     tagWriter.end()
   }).catch(err => {
     console.log(err)
