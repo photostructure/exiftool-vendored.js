@@ -1,3 +1,21 @@
 {
-  "extends": "tslint-config-standard"
+  "extends": "tslint-config-standard",
+  "rulesDirectory": [
+    "node_modules/tslint-eslint-rules/dist/rules"
+  ],
+  "rules": {
+    "no-constant-condition": true,
+    "no-extra-semi": true,
+    "no-unsafe-finally": true,
+    "no-use-before-declare": true,
+    "valid-typeof": true,
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "quotemark": [
+      true,
+      "double"
+    ]
+  }
 }
