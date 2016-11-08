@@ -8,7 +8,9 @@
 
 ## Features
 
-1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism), with [7-300x faster](#performance) than competing packages
+1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism). [7-300x faster](#performance) than competing packages
+
+1. Support for [Mac, Linux](https://travis-ci.org/mceachen/exiftool-vendored), and [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 1. Proper extraction of 
     - **dates** with [correct timezone offset encoding, when available](#dates))
