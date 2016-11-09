@@ -19,12 +19,11 @@ describe("ExifTool", () => {
   it("returns the correct version", () => {
     return expect(exiftool.version()).to.become("10.31");
   });
-  it("returns error for missing file", () => {
-    return expect(exiftool.read("bogus")).to.eventually.be.rejectedWith(/File not found/);
-  });
+
   it("returns expected results for a given file", () => {
     return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql("iPhone 7 Plus");
   });
+
   it("returns warning for a truncated file", () => {
     return expect(exiftool.read(truncated).then(tags => tags.Warning)).to.eventually.eql("JPEG format error");
   });
@@ -56,6 +55,10 @@ describe("ExifTool", () => {
       "YCbCrSubSampling",
       "errors"
     ]));
+  });
+
+  it("returns error for missing file", () => {
+    return expect(exiftool.read("bogus")).to.eventually.be.rejectedWith(/File not found/);
   });
 
   it("ends with multiple procs", () => {
