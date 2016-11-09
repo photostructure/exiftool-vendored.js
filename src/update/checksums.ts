@@ -1,4 +1,4 @@
-import { wgetString } from "./io";
+import { wgetString } from './io'
 
 /**
  * If the vendored ExifTool version is different from
@@ -16,25 +16,25 @@ export class Checksums {
    *
    * We only care about SHA1, so we're pulling just those out.
    */
-  private static readonly regex = /SHA1 ?\((\S+)\) ?= ?([a-f0-9]+)/i;
+  private static readonly regex = /SHA1 ?\((\S+)\) ?= ?([a-f0-9]+)/i
 
-  private readonly store: { [key: string]: string } = {};
+  private readonly store: { [key: string]: string } = {}
 
   constructor(checksums: string) {
-    checksums.split("\n").forEach(line => {
-      const match = Checksums.regex.exec(line);
+    checksums.split('\n').forEach(line => {
+      const match = Checksums.regex.exec(line)
       if (match !== null) {
-        this.store[match[1]] = match[2];
+        this.store[match[1]] = match[2]
       }
-    });
+    })
   }
 
   static get(): Promise<Checksums> {
-    return wgetString("http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt")
-      .then(body => new Checksums(body));
+    return wgetString('http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt')
+      .then(body => new Checksums(body))
   }
 
   sha1(filename: string) {
-    return this.store[filename];
+    return this.store[filename]
   }
 }

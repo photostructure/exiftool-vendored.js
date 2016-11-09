@@ -1,18 +1,18 @@
-import { Deferred } from "./deferred";
+import { Deferred } from './deferred'
 
 /**
  * Emodies both a command (`args`), and a handler for the resulting output 
  */
 export abstract class Task<T> extends Deferred<T> {
   constructor(readonly args: string[]) {
-    super();
+    super()
   }
 
   onData(data: string) {
     try {
-      this.resolve(this.parse(data));
+      this.resolve(this.parse(data))
     } catch (e) {
-      this.reject(e);
+      this.reject(e)
     }
   }
 
