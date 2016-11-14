@@ -111,7 +111,10 @@ Given those constraints, version numbers follow the following scheme:
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
 
-v1.0.0 with a stable API will be released in winter of 2016.
+### v1.0.0
+
+* Added typings reference in the package.json
+* Upgraded vendored exiftool to 10.33 
 
 ### v0.4.0
 
