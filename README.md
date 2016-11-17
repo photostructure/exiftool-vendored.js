@@ -100,19 +100,28 @@ Note that tag existence and types is **not guaranteed**. If parsing fails (for, 
 
 I wanted to include the ExifTool's version number explicitly in the version number, but npm requires strict compliance with SemVer. Given that ExifTool sometimes includes patch releases, there aren't always enough spots to encode an API version *and* the ExifTool version.
 
-Given those constraints, version numbers follow the following scheme:
+Given those constraints, version numbers follow standard SemVer, with the following scheme:
+
 ```sh
-  $API.$UPDATE.$PATCH
+  API.UPDATE.PATCH
 ```
 
-* 💔 Non-backward-compatible API changes increment `API`
-* 🌲 New releases of ExifTool with externally visible changes increment `API`
-* 🌱 New releases of ExifTool with no externally visible changes increment `UPDATE`
-* 🐛 Bugfixes increment `UPDATE`
-* ✨ Backward-compatible features increment `UPDATE`
-* 📦 Metadata, minor packaging changes, and minor bugfixes increment `PATCH`.
+### `API` is incremented for
 
-Note that the platform dependent modules use the ExifTool version with an optional patch release.
+* 💔 Non-backward-compatible API changes
+* 🌲 New releases of ExifTool that have externally visible changes
+
+### `UPDATE` is incremented for
+
+* 🌱 New releases of ExifTool with no externally visible changes 
+* 🐛 Bugfixes
+* ✨ Backward-compatible features
+
+### `PATCH` is incremented for
+
+* 📦 Minor packaging changes
+* 🐞 Minor bugfixes
+
 
 ### v1.2.0
 
