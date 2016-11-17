@@ -105,43 +105,45 @@ Given those constraints, version numbers follow the following scheme:
   $API.$UPDATE.$PATCH
 ```
 
-* Breaking API changes to this package will increment `API`.
-* Any bugfix or new release of ExifTool will increment `UPDATE`.
-* Metadata changes or trivial bugfixes will increment `PATCH`.
+* 💔 Breaking API changes increment `API`.
+* ✏️ New releases of ExifTool increment `UPDATE`.
+* 🐛 Bugfixes increment `UPDATE`.
+* ✨ Features increment `UPDATE`.
+* 📦 Metadata changes or trivial bugfixes will increment `PATCH`.
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
 
 ### v1.2.0
 
-* It was too easy to miss calling `ExifTool.end()`, which left child ExifTool processes running.
+* 🐛 It was too easy to miss calling `ExifTool.end()`, which left child ExifTool processes running.
   The constructor to ExifTool now adds a shutdown hook to send all child processes a shutdown signal. 
 
 ### v1.1.0
 
-* Added `toString()` for all date/time types
+* ✨ Added `toString()` for all date/time types
 
 ### v1.0.0
 
-* Added typings reference in the package.json
-* Upgraded vendored exiftool to 10.33 
+* ✨ Added typings reference in the package.json
+* ✏️ Upgraded vendored exiftool to 10.33 
 
 ### v0.4.0
 
-* Fixed packaging (maintain jsdocs in .d.ts)
-* Using [np](https://www.npmjs.com/package/np) for packaging
+* 💔 Fixed packaging (maintain jsdocs in .d.ts)
+* 📦 Using [np](https://www.npmjs.com/package/np) for packaging
 
 ### v0.3.0
 
-* Multithreading support with the `maxProcs` ctor param
-* Added tests for reading images with truncated or missing EXIF headers
-* Added tests for timezone offset extraction and rendering
-* Subsecond resolution from the Google Pixel has 8 significant digits(!!), added support for that. 
+* ✨ Multithreading support with the `maxProcs` ctor param
+* ✨ Added tests for reading images with truncated or missing EXIF headers
+* ✨ Added tests for timezone offset extraction and rendering
+* ✨ Subsecond resolution from the Google Pixel has 8 significant digits(!!), added support for that. 
 
 ### v0.2.0
 
-* More rigorous TimeZone extraction from assets, and added the `ExifTimeZoneOffset` to handle the `TimeZone` composite tag
-* Added support for millisecond timestamps
+* ✨ More rigorous TimeZone extraction from assets, and added the `ExifTimeZoneOffset` to handle the `TimeZone` composite tag
+* ✨ Added support for millisecond timestamps
 
 ### v0.1.1
 
-Initial Release. Packages ExifTool v10.31.
+✨ Initial Release. Packages ExifTool v10.31.
