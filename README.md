@@ -111,6 +111,10 @@ Given those constraints, version numbers follow the following scheme:
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
 
+### v1.1.0
+
+* Added `toString()` for all date/time types
+
 ### v1.0.0
 
 * Added typings reference in the package.json
