@@ -111,6 +111,11 @@ Given those constraints, version numbers follow the following scheme:
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
 
+### v1.2.0
+
+* It was too easy to miss calling `ExifTool.end()`, which left child ExifTool processes running.
+  The constructor to ExifTool now adds a shutdown hook to send all child processes a shutdown signal. 
+
 ### v1.1.0
 
 * Added `toString()` for all date/time types
