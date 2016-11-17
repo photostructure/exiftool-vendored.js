@@ -122,6 +122,7 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 * 📦 Minor packaging changes
 * 🐞 Minor bugfixes
 
+## Changelog
 
 ### v1.2.0
 
