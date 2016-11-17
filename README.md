@@ -129,7 +129,7 @@ Note that the platform dependent modules use the ExifTool version with an option
 
 ### v0.4.0
 
-* 💔 Fixed packaging (maintain jsdocs in .d.ts)
+* 📦 Fixed packaging (maintain jsdocs in .d.ts and added typings reference)
 * 📦 Using [np](https://www.npmjs.com/package/np) for packaging
 
 ### v0.3.0
