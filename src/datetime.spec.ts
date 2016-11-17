@@ -14,6 +14,9 @@ describe('ExifDateTime', () => {
     it('hour/minute/second', () => {
       expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([7, 28, 50, 900])
     })
+    it('.toString', () => {
+      expect(dt.toString()).to.eql('2016-08-12T07:28:50.900')
+    })
     it('.toISOString', () => {
       expect(dt.toISOString()).to.eql('2016-08-12T07:28:50.900')
     })

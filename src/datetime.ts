@@ -125,6 +125,10 @@ export class ExifDateTime extends Base {
     }
   }
 
+  toString(): string {
+    return this.toISOString()
+  }
+
   toISOString(): string {
     const [mo, da, ho, mi, se] = pad2(this.month, this.day, this.hour, this.minute, this.second)
     return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}.${pad3(this.millis)}${this.tz(this.tzoffsetMinutes)}`
