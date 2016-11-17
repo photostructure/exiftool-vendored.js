@@ -105,11 +105,12 @@ Given those constraints, version numbers follow the following scheme:
   $API.$UPDATE.$PATCH
 ```
 
-* 💔 Breaking API changes increment `API`.
-* ✏️ New releases of ExifTool increment `UPDATE`.
-* 🐛 Bugfixes increment `UPDATE`.
-* ✨ Features increment `UPDATE`.
-* 📦 Metadata changes or trivial bugfixes will increment `PATCH`.
+* 💔 Non-backward-compatible API changes increment `API`
+* 🌲 New releases of ExifTool with externally visible changes increment `API`
+* 🌱 New releases of ExifTool with no externally visible changes increment `UPDATE`
+* 🐛 Bugfixes increment `UPDATE`
+* ✨ Backward-compatible features increment `UPDATE`
+* 📦 Metadata, minor packaging changes, and minor bugfixes increment `PATCH`.
 
 Note that the platform dependent modules use the ExifTool version with an optional patch release.
 
@@ -125,7 +126,7 @@ Note that the platform dependent modules use the ExifTool version with an option
 ### v1.0.0
 
 * ✨ Added typings reference in the package.json
-* ✏️ Upgraded vendored exiftool to 10.33 
+* 🌱 Upgraded vendored exiftool to 10.33 
 
 ### v0.4.0
 
@@ -146,4 +147,4 @@ Note that the platform dependent modules use the ExifTool version with an option
 
 ### v0.1.1
 
-✨ Initial Release. Packages ExifTool v10.31.
+🌱✨ Initial Release. Packages ExifTool v10.31.
