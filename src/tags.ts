@@ -2581,5 +2581,7 @@ export interface Tags extends
   MetaTags,
   APP4Tags {
   errors: string[]
+  /** "Unknown file type" */
+  Error: string
   SourceFile: string
 }

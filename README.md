@@ -124,6 +124,11 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v1.3.0
+
+* 🌱 ExifTool upgraded to v10.36
+* ✨ `Tag.Error` exposed for unsupported file types. 
+
 ### v1.2.0
 
 * 🐛 It was too easy to miss calling `ExifTool.end()`, which left child ExifTool processes running.

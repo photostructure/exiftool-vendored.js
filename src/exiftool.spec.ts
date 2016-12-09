@@ -61,10 +61,13 @@ describe('ExifTool', () => {
     return expect(exiftool.read('bogus')).to.eventually.be.rejectedWith(/File not found/)
   })
 
+  it('sets "Error" for unsupported file types', async () => {
+    return expect((await exiftool.read(__filename)).Error).to.match(/Unknown file type/i)
+  })
+
   it('ends with multiple procs', () => {
     const promises = [exiftool.read(img), exiftool.read(img)]
     expect(runningProcs()).to.eql(2)
     return expect(Promise.all(promises).then(() => exiftool.end()).then(() => runningProcs())).to.become(0)
   })
-
 })
