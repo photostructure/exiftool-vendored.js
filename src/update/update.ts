@@ -47,7 +47,7 @@ abstract class Update {
       .then(() => this.unpack())
       .then(() => io.updatePackageVersion(
         this.packageJson,
-        this.version
+        this.version + '-pre'
       ))
   }
 }
@@ -118,29 +118,25 @@ function updatePlatformDependentModules(
   )
 }
 
-export function update(): Promise<void> {
-  return Enclosure.get().then(encs => {
-    const tar = encs.find(enc => enc.path.ext === '.gz')
-    const zip = encs.find(enc => enc.path.ext === '.zip')
-    if (tar && zip) {
-      const dl = _path.join(__dirname, '..', '..', 'dl')
-      const zipUpdate = new ZipUpdate(zip, dl)
-      const tarUpdate = new TarUpdate(tar, dl)
-      return io.mkdir(dl, true)
-        .then(() => Promise.all([
-          zipUpdate.update(),
-          tarUpdate.update()
-        ]))
-        .then(() => {
-          updatePlatformDependentModules(
-            tarUpdate.version,
-            zipUpdate.version
-          )
-        })
-    } else {
-      throw new Error('Did not find both the .zip and .tar.gz enclosures.')
-    }
-  })
+export async function update(): Promise<void> {
+  const encs = await Enclosure.get()
+  const tar = encs.find(enc => enc.path.ext === '.gz')
+  const zip = encs.find(enc => enc.path.ext === '.zip')
+  if (tar && zip) {
+    const dl = _path.join(__dirname, '..', '..', 'dl')
+    await io.mkdir(dl, true)
+    const tarUpdate = new TarUpdate(tar, dl)
+    await tarUpdate.update()
+    const zipUpdate = new ZipUpdate(zip, dl)
+    await zipUpdate.update()
+    await updatePlatformDependentModules(
+      tarUpdate.version,
+      zipUpdate.version
+    )
+    console.log('👍 now run `git commit` and `np` in the .pl and .exe subdirectories.')
+  } else {
+    throw new Error('Did not find both the .zip and .tar.gz enclosures.')
+  }
 }
 
 update()

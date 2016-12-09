@@ -160,16 +160,15 @@ export function tarxzf(targzFile: string, destDir: string): Promise<void> {
   })
 }
 
-export function editPackageJson(
+export async function editPackageJson(
   packageJson: string,
   f: ((packageObj: any) => void)
 ): Promise<void> {
-  return readFile(packageJson)
-    .then((json: string) => {
-      const pkg = JSON.parse(json)
-      f(pkg)
-      writeFile(packageJson, JSON.stringify(pkg, null, 2) + '\n')
-    })
+  const json: string = await readFile(packageJson)
+  const pkg = JSON.parse(json)
+  f(pkg)
+  await writeFile(packageJson, JSON.stringify(pkg, null, 2) + '\n')
+  return undefined
 }
 
 export function updatePackageVersion(
