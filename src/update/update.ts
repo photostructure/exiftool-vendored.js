@@ -21,7 +21,7 @@ abstract class Update {
   }
 
   verify(): Promise<void> {
-    return io.sha1(this.dlDest, this.enclosure.sha1)
+    return io.sha1(this.dlDest, this.enclosure.sha1).then(() => undefined)
   }
 
   downloadMaybeAndVerify(): Promise<void> {

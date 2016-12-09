@@ -146,7 +146,7 @@ export function unzip(zipFile: string, destDir: string): Promise<void> {
 }
 
 export function tarxzf(targzFile: string, destDir: string): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     _fs.createReadStream(targzFile)
       .on('error', reject)
       .pipe(_zlib.createGunzip())
@@ -180,7 +180,7 @@ export function updatePackageVersion(
 }
 
 export function rmrf(path: string, ignoreErrors: boolean = false): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     rimraf(path, (err: Error) => {
       if (err && !ignoreErrors) {
         reject(err)
@@ -192,7 +192,7 @@ export function rmrf(path: string, ignoreErrors: boolean = false): Promise<void>
 }
 
 export function mkdir(path: string, ignoreErrors: boolean = false): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     _fs.mkdir(path, (err?: Error) => {
       if (err && !ignoreErrors) {
         reject(err)
