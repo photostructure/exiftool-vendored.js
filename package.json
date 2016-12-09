@@ -66,30 +66,30 @@
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
-    "@types/chai-as-promised": "0.0.29",
+    "@types/chai-as-promised": "^0.0.29",
     "@types/jsdom": "^2.0.29",
     "@types/mocha": "^2.2.33",
     "@types/node": "^6.0.48",
-    "@types/rimraf": "0.0.28",
+    "@types/rimraf": "^0.0.28",
     "@types/xmldom": "^0.1.28",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "decompress-zip": "^0.3.0",
     "globule": "^1.1.0",
-    "mocha": "^3.1.2",
+    "mocha": "^3.2.0",
     "np": "^2.10.1",
-    "npm-run-all": "^3.1.1",
+    "npm-run-all": "^3.1.2",
     "rimraf": "^2.5.4",
     "tar-fs": "^1.14.0",
-    "tslint": "^3.15.1",
-    "tslint-config-standard": "^1.5.0",
-    "tslint-eslint-rules": "^2.1.0",
-    "typescript": "^2.0.10",
+    "tslint": "^4.0.2",
+    "tslint-config-standard": "^2.0.0",
+    "tslint-eslint-rules": "^3.1.0",
+    "typescript": "^2.1.4",
     "typescript-formatter": "^4.0.1",
-    "xmldom": "^0.1.22",
-    "xpath": "0.0.23"
+    "xmldom": "^0.1.27",
+    "xpath": "^0.0.23"
   },
   "dependencies": {
-    "platform-dependent-modules": "0.0.14"
+    "platform-dependent-modules": "^0.0.14"
   }
 }

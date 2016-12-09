@@ -95,7 +95,7 @@ export function writeFile(filename: string, content: string): Promise<string> {
 }
 
 export function rename(before: string, after: string): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     _fs.rename(before, after, (err?: NodeJS.ErrnoException) => {
       if (err) {
         reject(err)
@@ -132,7 +132,7 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
 }
 
 export function unzip(zipFile: string, destDir: string): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let unzipper = new DecompressZip(zipFile)
     unzipper.on('error', reject)
     unzipper.on('extract', () => {
