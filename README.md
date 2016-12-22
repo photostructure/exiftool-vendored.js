@@ -124,6 +124,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v1.4.0
+
+* 🌱 ExifTool upgraded to v10.37
+
 ### v1.3.0
 
 * 🌱 ExifTool upgraded to v10.36
