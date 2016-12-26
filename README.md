@@ -124,9 +124,13 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
-### v1.3.1
+### v1.4.1
 
-* 🐛 The "process" import name-collided on the global "process" imported by Electron.
+* 🐛 Several imports (like `process`) name-collided on the globals imported by Electron
+
+### v1.4.0
+
+* 🌱 ExifTool upgraded to v10.37
 
 ### v1.3.0
 
