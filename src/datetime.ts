@@ -68,7 +68,7 @@ export class ExifDate {
   constructor(
     readonly year: number,  // four-digit year
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
-    readonly day: number,   // 1-31
+    readonly day: number   // 1-31
   ) { } // tslint:disable-line
 
   toString(): string {
