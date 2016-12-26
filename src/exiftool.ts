@@ -5,7 +5,7 @@ import { Tags } from './tags'
 import { Task } from './task'
 export { Tags } from './tags'
 export { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from './datetime'
-import * as process from 'process'
+import * as _process from 'process'
 
 export interface ExifToolAPI {
   /**
@@ -52,7 +52,7 @@ export class ExifTool implements ExifToolAPI {
   constructor(
     readonly maxProcs: number = 1
   ) {
-    process.on('exit', () => this.end())
+    _process.on('exit', () => this.end())
   }
 
   /**
