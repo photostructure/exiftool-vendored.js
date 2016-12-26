@@ -1,6 +1,6 @@
 {
   "name": "exiftool-vendored",
-  "version": "1.4.1",
+  "version": "1.4.0",
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./lib/exiftool.js",
   "types": "./lib/exiftool.d.ts",
@@ -15,8 +15,8 @@
     "mktags": "node lib/update/mktags.js",
     "pretest": "tsc",
     "test": "mocha --timeout 10000 lib/**/*.spec.js",
-    "cleantest": "run-s clean lint fmt pdm test",
-    "preversion": "run-s lint pdm",
+    "cleantest": "run-p clean lint pdm && run-s test",
+    "preversion": "npm run cleantest",
     "pdm": "platform-dependent-modules",
     "postinstall": "npm run pdm"
   },
@@ -25,6 +25,9 @@
   ],
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
