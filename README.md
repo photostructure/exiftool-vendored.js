@@ -124,6 +124,11 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v1.5.2
+
+* 📦 Switch back to `platform-dependent-modules`.
+  [npm warnings](http://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency) aren't awesome.  
+
 ### v1.5.1
 
 * 📦 Don't include tests or updater in the published package 
@@ -131,7 +136,7 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 ### v1.5.0
 
 * 🌱 ExifTool upgraded to v10.38
-* ✨ Use `npm`'s os-specific optionalDependencies rather than `platform-dependent-modules`.
+* 📦 Use `npm`'s os-specific optionalDependencies rather than `platform-dependent-modules`.
 
 ### v1.4.1
 

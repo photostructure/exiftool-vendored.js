@@ -15,8 +15,10 @@
     "mktags": "node dist/update/mktags.js",
     "pretest": "tsc",
     "test": "mocha --timeout 10000 dist/**/*.spec.js",
-    "cleantest": "run-s clean lint fmt test",
-    "preversion": "run-s lint"
+    "cleantest": "run-s clean lint fmt pdm test",
+    "preversion": "run-s lint pdm",
+    "pdm": "platform-dependent-modules",
+    "postinstall": "npm run pdm"
   },
   "files": [
     "dist/datetime.d.ts",
@@ -65,6 +67,19 @@
     "url": "https://github.com/mceachen/exiftool-vendored/issues"
   },
   "homepage": "https://github.com/mceachen/exiftool-vendored#readme",
+  "config": {
+    "platformDependentModules": {
+      "linux": [
+        "exiftool-vendored.pl@10.38.0"
+      ],
+      "darwin": [
+        "exiftool-vendored.pl@10.38.0"
+      ],
+      "win32": [
+        "exiftool-vendored.exe@10.38.0"
+      ]
+    }
+  },
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/chai-as-promised": "^0.0.29",
@@ -90,8 +105,7 @@
     "xmldom": "^0.1.27",
     "xpath": "^0.0.23"
   },
-  "optionalDependencies": {
-    "exiftool-vendored.pl": "10.38.0",
-    "exiftool-vendored.exe": "10.38.0"
+  "dependencies": {
+    "platform-dependent-modules": "0.0.14"
   }
 }
