@@ -84,6 +84,7 @@
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/chai-as-promised": "^0.0.29",
+    "@types/debug": "0.0.29",
     "@types/jsdom": "^2.0.29",
     "@types/mocha": "^2.2.34",
     "@types/node": "^6.0.53",
@@ -107,6 +108,7 @@
     "xpath": "^0.0.23"
   },
   "dependencies": {
+    "debug": "^2.6.0",
     "platform-dependent-modules": "0.0.14"
   }
 }

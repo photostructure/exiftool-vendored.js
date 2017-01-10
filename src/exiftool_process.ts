@@ -3,8 +3,9 @@ import * as _fs from 'fs'
 import * as _process from 'process'
 import { Deferred } from './deferred'
 import { Task } from './task'
-import { errlogger } from './exiftool'
+import * as debug from "debug"
 
+const dbg = debug("exiftool-vendored:process")
 const isWin32 = _process.platform === 'win32'
 const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
 
@@ -82,6 +83,7 @@ export class ExifToolProcess {
     if (this.idle) {
       this.currentTask = this.taskProvider()
       if (this.currentTask) {
+        dbg("Running " + this.currentTask.args)
         const cmd = [
           ...this.currentTask.args,
           '-ignoreMinorErrors',
@@ -99,7 +101,7 @@ export class ExifToolProcess {
       this.currentTask.reject(errStr)
       this.currentTask = undefined
     } else {
-      errlogger.error(`Error from ExifTool: ${errStr}`)
+      dbg(`Error from ExifTool: ${errStr}`)
     }
     this.workIfIdle()
   }
@@ -112,15 +114,15 @@ export class ExifToolProcess {
       const task = this.currentTask
       this.buff = ''
       this.currentTask = undefined
-      this.workIfIdle() // start the next job running before parsing this one to minimize latency
       if (task === undefined) {
         if (buff.length > 0) {
-          errlogger.error('Internal error: stdin got data, with no current task')
-          errlogger.warn(`Ignoring output >>>${buff}<<<`)
+          dbg('Internal error: stdin got data, with no current task')
+          dbg(`Ignoring output >>>${buff}<<<`)
         }
       } else {
         task.onData(buff)
       }
+      this.workIfIdle()
     }
   }
 }

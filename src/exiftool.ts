@@ -26,17 +26,6 @@ export interface ExifToolAPI {
   end(): void
 }
 
-export interface Logger {
-  warn(msg: string): void
-  error(msg: string): void
-}
-
-/**
- * Assign your custom logger to this instance to
- * send errors and warnings to you log. Defaults to `console`.
- */
-export let errlogger: Logger = console
-
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
  *
