@@ -1,6 +1,6 @@
 {
   "name": "exiftool-vendored",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/exiftool.js",
   "types": "./dist/exiftool.d.ts",
