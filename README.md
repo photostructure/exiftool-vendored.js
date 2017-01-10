@@ -124,6 +124,11 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.0.0
+
+* 💔 `logger` was exposed as a top-level field for error customization,
+  but it polluted local `logger` type-ahead-finds. Renamed to `errlogger`.
+
 ### v1.5.3
 
 * 📦 Switch back to `platform-dependent-modules`.

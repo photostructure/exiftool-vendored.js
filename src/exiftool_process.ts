@@ -3,7 +3,7 @@ import * as _fs from 'fs'
 import * as _process from 'process'
 import { Deferred } from './deferred'
 import { Task } from './task'
-import { logger } from './exiftool'
+import { errlogger } from './exiftool'
 
 const isWin32 = _process.platform === 'win32'
 const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
@@ -99,7 +99,7 @@ export class ExifToolProcess {
       this.currentTask.reject(errStr)
       this.currentTask = undefined
     } else {
-      logger.error(`Error from ExifTool: ${errStr}`)
+      errlogger.error(`Error from ExifTool: ${errStr}`)
     }
     this.workIfIdle()
   }
@@ -115,8 +115,8 @@ export class ExifToolProcess {
       this.workIfIdle() // start the next job running before parsing this one to minimize latency
       if (task === undefined) {
         if (buff.length > 0) {
-          logger.error('Internal error: stdin got data, with no current task')
-          logger.info(`Ignoring output >>>${buff}<<<`)
+          errlogger.error('Internal error: stdin got data, with no current task')
+          errlogger.warn(`Ignoring output >>>${buff}<<<`)
         }
       } else {
         task.onData(buff)
