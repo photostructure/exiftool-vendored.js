@@ -130,6 +130,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 * ✨ Use `npm`'s os-specific optionalDependencies rather than `platform-dependent-modules`.
 * 📦 Don't include tests in npm 
 
+### v1.4.1
+
+* 🐛 Several imports (like `process`) name-collided on the globals imported by Electron
+
 ### v1.4.0
 
 * 🌱 ExifTool upgraded to v10.37

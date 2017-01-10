@@ -1,14 +1,14 @@
-import * as cp from 'child_process'
-import * as fs from 'fs'
-import * as process from 'process'
+import * as _child_process from 'child_process'
+import * as _fs from 'fs'
+import * as _process from 'process'
 import { Deferred } from './deferred'
 import { Task } from './task'
 import { logger } from './exiftool'
 
-const isWin32 = process.platform === 'win32'
+const isWin32 = _process.platform === 'win32'
 const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
 
-if (!fs.existsSync(exiftoolPath)) {
+if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
 }
 
@@ -28,12 +28,12 @@ export class ExifToolProcess {
   private static readonly ready = '{ready}'
   private _ended = false
   private _closedDeferred = new Deferred<void>()
-  private readonly proc: cp.ChildProcess
+  private readonly proc: _child_process.ChildProcess
   private buff = ''
   private currentTask: Task<any> | undefined
 
   constructor(private readonly taskProvider: TaskProvider) {
-    this.proc = cp.spawn(
+    this.proc = _child_process.spawn(
       exiftoolPath,
       ['-stay_open', 'True', '-@', '-']
     )
@@ -44,7 +44,7 @@ export class ExifToolProcess {
       this._ended = true
       this._closedDeferred.resolve()
     })
-    process.on('beforeExit', () => this.end())
+    _process.on('beforeExit', () => this.end())
     this.workIfIdle()
   }
 
