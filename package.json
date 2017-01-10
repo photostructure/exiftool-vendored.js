@@ -1,6 +1,6 @@
 {
   "name": "exiftool-vendored",
-  "version": "1.5.0",
+  "version": "1.5.1-prea",
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/exiftool.js",
   "types": "./dist/exiftool.d.ts",
@@ -19,11 +19,24 @@
     "preversion": "run-s lint"
   },
   "files": [
-    "dist"
+    "dist/datetime.d.ts",
+    "dist/datetime.js",
+    "dist/deferred.d.ts",
+    "dist/deferred.js",
+    "dist/exiftool.d.ts",
+    "dist/exiftool.js",
+    "dist/exiftool_process.d.ts",
+    "dist/exiftool_process.js",
+    "dist/parser.d.ts",
+    "dist/parser.js",
+    "dist/tags.d.ts",
+    "dist/tags.js",
+    "dist/tags_task.d.ts",
+    "dist/tags_task.js",
+    "dist/task.d.ts",
+    "dist/task.js",
+    "dist/version_task.d.ts"
   ],
-  "directories": {
-    "lib": "dist"
-  },
   "publishConfig": {
     "access": "public"
   },
