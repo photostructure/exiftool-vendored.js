@@ -124,13 +124,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
-### v1.5.2
+### v1.5.3
 
 * 📦 Switch back to `platform-dependent-modules`.
   [npm warnings](http://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency) aren't awesome.  
-
-### v1.5.1
-
 * 📦 Don't include tests or updater in the published package 
 
 ### v1.5.0

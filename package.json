@@ -37,7 +37,8 @@
     "dist/tags_task.js",
     "dist/task.d.ts",
     "dist/task.js",
-    "dist/version_task.d.ts"
+    "dist/version_task.d.ts",
+    "dist/version_task.js"
   ],
   "publishConfig": {
     "access": "public"
