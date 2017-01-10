@@ -1,0 +1,10 @@
+.history
+dist
+dl
+node_modules
+*.log
+
+# npmignore
+
+dist/update
+*.spec.*

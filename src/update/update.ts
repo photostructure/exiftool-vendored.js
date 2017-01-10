@@ -108,12 +108,10 @@ function updatePlatformDependentModules(
 ): Promise<void> {
   return io.editPackageJson(
     _path.join(__dirname, '..', '..', 'package.json'), (pkg => {
-      const mods = pkg.config.platformDependentModules
-      const pl = [`exiftool-vendored.pl@${perlVersion}`]
-      const exe = [`exiftool-vendored.exe@${exeVersion}`]
-      mods.linux = pl
-      mods.darwin = pl
-      mods.win32 = exe
+      pkg.optionalDependencies = {
+        'exiftool-vendored.pl': perlVersion,
+        'exiftool-vendored.exe': exeVersion
+      }
     })
   )
 }

@@ -1,5 +1,5 @@
 .history
-lib
+dist
 dl
 node_modules
 *.log

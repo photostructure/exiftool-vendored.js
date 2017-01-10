@@ -14,7 +14,7 @@
     "noImplicitUseStrict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./lib",
+    "outDir": "./dist",
     "pretty": true,
     "removeComments": false,
     "rootDir": "./src",

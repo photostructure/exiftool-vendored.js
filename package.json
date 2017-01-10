@@ -2,29 +2,27 @@
   "name": "exiftool-vendored",
   "version": "1.4.0",
   "description": "Efficient, cross-platform access to ExifTool",
-  "main": "./lib/exiftool.js",
-  "types": "./lib/exiftool.d.ts",
+  "main": "./dist/exiftool.js",
+  "types": "./dist/exiftool.d.ts",
   "scripts": {
-    "clean": "rimraf lib",
+    "clean": "rimraf lib dist",
     "lint": "tslint src/**/*.ts",
     "fmt": "bash -c 'tsfmt -r src/**/*.ts'",
     "compile": "tsc",
     "preupdate": "run-s clean lint compile",
-    "update": "node lib/update/update.js",
+    "update": "node dist/update/update.js",
     "premktags": "tsc",
-    "mktags": "node lib/update/mktags.js",
+    "mktags": "node dist/update/mktags.js",
     "pretest": "tsc",
-    "test": "mocha --timeout 10000 lib/**/*.spec.js",
-    "cleantest": "run-s clean lint fmt pdm test",
-    "preversion": "run-s lint pdm",
-    "pdm": "platform-dependent-modules",
-    "postinstall": "npm run pdm"
+    "test": "mocha --timeout 10000 dist/**/*.spec.js",
+    "cleantest": "run-s clean lint fmt test",
+    "preversion": "run-s lint"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "directories": {
-    "lib": "lib"
+    "lib": "dist"
   },
   "repository": {
     "type": "git",
@@ -51,19 +49,6 @@
     "url": "https://github.com/mceachen/exiftool-vendored/issues"
   },
   "homepage": "https://github.com/mceachen/exiftool-vendored#readme",
-  "config": {
-    "platformDependentModules": {
-      "linux": [
-        "exiftool-vendored.pl@10.37.0"
-      ],
-      "darwin": [
-        "exiftool-vendored.pl@10.37.0"
-      ],
-      "win32": [
-        "exiftool-vendored.exe@10.37.0"
-      ]
-    }
-  },
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/chai-as-promised": "^0.0.29",
@@ -89,7 +74,8 @@
     "xmldom": "^0.1.27",
     "xpath": "^0.0.23"
   },
-  "dependencies": {
-    "platform-dependent-modules": "^0.0.14"
+  "optionalDependencies": {
+    "exiftool-vendored.pl": "10.38.0",
+    "exiftool-vendored.exe": "10.38.0"
   }
 }

@@ -124,6 +124,12 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v1.5.0
+
+* 🌱 ExifTool upgraded to v10.38
+* ✨ Use `npm`'s os-specific optionalDependencies rather than `platform-dependent-modules`.
+* 📦 Don't include tests in npm 
+
 ### v1.4.0
 
 * 🌱 ExifTool upgraded to v10.37
