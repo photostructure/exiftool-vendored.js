@@ -1,13 +1,13 @@
-import * as _fs from 'fs'
-import * as _crypto from 'crypto'
-import * as _http from 'http'
-import * as _zlib from 'zlib'
-import * as rimraf from 'rimraf'
+import * as _crypto from "crypto"
+import * as _fs from "fs"
+import * as _http from "http"
+import * as _rimraf from "rimraf"
+import * as _zlib from "zlib"
 
-const tar = require('tar-fs')
-const https = require('https')
-const http = require('http')
-const DecompressZip = require('decompress-zip')
+const tar = require("tar-fs")
+const https = require("https")
+const http = require("http")
+const DecompressZip = require("decompress-zip")
 
 interface Consumer {
   onData(data: Buffer | string): void
@@ -22,7 +22,7 @@ class StringConsumer implements Consumer {
   }
 
   onEnd(): string {
-    return this.data.join('')
+    return this.data.join("")
   }
 }
 
@@ -44,34 +44,34 @@ class FileConsumer implements Consumer {
 
 function wget(url: string, consumer: Consumer): Promise<string> {
   return new Promise((resolve, reject) => {
-    const lib = url.startsWith('https') ? https : http
+    const lib = url.startsWith("https") ? https : http
     const request = lib.get(url, (response: _http.IncomingMessage) => {
       if (response.statusCode < 200 || response.statusCode > 299) {
         reject(new Error(`Failed to load page, status code: ${response.statusCode}`))
       }
-      response.on('data', (chunk: Buffer | string) => consumer.onData(chunk))
-      response.on('end', () => resolve(consumer.onEnd()))
+      response.on("data", (chunk: Buffer | string) => consumer.onData(chunk))
+      response.on("end", () => resolve(consumer.onEnd()))
     })
-    request.on('error', (err: any) => reject(err))
+    request.on("error", (err: any) => reject(err))
   })
 }
 
 export function wgetString(url: string): Promise<string> {
   return wget(url, new StringConsumer()).then(str => {
-    console.log(`[ ✓ ] ${url} downloaded (${str.length} bytes)`)
+    console.log(`✅ ${url} downloaded (${str.length} bytes)`)
     return str
   })
 }
 
 export function wgetFile(url: string, destinationFile: string): Promise<void> {
   return wget(url, new FileConsumer(destinationFile)).then(() => {
-    console.log(`[ ✓ ] ${url} downloaded to ${destinationFile}`)
+    console.log(`✅ ${url} downloaded to ${destinationFile}`)
   })
 }
 
 export function readFile(filename: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    _fs.readFile(filename, 'utf8', (err, data) => {
+    _fs.readFile(filename, "utf8", (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -83,11 +83,11 @@ export function readFile(filename: string): Promise<string> {
 
 export function writeFile(filename: string, content: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    _fs.writeFile(filename, content, 'utf8', (err: NodeJS.ErrnoException) => {
+    _fs.writeFile(filename, content, "utf8", (err: NodeJS.ErrnoException) => {
       if (err) {
         reject(err)
       } else {
-        console.log(`[ ✓ ] Wrote ${filename}`)
+        console.log(`✅ Wrote ${filename}`)
         resolve()
       }
     })
@@ -100,7 +100,7 @@ export function rename(before: string, after: string): Promise<void> {
       if (err) {
         reject(err)
       } else {
-        console.log(`[ ✓ ] Renamed ${before} to ${after}`)
+        console.log(`✅ Renamed ${before} to ${after}`)
         resolve()
       }
     })
@@ -109,23 +109,23 @@ export function rename(before: string, after: string): Promise<void> {
 
 export function sha1(filename: string, expectedSha: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const hash = _crypto.createHash('SHA1')
+    const hash = _crypto.createHash("SHA1")
     const stream = _fs.createReadStream(filename)
-    stream.on('error', (error: Error) => {
+    stream.on("error", (error: Error) => {
       reject(error)
       stream.close()
     })
-    stream.on('data', (data: string | Buffer) => {
-      hash.update(data, 'utf8')
+    stream.on("data", (data: string | Buffer) => {
+      hash.update(data, "utf8")
     })
-    stream.on('end', () => {
-      resolve(hash.digest('hex'))
+    stream.on("end", () => {
+      resolve(hash.digest("hex"))
     })
   }).then(actualSha => {
     if (expectedSha !== actualSha) {
       throw new Error(`SHA1 MISMATCH: expected ${expectedSha} for ${filename}, got ${actualSha}`)
     } else {
-      console.log(`[ ✓ ] ${filename} matches expected SHA`)
+      console.log(`✅ ${filename} matches expected SHA`)
       return actualSha
     }
   })
@@ -134,9 +134,9 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
 export function unzip(zipFile: string, destDir: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     let unzipper = new DecompressZip(zipFile)
-    unzipper.on('error', reject)
-    unzipper.on('extract', () => {
-      console.log(`[ ✓ ] ${zipFile} unzipped to ${destDir}`)
+    unzipper.on("error", reject)
+    unzipper.on("extract", () => {
+      console.log(`✅ ${zipFile} unzipped to ${destDir}`)
       resolve()
     })
     unzipper.extract({
@@ -148,13 +148,13 @@ export function unzip(zipFile: string, destDir: string): Promise<void> {
 export function tarxzf(targzFile: string, destDir: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     _fs.createReadStream(targzFile)
-      .on('error', reject)
+      .on("error", reject)
       .pipe(_zlib.createGunzip())
-      .on('error', reject)
+      .on("error", reject)
       .pipe(tar.extract(destDir))
-      .on('error', reject)
-      .on('finish', () => {
-        console.log(`[ ✓ ] ${targzFile} untargz'ed to ${destDir}`)
+      .on("error", reject)
+      .on("finish", () => {
+        console.log(`✅ ${targzFile} untargz'ed to ${destDir}`)
         resolve()
       })
   })
@@ -167,7 +167,7 @@ export async function editPackageJson(
   const json: string = await readFile(packageJson)
   const pkg = JSON.parse(json)
   f(pkg)
-  await writeFile(packageJson, JSON.stringify(pkg, null, 2) + '\n')
+  await writeFile(packageJson, JSON.stringify(pkg, null, 2) + "\n")
   return undefined
 }
 
@@ -180,7 +180,7 @@ export function updatePackageVersion(
 
 export function rmrf(path: string, ignoreErrors: boolean = false): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    rimraf(path, (err: Error) => {
+    _rimraf(path, (err: Error) => {
       if (err && !ignoreErrors) {
         reject(err)
       } else {

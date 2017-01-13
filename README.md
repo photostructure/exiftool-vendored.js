@@ -36,9 +36,23 @@ The vendored version of ExifTool relevant for your platform will be installed vi
 
 ```js
 import { exiftool, Tags } from "exiftool-vendored"
-exiftool.read("path/to/file.jpg").then((tags /*: Tags */) => {
-  console.log(`Make: ${metadata.Make}, Model: ${metadata.Model}`)
-})
+
+// Read all metadata tags in `path/to/image.jpg`. 
+// Returns a `Promise<Tags>`.
+exiftool
+  .read("path/to/image.jpg")
+  .then((tags /*: Tags */) => {
+    console.log(`Make: ${tags.Make}, Model: ${tags.Model}`)
+  })
+
+// Extract the low-resolution thumbnail in `path/to/image.jpg`
+// and write it to `path/to/thumbnail.jpg`.
+// Returns a `Promise<void>`
+// which contains an error or success status.
+exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg")
+
+// Extract the "Preview" image (found in RAW images):
+exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg")
 ```
 
 ## Performance
@@ -127,6 +141,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 * 🐞 Minor bugfixes
 
 ## Changelog
+
+### v2.1.0
+
+* ✨ `extractThumbnail` and `extractPreview` implemented to pull out EXIF-embedded images
 
 ### v2.0.1
 

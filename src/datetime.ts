@@ -1,4 +1,3 @@
-
 export function compact<T>(array: T[]): T[] {
   return array.filter((elem) => elem !== undefined && elem !== null)
 }
@@ -6,7 +5,7 @@ export function compact<T>(array: T[]): T[] {
 export function pad2(...numbers: number[]): string[] {
   return numbers.map(i => {
     const s = i.toString(10)
-    return (s.length >= 2) ? s : '0' + s
+    return (s.length >= 2) ? s : "0" + s
   })
 }
 
@@ -14,7 +13,7 @@ export function pad3(...numbers: number[]): string[] {
   return numbers.map(i => {
     if (i < 0) {
       const s = Math.abs(i).toString(10)
-      return '-' + ((s.length >= 2) ? s : '0' + s)
+      return "-" + ((s.length >= 2) ? s : "0" + s)
     } else {
       return `000${i}`.slice(Math.min(-3, -(Math.ceil(Math.log10(i)))))
     }
@@ -24,11 +23,11 @@ export function pad3(...numbers: number[]): string[] {
 export abstract class Base {
   protected tz(tzoffsetMinutes: number | undefined): string {
     if (tzoffsetMinutes === undefined) {
-      return ''
+      return ""
     } else if (tzoffsetMinutes === 0) {
-      return 'Z'
+      return "Z"
     } else {
-      const sign = (tzoffsetMinutes >= 0) ? '+' : '-'
+      const sign = (tzoffsetMinutes >= 0) ? "+" : "-"
       const tzoff = Math.abs(tzoffsetMinutes)
       const hours = Math.floor(tzoff / 60)
       const mins = tzoff - (hours * 60)
@@ -56,7 +55,7 @@ export class ExifTime {
   }
 
   toString(): string {
-    return pad2(this.hour, this.minute, this.second).join(':')
+    return pad2(this.hour, this.minute, this.second).join(":")
   }
 }
 
@@ -160,14 +159,14 @@ export class ExifTimeZoneOffset extends Base {
     if (input === undefined) {
       this.tzOffsetMinutes = undefined
       this.inputWithoutTimezone = input
-    } else if (tagName.includes('UTC') || tagName.includes('GPS') || input.toString().endsWith('Z')) {
+    } else if (tagName.includes("UTC") || tagName.includes("GPS") || input.toString().endsWith("Z")) {
       this.tzOffsetMinutes = 0
-      this.inputWithoutTimezone = input.endsWith('Z') ? input.slice(0, -1) : input
+      this.inputWithoutTimezone = input.endsWith("Z") ? input.slice(0, -1) : input
     } else {
       const match = ExifTimeZoneOffset.regex.exec(input)
       if (match) {
         const [wholeMatch, offsetSignS, hourOffsetS, minuteOffsetS] = match
-        const offsetSign = offsetSignS === '-' ? -1 : 1
+        const offsetSign = offsetSignS === "-" ? -1 : 1
         const hourOffset = parseInt(hourOffsetS, 10)
         const minuteOffset = parseInt(minuteOffsetS, 10)
         this.tzOffsetMinutes = offsetSign * (hourOffset * 60 + minuteOffset)

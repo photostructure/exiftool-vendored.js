@@ -8,6 +8,10 @@
     "no-extra-semi": true,
     "no-unsafe-finally": true,
     "no-use-before-declare": true,
-    "valid-typeof": true
+    "valid-typeof": true,
+    "quotemark": [
+      true,
+      "double"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-import { Deferred } from './deferred'
+import { Deferred } from "./deferred"
 
 /**
  * Emodies both a command (`args`), and a handler for the resulting output 

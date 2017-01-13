@@ -1,9 +1,10 @@
-import { Checksums } from './checksums'
-import * as io from './io'
-import * as _path from 'path'
-import * as _url from 'url'
-import * as xmldom from 'xmldom'
-const xpath = require('xpath')
+import { Checksums } from "./checksums"
+import * as io from "./io"
+import * as _path from "path"
+import * as _url from "url"
+import * as xmldom from "xmldom"
+
+const xpath = require("xpath")
 
 export class Enclosure {
 
@@ -35,7 +36,7 @@ export class Enclosure {
   }
 
   static fromNode(enclosureNode: Element, checksums: Checksums): Enclosure | undefined {
-    const url = enclosureNode.getAttributeNode('url').value
+    const url = enclosureNode.getAttributeNode("url").value
     const parsedPath = Enclosure.parsedPath(url)
     if (parsedPath) {
       const sha1 = checksums.sha1(parsedPath.base)
@@ -50,13 +51,13 @@ export class Enclosure {
 
   static get(): Promise<Enclosure[]> {
     return Checksums.get()
-      .then(checksums => io.wgetString('http://owl.phy.queensu.ca/~phil/exiftool/rss.xml')
+      .then(checksums => io.wgetString("http://owl.phy.queensu.ca/~phil/exiftool/rss.xml")
         .then(body => Enclosure.parseBody(body, checksums)))
   }
 
   static parseBody(body: string, checksums: Checksums): Enclosure[] {
     let doc = new xmldom.DOMParser().parseFromString(body)
-    const nodes: Element[] = xpath.select('//rss/channel/item[1]/enclosure', doc)
+    const nodes: Element[] = xpath.select("//rss/channel/item[1]/enclosure", doc)
     const enclosures = nodes.map(node => Enclosure.fromNode(node, checksums))
     return enclosures.filter(item => item !== undefined) as Enclosure[]
   }

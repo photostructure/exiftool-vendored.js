@@ -1,7 +1,8 @@
-import * as _dt from './datetime'
-import { Tags } from './tags'
-import { Task } from './task'
-import * as _path from 'path'
+import * as _dt from "./datetime"
+import * as _path from "path"
+
+import { Tags } from "./tags"
+import { Task } from "./task"
 
 export class TagsTask extends Task<Tags> {
   private rawTags: any
@@ -17,9 +18,9 @@ export class TagsTask extends Task<Tags> {
   static for(filename: string, optionalArgs: string[] = []): TagsTask {
     const sourceFile = _path.resolve(filename)
     const args = [
-      '-json',
-      '-coordFormat', '%.8f', // Just a float, please, not the default of "22 deg 20' 7.58\" N" 
-      '-fast',
+      "-json",
+      "-coordFormat", "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N" 
+      "-fast",
       ...optionalArgs,
       sourceFile
     ]
@@ -46,12 +47,12 @@ export class TagsTask extends Task<Tags> {
 
   private extractTzoffset(): void {
     // TimeZone just wins if we're just handed it, then use it:
-    const tze = new _dt.ExifTimeZoneOffset('TimeZone', this.rawTags.TimeZone)
+    const tze = new _dt.ExifTimeZoneOffset("TimeZone", this.rawTags.TimeZone)
     if (tze.tzOffsetMinutes !== undefined) {
       this.tzoffset = tze.tzOffsetMinutes
     } else {
-      const gps = _dt.parse('GPSDateTime', this.rawTags.GPSDateTime, 0) as _dt.ExifDateTime
-      const local = _dt.parse('DateTimeOriginal', this.rawTags.DateTimeOriginal, 0) as _dt.ExifDateTime
+      const gps = _dt.parse("GPSDateTime", this.rawTags.GPSDateTime, 0) as _dt.ExifDateTime
+      const local = _dt.parse("DateTimeOriginal", this.rawTags.DateTimeOriginal, 0) as _dt.ExifDateTime
       if (gps && local) {
         // timezone offsets are never less than 30 minutes.
         const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
@@ -71,23 +72,23 @@ export class TagsTask extends Task<Tags> {
 
   private parseTag(tagName: string, value: any): any {
     try {
-      if (tagName.endsWith('DateStampMode') || tagName.endsWith('Sharpness')
-        || tagName.endsWith('Firmware') || tagName.endsWith('DateDisplayFormat')) {
+      if (tagName.endsWith("DateStampMode") || tagName.endsWith("Sharpness")
+        || tagName.endsWith("Firmware") || tagName.endsWith("DateDisplayFormat")) {
         return value.toString() // force to string
-      } else if (tagName.endsWith('BitsPerSample')) {
-        return value.toString().split(' ').map((i: string) => parseInt(i, 10))
-      } else if (tagName.endsWith('FlashFired')) {
+      } else if (tagName.endsWith("BitsPerSample")) {
+        return value.toString().split(" ").map((i: string) => parseInt(i, 10))
+      } else if (tagName.endsWith("FlashFired")) {
         const s = value.toString().toLowerCase()
-        return (s === 'yes' || s === '1' || s === 'true')
-      } else if (typeof value === 'string' && tagName.includes('Date') || tagName.includes('Time')) {
+        return (s === "yes" || s === "1" || s === "true")
+      } else if (typeof value === "string" && tagName.includes("Date") || tagName.includes("Time")) {
         return _dt.parse(tagName, value, this.tzoffset)
-      } else if (tagName.endsWith('GPSLatitude') || tagName.endsWith('GPSLongitude')) {
-        const ref = (this.rawTags[tagName + 'Ref'] || value.toString().split(' ')[1])
+      } else if (tagName.endsWith("GPSLatitude") || tagName.endsWith("GPSLongitude")) {
+        const ref = (this.rawTags[tagName + "Ref"] || value.toString().split(" ")[1])
         if (ref === undefined) {
           return value // give up
         } else {
           const direction = ref.trim().toLowerCase()
-          const sorw = direction.startsWith('w') || direction.startsWith('s')
+          const sorw = direction.startsWith("w") || direction.startsWith("s")
           return parseFloat(value) * (sorw ? -1 : 1)
         }
       } else {

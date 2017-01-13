@@ -1,13 +1,14 @@
-import * as _child_process from 'child_process'
-import * as _fs from 'fs'
-import * as _process from 'process'
-import { Deferred } from './deferred'
-import { Task } from './task'
+import * as _child_process from "child_process"
+import * as _fs from "fs"
+import * as _process from "process"
 import * as debug from "debug"
 
+import { Deferred } from "./deferred"
+import { Task } from "./task"
+
 const dbg = debug("exiftool-vendored:process")
-const isWin32 = _process.platform === 'win32'
-const exiftoolPath = require(`exiftool-vendored.${isWin32 ? 'exe' : 'pl'}`)
+const isWin32 = _process.platform === "win32"
+const exiftoolPath = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
 
 if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
@@ -18,41 +19,41 @@ export interface TaskProvider {
 }
 
 export function ellipsize(str: string, max: number) {
-  str = '' + str
-  return (str.length < max) ? str : str.substring(0, max - 1) + '…'
+  str = "" + str
+  return (str.length < max) ? str : str.substring(0, max - 1) + "…"
 }
 
 /**
  * Manages a child process. Callers need to restart if ended.
  */
 export class ExifToolProcess {
-  private static readonly ready = '{ready}'
+  private static readonly ready = "{ready}"
   private _ended = false
   private _closedDeferred = new Deferred<void>()
   private readonly proc: _child_process.ChildProcess
-  private buff = ''
+  private buff = ""
   private currentTask: Task<any> | undefined
 
   constructor(private readonly taskProvider: TaskProvider) {
     this.proc = _child_process.spawn(
       exiftoolPath,
-      ['-stay_open', 'True', '-@', '-']
+      ["-stay_open", "True", "-@", "-"]
     )
     this.proc.unref() // don't let node count ExifTool as a reason to stay alive
-    this.proc.stdout.on('data', d => this.onData(d))
-    this.proc.stderr.on('data', d => this.onError(d))
-    this.proc.on('close', () => {
+    this.proc.stdout.on("data", d => this.onData(d))
+    this.proc.stderr.on("data", d => this.onError(d))
+    this.proc.on("close", () => {
       this._ended = true
       this._closedDeferred.resolve()
     })
-    _process.on('beforeExit', () => this.end())
+    _process.on("beforeExit", () => this.end())
     this.workIfIdle()
   }
 
   end(): void {
     if (!this._ended) {
       this._ended = true
-      this.proc.stdin.write('\n-stay_open\nFalse\n')
+      this.proc.stdin.write("\n-stay_open\nFalse\n")
       this.proc.stdin.end()
     }
   }
@@ -86,10 +87,10 @@ export class ExifToolProcess {
         dbg("Running " + this.currentTask.args)
         const cmd = [
           ...this.currentTask.args,
-          '-ignoreMinorErrors',
-          '-execute',
-          '' // Need to end -execute with a newline
-        ].join('\n')
+          "-ignoreMinorErrors",
+          "-execute",
+          "" // Need to end -execute with a newline
+        ].join("\n")
         this.proc.stdin.write(cmd)
       }
     }
@@ -112,11 +113,11 @@ export class ExifToolProcess {
     if (done) {
       const buff = this.buff.slice(0, -ExifToolProcess.ready.length).trim()
       const task = this.currentTask
-      this.buff = ''
+      this.buff = ""
       this.currentTask = undefined
       if (task === undefined) {
         if (buff.length > 0) {
-          dbg('Internal error: stdin got data, with no current task')
+          dbg("Internal error: stdin got data, with no current task")
           dbg(`Ignoring output >>>${buff}<<<`)
         }
       } else {
