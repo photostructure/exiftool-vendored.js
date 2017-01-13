@@ -1,6 +1,6 @@
 # exiftool-vendored
 
-**Blazing-fast, cross-platform [node](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
+**Blazing-fast, cross-platform [Node](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
 
 [![npm version](https://badge.fury.io/js/exiftool-vendored.svg)](https://badge.fury.io/js/exiftool-vendored)
 [![Build Status](https://travis-ci.org/mceachen/exiftool-vendored.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored)
@@ -8,21 +8,23 @@
 
 ## Features
 
-1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism). [7-300x faster](#performance) than competing packages
+1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism). 
+   **[7-300x faster performance](#performance)** than competing packages (depending on platform)!
 
 1. Support for [Mac, Linux](https://travis-ci.org/mceachen/exiftool-vendored), and [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 1. Proper extraction of 
     - **dates** with [correct timezone offset encoding, when available](#dates))
     - **latitudes & longitudes** as floats (where negative values indicate W or S of the meridian)
+    - **embedded images**, both `Thumbnail` and `Preview` (if they exist)
 
-1. Robust **[type definitions](#tags)** of the top 99.5% of tags used by over 3,000 different camera makes and models
+1. Robust **[type definitions](#tags)** of the top 99.5% tags used by over 3,000 different camera makes and models
 
 1. **Auditable ExifTool source code** (the "vendored" code is [verifiable](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
 
 1. **Automated updates** to ExifTool ([as new versions come out monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. **Robust test suite**, performed with node v6+ on [Linux, Mac,](https://travis-ci.org/mceachen/exiftool-vendored) & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
+1. **Robust test suite**, performed with Node v6+ and v7+ on [Linux, Mac,](https://travis-ci.org/mceachen/exiftool-vendored) & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 ## Installation
 
