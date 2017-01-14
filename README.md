@@ -144,9 +144,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
-### v2.1.0
+### v2.1.1
 
 * ✨ `extractThumbnail` and `extractPreview` implemented to pull out EXIF-embedded images
+* 📦 Rebuilt package.json.files section 
 
 ### v2.0.1
 
