@@ -144,6 +144,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.2.0
+
+* 🌱 ExifTool upgraded to v10.40
+
 ### v2.1.1
 
 * ✨ `extractThumbnail` and `extractPreview` implemented to pull out EXIF-embedded images
