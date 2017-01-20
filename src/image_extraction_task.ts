@@ -1,7 +1,7 @@
 import { Task } from "./task"
 import * as _path from "path"
 
-export type ImageTag = "ThumbnailImage" | "PreviewImage"
+export type ImageTag = "ThumbnailImage" | "PreviewImage" | "JpgFromRaw"
 
 export class ImageExtractionTask extends Task<void> {
   private constructor(args: string[]) {

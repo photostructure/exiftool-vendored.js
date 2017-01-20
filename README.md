@@ -53,8 +53,11 @@ exiftool
 // which contains an error or success status.
 exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg")
 
-// Extract the "Preview" image (found in RAW images):
+// Extract the "Preview" image (found in some images):
 exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg")
+
+// Extract the "JpgFromRaw" image (found in some RAW images):
+exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg")
 ```
 
 ## Performance
@@ -143,6 +146,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 * 🐞 Minor bugfixes
 
 ## Changelog
+
+### v2.3.0
+
+* ✨ `extractJpgFromRaw` implemented to pull out EXIF-embedded images from RAW formats
 
 ### v2.2.0
 

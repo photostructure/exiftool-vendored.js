@@ -1,5 +1,5 @@
 import { ExifToolProcess } from "./exiftool_process"
-import { ImageExtractionTask } from "./image_extraction_task"
+import { ImageExtractionTask, ImageTag } from "./image_extraction_task";
 import { Tags } from "./tags"
 import { TagsTask } from "./tags_task"
 import { Task } from "./task"
@@ -46,25 +46,38 @@ export class ExifTool {
    * and write it to `path/to/thumbnail.jpg`.
    *
    * Note that these images are less than .1 megapixels in size.
+   *
    * @return a `Promise<void>`. An `Error` is raised if
    * the file could not be read or the output not written.
    */
   extractThumbnail(imageFile: string, thumbnailFile: string): Promise<void> {
-    return this.enqueueTask(
-      ImageExtractionTask.for("ThumbnailImage", imageFile, thumbnailFile)
-    ).promise
+    return this.extract("ThumbnailImage", imageFile, thumbnailFile)
   }
 
   /**
    * Extract the "preview" image in `path/to/image.jpg`
-   * and write it to `path/to/thumbnail.jpg`.
+   * and write it to `path/to/preview.jpg`.
+   *
+   * The size of these images varies widely, and is not present in most images.
+   *
    * @return a `Promise<void>`. An `Error` is raised if
    * the file could not be read or the output not written.
    */
   extractPreview(imageFile: string, previewFile: string): Promise<void> {
-    return this.enqueueTask(
-      ImageExtractionTask.for("PreviewImage", imageFile, previewFile)
-    ).promise
+    return this.extract("PreviewImage", imageFile, previewFile)
+  }
+
+  /**
+   * Extract the "JpgFromRaw" image in `path/to/image.jpg`
+   * and write it to `path/to/fromRaw.jpg`.
+   *
+   * This size of these images varies widely, and is not present in all RAW images.
+   *
+   * @return a `Promise<void>`. An `Error` is raised if
+   * the file could not be read or the output not written.
+   */
+  extractJpgFromRaw(imageFile: string, previewFile: string): Promise<void> {
+    return this.extract("JpgFromRaw", imageFile, previewFile)
   }
 
   /**
@@ -86,6 +99,10 @@ export class ExifTool {
     this._tasks.push(task)
     this.workIfIdle()
     return task
+  }
+
+  private extract(tagname: ImageTag, src: string, dest: string): Promise<void> {
+    return this.enqueueTask(ImageExtractionTask.for(tagname, src, dest)).promise
   }
 
   private dequeueTask(): Task<any> | undefined {
