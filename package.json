@@ -108,7 +108,7 @@
     "tslint": "^4.3.1",
     "tslint-config-standard": "^2.0.0",
     "tslint-eslint-rules": "^3.2.3",
-    "typescript": "^2.1.5",
+    "typescript": "=2.0.10",
     "typescript-formatter": "^4.0.1",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.23"
