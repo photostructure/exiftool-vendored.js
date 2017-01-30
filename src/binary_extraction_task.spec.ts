@@ -1,12 +1,12 @@
 import { expect, pfs, ptmp } from "./chai.spec"
 import { exiftool } from "./exiftool"
-import { ImageExtractionTask } from "./image_extraction_task"
+import { BinaryExtractionTask } from "./binary_extraction_task"
 import { join } from "path"
 
 const testDir = join(__dirname, "..", "test")
-describe("ImageExtractionTask", () => {
+describe("BinaryExtractionTask", () => {
   describe("parser", () => {
-    const sut = ImageExtractionTask.for("ThumbnailImage", "", "")
+    const sut = BinaryExtractionTask.for("ThumbnailImage", "", "")
     it("returns success from expected input", () => {
       expect(() => sut.parse("    1 output files created")).to.not.throw()
     })

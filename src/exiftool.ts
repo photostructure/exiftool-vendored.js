@@ -1,5 +1,5 @@
 import { ExifToolProcess } from "./exiftool_process"
-import { ImageExtractionTask, ImageTag } from "./image_extraction_task";
+import { BinaryExtractionTask } from "./binary_extraction_task"
 import { Tags } from "./tags"
 import { TagsTask } from "./tags_task"
 import { Task } from "./task"
@@ -45,26 +45,27 @@ export class ExifTool {
    * Extract the low-resolution thumbnail in `path/to/image.jpg`
    * and write it to `path/to/thumbnail.jpg`.
    *
-   * Note that these images are less than .1 megapixels in size.
+   * Note that these images can be less than .1 megapixels in size.
    *
    * @return a `Promise<void>`. An `Error` is raised if
    * the file could not be read or the output not written.
    */
   extractThumbnail(imageFile: string, thumbnailFile: string): Promise<void> {
-    return this.extract("ThumbnailImage", imageFile, thumbnailFile)
+    return this.extractBinaryTag("ThumbnailImage", imageFile, thumbnailFile)
   }
 
   /**
    * Extract the "preview" image in `path/to/image.jpg`
    * and write it to `path/to/preview.jpg`.
    *
-   * The size of these images varies widely, and is not present in most images.
+   * The size of these images varies widely, and is present in dSLR images.
+   * Canon, Fuji, Olympus, and Sony use this tag.
    *
    * @return a `Promise<void>`. An `Error` is raised if
    * the file could not be read or the output not written.
    */
   extractPreview(imageFile: string, previewFile: string): Promise<void> {
-    return this.extract("PreviewImage", imageFile, previewFile)
+    return this.extractBinaryTag("PreviewImage", imageFile, previewFile)
   }
 
   /**
@@ -72,12 +73,24 @@ export class ExifTool {
    * and write it to `path/to/fromRaw.jpg`.
    *
    * This size of these images varies widely, and is not present in all RAW images.
+   * Nikon and Panasonic use this tag.
    *
    * @return a `Promise<void>`. An `Error` is raised if
    * the file could not be read or the output not written.
    */
-  extractJpgFromRaw(imageFile: string, previewFile: string): Promise<void> {
-    return this.extract("JpgFromRaw", imageFile, previewFile)
+  extractJpgFromRaw(imageFile: string, outputFile: string): Promise<void> {
+    return this.extractBinaryTag("JpgFromRaw", imageFile, outputFile)
+  }
+
+  /**
+   * Extract a given binary value from "tagname" tag associated to `path/to/image.jpg`
+   * and write it to `dest` (which cannot exist and whose directory must already exist).
+   *
+   * @return a `Promise<void>`. An `Error` is raised if
+   * the binary output not be written to `dest`.
+   */
+  extractBinaryTag(tagname: string, src: string, dest: string): Promise<void> {
+    return this.enqueueTask(BinaryExtractionTask.for(tagname, src, dest)).promise
   }
 
   /**
@@ -99,10 +112,6 @@ export class ExifTool {
     this._tasks.push(task)
     this.workIfIdle()
     return task
-  }
-
-  private extract(tagname: ImageTag, src: string, dest: string): Promise<void> {
-    return this.enqueueTask(ImageExtractionTask.for(tagname, src, dest)).promise
   }
 
   private dequeueTask(): Task<any> | undefined {

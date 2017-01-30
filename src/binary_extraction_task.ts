@@ -1,18 +1,16 @@
 import { Task } from "./task"
 import * as _path from "path"
 
-export type ImageTag = "ThumbnailImage" | "PreviewImage" | "JpgFromRaw"
-
-export class ImageExtractionTask extends Task<void> {
+export class BinaryExtractionTask extends Task<void> {
   private constructor(args: string[]) {
     super(args)
   }
 
   static for(
-    tagname: ImageTag,
+    tagname: string,
     imgSrc: string,
     imgDest: string
-  ): ImageExtractionTask {
+  ): BinaryExtractionTask {
     const args = [
       "-b",
       "-" + tagname,
@@ -20,7 +18,7 @@ export class ImageExtractionTask extends Task<void> {
       "-w",
       "%0f" + _path.resolve(imgDest)
     ]
-    return new ImageExtractionTask(args)
+    return new BinaryExtractionTask(args)
   }
 
   parse(data: string): void {

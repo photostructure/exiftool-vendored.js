@@ -32,12 +32,15 @@
 npm install --save exiftool-vendored
 ```
 
-The vendored version of ExifTool relevant for your platform will be installed via [platform-dependent-modules](https://www.npmjs.com/package/platform-dependent-modules). You shouldn't include either the `exiftool-vendored.exe` or `exiftool-vendored.pl` as direct dependencies to your project.
+The vendored version of ExifTool relevant for your platform will 
+be installed via [platform-dependent-modules](https://www.npmjs.com/package/platform-dependent-modules).
+You shouldn't include either the `exiftool-vendored.exe` or `exiftool-vendored.pl` as 
+direct dependencies to your project.
 
 ## Usage
 
 ```js
-import { exiftool, Tags } from "exiftool-vendored"
+import { exiftool } from "exiftool-vendored";
 
 // Read all metadata tags in `path/to/image.jpg`. 
 // Returns a `Promise<Tags>`.
@@ -45,19 +48,24 @@ exiftool
   .read("path/to/image.jpg")
   .then((tags /*: Tags */) => {
     console.log(`Make: ${tags.Make}, Model: ${tags.Model}`)
-  })
+  });
 
 // Extract the low-resolution thumbnail in `path/to/image.jpg`
 // and write it to `path/to/thumbnail.jpg`.
 // Returns a `Promise<void>`
 // which contains an error or success status.
-exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg")
+exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg");
 
 // Extract the "Preview" image (found in some images):
-exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg")
+exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg");
 
 // Extract the "JpgFromRaw" image (found in some RAW images):
-exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg")
+exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
+
+// Extract the binary value from "tagname" tag in `path/to/image.jpg`
+// and write it to `dest.bin` (which cannot exist already 
+// and whose parent directory must already exist).
+  extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
 ```
 
 ## Performance
@@ -146,6 +154,12 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 * 🐞 Minor bugfixes
 
 ## Changelog
+
+### v2.4.0
+
+* ✨ `extractBinaryTag` exposed because there are a **lot** of binary tags 
+   (and they aren't all embedded images)
+* 🐞 `JpgFromRaw` was missing in `Tag` (no raw images were in the example corpus!)
 
 ### v2.3.0
 

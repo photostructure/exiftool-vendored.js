@@ -184,6 +184,8 @@ export interface EXIFTags {
   InteropIndex: string
   /** ★★★ ✔ "0100" */
   InteropVersion: string
+  /** ☆☆☆ ✔ "(Binary data 1790265 bytes, use -b option to extract)" */
+  JpgFromRaw: string
   /** ☆☆☆ ✔ "3.3mm f/2.4" */
   LensInfo: string
   /** ☆☆☆ ✔ "Apple" */
