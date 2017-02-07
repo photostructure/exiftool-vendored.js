@@ -155,6 +155,12 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.5.0
+
+* 🐞 `LANG` and `LC_` environment variables were passed through to exiftool (and subsequently, perl).
+  These are now explicitly unset when exec'ing ExifTool, both to ensure tag names aren't internationalized, and 
+  to prevent perl errors from bubbling up to the caller due to missing locales.
+
 ### v2.4.0
 
 * ✨ `extractBinaryTag` exposed because there are a **lot** of binary tags 

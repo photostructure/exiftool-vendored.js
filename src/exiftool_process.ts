@@ -1,10 +1,9 @@
-import * as _child_process from "child_process"
-import * as _fs from "fs"
-import * as _process from "process"
-import * as debug from "debug"
-
 import { Deferred } from "./deferred"
 import { Task } from "./task"
+import * as _child_process from "child_process"
+import * as debug from "debug"
+import * as _fs from "fs"
+import * as _process from "process"
 
 const dbg = debug("exiftool-vendored:process")
 const isWin32 = _process.platform === "win32"
@@ -35,9 +34,10 @@ export class ExifToolProcess {
   private currentTask: Task<any> | undefined
 
   constructor(private readonly taskProvider: TaskProvider) {
-    this.proc = _child_process.spawn(
+    this.proc = _child_process.execFile(
       exiftoolPath,
-      ["-stay_open", "True", "-@", "-"]
+      ["-stay_open", "True", "-@", "-"],
+      { env: { LANG: "C" } }
     )
     this.proc.unref() // don't let node count ExifTool as a reason to stay alive
     this.proc.stdout.on("data", d => this.onData(d))
