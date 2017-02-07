@@ -1,7 +1,7 @@
 import { Deferred } from "./deferred"
 
 /**
- * Emodies both a command (`args`), and a handler for the resulting output 
+ * Emodies both a command (`args`), and a handler for the resulting output
  */
 export abstract class Task<T> extends Deferred<T> {
   constructor(readonly args: string[]) {

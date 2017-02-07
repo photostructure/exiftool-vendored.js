@@ -80,7 +80,7 @@ export class ExifDate {
 }
 
 /**
- * Encodes an ExifDateTime. 
+ * Encodes an ExifDateTime.
  */
 export class ExifDateTime extends Base {
   // The timezone offset will be extricated prior to this regex:
@@ -106,7 +106,7 @@ export class ExifDateTime extends Base {
   }
 
   /**
-   * Note that this is most likely incorrect if the timezone offset is not set. 
+   * Note that this is most likely incorrect if the timezone offset is not set.
    *
    * See the README for details.
    */

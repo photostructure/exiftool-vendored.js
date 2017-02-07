@@ -10,7 +10,7 @@ function parse(tags: any): Tags {
 }
 
 describe("Lat/Lon parsing", () => {
-  /* Example:   
+  /* Example:
     $ exiftool -j -coordFormat '%.8f' -fast ../test-images/important/Apple_iPhone7Plus.jpg | grep itude
     "GPSLatitudeRef": "North",
     "GPSLongitudeRef": "East",

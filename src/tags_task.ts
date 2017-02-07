@@ -19,7 +19,7 @@ export class TagsTask extends Task<Tags> {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
-      "-coordFormat", "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N" 
+      "-coordFormat", "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N"
       "-fast",
       ...optionalArgs,
       sourceFile
