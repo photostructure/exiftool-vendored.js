@@ -50,10 +50,9 @@ exiftool
     console.log(`Make: ${tags.Make}, Model: ${tags.Model}`)
   });
 
-// Extract the low-resolution thumbnail in `path/to/image.jpg`
-// and write it to `path/to/thumbnail.jpg`.
-// Returns a `Promise<void>`
-// which contains an error or success status.
+// Extract the low-resolution thumbnail in `path/to/image.jpg`,
+// write it to `path/to/thumbnail.jpg`, and return a Promise<void>
+// that is fulfilled when the image is extracted:
 exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg");
 
 // Extract the "Preview" image (found in some images):
@@ -64,8 +63,8 @@ exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
 
 // Extract the binary value from "tagname" tag in `path/to/image.jpg`
 // and write it to `dest.bin` (which cannot exist already 
-// and whose parent directory must already exist).
-  extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
+// and whose parent directory must already exist):
+exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
 ```
 
 ## Performance
