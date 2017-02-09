@@ -21,6 +21,16 @@ describe("ExifTool", () => {
     return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql("iPhone 7 Plus")
   })
 
+  it("Renders Orientation as strings normally", async () => {
+    const tags = await exiftool.read(img)
+    return expect(tags.Orientation).to.eql("Horizontal (normal)")
+  })
+
+  it("Renders Orientation as a number when specified", async () => {
+    const tags = await exiftool.read(img, ["-Orientation#"])
+    return expect(tags.Orientation).to.eql(1)
+  })
+
   it("returns warning for a truncated file", () => {
     return expect(exiftool.read(truncated).then(tags => tags.Warning)).to.eventually.eql("JPEG format error")
   })

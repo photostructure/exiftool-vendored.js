@@ -37,8 +37,8 @@ export class ExifTool {
   /**
    * @return a Promise holding the metadata tags found in `file`.
    */
-  read(file: string): Promise<Tags> {
-    return this.enqueueTask(TagsTask.for(file)).promise
+  read(file: string, args?: string[]): Promise<Tags> {
+    return this.enqueueTask(TagsTask.for(file, args)).promise
   }
 
   /**
