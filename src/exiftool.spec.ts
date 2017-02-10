@@ -72,9 +72,12 @@ describe("ExifTool", () => {
     return expect((await exiftool.read(__filename)).Error).to.match(/Unknown file type/i)
   })
 
-  it("ends with multiple procs", () => {
-    const promises = [exiftool.read(img), exiftool.read(img)]
+  it("ends with multiple procs", async () => {
+    const promises = [exiftool.read(img), exiftool.read(img), exiftool.read(img)]
     expect(runningProcs()).to.eql(2)
-    return expect(Promise.all(promises).then(() => exiftool.end()).then(() => runningProcs())).to.become(0)
+    const tags = await Promise.all(promises)
+    tags.forEach(t => expect(t).to.not.be.undefined)
+    await exiftool.end()
+    return expect(runningProcs()).to.eql(0)
   })
 })

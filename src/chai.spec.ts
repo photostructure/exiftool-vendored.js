@@ -7,3 +7,5 @@ export { expect } from "chai"
 
 export const pfs = pify(require("fs"))
 export const ptmp = pify(require("tmp"))
+
+require("source-map-support").install()

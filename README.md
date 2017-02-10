@@ -50,9 +50,6 @@ exiftool
     console.log(`Make: ${tags.Make}, Model: ${tags.Model}`)
   });
 
-// Read tags from image.jpg, but use numeric values for Orientation:
-const tagsPromise = exiftool.read("image.jpg", ["-Orientation#"])
-
 // Extract the low-resolution thumbnail in `path/to/image.jpg`,
 // write it to `path/to/thumbnail.jpg`, and return a Promise<void>
 // that is fulfilled when the image is extracted:
@@ -157,9 +154,15 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.7.0
+
+* ✨ More robust error handling for child processes (previously there was no `.on("error")` added to the 
+  process itself, only on `stderr` of the child process).
+
 ### v2.6.0
 
-* 🌱 `Orientation` is [rendered as a string by ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/exiftool_pod.html#n---printConv),
+* 🌱 ExifTool upgraded to v10.41
+* ✨ `Orientation` is [rendered as a string by ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/exiftool_pod.html#n---printConv),
   which was surprising (to me, at least). By exposing optional args in `ExifTool.read`, the caller can choose how
   ExifTool renders tag values.
 

@@ -1,13 +1,16 @@
-import { ExifToolProcess } from "./exiftool_process"
 import { BinaryExtractionTask } from "./binary_extraction_task"
+import { ExifToolProcess, ExifToolProcessObserver } from "./exiftool_process"
 import { Tags } from "./tags"
 import { TagsTask } from "./tags_task"
 import { Task } from "./task"
 import { VersionTask } from "./version_task"
+import * as debug from "debug"
 import * as _process from "process"
 
 export { Tags } from "./tags"
 export { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from "./datetime"
+
+const dbg = debug("exiftool-vendored:exiftool")
 
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
@@ -17,6 +20,11 @@ export { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from "./datetime
 export class ExifTool {
   private _procs: ExifToolProcess[] = []
   private _tasks: Task<any>[] = []
+
+  private readonly observer: ExifToolProcessObserver = {
+    onIdle: () => this.onIdle(),
+    onEnd: () => this.onEnd()
+  }
 
   /**
    * @param maxProcs the maximum number of ExifTool child processes to spawn when load merits
@@ -110,7 +118,7 @@ export class ExifTool {
    */
   enqueueTask<T>(task: Task<T>): Task<T> {
     this._tasks.push(task)
-    this.workIfIdle()
+    this.onIdle()
     return task
   }
 
@@ -122,13 +130,22 @@ export class ExifTool {
     return this._procs = this._procs.filter(p => !p.ended)
   }
 
-  private workIfIdle(): void {
-    const idle = this._procs.find(p => !p.ended && p.idle)
-    if (idle) {
-      idle.workIfIdle()
-    } else if (this.procs().length < this.maxProcs) {
-      this._procs.push(new ExifToolProcess(() => this.dequeueTask()))
+  private onIdle(): void {
+    if (this._tasks.length > 0) {
+      const idle = this._procs.find(p => !p.ended && p.idle)
+      if (idle) {
+        idle.execTask(this.dequeueTask() !)
+      } else if (this.procs().length < this.maxProcs) {
+        dbg(`Spawning a new ExifTool instance. ${this._tasks.length} pending tasks, ${this._procs.length} procs.`)
+        this._procs.push(new ExifToolProcess(this.observer))
+        // this new proc will send an onIdle() when it's ready.
+      }
     }
+  }
+
+  private onEnd(): void {
+    this.procs() // <- remove ended procs
+    dbg(`ExifTool instance ended. ${this._procs.length} procs are still running.`)
   }
 }
 

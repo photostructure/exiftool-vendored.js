@@ -1,5 +1,6 @@
 import { Deferred } from "./deferred"
 import { Task } from "./task"
+import { VersionTask } from "./version_task"
 import * as _child_process from "child_process"
 import * as debug from "debug"
 import * as _fs from "fs"
@@ -13,8 +14,9 @@ if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
 }
 
-export interface TaskProvider {
-  (): Task<any> | undefined
+export interface ExifToolProcessObserver {
+  onIdle(): void
+  onEnd(): void
 }
 
 export function ellipsize(str: string, max: number) {
@@ -28,30 +30,59 @@ export function ellipsize(str: string, max: number) {
 export class ExifToolProcess {
   private static readonly ready = "{ready}"
   private _ended = false
-  private _closedDeferred = new Deferred<void>()
+  private _closed = new Deferred<void>()
   private readonly proc: _child_process.ChildProcess
   private buff = ""
   private currentTask: Task<any> | undefined
 
-  constructor(private readonly taskProvider: TaskProvider) {
+  constructor(private readonly observer: ExifToolProcessObserver) {
     this.proc = _child_process.execFile(
       exiftoolPath,
       ["-stay_open", "True", "-@", "-"],
-      { env: { LANG: "C" } }
+      {
+        encoding: "utf8",
+        timeout: 0,
+        env: { LANG: "C" }
+      }
     )
     this.proc.unref() // don't let node count ExifTool as a reason to stay alive
+
+    this.proc.on("error", err => this.onError(err, true))
+    this.proc.stderr.on("error", err => this.onError(err, true))
+    this.proc.stderr.on("data", err => this.onError(err))
+
+    this.proc.stdout.on("error", err => this.onError(err, true))
     this.proc.stdout.on("data", d => this.onData(d))
-    this.proc.stderr.on("data", d => this.onError(d))
+
     this.proc.on("close", () => {
       this._ended = true
-      this._closedDeferred.resolve()
+      this._closed.resolve()
+      this.observer.onEnd()
     })
     _process.on("beforeExit", () => this.end())
-    this.workIfIdle()
+
+    // only accept commands if we know all is well. This task "primes the pump":
+    this.execTask(new VersionTask())
+  }
+
+  execTask(task: Task<any>): boolean {
+    if (this.ended || !this.idle) {
+      return false
+    }
+    dbg("Running " + task.args)
+    this.currentTask = task
+    const cmd = [
+      ...task.args,
+      "-ignoreMinorErrors",
+      "-execute",
+      "" // Need to end -execute with a newline
+    ].join("\n")
+    this.proc.stdin.write(cmd)
+    return true
   }
 
   end(): void {
-    if (!this._ended) {
+    if (!this.ended) {
       this._ended = true
       this.proc.stdin.write("\n-stay_open\nFalse\n")
       this.proc.stdin.end()
@@ -69,42 +100,30 @@ export class ExifToolProcess {
    * @return true if the child process has closed
    */
   get closed(): boolean {
-    return this._closedDeferred.fulfilled
+    return this._closed.fulfilled
   }
 
   get closedPromise(): Promise<void> {
-    return this._closedDeferred.promise
+    return this._closed.promise
   }
 
   get idle(): boolean {
     return this.currentTask === undefined
   }
 
-  workIfIdle(): void {
-    if (this.idle) {
-      this.currentTask = this.taskProvider()
-      if (this.currentTask) {
-        dbg("Running " + this.currentTask.args)
-        const cmd = [
-          ...this.currentTask.args,
-          "-ignoreMinorErrors",
-          "-execute",
-          "" // Need to end -execute with a newline
-        ].join("\n")
-        this.proc.stdin.write(cmd)
-      }
-    }
-  }
-
-  private onError(error: string | Buffer) {
-    const errStr = error.toString()
+  private onError(error: any, end: boolean = false) {
+    const err = Buffer.isBuffer(error) ? error.toString() : error
     if (this.currentTask) {
-      this.currentTask.reject(errStr)
+      this.currentTask.reject(err)
       this.currentTask = undefined
     } else {
-      dbg(`Error from ExifTool: ${errStr}`)
+      dbg(`Error from ExifTool: ${err}`)
     }
-    this.workIfIdle()
+    if (end) {
+      this.end()
+    } else {
+      this.observer.onIdle()
+    }
   }
 
   private onData(data: string | Buffer) {
@@ -123,7 +142,7 @@ export class ExifToolProcess {
       } else {
         task.onData(buff)
       }
-      this.workIfIdle()
+      this.observer.onIdle()
     }
   }
 }
