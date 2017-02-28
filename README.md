@@ -154,6 +154,13 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.8.0
+
+* 🌱 ExifTool upgraded to v10.44
+* 📦 Upgraded to TypeScript 2.2
+* 🐞 `update/io.ts` error message didn't handle null statuscodes properly 
+* 🐞 `update/mktags.ts` had a counting bug exposed by TS 2.2
+
 ### v2.7.0
 
 * ✨ More robust error handling for child processes (previously there was no `.on("error")` added to the 
