@@ -71,26 +71,26 @@
   "config": {
     "platformDependentModules": {
       "linux": [
-        "exiftool-vendored.pl@10.41.0"
+        "exiftool-vendored.pl@10.44.0"
       ],
       "darwin": [
-        "exiftool-vendored.pl@10.41.0"
+        "exiftool-vendored.pl@10.44.0"
       ],
       "win32": [
-        "exiftool-vendored.exe@10.41.0"
+        "exiftool-vendored.exe@10.44.0"
       ]
     }
   },
   "devDependencies": {
-    "@types/chai": "^3.4.34",
+    "@types/chai": "^3.4.35",
     "@types/chai-as-promised": "^0.0.29",
-    "@types/debug": "0.0.29",
-    "@types/jsdom": "^2.0.29",
-    "@types/mocha": "^2.2.37",
-    "@types/node": "^7.0.0",
-    "@types/pify": "0.0.28",
+    "@types/debug": "^0.0.29",
+    "@types/jsdom": "^2.0.30",
+    "@types/mocha": "^2.2.39",
+    "@types/node": "^7.0.5",
+    "@types/pify": "^0.0.28",
     "@types/rimraf": "^0.0.28",
-    "@types/tmp": "0.0.32",
+    "@types/tmp": "^0.0.32",
     "@types/xmldom": "^0.1.28",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
@@ -98,22 +98,22 @@
     "globule": "^1.1.0",
     "mocha": "^3.2.0",
     "np": "^2.12.0",
-    "npm-run-all": "^4.0.0",
+    "npm-run-all": "^4.0.2",
     "pify": "^2.3.0",
-    "rimraf": "^2.5.4",
-    "source-map-support": "^0.4.9",
-    "tar-fs": "^1.15.0",
-    "tmp": "0.0.31",
-    "tslint": "^4.3.1",
-    "tslint-config-standard": "^2.0.0",
-    "tslint-eslint-rules": "^3.2.3",
-    "typescript": "=2.0.10",
-    "typescript-formatter": "^4.0.1",
+    "rimraf": "^2.6.1",
+    "source-map-support": "^0.4.11",
+    "tar-fs": "^1.15.1",
+    "tmp": "^0.0.31",
+    "tslint": "^4.5.1",
+    "tslint-config-standard": "^4.0.0",
+    "tslint-eslint-rules": "^3.4.0",
+    "typescript": "^2.2.1",
+    "typescript-formatter": "^5.0.1",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.23"
   },
   "dependencies": {
-    "debug": "^2.6.0",
-    "platform-dependent-modules": "0.0.14"
+    "debug": "^2.6.1",
+    "platform-dependent-modules": "^0.0.14"
   }
 }

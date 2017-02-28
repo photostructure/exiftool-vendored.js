@@ -46,7 +46,7 @@ function wget(url: string, consumer: Consumer): Promise<string> {
   return new Promise((resolve, reject) => {
     const lib = url.startsWith("https") ? https : http
     const request = lib.get(url, (response: _http.IncomingMessage) => {
-      if (response.statusCode < 200 || response.statusCode > 299) {
+      if (response.statusCode == null || response.statusCode < 200 || response.statusCode > 299) {
         reject(new Error(`Failed to load page, status code: ${response.statusCode}`))
       }
       response.on("data", (chunk: Buffer | string) => consumer.onData(chunk))

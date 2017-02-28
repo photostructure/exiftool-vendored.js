@@ -14,7 +14,7 @@ describe("ExifTool", () => {
   }
 
   it("returns the correct version", () => {
-    return expect(exiftool.version()).to.become("10.41")
+    return expect(exiftool.version()).to.become("10.44")
   })
 
   it("returns expected results for a given file", () => {

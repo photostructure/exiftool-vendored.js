@@ -44,7 +44,7 @@ function valueType(value: any): string {
 class CountingMap<T> {
   private readonly m = new Map<T, number>()
   add(t: T) {
-    this.m.set(t, 1 + (0 || this.m.get(t)))
+    this.m.set(t, 1 + (this.m.get(t) || 0))
   }
   byCountDesc(): T[] {
     return Array.from(this.m.keys()).sort((a, b) => cmp(this.m.get(b), this.m.get(a)))
