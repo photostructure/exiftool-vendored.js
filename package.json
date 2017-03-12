@@ -71,13 +71,13 @@
   "config": {
     "platformDependentModules": {
       "linux": [
-        "exiftool-vendored.pl@10.44.0"
+        "exiftool-vendored.pl@10.46.0"
       ],
       "darwin": [
-        "exiftool-vendored.pl@10.44.0"
+        "exiftool-vendored.pl@10.46.0"
       ],
       "win32": [
-        "exiftool-vendored.exe@10.44.0"
+        "exiftool-vendored.exe@10.46.0"
       ]
     }
   },

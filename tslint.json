@@ -12,6 +12,10 @@
     "quotemark": [
       true,
       "double"
+    ],
+    "space-before-function-paren": [
+      false,
+      "always"
     ]
   }
 }
