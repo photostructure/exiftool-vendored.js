@@ -154,6 +154,10 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.10.0 (beta)
+
+* 🌱 Support for Node 4 (ES5)
+
 ### v2.9.0
 
 * 🌱 ExifTool upgraded to v10.46

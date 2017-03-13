@@ -1,6 +1,6 @@
 {
   "name": "exiftool-vendored",
-  "version": "2.9.0",
+  "version": "2.10.0-beta",
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/exiftool.js",
   "types": "./dist/exiftool.d.ts",
@@ -45,10 +45,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mceachen/exiftool-vendored.git"
+    "url": "https://github.com/mceachen/exiftool-vendored.js.git"
   },
   "engines": {
-    "node": ">= 6.4.0"
+    "node": ">= 4"
   },
   "keywords": [
     "ExifTool",
@@ -65,9 +65,9 @@
   "author": "Matthew McEachen <matthew-exiftoolvendored@mceachen.org>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mceachen/exiftool-vendored/issues"
+    "url": "https://github.com/mceachen/exiftool-vendored.js/issues"
   },
-  "homepage": "https://github.com/mceachen/exiftool-vendored#readme",
+  "homepage": "https://github.com/mceachen/exiftool-vendored.js#readme",
   "config": {
     "platformDependentModules": {
       "linux": [
