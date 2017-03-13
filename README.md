@@ -11,7 +11,7 @@
 1. **High performance** via [`-stay_open`](#stay_open) and [multithreading](#parallelism). 
    **[7-300x faster performance](#performance)** than competing packages (depending on platform)!
 
-1. Support for [Mac, Linux](https://travis-ci.org/mceachen/exiftool-vendored), and [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
+1. Support for [Mac, Linux](https://travis-ci.org/mceachen/exiftool-vendored.js), and [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 1. Proper extraction of 
     - **dates** with [correct timezone offset encoding, when available](#dates))
@@ -24,7 +24,7 @@
 
 1. **Automated updates** to ExifTool ([as new versions come out monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. **Robust test suite**, performed with Node v4, v6 and v7 on [Linux, Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored.js/branch/master).
+1. **Robust test suite**, performed with Node v4, v6 and v7 on [Linux, Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 ## Installation
 
