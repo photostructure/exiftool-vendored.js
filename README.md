@@ -24,7 +24,7 @@
 
 1. **Automated updates** to ExifTool ([as new versions come out monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. **Robust test suite**, performed with Node v6+ and v7+ on [Linux, Mac,](https://travis-ci.org/mceachen/exiftool-vendored) & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
+1. **Robust test suite**, performed with Node v4, v6 and v7 on [Linux, Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), & [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored.js/branch/master).
 
 ## Installation
 
@@ -154,9 +154,9 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
-### v2.10.0 (beta)
+### v2.10.0
 
-* 🌱 Support for Node 4 (ES5)
+* 🌱 Added support for Node 4. TypeScript builds under es5 mode.
 
 ### v2.9.0
 
