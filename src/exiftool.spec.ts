@@ -1,7 +1,7 @@
-import * as _path from "path"
-
-import { ExifTool } from "./exiftool"
 import { expect } from "./chai.spec"
+import { ExifTool } from "./exiftool"
+import * as _path from "path"
+import * as semver from "semver"
 
 describe("ExifTool", () => {
   const exiftool = new ExifTool(2)
@@ -13,11 +13,24 @@ describe("ExifTool", () => {
     return exiftool["procs"]().length
   }
 
-  it("returns the correct version", () => {
-    return expect(exiftool.version()).to.become("10.46")
+  const packageJson = require("../package.json")
+
+  function expectedExiftoolVersion(): string {
+    const linuxVendorVersion = packageJson.config.platformDependentModules.linux[0].split("@")[1]
+    const major = semver.major(linuxVendorVersion)
+    const minor = semver.minor(linuxVendorVersion)
+    expect(major).to.be.gte(10)
+    expect(minor).to.be.gte(46)
+    return `${major}.${minor}`
+  }
+
+  it("returns the correct version", async function () {
+    this.slow(500)
+    return expect(await exiftool.version()).to.eql(expectedExiftoolVersion())
   })
 
-  it("returns expected results for a given file", () => {
+  it("returns expected results for a given file", async function () {
+    this.slow(500)
     return expect(exiftool.read(img).then(tags => tags.Model)).to.eventually.eql("iPhone 7 Plus")
   })
 
@@ -72,7 +85,8 @@ describe("ExifTool", () => {
     return expect((await exiftool.read(__filename)).Error).to.match(/Unknown file type/i)
   })
 
-  it("ends with multiple procs", async () => {
+  it("ends with multiple procs",async function () {
+    this.slow(500)
     const promises = [exiftool.read(img), exiftool.read(img), exiftool.read(img)]
     expect(runningProcs()).to.eql(2)
     const tags = await Promise.all(promises)

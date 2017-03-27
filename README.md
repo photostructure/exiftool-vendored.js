@@ -154,6 +154,11 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.11.0
+
+* 🌱 ExifTool upgraded to v10.47
+* 🌱 Added call to `.kill()` on `.end()` in case the stdin command was missed by ExifTool
+
 ### v2.10.0
 
 * 🌱 Added support for Node 4. TypeScript builds under es5 mode.

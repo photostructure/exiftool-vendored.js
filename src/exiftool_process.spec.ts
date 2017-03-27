@@ -1,8 +1,9 @@
-import { ExifToolProcess } from "./exiftool_process"
 import { expect } from "./chai.spec"
+import { ExifToolProcess } from "./exiftool_process"
 
 describe("ExifToolProcess", () => {
-  it("ends properly", async () => {
+  it("ends properly", async function () {
+    this.slow(500)
     let idled: number[] = []
     let ended: number[] = []
     const observer = {

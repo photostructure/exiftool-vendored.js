@@ -1,4 +1,5 @@
 import { BinaryExtractionTask } from "./binary_extraction_task"
+import { delay } from "./delay"
 import { ExifToolProcess, ExifToolProcessObserver } from "./exiftool_process"
 import { Tags } from "./tags"
 import { TagsTask } from "./tags_task"
@@ -107,9 +108,16 @@ export class ExifTool {
    * This may need to be called in `after` or `finally` clauses in tests
    * or scripts for them to exit cleanly.
    */
-  end(): Promise<any> {
+  async end(maxGracefulWaitTimeMillis: number = 500): Promise<any> {
     this._procs.forEach(p => p.end())
-    return Promise.all(this._procs.map(p => p.closedPromise))
+    const nonIdleProcs = this._procs.filter(p => !p.idle)
+    if (nonIdleProcs.length > 0) {
+      await Promise.race([delay(maxGracefulWaitTimeMillis), Promise.all(nonIdleProcs.map(p => p.closedPromise))])
+    } else {
+      // We don't need to wait for the procs to close gracefully if all the procs are idle
+    }
+    this._procs.forEach(p => p.kill())
+    return
   }
 
   /**
@@ -134,7 +142,7 @@ export class ExifTool {
     if (this._tasks.length > 0) {
       const idle = this._procs.find(p => !p.ended && p.idle)
       if (idle) {
-        idle.execTask(this.dequeueTask() !)
+        idle.execTask(this.dequeueTask()!)
       } else if (this.procs().length < this.maxProcs) {
         dbg(`Spawning a new ExifTool instance. ${this._tasks.length} pending tasks, ${this._procs.length} procs.`)
         this._procs.push(new ExifToolProcess(this.observer))

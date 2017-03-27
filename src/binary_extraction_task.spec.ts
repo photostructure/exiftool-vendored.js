@@ -1,6 +1,6 @@
+import { BinaryExtractionTask } from "./binary_extraction_task"
 import { expect, pfs, ptmp } from "./chai.spec"
 import { exiftool } from "./exiftool"
-import { BinaryExtractionTask } from "./binary_extraction_task"
 import { join } from "path"
 
 const testDir = join(__dirname, "..", "test")
@@ -22,7 +22,8 @@ describe("BinaryExtractionTask", () => {
     })
   })
 
-  it("extracts expected thumb", async () => {
+  it("extracts expected thumb", async function () {
+    this.slow(500)
     const src = join(testDir, "with_thumb.jpg")
     const dest = await ptmp.tmpName()
     await exiftool.extractThumbnail(src, dest)

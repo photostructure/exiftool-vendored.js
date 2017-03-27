@@ -81,12 +81,16 @@ export class ExifToolProcess {
     return true
   }
 
-  end(): void {
+  async end(): Promise<void> {
     if (!this.ended) {
       this._ended = true
       this.proc.stdin.write("\n-stay_open\nFalse\n")
       this.proc.stdin.end()
     }
+  }
+
+  kill(signal?: string): void {
+    this.proc.kill(signal)
   }
 
   /**
