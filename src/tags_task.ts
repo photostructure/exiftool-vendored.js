@@ -46,14 +46,14 @@ export class TagsTask extends Task<Tags> {
   }
 
   private extractTzoffset(): void {
-    // TimeZone just wins if we're just handed it, then use it:
+    // TimeZone wins if we've got it:
     const tze = new _dt.ExifTimeZoneOffset("TimeZone", this.rawTags.TimeZone)
     if (tze.tzOffsetMinutes !== undefined) {
       this.tzoffset = tze.tzOffsetMinutes
-    } else {
+    } else if (this.rawTags.GPSDateTime != null && this.rawTags.DateTimeOriginal != null) {
       const gps = _dt.parse("GPSDateTime", this.rawTags.GPSDateTime, 0) as _dt.ExifDateTime
       const local = _dt.parse("DateTimeOriginal", this.rawTags.DateTimeOriginal, 0) as _dt.ExifDateTime
-      if (gps && local) {
+      if (gps && local && gps.toDate && local.toDate) {
         // timezone offsets are never less than 30 minutes.
         const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
         const localToHalfHour = local.toDate().getTime() / (30 * 60 * 1000)

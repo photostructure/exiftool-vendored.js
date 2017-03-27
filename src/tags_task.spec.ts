@@ -75,6 +75,14 @@ describe("TimeZone extraction", () => {
     expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(8 * 60)
     expect(t.DateTimeCreated.tzoffsetMinutes).to.eql(8 * 60)
   })
+
+  it("skips invalid timestamps", () => {
+    const t = parse({
+      DateTimeOriginal: "2016:08:12 13:28:50",
+      GPSDateTime: "not a timestamp",
+    })
+    expect(t.DateTimeOriginal.tzoffsetMinutes).to.be.undefined
+  })
 })
 
 describe("SubSecDateTimeOriginal", () => {
