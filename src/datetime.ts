@@ -91,14 +91,24 @@ export class ExifDateTime extends Base {
    */
   readonly millis: number
 
+  /**
+   * @param year full 4-digit value
+   * @param month 1-12, no crazy 0-11 nonsense
+   * @param day 1-31
+   * @param hour 1-23
+   * @param minute 0-59
+   * @param second 0-59
+   * @param secondFraction 0-999
+   * @param tzoffsetMinutes
+   */
   constructor(
     readonly year: number,
-    readonly month: number,  // 1-12, no crazy 0-11 nonsense
-    readonly day: number,    // 1-31
-    readonly hour: number,   // 1-23
-    readonly minute: number, // 0-59
-    readonly second: number, // 0-59
-    secondFraction?: number, // 0-999
+    readonly month: number,
+    readonly day: number,
+    readonly hour: number,
+    readonly minute: number,
+    readonly second: number,
+    secondFraction?: number,
     readonly tzoffsetMinutes?: number
   ) {
     super()

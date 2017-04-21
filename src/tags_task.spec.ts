@@ -36,22 +36,22 @@ describe("Lat/Lon parsing", () => {
 describe("TimeZone extraction", () => {
   it("finds positive TimeZone and sets accordingly", () => {
     const t = parse({
-        TimeZone: "+09:00",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+      TimeZone: "+09:00",
+      DateTimeOriginal: "2016:08:12 13:28:50"
     })
     expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(9 * 60)
   })
   it("finds zulu TimeZone and sets accordingly", () => {
     const t = parse({
-        TimeZone: "+00:00",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+      TimeZone: "+00:00",
+      DateTimeOriginal: "2016:08:12 13:28:50"
     })
     expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(0)
   })
   it("finds negative TimeZone and sets accordingly", () => {
     const t = parse({
-        TimeZone: "-04:00",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+      TimeZone: "-04:00",
+      DateTimeOriginal: "2016:08:12 13:28:50"
     })
     expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(-4 * 60)
   })
@@ -79,7 +79,7 @@ describe("TimeZone extraction", () => {
   it("skips invalid timestamps", () => {
     const t = parse({
       DateTimeOriginal: "2016:08:12 13:28:50",
-      GPSDateTime: "not a timestamp",
+      GPSDateTime: "not a timestamp"
     })
     expect(t.DateTimeOriginal.tzoffsetMinutes).to.be.undefined
   })

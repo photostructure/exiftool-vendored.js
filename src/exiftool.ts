@@ -28,10 +28,14 @@ export class ExifTool {
   }
 
   /**
-   * @param maxProcs the maximum number of ExifTool child processes to spawn when load merits
+   * @param maxProcs the maximum number of ExifTool child processes to spawn
+   * when load merits
+   * @param maxReuses the maximum number of requests a given ExifTool process will service
+   * before being retired
    */
   constructor(
-    readonly maxProcs: number = 1
+    readonly maxProcs: number = 1,
+    readonly maxReuses: number = 100
   ) {
     _process.on("exit", () => this.end())
   }
@@ -142,6 +146,10 @@ export class ExifTool {
     if (this._tasks.length > 0) {
       const idle = this._procs.find(p => !p.ended && p.idle)
       if (idle) {
+        if (idle.taskCount > this.maxReuses) {
+          idle.end()
+          this.onIdle()
+        }
         idle.execTask(this.dequeueTask()!)
       } else if (this.procs().length < this.maxProcs) {
         dbg(`Spawning a new ExifTool instance. ${this._tasks.length} pending tasks, ${this._procs.length} procs.`)

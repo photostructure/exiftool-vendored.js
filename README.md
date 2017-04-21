@@ -154,6 +154,11 @@ Given those constraints, version numbers follow standard SemVer, with the follow
 
 ## Changelog
 
+### v2.13.0
+
+* 🌱 Added `maxReuses` before exiftool processes are recycled
+* 🌱 ExifTool upgraded to v10.50
+
 ### v2.12.0
 
 * 🐛 Fixed [`gps.toDate is not a function`](https://github.com/mceachen/exiftool-vendored.js/issues/3)

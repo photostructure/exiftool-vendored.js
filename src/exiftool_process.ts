@@ -29,6 +29,7 @@ export function ellipsize(str: string, max: number) {
  */
 export class ExifToolProcess {
   private static readonly ready = "{ready}"
+  taskCount = 0
   private _ended = false
   private _closed = new Deferred<void>()
   private readonly proc: _child_process.ChildProcess
@@ -69,6 +70,7 @@ export class ExifToolProcess {
     if (this.ended || !this.idle) {
       return false
     }
+    this.taskCount++
     dbg("Running " + task.args)
     this.currentTask = task
     const cmd = [
