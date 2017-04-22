@@ -24,7 +24,8 @@ export class ExifTool {
 
   private readonly observer: ExifToolProcessObserver = {
     onIdle: () => this.onIdle(),
-    onEnd: () => this.onEnd()
+    onEnd: () => this.onEnd(),
+    enqueueTask: (task) => this.enqueueTask(task)
   }
 
   /**
@@ -35,8 +36,13 @@ export class ExifTool {
    */
   constructor(
     readonly maxProcs: number = 1,
-    readonly maxReuses: number = 100
+    readonly maxReuses: number = 100,
+    readonly taskTimeoutMillis: number = 10000,
+    readonly onIdleIntervalMillis: number = 10000
   ) {
+    if (onIdleIntervalMillis > 0) {
+      setInterval(() => this.onIdle(), onIdleIntervalMillis).unref()
+    }
     _process.on("exit", () => this.end())
   }
 
@@ -144,16 +150,17 @@ export class ExifTool {
 
   private onIdle(): void {
     if (this._tasks.length > 0) {
-      const idle = this._procs.find(p => !p.ended && p.idle)
+      const idle = this._procs.find(p => p.idle)
       if (idle) {
         if (idle.taskCount > this.maxReuses) {
+          dbg(`Recycling proc ${idle.pid}`)
           idle.end()
           this.onIdle()
         }
         idle.execTask(this.dequeueTask()!)
       } else if (this.procs().length < this.maxProcs) {
         dbg(`Spawning a new ExifTool instance. ${this._tasks.length} pending tasks, ${this._procs.length} procs.`)
-        this._procs.push(new ExifToolProcess(this.observer))
+        this._procs.push(new ExifToolProcess(this.observer, this.taskTimeoutMillis))
         // this new proc will send an onIdle() when it's ready.
       }
     }

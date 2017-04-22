@@ -9,10 +9,14 @@ export class TagsTask extends Task<Tags> {
   private readonly tags: Tags
   private tzoffset: number | undefined
 
-  private constructor(readonly SourceFile: string, args: string[]) {
+  private constructor(readonly sourceFile: string, args: string[]) {
     super(args)
     const errors: string[] = []
-    this.tags = { SourceFile, errors } as Tags
+    this.tags = { SourceFile: sourceFile, errors } as Tags
+  }
+
+  toString(): string {
+    return "TagsTask(" + this.sourceFile + ")"
   }
 
   static for(filename: string, optionalArgs: string[] = []): TagsTask {
@@ -32,10 +36,10 @@ export class TagsTask extends Task<Tags> {
     // ExifTool does humorous things to paths, like flip slashes. resolve() undoes that.
     const SourceFile = _path.resolve(this.rawTags.SourceFile)
     // Sanity check that the result is for the file we want:
-    if (SourceFile !== this.SourceFile) {
+    if (SourceFile !== this.sourceFile) {
       // Throw an error rather than add an errors string because this is *really* bad:
       throw new Error(
-        `Internal error: unexpected SourceFile of ${this.rawTags.SourceFile} for file ${this.SourceFile}`
+        `Internal error: unexpected SourceFile of ${this.rawTags.SourceFile} for file ${this.sourceFile}`
       )
     }
     return this.parseTags()
@@ -72,8 +76,9 @@ export class TagsTask extends Task<Tags> {
 
   private parseTag(tagName: string, value: any): any {
     try {
-      if (tagName.endsWith("DateStampMode") || tagName.endsWith("Sharpness")
-        || tagName.endsWith("Firmware") || tagName.endsWith("DateDisplayFormat")) {
+      if (tagName.endsWith("ExifToolVersion") ||
+        tagName.endsWith("DateStampMode") || tagName.endsWith("Sharpness") ||
+        tagName.endsWith("Firmware") || tagName.endsWith("DateDisplayFormat")) {
         return value.toString() // force to string
       } else if (tagName.endsWith("BitsPerSample")) {
         return value.toString().split(" ").map((i: string) => parseInt(i, 10))

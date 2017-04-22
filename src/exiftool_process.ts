@@ -5,6 +5,7 @@ import * as _child_process from "child_process"
 import * as debug from "debug"
 import * as _fs from "fs"
 import * as _process from "process"
+import { setTimeout, clearTimeout } from "timers"
 
 const dbg = debug("exiftool-vendored:process")
 const isWin32 = _process.platform === "win32"
@@ -17,6 +18,7 @@ if (!_fs.existsSync(exiftoolPath)) {
 export interface ExifToolProcessObserver {
   onIdle(): void
   onEnd(): void
+  enqueueTask(task: Task<any>): void
 }
 
 export function ellipsize(str: string, max: number) {
@@ -30,13 +32,18 @@ export function ellipsize(str: string, max: number) {
 export class ExifToolProcess {
   private static readonly ready = "{ready}"
   taskCount = 0
+  private _ready = false
   private _ended = false
   private _closed = new Deferred<void>()
   private readonly proc: _child_process.ChildProcess
   private buff = ""
   private currentTask: Task<any> | undefined
+  private currentTaskTimeout: NodeJS.Timer | undefined
 
-  constructor(private readonly observer: ExifToolProcessObserver) {
+  constructor(
+    private readonly observer: ExifToolProcessObserver,
+    readonly taskTimeoutMillis: number = 0
+  ) {
     this.proc = _child_process.execFile(
       exiftoolPath,
       ["-stay_open", "True", "-@", "-"],
@@ -48,11 +55,14 @@ export class ExifToolProcess {
     )
     this.proc.unref() // don't let node count ExifTool as a reason to stay alive
 
-    this.proc.on("error", err => this.onError(err, true))
-    this.proc.stderr.on("error", err => this.onError(err, true))
-    this.proc.stderr.on("data", err => this.onError(err))
+    this.proc.on("error", err => this.onError("proc onError", err, true))
 
-    this.proc.stdout.on("error", err => this.onError(err, true))
+    this.proc.stdin.on("error", err => this.onError("stdin onError", err, true)) // probably ECONNRESET
+
+    this.proc.stderr.on("error", err => this.onError("stderr onError", err, false))
+    this.proc.stderr.on("data", err => this.onError("stderr onData", err, false))
+
+    this.proc.stdout.on("error", err => this.onError("stdout onError", err, true))
     this.proc.stdout.on("data", d => this.onData(d))
 
     this.proc.on("close", () => {
@@ -60,19 +70,27 @@ export class ExifToolProcess {
       this._closed.resolve()
       this.observer.onEnd()
     })
+
     _process.on("beforeExit", () => this.end())
 
     // only accept commands if we know all is well. This task "primes the pump":
     this.execTask(new VersionTask())
   }
 
+  get pid(): number {
+    return this.proc.pid
+  }
+
   execTask(task: Task<any>): boolean {
-    if (this.ended || !this.idle) {
+    if (this.ended || this.currentTask != null) {
       return false
     }
     this.taskCount++
     dbg("Running " + task.args)
     this.currentTask = task
+    if (this.taskTimeoutMillis > 0) {
+      this.currentTaskTimeout = setTimeout(() => this.timeoutTask(task), this.taskTimeoutMillis)
+    }
     const cmd = [
       ...task.args,
       "-ignoreMinorErrors",
@@ -83,11 +101,18 @@ export class ExifToolProcess {
     return true
   }
 
-  async end(): Promise<void> {
+  end(): Promise<void> | undefined {
     if (!this.ended) {
+      if (this.currentTaskTimeout != null) {
+        clearTimeout(this.currentTaskTimeout)
+        this.currentTaskTimeout = undefined
+      }
       this._ended = true
-      this.proc.stdin.write("\n-stay_open\nFalse\n")
-      this.proc.stdin.end()
+      return new Promise<void>(resolve =>
+        this.proc.stdin.end("\n-stay_open\nFalse\n", resolve)
+      )
+    } else {
+      return
     }
   }
 
@@ -114,22 +139,31 @@ export class ExifToolProcess {
   }
 
   get idle(): boolean {
-    return this.currentTask === undefined
+    return this.currentTask === undefined && this._ready && !this._ended
   }
 
-  private onError(error: any, end: boolean = false) {
+  private timeoutTask(task: Task<any>): void {
+    if (!task.fulfilled) {
+      task.reject("Timeout")
+      this.end() // because who knows what is going on with this process now...
+    }
+  }
+
+  private onError(source: string, error: any, retryTask: boolean = false) {
+    // Recycle on errors, and clear task timeouts:
+    this.end()
+
     const err = Buffer.isBuffer(error) ? error.toString() : error
-    if (this.currentTask) {
-      this.currentTask.reject(err)
-      this.currentTask = undefined
+    dbg(`Handling error from ${source}: ${err}`)
+    const task = this.currentTask
+    this.currentTask = undefined
+    if (task) {
+      dbg(`Re-enqueuing ${task}...`)
+      retryTask ? this.observer.enqueueTask(task) : task.reject(error)
     } else {
       dbg(`Error from ExifTool: ${err}`)
     }
-    if (end) {
-      this.end()
-    } else {
-      this.observer.onIdle()
-    }
+    this.observer.onIdle()
   }
 
   private onData(data: string | Buffer) {
@@ -138,6 +172,10 @@ export class ExifToolProcess {
     if (done) {
       const buff = this.buff.slice(0, -ExifToolProcess.ready.length).trim()
       const task = this.currentTask
+      if (this.currentTaskTimeout != null) {
+        clearTimeout(this.currentTaskTimeout)
+        this.currentTaskTimeout = undefined
+      }
       this.buff = ""
       this.currentTask = undefined
       if (task === undefined) {
@@ -148,6 +186,7 @@ export class ExifToolProcess {
       } else {
         task.onData(buff)
       }
+      this._ready = true
       this.observer.onIdle()
     }
   }

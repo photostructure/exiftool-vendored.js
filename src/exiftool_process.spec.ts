@@ -8,7 +8,8 @@ describe("ExifToolProcess", () => {
     let ended: number[] = []
     const observer = {
       onIdle: () => idled.push(Date.now()),
-      onEnd: () => ended.push(Date.now())
+      onEnd: () => ended.push(Date.now()),
+      enqueueTask: () => { throw new Error("not implemented") }
     }
     const etp = new ExifToolProcess(observer)
     etp.end()
