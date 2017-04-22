@@ -195,6 +195,11 @@ following scheme:
 
 ## Changelog
 
+### v2.15.0
+
+* ✨ Added example movies to the sample image corpus used to build the tag
+  definitions.
+
 ### v2.14.0
 
 * ✨ Added `taskTimeoutMillis`, which will cause the promise to be rejected if

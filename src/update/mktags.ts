@@ -151,7 +151,7 @@ function cmp(a: any, b: any): number {
 const tagMap = new TagMap()
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
-const exiftool = new ExifTool(4)
+const exiftool = new ExifTool(8)
 
 async function readAndAddToTagMap(file: string) {
   try {

@@ -25,7 +25,7 @@ export class ExifTool {
   private readonly observer: ExifToolProcessObserver = {
     onIdle: () => this.onIdle(),
     onEnd: () => this.onEnd(),
-    enqueueTask: (task) => this.enqueueTask(task)
+    enqueueTask: (task) => this.enqueueTask(task, false)
   }
 
   /**
@@ -38,7 +38,7 @@ export class ExifTool {
     readonly maxProcs: number = 1,
     readonly maxReuses: number = 100,
     readonly taskTimeoutMillis: number = 10000,
-    readonly onIdleIntervalMillis: number = 10000
+    readonly onIdleIntervalMillis: number = 2000
   ) {
     if (onIdleIntervalMillis > 0) {
       setInterval(() => this.onIdle(), onIdleIntervalMillis).unref()
@@ -134,8 +134,8 @@ export class ExifTool {
    * `enqueueTask` is not for normal consumption. External code
    * can extend `Task` to add functionality.
    */
-  enqueueTask<T>(task: Task<T>): Task<T> {
-    this._tasks.push(task)
+  enqueueTask<T>(task: Task<T>, append: boolean = true): Task<T> {
+    append ? this._tasks.push(task) : this._tasks.unshift(task)
     this.onIdle()
     return task
   }
