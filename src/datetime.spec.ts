@@ -80,6 +80,11 @@ describe("ExifTime", () => {
     const dt = _dt.parse("RunTimeSincePowerUp", "18:08:05.813") as _dt.ExifTime
     expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([18, 8, 5, 813])
   })
+  it("hour/minute/second/micros", () => {
+    const dt = _dt.parse("SubSecDateTimeOriginal", "08:20:55.207340") as _dt.ExifTime
+    expect([dt.hour, dt.minute, dt.second]).to.eql([8, 20, 55])
+    expect(dt.millis).to.be.closeTo(207.34, .001)
+  })
 })
 
 describe("ExifTime from GPS", () => {
