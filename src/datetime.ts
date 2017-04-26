@@ -1,5 +1,5 @@
-export function compact<T>(array: T[]): T[] {
-  return array.filter((elem) => elem !== undefined && elem !== null)
+export function compact<T>(array: (T | undefined | null)[]): T[] {
+  return array.filter((elem) => elem != null) as T[]
 }
 
 export function pad2(...numbers: number[]): string[] {
@@ -18,6 +18,20 @@ export function pad3(...numbers: number[]): string[] {
       return `000${i}`.slice(Math.min(-3, -(Math.ceil(Math.log10(i)))))
     }
   })
+}
+
+/**
+ *
+ * @param millis [0-1000)
+ * @return the decimal fraction of the second (to maximally microsecond precision)
+ */
+export function millisToFractionalPart(millis: number): string {
+  const frac = (millis / 1000).toPrecision(6).split("").slice(1) // pop off the "0." bit
+  // strip off microsecond zero padding:
+  while (frac.length > 4 && frac[frac.length - 1] === "0") {
+    frac.pop()
+  }
+  return frac.join("")
 }
 
 export abstract class Base {
@@ -40,22 +54,30 @@ export abstract class Base {
  * Encodes an ExifTime (which may not have a timezone offset)
  */
 export class ExifTime {
-  static regex = /^(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,6}))?$/
+  static regex = /^(\d{2}):(\d{2}):(\d{2})(\.\d{1,9})?$/
 
   readonly millis: number
 
+  /**
+   *
+   * @param hour [1-23]
+   * @param minute [0, 59]
+   * @param second [0, 59]
+   * @param secondFraction [0,1)
+   * @param tzoffsetMinutes [-24 * 60, 24 * 60]
+   */
   constructor(
-    readonly hour: number,   // 1-23
-    readonly minute: number, // 0-59
-    readonly second: number, // 0-59
-    secondFraction?: number, // 0-999
+    readonly hour: number,
+    readonly minute: number,
+    readonly second: number,
+    secondFraction?: number,
     readonly tzoffsetMinutes?: number
   ) {
-    this.millis = (secondFraction !== undefined) ? parseFloat(`0.${secondFraction}`) * 1000 : 0
+    this.millis = (secondFraction != null) ? secondFraction * 1000 : 0
   }
 
   toString(): string {
-    return pad2(this.hour, this.minute, this.second).join(":")
+    return pad2(this.hour, this.minute, this.second).join(":") + millisToFractionalPart(this.millis)
   }
 }
 
@@ -68,7 +90,7 @@ export class ExifDate {
     readonly year: number,  // four-digit year
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
     readonly day: number   // 1-31
-  ) { } // tslint:disable-line
+  ) { }
 
   toString(): string {
     return `${this.year}-${pad2(this.month)}-${pad2(this.day)}`
@@ -84,7 +106,7 @@ export class ExifDate {
  */
 export class ExifDateTime extends Base {
   // The timezone offset will be extricated prior to this regex:
-  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(?:\.(\d{1,6}))?$/
+  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(\.\d{1,9})?$/
 
   /**
    * Note that this may have fractional precision (123.456ms)
@@ -98,7 +120,7 @@ export class ExifDateTime extends Base {
    * @param hour 1-23
    * @param minute 0-59
    * @param second 0-59
-   * @param secondFraction 0-999
+   * @param secondFraction `[0-1)`
    * @param tzoffsetMinutes
    */
   constructor(
@@ -112,7 +134,7 @@ export class ExifDateTime extends Base {
     readonly tzoffsetMinutes?: number
   ) {
     super()
-    this.millis = (secondFraction !== undefined) ? parseFloat(`0.${secondFraction}`) * 1000 : 0
+    this.millis = (secondFraction != null) ? secondFraction * 1000 : 0
   }
 
   /**
@@ -140,7 +162,15 @@ export class ExifDateTime extends Base {
 
   toISOString(): string {
     const [mo, da, ho, mi, se] = pad2(this.month, this.day, this.hour, this.minute, this.second)
-    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}.${pad3(this.millis)}${this.tz(this.tzoffsetMinutes)}`
+    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${millisToFractionalPart(this.millis)}${this.tz(this.tzoffsetMinutes)}`
+  }
+}
+
+function parseNum(s: string): number {
+  if (s.indexOf(".") !== -1) {
+    return parseFloat("0" + s)
+  } else {
+    return parseInt("0" + s, 10)
   }
 }
 
@@ -148,7 +178,7 @@ function _new<T>(re: RegExp, ctor: (args: number[]) => T): ((input: string, tzof
   return (input: string, tzoffset?: number) => {
     const match = re.exec(input)
     if (match !== null) {
-      const args = match.slice(1).map(s => parseInt(s, 10))
+      const args = match.slice(1).map(ea => parseNum((ea || "").trim()))
       if (tzoffset !== undefined) {
         args.push(tzoffset)
       }

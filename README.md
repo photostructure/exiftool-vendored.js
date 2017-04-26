@@ -143,6 +143,9 @@ smartphone images.
 If a tzoffset can be determined, it is encoded in all related `ExifDateTime`
 tags for those files.
 
+Note also that some smartphones record timestamps with microsecond precision (not just millis!),
+and both `ExifDateTime` and `ExifTime` have floating point milliseconds.
+
 ## Tags
 
 Official [EXIF](http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf) tag names
@@ -194,6 +197,11 @@ following scheme:
 * 🐞 Minor bugfixes
 
 ## Changelog
+
+### v2.16.0
+
+* ✨ Some newer smartphones (like the Google Pixel) render timestamps with
+  microsecond precision, which is now supported.
 
 ### v2.15.0
 
