@@ -15,10 +15,6 @@ export class TagsTask extends Task<Tags> {
     this.tags = { SourceFile: sourceFile, errors } as Tags
   }
 
-  toString(): string {
-    return "TagsTask(" + this.sourceFile + ")"
-  }
-
   static for(filename: string, optionalArgs: string[] = []): TagsTask {
     const sourceFile = _path.resolve(filename)
     const args = [
@@ -29,6 +25,10 @@ export class TagsTask extends Task<Tags> {
       sourceFile
     ]
     return new TagsTask(sourceFile, args)
+  }
+
+  toString(): string {
+    return "TagsTask(" + this.sourceFile + ")"
   }
 
   parse(data: string): Tags {
