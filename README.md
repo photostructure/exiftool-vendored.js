@@ -198,6 +198,10 @@ following scheme:
 
 ## Changelog
 
+### v2.16.1
+
+* 📦 Exposed datetime parsing via static methods on `ExifDateTime`, `ExifDate`, and `ExifTime`.
+
 ### v2.16.0
 
 * ✨ Some newer smartphones (like the Google Pixel) render timestamps with

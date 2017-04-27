@@ -25,18 +25,18 @@ describe(".millisToFractionalPart()", () => {
 describe("ExifDateTime", () => {
   describe("example strings with no tz", () => {
     const dt = parse("DateTimeOriginal", "2016:08:12 07:28:50.768120") as ExifDateTime
-    it("year/month/day", () => {
+    it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
     })
-    it("hour/minute/second/millis", () => {
+    it("parses hour/minute/second/millis", () => {
       expect([dt.hour, dt.minute, dt.second]).to.eql([7, 28, 50])
       expect(dt.millis).to.be.closeTo(768.12, .01)
     })
-    it(".toString", () => {
+    it("ISO .toString()s", () => {
       expect(dt.toString()).to.eql("2016-08-12T07:28:50.76812")
     })
-    it(".toISOString", () => {
-      expect(dt.toISOString()).to.eql("2016-08-12T07:28:50.76812")
+    it(".toISOString() matches .toString()", () => {
+      expect(dt.toISOString()).to.eql(dt.toString())
     })
     it("Renders a Date assuming the current timezone offset", () => {
       expect(dt.toDate().toLocaleString("en-US")).to.eql("8/12/2016, 7:28:50 AM")
@@ -45,17 +45,20 @@ describe("ExifDateTime", () => {
 
   describe("example strings with UTC tzoffset", () => {
     const dt = parse("GPSDateTime", "2011:01:23 18:19:20") as ExifDateTime
-    it("year/month/day", () => {
+    it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2011, 1, 23])
     })
-    it("hour/minute/second", () => {
+    it("parses hour/minute/second", () => {
       expect([dt.hour, dt.minute, dt.second]).to.eql([18, 19, 20])
     })
-    it("tzoffset", () => {
+    it("parses tzoffset", () => {
       expect(dt.tzoffsetMinutes).to.eql(0)
     })
     it(".toISOString", () => {
       expect(dt.toISOString()).to.eql("2011-01-23T18:19:20.000Z")
+    })
+    it(".toISOString() matches .toString()", () => {
+      expect(dt.toISOString()).to.eql(dt.toString())
     })
     it("Renders a Date assuming the current timezone offset", () => {
       const d = dt.toDate()
@@ -69,17 +72,20 @@ describe("ExifDateTime", () => {
 
   describe("example strings with tz", () => {
     const dt = parse("DateTimeOriginal", "2013:12:30 11:04:15-05:00") as ExifDateTime // non-local offset
-    it("year/month/day", () => {
+    it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
     })
-    it("hour/minute/second", () => {
+    it("parses hour/minute/second", () => {
       expect([dt.hour, dt.minute, dt.second]).to.eql([11, 4, 15])
     })
-    it("tzoffset", () => {
+    it("parses tzoffset", () => {
       expect(dt.tzoffsetMinutes).to.eql(-60 * 5)
     })
     it(".toISOString", () => {
       expect(dt.toISOString()).to.eql("2013-12-30T11:04:15.000-05:00")
+    })
+    it(".toISOString() matches .toString()", () => {
+      expect(dt.toISOString()).to.eql(dt.toString())
     })
     it("Renders a Date assuming the forced timezone offset", () => {
       const d = dt.toDate()
@@ -93,15 +99,15 @@ describe("ExifDateTime", () => {
 })
 
 describe("ExifTime", () => {
-  it("hour/minute/second", () => {
+  it("parses hour/minute/second", () => {
     const dt = parse("RunTimeSincePowerUp", "12:03:45") as ExifTime
     expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([12, 3, 45, 0])
   })
-  it("hour/minute/second/millis", () => {
+  it("parses hour/minute/second/millis", () => {
     const dt = parse("RunTimeSincePowerUp", "18:08:05.813") as ExifTime
     expect([dt.hour, dt.minute, dt.second, dt.millis]).to.eql([18, 8, 5, 813])
   })
-  it("hour/minute/second/micros", () => {
+  it("parses hour/minute/second/micros", () => {
     const dt = parse("SubSecDateTimeOriginal", "08:20:55.207340") as ExifTime
     expect([dt.hour, dt.minute, dt.second]).to.eql([8, 20, 55])
     expect(dt.millis).to.be.closeTo(207.34, .001)

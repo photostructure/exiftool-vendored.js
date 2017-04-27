@@ -69,8 +69,7 @@ class CountingMap<T> {
 class Tag {
   values: any[] = []
   important: boolean
-  constructor(readonly tag: string) {
-  } // tslint:disable-line
+  constructor(readonly tag: string) { }
 
   get group(): string { return this.tag.split(":")[0] }
   get withoutGroup(): string { return this.tag.split(":")[1] }

@@ -34,6 +34,19 @@ export function millisToFractionalPart(millis: number): string {
   return frac.join("")
 }
 
+function maybeNew<T>(input: string, tzoffsetMinutes: number | undefined, re: RegExp, ctor: (args: number[]) => T): T | undefined {
+  const match = re.exec(input)
+  if (match !== null) {
+    const args = match.slice(1).map(ea => parseNum((ea || "").trim()))
+    if (tzoffsetMinutes != null) {
+      args.push(tzoffsetMinutes)
+    }
+    return ctor(args)
+  } else {
+    return
+  }
+}
+
 export abstract class Base {
   protected tz(tzoffsetMinutes: number | undefined): string {
     if (tzoffsetMinutes === undefined) {
@@ -54,19 +67,18 @@ export abstract class Base {
  * Encodes an ExifTime (which may not have a timezone offset)
  */
 export class ExifTime {
-  static regex = /^(\d{2}):(\d{2}):(\d{2})(\.\d{1,9})?$/
+  private static regex = /^(\d{2}):(\d{2}):(\d{2})(\.\d{1,9})?$/
 
   readonly millis: number
 
   /**
-   *
    * @param hour [1-23]
    * @param minute [0, 59]
    * @param second [0, 59]
    * @param secondFraction [0,1)
    * @param tzoffsetMinutes [-24 * 60, 24 * 60]
    */
-  constructor(
+  private constructor(
     readonly hour: number,
     readonly minute: number,
     readonly second: number,
@@ -74,6 +86,12 @@ export class ExifTime {
     readonly tzoffsetMinutes?: number
   ) {
     this.millis = (secondFraction != null) ? secondFraction * 1000 : 0
+  }
+
+  static for(input: string, tzoffsetMinutes?: number): ExifTime | undefined {
+    return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
+      return new this(a[0], a[1], a[2], a[3], a[4])
+    })
   }
 
   toString(): string {
@@ -85,12 +103,18 @@ export class ExifTime {
  * Encodes an ExifDate
  */
 export class ExifDate {
-  static regex = /^(\d{4}):(\d{2}):(\d{2})$/
+  private static regex = /^(\d{4}):(\d{2}):(\d{2})$/
   constructor(
     readonly year: number,  // four-digit year
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
     readonly day: number   // 1-31
   ) { }
+
+  static for(input: string, tzoffsetMinutes?: number): ExifDate | undefined {
+    return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
+      return new this(a[0], a[1], a[2])
+    })
+  }
 
   toString(): string {
     return `${this.year}-${pad2(this.month)}-${pad2(this.day)}`
@@ -106,7 +130,7 @@ export class ExifDate {
  */
 export class ExifDateTime extends Base {
   // The timezone offset will be extricated prior to this regex:
-  static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(\.\d{1,9})?$/
+  private static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(\.\d{1,9})?$/
 
   /**
    * Note that this may have fractional precision (123.456ms)
@@ -135,6 +159,12 @@ export class ExifDateTime extends Base {
   ) {
     super()
     this.millis = (secondFraction != null) ? secondFraction * 1000 : 0
+  }
+
+  static for(input: string, tzoffsetMinutes?: number): ExifDateTime | undefined {
+    return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
+      return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7])
+    })
   }
 
   /**
@@ -174,20 +204,6 @@ function parseNum(s: string): number {
   }
 }
 
-function _new<T>(re: RegExp, ctor: (args: number[]) => T): ((input: string, tzoffset?: number) => T | undefined) {
-  return (input: string, tzoffset?: number) => {
-    const match = re.exec(input)
-    if (match !== null) {
-      const args = match.slice(1).map(ea => parseNum((ea || "").trim()))
-      if (tzoffset !== undefined) {
-        args.push(tzoffset)
-      }
-      return ctor(args)
-    } else {
-      return undefined
-    }
-  }
-}
 
 export class ExifTimeZoneOffset extends Base {
   static regex = /([-+])(\d{2}):(\d{2})$/
@@ -223,20 +239,6 @@ export class ExifTimeZoneOffset extends Base {
   }
 }
 
-// workaround for the fact that the spread operator doesn't work for constructors (!!?):
-
-const newDateTime = _new(ExifDateTime.regex, (a: number[]) => {
-  return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7])
-})
-
-const newDate = _new(ExifDate.regex, (a: number[]) => {
-  return new ExifDate(a[0], a[1], a[2])
-})
-
-const newTime = _new(ExifTime.regex, (a: number[]) => {
-  return new ExifTime(a[0], a[1], a[2], a[3], a[4])
-})
-
 const emptyRe = /^[\s:0]*$/ // Some empty datetimes come back as "  :  :  "
 
 export function parse(
@@ -250,14 +252,14 @@ export function parse(
 
   const tz = new ExifTimeZoneOffset(tagName, rawTagValue)
   // If it's just a timezone:
-  if (tz.tzOffsetMinutes !== undefined && emptyRe.exec(tz.inputWithoutTimezone)) {
+  if (tz.tzOffsetMinutes != null && emptyRe.exec(tz.inputWithoutTimezone)) {
     return tz
   }
   const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffset])[0]
   const tagValue = tz.inputWithoutTimezone
 
-  return newDateTime(tagValue, tzoffset)
-    || newDate(tagValue, tzoffset)
-    || newTime(tagValue, tzoffset)
+  return ExifDateTime.for(tagValue, tzoffset)
+    || ExifDate.for(tagValue, tzoffset)
+    || ExifTime.for(tagValue, tzoffset)
     || rawTagValue
 }

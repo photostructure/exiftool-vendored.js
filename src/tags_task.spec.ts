@@ -76,6 +76,16 @@ describe("TimeZone extraction", () => {
     expect(t.DateTimeCreated.tzoffsetMinutes).to.eql(8 * 60)
   })
 
+  it("renders SubSecDateTimeOriginal for -8", () => {
+    const t = parse({
+      DateTimeOriginal: "2016:12:13 09:05:27",
+      GPSDateTime: "2016:12:13 17:05:25Z",
+      SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200"
+    })
+    expect(t.SubSecDateTimeOriginal.tzoffsetMinutes).to.eql(-8 * 60)
+    expect(t.SubSecDateTimeOriginal.toString()).to.eql("2016-12-13T09:05:27.120382-08:00")
+  })
+
   it("skips invalid timestamps", () => {
     const t = parse({
       DateTimeOriginal: "2016:08:12 13:28:50",
