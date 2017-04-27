@@ -106,5 +106,13 @@ describe("SubSecDateTimeOriginal", () => {
     expect(t.second).to.eql(14)
     expect(t.tzoffsetMinutes).to.be.undefined
     expect(t.millis).to.be.approximately(437.831, .01)
+    const d = t.toDate()
+    expect(d.getFullYear()).to.eql(2016)
+    expect(d.getMonth()).to.eql(10 - 1)
+    expect(d.getDate()).to.eql(19)
+    expect(d.getHours()).to.eql(11)
+    expect(d.getMinutes()).to.eql(15)
+    expect(d.getSeconds()).to.eql(14)
+    expect(d.getMilliseconds()).to.eql(438)
   })
 })

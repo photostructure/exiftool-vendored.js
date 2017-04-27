@@ -198,6 +198,12 @@ following scheme:
 
 ## Changelog
 
+
+### v2.17
+
+* 🐛 Rounded milliseconds were not set by `ExifDateTime.toDate()` when timezone
+  was not available. Breaking tests were added.
+
 ### v2.16.1
 
 * 📦 Exposed datetime parsing via static methods on `ExifDateTime`, `ExifDate`, and `ExifTime`.

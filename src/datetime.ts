@@ -22,11 +22,11 @@ export function pad3(...numbers: number[]): string[] {
 
 /**
  *
- * @param millis [0-1000)
+ * @param millis [0,1000)
  * @return the decimal fraction of the second (to maximally microsecond precision)
  */
-export function millisToFractionalPart(millis: number): string {
-  const frac = (millis / 1000).toPrecision(6).split("").slice(1) // pop off the "0." bit
+export function millisToFractionalPart(millis: number, precision: number = 6): string {
+  const frac = (millis / 1000).toPrecision(precision).split("").slice(1) // pop off the initial "0" 
   // strip off microsecond zero padding:
   while (frac.length > 4 && frac[frac.length - 1] === "0") {
     frac.pop()
@@ -72,7 +72,7 @@ export class ExifTime {
   readonly millis: number
 
   /**
-   * @param hour [1-23]
+   * @param hour [1, 23]
    * @param minute [0, 59]
    * @param second [0, 59]
    * @param secondFraction [0,1)
@@ -173,16 +173,20 @@ export class ExifDateTime extends Base {
    * See the README for details.
    */
   toDate(): Date {
-    if (this.tzoffsetMinutes === undefined) {
+    if (this.tzoffsetMinutes == null) {
       const d = new Date()
       d.setFullYear(this.year, this.month - 1, this.day)
-      d.setHours(this.hour, this.minute, this.second)
+      d.setHours(this.hour, this.minute, this.second, Math.round(this.millis))
       return d
     } else if (this.tzoffsetMinutes === 0) {
       // Don't leave it up to string parsing
-      return new Date(Date.UTC(this.year, this.month - 1, this.day, this.hour, this.minute, this.second, this.millis))
+      return new Date(Date.UTC(
+        this.year, this.month - 1, this.day,
+        this.hour, this.minute, this.second,
+        this.millis // << Date seems to handle floats, so no need to round.
+      ))
     } else {
-      return new Date(this.toISOString())
+      return new Date(this.toISOString(3))
     }
   }
 
@@ -190,9 +194,9 @@ export class ExifDateTime extends Base {
     return this.toISOString()
   }
 
-  toISOString(): string {
+  toISOString(millisPrecision: number = 6): string {
     const [mo, da, ho, mi, se] = pad2(this.month, this.day, this.hour, this.minute, this.second)
-    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${millisToFractionalPart(this.millis)}${this.tz(this.tzoffsetMinutes)}`
+    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${millisToFractionalPart(this.millis, millisPrecision)}${this.tz(this.tzoffsetMinutes)}`
   }
 }
 
@@ -203,7 +207,6 @@ function parseNum(s: string): number {
     return parseInt("0" + s, 10)
   }
 }
-
 
 export class ExifTimeZoneOffset extends Base {
   static regex = /([-+])(\d{2}):(\d{2})$/
