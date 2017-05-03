@@ -1,6 +1,6 @@
 {
   "name": "exiftool-vendored",
-  "version": "2.17.0",
+  "version": "3.0.0-pre",
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/exiftool.js",
   "types": "./dist/exiftool.d.ts",
@@ -9,39 +9,18 @@
     "lint": "tslint --fix src/**/*.ts",
     "fmt": "bash -c 'tsfmt -r src/**/*.ts'",
     "compile": "tsc",
+    "tscw": "rimraf dist & tsc -w",
     "preupdate": "run-s clean lint compile",
     "update": "node dist/update/update.js",
     "premktags": "tsc",
     "mktags": "node dist/update/mktags.js",
     "pretest": "tsc",
-    "test": "mocha --timeout 10000 dist/**/*.spec.js",
+    "test": "mocha",
     "cleantest": "run-s clean lint fmt pdm test",
     "preversion": "run-s lint pdm",
     "pdm": "platform-dependent-modules",
     "postinstall": "npm run pdm"
   },
-  "files": [
-    "dist/binary_extraction_task.d.ts",
-    "dist/binary_extraction_task.js",
-    "dist/datetime.d.ts",
-    "dist/datetime.js",
-    "dist/deferred.d.ts",
-    "dist/deferred.js",
-    "dist/delay.d.ts",
-    "dist/delay.js",
-    "dist/exiftool_process.d.ts",
-    "dist/exiftool_process.js",
-    "dist/exiftool.d.ts",
-    "dist/exiftool.js",
-    "dist/tags_task.d.ts",
-    "dist/tags_task.js",
-    "dist/tags.d.ts",
-    "dist/tags.js",
-    "dist/task.d.ts",
-    "dist/task.js",
-    "dist/version_task.d.ts",
-    "dist/version_task.js"
-  ],
   "publishConfig": {
     "access": "public"
   },
@@ -86,7 +65,6 @@
   "devDependencies": {
     "@types/chai": "^3.4.35",
     "@types/chai-as-promised": "^0.0.30",
-    "@types/debug": "^0.0.29",
     "@types/jsdom": "^2.0.30",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.11",
@@ -112,13 +90,13 @@
     "tslint": "^4.5.1",
     "tslint-config-standard": "^4.0.0",
     "tslint-eslint-rules": "^3.5.1",
-    "typescript": "^2.2.1",
+    "typescript": "^2.3.1",
     "typescript-formatter": "^5.1.2",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.24"
   },
   "dependencies": {
-    "debug": "^2.6.3",
+    "batch-cluster": "0.0.2",
     "platform-dependent-modules": "^0.0.14"
   }
 }

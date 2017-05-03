@@ -1,0 +1,17 @@
+# no hidden files
+.* 
+
+# no system maps (they're only used during development)
+*.map
+
+# no testing artifacts
+*spec*
+*test*
+appveyor.yml
+
+# no src or test
+src/
+test/
+
+# no typescript configs
+ts*.json
