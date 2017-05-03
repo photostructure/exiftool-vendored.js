@@ -1,6 +1,6 @@
 # exiftool-vendored
 
-**Fast, cross-platform [Node.JS](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
+**Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
 
 [![npm version](https://badge.fury.io/js/exiftool-vendored.svg)](https://badge.fury.io/js/exiftool-vendored)
 [![Build status](https://travis-ci.org/mceachen/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored.js)
