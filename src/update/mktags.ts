@@ -1,7 +1,6 @@
-import { compact } from "../datetime"
-import { ExifTool } from "../exiftool"
-import { ellipsize } from "../exiftool_process"
-import { TagsTask } from "../tags_task"
+import { compact } from "../DateTime"
+import { ExifTool } from "../ExifTool"
+import { TagsTask } from "../TagsTask"
 import * as _fs from "fs"
 import * as _path from "path"
 import * as process from "process"
@@ -15,11 +14,17 @@ const globule = require("globule")
 require("longjohn")
 require("source-map-support").install()
 
+
+function ellipsize(str: string, max: number) {
+  str = "" + str
+  return (str.length < max) ? str : str.substring(0, max - 1) + "…"
+}
+
 // NO SRSLY STOP SCROLLING IT REALLY IS BAD
 
 function usage() {
   console.log("Usage: `npm run mktags IMG_DIR`")
-  console.log("\nRebuilds src/tags.ts from tags found in IMG_DIR.")
+  console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.")
   process.exit(1)
 }
 const roots = process.argv.slice(2)
@@ -155,7 +160,7 @@ const exiftool = new ExifTool(8)
 async function readAndAddToTagMap(file: string) {
   try {
     const task = TagsTask.for(file, ["-G"])
-    const tags: any = await exiftool.enqueueTask(task).promise
+    const tags: any = await exiftool.enqueueTask(task)
     const importantFile = file.toString().toLowerCase().includes("important")
     Object.keys(tags).forEach(key => {
       if (saneTagRe.exec(key)) { tagMap.add(key, tags[key], importantFile) }
@@ -179,7 +184,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     const elapsedMs = Date.now() - start
     console.log(`Parsing took ${elapsedMs}ms (${(elapsedMs / files.length).toFixed(1)}ms / file)`)
     const version = await exiftool.version()
-    const destFile = _path.resolve(__dirname, "../../src/tags.ts")
+    const destFile = _path.resolve(__dirname, "../../src/Tags.ts")
     const tagWriter = _fs.createWriteStream(destFile)
     tagWriter.write("/* tslint:disable:class-name */\n") // because of ICC_Profile
     tagWriter.write(`import { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from "./datetime"\n\n`)
