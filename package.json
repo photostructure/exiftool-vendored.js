@@ -96,7 +96,7 @@
     "xpath": "^0.0.24"
   },
   "dependencies": {
-    "batch-cluster": "0.0.2",
+    "batch-cluster": "^1.0.0",
     "platform-dependent-modules": "^0.0.14"
   }
 }
