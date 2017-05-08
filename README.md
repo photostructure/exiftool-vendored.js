@@ -8,8 +8,9 @@
 
 ## Features
 
-1. **Best-of-class cross-platform [performance](#performance)**. 
-   *Like, at least 7x faster. Srsly.*
+1. **Best-of-class cross-platform performance**. 
+
+   *Depending on platform, expect [8-300x faster performance ]((#performance)) than other packages.*
 
 1. Proper extraction of 
     - **dates** with [correct timezone offset encoding, when available](#dates))
@@ -35,7 +36,7 @@
 npm install --save exiftool-vendored
 ```
 
-Note that this provides an installation of ExifTool relevant for your platform
+Note that `exiftool-vendored` provides an installation of ExifTool relevant for your platform
 via
 [platform-dependent-modules](https://www.npmjs.com/package/platform-dependent-modules).
 You shouldn't include either the `exiftool-vendored.exe` or
@@ -112,7 +113,8 @@ reasonable for safety.
 
 ## Performance
 
-As a rigorous benchmark, the `npm run mktags` target reads sample images and parses the results.
+As a rigorous benchmark, the `npm run mktags` target reads all tags found in a
+batch of sample images and parses the results.
 
 Using `exiftool-vendored`:
 
@@ -130,10 +132,6 @@ Reading 3011 files...
 Parsing took 85654ms (28.4ms / file) # ubuntu, core i3
 ```
 
-### wat how
-
-Batch mode and parallelism, both unique to `exiftool-vendored`, is the "secret
-sauce":
 
 ### Batch mode
 

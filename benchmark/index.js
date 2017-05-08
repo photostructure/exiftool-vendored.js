@@ -2,7 +2,7 @@ const globule = require('globule');
 const exif = require('exiftool');
 const process = require('process');
 
-const root = process.argv[2];
+const root = process.env.root || ".";
 const files = globule.find(`${root}/**/*.jpg`);
 
 if (files.length === 0) {
@@ -22,9 +22,10 @@ function prom(file) {
   });
 }
 
+console.log("Starting...")
 const start = Date.now();
 
 Promise.all(files.map(f => prom(f))).then(() => {
   const elapsedMs = Date.now() - start;
-  console.log(`Parsing took ${elapsedMs}ms (${(elapsedMs / files.length).toFixed(1)}ms / file)`);
+  console.log(`exiftool: Parsing took ${elapsedMs}ms (${(elapsedMs / files.length).toFixed(1)}ms / file)`);
 });
