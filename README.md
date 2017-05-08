@@ -10,7 +10,7 @@
 
 1. **Best-of-class cross-platform performance**. 
 
-   *Depending on platform, expect [8-300x faster performance ]((#performance)) than other packages.*
+   *Depending on platform, expect [8-300x faster performance ](#performance) than other packages.*
 
 1. Proper extraction of 
     - **dates** with [correct timezone offset encoding, when available](#dates))
