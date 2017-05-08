@@ -29,8 +29,8 @@ export class ExifTool {
   /**
    * @param maxProcs the maximum number of ExifTool child processes to spawn
    * when load merits
-   * @param maxReuses the maximum number of requests a given ExifTool process will service
-   * before being retired
+   * @param maxTasksPerProcess the maximum number of requests a given ExifTool
+   * process will service before being retired
    */
   constructor(
     readonly maxProcs: number = 1,
@@ -143,8 +143,8 @@ export class ExifTool {
    * `enqueueTask` is not for normal consumption. External code
    * can extend `Task` to add functionality.
    */
-  enqueueTask<T>(task: ExifToolTask<T>, append: boolean = true): Promise<T> {
-    return this.batchCluster.enqueueTask(task, append)
+  enqueueTask<T>(task: ExifToolTask<T>): Promise<T> {
+    return this.batchCluster.enqueueTask(task)
   }
 }
 
