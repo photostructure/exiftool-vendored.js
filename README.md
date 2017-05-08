@@ -10,7 +10,7 @@
 
 1. **Best-of-class cross-platform performance**. 
 
-   *Depending on platform, expect [8-300x faster performance ](#performance) than other packages.*
+   *Expect [an order of magnitude faster performance](#performance) than other packages.*
 
 1. Proper extraction of 
     - **dates** with [correct timezone offset encoding, when available](#dates))
@@ -113,8 +113,8 @@ reasonable for safety.
 
 ## Performance
 
-As a rigorous benchmark, the `npm run mktags` target reads all tags found in a
-batch of sample images and parses the results.
+The `npm run mktags` target reads all tags found in a batch of sample images and
+parses the results.
 
 Using `exiftool-vendored`:
 
@@ -131,7 +131,6 @@ Using the `exiftool` npm package takes 7x longer:
 Reading 3011 files...
 Parsing took 85654ms (28.4ms / file) # ubuntu, core i3
 ```
-
 
 ### Batch mode
 
