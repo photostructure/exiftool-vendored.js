@@ -163,4 +163,4 @@ with the `exiftool` prefix. To enable logging, set the environment flag
 
 ## Changelog
 
-See [CHANGELOG.md](blob/master/CHANGELOG.md).
+See [CHANGELOG.md](CHANGELOG.md).
