@@ -15,7 +15,7 @@
     "premktags": "tsc",
     "mktags": "node dist/update/mktags.js",
     "pretest": "tsc",
-    "test": "mocha",
+    "test": "mocha --opts .mocha.opts",
     "cleantest": "run-s clean lint fmt pdm test",
     "preversion": "run-s lint pdm",
     "pdm": "platform-dependent-modules",
@@ -96,7 +96,7 @@
     "xpath": "^0.0.24"
   },
   "dependencies": {
-    "batch-cluster": "^1.0.0",
+    "batch-cluster": "^1.1.0",
     "platform-dependent-modules": "^0.0.14"
   }
 }

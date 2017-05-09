@@ -27,10 +27,23 @@ export class ExifTool {
   private readonly batchCluster: BatchCluster
 
   /**
-   * @param maxProcs the maximum number of ExifTool child processes to spawn
+   * @param maxProcs The maximum number of ExifTool child processes to spawn
    * when load merits
-   * @param maxTasksPerProcess the maximum number of requests a given ExifTool
+   * @param maxTasksPerProcess The maximum number of requests a given ExifTool
    * process will service before being retired
+   * @param spawnTimeoutMillis Spawning new ExifTool processes must not take
+   * longer than `spawnTimeoutMillis` millis before it times out and a new
+   * attempt is made. Be pessimistic here--windows can regularly take several
+   * seconds to spin up a process, thanks to antivirus shenanigans. This can't
+   * be set to a value less than 100ms.
+   * @param taskTimeoutMillis If requests to ExifTool take longer than this,
+   * presume the underlying process is dead and we should restart the task. This
+   * can't be set to a value less than 10ms, and really should be set to at more
+   * than a second unless `taskRetries` is sufficiently large.
+   * @param onIdleIntervalMillis An interval timer is scheduled to do periodic
+   * maintenance of underlying child processes with this periodicity.
+   * @param taskRetries The number of times a task can error or timeout and be
+   * retried.
    */
   constructor(
     readonly maxProcs: number = 1,

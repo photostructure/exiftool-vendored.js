@@ -22,6 +22,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v3.0.1
+
+* 📦 Completed jsdocs for ExifTool constructor
+* 📦 Pulled in batch-cluster v1.1.0 that adds both `on("beforeExit")` and
+  `on("exit")` handlers
+
 ### v3.0.0
 
 * ✨ Extracted [batch-cluster](https://github.com/mceachen/batch-cluster.js) to
@@ -30,7 +36,8 @@ vendored versions of ExifTool match the version they vendor.
 * 💔 Switched from [debug](https://www.npmjs.com/package/debug) to node's
   [debuglog](https://nodejs.org/api/util.html#util_util_debuglog_section) to
   reduce external dependencies
-* 🌱 ExifTool upgraded to [v10.51](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.51)
+* 🌱 ExifTool upgraded to
+  [v10.51](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.51)
 * 📦 Using `.npmignore` instead of package.json's `files` directive to specify
   the contents of the module.
 
