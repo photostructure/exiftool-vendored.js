@@ -22,7 +22,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
-### v3.0.1
+### v3.1.1
+
+* 🐞 Fixed `package.json` references to `types` and `main`
+
+### v3.1.0
 
 * 📦 Completed jsdocs for ExifTool constructor
 * 📦 Pulled in batch-cluster v1.1.0 that adds both `on("beforeExit")` and

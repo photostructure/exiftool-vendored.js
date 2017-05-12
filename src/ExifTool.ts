@@ -6,6 +6,7 @@ import { VersionTask } from "./VersionTask"
 import { BatchCluster } from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
+import * as _os from "os"
 import * as _process from "process"
 
 export { Tags } from "./Tags"
@@ -162,9 +163,12 @@ export class ExifTool {
 }
 
 /**
- * Use this singleton rather than instantiating new ExifTool instances
- * in order to leverage a single running ExifTool process.
+ * Use this singleton rather than instantiating new ExifTool instances in order
+ * to leverage a single running ExifTool process. As of v3.0, its `maxProcs` is
+ * set to the number of CPUs on the current system; no more than `maxProcs`
+ * instances of `exiftool` will be spawned.
  *
- * Note that this instance will only use 1 CPU.
+ * Note that each child process consumes between 10 and 50 MB of RAM. If you
+ * have limited system resources you may want to use a smaller `maxProcs` value.
  */
-export const exiftool = new ExifTool()
+export const exiftool = new ExifTool(_os.cpus().length)
