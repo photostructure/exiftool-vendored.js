@@ -16,7 +16,7 @@ describe("ExifTool", () => {
   const packageJson = require("../package.json")
 
   function expectedExiftoolVersion(): string {
-    const linuxVendorVersion = packageJson.config.platformDependentModules.linux[0].split("@")[1]
+    const linuxVendorVersion = packageJson.optionalDependencies["exiftool-vendored.pl"]
     const major = semver.major(linuxVendorVersion)
     const minor = semver.minor(linuxVendorVersion)
     expect(major).to.be.gte(10)
