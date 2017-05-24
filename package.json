@@ -18,7 +18,8 @@
     "test": "mocha --opts .mocha.opts",
     "cleantest": "run-s clean lint fmt test",
     "preversion": "run-s lint",
-    "postinstall": "node postinstall.js"
+    "exiftool-path": "exiftool-path",
+    "postinstall": "exiftool-path"
   },
   "publishConfig": {
     "access": "public"
