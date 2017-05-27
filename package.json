@@ -21,10 +21,7 @@
     "mktags": "node dist/update/mktags.js",
     
     "pretest": "run-s compile",
-    "test": "mocha --opts .mocha.opts",
-
-    "prepublish": "tsc",
-    "postinstall": "node dist/postinstall.js"
+    "test": "mocha --opts .mocha.opts"
   },
   "publishConfig": {
     "access": "public"
