@@ -7,19 +7,25 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "lint": "tslint --fix src/**/*.ts",
+
+    "precompile": "run-s clean",
     "compile": "tsc",
     
     "pretscw": "run-s clean",
     "tscw": "tsc -w",
     
-    "preupdate": "run-s clean compile",
+    "preupdate": "run-s compile",
     "update": "node dist/update/update.js",
 
-    "premktags": "run-s clean compile",
+    "premktags": "run-s compile",
     "mktags": "node dist/update/mktags.js",
     
-    "pretest": "run-s clean compile",
-    "test": "mocha --opts .mocha.opts"
+    "pretest": "run-s compile",
+    "test": "mocha --opts .mocha.opts",
+
+    "prepublish": "run-s compile",
+
+    "postinstall": "node dist/postinstall.js"
   },
   "publishConfig": {
     "access": "public"

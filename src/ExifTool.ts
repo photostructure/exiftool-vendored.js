@@ -5,12 +5,19 @@ import { TagsTask } from "./TagsTask"
 import { VersionTask } from "./VersionTask"
 import { BatchCluster } from "batch-cluster"
 import * as _child_process from "child_process"
+import * as _fs from "fs"
 import * as _os from "os"
+import * as _process from "process"
 
 export { Tags } from "./Tags"
 export { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from "./DateTime"
 
-const exiftoolPath = _child_process.execSync("npm run -s exiftool-path").toString()
+const isWin32 = _process.platform === "win32"
+const exiftoolPath = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
+
+if (!_fs.existsSync(exiftoolPath)) {
+  throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
+}
 
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
