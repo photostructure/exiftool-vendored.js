@@ -1,25 +1,25 @@
 {
   "name": "exiftool-vendored",
-  "version": "3.1.1",
+  "version": "3.2.0-alpha",
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/ExifTool.js",
   "types": "./dist/ExifTool.d.ts",
   "scripts": {
     "clean": "rimraf lib dist",
     "lint": "tslint --fix src/**/*.ts",
-    "fmt": "bash -c 'tsfmt -r src/**/*.ts'",
     "compile": "tsc",
-    "tscw": "rimraf dist & tsc -w",
-    "preupdate": "run-s clean lint compile",
+    
+    "pretscw": "run-s clean",
+    "tscw": "tsc -w",
+    
+    "preupdate": "run-s clean compile",
     "update": "node dist/update/update.js",
-    "premktags": "tsc",
+
+    "premktags": "run-s clean compile",
     "mktags": "node dist/update/mktags.js",
-    "pretest": "tsc",
-    "test": "mocha --opts .mocha.opts",
-    "cleantest": "run-s clean lint fmt test",
-    "preversion": "run-s lint",
-    "exiftool-path": "exiftool-path",
-    "postinstall": "exiftool-path"
+    
+    "pretest": "run-s clean compile",
+    "test": "mocha --opts .mocha.opts"
   },
   "publishConfig": {
     "access": "public"
@@ -52,7 +52,6 @@
   "devDependencies": {
     "@types/chai": "^3.4.35",
     "@types/chai-as-promised": "^0.0.30",
-    "@types/jsdom": "^2.0.30",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.11",
     "@types/pify": "^0.0.28",
@@ -83,7 +82,7 @@
     "xpath": "^0.0.24"
   },
   "dependencies": {
-    "batch-cluster": "^1.1.0"
+    "batch-cluster": "^1.2.0"
   },
   "optionalDependencies": {
     "exiftool-vendored.exe": "10.51.0",
