@@ -22,6 +22,16 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v3.2.0
+
+* 🌱 ExifTool upgraded to
+  [v10.54](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.54)
+* 📦 Pulled in batch-cluster v1.2.0 that supports more robust child process
+  cleanup
+* ✨ Yarn and `platform-dependent-modules` don't play nicely. [Anton
+  Mokrushin](https://github.com/amokrushin) submitted several PRs to address
+  this. Thanks!
+
 ### v3.1.1
 
 * 🐞 Fixed `package.json` references to `types` and `main`

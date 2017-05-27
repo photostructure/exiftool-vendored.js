@@ -164,3 +164,11 @@ with the `exiftool` prefix. To enable logging, set the environment flag
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+## Author
+
+* [Matthew McEachen](https://github.com/mceachen)
+
+## Contributors 🎉
+
+* [Anton Mokrushin](https://github.com/amokrushin)
