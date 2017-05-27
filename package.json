@@ -23,6 +23,7 @@
     "pretest": "run-s compile",
     "test": "mocha --opts .mocha.opts",
 
+    "prepare": "tsc",
     "postinstall": "node dist/postinstall.js"
   },
   "publishConfig": {
