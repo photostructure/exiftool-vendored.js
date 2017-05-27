@@ -37,8 +37,8 @@ npm install --save exiftool-vendored
 ```
 
 Note that `exiftool-vendored` provides an installation of ExifTool relevant for your platform
-via
-[platform-dependent-modules](https://www.npmjs.com/package/platform-dependent-modules).
+through
+[optionalDependencies](https://docs.npmjs.com/files/package.json#optionaldependencies).
 You shouldn't include either the `exiftool-vendored.exe` or
 `exiftool-vendored.pl` as direct dependencies to your project.
 
