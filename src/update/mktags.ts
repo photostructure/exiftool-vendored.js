@@ -100,7 +100,8 @@ class Tag {
     return `${stars} ${important}`
   }
   firstValue(): any {
-    return compact(this.values)[0]
+    // First non-null, non-zero, non-empty value:
+    return this.values.find(ea => ea != null && ["", "0"].indexOf(ea.toString().trim()) === -1)
   }
   example(): string {
     return ellipsize(JSON.stringify(this.firstValue()), 80)

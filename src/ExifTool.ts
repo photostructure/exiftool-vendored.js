@@ -3,7 +3,7 @@ import { ExifToolTask } from "./ExifToolTask"
 import { Tags } from "./Tags"
 import { TagsTask } from "./TagsTask"
 import { VersionTask } from "./VersionTask"
-import { BatchCluster } from "batch-cluster"
+import { BatchCluster, BatchClusterOptions, BatchProcessOptions } from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
@@ -29,30 +29,37 @@ export class ExifTool {
 
   /**
    * @param maxProcs The maximum number of ExifTool child processes to spawn
-   * when load merits
+   * when load merits. Defaults to 1.
    * @param maxTasksPerProcess The maximum number of requests a given ExifTool
-   * process will service before being retired
+   * process will service before being retired. Defaults to 250, to balance
+   * performance with memory usage.
    * @param spawnTimeoutMillis Spawning new ExifTool processes must not take
    * longer than `spawnTimeoutMillis` millis before it times out and a new
    * attempt is made. Be pessimistic here--windows can regularly take several
    * seconds to spin up a process, thanks to antivirus shenanigans. This can't
-   * be set to a value less than 100ms.
+   * be set to a value less than 100ms. Defaults to 20 seconds, to accomodate
+   * slow Windows machines.
    * @param taskTimeoutMillis If requests to ExifTool take longer than this,
    * presume the underlying process is dead and we should restart the task. This
    * can't be set to a value less than 10ms, and really should be set to at more
-   * than a second unless `taskRetries` is sufficiently large.
+   * than a second unless `taskRetries` is sufficiently large. Defaults to 5
+   * seconds.
    * @param onIdleIntervalMillis An interval timer is scheduled to do periodic
-   * maintenance of underlying child processes with this periodicity.
+   * maintenance of underlying child processes with this periodicity. Defaults
+   * to 2 seconds.
    * @param taskRetries The number of times a task can error or timeout and be
-   * retried.
+   * retried. Defaults to 2.
+   * @param batchClusterOpts Allows for overriding any configuration used by
+   * `BatchCluster`
    */
   constructor(
     readonly maxProcs: number = 1,
-    readonly maxTasksPerProcess: number = 100,
+    readonly maxTasksPerProcess: number = 250,
     readonly spawnTimeoutMillis: number = 20000, // it shouldn't take longer than 5 seconds to spin up. 4x that should be quite conservative.
     readonly taskTimeoutMillis: number = 5000, // tasks should complete in under 250 ms. 20x that should handle swapped procs.
     readonly onIdleIntervalMillis: number = 2000,
-    readonly taskRetries: number = 2
+    readonly taskRetries: number = 2,
+    readonly batchClusterOpts: Partial<BatchClusterOptions & BatchProcessOptions> = {}
   ) {
     this.batchCluster = new BatchCluster({
       processFactory: () => _child_process.execFile(
@@ -73,7 +80,8 @@ export class ExifTool {
       spawnTimeoutMillis,
       taskTimeoutMillis,
       maxTasksPerProcess,
-      taskRetries
+      taskRetries,
+      ...batchClusterOpts
     })
   }
 
@@ -159,6 +167,16 @@ export class ExifTool {
    */
   enqueueTask<T>(task: ExifToolTask<T>): Promise<T> {
     return this.batchCluster.enqueueTask(task)
+  }
+
+  /**
+   * @return the currently running ExifTool processes. Note that on Windows,
+   * these are only the process IDs of the directly-spawned ExifTool wrapper,
+   * and not the actual perl vm. This should only really be relevant for
+   * integration tests that verify processes are cleaned up properly.
+   */
+  get pids(): number[] {
+    return this.batchCluster.pids
   }
 }
 

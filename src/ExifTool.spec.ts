@@ -1,5 +1,6 @@
-import { expect } from "./chai.spec"
+import { expect, times } from "./chai.spec"
 import { ExifTool } from "./ExifTool"
+import { Tags } from "./Tags"
 import * as _path from "path"
 import * as semver from "semver"
 
@@ -8,10 +9,6 @@ describe("ExifTool", () => {
   const truncated = _path.join(__dirname, "..", "test", "truncated.jpg")
   const noexif = _path.join(__dirname, "..", "test", "noexif.jpg")
   const img = _path.join(__dirname, "..", "test", "img.jpg")
-
-  function runningProcs(): number {
-    return exiftool["batchCluster"].pids.length
-  }
 
   const packageJson = require("../package.json")
 
@@ -85,13 +82,41 @@ describe("ExifTool", () => {
     return expect((await exiftool.read(__filename)).Error).to.match(/Unknown file type/i)
   })
 
-  it("ends with multiple procs",async function () {
+  function assertReasonableTags(tags: Tags[]): void {
+    tags.forEach((tag) => {
+      expect(tag.errors).to.be.empty
+      expect(tag.MIMEType).to.eql("image/jpeg")
+      expect(tag.GPSLatitude).to.be.within(-90, 90)
+      expect(tag.GPSLongitude).to.be.within(-180, 180)
+    })
+  }
+
+  it("ends procs when they've run > maxTasksPerProcess", async function () {
+    this.slow(5000)
+    const maxProcs = 2
+    const maxTasksPerProcess = 4
+    const et = new ExifTool(maxProcs, maxTasksPerProcess)
+    const promises = times(maxProcs * maxTasksPerProcess * 2, () => et.read(img))
+    // By the time the first response finishes, our pending tasks should be at
+    // max length, and pids should be maxProcs:
+    await Promise.race(promises)
+    expect(et.pids.length).to.eql(maxProcs)
+    const tags = await Promise.all(promises)
+    expect(et.pids.length).to.be.within(1, maxProcs)
+    assertReasonableTags(tags)
+    await et.end()
+    return expect(et.pids).to.eql([])
+  })
+
+  it("ends with multiple procs", async function () {
     this.slow(500)
-    const promises = [exiftool.read(img), exiftool.read(img), exiftool.read(img)]
-    expect(runningProcs()).to.eql(2)
+    const maxProcs = 4
+    const et = new ExifTool(maxProcs)
+    const promises = times(maxProcs * 2, () => et.read(img))
+    expect(et.pids.length).to.be.within(2, maxProcs)
     const tags = await Promise.all(promises)
     tags.forEach(t => expect(t).to.not.be.undefined)
-    await exiftool.end()
-    return expect(runningProcs()).to.eql(0)
+    await et.end()
+    return expect(et.pids).to.eql([])
   })
 })

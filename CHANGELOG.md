@@ -22,6 +22,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v3.3.0
+
+* ✨ Added support for all downstream
+  [batch-cluster](https://github.com/mceachen/batch-cluster.js) options in the
+  ExifTool constructor.
+* 📦 Added `ExifTool.pids` (used by a couple new integration tests)
+
 ### v3.2.0
 
 * 🌱 ExifTool upgraded to
