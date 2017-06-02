@@ -104,7 +104,7 @@ describe("ExifTool", () => {
     expect(et.pids.length).to.eql(maxProcs)
     const bc = et["batchCluster"] as BatchCluster
     const tags = await Promise.all(promises)
-    expect(bc.meanTasksPerProc).to.be.within(maxTasksPerProcess - 2, maxTasksPerProcess)
+    expect(bc.meanTasksPerProc).to.be.within(maxTasksPerProcess - 3, maxTasksPerProcess)
     expect(et.pids.length).to.be.within(1, maxProcs)
     assertReasonableTags(tags)
     await et.end()
