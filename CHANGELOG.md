@@ -22,12 +22,17 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
-### v3.3.0
+### v4.0.0
 
+* 💔 All `Tags` fields are now marked as possibly undefined, as there are no
+  EXIF, IPTC, or other values that are guaranteed to be set. Sorry for the major
+  break, but the prior signature that promised all values were always set was
+  strictly wrong.
 * ✨ Added support for all downstream
   [batch-cluster](https://github.com/mceachen/batch-cluster.js) options in the
   ExifTool constructor.
 * 📦 Added `ExifTool.pids` (used by a couple new integration tests)
+* 📦 Rebuilt `Tags` with additional sample images and looser tag filtering. 
 
 ### v3.2.0
 

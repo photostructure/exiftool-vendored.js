@@ -1,9 +1,10 @@
 import { compact } from "../DateTime"
-import { ExifTool } from "../ExifTool"
+import { exiftool } from "../ExifTool"
 import { TagsTask } from "../TagsTask"
 import * as _fs from "fs"
 import * as _path from "path"
-import * as process from "process"
+import * as _process from "process"
+const ProgressBar = require("progress")
 
 // ☠☠ THIS IS GRISLY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
@@ -11,7 +12,6 @@ import * as process from "process"
 
 const globule = require("globule")
 
-require("longjohn")
 require("source-map-support").install()
 
 function ellipsize(str: string, max: number) {
@@ -24,9 +24,10 @@ function ellipsize(str: string, max: number) {
 function usage() {
   console.log("Usage: `npm run mktags IMG_DIR`")
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.")
-  process.exit(1)
+  _process.exit(1)
 }
-const roots = process.argv.slice(2)
+
+const roots = _process.argv.slice(2)
 const files: string[] = roots.map(root => {
   console.log("Reading " + root + "...")
   return globule.find(`${root}/**/*.+(jpg|JPG|CR2|NEF|ORF|RAF|ARW|RW2)`, { dot: true })
@@ -36,8 +37,6 @@ if (files.length === 0) {
   console.error(`No files found in ${roots}`)
   usage()
 }
-
-console.log("Found " + files.length + " files to read.")
 
 // OMG THIS IS ON YOU NOW. IT'S YOUR FAULT.
 
@@ -90,7 +89,7 @@ class Tag {
     return byCount[0]
   }
   keep(minValues: number): boolean {
-    return this.firstValue() !== undefined && this.important || this.values.length >= minValues
+    return this.firstValue() != null && this.important || this.values.length >= minValues
   }
   popIcon(totalValues: number): string {
     const f = this.values.length / totalValues
@@ -108,7 +107,15 @@ class Tag {
   }
 }
 
-type GroupedTags = { [groupName: string]: Tag[] }
+function getOrSet<K, V>(m: Map<K, V>, k: K, valueThunk: () => V): V {
+  if (m.has(k)) {
+    return m.get(k)!
+  } else {
+    const v = valueThunk()
+    m.set(k, v)
+    return v
+  }
+}
 
 class TagMap {
   readonly map = new Map<string, Tag>()
@@ -132,17 +139,16 @@ class TagMap {
     this.maxValueCount = Math.max(values.length, this.maxValueCount)
   }
   tags(): Tag[] {
-    const minValues = this.maxValueCount * .005
+    const minValues = 2
     const allTags = Array.from(this.map.values())
     console.log(`Skipping the following tags due to < ${minValues.toFixed(0)} occurances:`)
     console.log(allTags.filter(a => !a.keep(minValues)).map(t => t.tag).join(", "))
     return allTags.filter(a => a.keep(minValues))
   }
-  groupedTags(): GroupedTags {
-    const groupedTags: GroupedTags = {}
+  groupedTags(): Map<string, Tag[]> {
+    const groupedTags = new Map<string, Tag[]>()
     this.tags().forEach(tag => {
-      const key = tag.group;
-      (groupedTags[key] || (groupedTags[key] = [])).push(tag)
+      getOrSet(groupedTags, tag.group, () => []).push(tag)
     })
     return groupedTags
   }
@@ -155,31 +161,50 @@ function cmp(a: any, b: any): number {
 const tagMap = new TagMap()
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
-const exiftool = new ExifTool(8)
+const bar = new ProgressBar('reading tags [:bar] :current/:total files, :tasks pending @ :rate files/sec :etas w/  :pids procs', {
+  complete: "=",
+  incomplete: " ",
+  width: 40,
+  total: files.length
+});
+
+let nextTick = Date.now()
+let ticks = 0
 
 async function readAndAddToTagMap(file: string) {
+  const task = TagsTask.for(file, ["-G"])
   try {
-    const task = TagsTask.for(file, ["-G"])
     const tags: any = await exiftool.enqueueTask(task)
     const importantFile = file.toString().toLowerCase().includes("important")
     Object.keys(tags).forEach(key => {
       if (saneTagRe.exec(key)) { tagMap.add(key, tags[key], importantFile) }
     })
     if (tags.errors && tags.errors.length > 0) {
-      console.error(`Error from ${file}: ${tags.errors}`)
+      bar.interrupt(`Error from ${file}: ${tags.errors}`)
     }
     if (tags.Warning && tags.Warning.length > 0) {
-      console.error(`Warning from ${file}: ${tags.errors}`)
+      bar.interrupt(`Warning from ${file}: ${tags.errors}`)
     }
   } catch (err) {
-    console.error("Failed to read " + file, err)
+    bar.interrupt(`Failed to read ${file} after ${task.retries} retries: ${err.stack || err}`)
+  }
+  ticks++
+  if (nextTick <= Date.now()) {
+    bar.tick(ticks, { pids: exiftool.pids.length, tasks: exiftool.pendingTasks })
+    ticks = 0
+    nextTick = Date.now() + 100
   }
 }
 
 const start = Date.now()
 
+_process.on("unhandledRejection", (reason: any, _promise: any) => {
+  console.error("Ack, caught unhandled rejection: " + reason.stack || reason.toString)
+})
+
 Promise.all(files.map(file => readAndAddToTagMap(file)))
   .then(async () => {
+    bar.terminate()
     console.log(`\nRead ${tagMap.map.size} unique tags from ${files.length} files. `)
     const elapsedMs = Date.now() - start
     console.log(`Parsing took ${elapsedMs}ms (${(elapsedMs / files.length).toFixed(1)}ms / file)`)
@@ -190,34 +215,39 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     tagWriter.write(`import { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from "./DateTime"\n\n`)
     tagWriter.write(`// Autogenerated by "npm run mktags" by ExifTool ${version} on ${new Date().toDateString()}.\n`)
     tagWriter.write(`// ${tagMap.map.size} unique tags were found in ${files.length} different digital imagery files.\n\n`)
-    tagWriter.write("// Comments by each tag include popularity (★★★ is > 70% of cameras, ☆☆☆ is rare),\n")
+    tagWriter.write("// Comments by each tag include popularity (★★★ is found in > 70% of cameras, ☆☆☆ is rare),\n")
     tagWriter.write("// followed by a checkmark if the tag is used by recent, popular devices (like iPhones)\n")
     tagWriter.write("// An example value, JSON stringified, follows the popularity ratings.\n")
     const groupedTags = tagMap.groupedTags()
-    const groupTagNames: string[] = []
+    const tagGroups: string[] = []
     const seenTags = new Set<string>()
-    for (const group in groupedTags) {
-      groupTagNames.push(group)
-      tagWriter.write(`\nexport interface ${group}Tags {\n`)
-      const tags = groupedTags[group].sort((a, b) => cmp(a.tag, b.tag)).filter(tag => !seenTags.has(tag.withoutGroup))
-      tags.forEach(tag => {
-        tagWriter.write(`  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`)
-        tagWriter.write(`  ${tag.withoutGroup}: ${tag.valueType}\n`)
-        seenTags.add(tag.withoutGroup)
-      })
-      tagWriter.write(`}\n`)
-    }
+    Array.from(groupedTags.entries()).sort().forEach(([group, tags]) => {
+      const filteredTags = tags
+        .sort((a, b) => cmp(a.tag, b.tag))
+        .filter(tag => !seenTags.has(tag.withoutGroup))
+      if (filteredTags.length > 0) {
+        tagGroups.push(group)
+        tagWriter.write(`\nexport interface ${group}Tags {\n`)
+        filteredTags.forEach(tag => {
+          tagWriter.write(`  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`)
+          tagWriter.write(`  ${tag.withoutGroup}: ${tag.valueType}\n`)
+          seenTags.add(tag.withoutGroup)
+        })
+        tagWriter.write(`}\n`)
+      }
+    })
     tagWriter.write("\n")
     tagWriter.write("export interface Tags extends\n")
-    tagWriter.write(`  ${groupTagNames.map(s => s + "Tags").join(",\n  ")} {\n`)
+    tagWriter.write(`  ${tagGroups.map(s => "Partial<" + s + "Tags>").join(",\n  ")} {\n`)
     tagWriter.write("  errors: string[]\n")
     tagWriter.write("  /** \"Unknown file type\" */\n")
     tagWriter.write("  Error: string\n")
+    tagWriter.write("  Warning: string\n")
     tagWriter.write("  SourceFile: string\n")
     tagWriter.write("}\n")
     tagWriter.end()
-  }).catch(err => {
-    console.log(err)
-  }).then(() => {
+    console.log("Done.")
     exiftool.end()
+  }).catch(err => {
+    console.error(err)
   })

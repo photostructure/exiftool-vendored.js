@@ -39,21 +39,21 @@ describe("TimeZone extraction", () => {
       TimeZone: "+09:00",
       DateTimeOriginal: "2016:08:12 13:28:50"
     })
-    expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(9 * 60)
+    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(9 * 60)
   })
   it("finds zulu TimeZone and sets accordingly", () => {
     const t = parse({
       TimeZone: "+00:00",
       DateTimeOriginal: "2016:08:12 13:28:50"
     })
-    expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(0)
+    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(0)
   })
   it("finds negative TimeZone and sets accordingly", () => {
     const t = parse({
       TimeZone: "-04:00",
       DateTimeOriginal: "2016:08:12 13:28:50"
     })
-    expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(-4 * 60)
+    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(-4 * 60)
   })
 
   it("uses GPSDateTime and DateTimeOriginal and sets accordingly for -7", () => {
@@ -62,8 +62,8 @@ describe("TimeZone extraction", () => {
       GPSDateTime: "2016:10:19 18:15:12Z",
       DateTimeCreated: "2016:10:19 11:15:14"
     })
-    expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(-7 * 60)
-    expect(t.DateTimeCreated.tzoffsetMinutes).to.eql(-7 * 60)
+    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(-7 * 60)
+    expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(-7 * 60)
   })
 
   it("uses GPSDateTime and DateTimeOriginal and sets accordingly for +8", () => {
@@ -72,8 +72,8 @@ describe("TimeZone extraction", () => {
       GPSDateTime: "2016:08:12 05:28:49Z",
       DateTimeCreated: "2016:08:12 13:28:50"
     })
-    expect(t.DateTimeOriginal.tzoffsetMinutes).to.eql(8 * 60)
-    expect(t.DateTimeCreated.tzoffsetMinutes).to.eql(8 * 60)
+    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(8 * 60)
+    expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(8 * 60)
   })
 
   it("renders SubSecDateTimeOriginal for -8", () => {
@@ -82,8 +82,8 @@ describe("TimeZone extraction", () => {
       GPSDateTime: "2016:12:13 17:05:25Z",
       SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200"
     })
-    expect(t.SubSecDateTimeOriginal.tzoffsetMinutes).to.eql(-8 * 60)
-    expect(t.SubSecDateTimeOriginal.toString()).to.eql("2016-12-13T09:05:27.120382-08:00")
+    expect(t.SubSecDateTimeOriginal!.tzoffsetMinutes).to.eql(-8 * 60)
+    expect(t.SubSecDateTimeOriginal!.toString()).to.eql("2016-12-13T09:05:27.120382-08:00")
   })
 
   it("skips invalid timestamps", () => {
@@ -91,13 +91,13 @@ describe("TimeZone extraction", () => {
       DateTimeOriginal: "2016:08:12 13:28:50",
       GPSDateTime: "not a timestamp"
     })
-    expect(t.DateTimeOriginal.tzoffsetMinutes).to.be.undefined
+    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.be.undefined
   })
 })
 
 describe("SubSecDateTimeOriginal", () => {
   it("extracts datetimestamp with millis", () => {
-    const t = parse({ SubSecDateTimeOriginal: "2016:10:19 11:15:14.437831" }).SubSecDateTimeOriginal
+    const t = parse({ SubSecDateTimeOriginal: "2016:10:19 11:15:14.437831" }).SubSecDateTimeOriginal!
     expect(t.year).to.eql(2016)
     expect(t.month).to.eql(10)
     expect(t.day).to.eql(19)

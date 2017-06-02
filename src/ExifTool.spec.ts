@@ -3,6 +3,7 @@ import { ExifTool } from "./ExifTool"
 import { Tags } from "./Tags"
 import * as _path from "path"
 import * as semver from "semver"
+import { BatchCluster } from "batch-cluster"
 
 describe("ExifTool", () => {
   const exiftool = new ExifTool(2)
@@ -93,15 +94,17 @@ describe("ExifTool", () => {
 
   it("ends procs when they've run > maxTasksPerProcess", async function () {
     this.slow(5000)
-    const maxProcs = 2
-    const maxTasksPerProcess = 4
+    const maxProcs = 8
+    const maxTasksPerProcess = 15
     const et = new ExifTool(maxProcs, maxTasksPerProcess)
     const promises = times(maxProcs * maxTasksPerProcess * 2, () => et.read(img))
     // By the time the first response finishes, our pending tasks should be at
     // max length, and pids should be maxProcs:
     await Promise.race(promises)
     expect(et.pids.length).to.eql(maxProcs)
+    const bc = et["batchCluster"] as BatchCluster
     const tags = await Promise.all(promises)
+    expect(bc.meanTasksPerProc).to.eql(maxTasksPerProcess)
     expect(et.pids.length).to.be.within(1, maxProcs)
     assertReasonableTags(tags)
     await et.end()

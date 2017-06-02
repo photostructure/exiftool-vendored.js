@@ -54,10 +54,10 @@ export class ExifTool {
    */
   constructor(
     readonly maxProcs: number = 1,
-    readonly maxTasksPerProcess: number = 250,
+    readonly maxTasksPerProcess: number = 500,
     readonly spawnTimeoutMillis: number = 20000, // it shouldn't take longer than 5 seconds to spin up. 4x that should be quite conservative.
-    readonly taskTimeoutMillis: number = 5000, // tasks should complete in under 250 ms. 20x that should handle swapped procs.
-    readonly onIdleIntervalMillis: number = 2000,
+    readonly taskTimeoutMillis: number = 1000, // tasks should complete in under 250 ms. 20x that should handle swapped procs.
+    readonly onIdleIntervalMillis: number = 1000,
     readonly taskRetries: number = 2,
     readonly batchClusterOpts: Partial<BatchClusterOptions & BatchProcessOptions> = {}
   ) {
@@ -66,10 +66,12 @@ export class ExifTool {
         exiftoolPath,
         ["-stay_open", "True", "-@", "-"],
         {
+          stdio: "pipe",
+          detached: false,
           encoding: "utf8",
           timeout: 0,
           env: { LANG: "C" }
-        }
+        } as _child_process.ExecFileOptions // because node types are garbage
       ),
       versionCommand: new VersionTask().command,
       pass: "{ready}",
@@ -81,6 +83,8 @@ export class ExifTool {
       taskTimeoutMillis,
       maxTasksPerProcess,
       taskRetries,
+      retryTasksAfterTimeout: true,
+      maxProcAgeMillis: 10 * 60 * 1000, // 10 minutes
       ...batchClusterOpts
     })
   }
@@ -152,13 +156,14 @@ export class ExifTool {
   }
 
   /**
-   * Request graceful shut down of any running ExifTool child processes.
+   * Shut down running ExifTool child processes. No subsequent requests will be
+   * accepted.
    *
-   * This may need to be called in `after` or `finally` clauses in tests
-   * or scripts for them to exit cleanly.
+   * This may need to be called in `after` or `finally` clauses in tests or
+   * scripts for them to exit cleanly.
    */
-  end(): Promise<void> {
-    return this.batchCluster.end()
+  end(gracefully: boolean = true): Promise<void> {
+    return this.batchCluster.end(gracefully)
   }
 
   /**
@@ -178,13 +183,22 @@ export class ExifTool {
   get pids(): number[] {
     return this.batchCluster.pids
   }
+
+  /**
+   * @return the number of pending (not currently worked on) tasks
+   */
+  get pendingTasks(): number {
+    return this.batchCluster.pendingTasks
+  }
 }
 
 /**
  * Use this singleton rather than instantiating new ExifTool instances in order
  * to leverage a single running ExifTool process. As of v3.0, its `maxProcs` is
  * set to the number of CPUs on the current system; no more than `maxProcs`
- * instances of `exiftool` will be spawned.
+ * instances of `exiftool` will be spawned. You may want to experiment with
+ * smaller or larger values for `maxProcs`, depending on CPU and disk speed of
+ * your system and performance tradeoffs.
  *
  * Note that each child process consumes between 10 and 50 MB of RAM. If you
  * have limited system resources you may want to use a smaller `maxProcs` value.
