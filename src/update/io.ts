@@ -81,8 +81,8 @@ export function readFile(filename: string): Promise<string> {
   })
 }
 
-export function writeFile(filename: string, content: string): Promise<string> {
-  return new Promise((resolve, reject) => {
+export function writeFile(filename: string, content: string): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
     _fs.writeFile(filename, content, "utf8", (err: NodeJS.ErrnoException) => {
       if (err) {
         reject(err)
@@ -108,7 +108,7 @@ export function rename(before: string, after: string): Promise<void> {
 }
 
 export function sha1(filename: string, expectedSha: string): Promise<string> {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const hash = _crypto.createHash("SHA1")
     const stream = _fs.createReadStream(filename)
     stream.on("error", (error: Error) => {
@@ -164,11 +164,10 @@ export async function editPackageJson(
   packageJson: string,
   f: ((packageObj: any) => void)
 ): Promise<void> {
-  const json: string = await readFile(packageJson)
-  const pkg = JSON.parse(json)
+  const pkg = JSON.parse(await readFile(packageJson))
   f(pkg)
   await writeFile(packageJson, JSON.stringify(pkg, null, 2) + "\n")
-  return undefined
+  return
 }
 
 export function updatePackageVersion(

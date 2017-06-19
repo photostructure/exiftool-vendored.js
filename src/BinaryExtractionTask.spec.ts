@@ -1,6 +1,7 @@
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
-import { expect, pfs, ptmp } from "./chai.spec"
+import { expect, ptmp } from "./chai.spec"
 import { exiftool } from "./ExifTool"
+import { sha1 } from "./update/io"
 import { join } from "path"
 
 const testDir = join(__dirname, "..", "test")
@@ -27,8 +28,8 @@ describe("BinaryExtractionTask", () => {
     const src = join(testDir, "with_thumb.jpg")
     const dest = await ptmp.tmpName()
     await exiftool.extractThumbnail(src, dest)
-    const expected = pfs.readFile(join(testDir, "expected_thumb.jpg"))
-    const actual = pfs.readFile(dest)
-    return expect(actual).to.eql(expected)
+    console.log("wrote " + dest)
+    // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
+    return sha1(dest, "a35697d72c7781392b26c674d2c1612c587097c1")
   })
 })

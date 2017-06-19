@@ -19,6 +19,21 @@ if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
 }
 
+const exiftoolArgs = [
+  "-stay_open",
+  "True",
+  "-@",
+  "-"
+]
+
+const execFileOpts = {
+  stdio: "pipe",
+  detached: false,
+  encoding: "utf8",
+  timeout: 0,
+  env: { LANG: "C" }
+}
+
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
  *
@@ -61,22 +76,8 @@ export class ExifTool {
     readonly taskRetries: number = 2,
     readonly batchClusterOpts: Partial<BatchClusterOptions & BatchProcessOptions> = {}
   ) {
-    this.batchCluster = new BatchCluster({
-      processFactory: () => _child_process.execFile(
-        exiftoolPath,
-        ["-stay_open", "True", "-@", "-"],
-        {
-          stdio: "pipe",
-          detached: false,
-          encoding: "utf8",
-          timeout: 0,
-          env: { LANG: "C" }
-        } as _child_process.ExecFileOptions // because node types are garbage
-      ),
-      versionCommand: new VersionTask().command,
-      pass: "{ready}",
-      fail: "{ready}",
-      exitCommand: "\n-stay_open\nFalse\n",
+    const opts = {
+      processFactory: () => _child_process.execFile(exiftoolPath, exiftoolArgs, execFileOpts),
       maxProcs,
       onIdleIntervalMillis,
       spawnTimeoutMillis,
@@ -85,8 +86,12 @@ export class ExifTool {
       taskRetries,
       retryTasksAfterTimeout: true,
       maxProcAgeMillis: 10 * 60 * 1000, // 10 minutes
-      ...batchClusterOpts
-    })
+      ...batchClusterOpts,
+      pass: batchClusterOpts.pass || "{ready}",
+      fail: batchClusterOpts.fail || "{ready}",
+      versionCommand: batchClusterOpts.versionCommand || new VersionTask().command
+    }
+    this.batchCluster = new BatchCluster(opts)
   }
 
   /**
