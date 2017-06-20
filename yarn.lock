@@ -17,8 +17,8 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.41.tgz#e27cf0817153eb9f2713b2d3f6c68f1e1c3ca608"
 
 "@types/node@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.0.tgz#acaa89247afddc7967e9902fd11761dadea1a555"
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.1.tgz#89c271e0c3b9ebb6a3756dd601336970b6228b77"
 
 "@types/pify@^0.0.28":
   version "0.0.28"
