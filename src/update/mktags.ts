@@ -30,7 +30,8 @@ function usage() {
 const roots = _process.argv.slice(2)
 const files: string[] = roots.map(root => {
   console.log("Reading " + root + "...")
-  return globule.find(`${root}/**/*.+(jpg|JPG|CR2|NEF|ORF|RAF|ARW|RW2)`, { dot: true })
+  const types = "AVI|JPG|MOV|MP4|CR2|NEF|ORF|RAF|ARW|RW2"
+  return globule.find(`${root}/**/*.+(${types}|${types.toLowerCase()})`, { dot: true })
 }).reduce((prev, curr) => [...prev, ...curr], [])
 
 if (files.length === 0) {
