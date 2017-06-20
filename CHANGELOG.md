@@ -26,6 +26,8 @@ vendored versions of ExifTool match the version they vendor.
 
 * 📦 Added `QuickTimeTags` from several example movies (previous versions of
   `Tags` didn't have movie tag exemplar values)
+* 🌱 ExifTool upgraded to
+  [v10.57](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.57)
 
 ### v4.0.0
 
