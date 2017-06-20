@@ -22,6 +22,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v4.1.0
+
+* 📦 Added `QuickTimeTags` from several example movies (previous versions of
+  `Tags` didn't have movie tag exemplar values)
+
 ### v4.0.0
 
 * 💔 All `Tags` fields are now marked as possibly undefined, as there are no
