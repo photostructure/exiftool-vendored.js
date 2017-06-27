@@ -83,7 +83,7 @@ export function readFile(filename: string): Promise<string> {
 
 export function writeFile(filename: string, content: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    _fs.writeFile(filename, content, "utf8", (err: NodeJS.ErrnoException) => {
+    _fs.writeFile(filename, content, { encoding: "utf8" }, (err: NodeJS.ErrnoException) => {
       if (err) {
         reject(err)
       } else {
