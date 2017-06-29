@@ -22,6 +22,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v4.2.0
+
+* 🌱 ExifTool upgraded to
+  [v10.58](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.58)
+
 ### v4.1.0
 
 * 📦 Added `QuickTimeTags` from several example movies (previous versions of
