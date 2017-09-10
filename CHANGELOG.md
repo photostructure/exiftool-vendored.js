@@ -22,6 +22,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+
+
+* 📦 `yarn upgrade --latest`
+* 🐞 Re-added the "-stay_open\nFalse" ExifTool exit command, which may be more
+  reliable than only using signal traps.
+
 ### v4.1.0
 
 * 📦 Added `QuickTimeTags` from several example movies (previous versions of

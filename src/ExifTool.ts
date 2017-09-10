@@ -89,6 +89,7 @@ export class ExifTool {
       ...batchClusterOpts,
       pass: batchClusterOpts.pass || "{ready}",
       fail: batchClusterOpts.fail || "{ready}",
+      exitCommand: "-stay_open\nFalse\n",
       versionCommand: batchClusterOpts.versionCommand || new VersionTask().command
     }
     this.batchCluster = new BatchCluster(opts)
