@@ -22,8 +22,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v4.4.1
+
+* 📦 reverted batch-cluster reference 
+
 ### v4.4.0
 
+
+* 🌱 ExifTool upgraded to
+  [v10.61](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.61)
 * 🐞 Re-added the "-stay_open\nFalse" ExifTool exit command, which may be more
   reliable than only using signal traps.
 * 📦 `yarn upgrade --latest`
