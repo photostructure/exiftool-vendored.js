@@ -1,6 +1,6 @@
 {
   "name": "exiftool-vendored",
-  "version": "4.1.0",
+  "version": "4.3.0",
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/ExifTool.js",
   "types": "./dist/ExifTool.d.ts",
@@ -81,7 +81,7 @@
     "batch-cluster": "../batch-cluster.js"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "10.57.0",
-    "exiftool-vendored.pl": "10.57.0"
+    "exiftool-vendored.exe": "10.60.0",
+    "exiftool-vendored.pl": "10.60.0"
   }
 }

@@ -22,11 +22,22 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v4.4.0
 
-
-* 📦 `yarn upgrade --latest`
 * 🐞 Re-added the "-stay_open\nFalse" ExifTool exit command, which may be more
   reliable than only using signal traps.
+* 📦 `yarn upgrade --latest`
+
+### v4.3.0
+
+* 🌱 ExifTool upgraded to
+  [v10.60](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.60)
+* 📦 Upgraded all dependencies
+
+### v4.2.0
+
+* 🌱 ExifTool upgraded to
+  [v10.58](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.58)
 
 ### v4.1.0
 
