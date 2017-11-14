@@ -1,3 +1,5 @@
+# Changelog
+
 ## Versioning
 
 Providing the flexibility to reversion the API or UPDATE version slots as
@@ -12,7 +14,7 @@ vendored versions of ExifTool match the version they vendor.
 
 ### The `MINOR` or `UPDATE` version is incremented for
 
-* 🌱 New releases of ExifTool with no externally visible changes 
+* 🌱 New releases of ExifTool with no externally visible changes
 * ✨ Backwards-compatible features
 
 ### The `PATCH` version is incremented for
@@ -20,16 +22,22 @@ vendored versions of ExifTool match the version they vendor.
 * 🐞 Backwards-compatible bug fixes
 * 📦 Minor packaging changes
 
-## Changelog
+## Version history
 
 ### v4.5.0
 
+* ✨ Pull in new `batch-cluster` with more aggressive child process management
+  (uses `taskkill` on win32 platforms and `kill -9` on unixish platforms)
 * 🌱 ExifTool upgraded to
-  [v10.64](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.64)
+  [v10.66](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.66)
+* ✨ ExifTool constructor defaults were relaxed to handle slow NAS
+* ✨ Upgraded to Mocha 4.0. Added calls to `exiftool.end()` in test `after`
+  blocks and the README so `--exit` isn't necessary.
+* 📦 `salita --update`
 
 ### v4.4.1
 
-* 📦 reverted batch-cluster reference 
+* 📦 reverted batch-cluster reference
 
 ### v4.4.0
 
@@ -67,7 +75,7 @@ vendored versions of ExifTool match the version they vendor.
   [batch-cluster](https://github.com/mceachen/batch-cluster.js) options in the
   ExifTool constructor.
 * 📦 Added `ExifTool.pids` (used by a couple new integration tests)
-* 📦 Rebuilt `Tags` with additional sample images and looser tag filtering. 
+* 📦 Rebuilt `Tags` with additional sample images and looser tag filtering.
 
 ### v3.2.0
 
@@ -132,8 +140,8 @@ vendored versions of ExifTool match the version they vendor.
 * ✨ If `ECONN` or `ECONNRESET` is raised from the child process (which seems to
   happen for roughly 1% of requests), the current task is re-enqueued and the
   current exiftool process is recycled.
-* ✨ Rebuilt `Tags` definitions using more (6,412!) sample image files 
-  (via `npm run mktags ~/sample-images`), including many RAW image types 
+* ✨ Rebuilt `Tags` definitions using more (6,412!) sample image files
+  (via `npm run mktags ~/sample-images`), including many RAW image types
   (like `.ORF`, `.CR2`, and `.NEF`).
 
 ### v2.13.0
@@ -163,7 +171,7 @@ vendored versions of ExifTool match the version they vendor.
 
 * 🌱 ExifTool upgraded to v10.44
 * 📦 Upgraded to TypeScript 2.2
-* 🐞 `update/io.ts` error message didn't handle null statuscodes properly 
+* 🐞 `update/io.ts` error message didn't handle null statuscodes properly
 * 🐞 `update/mktags.ts` had a counting bug exposed by TS 2.2
 
 ### v2.7.0
@@ -204,7 +212,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v2.1.1
 
 * ✨ `extractThumbnail` and `extractPreview` implemented to pull out EXIF-embedded images
-* 📦 Rebuilt package.json.files section 
+* 📦 Rebuilt package.json.files section
 
 ### v2.0.1
 
@@ -213,9 +221,9 @@ vendored versions of ExifTool match the version they vendor.
 ### v1.5.3
 
 * 📦 Switch back to `platform-dependent-modules`.
-  [npm warnings](http://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency) 
-  aren't awesome.  
-* 📦 Don't include tests or updater in the published package 
+  [npm warnings](http://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency)
+  aren't awesome.
+* 📦 Don't include tests or updater in the published package
 
 ### v1.5.0
 
@@ -233,7 +241,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v1.3.0
 
 * 🌱 ExifTool upgraded to v10.36
-* ✨ `Tag.Error` exposed for unsupported file types. 
+* ✨ `Tag.Error` exposed for unsupported file types.
 
 ### v1.2.0
 
@@ -248,7 +256,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v1.0.0
 
 * ✨ Added typings reference in the package.json
-* 🌱 Upgraded vendored exiftool to 10.33 
+* 🌱 Upgraded vendored exiftool to 10.33
 
 ### v0.4.0
 

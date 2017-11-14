@@ -8,11 +8,11 @@
 
 ## Features
 
-1. **Best-of-class cross-platform performance**. 
+1. **Best-of-class cross-platform performance and reliability**.
 
    *Expect [an order of magnitude faster performance](#performance) than other packages.*
 
-1. Proper extraction of 
+1. Proper extraction of
     - **dates** with [correct timezone offset encoding, when available](#dates))
     - **latitudes & longitudes** as floats (where negative values indicate west or south of the meridian)
     - **embedded images**, both `Thumbnail` and `Preview` (if they exist)
@@ -26,7 +26,7 @@
 1. **Automated updates** to ExifTool ([as new versions come out
    monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. **Robust test suite**, performed with Node v4, v6, v7, and v8 on [Linux,
+1. **Robust test suite**, performed with Node v4, v6, and v8 on [Linux,
    Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), &
    [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
@@ -45,9 +45,15 @@ You shouldn't include either the `exiftool-vendored.exe` or
 ## Usage
 
 ```js
-import { exiftool } from "exiftool-vendored";
+import { ExifTool } from "exiftool-vendored";
 
-// Read all metadata tags in `path/to/image.jpg`. 
+// Note that there are many configuration options to ExifTool.
+// Based on your hardware performance and expected performance
+// characteristics, the defaults may not be relevant for you.
+// See src/ExifTool.ts#L70 for jsdocs.
+const exiftool = new ExifTool();
+
+// Read all metadata tags in `path/to/image.jpg`.
 // Returns a `Promise<Tags>`.
 exiftool
   .read("path/to/image.jpg")
@@ -66,17 +72,35 @@ exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg");
 exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
 
 // Extract the binary value from "tagname" tag in `path/to/image.jpg`
-// and write it to `dest.bin` (which cannot exist already 
+// and write it to `dest.bin` (which cannot exist already
 // and whose parent directory must already exist):
 exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
+
+// Make sure you end ExifTool when you're done with it.
+// Note that `.end` returns a Promise that you can `await`.
+exiftool.end()
+```
+
+## Resource hygene
+
+**Remember to call `.end()`.**
+
+If you use [mocha](https://mochajs.org/) v4 or later, and you don't call
+`exiftool.end()`, you will find that your tests hang after completion. [The relevant change is described
+here](https://github.com/mochajs/mocha/issues/3044), and can be solved by
+adding an `after` block that shuts down the instance of ExifTool that your
+tests are using:
+
+```js
+after(() => exiftool.end()) // assuming your singleton is called `exiftool`
 ```
 
 ## Dates
 
 Generally, EXIF tags encode dates and times with **no timezone offset.**
-Presumably the time is captured in local time, but this means parsing the same
-file in different parts of the world results in a different *absolute* timestamp
-for the same file.
+Presumably the time is captured in local time, but this means parsing the
+same file in different parts of the world results in a different *absolute*
+timestamp for the same file.
 
 Rather than returning a
 [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
@@ -167,8 +191,8 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ## Author
 
-* [Matthew McEachen](https://github.com/mceachen)
+- [Matthew McEachen](https://github.com/mceachen)
 
 ## Contributors 🎉
 
-* [Anton Mokrushin](https://github.com/amokrushin)
+- [Anton Mokrushin](https://github.com/amokrushin)
