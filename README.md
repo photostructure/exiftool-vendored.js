@@ -26,7 +26,7 @@
 1. **Automated updates** to ExifTool ([as new versions come out
    monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. **Robust test suite**, performed with Node v4, v6, v7, and v8 on [Linux,
+1. **Robust test suite**, performed with Node v4, v6, and v8 on [Linux,
    Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), &
    [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
@@ -44,8 +44,32 @@ You shouldn't include either the `exiftool-vendored.exe` or
 
 ## Usage
 
+Prior to v5, `exiftool-vendored` exported a singleton `exiftool`.
+
+This proved to be an API design mistake:
+
+1. Default configuration settings, like the number of CPUs to use, may not
+   be relevant or correct for your application.
+
+2. It was left as an exercise to the reader to `.end()` the singleton. If
+    there are multiple consumers of the singleton, it isn't clear whose
+    responsibility it is to invoke `end`.
+    
+Instead of hosting the singleton within the ExifTool class, singleton
+management is now left as an exercise for the consumer.
+
+Note that if you don't call `.end()` on your singleton, system resources
+may not be recovered.
+
 ```js
-import { exiftool } from "exiftool-vendored";
+import { ExifTool } from "exiftool-vendored";
+
+// NEW REQUIREMENT FOR >= v5.0.0: MAKE YOUR OWN INSTANCE. 
+
+// Note that there are many configuration options to ExifTool. 
+// Make sure the hopefully-sane defaults actually will work 
+// for you. See src/ExifTool.ts#L70 for jsdocs.
+const exiftool = new ExifTool();
 
 // Read all metadata tags in `path/to/image.jpg`. 
 // Returns a `Promise<Tags>`.
@@ -69,6 +93,10 @@ exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
 // and write it to `dest.bin` (which cannot exist already 
 // and whose parent directory must already exist):
 exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
+
+// Make sure you end ExifTool when you're done with it. 
+// Note that `.end` returns a Promise that you can `await`.
+exiftool.end()
 ```
 
 ## Dates
