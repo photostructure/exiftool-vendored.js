@@ -13,7 +13,8 @@ describe(".millisToFractionalPart()", () => {
     [123.04, ".12304"],
     [123.004, ".123004"],
     [123.0004, ".123"],
-    [123.4567, ".123457"]
+    [123.4567, ".123457"],
+    [1234.5678, "1.23457"]
   ]
   examples.forEach(([millis, expected]) => {
     it(millis + " should render " + expected, () => {

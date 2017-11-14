@@ -1,21 +1,14 @@
 {
   "extends": "tslint-config-standard",
-  "rulesDirectory": [
-    "node_modules/tslint-eslint-rules/dist/rules"
-  ],
+  "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"],
   "rules": {
     "no-constant-condition": true,
     "no-extra-semi": true,
     "no-unsafe-finally": true,
+    "no-unused-expression": false,
     "no-use-before-declare": true,
-    "valid-typeof": true,
-    "quotemark": [
-      true,
-      "double"
-    ],
-    "space-before-function-paren": [
-      false,
-      "always"
-    ]
+    "quotemark": [true, "double"],
+    "space-before-function-paren": [false, "always"],
+    "valid-typeof": true
   }
 }

@@ -22,9 +22,21 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Changelog
 
+### v4.5.0
+
+* ✨ Pull in new `batch-cluster` with more aggressive child process management
+  (uses `taskkill` on win32 platforms and `kill -9` on unixish platforms)
+* 🌱 ExifTool upgraded to
+  [v10.65](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.65)
+* ✨ ExifTool constructor defaults were relaxed to handle slow NAS
+* ✨ Upgraded to Mocha 4.0. Added calls to `exiftool.end()` in test `after`
+  blocks and the README so `--exit` isn't necessary.
+* 📦 `salita --update`
+
+
 ### v4.4.1
 
-* 📦 reverted batch-cluster reference 
+* 📦 reverted batch-cluster reference
 
 ### v4.4.0
 

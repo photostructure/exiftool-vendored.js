@@ -1,11 +1,11 @@
 export function compact<T>(array: (T | undefined | null)[]): T[] {
-  return array.filter((elem) => elem != null) as T[]
+  return array.filter(elem => elem != null) as T[]
 }
 
 export function pad2(...numbers: number[]): string[] {
   return numbers.map(i => {
     const s = i.toString(10)
-    return (s.length >= 2) ? s : "0" + s
+    return s.length >= 2 ? s : "0" + s
   })
 }
 
@@ -13,20 +13,29 @@ export function pad3(...numbers: number[]): string[] {
   return numbers.map(i => {
     if (i < 0) {
       const s = Math.abs(i).toString(10)
-      return "-" + ((s.length >= 2) ? s : "0" + s)
+      return "-" + (s.length >= 2 ? s : "0" + s)
     } else {
-      return `000${i}`.slice(Math.min(-3, -(Math.ceil(Math.log10(i)))))
+      return `000${i}`.slice(Math.min(-3, -Math.ceil(Math.log10(i))))
     }
   })
 }
 
 /**
- *
- * @param millis [0,1000)
- * @return the decimal fraction of the second (to maximally microsecond precision)
+ * Given a time value in milliseconds, return a decimal in seconds units,
+ * rounded to the given precision, without zero right or left padding.
+ * @export
+ * @param {number} millis [0,1000)
+ * @param {number} [precision=6] how many decimal fraction digits to retain
+ * @returns {string} the decimal fraction of the second (to maximally
+ * microsecond precision)
  */
-export function millisToFractionalPart(millis: number, precision: number = 6): string {
-  const frac = (millis / 1000).toPrecision(precision).split("").slice(1) // pop off the initial "0"
+export function millisToFractionalPart(
+  millis: number,
+  precision: number = 6
+): string {
+  const frac = (millis / 1000).toPrecision(precision).split("")
+  if (frac[0] === "0") frac.shift() // pop off the initial "0"
+
   // strip off microsecond zero padding:
   while (frac.length > 4 && frac[frac.length - 1] === "0") {
     frac.pop()
@@ -34,7 +43,12 @@ export function millisToFractionalPart(millis: number, precision: number = 6): s
   return frac.join("")
 }
 
-function maybeNew<T>(input: string, tzoffsetMinutes: number | undefined, re: RegExp, ctor: (args: number[]) => T): T | undefined {
+function maybeNew<T>(
+  input: string,
+  tzoffsetMinutes: number | undefined,
+  re: RegExp,
+  ctor: (args: number[]) => T
+): T | undefined {
   const match = re.exec(input)
   if (match !== null) {
     const args = match.slice(1).map(ea => parseNum((ea || "").trim()))
@@ -54,10 +68,10 @@ export abstract class Base {
     } else if (tzoffsetMinutes === 0) {
       return "Z"
     } else {
-      const sign = (tzoffsetMinutes >= 0) ? "+" : "-"
+      const sign = tzoffsetMinutes >= 0 ? "+" : "-"
       const tzoff = Math.abs(tzoffsetMinutes)
       const hours = Math.floor(tzoff / 60)
-      const mins = tzoff - (hours * 60)
+      const mins = tzoff - hours * 60
       return `${sign}${pad2(hours)}:${pad2(mins)}`
     }
   }
@@ -85,7 +99,7 @@ export class ExifTime {
     secondFraction?: number,
     readonly tzoffsetMinutes?: number
   ) {
-    this.millis = (secondFraction != null) ? secondFraction * 1000 : 0
+    this.millis = secondFraction != null ? secondFraction * 1000 : 0
   }
 
   static for(input: string, tzoffsetMinutes?: number): ExifTime | undefined {
@@ -95,7 +109,10 @@ export class ExifTime {
   }
 
   toString(): string {
-    return pad2(this.hour, this.minute, this.second).join(":") + millisToFractionalPart(this.millis)
+    return (
+      pad2(this.hour, this.minute, this.second).join(":") +
+      millisToFractionalPart(this.millis)
+    )
   }
 }
 
@@ -105,10 +122,10 @@ export class ExifTime {
 export class ExifDate {
   private static regex = /^(\d{4}):(\d{2}):(\d{2})$/
   constructor(
-    readonly year: number,  // four-digit year
+    readonly year: number, // four-digit year
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
-    readonly day: number   // 1-31
-  ) { }
+    readonly day: number // 1-31
+  ) {}
 
   static for(input: string, tzoffsetMinutes?: number): ExifDate | undefined {
     return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
@@ -158,10 +175,13 @@ export class ExifDateTime extends Base {
     readonly tzoffsetMinutes?: number
   ) {
     super()
-    this.millis = (secondFraction != null) ? secondFraction * 1000 : 0
+    this.millis = secondFraction != null ? secondFraction * 1000 : 0
   }
 
-  static for(input: string, tzoffsetMinutes?: number): ExifDateTime | undefined {
+  static for(
+    input: string,
+    tzoffsetMinutes?: number
+  ): ExifDateTime | undefined {
     return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
       return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7])
     })
@@ -180,10 +200,17 @@ export class ExifDateTime extends Base {
       return d
     } else if (this.tzoffsetMinutes === 0) {
       // Don't leave it up to string parsing
-      return new Date(Date.UTC(
-        this.year, this.month - 1, this.day,
-        this.hour, this.minute, this.second, Math.round(this.millis)
-      ))
+      return new Date(
+        Date.UTC(
+          this.year,
+          this.month - 1,
+          this.day,
+          this.hour,
+          this.minute,
+          this.second,
+          Math.round(this.millis)
+        )
+      )
     } else {
       return new Date(this.toISOString())
     }
@@ -194,8 +221,17 @@ export class ExifDateTime extends Base {
   }
 
   toISOString(millisPrecision: number = 6): string {
-    const [mo, da, ho, mi, se] = pad2(this.month, this.day, this.hour, this.minute, this.second)
-    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${millisToFractionalPart(this.millis, millisPrecision)}${this.tz(this.tzoffsetMinutes)}`
+    const [mo, da, ho, mi, se] = pad2(
+      this.month,
+      this.day,
+      this.hour,
+      this.minute,
+      this.second
+    )
+    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${millisToFractionalPart(
+      this.millis,
+      millisPrecision
+    )}${this.tz(this.tzoffsetMinutes)}`
   }
 }
 
@@ -217,9 +253,15 @@ export class ExifTimeZoneOffset extends Base {
     if (input === undefined) {
       this.tzOffsetMinutes = undefined
       this.inputWithoutTimezone = input
-    } else if (tagName.includes("UTC") || tagName.includes("GPS") || input.toString().endsWith("Z")) {
+    } else if (
+      tagName.includes("UTC") ||
+      tagName.includes("GPS") ||
+      input.toString().endsWith("Z")
+    ) {
       this.tzOffsetMinutes = 0
-      this.inputWithoutTimezone = input.endsWith("Z") ? input.slice(0, -1) : input
+      this.inputWithoutTimezone = input.endsWith("Z")
+        ? input.slice(0, -1)
+        : input
     } else {
       const match = ExifTimeZoneOffset.regex.exec(input)
       if (match) {
@@ -260,8 +302,10 @@ export function parse(
   const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffset])[0]
   const tagValue = tz.inputWithoutTimezone
 
-  return ExifDateTime.for(tagValue, tzoffset)
-    || ExifDate.for(tagValue, tzoffset)
-    || ExifTime.for(tagValue, tzoffset)
-    || rawTagValue
+  return (
+    ExifDateTime.for(tagValue, tzoffset) ||
+    ExifDate.for(tagValue, tzoffset) ||
+    ExifTime.for(tagValue, tzoffset) ||
+    rawTagValue
+  )
 }

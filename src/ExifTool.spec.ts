@@ -1,13 +1,14 @@
 import { expect, times } from "./chai.spec"
-import { ExifTool } from "./ExifTool"
+import { exiftool, ExifTool } from "./ExifTool"
 import { Tags } from "./Tags"
+import { BatchCluster } from "batch-cluster"
+import * as _os from "os"
 import * as _path from "path"
 import * as semver from "semver"
-import { BatchCluster } from "batch-cluster"
 
 describe("ExifTool", () => {
-  const exiftool = new ExifTool(2)
-  after(() => exiftool.end())
+  const et = new ExifTool(2)
+  after(() => et.end())
 
   const truncated = _path.join(__dirname, "..", "test", "truncated.jpg")
   const noexif = _path.join(__dirname, "..", "test", "noexif.jpg")
@@ -27,29 +28,35 @@ describe("ExifTool", () => {
 
   it("returns the correct version", async function() {
     this.slow(500)
-    return expect(await exiftool.version()).to.eql(expectedExiftoolVersion())
+    return expect(await et.version()).to.eql(expectedExiftoolVersion())
+  })
+
+  it("exports a singleton instance", () => {
+    // don't call any methods that actually results in spinning up a child
+    // proc:
+    expect(exiftool.maxProcs).to.eql(_os.cpus().length)
   })
 
   it("returns expected results for a given file", async function() {
     this.slow(500)
     return expect(
-      exiftool.read(img).then(tags => tags.Model)
+      et.read(img).then(tags => tags.Model)
     ).to.eventually.eql("iPhone 7 Plus")
   })
 
   it("Renders Orientation as strings normally", async () => {
-    const tags = await exiftool.read(img)
+    const tags = await et.read(img)
     return expect(tags.Orientation).to.eql("Horizontal (normal)")
   })
 
   it("Renders Orientation as a number when specified", async () => {
-    const tags = await exiftool.read(img, ["-Orientation#"])
+    const tags = await et.read(img, ["-Orientation#"])
     return expect(tags.Orientation).to.eql(1)
   })
 
   it("returns warning for a truncated file", () => {
     return expect(
-      exiftool.read(truncated).then(tags => tags.Warning)
+      et.read(truncated).then(tags => tags.Warning)
     ).to.eventually.eql("JPEG format error")
   })
 
@@ -61,7 +68,7 @@ describe("ExifTool", () => {
 
   it("returns no exif metadata for an image with no headers", () => {
     return expect(
-      exiftool.read(noexif).then(tags => normalize(Object.keys(tags)))
+      et.read(noexif).then(tags => normalize(Object.keys(tags)))
     ).to.become(
       normalize([
         "BitsPerSample",
@@ -89,13 +96,13 @@ describe("ExifTool", () => {
   })
 
   it("returns error for missing file", () => {
-    return expect(exiftool.read("bogus")).to.eventually.be.rejectedWith(
+    return expect(et.read("bogus")).to.eventually.be.rejectedWith(
       /File not found/
     )
   })
 
-  it('sets "Error" for unsupported file types', async () => {
-    return expect((await exiftool.read(__filename)).Error).to.match(
+  it("sets Error for unsupported file types", async () => {
+    return expect((await et.read(__filename)).Error).to.match(
       /Unknown file type/i
     )
   })

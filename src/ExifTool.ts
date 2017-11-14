@@ -37,42 +37,44 @@ const execFileOpts = {
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
  *
- * Instances should be shared: consider using the exported singleton instance of this class, `exiftool`.
+ * Instances should be shared: consider using the exported singleton
+ * instance of this class, `exiftool`.
  */
 export class ExifTool {
   private readonly batchCluster: BatchCluster
 
   /**
-   * @param maxProcs The maximum number of ExifTool child processes to spawn
-   * when load merits. Defaults to 1.
-   * @param maxTasksPerProcess The maximum number of requests a given ExifTool
-   * process will service before being retired. Defaults to 250, to balance
-   * performance with memory usage.
-   * @param spawnTimeoutMillis Spawning new ExifTool processes must not take
-   * longer than `spawnTimeoutMillis` millis before it times out and a new
-   * attempt is made. Be pessimistic here--windows can regularly take several
-   * seconds to spin up a process, thanks to antivirus shenanigans. This can't
-   * be set to a value less than 100ms. Defaults to 20 seconds, to accomodate
-   * slow Windows machines.
-   * @param taskTimeoutMillis If requests to ExifTool take longer than this,
-   * presume the underlying process is dead and we should restart the task. This
-   * can't be set to a value less than 10ms, and really should be set to at more
-   * than a second unless `taskRetries` is sufficiently large. Defaults to 5
+   * @param maxProcs The maximum number of ExifTool child processes to
+   * spawn when load merits. Defaults to 1.
+   * @param maxTasksPerProcess The maximum number of requests a given
+   * ExifTool process will service before being retired. Defaults to 250,
+   * to balance performance with memory usage.
+   * @param spawnTimeoutMillis Spawning new ExifTool processes must not
+   * take longer than `spawnTimeoutMillis` millis before it times out and a
+   * new attempt is made. Be pessimistic here--windows can regularly take
+   * several seconds to spin up a process, thanks to antivirus shenanigans.
+   * This can't be set to a value less than 100ms. Defaults to 20 seconds,
+   * to accomodate slow Windows machines.
+   * @param taskTimeoutMillis If requests to ExifTool take longer than
+   * this, presume the underlying process is dead and we should restart the
+   * task. This can't be set to a value less than 10ms, and really should
+   * be set to at more than a second unless `taskRetries` is sufficiently
+   * large or all writes will be to a fast local disk. Defaults to 5
    * seconds.
-   * @param onIdleIntervalMillis An interval timer is scheduled to do periodic
-   * maintenance of underlying child processes with this periodicity. Defaults
-   * to 2 seconds.
-   * @param taskRetries The number of times a task can error or timeout and be
-   * retried. Defaults to 2.
-   * @param batchClusterOpts Allows for overriding any configuration used by
-   * `BatchCluster`
+   * @param onIdleIntervalMillis An interval timer is scheduled to do
+   * periodic maintenance of underlying child processes with this
+   * periodicity. Defaults to 2 seconds.
+   * @param taskRetries The number of times a task can error or timeout and
+   * be retried. Defaults to 2.
+   * @param batchClusterOpts Allows for overriding any configuration used
+   * by the underlying `batch-cluster` module.
    */
   constructor(
     readonly maxProcs: number = _os.cpus().length,
     readonly maxTasksPerProcess: number = 500,
-    readonly spawnTimeoutMillis: number = 20000, // it shouldn't take longer than 5 seconds to spin up. 4x that should be quite conservative.
-    readonly taskTimeoutMillis: number = 1000, // tasks should complete in under 250 ms. 20x that should handle swapped procs.
-    readonly onIdleIntervalMillis: number = 1000,
+    readonly spawnTimeoutMillis: number = 20000,
+    readonly taskTimeoutMillis: number = 5000,
+    readonly onIdleIntervalMillis: number = 2000,
     readonly taskRetries: number = 2,
     readonly batchClusterOpts: Partial<BatchClusterOptions & BatchProcessOptions> = {}
   ) {
@@ -197,3 +199,16 @@ export class ExifTool {
     return this.batchCluster.pendingTasks
   }
 }
+
+/**
+ * Use this singleton rather than instantiating new ExifTool instances in order
+ * to leverage a single running ExifTool process. As of v3.0, its `maxProcs` is
+ * set to the number of CPUs on the current system; no more than `maxProcs`
+ * instances of `exiftool` will be spawned. You may want to experiment with
+ * smaller or larger values for `maxProcs`, depending on CPU and disk speed of
+ * your system and performance tradeoffs.
+ *
+ * Note that each child process consumes between 10 and 50 MB of RAM. If you
+ * have limited system resources you may want to use a smaller `maxProcs` value.
+ */
+export const exiftool = new ExifTool(_os.cpus().length)
