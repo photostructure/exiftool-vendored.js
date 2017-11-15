@@ -1,7 +1,7 @@
 import { tmpdir } from "os"
 import { join } from "path"
 import * as pify from "pify"
-import * as fse from "fs-extra"
+const cpFile = require("cp-file")
 
 const chai = require("chai")
 const chaiAsPromised = require("chai-as-promised")
@@ -27,9 +27,7 @@ export const testDir = join(__dirname, "..", "test")
  */
 export async function testImg(name: string = "img.jpg"): Promise<string> {
   const dir = join(tmpdir(), (Math.random() * 1000000).toFixed() + "-" + name)
-  await fse.mkdir(dir)
+  await pfs.mkdir(dir)
   const dest = join(dir, name)
-  return new Promise<string>((res, rej) =>
-    fse.copyFile(join(testDir, name), dest, err => (err ? rej(err) : res(dest)))
-  )
+  return cpFile(join(testDir, name), dest).then(() => dest)
 }
