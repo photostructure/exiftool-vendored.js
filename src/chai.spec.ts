@@ -26,7 +26,7 @@ export const testDir = join(__dirname, "..", "test")
  * Copy a test image to a tmp directory and return the path
  */
 export async function testImg(name: string = "img.jpg"): Promise<string> {
-  const dir = join(tmpdir(), name + "-" + Date.now())
+  const dir = join(tmpdir(), (Math.random() * 1000000).toFixed() + "-" + name)
   await pfse.mkdir(dir)
   const dest = join(dir, name)
   await pfse.copyFile(join(testDir, name), dest)
