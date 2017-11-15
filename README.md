@@ -179,12 +179,6 @@ be spawned.
 Note that each child process consumes between 10 and 50 MB of RAM. If you have
 limited system resources you may want to use a smaller `maxProcs` value.
 
-## Logging
-
-[debuglog](https://nodejs.org/api/util.html#util_util_debuglog_section) is used
-with the `exiftool` prefix. To enable logging, set the environment flag
-`NODE_DEBUG=exiftool`.
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
