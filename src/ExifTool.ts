@@ -89,8 +89,8 @@ export class ExifTool {
       retryTasksAfterTimeout: true,
       maxProcAgeMillis: 10 * 60 * 1000, // 10 minutes
       ...batchClusterOpts,
-      pass: batchClusterOpts.pass || "{ready}",
-      fail: batchClusterOpts.fail || "{ready}",
+      pass: batchClusterOpts.pass || "{ready.*}",
+      fail: batchClusterOpts.fail || "{ready.*}",
       exitCommand: "-stay_open\nFalse\n",
       versionCommand: batchClusterOpts.versionCommand || new VersionTask().command
     }
