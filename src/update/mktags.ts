@@ -2,7 +2,7 @@ require("source-map-support").install()
 
 import { compact } from "../DateTime"
 import { ExifTool } from "../ExifTool"
-import { TagsTask } from "../TagsTask"
+import { ReadTask } from "../ReadTask"
 import * as _fs from "fs"
 import * as _path from "path"
 import * as _process from "process"
@@ -206,7 +206,7 @@ let nextTick = Date.now()
 let ticks = 0
 
 async function readAndAddToTagMap(file: string) {
-  const task = TagsTask.for(file, ["-G"])
+  const task = ReadTask.for(file, ["-G"])
   try {
     const tags: any = await exiftool.enqueueTask(task)
     const importantFile = file
@@ -311,11 +311,10 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     tagWriter.write(
       `  ${tagGroups.map(s => "Partial<" + s + "Tags>").join(",\n  ")} {\n`
     )
-    tagWriter.write("  errors: string[]\n")
-    tagWriter.write("  /** \"Unknown file type\" */\n")
-    tagWriter.write("  Error: string\n")
-    tagWriter.write("  Warning: string\n")
-    tagWriter.write("  SourceFile: string\n")
+    tagWriter.write("  errors?: string[]\n")
+    tagWriter.write("  Error?: string\n")
+    tagWriter.write("  Warning?: string\n")
+    tagWriter.write("  SourceFile?: string\n")
     tagWriter.write("}\n")
     tagWriter.end()
     console.log("Done.")

@@ -4943,9 +4943,8 @@ export interface Tags extends
   Partial<QuickTimeTags>,
   Partial<RAFTags>,
   Partial<XMPTags> {
-  errors: string[]
-  /** "Unknown file type" */
-  Error: string
-  Warning: string
-  SourceFile: string
+  errors?: string[]
+  Error?: string
+  Warning?: string
+  SourceFile?: string
 }

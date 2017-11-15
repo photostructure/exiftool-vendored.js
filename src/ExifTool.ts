@@ -1,16 +1,26 @@
+import { WriteTask } from "./WriteTask"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifToolTask } from "./ExifToolTask"
 import { Tags } from "./Tags"
-import { TagsTask } from "./TagsTask"
+import { ReadTask } from "./ReadTask"
 import { VersionTask } from "./VersionTask"
-import { BatchCluster, BatchClusterOptions, BatchProcessOptions } from "batch-cluster"
+import {
+  BatchCluster,
+  BatchClusterOptions,
+  BatchProcessOptions
+} from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
 import * as _process from "process"
 
 export { Tags } from "./Tags"
-export { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from "./DateTime"
+export {
+  ExifDate,
+  ExifTime,
+  ExifDateTime,
+  ExifTimeZoneOffset
+} from "./DateTime"
 
 const isWin32 = _process.platform === "win32"
 const exiftoolPath = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
@@ -19,12 +29,7 @@ if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
 }
 
-const exiftoolArgs = [
-  "-stay_open",
-  "True",
-  "-@",
-  "-"
-]
+const exiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
 const execFileOpts = {
   stdio: "pipe",
@@ -76,10 +81,13 @@ export class ExifTool {
     readonly taskTimeoutMillis: number = 5000,
     readonly onIdleIntervalMillis: number = 2000,
     readonly taskRetries: number = 2,
-    readonly batchClusterOpts: Partial<BatchClusterOptions & BatchProcessOptions> = {}
+    readonly batchClusterOpts: Partial<
+      BatchClusterOptions & BatchProcessOptions
+    > = {}
   ) {
     const opts = {
-      processFactory: () => _child_process.execFile(exiftoolPath, exiftoolArgs, execFileOpts),
+      processFactory: () =>
+        _child_process.execFile(exiftoolPath, exiftoolArgs, execFileOpts),
       maxProcs,
       onIdleIntervalMillis,
       spawnTimeoutMillis,
@@ -92,7 +100,8 @@ export class ExifTool {
       pass: batchClusterOpts.pass || "{ready.*}",
       fail: batchClusterOpts.fail || "{ready.*}",
       exitCommand: "-stay_open\nFalse\n",
-      versionCommand: batchClusterOpts.versionCommand || new VersionTask().command
+      versionCommand:
+        batchClusterOpts.versionCommand || new VersionTask().command
     }
     this.batchCluster = new BatchCluster(opts)
   }
@@ -105,10 +114,33 @@ export class ExifTool {
   }
 
   /**
-   * @return a Promise holding the metadata tags found in `file`.
+   * Read the tags in `file`.
+   *
+   * @param {string} file the file to extract metadata tags from
+   * @param {string[]} [args] any additional ExifTool arguments, like "-n".
+   * Most consumers won't probably need this.
+   * @returns {Promise<Tags>} A resolved Tags promise. If there are errors
+   * during reading, the `.errors` field will be present.
+   * @memberof ExifTool
    */
   read(file: string, args?: string[]): Promise<Tags> {
-    return this.enqueueTask(TagsTask.for(file, args))
+    return this.enqueueTask(ReadTask.for(file, args))
+  }
+
+  /**
+   * Write the given `tags` to `file`.
+   *
+   * @param {string} file an existing file to write `tags` to.
+   * @param {Tags} tags the tags to write to `file`.
+   * @param {string[]} [args] any additional ExifTool arguments, like "-n".
+   * Most consumers won't probably need this.
+   * @returns {Promise<void>} Either the promise will be resolved if the
+   * tags are written to successfully, or the promise will be rejected if
+   * there are errors or warnings.
+   * @memberof ExifTool
+   */
+  write(file: string, tags: Tags, args?: string[]): Promise<void> {
+    return this.enqueueTask(WriteTask.for(file, tags, args))
   }
 
   /**

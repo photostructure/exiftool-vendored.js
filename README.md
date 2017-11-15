@@ -76,6 +76,10 @@ exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
 // and whose parent directory must already exist):
 exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
 
+// Write a comment to the given file so it shows up in the
+// Windows Explorer Properties panel:
+exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" });
+
 // Make sure you end ExifTool when you're done with it.
 // Note that `.end` returns a Promise that you can `await`.
 exiftool.end()

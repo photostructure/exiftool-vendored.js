@@ -1,9 +1,9 @@
 import { Tags } from "./Tags"
-import { TagsTask } from "./TagsTask"
+import { ReadTask } from "./ReadTask"
 import { expect } from "./chai.spec"
 
 function parse(tags: any): Tags {
-  const tt = TagsTask.for("/tmp/example.jpg")
+  const tt = ReadTask.for("/tmp/example.jpg")
   tags.SourceFile = "/tmp/example.jpg"
   const json = JSON.stringify([tags])
   return tt["parse"](json)

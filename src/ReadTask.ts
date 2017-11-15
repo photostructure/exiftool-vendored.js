@@ -3,7 +3,7 @@ import { ExifToolTask } from "./ExifToolTask"
 import { Tags } from "./Tags"
 import * as _path from "path"
 
-export class TagsTask extends ExifToolTask<Tags> {
+export class ReadTask extends ExifToolTask<Tags> {
   private rawTags: any
   private readonly tags: Tags
   private tzoffset: number | undefined
@@ -14,7 +14,7 @@ export class TagsTask extends ExifToolTask<Tags> {
     this.tags = { SourceFile: sourceFile, errors } as Tags
   }
 
-  static for(filename: string, optionalArgs: string[] = []): TagsTask {
+  static for(filename: string, optionalArgs: string[] = []): ReadTask {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
@@ -23,11 +23,11 @@ export class TagsTask extends ExifToolTask<Tags> {
       ...optionalArgs,
       sourceFile
     ]
-    return new TagsTask(sourceFile, args)
+    return new ReadTask(sourceFile, args)
   }
 
   toString(): string {
-    return "TagsTask(" + this.sourceFile + ")"
+    return "ReadTask" + this.sourceFile + ")"
   }
 
   protected parse(data: string): Tags {
@@ -45,6 +45,9 @@ export class TagsTask extends ExifToolTask<Tags> {
   }
 
   private addError(msg: string): void {
+    if (this.tags.errors == null) {
+      this.tags.errors = []
+    }
     this.tags.errors.push(msg)
   }
 

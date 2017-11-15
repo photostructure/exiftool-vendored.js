@@ -49,6 +49,7 @@
   "devDependencies": {
     "@types/chai": "^4.0.4",
     "@types/chai-as-promised": "^7.1.0",
+    "@types/fs-extra": "^4.0.5",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.52",
     "@types/pify": "^3.0.0",
@@ -59,9 +60,10 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "decompress-zip": "^0.3.0",
+    "fs-extra": "^4.0.2",
     "globule": "^1.2.0",
     "mocha": "^4.0.1",
-    "np": "^2.16.1",
+    "np": "^2.17.0",
     "npm-run-all": "^4.1.2",
     "pify": "^3.0.0",
     "progress": "^2.0.0",
@@ -78,7 +80,7 @@
     "xpath": "^0.0.24"
   },
   "dependencies": {
-    "batch-cluster": "^1.6.1"
+    "batch-cluster": "^1.7.0"
   },
   "optionalDependencies": {
     "exiftool-vendored.exe": "10.66.0",
