@@ -24,7 +24,7 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### v4.7.0
+### v4.7.1
 
 * ✨ Metadata writing is now supported. Closes [#6](https://github.com/mceachen/exiftool-vendored.js/issues/6)
 
