@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.8.0
+
+* ✨ Corrected the type interface to `ExifTool.write()` to be only string or
+  numeric values with keys from `Tags` so intellisense can work it's magicks
+* 📦 Updated the README with more examples
+* 📦 Added timestamp write tests
+
 ### v4.7.1
 
 * ✨ Metadata writing is now supported. Closes [#6](https://github.com/mceachen/exiftool-vendored.js/issues/6)

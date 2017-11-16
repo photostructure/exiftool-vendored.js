@@ -1,5 +1,5 @@
-import { ExifTool } from "./ExifTool"
 import { expect, testImg } from "./chai.spec"
+import { ExifTool } from "./ExifTool"
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool(1)
@@ -40,6 +40,21 @@ describe("WriteTask", () => {
     const t = await exiftool.read(src)
     expect(t.Orientation).to.eql("Rotate 180")
     return
+  })
+
+  it("updates DateTimeOriginal to a specific time", async () => {
+    const src = await testImg()
+    await exiftool.write(src, { DateTimeOriginal: "2017-11-15T12:34:56" })
+    const t2 = await exiftool.read(src)
+    expect(t2.DateTimeOriginal!.toString()).to.eql("2017-11-15T12:34:56.000")
+    return
+  })
+
+  it("rejects setting to a non-time value", async () => {
+    const src = await testImg()
+    return expect(
+      exiftool.write(src, { DateTimeOriginal: "this is not a time" })
+    ).to.be.rejectedWith(/Invalid date\/time/)
   })
 
   it("rejects a numeric Orientation without -n", async () => {

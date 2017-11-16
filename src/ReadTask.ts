@@ -6,7 +6,7 @@ import * as _path from "path"
 export class ReadTask extends ExifToolTask<Tags> {
   private rawTags: any
   private readonly tags: Tags
-  private tzoffset: number | undefined
+  private tzoffsetMinutes: number | undefined
 
   private constructor(readonly sourceFile: string, args: string[]) {
     super(args)
@@ -55,7 +55,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     // TimeZone wins if we've got it:
     const tze = new _dt.ExifTimeZoneOffset("TimeZone", this.rawTags.TimeZone)
     if (tze.tzOffsetMinutes !== undefined) {
-      this.tzoffset = tze.tzOffsetMinutes
+      this.tzoffsetMinutes = tze.tzOffsetMinutes
     } else if (this.rawTags.GPSDateTime != null && this.rawTags.DateTimeOriginal != null) {
       const gps = _dt.parse("GPSDateTime", this.rawTags.GPSDateTime, 0) as _dt.ExifDateTime
       const local = _dt.parse("DateTimeOriginal", this.rawTags.DateTimeOriginal, 0) as _dt.ExifDateTime
@@ -63,7 +63,10 @@ export class ReadTask extends ExifToolTask<Tags> {
         // timezone offsets are never less than 30 minutes.
         const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
         const localToHalfHour = local.toDate().getTime() / (30 * 60 * 1000)
-        this.tzoffset = 30 * Math.round(localToHalfHour - gpsToHalfHour)
+        const tzoffsetMinutes = 30 * Math.round(localToHalfHour - gpsToHalfHour)
+        if (reasonableTzOffsetMinutes(tzoffsetMinutes)) {
+          this.tzoffsetMinutes = tzoffsetMinutes
+        }
       }
     }
   }
@@ -88,7 +91,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         const s = value.toString().toLowerCase()
         return (s === "yes" || s === "1" || s === "true")
       } else if (typeof value === "string" && tagName.includes("Date") || tagName.includes("Time")) {
-        return _dt.parse(tagName, value, this.tzoffset)
+        return _dt.parse(tagName, value, this.tzoffsetMinutes)
       } else if (tagName.endsWith("GPSLatitude") || tagName.endsWith("GPSLongitude")) {
         const ref = (this.rawTags[tagName + "Ref"] || value.toString().split(" ")[1])
         if (ref === undefined) {
@@ -106,4 +109,10 @@ export class ReadTask extends ExifToolTask<Tags> {
       return value
     }
   }
+}
+
+function reasonableTzOffsetMinutes(tzOffsetMinutes: number): boolean {
+  // Pacific/Kiritimati is +14:00 TIL
+  // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  return Math.abs(tzOffsetMinutes) <= 14 * 60
 }

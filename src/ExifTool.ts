@@ -39,6 +39,10 @@ const execFileOpts = {
   env: { LANG: "C" }
 }
 
+export type WriteTags = {
+  [K in keyof Tags]: string | number
+}
+
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
  *
@@ -139,7 +143,7 @@ export class ExifTool {
    * there are errors or warnings.
    * @memberof ExifTool
    */
-  write(file: string, tags: Tags, args?: string[]): Promise<void> {
+  write(file: string, tags: WriteTags, args?: string[]): Promise<void> {
     return this.enqueueTask(WriteTask.for(file, tags, args))
   }
 

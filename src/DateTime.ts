@@ -228,10 +228,9 @@ export class ExifDateTime extends Base {
       this.minute,
       this.second
     )
-    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${millisToFractionalPart(
-      this.millis,
-      millisPrecision
-    )}${this.tz(this.tzoffsetMinutes)}`
+    const ms = millisToFractionalPart(this.millis, millisPrecision)
+    const tz = this.tz(this.tzoffsetMinutes)
+    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${ms}${tz}`
   }
 }
 
@@ -288,7 +287,7 @@ const emptyRe = /^[\s:0]*$/ // Empty datetimes come back as "  :  :  " or "00:00
 export function parse(
   tagName: string,
   rawTagValue: string,
-  globalTzOffset?: number
+  globalTzOffsetMinutes?: number
 ): ExifDate | ExifTime | ExifDateTime | ExifTimeZoneOffset | string {
   if (rawTagValue === undefined || emptyRe.exec(rawTagValue)) {
     return rawTagValue
@@ -299,7 +298,7 @@ export function parse(
   if (tz.tzOffsetMinutes != null && emptyRe.exec(tz.inputWithoutTimezone)) {
     return tz
   }
-  const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffset])[0]
+  const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffsetMinutes])[0]
   const tagValue = tz.inputWithoutTimezone
 
   return (

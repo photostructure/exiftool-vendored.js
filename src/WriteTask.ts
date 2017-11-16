@@ -1,5 +1,5 @@
+import { Tags, WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
-import { Tags } from "./Tags"
 import * as _path from "path"
 
 const successRE = /1 image files? updated/
@@ -10,14 +10,13 @@ export class WriteTask extends ExifToolTask<void> {
 
   static for(
     filename: string,
-    tags: Tags,
+    tags: WriteTags,
     optionalArgs: string[] = []
   ): WriteTask {
     const sourceFile = _path.resolve(filename)
-    const t = tags as any
-    const args = Object.keys(t)
+    const args = Object.keys(tags)
       .filter(k => typeof k === "string" && tags.propertyIsEnumerable(k))
-      .map(key => `-${key}=${t[key]}`)
+      .map((key: keyof Tags) => `-${key}=${tags[key]}`)
     optionalArgs.forEach(ea => args.push(ea))
     args.push(sourceFile)
     return new WriteTask(sourceFile, args)
