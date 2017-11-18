@@ -532,13 +532,13 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@10.66.0:
-  version "10.66.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-10.66.0.tgz#a1685dcc37fb58fc92249d7e529fbb678322ab52"
+exiftool-vendored.exe@10.67.0:
+  version "10.67.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-10.67.0.tgz#c4912a1c564754c1228666e75ae02b9d1f3f8e13"
 
-exiftool-vendored.pl@10.66.0:
-  version "10.66.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-10.66.0.tgz#13221bee023336a866ad1d64359624ad36ee3c93"
+exiftool-vendored.pl@10.67.0:
+  version "10.67.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-10.67.0.tgz#8e1c57512f6eded1dc37a82204db80e671040a9a"
 
 exit-hook@^1.0.0:
   version "1.1.1"
