@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.10.0
+
+* 🌱 ExifTool upgraded to
+  [v10.67](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.67)
+
 ### v4.9.2
 
 * 📦 More conservative default for `maxProcs`: `Math.max(1, system cpus / 4)`.
