@@ -24,7 +24,7 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### v4.9.1
+### v4.9.2
 
 * 📦 More conservative default for `maxProcs`: `Math.max(1, system cpus / 4)`.
 
