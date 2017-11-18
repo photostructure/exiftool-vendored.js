@@ -246,12 +246,13 @@ dramatically as well as reducing system load.
 
 ### Parallelism
 
-The `exiftool` singleton is configured with a `maxProcs` set to the number of
-CPUs on the current system; no more than `maxProcs` instances of `exiftool` will
-be spawned.
-
-Note that each child process consumes between 10 and 50 MB of RAM. If you have
-limited system resources you may want to use a smaller `maxProcs` value.
+To avoid overwhelming your system, the `exiftool` singleton is configured
+with a `maxProcs` set to a quarter the number of CPUs on the current system
+(minimally 1); no more than `maxProcs` instances of `exiftool` will be
+spawned. If the system is CPU constrained, however, you may want a smaller
+value. If you have very fast disk IO, you may see a speed increase with
+larger values of `maxProcs`, but note that each child process can consume
+100 MB of RAM.
 
 ## Changelog
 

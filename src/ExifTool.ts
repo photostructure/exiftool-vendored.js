@@ -39,9 +39,9 @@ const execFileOpts = {
   env: { LANG: "C" }
 }
 
-export type WriteTags = {
-  [K in keyof Tags]: string | number
-}
+export type WriteTags = { [K in keyof Tags]: string | number }
+
+export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
@@ -79,7 +79,7 @@ export class ExifTool {
    * by the underlying `batch-cluster` module.
    */
   constructor(
-    readonly maxProcs: number = _os.cpus().length,
+    readonly maxProcs: number = DefaultMaxProcs,
     readonly maxTasksPerProcess: number = 500,
     readonly spawnTimeoutMillis: number = 20000,
     readonly taskTimeoutMillis: number = 5000,

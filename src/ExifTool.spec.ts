@@ -1,5 +1,5 @@
 import { expect, times } from "./chai.spec"
-import { exiftool, ExifTool } from "./ExifTool"
+import { DefaultMaxProcs, exiftool, ExifTool } from "./ExifTool"
 import { Tags } from "./Tags"
 import { BatchCluster } from "batch-cluster"
 import * as _os from "os"
@@ -29,6 +29,11 @@ describe("ExifTool", () => {
   it("returns the correct version", async function() {
     this.slow(500)
     return expect(await et.version()).to.eql(expectedExiftoolVersion())
+  })
+
+  it("returns a reasonable value for MaxProcs", () => {
+    // 64 cpus on my dream laptop
+    expect(DefaultMaxProcs).to.be.within(1, 64)
   })
 
   it("exports a singleton instance", () => {
