@@ -47,10 +47,10 @@
   },
   "homepage": "https://github.com/mceachen/exiftool-vendored.js#readme",
   "devDependencies": {
-    "@types/chai": "^4.0.4",
+    "@types/chai": "^4.0.5",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^2.2.44",
-    "@types/node": "^8.0.52",
+    "@types/node": "^8.0.53",
     "@types/pify": "^3.0.0",
     "@types/rimraf": "^2.0.2",
     "@types/semver": "^5.4.0",
