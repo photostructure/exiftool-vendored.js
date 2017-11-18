@@ -211,6 +211,13 @@ export class ExifTool {
   }
 
   /**
+   * @return true if `.end()` has been invoked
+   */
+  get ended() {
+    return this.batchCluster.ended
+  }
+
+  /**
    * `enqueueTask` is not for normal consumption. External code
    * can extend `Task` to add functionality.
    */

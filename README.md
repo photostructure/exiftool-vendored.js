@@ -145,7 +145,8 @@ changed timestamp tag and the GPS value is used by `exiftool-vendored` to
 infer the timezone.
 
 In other words, if you only edit the `CreateDate` and don't edit the `GPS`
-timestamps, your timezone will either be incorrect or missing. See the section about [Dates](#dates) below for more information.
+timestamps, your timezone will either be incorrect or missing. See the
+section about [Dates](#dates) below for more information.
 
 ## Resource hygene
 
