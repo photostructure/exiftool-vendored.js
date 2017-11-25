@@ -13,6 +13,7 @@ describe("ExifTool", () => {
   const truncated = _path.join(__dirname, "..", "test", "truncated.jpg")
   const noexif = _path.join(__dirname, "..", "test", "noexif.jpg")
   const img = _path.join(__dirname, "..", "test", "img.jpg")
+  const nonEnglishImg = _path.join(__dirname, "..", "test", "中文.jpg")
 
   const packageJson = require("../package.json")
 
@@ -45,7 +46,14 @@ describe("ExifTool", () => {
   it("returns expected results for a given file", async function() {
     this.slow(500)
     return expect(
-      et.read(img).then(tags => tags.Model)
+        et.read(img).then(tags => tags.Model)
+    ).to.eventually.eql("iPhone 7 Plus")
+  })
+
+  it("returns expected results for a given file with non-english filename", async function() {
+    this.slow(500)
+    return expect(
+      et.read(nonEnglishImg).then(tags => tags.Model)
     ).to.eventually.eql("iPhone 7 Plus")
   })
 

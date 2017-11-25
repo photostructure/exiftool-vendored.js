@@ -14,10 +14,11 @@ export class WriteTask extends ExifToolTask<void> {
     optionalArgs: string[] = []
   ): WriteTask {
     const sourceFile = _path.resolve(filename)
-    const args = Object.keys(tags)
+    let args = Object.keys(tags)
       .filter(k => typeof k === "string" && tags.propertyIsEnumerable(k))
       .map((key: keyof Tags) => `-${key}=${tags[key]}`)
     optionalArgs.forEach(ea => args.push(ea))
+    args = args.concat(["-charset", "filename=utf8", "-codedcharacterset=utf8"])
     args.push(sourceFile)
     return new WriteTask(sourceFile, args)
   }
