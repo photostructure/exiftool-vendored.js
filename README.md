@@ -265,3 +265,4 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## Contributors 🎉
 
 - [Anton Mokrushin](https://github.com/amokrushin)
+- [Demiurga](https://github.com/apolkingg8)
