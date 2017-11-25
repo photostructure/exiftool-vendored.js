@@ -14,6 +14,24 @@ describe("WriteTask", () => {
     return
   })
 
+  it("round-trips a comment with non-english filename", async () => {
+    const src = await testImg("中文.jpg")
+    const newComment = "new comment from " + new Date()
+    await exiftool.write(src, { XPComment: newComment })
+    const t = await exiftool.read(src)
+    expect(t.XPComment).to.eql(newComment)
+    return
+  })
+
+  it("round-trips a comment with non-english filename and tag content", async () => {
+    const src = await testImg("中文.jpg")
+    const newComment = "早安晨之美" + new Date()
+    await exiftool.write(src, { XPComment: newComment })
+    const t = await exiftool.read(src)
+    expect(t.XPComment).to.eql(newComment)
+    return
+  })
+
   it("round-trips a numeric Orientation", async () => {
     const src = await testImg()
     await exiftool.write(src, { Orientation: "8" }, ["-n"])
