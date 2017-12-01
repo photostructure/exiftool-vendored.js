@@ -24,9 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.12.0
+
+* 🐞 Rollback to ExifTool v10.65 to avoid [this windows
+  issue](http://u88.n24.queensu.ca/exiftool/forum/index.php?topic=8747.msg44926)
+
 ### v4.11.0
 
-* ✨ Support for [non-latin filenames and tag values](https://github.com/mceachen/exiftool-vendored.js/issues/14)
+* ✨ Support for [non-latin filenames and tag
+  values](https://github.com/mceachen/exiftool-vendored.js/issues/14)
   Thanks, [Demiurga](https://github.com/apolkingg8)!
 
 ### v4.10.0
