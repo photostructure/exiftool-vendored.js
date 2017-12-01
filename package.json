@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/mceachen/exiftool-vendored.js#readme",
   "devDependencies": {
-    "@types/chai": "^4.0.5",
+    "@types/chai": "^4.0.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.53",
@@ -74,9 +74,9 @@
     "tslint": "^5.8.0",
     "tslint-config-standard": "^7.0.0",
     "tslint-eslint-rules": "^4.1.1",
-    "typescript": "^2.6.1",
+    "typescript": "^2.6.2",
     "xmldom": "^0.1.27",
-    "xpath": "^0.0.24"
+    "xpath": "^0.0.26"
   },
   "dependencies": {
     "batch-cluster": "^1.7.0"
