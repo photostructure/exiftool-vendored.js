@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.12.1
+
+* 📦 Rollback the rollback, as it's a [known issue with par](http://u88.n24.queensu.ca/exiftool/forum/index.php/topic,8747.msg44932.html#msg44932). If this happens again I'll add a windows-specific validation of the par directory.
+
 ### v4.12.0
 
 * 🐞 Rollback to ExifTool v10.65 to avoid [this windows
