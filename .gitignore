@@ -3,3 +3,5 @@ dist
 dl
 node_modules
 *.log
+.nyc_output
+coverage
