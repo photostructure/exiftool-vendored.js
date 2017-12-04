@@ -5,8 +5,8 @@
 [![npm version](https://badge.fury.io/js/exiftool-vendored.svg)](https://badge.fury.io/js/exiftool-vendored)
 [![Build status](https://travis-ci.org/mceachen/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored.js)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/maintainability)](https://codeclimate.com/github/mceachen/exiftool-vendored.js/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/test_coverage)](https://codeclimate.com/github/mceachen/exiftool-vendored.js/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/maintainability)](https://codeclimate.com/github/mceachen/exiftool-vendored.js)
+<!-- [![Test Coverage](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/test_coverage)](https://codeclimate.com/github/mceachen/exiftool-vendored.js) -->
 
 ## Features
 
