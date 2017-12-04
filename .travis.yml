@@ -1,3 +1,6 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=20272c63cf18826b5ca44338fea1b2ceec0778cc2d79de1f18ef00bd3cccf8ae
 language: node_js
 node_js:
   - "4"
@@ -8,5 +11,11 @@ os:
   - linux
   - osx
 osx_image: xcode8
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script: 'npm run test'
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 cache: yarn
