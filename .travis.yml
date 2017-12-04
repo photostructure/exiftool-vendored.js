@@ -17,5 +17,5 @@ before_script:
   - ./cc-test-reporter before-build
 script: 'npm run test'
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT --coverage-input-type lcov
 cache: yarn
