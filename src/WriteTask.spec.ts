@@ -1,71 +1,87 @@
 import { expect, testImg } from "./chai.spec"
-import { ExifTool } from "./ExifTool"
+import { ExifTool, Tags, WriteTags } from "./ExifTool"
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool(1)
   after(() => exiftool.end())
 
+  async function assertRoundTrip(args: {
+    tag: keyof Tags
+    inputValue: string | number
+    expectedValue?: string
+    imgName?: string
+    args?: string[]
+  }) {
+    const src = await testImg(args.imgName)
+    const wt: WriteTags = {}
+    wt[args.tag] = args.inputValue
+    await exiftool.write(src, wt, args.args)
+    const result = await exiftool.read(src)
+    const expected =
+      args.expectedValue == null ? String(args.inputValue) : args.expectedValue
+    expect(String(result[args.tag])).to.eql(expected)
+    return
+  }
+
   it("round-trips a comment", async () => {
-    const src = await testImg()
-    const newComment = "new comment from " + new Date()
-    await exiftool.write(src, { XPComment: newComment })
-    const t = await exiftool.read(src)
-    expect(t.XPComment).to.eql(newComment)
-    return
+    return assertRoundTrip({
+      tag: "XPComment",
+      inputValue: "new comment from " + new Date()
+    })
   })
 
-  it("round-trips a comment with non-english filename", async () => {
-    const src = await testImg("中文.jpg")
-    const newComment = "new comment from " + new Date()
-    await exiftool.write(src, { XPComment: newComment })
-    const t = await exiftool.read(src)
-    expect(t.XPComment).to.eql(newComment)
-    return
+  it("round-trips a non-latin comment", async () => {
+    return assertRoundTrip({
+      tag: "XPComment",
+      inputValue: "早安晨之美" + new Date()
+    })
   })
 
-  it("round-trips a comment with non-english filename and tag content", async () => {
-    const src = await testImg("中文.jpg")
-    const newComment = "早安晨之美" + new Date()
-    await exiftool.write(src, { XPComment: newComment })
-    const t = await exiftool.read(src)
-    expect(t.XPComment).to.eql(newComment)
-    return
+  it("round-trips a comment with non-latin filename", async () => {
+    return assertRoundTrip({
+      tag: "XPComment",
+      inputValue: "new comment from " + new Date(),
+      imgName: "中文.jpg"
+    })
+  })
+
+  it("round-trips a non-latin comment with non-latin filename", async () => {
+    return assertRoundTrip({
+      tag: "XPComment",
+      inputValue: "早安晨之美" + new Date(),
+      imgName: "中文.jpg"
+    })
   })
 
   it("round-trips a numeric Orientation", async () => {
-    const src = await testImg()
-    await exiftool.write(src, { Orientation: "8" }, ["-n"])
-    const t = await exiftool.read(src)
-    expect(t.Orientation).to.eql("Rotate 270 CW")
-    return
+    return assertRoundTrip({
+      tag: "Orientation",
+      args: ["-n"],
+      inputValue: 8,
+      expectedValue: "Rotate 270 CW"
+    })
   })
 
   it("round-trips a string Orientation 90 CW", async () => {
-    const src = await testImg()
-    await exiftool.write(src, { Orientation: "Rotate 90 CW" })
-    const n = await exiftool.read(src, ["-n"])
-    expect(n.Orientation).to.eql(6)
-    const t = await exiftool.read(src)
-    expect(t.Orientation).to.eql("Rotate 90 CW")
-    return
+    return assertRoundTrip({
+      tag: "Orientation",
+      inputValue: "Rotate 90 CW"
+    })
   })
 
   it("round-trips a string Orientation 180 CW", async () => {
-    const src = await testImg()
-    await exiftool.write(src, { Orientation: "Rotate 180" })
-    const n = await exiftool.read(src, ["-n"])
-    expect(n.Orientation).to.eql(3)
-    const t = await exiftool.read(src)
-    expect(t.Orientation).to.eql("Rotate 180")
-    return
+    return assertRoundTrip({
+      tag: "Orientation",
+      inputValue: "Rotate 180"
+    })
   })
 
   it("updates DateTimeOriginal to a specific time", async () => {
-    const src = await testImg()
-    await exiftool.write(src, { DateTimeOriginal: "2017-11-15T12:34:56" })
-    const t2 = await exiftool.read(src)
-    expect(t2.DateTimeOriginal!.toString()).to.eql("2017-11-15T12:34:56.000")
-    return
+    return assertRoundTrip({
+      tag: "DateTimeOriginal",
+      inputValue: "2017-11-15T12:34:56",
+      expectedValue: "2017-11-15T12:34:56.000"
+    })
   })
 
   it("rejects setting to a non-time value", async () => {

@@ -1,5 +1,13 @@
 import { expect } from "./chai.spec"
-import { ExifDateTime, ExifTime, ExifTimeZoneOffset, millisToFractionalPart, pad2, pad3, parse } from "./DateTime"
+import {
+  ExifDateTime,
+  ExifTime,
+  ExifTimeZoneOffset,
+  millisToFractionalPart,
+  pad2,
+  pad3,
+  parse
+} from "./DateTime"
 
 describe(".millisToFractionalPart()", () => {
   const examples: [number, string][] = [
@@ -25,7 +33,10 @@ describe(".millisToFractionalPart()", () => {
 
 describe("ExifDateTime", () => {
   describe("example strings with no tz", () => {
-    const dt = parse("DateTimeOriginal", "2016:08:12 07:28:50.768120") as ExifDateTime
+    const dt = parse(
+      "DateTimeOriginal",
+      "2016:08:12 07:28:50.768120"
+    ) as ExifDateTime
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
     })
@@ -50,7 +61,9 @@ describe("ExifDateTime", () => {
       expect(dt.toISOString()).to.eql(dt.toString())
     })
     it("Renders a Date assuming the current timezone offset", () => {
-      expect(dt.toDate().toLocaleString("en-US")).to.eql("8/12/2016, 7:28:50 AM")
+      expect(dt.toDate().toLocaleString("en-US")).to.eql(
+        "8/12/2016, 7:28:50 AM"
+      )
     })
   })
 
@@ -73,8 +86,14 @@ describe("ExifDateTime", () => {
     })
     it("Renders a Date assuming the current timezone offset", () => {
       const d = dt.toDate()
-      expect([d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]).to.eql([2011, 1, 23])
-      expect([d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds()]).to.eql([18, 19, 20, 0])
+      const actual = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]
+      expect(actual).to.eql([2011, 1, 23])
+      expect([
+        d.getUTCHours(),
+        d.getUTCMinutes(),
+        d.getUTCSeconds(),
+        d.getUTCMilliseconds()
+      ]).to.eql([18, 19, 20, 0])
     })
     it("Renders a UTC Date assuming the current timezone offset", () => {
       expect(dt.toDate().toISOString()).to.eql("2011-01-23T18:19:20.000Z")
@@ -82,7 +101,10 @@ describe("ExifDateTime", () => {
   })
 
   describe("example strings with tz and no millis", () => {
-    const dt = parse("DateTimeOriginal", "2013:12:30 11:04:15-05:00") as ExifDateTime // non-local offset
+    const dt = parse(
+      "DateTimeOriginal",
+      "2013:12:30 11:04:15-05:00"
+    ) as ExifDateTime // non-local offset
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
     })
@@ -100,8 +122,14 @@ describe("ExifDateTime", () => {
     })
     it("Renders a Date assuming the forced timezone offset", () => {
       const d = dt.toDate()
-      expect([d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]).to.eql([2013, 12, 30])
-      expect([d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds()]).to.eql([11 + 5, 4, 15, 0])
+      const actual = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]
+      expect(actual).to.eql([2013, 12, 30])
+      expect([
+        d.getUTCHours(),
+        d.getUTCMinutes(),
+        d.getUTCSeconds(),
+        d.getUTCMilliseconds()
+      ]).to.eql([11 + 5, 4, 15, 0])
     })
     it("Renders a UTC Date assuming the current timezone offset", () => {
       expect(dt.toDate().toISOString()).to.eql("2013-12-30T16:04:15.000Z")
@@ -109,7 +137,10 @@ describe("ExifDateTime", () => {
   })
 
   describe("example strings with tz and millis", () => {
-    const dt = parse("DateTimeOriginal", "2013:12:30 03:04:15.079321-05:00") as ExifDateTime // non-local offset
+    const dt = parse(
+      "DateTimeOriginal",
+      "2013:12:30 03:04:15.079321-05:00"
+    ) as ExifDateTime // non-local offset
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
     })
@@ -128,8 +159,17 @@ describe("ExifDateTime", () => {
     })
     it("Renders a Date assuming the forced timezone offset", () => {
       const d = dt.toDate()
-      expect([d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]).to.eql([2013, 12, 30])
-      expect([d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds()]).to.eql([3 + 5, 4, 15, 79])
+      expect([d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]).to.eql([
+        2013,
+        12,
+        30
+      ])
+      expect([
+        d.getUTCHours(),
+        d.getUTCMinutes(),
+        d.getUTCSeconds(),
+        d.getUTCMilliseconds()
+      ]).to.eql([3 + 5, 4, 15, 79])
     })
     it("Renders a UTC Date assuming the current timezone offset", () => {
       // javascript doesn't maintain fractional millis precision:
@@ -150,7 +190,7 @@ describe("ExifTime", () => {
   it("parses hour/minute/second/micros", () => {
     const dt = parse("SubSecDateTimeOriginal", "08:20:55.207340") as ExifTime
     expect([dt.hour, dt.minute, dt.second]).to.eql([8, 20, 55])
-    expect(dt.millis).to.be.closeTo(207.34, .001)
+    expect(dt.millis).to.be.closeTo(207.34, 0.001)
     expect(dt.toString()).to.eql("08:20:55.20734")
   })
 })
@@ -167,7 +207,10 @@ describe("ExifTime from GPS", () => {
 
 describe("TimeZone", () => {
   it("extracts timezone from a datetimestamp", () => {
-    const tz = new ExifTimeZoneOffset("FileModifyDate", "2016:09:30 09:24:53-09:00")
+    const tz = new ExifTimeZoneOffset(
+      "FileModifyDate",
+      "2016:09:30 09:24:53-09:00"
+    )
     expect(tz.tagName).to.eql("FileModifyDate")
     expect(tz.inputWithoutTimezone).to.eql("2016:09:30 09:24:53")
     expect(tz.tzOffsetMinutes).to.eql(-9 * 60)
@@ -182,43 +225,33 @@ describe("TimeZone", () => {
   })
 })
 
-describe("pad2", () => {
-  it("renders positive values", () => {
-    expect(pad2(0)).to.eql(["00"])
-    expect(pad2(1)).to.eql(["01"])
-    expect(pad2(9)).to.eql(["09"])
-    expect(pad2(10)).to.eql(["10"])
-    expect(pad2(11)).to.eql(["11"])
-    expect(pad2(99)).to.eql(["99"])
-    expect(pad2(100)).to.eql(["100"])
-  })
-  it("renders negative values", () => {
-    expect(pad2(-1)).to.eql(["-1"])
-    expect(pad2(-10)).to.eql(["-10"])
-  })
-})
-
-describe("pad3", () => {
-  it("renders positive values", () => {
-    expect(pad3(0)).to.eql(["000"])
-    expect(pad3(1)).to.eql(["001"])
-    expect(pad3(9)).to.eql(["009"])
-    expect(pad3(10)).to.eql(["010"])
-    expect(pad3(11)).to.eql(["011"])
-    expect(pad3(99)).to.eql(["099"])
-    expect(pad3(100)).to.eql(["100"])
-  })
-  it("renders negative values", () => {
-    expect(pad3(-1)).to.eql(["-01"])
-    expect(pad3(-9)).to.eql(["-09"])
-    expect(pad3(-10)).to.eql(["-10"])
-    expect(pad3(-99)).to.eql(["-99"])
-    expect(pad3(-100)).to.eql(["-100"])
+describe("padN", () => {
+  const examples = [
+    { i: -100, pad2: "-100", pad3: "-100" },
+    { i: -10, pad2: "-10", pad3: "-10" },
+    { i: -1, pad2: "-1", pad3: "-01" },
+    { i: 0, pad2: "00", pad3: "000" },
+    { i: 1, pad2: "01", pad3: "001" },
+    { i: 9, pad2: "09", pad3: "009" },
+    { i: 10, pad2: "10", pad3: "010" },
+    { i: 11, pad2: "11", pad3: "011" },
+    { i: 99, pad2: "99", pad3: "099" },
+    { i: 100, pad2: "100", pad3: "100" },
+    { i: 1999, pad2: "1999", pad3: "1999" }
+  ]
+  examples.forEach(e => {
+    it("pad2(" + e.i + ") == " + e.pad2, () => {
+      expect(pad2(e.i)).to.eql([e.pad2])
+    })
+    it("pad3(" + e.i + ") == " + e.pad3, () => {
+      expect(pad3(e.i)).to.eql([e.pad3])
+    })
   })
 })
 
 describe("parsing empty/invalid input", () => {
-  ["", "     ", "0000:00:00 00:00:00", "    :  :     :  :  "].forEach(bad => {
+  const examples = ["", "     ", "0000:00:00 00:00:00", "    :  :     :  :  "]
+  examples.forEach(bad => {
     it(bad, () => {
       expect(parse("DateTimeOriginal", bad)).to.eql(bad)
     })
