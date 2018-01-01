@@ -28,6 +28,7 @@ vendored versions of ExifTool match the version they vendor.
 
 * 🌱 ExifTool upgraded to
   [v10.70](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.70)
+* 📦 Replace tslint and tsfmt with prettier
 * 📦 Add test coverage report
 
 ### v4.12.1

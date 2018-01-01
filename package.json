@@ -6,8 +6,9 @@
   "types": "./dist/ExifTool.d.ts",
   "scripts": {
     "clean": "rimraf lib dist coverage .nyc_output",
+    "precompile": "run-s clean",
     "compile": "tsc",
-    "preupdate": "run-s clean compile",
+    "preupdate": "run-s compile",
     "update": "node dist/update/update.js",
     "premktags": "run-s compile",
     "mktags": "node dist/update/mktags.js",

@@ -14,7 +14,9 @@ abstract class Update {
 
   get version(): string {
     return (this.enclosure.version + this.patchVersion)
-      .split(".").slice(0, 3).join(".")
+      .split(".")
+      .slice(0, 3)
+      .join(".")
   }
 
   download(): Promise<void> {
@@ -26,16 +28,17 @@ abstract class Update {
   }
 
   downloadMaybeAndVerify(): Promise<void> {
-    // tslint:disable-next-line: handle-callback-err
     return this.verify().catch(() =>
-      io.rmrf(this.dlDest, true)
+      io
+        .rmrf(this.dlDest, true)
         .then(() => this.download())
         .then(() => this.verify())
     )
   }
 
   cleanDest(): Promise<void> {
-    return io.rmrf(this.unpackDest, true)
+    return io
+      .rmrf(this.unpackDest, true)
       .then(() => io.mkdir(this.unpackDest))
       .then(() => console.log(`[ √ ] Cleaned ${this.unpackDest}`))
   }
@@ -46,16 +49,21 @@ abstract class Update {
     return this.downloadMaybeAndVerify()
       .then(() => this.cleanDest())
       .then(() => this.unpack())
-      .then(() => io.updatePackageVersion(
-        this.packageJson,
-        this.version + "-pre"
-      ))
+      .then(() =>
+        io.updatePackageVersion(this.packageJson, this.version + "-pre")
+      )
   }
 }
 
 class ZipUpdate extends Update {
   readonly patchVersion = ".0"
-  readonly moduleDir = _path.join(__dirname, "..", "..", "..", "exiftool-vendored.exe")
+  readonly moduleDir = _path.join(
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "exiftool-vendored.exe"
+  )
   readonly packageJson = _path.join(this.moduleDir, "package.json")
   readonly unpackDest: string
   readonly dlDest: string
@@ -69,7 +77,8 @@ class ZipUpdate extends Update {
   unpack(): Promise<void> {
     const before = _path.join(this.unpackDest, "exiftool(-k).exe")
     const after = _path.join(this.unpackDest, "exiftool.exe")
-    return io.unzip(this.dlDest, this.unpackDest)
+    return io
+      .unzip(this.dlDest, this.unpackDest)
       .then(() => io.rename(before, after))
       .then(() => console.log(` ${after}`))
   }
@@ -77,7 +86,13 @@ class ZipUpdate extends Update {
 
 class TarUpdate extends Update {
   readonly patchVersion = ".0"
-  readonly moduleDir = _path.join(__dirname, "..", "..", "..", "exiftool-vendored.pl")
+  readonly moduleDir = _path.join(
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "exiftool-vendored.pl"
+  )
   readonly packageJson = _path.join(this.moduleDir, "package.json")
   readonly dlDest: string
   readonly unpackDest: string
@@ -90,16 +105,18 @@ class TarUpdate extends Update {
 
   unpack(): Promise<void> {
     const tmpUnpack = _path.join(this.moduleDir, "tmp")
-    return io.tarxzf(this.dlDest, tmpUnpack)
-      .then(() => {
-        // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
-        const subdir = globule.find(_path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`))
-        if (subdir.length !== 1) {
-          throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
-        }
-        return io.rmrf(this.unpackDest)
-          .then(() => io.rename(subdir[0], this.unpackDest))
-      })
+    return io.tarxzf(this.dlDest, tmpUnpack).then(() => {
+      // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
+      const subdir = globule.find(
+        _path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`)
+      )
+      if (subdir.length !== 1) {
+        throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
+      }
+      return io
+        .rmrf(this.unpackDest)
+        .then(() => io.rename(subdir[0], this.unpackDest))
+    })
   }
 }
 
@@ -108,11 +125,12 @@ function updatePlatformDependentModules(
   exeVersion: string
 ): Promise<void> {
   return io.editPackageJson(
-    _path.join(__dirname, "..", "..", "package.json"), (pkg => {
+    _path.join(__dirname, "..", "..", "package.json"),
+    pkg => {
       const mods = pkg.optionalDependencies
       mods["exiftool-vendored.pl"] = perlVersion
       mods["exiftool-vendored.exe"] = exeVersion
-    })
+    }
   )
 }
 
@@ -127,11 +145,10 @@ export async function update(): Promise<void> {
     await tarUpdate.update()
     const zipUpdate = new ZipUpdate(zip, dl)
     await zipUpdate.update()
-    await updatePlatformDependentModules(
-      tarUpdate.version,
-      zipUpdate.version
+    await updatePlatformDependentModules(tarUpdate.version, zipUpdate.version)
+    console.log(
+      "👍 now run `git commit` and `np` in the .pl and .exe subdirectories."
     )
-    console.log("👍 now run `git commit` and `np` in the .pl and .exe subdirectories.")
   } else {
     throw new Error("Did not find both the .zip and .tar.gz enclosures.")
   }

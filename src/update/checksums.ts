@@ -30,8 +30,9 @@ export class Checksums {
   }
 
   static get(): Promise<Checksums> {
-    return wgetString("http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt")
-      .then(body => new Checksums(body))
+    return wgetString(
+      "http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt"
+    ).then(body => new Checksums(body))
   }
 
   sha1(filename: string) {

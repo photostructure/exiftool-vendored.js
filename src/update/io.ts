@@ -46,8 +46,14 @@ function wget(url: string, consumer: Consumer): Promise<string> {
   return new Promise((resolve, reject) => {
     const lib = url.startsWith("https") ? https : http
     const request = lib.get(url, (response: _http.IncomingMessage) => {
-      if (response.statusCode == null || response.statusCode < 200 || response.statusCode > 299) {
-        reject(new Error(`Failed to load page, status code: ${response.statusCode}`))
+      if (
+        response.statusCode == null ||
+        response.statusCode < 200 ||
+        response.statusCode > 299
+      ) {
+        reject(
+          new Error(`Failed to load page, status code: ${response.statusCode}`)
+        )
       }
       response.on("data", (chunk: Buffer | string) => consumer.onData(chunk))
       response.on("end", () => resolve(consumer.onEnd()))
@@ -83,14 +89,19 @@ export function readFile(filename: string): Promise<string> {
 
 export function writeFile(filename: string, content: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    _fs.writeFile(filename, content, { encoding: "utf8" }, (err: NodeJS.ErrnoException) => {
-      if (err) {
-        reject(err)
-      } else {
-        console.log(`✅ Wrote ${filename}`)
-        resolve()
+    _fs.writeFile(
+      filename,
+      content,
+      { encoding: "utf8" },
+      (err: NodeJS.ErrnoException) => {
+        if (err) {
+          reject(err)
+        } else {
+          console.log(`✅ Wrote ${filename}`)
+          resolve()
+        }
       }
-    })
+    )
   })
 }
 
@@ -123,7 +134,9 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
     })
   }).then(actualSha => {
     if (expectedSha !== actualSha) {
-      throw new Error(`SHA1 MISMATCH: expected ${expectedSha} for ${filename}, got ${actualSha}`)
+      throw new Error(
+        `SHA1 MISMATCH: expected ${expectedSha} for ${filename}, got ${actualSha}`
+      )
     } else {
       console.log(`✅ ${filename} matches expected SHA`)
       return actualSha
@@ -147,7 +160,8 @@ export function unzip(zipFile: string, destDir: string): Promise<void> {
 
 export function tarxzf(targzFile: string, destDir: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    _fs.createReadStream(targzFile)
+    _fs
+      .createReadStream(targzFile)
       .on("error", reject)
       .pipe(_zlib.createGunzip())
       .on("error", reject)
@@ -174,10 +188,13 @@ export function updatePackageVersion(
   packageJson: string,
   version: string
 ): Promise<void> {
-  return editPackageJson(packageJson, (pkg => pkg.version = version))
+  return editPackageJson(packageJson, pkg => (pkg.version = version))
 }
 
-export function rmrf(path: string, ignoreErrors: boolean = false): Promise<void> {
+export function rmrf(
+  path: string,
+  ignoreErrors: boolean = false
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     _rimraf(path, (err: Error) => {
       if (err && !ignoreErrors) {
@@ -189,7 +206,10 @@ export function rmrf(path: string, ignoreErrors: boolean = false): Promise<void>
   })
 }
 
-export function mkdir(path: string, ignoreErrors: boolean = false): Promise<void> {
+export function mkdir(
+  path: string,
+  ignoreErrors: boolean = false
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     _fs.mkdir(path, (err?: Error) => {
       if (err && !ignoreErrors) {
