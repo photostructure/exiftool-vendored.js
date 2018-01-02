@@ -1,8 +1,7 @@
 import { expect, times } from "./chai.spec"
-import { DefaultMaxProcs, exiftool, ExifTool } from "./ExifTool"
+import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { Tags } from "./Tags"
 import { BatchCluster } from "batch-cluster"
-import * as _os from "os"
 import * as _path from "path"
 import * as semver from "semver"
 
