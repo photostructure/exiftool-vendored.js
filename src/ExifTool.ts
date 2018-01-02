@@ -31,14 +31,6 @@ if (!_fs.existsSync(exiftoolPath)) {
 
 const exiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
-const execFileOpts = {
-  stdio: "pipe",
-  detached: false,
-  encoding: "utf8",
-  timeout: 0,
-  env: { LANG: "C" }
-}
-
 export type WriteTags = { [K in keyof Tags]: string | number }
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
@@ -91,7 +83,12 @@ export class ExifTool {
   ) {
     const opts = {
       processFactory: () =>
-        _child_process.execFile(exiftoolPath, exiftoolArgs, execFileOpts),
+        _child_process.spawn(exiftoolPath, exiftoolArgs, {
+          stdio: "pipe",
+          shell: false,
+          detached: false,
+          env: { LANG: "C" }
+        }),
       maxProcs,
       onIdleIntervalMillis,
       spawnTimeoutMillis,
@@ -254,4 +251,4 @@ export class ExifTool {
  * Note that each child process consumes between 10 and 50 MB of RAM. If you
  * have limited system resources you may want to use a smaller `maxProcs` value.
  */
-export const exiftool = new ExifTool(_os.cpus().length)
+export const exiftool = new ExifTool(DefaultMaxProcs)

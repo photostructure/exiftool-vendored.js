@@ -40,7 +40,7 @@ describe("ExifTool", () => {
   it("exports a singleton instance", () => {
     // don't call any methods that actually results in spinning up a child
     // proc:
-    expect(exiftool.maxProcs).to.eql(_os.cpus().length)
+    expect(exiftool.maxProcs).to.eql(DefaultMaxProcs)
   })
 
   it("returns expected results for a given file", async function() {

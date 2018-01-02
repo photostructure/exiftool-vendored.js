@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### vNext
+
+* 🐞 Use `spawn` instead of `execFile`, as the latter has buggy `maxBuffer`
+  exit behavior
+* 🐞 The `.exiftool` singleton now properly uses a `DefaultMaxProcs` const.
+
 ### v4.13.1
 
 * 🌱 ExifTool upgraded to
@@ -31,7 +37,8 @@ vendored versions of ExifTool match the version they vendor.
 * 📦 Replace tslint and tsfmt with prettier
 * 📦 Add test coverage report
 
-(due to bugs in `np`, v4.13.0 was published in an incomplete state and subsequently unpublished) 
+(due to buggy interactions between `yarn` and `np`, v4.13.0 was published in
+an incomplete state and subsequently unpublished)
 
 ### v4.12.1
 
