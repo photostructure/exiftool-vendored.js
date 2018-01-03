@@ -24,10 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### vNext
+### v4.14.0
 
 * 🐞 Use `spawn` instead of `execFile`, as the latter has buggy `maxBuffer`
-  exit behavior
+  exit behavior and could leak exiftool processes on windows
 * 🐞 The `.exiftool` singleton now properly uses a `DefaultMaxProcs` const.
 
 ### v4.13.1
