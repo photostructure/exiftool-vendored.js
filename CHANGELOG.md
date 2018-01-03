@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.14.1
+
+* 📦 Update deps
+
 ### v4.14.0
 
 * 🐞 Use `spawn` instead of `execFile`, as the latter has buggy `maxBuffer`

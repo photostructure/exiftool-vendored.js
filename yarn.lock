@@ -43,9 +43,9 @@
   dependencies:
     "@types/events" "*"
 
-"@types/node@^8.5.2":
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.2.tgz#83b8103fa9a2c2e83d78f701a9aa7c9539739aa5"
+"@types/node@^8.5.5":
+  version "8.5.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.5.tgz#6f9e8164ae1a55a9beb1d2571cfb7acf9d720c61"
 
 "@types/pify@^3.0.0":
   version "3.0.0"
@@ -259,9 +259,9 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
-batch-cluster@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-1.7.0.tgz#71da49d32aedcb89ad4ff5169060031facad5815"
+batch-cluster@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-1.8.0.tgz#1646c045e73a3c4d091c35bcf74cada657521248"
 
 binary@^0.3.0:
   version "0.3.0"
