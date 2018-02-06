@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.16.0
+
+* 🌱 ExifTool upgraded to
+  [v10.78](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.78)
+* 📦 Update deps, including TypeScript 2.7.1
+
 ### v4.15.0
 
 * 🌱 ExifTool upgraded to
