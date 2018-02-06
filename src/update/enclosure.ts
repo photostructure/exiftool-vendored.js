@@ -40,7 +40,9 @@ export class Enclosure {
     enclosureNode: Element,
     checksums: Checksums
   ): Enclosure | undefined {
-    const url = enclosureNode.getAttributeNode("url").value
+    const urlNode = enclosureNode.getAttributeNode("url")
+    if (urlNode == null) return
+    const url = urlNode.value
     const parsedPath = Enclosure.parsedPath(url)
     if (parsedPath) {
       const sha1 = checksums.sha1(parsedPath.base)
