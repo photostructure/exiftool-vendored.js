@@ -25,7 +25,7 @@
     "url": "https://github.com/mceachen/exiftool-vendored.js.git"
   },
   "engines": {
-    "node": ">= 4"
+    "node": ">= 6"
   },
   "keywords": [
     "ExifTool",

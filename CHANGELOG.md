@@ -29,6 +29,7 @@ vendored versions of ExifTool match the version they vendor.
 * 🌱 ExifTool upgraded to
   [v10.81](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.81)
 * 📦 Update deps, including batch-cluster 1.9.0
+* 📦 Dropped support for node 4 (EOLs in 1 month).
 
 ### v4.17.0
 
