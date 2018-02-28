@@ -70,7 +70,7 @@
     "npm-run-all": "^4.1.2",
     "nyc": "^11.4.1",
     "pify": "^3.0.0",
-    "prettier": "^1.10.2",
+    "prettier": "^1.11.1",
     "progress": "^2.0.0",
     "rimraf": "^2.6.2",
     "semver": "^5.5.0",
@@ -82,10 +82,10 @@
     "xpath": "^0.0.27"
   },
   "dependencies": {
-    "batch-cluster": "^1.8.0"
+    "batch-cluster": "^1.9.0"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "10.79.0",
-    "exiftool-vendored.pl": "10.79.0"
+    "exiftool-vendored.exe": "10.81.0",
+    "exiftool-vendored.pl": "10.81.0"
   }
 }
