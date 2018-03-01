@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.18.1
+
+* 📦 Pick up batch-cluster 1.10.0 to possibly address [this
+  issue](https://stackoverflow.com/questions/48961238/electron-setinterval-implementation-difference-between-chrome-and-node).
+
 ### v4.18.0
 
 * 🌱 ExifTool upgraded to
