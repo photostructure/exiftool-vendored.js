@@ -4,6 +4,10 @@
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/ExifTool.js",
   "types": "./dist/ExifTool.d.ts",
+  "homepage": "https://exiftool-vendored.js.org/",
+  "bugs": {
+    "url": "https://github.com/mceachen/exiftool-vendored.js/issues"
+  },
   "scripts": {
     "clean": "rimraf lib dist coverage .nyc_output",
     "precompile": "run-s clean",
@@ -41,16 +45,12 @@
   ],
   "author": "Matthew McEachen <matthew-exiftoolvendored@mceachen.org>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mceachen/exiftool-vendored.js/issues"
-  },
   "nyc": {
     "exclude": [
       "**/*.spec.?s",
       "**/update/**"
     ]
   },
-  "homepage": "https://mceachen.github.io/exiftool-vendored.js/",
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/chai-as-promised": "^7.1.0",
