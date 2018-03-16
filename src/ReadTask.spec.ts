@@ -20,16 +20,27 @@ describe("Lat/Lon parsing", () => {
     "GPSLongitude": "114.16401667 E",
    */
   it("N lat is positive", () => {
-    expect(parse({ GPSLatitude: "22.33543889 N" }).GPSLatitude).to.be.closeTo(22.33543889, 0.00001)
+    expect(parse({ GPSLatitude: "22.33543889 N" }).GPSLatitude).to.be.closeTo(
+      22.33543889,
+      0.00001
+    )
   })
   it("S lat is negative", () => {
-    expect(parse({ GPSLatitude: "33.84842123 S" }).GPSLatitude).to.be.closeTo(-33.84842123, 0.00001)
+    expect(parse({ GPSLatitude: "33.84842123 S" }).GPSLatitude).to.be.closeTo(
+      -33.84842123,
+      0.00001
+    )
   })
   it("E lon is positive", () => {
-    expect(parse({ GPSLongitude: "114.16401667 E" }).GPSLongitude).to.be.closeTo(114.16401667, 0.00001)
+    expect(
+      parse({ GPSLongitude: "114.16401667 E" }).GPSLongitude
+    ).to.be.closeTo(114.16401667, 0.00001)
   })
   it("W lon is negative", () => {
-    expect(parse({ GPSLongitude: "122.4406148 W" }).GPSLongitude).to.be.closeTo(-122.4406148, 0.00001)
+    expect(parse({ GPSLongitude: "122.4406148 W" }).GPSLongitude).to.be.closeTo(
+      -122.4406148,
+      0.00001
+    )
   })
 })
 
@@ -83,7 +94,9 @@ describe("TimeZone extraction", () => {
       SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200"
     })
     expect(t.SubSecDateTimeOriginal!.tzoffsetMinutes).to.eql(-8 * 60)
-    expect(t.SubSecDateTimeOriginal!.toString()).to.eql("2016-12-13T09:05:27.120382-08:00")
+    expect(t.SubSecDateTimeOriginal!.toString()).to.eql(
+      "2016-12-13T09:05:27.120382-08:00"
+    )
   })
 
   it("skips invalid timestamps", () => {
@@ -97,7 +110,8 @@ describe("TimeZone extraction", () => {
 
 describe("SubSecDateTimeOriginal", () => {
   it("extracts datetimestamp with millis", () => {
-    const t = parse({ SubSecDateTimeOriginal: "2016:10:19 11:15:14.437831" }).SubSecDateTimeOriginal!
+    const t = parse({ SubSecDateTimeOriginal: "2016:10:19 11:15:14.437831" })
+      .SubSecDateTimeOriginal!
     expect(t.year).to.eql(2016)
     expect(t.month).to.eql(10)
     expect(t.day).to.eql(19)
@@ -105,7 +119,7 @@ describe("SubSecDateTimeOriginal", () => {
     expect(t.minute).to.eql(15)
     expect(t.second).to.eql(14)
     expect(t.tzoffsetMinutes).to.be.undefined
-    expect(t.millis).to.be.closeTo(437.831, .01)
+    expect(t.millis).to.be.closeTo(437.831, 0.01)
     const d = t.toDate()
     expect(d.getFullYear()).to.eql(2016)
     expect(d.getMonth()).to.eql(10 - 1)

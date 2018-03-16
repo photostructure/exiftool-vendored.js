@@ -44,9 +44,9 @@ describe("ExifTool", () => {
 
   it("returns expected results for a given file", async function() {
     this.slow(500)
-    return expect(
-        et.read(img).then(tags => tags.Model)
-    ).to.eventually.eql("iPhone 7 Plus")
+    return expect(et.read(img).then(tags => tags.Model)).to.eventually.eql(
+      "iPhone 7 Plus"
+    )
   })
 
   it("returns expected results for a given file with non-english filename", async function() {
