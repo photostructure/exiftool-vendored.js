@@ -4,11 +4,7 @@ import { ExifToolTask } from "./ExifToolTask"
 import { Tags } from "./Tags"
 import { ReadTask } from "./ReadTask"
 import { VersionTask } from "./VersionTask"
-import {
-  BatchCluster,
-  BatchClusterOptions,
-  BatchProcessOptions
-} from "batch-cluster"
+import * as bc from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
@@ -42,7 +38,7 @@ export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
  * instance of this class, `exiftool`.
  */
 export class ExifTool {
-  private readonly batchCluster: BatchCluster
+  private readonly batchCluster: bc.BatchCluster
 
   /**
    * @param maxProcs The maximum number of ExifTool child processes to
@@ -78,7 +74,7 @@ export class ExifTool {
     readonly onIdleIntervalMillis: number = 2000,
     readonly taskRetries: number = 2,
     readonly batchClusterOpts: Partial<
-      BatchClusterOptions & BatchProcessOptions
+      bc.BatchClusterOptions & bc.BatchProcessOptions
     > = {}
   ) {
     const opts = {
@@ -104,7 +100,7 @@ export class ExifTool {
       versionCommand:
         batchClusterOpts.versionCommand || new VersionTask().command
     }
-    this.batchCluster = new BatchCluster(opts)
+    this.batchCluster = new bc.BatchCluster(opts)
   }
 
   /**
