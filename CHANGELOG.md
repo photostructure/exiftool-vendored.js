@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.19.0
+
+* 🌱 ExifTool upgraded to
+  [v10.86](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.86)
+
 ### v4.18.1
 
 * 📦 Pick up batch-cluster 1.10.0 to possibly address [this
