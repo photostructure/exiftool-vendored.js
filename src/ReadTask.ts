@@ -18,9 +18,11 @@ export class ReadTask extends ExifToolTask<Tags> {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
-      "-coordFormat", "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N"
+      "-coordFormat",
+      "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N"
       "-fast",
-      "-charset", "filename=utf8",
+      "-charset",
+      "filename=utf8",
       ...optionalArgs,
       sourceFile
     ]
@@ -39,7 +41,9 @@ export class ReadTask extends ExifToolTask<Tags> {
     if (SourceFile !== this.sourceFile) {
       // Throw an error rather than add an errors string because this is *really* bad:
       throw new Error(
-        `Internal error: unexpected SourceFile of ${this.rawTags.SourceFile} for file ${this.sourceFile}`
+        `Internal error: unexpected SourceFile of ${
+          this.rawTags.SourceFile
+        } for file ${this.sourceFile}`
       )
     }
     return this.parseTags()
@@ -57,9 +61,20 @@ export class ReadTask extends ExifToolTask<Tags> {
     const tze = new _dt.ExifTimeZoneOffset("TimeZone", this.rawTags.TimeZone)
     if (tze.tzOffsetMinutes !== undefined) {
       this.tzoffsetMinutes = tze.tzOffsetMinutes
-    } else if (this.rawTags.GPSDateTime != null && this.rawTags.DateTimeOriginal != null) {
-      const gps = _dt.parse("GPSDateTime", this.rawTags.GPSDateTime, 0) as _dt.ExifDateTime
-      const local = _dt.parse("DateTimeOriginal", this.rawTags.DateTimeOriginal, 0) as _dt.ExifDateTime
+    } else if (
+      this.rawTags.GPSDateTime != null &&
+      this.rawTags.DateTimeOriginal != null
+    ) {
+      const gps = _dt.parse(
+        "GPSDateTime",
+        this.rawTags.GPSDateTime,
+        0
+      ) as _dt.ExifDateTime
+      const local = _dt.parse(
+        "DateTimeOriginal",
+        this.rawTags.DateTimeOriginal,
+        0
+      ) as _dt.ExifDateTime
       if (gps && local && gps.toDate && local.toDate) {
         // timezone offsets are never less than 30 minutes.
         const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
@@ -75,26 +90,40 @@ export class ReadTask extends ExifToolTask<Tags> {
   private parseTags(): Tags {
     this.extractTzoffset()
     Object.keys(this.rawTags).forEach(key => {
-      (this.tags as any)[key] = this.parseTag(key, this.rawTags[key])
+      ;(this.tags as any)[key] = this.parseTag(key, this.rawTags[key])
     })
     return this.tags as Tags
   }
 
   private parseTag(tagName: string, value: any): any {
     try {
-      if (tagName.endsWith("ExifToolVersion") ||
-        tagName.endsWith("DateStampMode") || tagName.endsWith("Sharpness") ||
-        tagName.endsWith("Firmware") || tagName.endsWith("DateDisplayFormat")) {
+      if (
+        tagName.endsWith("ExifToolVersion") ||
+        tagName.endsWith("DateStampMode") ||
+        tagName.endsWith("Sharpness") ||
+        tagName.endsWith("Firmware") ||
+        tagName.endsWith("DateDisplayFormat")
+      ) {
         return value.toString() // force to string
       } else if (tagName.endsWith("BitsPerSample")) {
-        return value.toString().split(" ").map((i: string) => parseInt(i, 10))
+        return value
+          .toString()
+          .split(" ")
+          .map((i: string) => parseInt(i, 10))
       } else if (tagName.endsWith("FlashFired")) {
         const s = value.toString().toLowerCase()
-        return (s === "yes" || s === "1" || s === "true")
-      } else if (typeof value === "string" && tagName.includes("Date") || tagName.includes("Time")) {
+        return s === "yes" || s === "1" || s === "true"
+      } else if (
+        (typeof value === "string" && tagName.includes("Date")) ||
+        tagName.includes("Time")
+      ) {
         return _dt.parse(tagName, value, this.tzoffsetMinutes)
-      } else if (tagName.endsWith("GPSLatitude") || tagName.endsWith("GPSLongitude")) {
-        const ref = (this.rawTags[tagName + "Ref"] || value.toString().split(" ")[1])
+      } else if (
+        tagName.endsWith("GPSLatitude") ||
+        tagName.endsWith("GPSLongitude")
+      ) {
+        const ref =
+          this.rawTags[tagName + "Ref"] || value.toString().split(" ")[1]
         if (ref === undefined) {
           return value // give up
         } else {
@@ -106,7 +135,9 @@ export class ReadTask extends ExifToolTask<Tags> {
         return value
       }
     } catch (e) {
-      this.addError(`Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`)
+      this.addError(
+        `Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`
+      )
       return value
     }
   }

@@ -23,7 +23,9 @@ export class BinaryExtractionTask extends ExifToolTask<void> {
 
   parse(data: string): void {
     if (data.trim() !== "1 output files created") {
-      throw new Error(data.trim().split("\n")[0] || "Missing expected status message")
+      throw new Error(
+        data.trim().split("\n")[0] || "Missing expected status message"
+      )
     }
   }
 }
