@@ -267,4 +267,5 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## Contributors 🎉
 
 - [Anton Mokrushin](https://github.com/amokrushin)
+- [Luca Ban](https://github.com/mesqueeb)
 - [Demiurga](https://github.com/apolkingg8)
