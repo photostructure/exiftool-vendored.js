@@ -1,14 +1,16 @@
-import { WriteTask } from "./WriteTask"
-import { BinaryExtractionTask } from "./BinaryExtractionTask"
-import { ExifToolTask } from "./ExifToolTask"
-import { Tags } from "./Tags"
-import { ReadTask } from "./ReadTask"
-import { VersionTask } from "./VersionTask"
 import * as bc from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
+import { sep } from "path"
 import * as _process from "process"
+
+import { BinaryExtractionTask } from "./BinaryExtractionTask"
+import { ExifToolTask } from "./ExifToolTask"
+import { ReadTask } from "./ReadTask"
+import { Tags } from "./Tags"
+import { VersionTask } from "./VersionTask"
+import { WriteTask } from "./WriteTask"
 
 export { Tags } from "./Tags"
 export {
@@ -19,7 +21,26 @@ export {
 } from "./DateTime"
 
 const isWin32 = _process.platform === "win32"
-const exiftoolPath = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
+
+const isElectron = "electron" in _process.versions
+
+const fixPath = (path: string) =>
+  isElectron
+    ? path
+        .split(sep)
+        .map(ea => (ea === "app.asar" ? "app.asar.unpacked" : ea))
+        .join(sep)
+    : path
+
+const unfixedPath = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
+const exiftoolPath = fixPath(unfixedPath)
+
+console.dir({
+  isWin32,
+  isElectron,
+  unfixedPath,
+  exiftoolPath
+})
 
 if (!_fs.existsSync(exiftoolPath)) {
   throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
