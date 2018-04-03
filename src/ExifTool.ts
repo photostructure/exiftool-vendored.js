@@ -2,7 +2,7 @@ import * as bc from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
-import { sep } from "path"
+import * as _path from "path"
 import * as _process from "process"
 
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
@@ -24,20 +24,20 @@ function findExiftool(): string {
   const isWin32 = _process.platform === "win32"
   const path: string = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
   // This s/app.asar/app.asar.unpacked/ path switch adds support for Electron
-  // apps that are ASAR-packed. 
-  
+  // apps that are ASAR-packed.
+
   // Note that we can't check for electron because child processes that are
   // spawned by the main process will most likely need the ELECTRON_RUN_AS_NODE
   // environment variable set, which will unset the process.versions.electron
   // field.
   const fixedPath = path
-    .split(sep)
+    .split(_path.sep)
     .map(ea => (ea === "app.asar" ? "app.asar.unpacked" : ea))
-    .join(sep)
+    .join(_path.sep)
 
   // Note also, that we must check for the fixedPath first, because Electron's
   // ASAR shenanigans will make existsSync return true even for asar-packed
-  // resources. 
+  // resources.
   if (_fs.existsSync(fixedPath)) {
     return fixedPath
   }
