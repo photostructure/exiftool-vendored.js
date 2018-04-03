@@ -20,31 +20,34 @@ export {
   ExifTimeZoneOffset
 } from "./DateTime"
 
-const isWin32 = _process.platform === "win32"
+function findExiftool(): string {
+  const isWin32 = _process.platform === "win32"
+  const path: string = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
+  // This s/app.asar/app.asar.unpacked/ path switch adds support for Electron
+  // apps that are ASAR-packed. 
+  
+  // Note that we can't check for electron because child processes that are
+  // spawned by the main process will most likely need the ELECTRON_RUN_AS_NODE
+  // environment variable set, which will unset the process.versions.electron
+  // field.
+  const fixedPath = path
+    .split(sep)
+    .map(ea => (ea === "app.asar" ? "app.asar.unpacked" : ea))
+    .join(sep)
 
-const isElectron = "electron" in _process.versions
-
-const fixPath = (path: string) =>
-  isElectron
-    ? path
-        .split(sep)
-        .map(ea => (ea === "app.asar" ? "app.asar.unpacked" : ea))
-        .join(sep)
-    : path
-
-const unfixedPath = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
-const exiftoolPath = fixPath(unfixedPath)
-
-console.dir({
-  isWin32,
-  isElectron,
-  unfixedPath,
-  exiftoolPath
-})
-
-if (!_fs.existsSync(exiftoolPath)) {
-  throw new Error(`Vendored ExifTool does not exist at ${exiftoolPath}`)
+  // Note also, that we must check for the fixedPath first, because Electron's
+  // ASAR shenanigans will make existsSync return true even for asar-packed
+  // resources. 
+  if (_fs.existsSync(fixedPath)) {
+    return fixedPath
+  }
+  if (_fs.existsSync(path)) {
+    return path
+  }
+  throw new Error(`Vendored ExifTool does not exist at ${path}`)
 }
+
+export const DefaultExifToolPath = findExiftool()
 
 const exiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
@@ -62,30 +65,32 @@ export class ExifTool {
   private readonly batchCluster: bc.BatchCluster
 
   /**
-   * @param maxProcs The maximum number of ExifTool child processes to
-   * spawn when load merits. Defaults to 1.
-   * @param maxTasksPerProcess The maximum number of requests a given
-   * ExifTool process will service before being retired. Defaults to 250,
-   * to balance performance with memory usage.
-   * @param spawnTimeoutMillis Spawning new ExifTool processes must not
-   * take longer than `spawnTimeoutMillis` millis before it times out and a
-   * new attempt is made. Be pessimistic here--windows can regularly take
-   * several seconds to spin up a process, thanks to antivirus shenanigans.
-   * This can't be set to a value less than 100ms. Defaults to 20 seconds,
-   * to accomodate slow Windows machines.
-   * @param taskTimeoutMillis If requests to ExifTool take longer than
-   * this, presume the underlying process is dead and we should restart the
-   * task. This can't be set to a value less than 10ms, and really should
-   * be set to at more than a second unless `taskRetries` is sufficiently
-   * large or all writes will be to a fast local disk. Defaults to 5
-   * seconds.
-   * @param onIdleIntervalMillis An interval timer is scheduled to do
-   * periodic maintenance of underlying child processes with this
-   * periodicity. Defaults to 2 seconds.
-   * @param taskRetries The number of times a task can error or timeout and
-   * be retried. Defaults to 2.
-   * @param batchClusterOpts Allows for overriding any configuration used
-   * by the underlying `batch-cluster` module.
+   * @param maxProcs The maximum number of ExifTool child processes to spawn
+   * when load merits. Defaults to 1.
+   * @param maxTasksPerProcess The maximum number of requests a given ExifTool
+   * process will service before being retired. Defaults to 250, to balance
+   * performance with memory usage.
+   * @param spawnTimeoutMillis Spawning new ExifTool processes must not take
+   * longer than `spawnTimeoutMillis` millis before it times out and a new
+   * attempt is made. Be pessimistic here--windows can regularly take several
+   * seconds to spin up a process, thanks to antivirus shenanigans. This can't
+   * be set to a value less than 100ms. Defaults to 20 seconds, to accomodate
+   * slow Windows machines.
+   * @param taskTimeoutMillis If requests to ExifTool take longer than this,
+   * presume the underlying process is dead and we should restart the task. This
+   * can't be set to a value less than 10ms, and really should be set to at more
+   * than a second unless `taskRetries` is sufficiently large or all writes will
+   * be to a fast local disk. Defaults to 5 seconds.
+   * @param onIdleIntervalMillis An interval timer is scheduled to do periodic
+   * maintenance of underlying child processes with this periodicity. Defaults
+   * to 2 seconds.
+   * @param taskRetries The number of times a task can error or timeout and be
+   * retried. Defaults to 2.
+   * @param batchClusterOpts Allows for overriding any configuration used by the
+   * underlying `batch-cluster` module.
+   * @param exiftoolPath Allows for non-standard paths to ExifTool. Defaults to
+   * the perl or windows binaries provided by `exiftool-vendored.pl` or
+   * `exiftool-vendored.exe`.
    */
   constructor(
     readonly maxProcs: number = DefaultMaxProcs,
@@ -96,7 +101,8 @@ export class ExifTool {
     readonly taskRetries: number = 2,
     readonly batchClusterOpts: Partial<
       bc.BatchClusterOptions & bc.BatchProcessOptions
-    > = {}
+    > = {},
+    readonly exiftoolPath: string = DefaultExifToolPath
   ) {
     const opts = {
       processFactory: () =>

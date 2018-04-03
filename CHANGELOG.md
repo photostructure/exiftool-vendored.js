@@ -26,10 +26,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ### v4.20.0
 
-* ✨ Support for [Electron](https://electronjs.org). See the [wiki](https://github.com/mceachen/exiftool-vendored.js/wiki#how-do-you-make-this-work-with-electron).
+* ✨ Support for [Electron](https://electronjs.org). Added `exiftoolPath` to the
+  `ExifTool` constructor. See the
+  [wiki](https://github.com/mceachen/exiftool-vendored.js/wiki#how-do-you-make-this-work-with-electron)
+  for more information.
 * 🌱 ExifTool upgraded to
   [v10.89](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.89)
-
 
 ### v4.19.0
 
