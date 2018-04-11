@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.21.0
+
+* 📦 Pull in batch-cluster v1.11.0 which adds error propogation observers
+* 🌱 ExifTool upgraded to
+  [v10.92](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.92)
+
 ### v4.20.0
 
 * ✨ Support for [Electron](https://electronjs.org). Added `exiftoolPath` to the

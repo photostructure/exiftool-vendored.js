@@ -55,7 +55,7 @@
     "@types/chai": "^4.1.2",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^5.0.0",
-    "@types/node": "^9.6.1",
+    "@types/node": "^9.6.4",
     "@types/pify": "^3.0.1",
     "@types/rimraf": "^2.0.2",
     "@types/semver": "^5.5.0",
@@ -81,10 +81,10 @@
     "xpath": "^0.0.27"
   },
   "dependencies": {
-    "batch-cluster": "^1.10.0"
+    "batch-cluster": "^1.11.0"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "10.89.0",
-    "exiftool-vendored.pl": "10.89.0"
+    "exiftool-vendored.exe": "10.92.0",
+    "exiftool-vendored.pl": "10.92.0"
   }
 }
