@@ -134,11 +134,11 @@ export class ExifTool {
   }
 
   /**
-   * Listen to instance lifecycle events
+   * Register lifecycle event listeners
    */
-  readonly on: bc.BatchCluster["on"] = this.batchCluster.on.bind(
-    this.batchCluster
-  )
+  // SITS: crazy TS to pull in BatchCluster's .on signature:
+  readonly on: bc.BatchCluster["on"] = (event: any, listener: any) =>
+    this.batchCluster.on(event, listener)
 
   /**
    * @return a promise holding the version number of the vendored ExifTool
