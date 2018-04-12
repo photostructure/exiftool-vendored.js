@@ -1,7 +1,9 @@
+import { logger } from "batch-cluster"
+import * as _path from "path"
+
 import * as _dt from "./DateTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { Tags } from "./Tags"
-import * as _path from "path"
 
 export class ReadTask extends ExifToolTask<Tags> {
   private rawTags: any
@@ -34,7 +36,12 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   protected parse(data: string): Tags {
-    this.rawTags = JSON.parse(data)[0]
+    try {
+      this.rawTags = JSON.parse(data)[0]
+    } catch (err) {
+      logger().error("ExifTool.ReadTask(): Invalid JSON", { data })
+      throw err
+    }
     // ExifTool does humorous things to paths, like flip slashes. resolve() undoes that.
     const SourceFile = _path.resolve(this.rawTags.SourceFile)
     // Sanity check that the result is for the file we want:
