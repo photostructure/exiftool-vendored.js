@@ -90,7 +90,7 @@ describe("WriteTask", () => {
       exiftool.write(src, { DateTimeOriginal: "this is not a time" })
     ).to.be.rejectedWith(/Invalid date\/time/)
   })
-
+  
   it("rejects a numeric Orientation without -n", async () => {
     const src = await testImg()
     return expect(exiftool.write(src, { Orientation: "3" })).to.be.rejectedWith(
@@ -101,7 +101,7 @@ describe("WriteTask", () => {
   it("rejects unknown files", () => {
     return expect(
       exiftool.write("/tmp/.nonexistant-" + Date.now(), { XPComment: "boom" })
-    ).to.be.rejectedWith(/File not found/)
+    ).to.be.rejectedWith(/ENOENT/)
   })
 
   it("rejects unknown tags", async () => {
