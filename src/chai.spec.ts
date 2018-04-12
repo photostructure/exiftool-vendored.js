@@ -1,14 +1,38 @@
-import { NoLogger, setLogger } from "batch-cluster"
+import { setLogger } from "batch-cluster"
 import { tmpdir } from "os"
 import { join } from "path"
 import * as pify from "pify"
+import { env } from "process"
 
 const cpFile = require("cp-file")
 const chai = require("chai")
 const chaiAsPromised = require("chai-as-promised")
-
 chai.use(chaiAsPromised)
-setLogger(NoLogger)
+
+const noop = () => undefined
+function log(level: string, ...args: any[]) {
+  console.log(
+    new Date().toISOString() + ": " + level + ": " + args[0],
+    ...args.slice(1)
+  )
+}
+
+// Tests should be quiet unless LOG is set
+if (!!env.LOG) {
+  setLogger({
+    debug: (...args: any[]) => log("debug", ...args),
+    info: (...args: any[]) => log("info ", ...args),
+    warn: (...args: any[]) => log("warn ", ...args),
+    error: (...args: any[]) => log("error", ...args)
+  })
+} else {
+  setLogger({
+    debug: noop,
+    info: noop,
+    warn: noop,
+    error: (...args: any[]) => log("error", ...args)
+  })
+}
 
 export { expect } from "chai"
 
