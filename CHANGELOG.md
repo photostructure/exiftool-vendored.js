@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.22.0
+
+* ✨ Before reading or writing tags, we stat the file first to ensure it exists.
+  Expect `ENOENT` rejections from `ExifTool.read` and `ExifTool.write` now.
+* 📦 Expose batch-cluster lifecycle events and logger
+
 ### v4.21.0
 
 * 📦 Pull in batch-cluster v1.11.0 which adds error propogation observers
