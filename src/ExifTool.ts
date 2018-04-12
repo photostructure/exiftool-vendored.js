@@ -8,6 +8,7 @@ import * as _process from "process"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifToolTask } from "./ExifToolTask"
 import { ReadTask } from "./ReadTask"
+import { stat } from "./Stat"
 import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
@@ -104,7 +105,9 @@ export class ExifTool {
     > = {},
     readonly exiftoolPath: string = DefaultExifToolPath
   ) {
-    const opts = {
+    const opts: Partial<bc.BatchClusterOptions> &
+      bc.BatchProcessOptions &
+      bc.ChildProcessFactory = {
       processFactory: () =>
         _child_process.spawn(exiftoolPath, exiftoolArgs, {
           stdio: "pipe",
@@ -131,6 +134,13 @@ export class ExifTool {
   }
 
   /**
+   * Listen to instance lifecycle events
+   */
+  readonly on: bc.BatchCluster["on"] = this.batchCluster.on.bind(
+    this.batchCluster
+  )
+
+  /**
    * @return a promise holding the version number of the vendored ExifTool
    */
   version(): Promise<string> {
@@ -148,7 +158,9 @@ export class ExifTool {
    * @memberof ExifTool
    */
   read(file: string, args?: string[]): Promise<Tags> {
-    return this.enqueueTask(ReadTask.for(file, args))
+    // Don't bother exiftool unless the file is readable. `stat`ing the file
+    // should be the most efficient way to do that.
+    return stat(file).then(() => this.enqueueTask(ReadTask.for(file, args)))
   }
 
   /**
@@ -164,7 +176,9 @@ export class ExifTool {
    * @memberof ExifTool
    */
   write(file: string, tags: WriteTags, args?: string[]): Promise<void> {
-    return this.enqueueTask(WriteTask.for(file, tags, args))
+    return stat(file).then(() =>
+      this.enqueueTask(WriteTask.for(file, tags, args))
+    )
   }
 
   /**
