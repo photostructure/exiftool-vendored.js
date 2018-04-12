@@ -1,9 +1,10 @@
-import { expect, times } from "./chai.spec"
-import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
-import { Tags } from "./Tags"
 import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
 import * as semver from "semver"
+
+import { expect, times } from "./chai.spec"
+import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
+import { Tags } from "./Tags"
 
 describe("ExifTool", () => {
   const et = new ExifTool(2)
@@ -108,9 +109,7 @@ describe("ExifTool", () => {
   })
 
   it("returns error for missing file", () => {
-    return expect(et.read("bogus")).to.eventually.be.rejectedWith(
-      /File not found/
-    )
+    return expect(et.read("bogus")).to.eventually.be.rejectedWith(/ENOENT/)
   })
 
   it("sets Error for unsupported file types", async () => {
@@ -156,11 +155,18 @@ describe("ExifTool", () => {
     this.slow(500)
     const maxProcs = 4
     const et = new ExifTool(maxProcs)
-    const promises = times(maxProcs * 2, () => et.read(img))
-    expect(et.pids.length).to.be.within(2, maxProcs)
-    const tags = await Promise.all(promises)
-    tags.forEach(t => expect(t).to.not.be.undefined)
-    await et.end()
-    return expect(et.pids).to.eql([])
+    try {
+      const warmupTasks = await Promise.all(times(maxProcs, () => et.read(img)))
+      expect(et.pids.length).to.be.within(2, maxProcs)
+      const secondTasks = await Promise.all(
+        times(maxProcs * 4, () => et.read(img))
+      )
+      warmupTasks.forEach(t => expect(t).to.not.be.undefined)
+      secondTasks.forEach(t => expect(t).to.not.be.undefined)
+      await et.end()
+      return expect(et.pids).to.eql([])
+    } finally {
+      await et.end()
+    }
   })
 })
