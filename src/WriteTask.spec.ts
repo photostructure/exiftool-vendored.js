@@ -90,12 +90,23 @@ describe("WriteTask", () => {
       exiftool.write(src, { DateTimeOriginal: "this is not a time" })
     ).to.be.rejectedWith(/Invalid date\/time/)
   })
-  
+
   it("rejects a numeric Orientation without -n", async () => {
     const src = await testImg()
     return expect(exiftool.write(src, { Orientation: "3" })).to.be.rejectedWith(
       /Can't convert IFD0:Orientation/
     )
+  })
+
+  it("Accepts a shortcut tag", async () => {
+    const date = "2018-04-17T12:34:56.000"
+    const src = await testImg()
+    await exiftool.write(src, { AllDates: date })
+    const tags = await exiftool.read(src)
+    expect(String(tags.DateTimeOriginal)).to.eql(date)
+    expect(String(tags.CreateDate)).to.eql(date)
+    expect(String(tags.ModifyDate)).to.eql(date)
+    return
   })
 
   it("rejects unknown files", () => {

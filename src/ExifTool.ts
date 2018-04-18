@@ -52,7 +52,19 @@ export const DefaultExifToolPath = findExiftool()
 
 const exiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
-export type WriteTags = { [K in keyof Tags]: string | number }
+/**
+ * @see https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html
+ */
+export interface ShortcutTags {
+  /**
+   * Shortcut for writing the "common EXIF date/time tags": `DateTimeOriginal`,
+   * `CreateDate`, and `ModifyDate` tags. Only used by `write`--not returned by
+   * `read`.
+   */
+  AllDates?: string
+}
+
+export type WriteTags = { [K in keyof (Tags & ShortcutTags)]: string | number }
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 
