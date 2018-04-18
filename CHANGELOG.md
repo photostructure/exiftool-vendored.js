@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.22.0
+
+* ✨ Support for writing `AllDates` (closes
+  [#21](https://github.com/mceachen/exiftool-vendored.js/issues/21).)
+* 🌱 ExifTool upgraded to
+  [v10.93](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.93)
+
 ### v4.21.0
 
 * ✨ Before reading or writing tags, we stat the file first to ensure it exists.
