@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.22.1
+
+* 📦 Pull in latest dependencies, including less-verbose BatchCluster
+
 ### v4.22.0
 
 * ✨ Support for writing `AllDates` (closes

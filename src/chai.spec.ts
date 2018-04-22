@@ -20,6 +20,7 @@ function log(level: string, ...args: any[]) {
 // Tests should be quiet unless LOG is set
 if (!!env.LOG) {
   setLogger({
+    trace: (...args: any[]) => log("trace", ...args),
     debug: (...args: any[]) => log("debug", ...args),
     info: (...args: any[]) => log("info ", ...args),
     warn: (...args: any[]) => log("warn ", ...args),
@@ -27,6 +28,7 @@ if (!!env.LOG) {
   })
 } else {
   setLogger({
+    trace: noop,
     debug: noop,
     info: noop,
     warn: noop,
