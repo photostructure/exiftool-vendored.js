@@ -5,6 +5,9 @@ import * as fs from "fs"
  */
 export function stat(path: string): Promise<fs.Stats> {
   return new Promise((resolve, reject) => {
-    fs.stat(path, (err, stat) => (stat == null || err != null) ? reject(err) : resolve(stat))
+    fs.stat(
+      path,
+      (err, stat) => (stat == null || err != null ? reject(err) : resolve(stat))
+    )
   })
 }
