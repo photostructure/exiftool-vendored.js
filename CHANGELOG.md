@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.23.0
+
+* 🌱 ExifTool upgraded to
+  [v10.94](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.94)
+* 📦 Pull in latest dependencies, including more robust BatchCluster exiting
+  (which may help with rare child zombies during long-lived parent processes on
+  macOS)
+
 ### v4.22.1
 
 * 📦 Pull in latest dependencies, including less-verbose BatchCluster
