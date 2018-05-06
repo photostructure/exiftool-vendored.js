@@ -84,7 +84,7 @@
     "batch-cluster": "^2.1.1"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "10.94.0",
-    "exiftool-vendored.pl": "10.94.0"
+    "exiftool-vendored.exe": "10.95.0",
+    "exiftool-vendored.pl": "10.95.1"
   }
 }

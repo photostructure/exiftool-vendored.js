@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.24.0
+
+* 🌱 ExifTool upgraded to
+  [v10.95](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.95)
+* 📦 Fix `.pl` dependency to omit test files and documentation
+
 ### v4.23.0
 
 * 🌱 ExifTool upgraded to
