@@ -575,9 +575,9 @@ exiftool-vendored.exe@10.98.0:
   version "10.98.0"
   resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-10.98.0.tgz#0603f15f57610144bf99a4128fada7c454406e4f"
 
-exiftool-vendored.pl@10.98.1:
-  version "10.98.1"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-10.98.1.tgz#0889e3222f856d98e054cebdb5e486b1f3c9f718"
+exiftool-vendored.pl@10.98.0:
+  version "10.98.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-10.98.0.tgz#d7f76714a35e5c4a1500e487d87243d3fda0d66b"
 
 expand-brackets@^2.1.4:
   version "2.1.4"
