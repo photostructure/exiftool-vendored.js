@@ -24,6 +24,16 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v4.26.0
+
+* 🌱 ExifTool upgraded to
+  [v11.01](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.01).
+  Note that ExifTool doesn't really follow semver, so this shouldn't be a
+  breaking change, so we'll stay on v4.
+* 📦 Pull in latest dependencies, including batch-cluster and TypeScript.
+* 📦 Fix version spec because exiftool now has a left-zero-padded version that
+  semver is not happy about.
+
 ### v4.25.0
 
 * 🌱 ExifTool upgraded to

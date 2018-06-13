@@ -1,6 +1,5 @@
 import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
-import * as semver from "semver"
 
 import { expect, times } from "./chai.spec"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
@@ -17,15 +16,22 @@ describe("ExifTool", () => {
 
   const packageJson = require("../package.json")
 
-  function expectedExiftoolVersion(): string {
-    const linuxVendorVersion =
-      packageJson.optionalDependencies["exiftool-vendored.pl"]
-    const major = semver.major(linuxVendorVersion)
-    const minor = semver.minor(linuxVendorVersion)
-    expect(major).to.be.gte(10)
-    expect(minor).to.be.gte(46)
+  function expectedExiftoolVersion(flavor: "exe" | "pl" = "pl"): string {
+    const vendorVersion =
+      packageJson.optionalDependencies["exiftool-vendored." + flavor]
+    // Frakkin semver, which is pissy about 0-padded version numbers (srsly,
+    // it's ok) and exiftool (which bumps the major version because minor hit 99
+    // and you've got to maintain ascibetical sort order so...)
+    // </rant>
+    const [major, minor] = vendorVersion.replace(/^\D+/g, "").split(".")
     return `${major}.${minor}`
   }
+
+  it("perl and win32 versions match", function() {
+    const pl = expectedExiftoolVersion("pl")
+    const exe = expectedExiftoolVersion("exe")
+    return expect(pl).to.eql(exe)
+  })
 
   it("returns the correct version", async function() {
     this.slow(500)
