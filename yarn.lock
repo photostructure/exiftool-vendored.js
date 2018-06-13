@@ -231,9 +231,9 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-batch-cluster@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-2.2.0.tgz#006fe02925b1f2b408bb0302335c5ebe12c6d43e"
+batch-cluster@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-3.0.0.tgz#cb971384019ac0c82afaf9306ec914b5da00dbd1"
 
 binary@^0.3.0:
   version "0.3.0"
