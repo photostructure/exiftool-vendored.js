@@ -27,31 +27,32 @@ abstract class Update {
     return io.sha1(this.dlDest, this.enclosure.sha1).then(() => undefined)
   }
 
-  downloadMaybeAndVerify(): Promise<void> {
-    return this.verify().catch(() =>
-      io
-        .rmrf(this.dlDest, true)
-        .then(() => this.download())
-        .then(() => this.verify())
-    )
+  async downloadMaybeAndVerify(): Promise<void> {
+    try {
+      await this.verify()
+      return
+    } catch (err) {
+      await io.rmrf(this.dlDest, true)
+      await this.download()
+      return this.verify()
+    }
   }
 
-  cleanDest(): Promise<void> {
-    return io
-      .rmrf(this.unpackDest, true)
-      .then(() => io.mkdir(this.unpackDest))
-      .then(() => console.log(`[ √ ] Cleaned ${this.unpackDest}`))
+  async cleanDest(): Promise<void> {
+    await io.rmrf(this.unpackDest, true)
+    await io.mkdir(this.unpackDest)
+    console.log(`[ √ ] Cleaned ${this.unpackDest}`)
+    return
   }
 
   abstract unpack(): Promise<void>
 
-  update(): Promise<void> {
-    return this.downloadMaybeAndVerify()
-      .then(() => this.cleanDest())
-      .then(() => this.unpack())
-      .then(() =>
-        io.updatePackageVersion(this.packageJson, this.version + "-pre")
-      )
+  async update(): Promise<void> {
+    await this.downloadMaybeAndVerify()
+    await this.cleanDest()
+    await this.unpack()
+    await io.updatePackageVersion(this.packageJson, this.version + "-pre")
+    return
   }
 }
 
@@ -74,13 +75,13 @@ class ZipUpdate extends Update {
     this.unpackDest = _path.join(this.moduleDir, "bin")
   }
 
-  unpack(): Promise<void> {
+  async unpack(): Promise<void> {
     const before = _path.join(this.unpackDest, "exiftool(-k).exe")
     const after = _path.join(this.unpackDest, "exiftool.exe")
-    return io
-      .unzip(this.dlDest, this.unpackDest)
-      .then(() => io.rename(before, after))
-      .then(() => console.log(` ${after}`))
+    await io.unzip(this.dlDest, this.unpackDest)
+    await io.rename(before, after)
+    console.log(` ${after}`)
+    return
   }
 }
 
@@ -103,20 +104,21 @@ class TarUpdate extends Update {
     this.unpackDest = _path.join(this.moduleDir, "bin")
   }
 
-  unpack(): Promise<void> {
+  async unpack(): Promise<void> {
     const tmpUnpack = _path.join(this.moduleDir, "tmp")
-    return io.tarxzf(this.dlDest, tmpUnpack).then(() => {
-      // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
-      const subdir = globule.find(
-        _path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`)
-      )
-      if (subdir.length !== 1) {
-        throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
-      }
-      return io
-        .rmrf(this.unpackDest)
-        .then(() => io.rename(subdir[0], this.unpackDest))
-    })
+    await io.tarxzf(this.dlDest, tmpUnpack)
+    // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
+    const subdir = globule.find(
+      _path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`)
+    )
+    if (subdir.length !== 1) {
+      throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
+    }
+    await io.rmrf(this.unpackDest)
+    await io.rename(subdir[0], this.unpackDest)
+    await io.rmrf(this.unpackDest + "/t/")
+    await io.rmrf(this.unpackDest + "/html/")
+    return
   }
 }
 
