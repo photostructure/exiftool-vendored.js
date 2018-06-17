@@ -24,6 +24,17 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v5.1.0
+
+- ✨ new `exiftool.rewriteAllTags()`, which may repair problematic image
+  metadata.
+- 🌱 ExifTool upgraded to
+  [v11.02](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.01).
+- 📦 taskRetries default is now 1, which should allow recovery of the rare
+  RPC/fork error, but actual corrupt files and realy errors can be rejected
+  sooner.
+- 📦 Pull in latest dependencies, include new batch-cluster.
+
 ### v5.0.0
 
 - 💔/✨ Task rejections are always `Error`s now, and `ExifTool.on` observers will

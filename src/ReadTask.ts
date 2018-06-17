@@ -92,6 +92,12 @@ export class ReadTask extends ExifToolTask<Tags> {
         }
       }
     }
+    logger().debug(
+      "ReadTask(" +
+        this.sourceFile +
+        ").tzoffsetMinutes = " +
+        this.tzoffsetMinutes
+    )
   }
 
   private parseTags(): Tags {

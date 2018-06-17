@@ -6,33 +6,33 @@
 [![Build status](https://travis-ci.org/mceachen/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored.js)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/maintainability.svg)](https://codeclimate.com/github/mceachen/exiftool-vendored.js)
-<!-- [![Test Coverage](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/test_coverage)](https://codeclimate.com/github/mceachen/exiftool-vendored.js) -->
 
 ## Features
 
-1. **Best-of-class cross-platform performance and reliability**.
+1.  **Best-of-class cross-platform performance and reliability**.
 
-   *Expect [an order of magnitude faster performance](#performance) than other packages.*
+    _Expect [an order of magnitude faster performance](#performance) than other packages._
 
-1. Proper extraction of
+1.  Proper extraction of
+
     - **dates** with [correct timezone offset encoding, when available](#dates))
     - **latitudes & longitudes** as floats (where negative values indicate west or south of the meridian)
     - **embedded images**, like `Thumbnail` and `Preview` (if they exist)
 
-1. Support for writing tags
+1.  Support for writing tags
 
-1. **[Type definitions](#tags)** of the top 99.5% tags used by over 6,000
-   different camera makes and models
+1.  **[Type definitions](#tags)** of the top 99.5% tags used by over 6,000
+    different camera makes and models
 
-1. **Auditable ExifTool source code** (the vendored code is
-   [checksum verified](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
+1.  **Auditable ExifTool source code** (the vendored code is
+    [checksum verified](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
 
-1. **Automated updates** to ExifTool ([as new versions come out
-   monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
+1.  **Automated updates** to ExifTool ([as new versions come out
+    monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1. **Robust test coverage**, performed with the latest Node v6, v8, and v9 on [Linux,
-   Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), &
-   [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
+1.  **Robust test coverage**, performed with the latest Node v6, v8, and v9 on [Linux,
+    Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), &
+    [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 ## Installation
 
@@ -51,19 +51,20 @@ You shouldn't include either the `exiftool-vendored.exe` or
 
 ## Usage
 
-There are many configuration options to ExifTool, but all values have defaults.
+There are many configuration options to ExifTool, but all values have (more or
+less sensible) defaults.
 
 Please review the [ExifTool constructor parameters](src/ExifTool.ts#L70)
 and override default values where appropriate.
 
 ```js
-const { ExifTool } = require("exiftool-vendored");
-const exiftool = new ExifTool();
+const { ExifTool } = require("exiftool-vendored")
+const exiftool = new ExifTool()
 
 // And to verify everything is working:
-exiftool.version().then(version =>
-  console.log(`We're running ExifTool v${version}`)
-);
+exiftool
+  .version()
+  .then(version => console.log(`We're running ExifTool v${version}`))
 ```
 
 ### General API
@@ -80,7 +81,11 @@ the promise if the operation is not successful.
 ```js
 exiftool
   .read("path/to/image.jpg")
-  .then((tags /*: Tags */) => console.log(`Make: ${tags.Make}, Model: ${tags.Model}, Errors: ${tags.errors}`))
+  .then((tags /*: Tags */) =>
+    console.log(
+      `Make: ${tags.Make}, Model: ${tags.Model}, Errors: ${tags.errors}`
+    )
+  )
   .catch(err => console.error("Something terrible happened: ", err))
 ```
 
@@ -91,19 +96,19 @@ Extract the low-resolution thumbnail in `path/to/image.jpg`, write it to
 when the image is extracted:
 
 ```js
-exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg");
+exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg")
 ```
 
 Extract the `Preview` image (only found in some images):
 
 ```js
-exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg");
+exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg")
 ```
 
 Extract the `JpgFromRaw` image (found in some RAW images):
 
 ```js
-exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
+exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg")
 ```
 
 Extract the binary value from "tagname" tag in `path/to/image.jpg`
@@ -111,7 +116,7 @@ and write it to `dest.bin` (which cannot exist already
 and whose parent directory must already exist):
 
 ```js
-exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
+exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin")
 ```
 
 ### Writing tags
@@ -129,7 +134,7 @@ Write a comment to the given file so it shows up in the Windows Explorer
 Properties panel:
 
 ```js
-exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" });
+exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" })
 ```
 
 Change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
@@ -137,7 +142,7 @@ Change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
 shortcut) to 4:56pm UTC on February 6, 2016:
 
 ```js
-exiftool.write("path/to/file.jpg", { AllDates: "2016-02-06T16:56:00" });
+exiftool.write("path/to/file.jpg", { AllDates: "2016-02-06T16:56:00" })
 ```
 
 ### Always Beware: Timezones
@@ -149,6 +154,22 @@ infer the timezone.
 In other words, if you only edit the `CreateDate` and don't edit the `GPS`
 timestamps, your timezone will either be incorrect or missing. See the
 section about [Dates](#dates) below for more information.
+
+### Rewriting tags
+
+You may find that some of your images have corrupt metadata, and that writing
+new dates, or editing the rotation information, for example, fails. ExifTool can
+try to repair these images by rewriting all the metadata into a new file, along
+with the original image content. See the
+[documentation](http://owl.phy.queensu.ca/~phil/exiftool/faq.html#Q20) for more
+details about this functionality.
+
+`rewriteAllTags` returns a void Promise that will be rejected if there are any
+errors.
+
+```js
+exiftool.rewriteAllTags("problematic.jpg", "rewritten.jpg")
+```
 
 ## Resource hygene
 
@@ -173,9 +194,9 @@ after(() => exiftool.end()) // assuming your singleton is called `exiftool`
 ## Dates
 
 Generally, EXIF tags encode dates and times with **no timezone offset.**
-Presumably the time is captured in local time, but this means parsing the
-same file in different parts of the world results in a different *absolute*
-timestamp for the same file.
+Presumably the time is captured in local time, but this means parsing the same
+file in different parts of the world results in a different _absolute_ timestamp
+for the same file.
 
 Rather than returning a
 [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
@@ -233,14 +254,13 @@ Parsing took 85654ms (28.4ms / file) # ubuntu, core i3
 
 ### Batch mode
 
-Starting the perl version of ExifTool is expensive, and is *especially*
+Starting the perl version of ExifTool is expensive, and is _especially_
 expensive on the Windows version of ExifTool.
 
-On Windows, for **every invocation**, `exiftool` *installs a distribution
-of Perl **and** extracts the ~1000 files that make up ExifTool*, and
-**then** runs the perl script. Windows virus scanners prevent reads on
-these files while they are scanned, which makes this approach even more
-costly.
+On Windows, for **every invocation**, `exiftool` _installs a distribution of
+Perl **and** extracts the ~1000 files that make up ExifTool_, and **then** runs
+the perl script. Windows virus scanners prevent reads on these files while they
+are scanned, which makes this approach even more costly.
 
 Using ExifTool's `-stay_open` batch mode means we can reuse a single
 instance of ExifTool across many requests, dropping response latency
@@ -248,13 +268,12 @@ dramatically as well as reducing system load.
 
 ### Parallelism
 
-To avoid overwhelming your system, the `exiftool` singleton is configured
-with a `maxProcs` set to a quarter the number of CPUs on the current system
-(minimally 1); no more than `maxProcs` instances of `exiftool` will be
-spawned. If the system is CPU constrained, however, you may want a smaller
-value. If you have very fast disk IO, you may see a speed increase with
-larger values of `maxProcs`, but note that each child process can consume
-100 MB of RAM.
+To avoid overwhelming your system, the `exiftool` singleton is configured with a
+`maxProcs` set to a quarter the number of CPUs on the current system (minimally
+1); no more than `maxProcs` instances of `exiftool` will be spawned. If the
+system is CPU constrained, however, you may want a smaller value. If you have
+very fast disk IO, you may see a speed increase with larger values of
+`maxProcs`, but note that each child process can consume 100 MB of RAM.
 
 ## Changelog
 

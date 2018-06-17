@@ -1,4 +1,4 @@
-import { setLogger } from "batch-cluster"
+import { Logger, setLogger } from "batch-cluster"
 import { tmpdir } from "os"
 import { join } from "path"
 import * as pify from "pify"
@@ -9,32 +9,23 @@ const chai = require("chai")
 const chaiAsPromised = require("chai-as-promised")
 chai.use(chaiAsPromised)
 
-const noop = () => undefined
-function log(level: string, ...args: any[]) {
-  console.log(
-    new Date().toISOString() + ": " + level + ": " + args[0],
-    ...args.slice(1)
-  )
-}
-
 // Tests should be quiet unless LOG is set
-if (!!env.LOG) {
-  setLogger({
-    trace: (...args: any[]) => log("trace", ...args),
-    debug: (...args: any[]) => log("debug", ...args),
-    info: (...args: any[]) => log("info ", ...args),
-    warn: (...args: any[]) => log("warn ", ...args),
-    error: (...args: any[]) => log("error", ...args)
-  })
-} else {
-  setLogger({
-    trace: noop,
-    debug: noop,
-    info: noop,
-    warn: noop,
-    error: (...args: any[]) => log("error", ...args)
-  })
-}
+setLogger(
+  Logger.withLevels(
+    Logger.withTimestamps(
+      Logger.filterLevels(
+        {
+          trace: console.log,
+          debug: console.log,
+          info: console.log,
+          warn: console.warn,
+          error: console.error
+        },
+        (env.LOG as any) || "error"
+      )
+    )
+  )
+)
 
 export { expect } from "chai"
 

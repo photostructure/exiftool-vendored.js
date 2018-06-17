@@ -8,6 +8,7 @@ import * as _process from "process"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifToolTask } from "./ExifToolTask"
 import { ReadTask } from "./ReadTask"
+import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { stat } from "./Stat"
 import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
@@ -98,7 +99,7 @@ export class ExifTool {
    * maintenance of underlying child processes with this periodicity. Defaults
    * to 2 seconds.
    * @param taskRetries The number of times a task can error or timeout and be
-   * retried. Defaults to 2.
+   * retried. Defaults to 1.
    * @param batchClusterOpts Allows for overriding any configuration used by the
    * underlying `batch-cluster` module.
    * @param exiftoolPath Allows for non-standard paths to ExifTool. Defaults to
@@ -111,7 +112,7 @@ export class ExifTool {
     readonly spawnTimeoutMillis: number = 20000,
     readonly taskTimeoutMillis: number = 5000,
     readonly onIdleIntervalMillis: number = 2000,
-    readonly taskRetries: number = 2,
+    readonly taskRetries: number = 1,
     readonly batchClusterOpts: Partial<
       bc.BatchClusterOptions & bc.BatchProcessOptions
     > = {},
@@ -243,6 +244,34 @@ export class ExifTool {
    */
   extractBinaryTag(tagname: string, src: string, dest: string): Promise<void> {
     return this.enqueueTask(BinaryExtractionTask.for(tagname, src, dest))
+  }
+
+  /**
+   * Attempt to fix metadata problems in JPEG images by deleting all metadata
+   * and rebuilding from scratch. After repairing an image you should be able to
+   * write to it without errors, but some metadata from the original image may
+   * be lost in the process.
+   *
+   * This should only be applied as a last resort to images whose metadata is
+   * not readable via {@link .read()}.
+   *
+   * @see http://owl.phy.queensu.ca/~phil/exiftool/faq.html#Q20
+   *
+   * @param {string} inputFile the path to the problematic image
+   * @param {string} outputFile the path to write the repaired image
+   * @param {boolean} allowMakerNoteRepair if there are problems with MakerNote
+   * tags, allow ExifTool to apply heuristics to recover corrupt tags. See
+   * exiftool's `-F` flag.
+   * @return {Promise<void>} resolved when outputFile has been written.
+   */
+  rewriteAllTags(
+    inputFile: string,
+    outputFile: string,
+    allowMakerNoteRepair: boolean = false
+  ): Promise<void> {
+    return this.enqueueTask(
+      RewriteAllTagsTask.for(inputFile, outputFile, allowMakerNoteRepair)
+    )
   }
 
   /**

@@ -27,10 +27,10 @@ describe("ExifTool", () => {
     return `${major}.${minor}`
   }
 
-  it("perl and win32 versions match", function() {
+  it("perl and win32 versions match", () => {
     const pl = expectedExiftoolVersion("pl")
     const exe = expectedExiftoolVersion("exe")
-    return expect(pl).to.eql(exe)
+    expect(pl).to.eql(exe)
   })
 
   it("returns the correct version", async function() {
