@@ -1,6 +1,6 @@
 import { expect, testImg } from "./chai.spec"
-import { ExifTool } from "./ExifTool"
 import { ExifDateTime } from "./DateTime"
+import { ExifTool } from "./ExifTool"
 
 describe("RewriteAllTagsTask", () => {
   const exiftool = new ExifTool(1)
