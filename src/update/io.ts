@@ -127,7 +127,7 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
       stream.close()
     })
     stream.on("data", (data: string | Buffer) => {
-      hash.update(data, "utf8")
+      hash.update(data as any, "utf8") // < the Hash types are broken
     })
     stream.on("end", () => {
       resolve(hash.digest("hex"))
