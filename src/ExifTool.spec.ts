@@ -12,6 +12,7 @@ describe("ExifTool", () => {
   const truncated = _path.join(__dirname, "..", "test", "truncated.jpg")
   const noexif = _path.join(__dirname, "..", "test", "noexif.jpg")
   const img = _path.join(__dirname, "..", "test", "img.jpg")
+  const img2 = _path.join(__dirname, "..", "test", "ExifTool.jpg")
   const nonEnglishImg = _path.join(__dirname, "..", "test", "中文.jpg")
 
   const packageJson = require("../package.json")
@@ -63,14 +64,36 @@ describe("ExifTool", () => {
     ).to.eventually.eql("iPhone 7 Plus")
   })
 
-  it("Renders Orientation as strings normally", async () => {
+  it("renders Orientation as strings normally", async () => {
     const tags = await et.read(img)
-    return expect(tags.Orientation).to.eql("Horizontal (normal)")
+    expect(tags.Orientation).to.eql("Horizontal (normal)")
+    return
   })
 
-  it("Renders Orientation as a number when specified", async () => {
+  it("renders Orientation as a number when specified", async () => {
     const tags = await et.read(img, ["-Orientation#"])
-    return expect(tags.Orientation).to.eql(1)
+    expect(tags.Orientation).to.eql(1)
+    return
+  })
+
+  it("omits OriginalImage{Width,Height} by default", async () => {
+    const tags = await et.read(img2)
+    expect(tags.Keywords).to.eql("jambalaya")
+    expect(tags.ImageHeight).to.eql(8)
+    expect(tags.ImageWidth).to.eql(8)
+    expect(tags.OriginalImageHeight).to.be.undefined
+    expect(tags.OriginalImageWidth).to.be.undefined
+    return
+  })
+
+  it("extracts OriginalImage{Width,Height} if [] is provided to override the -fast option", async () => {
+    const tags = await et.read(img2, [])
+    expect(tags.Keywords).to.eql("jambalaya")
+    expect(tags.ImageHeight).to.eql(8)
+    expect(tags.ImageWidth).to.eql(8)
+    expect(tags.OriginalImageHeight).to.eql(16)
+    expect(tags.OriginalImageWidth).to.eql(16)
+    return
   })
 
   it("returns warning for a truncated file", () => {

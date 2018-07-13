@@ -24,6 +24,20 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v5.3.0
+
+- ✨ Prior versions of `ExifTool.read()` always added the `-fast` option. This
+  read mode omits metadata found after the image payload. This makes reads much
+  faster, but means that a few tags, like `OriginalImageHeight`, may not be
+  extracted. See https://sno.phy.queensu.ca/~phil/exiftool/#performance for more
+  details.
+
+  [Cuneytt](https://github.com/Cuneytt) reported this and I realized I should
+  make `-fast` a user preference. To maintain existing behavior, I've made the
+  optional second argument of `ExifTool.read` default to `["-fast"]`. If you
+  want to use "slow mode", just give an empty array to the second argument. If
+  you want `-fast2` mode, provide `["-fast2"]` as the second argument.
+
 ### v5.2.0
 
 - 🌱 ExifTool upgraded to

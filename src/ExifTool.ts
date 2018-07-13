@@ -164,13 +164,17 @@ export class ExifTool {
    * Read the tags in `file`.
    *
    * @param {string} file the file to extract metadata tags from
-   * @param {string[]} [args] any additional ExifTool arguments, like "-n".
-   * Most consumers won't probably need this.
+   * @param {string[]} [args] any additional ExifTool arguments, like "-n",
+   * "-fast", or "-fast2". Note that the default is "-fast", so if you want
+   * ExifTool to read the entire file for metadata, you should pass an empty
+   * array as the second parameter. See
+   * https://sno.phy.queensu.ca/~phil/exiftool/#performance for more information
+   * about `-fast` and `-fast2`.
    * @returns {Promise<Tags>} A resolved Tags promise. If there are errors
    * during reading, the `.errors` field will be present.
    * @memberof ExifTool
    */
-  read(file: string, args?: string[]): Promise<Tags> {
+  read(file: string, args: string[] = ["-fast"]): Promise<Tags> {
     // Don't bother exiftool unless the file is readable. `stat`ing the file
     // should be the most efficient way to do that.
     return stat(file).then(() => this.enqueueTask(ReadTask.for(file, args)))

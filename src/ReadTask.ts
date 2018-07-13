@@ -22,7 +22,6 @@ export class ReadTask extends ExifToolTask<Tags> {
       "-json",
       "-coordFormat",
       "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N"
-      "-fast",
       "-charset",
       "filename=utf8",
       ...optionalArgs,
