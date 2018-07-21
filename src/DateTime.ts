@@ -284,12 +284,24 @@ export class ExifTimeZoneOffset extends Base {
 
 const emptyRe = /^[\s:0]*$/ // Empty datetimes come back as "  :  :  " or "00:00:00"
 
+/**
+ * Empty datetimes can come back as "  :  :  " or "00:00:00".
+ *
+ * Some evil datetimes come back as "0001:01:01 00:00:00.00"
+ */
+const emptyDates = ["0001:01:01", "0000:00:00", "00:00:00 "]
+
 export function parse(
   tagName: string,
   rawTagValue: string,
   globalTzOffsetMinutes?: number
 ): ExifDate | ExifTime | ExifDateTime | ExifTimeZoneOffset | string {
-  if (rawTagValue === undefined || emptyRe.exec(rawTagValue)) {
+  const s = String(rawTagValue).trim()
+  if (
+    rawTagValue == null ||
+    s == "" ||
+    emptyDates.some(ea => s.startsWith(ea))
+  ) {
     return rawTagValue
   }
 

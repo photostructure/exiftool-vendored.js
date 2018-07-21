@@ -250,10 +250,21 @@ describe("padN", () => {
 })
 
 describe("parsing empty/invalid input", () => {
-  const examples = ["", "     ", "0000:00:00 00:00:00", "    :  :     :  :  "]
+  const examples = [
+    "",
+    "     ",
+    "0000:00:00 00:00:00",
+    "0000:00:00",
+    "0001:01:01 00:00:00.00", // < actual value from a Fotofly image (SHAME!)
+    "0001:01:01",
+    "    :  :     :  :  "
+  ]
   examples.forEach(bad => {
-    it(bad, () => {
+    it(bad + " for DateTimeOriginal", () => {
       expect(parse("DateTimeOriginal", bad)).to.eql(bad)
+    })
+    it(bad + " for SubSecCreateDate", () => {
+      expect(parse("SubSecCreateDate", bad)).to.eql(bad)
     })
   })
 })

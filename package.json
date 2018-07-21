@@ -54,7 +54,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/mocha": "^5.2.4",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^10.5.2",
     "@types/pify": "^3.0.2",
     "@types/rimraf": "^2.0.2",

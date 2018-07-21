@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v5.4.0
+
+- ✨ Some photo sharing sites will set the `CreateDate` or `SubSecCreateDate` to
+  invalid values like `0001:01:01 00:00:00.00`. These values are now returned as
+  strings so consumers can more consistently discriminate invalid metadata.
+
 ### v5.3.0
 
 - ✨ Prior versions of `ExifTool.read()` always added the `-fast` option. This
