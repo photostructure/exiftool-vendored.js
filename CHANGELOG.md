@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v5.5.0
+
+- 🌱 ExifTool upgraded to
+  [v11.08](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.08).
+
 ### v5.4.0
 
 - ✨ Some photo sharing sites will set the `CreateDate` or `SubSecCreateDate` to
