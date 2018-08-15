@@ -16,6 +16,8 @@ export class BinaryExtractionTask extends ExifToolTask<void> {
       "-" + tagname,
       _path.resolve(imgSrc),
       "-w",
+      // The %0f prevents shell escaping. See
+      // https://sno.phy.queensu.ca/~phil/exiftool/exiftool_pod.html#w-EXT-or-FMT--textOut
       "%0f" + _path.resolve(imgDest)
     ]
     return new BinaryExtractionTask(args)
