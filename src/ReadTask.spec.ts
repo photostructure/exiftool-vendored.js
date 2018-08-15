@@ -1,6 +1,6 @@
-import { Tags } from "./Tags"
+import { expect } from "./_chai.spec"
 import { ReadTask } from "./ReadTask"
-import { expect } from "./chai.spec"
+import { Tags } from "./Tags"
 
 function parse(tags: any): Tags {
   const tt = ReadTask.for("/tmp/example.jpg")

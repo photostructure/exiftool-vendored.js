@@ -1,15 +1,15 @@
-import { expect, testImg } from "./chai.spec"
+import { expect, testImg } from "./_chai.spec"
 import { ExifDateTime } from "./DateTime"
 import { ExifTool } from "./ExifTool"
 
 describe("RewriteAllTagsTask", () => {
-  const exiftool = new ExifTool(1)
+  const exiftool = new ExifTool({ maxProcs: 1 })
   const d = new Date()
   d.setMilliseconds(0)
 
   after(() => exiftool.end())
 
-  it("throws on empty input", async function() {
+  it("throws on missing input", async function() {
     this.slow(500)
     return expect(
       exiftool.rewriteAllTags("missing.jpg", "ignored.jpg")

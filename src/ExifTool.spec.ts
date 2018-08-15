@@ -1,12 +1,13 @@
 import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
 
-import { expect, times } from "./chai.spec"
+import { expect } from "./_chai.spec"
+import { times } from "./Array"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { Tags } from "./Tags"
 
 describe("ExifTool", () => {
-  const et = new ExifTool(2)
+  const et = new ExifTool({ maxProcs: 2 })
   after(() => et.end())
 
   const truncated = _path.join(__dirname, "..", "test", "truncated.jpg")
@@ -47,7 +48,7 @@ describe("ExifTool", () => {
   it("exports a singleton instance", () => {
     // don't call any methods that actually results in spinning up a child
     // proc:
-    expect(exiftool.maxProcs).to.eql(DefaultMaxProcs)
+    expect(exiftool.options.maxProcs).to.eql(DefaultMaxProcs)
   })
 
   it("returns expected results for a given file", async function() {
@@ -138,7 +139,9 @@ describe("ExifTool", () => {
   })
 
   it("returns error for missing file", () => {
-    return expect(et.read("bogus")).to.eventually.be.rejectedWith(/ENOENT/)
+    return expect(et.read("bogus")).to.eventually.be.rejectedWith(
+      /ENOENT|file not found/i
+    )
   })
 
   it("sets Error for unsupported file types", async () => {
@@ -160,40 +163,43 @@ describe("ExifTool", () => {
     this.slow(5000)
     const maxProcs = 8
     const maxTasksPerProcess = 15
-    const et = new ExifTool(maxProcs, maxTasksPerProcess)
-    const promises = times(maxProcs * maxTasksPerProcess * 2, () =>
+    const et = new ExifTool({ maxProcs, maxTasksPerProcess })
+    const promises = times(maxProcs * maxTasksPerProcess * 3, () =>
       et.read(img)
     )
-    // By the time the first response finishes, our pending tasks should be at
-    // max length, and pids should be maxProcs:
-    await Promise.race(promises)
-    expect(et.pids.length).to.eql(maxProcs)
+    await Promise.all(promises)
+
+    // Not all pids will be alive, so we have to grant some slop:
+    expect((await et.pids).length).to.be.within(1, maxProcs * 1.5)
+
     const bc = et["batchCluster"] as BatchCluster
     const tags = await Promise.all(promises)
     expect(bc.meanTasksPerProc).to.be.within(
       maxTasksPerProcess - 3,
       maxTasksPerProcess
     )
-    expect(et.pids.length).to.be.within(1, maxProcs)
+    expect((await et.pids).length).to.be.within(1, maxProcs)
     assertReasonableTags(tags)
     await et.end()
-    return expect(et.pids).to.eql([])
+    expect(await et.pids).to.eql([])
+    return
   })
 
   it("ends with multiple procs", async function() {
     this.slow(500)
     const maxProcs = 4
-    const et = new ExifTool(maxProcs)
+    const et = new ExifTool({ maxProcs })
     try {
       const warmupTasks = await Promise.all(times(maxProcs, () => et.read(img)))
-      expect(et.pids.length).to.be.within(2, maxProcs)
+      expect((await et.pids).length).to.be.within(2, maxProcs)
       const secondTasks = await Promise.all(
         times(maxProcs * 4, () => et.read(img))
       )
       warmupTasks.forEach(t => expect(t).to.not.be.undefined)
       secondTasks.forEach(t => expect(t).to.not.be.undefined)
       await et.end()
-      return expect(et.pids).to.eql([])
+      expect(await et.pids).to.eql([])
+      return
     } finally {
       await et.end()
     }

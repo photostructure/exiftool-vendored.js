@@ -1,3 +1,4 @@
+import { retryOnReject } from "./AsyncRetry"
 import * as bc from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
@@ -9,7 +10,6 @@ import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifToolTask } from "./ExifToolTask"
 import { ReadTask } from "./ReadTask"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
-import { stat } from "./Stat"
 import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
@@ -51,7 +51,7 @@ function findExiftool(): string {
 
 export const DefaultExifToolPath = findExiftool()
 
-const exiftoolArgs = ["-stay_open", "True", "-@", "-"]
+export const DefaultExiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
 /**
  * @see https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html
@@ -69,6 +69,97 @@ export type WriteTags = { [K in keyof (Tags & ShortcutTags)]: string | number }
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 
+export interface ExifToolOptions
+  extends bc.BatchClusterOptions,
+    bc.BatchProcessOptions,
+    bc.ChildProcessFactory {
+  /**
+   * The maximum number of ExifTool child processes to spawn when load merits.
+   *
+   * Defaults to 1/4 the number of CPUs, minimally 1.
+   */
+  maxProcs: number
+
+  /**
+   * The maximum number of requests a given ExifTool process will service before
+   * being retired.
+   *
+   * Defaults to 500, to balance performance with memory usage.
+   */
+  maxTasksPerProcess: number
+
+  /**
+   * Spawning new ExifTool processes must not take longer than
+   * `spawnTimeoutMillis` millis before it times out and a new attempt is made.
+   * Be pessimistic here--windows can regularly take several seconds to spin up
+   * a process, thanks to antivirus shenanigans. This can't be set to a value
+   * less than 100ms.
+   *
+   * Defaults to 30 seconds, to accomodate slow Windows machines.
+   */
+  spawnTimeoutMillis: number
+
+  /**
+   * If requests to ExifTool take longer than this,
+   * presume the underlying process is dead and we should restart the task. This
+   * can't be set to a value less than 10ms, and really should be set to at more
+   * than a second unless `taskRetries` is sufficiently large or all writes will
+   * be to a fast local disk. Defaults to 10 seconds.
+   */
+  taskTimeoutMillis: number
+
+  /**
+   * An interval timer is scheduled to do periodic maintenance of underlying
+   * child processes with this periodicity.
+   *
+   * Defaults to 2 seconds.
+   */
+  onIdleIntervalMillis: number
+
+  /**
+   * The number of times a task can error or timeout and be retried.
+   *
+   * Defaults to 1 (every task gets 2 chances).
+   */
+  taskRetries: number
+
+  /**
+   * Allows for non-standard paths to ExifTool. Defaults to the perl or windows
+   * binaries provided by `exiftool-vendored.pl` or `exiftool-vendored.exe`.
+   */
+  exiftoolPath: string
+
+  /**
+   * Args passed to exiftool on launch.
+   */
+  exiftoolArgs: string[]
+}
+
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+
+/**
+ * Default values for `ExifToolOptions`, except for `processFactory` (which is
+ * created by the ExifTool constructor)
+ */
+export const DefaultExifToolOptions: Omit<
+  ExifToolOptions,
+  "processFactory"
+> = Object.freeze({
+  ...new bc.BatchClusterOptions(),
+  maxProcs: DefaultMaxProcs,
+  maxTasksPerProcess: 500,
+  spawnTimeoutMillis: 30000,
+  taskTimeoutMillis: 10000,
+  onIdleIntervalMillis: 2000,
+  taskRetries: 1,
+  exiftoolPath: DefaultExifToolPath,
+  exiftoolArgs: DefaultExiftoolArgs,
+  pass: "{ready.*}",
+  fail: "{ready.*}",
+  exitCommand: "-stay_open\nFalse\n",
+  versionCommand: new VersionTask().command
+})
+
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
  *
@@ -76,78 +167,36 @@ export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
  * instance of this class, `exiftool`.
  */
 export class ExifTool {
+  readonly options: ExifToolOptions
   private readonly batchCluster: bc.BatchCluster
 
-  /**
-   * @param maxProcs The maximum number of ExifTool child processes to spawn
-   * when load merits. Defaults to 1.
-   * @param maxTasksPerProcess The maximum number of requests a given ExifTool
-   * process will service before being retired. Defaults to 250, to balance
-   * performance with memory usage.
-   * @param spawnTimeoutMillis Spawning new ExifTool processes must not take
-   * longer than `spawnTimeoutMillis` millis before it times out and a new
-   * attempt is made. Be pessimistic here--windows can regularly take several
-   * seconds to spin up a process, thanks to antivirus shenanigans. This can't
-   * be set to a value less than 100ms. Defaults to 20 seconds, to accomodate
-   * slow Windows machines.
-   * @param taskTimeoutMillis If requests to ExifTool take longer than this,
-   * presume the underlying process is dead and we should restart the task. This
-   * can't be set to a value less than 10ms, and really should be set to at more
-   * than a second unless `taskRetries` is sufficiently large or all writes will
-   * be to a fast local disk. Defaults to 5 seconds.
-   * @param onIdleIntervalMillis An interval timer is scheduled to do periodic
-   * maintenance of underlying child processes with this periodicity. Defaults
-   * to 2 seconds.
-   * @param taskRetries The number of times a task can error or timeout and be
-   * retried. Defaults to 1.
-   * @param batchClusterOpts Allows for overriding any configuration used by the
-   * underlying `batch-cluster` module.
-   * @param exiftoolPath Allows for non-standard paths to ExifTool. Defaults to
-   * the perl or windows binaries provided by `exiftool-vendored.pl` or
-   * `exiftool-vendored.exe`.
-   */
-  constructor(
-    readonly maxProcs: number = DefaultMaxProcs,
-    readonly maxTasksPerProcess: number = 500,
-    readonly spawnTimeoutMillis: number = 20000,
-    readonly taskTimeoutMillis: number = 5000,
-    readonly onIdleIntervalMillis: number = 2000,
-    readonly taskRetries: number = 1,
-    readonly batchClusterOpts: Partial<
-      bc.BatchClusterOptions & bc.BatchProcessOptions
-    > = {},
-    readonly exiftoolPath: string = DefaultExifToolPath
-  ) {
-    const opts: Partial<bc.BatchClusterOptions> &
-      bc.BatchProcessOptions &
-      bc.ChildProcessFactory = {
+  constructor(options: Partial<ExifToolOptions> = {}) {
+    if (options != null && typeof options !== "object") {
+      throw new Error(
+        "Please update caller to the new ExifTool constructor API"
+      )
+    }
+    const o = {
+      ...DefaultExifToolOptions,
+      ...options
+    }
+    this.options = {
+      ...o,
       processFactory: () =>
-        _child_process.spawn(exiftoolPath, exiftoolArgs, {
+        _child_process.spawn(o.exiftoolPath, o.exiftoolArgs, {
           stdio: "pipe",
           shell: false,
           detached: false,
           env: { LANG: "C" }
         }),
-      maxProcs,
-      onIdleIntervalMillis,
-      spawnTimeoutMillis,
-      taskTimeoutMillis,
-      maxTasksPerProcess,
-      taskRetries,
-      retryTasksAfterTimeout: true,
-      maxProcAgeMillis: 10 * 60 * 1000, // 10 minutes
-      ...batchClusterOpts,
-      pass: batchClusterOpts.pass || "{ready.*}",
-      fail: batchClusterOpts.fail || "{ready.*}",
-      exitCommand: "-stay_open\nFalse\n",
-      versionCommand:
-        batchClusterOpts.versionCommand || new VersionTask().command
+      exitCommand: o.exitCommand,
+      versionCommand: o.versionCommand
     }
-    this.batchCluster = new bc.BatchCluster(opts)
+    this.batchCluster = new bc.BatchCluster(this.options)
   }
 
   /**
-   * Register lifecycle event listeners
+   * Register lifecycle event listeners. Delegates to BatchProcess.
    */
   // SITS: crazy TS to pull in BatchCluster's .on signature:
   readonly on: bc.BatchCluster["on"] = (event: any, listener: any) =>
@@ -157,7 +206,7 @@ export class ExifTool {
    * @return a promise holding the version number of the vendored ExifTool
    */
   version(): Promise<string> {
-    return this.enqueueTask(new VersionTask())
+    return this.enqueueTask(() => new VersionTask())
   }
 
   /**
@@ -175,9 +224,7 @@ export class ExifTool {
    * @memberof ExifTool
    */
   read(file: string, args: string[] = ["-fast"]): Promise<Tags> {
-    // Don't bother exiftool unless the file is readable. `stat`ing the file
-    // should be the most efficient way to do that.
-    return stat(file).then(() => this.enqueueTask(ReadTask.for(file, args)))
+    return this.enqueueTask(() => ReadTask.for(file, args))
   }
 
   /**
@@ -193,9 +240,7 @@ export class ExifTool {
    * @memberof ExifTool
    */
   write(file: string, tags: WriteTags, args?: string[]): Promise<void> {
-    return stat(file).then(() =>
-      this.enqueueTask(WriteTask.for(file, tags, args))
-    )
+    return this.enqueueTask(() => WriteTask.for(file, tags, args))
   }
 
   /**
@@ -247,7 +292,7 @@ export class ExifTool {
    * the binary output not be written to `dest`.
    */
   extractBinaryTag(tagname: string, src: string, dest: string): Promise<void> {
-    return this.enqueueTask(BinaryExtractionTask.for(tagname, src, dest))
+    return this.enqueueTask(() => BinaryExtractionTask.for(tagname, src, dest))
   }
 
   /**
@@ -273,7 +318,7 @@ export class ExifTool {
     outputFile: string,
     allowMakerNoteRepair: boolean = false
   ): Promise<void> {
-    return this.enqueueTask(
+    return this.enqueueTask(() =>
       RewriteAllTagsTask.for(inputFile, outputFile, allowMakerNoteRepair)
     )
   }
@@ -300,8 +345,11 @@ export class ExifTool {
    * `enqueueTask` is not for normal consumption. External code
    * can extend `Task` to add functionality.
    */
-  enqueueTask<T>(task: ExifToolTask<T>): Promise<T> {
-    return this.batchCluster.enqueueTask(task)
+  enqueueTask<T>(task: () => ExifToolTask<T>): Promise<T> {
+    return retryOnReject(
+      () => this.batchCluster.enqueueTask(task()),
+      this.options.taskRetries
+    )
   }
 
   /**
@@ -310,8 +358,8 @@ export class ExifTool {
    * and not the actual perl vm. This should only really be relevant for
    * integration tests that verify processes are cleaned up properly.
    */
-  get pids(): number[] {
-    return this.batchCluster.pids
+  get pids(): Promise<number[]> {
+    return this.batchCluster.pids()
   }
 
   /**
@@ -333,4 +381,4 @@ export class ExifTool {
  * Note that each child process consumes between 10 and 50 MB of RAM. If you
  * have limited system resources you may want to use a smaller `maxProcs` value.
  */
-export const exiftool = new ExifTool(DefaultMaxProcs)
+export const exiftool = new ExifTool()

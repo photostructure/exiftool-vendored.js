@@ -1,12 +1,13 @@
-import { ExifTool } from "./ExifTool"
-import { BinaryExtractionTask } from "./BinaryExtractionTask"
-import { expect, ptmp } from "./chai.spec"
-import { sha1 } from "./update/io"
 import { join } from "path"
+
+import { expect, ptmp } from "./_chai.spec"
+import { BinaryExtractionTask } from "./BinaryExtractionTask"
+import { ExifTool } from "./ExifTool"
+import { sha1 } from "./update/io"
 
 const testDir = join(__dirname, "..", "test")
 describe("BinaryExtractionTask", () => {
-  const exiftool = new ExifTool(1)
+  const exiftool = new ExifTool({ maxProcs: 1 })
   after(() => exiftool.end())
 
   describe("parser", () => {

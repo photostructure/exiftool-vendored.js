@@ -57,6 +57,9 @@ less sensible) defaults.
 Please review the [ExifTool constructor parameters](src/ExifTool.ts#L70)
 and override default values where appropriate.
 
+A given node process should instantiate and share a single `exiftool` instance
+for best performance and to minimize system load.
+
 ```js
 const { ExifTool } = require("exiftool-vendored")
 const exiftool = new ExifTool()
@@ -66,6 +69,10 @@ exiftool
   .version()
   .then(version => console.log(`We're running ExifTool v${version}`))
 ```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md). [Semver](http://semver.org/) is followed.
 
 ### General API
 
@@ -274,10 +281,6 @@ To avoid overwhelming your system, the `exiftool` singleton is configured with a
 system is CPU constrained, however, you may want a smaller value. If you have
 very fast disk IO, you may see a speed increase with larger values of
 `maxProcs`, but note that each child process can consume 100 MB of RAM.
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md).
 
 ## Author
 

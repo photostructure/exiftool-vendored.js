@@ -1,20 +1,19 @@
-require("source-map-support").install()
-
-import { compact } from "../DateTime"
-import { ExifTool } from "../ExifTool"
-import { ReadTask } from "../ReadTask"
+import { Logger, logger, setLogger } from "batch-cluster"
 import * as _fs from "fs"
+import * as globule from "globule"
 import * as _path from "path"
 import * as _process from "process"
+import * as ProgressBar from "progress"
 
-const ProgressBar = require("progress")
-const globule = require("globule")
+import "source-map-support/register"
+import { compact, filterInPlace, times } from "../Array"
+import { ExifTool } from "../ExifTool"
+import { ReadTask } from "../ReadTask"
+import { leftPad } from "../String"
 
-// ☠☠ THIS IS GRISLY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
+// ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
-// DO NOT READ THIS CODE. I AM ASHAMED OF IT. YOU SHOULD BE TOO.
-
-const exiftool = new ExifTool()
+const exiftool = new ExifTool({ maxProcs: 4, taskRetries: 3 })
 
 function ellipsize(str: string, max: number) {
   str = "" + str
@@ -23,6 +22,33 @@ function ellipsize(str: string, max: number) {
 
 // NO SRSLY STOP SCROLLING IT REALLY IS BAD
 
+setLogger(
+  Logger.withLevels(
+    Logger.withTimestamps(
+      Logger.filterLevels(
+        {
+          trace: console.log,
+          debug: console.log,
+          info: console.log,
+          warn: console.warn,
+          error: console.error
+        },
+        (_process.env.LOG as any) || "info"
+      )
+    )
+  )
+)
+
+_process.on("uncaughtException", (error: any) => {
+  console.error("Ack, caught uncaughtException: " + error.stack)
+})
+
+_process.on("unhandledRejection", (reason: any, _promise: any) => {
+  console.error(
+    "Ack, caught unhandledRejection: " + reason.stack || reason.toString
+  )
+})
+
 function usage() {
   console.log("Usage: `npm run mktags IMG_DIR`")
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.")
@@ -30,22 +56,22 @@ function usage() {
 }
 
 const roots = _process.argv.slice(2)
-const files: string[] = roots
+const patternSuffix = "/**/*.+(avi|jpg|mov|mp4|cr2|nef|orf|raf|arw|rw2)"
+
+const files = roots
   .map(root => {
-    console.log("Reading " + root + "...")
-    const types = "AVI|JPG|MOV|MP4|CR2|NEF|ORF|RAF|ARW|RW2"
-    return globule.find(`${root}/**/*.+(${types}|${types.toLowerCase()})`, {
-      dot: true
-    })
+    const pattern = _path.resolve(root) + patternSuffix
+    logger().info("Scanning " + pattern + "...")
+    return globule.find(pattern, { nocase: true, nodir: true })
   })
-  .reduce((prev, curr) => [...prev, ...curr], [])
+  .reduce((prev, curr) => prev.concat(curr))
 
 if (files.length === 0) {
   console.error(`No files found in ${roots}`)
   usage()
 }
 
-// OMG THIS IS ON YOU NOW. IT'S YOUR FAULT.
+logger().info("Found " + files.length + " files...")
 
 function valueType(value: any): string {
   if (typeof value === "object") {
@@ -105,27 +131,47 @@ class Tag {
     }
     return byCount[0]
   }
+  vacuumValues() {
+    filterInPlace(this.values, ea => ea != null && String(ea).trim().length > 0)
+  }
   keep(minValues: number): boolean {
-    return (
-      (this.firstValue() != null && this.important) ||
-      this.values.length >= minValues
-    )
+    this.vacuumValues()
+    // If it's a tag from an "important" camera, always include the tag.
+    // Otherwise, if we never get a valid value for the tag, skip it.
+    return this.important || this.values.length >= minValues
   }
   popIcon(totalValues: number): string {
     const f = this.values.length / totalValues
-    // dad srsly stop with the emojicode no one likes it
-    const stars = f > 0.75 ? "★★★" : f > 0.5 ? "★★☆" : f > 0.25 ? "★☆☆" : "☆☆☆"
+    // kid: dad srsly stop with the emojicode no one likes it
+
+    // dad: ur not the boss of me
+
+    // As of 20180814, 4300 unique tags, 2713 of which were found in at least 2
+    // cameras, and only 700 were found in at least 1% of cameras, so this looks
+    // like a power law, long-tail distribution, so lets make the cutoffs more
+    // exponentialish rather than linearish.
+
+    // 22 at 99%, 64 at 50%, 87 at 25%, 120 at 10%, 230 at 5%.
+    const stars =
+      f > 0.75
+        ? "★★★★"
+        : f > 0.5
+          ? "★★★☆"
+          : f > 0.25
+            ? "★★☆☆"
+            : f > 0.1
+              ? "★☆☆☆"
+              : "☆☆☆☆"
     const important = this.important ? "✔" : " "
     return `${stars} ${important}`
   }
   firstValue(): any {
-    // First non-null, non-zero, non-empty value:
-    return this.values.find(
-      ea => ea != null && ["", "0"].indexOf(ea.toString().trim()) === -1
-    )
+    this.vacuumValues()
+    return this.values[0]
   }
   example(): string {
-    return ellipsize(JSON.stringify(this.firstValue()), 80)
+    const v = this.firstValue()
+    return v == null ? "" : "Example: " + ellipsize(JSON.stringify(v), 60)
   }
 }
 
@@ -162,19 +208,18 @@ class TagMap {
     values.push(value)
     this.maxValueCount = Math.max(values.length, this.maxValueCount)
   }
-  tags(): Tag[] {
-    const minValues = 2
+  tags(minOccurences = 2): Tag[] {
     const allTags = Array.from(this.map.values())
     console.log(
-      `Skipping the following tags due to < ${minValues.toFixed(0)} occurances:`
+      `Skipping the following tags due to < ${minOccurences} occurances:`
     )
     console.log(
       allTags
-        .filter(a => !a.keep(minValues))
+        .filter(a => !a.keep(minOccurences))
         .map(t => t.tag)
         .join(", ")
     )
-    return allTags.filter(a => a.keep(minValues))
+    return allTags.filter(a => a.keep(minOccurences))
   }
   groupedTags(): Map<string, Tag[]> {
     const groupedTags = new Map<string, Tag[]>()
@@ -208,7 +253,7 @@ let ticks = 0
 async function readAndAddToTagMap(file: string) {
   const task = ReadTask.for(file, ["-G"])
   try {
-    const tags: any = await exiftool.enqueueTask(task)
+    const tags: any = await exiftool.enqueueTask(() => task)
     const importantFile = file
       .toString()
       .toLowerCase()
@@ -220,20 +265,17 @@ async function readAndAddToTagMap(file: string) {
     })
     if (tags.errors && tags.errors.length > 0) {
       bar.interrupt(`Error from ${file}: ${tags.errors}`)
-    }
-    if (tags.Warning && tags.Warning.length > 0) {
-      bar.interrupt(`Warning from ${file}: ${tags.errors}`)
+      throw tags.errors
     }
   } catch (err) {
-    bar.interrupt(
-      `Failed to read ${file} after ${task.retries} retries: ${err.stack ||
-        err}`
-    )
+    console.error(err)
+    bar.interrupt(`Failed to read ${file}: ${err.stack || err}`)
+    throw err
   }
   ticks++
   if (nextTick <= Date.now()) {
     bar.tick(ticks, {
-      pids: exiftool.pids.length,
+      pids: (await exiftool.pids).length,
       tasks: exiftool.pendingTasks
     })
     ticks = 0
@@ -276,23 +318,25 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
       } different digital imagery files.\n\n`
     )
     tagWriter.write(
-      "// Comments by each tag include popularity (★★★ is found in > 70% of cameras, ☆☆☆ is rare),\n"
+      "// Comments by each tag include popularity (★★★★ is found in > 75% of cameras, ☆☆☆☆ is rare),\n"
     )
     tagWriter.write(
-      "// followed by a checkmark if the tag is used by recent, popular devices (like iPhones)\n"
+      "// followed by a checkmark if the tag is used by popular devices (like iPhones)\n"
     )
     tagWriter.write(
       "// An example value, JSON stringified, follows the popularity ratings.\n"
     )
     const groupedTags = tagMap.groupedTags()
     const tagGroups: string[] = []
-    const seenTags = new Set<string>()
+    const seenTagNames = new Set<string>()
     Array.from(groupedTags.entries())
       .sort()
       .forEach(([group, tags]) => {
         const filteredTags = tags
           .sort((a, b) => cmp(a.tag, b.tag))
-          .filter(tag => !seenTags.has(tag.withoutGroup))
+          // First group with a tag name wins. Other group's colliding tag names
+          // are omitted:
+          .filter(tag => !seenTagNames.has(tag.withoutGroup))
         if (filteredTags.length > 0) {
           tagGroups.push(group)
           tagWriter.write(`\nexport interface ${group}Tags {\n`)
@@ -301,7 +345,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
               `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
             )
             tagWriter.write(`  ${tag.withoutGroup}: ${tag.valueType}\n`)
-            seenTags.add(tag.withoutGroup)
+            seenTagNames.add(tag.withoutGroup)
           })
           tagWriter.write(`}\n`)
         }
@@ -317,7 +361,29 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     tagWriter.write("  SourceFile?: string\n")
     tagWriter.write("}\n")
     tagWriter.end()
-    console.log("Done.")
+
+    // Let's look at tag distributions:
+    const tags = tagMap.tags()
+    const tagsByPctPop = times(
+      100,
+      pct =>
+        tags.filter(tag => tag.values.length / files.length > pct / 100.0)
+          .length
+    )
+    const scale = 80 / files.length
+    console.log("Distribution of tags: \n")
+    tagsByPctPop.forEach((cnt, pct) =>
+      console.log(
+        leftPad(pct, 2, " ") +
+          "%: " +
+          leftPad(cnt, 4, " ") +
+          ":" +
+          times(Math.floor(cnt * scale), () => "#").join("")
+      )
+    )
+    console.log(
+      "\nInternal error count: " + exiftool["batchCluster"].internalErrorCount
+    )
     exiftool.end()
   })
   .catch(err => {

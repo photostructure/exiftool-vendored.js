@@ -1,24 +1,5 @@
-export function compact<T>(array: (T | undefined | null)[]): T[] {
-  return array.filter(elem => elem != null) as T[]
-}
-
-export function pad2(...numbers: number[]): string[] {
-  return numbers.map(i => {
-    const s = i.toString(10)
-    return s.length >= 2 ? s : "0" + s
-  })
-}
-
-export function pad3(...numbers: number[]): string[] {
-  return numbers.map(i => {
-    if (i < 0) {
-      const s = Math.abs(i).toString(10)
-      return "-" + (s.length >= 2 ? s : "0" + s)
-    } else {
-      return `000${i}`.slice(Math.min(-3, -Math.ceil(Math.log10(i))))
-    }
-  })
-}
+import { compact } from "./Array"
+import { pad2 } from "./String"
 
 /**
  * Given a time value in milliseconds, return a decimal in seconds units,

@@ -1,6 +1,6 @@
 import * as _path from "path"
 
-import { compact } from "./DateTime"
+import { compact } from "./Array"
 import { ExifToolTask } from "./ExifToolTask"
 
 export class RewriteAllTagsTask extends ExifToolTask<void> {

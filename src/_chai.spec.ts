@@ -1,3 +1,5 @@
+import "source-map-support/register"
+
 import { Logger, setLogger } from "batch-cluster"
 import { tmpdir } from "os"
 import { join } from "path"
@@ -31,14 +33,6 @@ export { expect } from "chai"
 
 export const pfs = pify(require("fs"))
 export const ptmp = pify(require("tmp"))
-
-require("source-map-support").install()
-
-export function times<T>(n: number, f: ((idx: number) => T)): T[] {
-  return Array(n)
-    .fill(undefined)
-    .map((_, i) => f(i))
-}
 
 export const testDir = join(__dirname, "..", "test")
 

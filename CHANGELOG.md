@@ -4,7 +4,7 @@
 
 Providing the flexibility to reversion the API or UPDATE version slots as
 features or bugfixes arise and using ExifTool's version number is at odds with
-eachother, so this library follows [SemVer](http://semver.org/), and the
+eachother, so this library follows [Semver](http://semver.org/), and the
 vendored versions of ExifTool match the version they vendor.
 
 ### The `MAJOR` or `API` version is incremented for
@@ -23,6 +23,25 @@ vendored versions of ExifTool match the version they vendor.
 - 📦 Minor packaging changes
 
 ## Version history
+
+### v6.0.0
+
+- 💔 `ExifTool`'s many constructor parameters turned out to be quite unweildy.
+  Version 6 now takes an options hash. If you used the defaults, your code won't
+  need to change.
+- 💔 `ExifTool.enqueueTask` takes a Task thunk now, to enable cleaner task retry
+  code. I don't expect many consumers will have used this API directly.
+- 🐞 In prior versions, when maxTasksPerProcess was reached, on some OSes, the
+  host process would exit.
+- ✨ Rebuilt `Tags` based on new phone and camera models
+- 📦 Files are not `stat`ed before passing them on to ExifTool, as it seems to
+  be faster on all platforms without this check. If you were error-matching on
+  ENOENT, you'll need to switch to looking for "File not found".
+- 💔 BatchCluster was updated, which has a robust PID-exists implementation, but
+  those signatures now return Promises rather than being synchronous, so the
+  exported `running` function has changed to return a `Promise<number[]>`.
+- 🌱 ExifTool upgraded to
+  [v11.09](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.09).
 
 ### v5.5.0
 

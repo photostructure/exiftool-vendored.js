@@ -1,8 +1,8 @@
-import { expect, testImg } from "./chai.spec"
+import { expect, testImg } from "./_chai.spec"
 import { ExifTool, Tags, WriteTags } from "./ExifTool"
 
 describe("WriteTask", () => {
-  const exiftool = new ExifTool(1)
+  const exiftool = new ExifTool({ maxProcs: 1 })
   after(() => exiftool.end())
 
   async function assertRoundTrip(args: {
@@ -112,7 +112,7 @@ describe("WriteTask", () => {
   it("rejects unknown files", () => {
     return expect(
       exiftool.write("/tmp/.nonexistant-" + Date.now(), { XPComment: "boom" })
-    ).to.be.rejectedWith(/ENOENT/)
+    ).to.be.rejectedWith(/ENOENT|File not found/i)
   })
 
   it("rejects unknown tags", async () => {
