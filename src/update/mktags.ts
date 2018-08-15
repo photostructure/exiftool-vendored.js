@@ -185,9 +185,14 @@ function getOrSet<K, V>(m: Map<K, V>, k: K, valueThunk: () => V): V {
   }
 }
 
+const minOccurences = 2
+
 class TagMap {
   readonly map = new Map<string, Tag>()
   private maxValueCount = 0
+  private _finished = false
+  groupedTags = new Map<string, Tag[]>()
+  tags: Tag[] = []
 
   tag(tag: string) {
     const prevTag = this.map.get(tag)
@@ -208,7 +213,9 @@ class TagMap {
     values.push(value)
     this.maxValueCount = Math.max(values.length, this.maxValueCount)
   }
-  tags(minOccurences = 2): Tag[] {
+  finish() {
+    if (this._finished) return
+    this._finished = true
     const allTags = Array.from(this.map.values())
     console.log(
       `Skipping the following tags due to < ${minOccurences} occurances:`
@@ -219,14 +226,11 @@ class TagMap {
         .map(t => t.tag)
         .join(", ")
     )
-    return allTags.filter(a => a.keep(minOccurences))
-  }
-  groupedTags(): Map<string, Tag[]> {
-    const groupedTags = new Map<string, Tag[]>()
-    this.tags().forEach(tag => {
-      getOrSet(groupedTags, tag.group, () => []).push(tag)
+    this.tags = allTags.filter(a => a.keep(minOccurences))
+    this.groupedTags.clear()
+    this.tags.forEach(tag => {
+      getOrSet(this.groupedTags, tag.group, () => []).push(tag)
     })
-    return groupedTags
   }
 }
 
@@ -238,7 +242,7 @@ const tagMap = new TagMap()
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
 const bar = new ProgressBar(
-  "reading tags [:bar] :current/:total files, :tasks pending @ :rate files/sec :etas w/  :pids procs",
+  "reading tags [:bar] :current/:total files, :tasks pending @ :rate files/sec :etas",
   {
     complete: "=",
     incomplete: " ",
@@ -250,10 +254,14 @@ const bar = new ProgressBar(
 let nextTick = Date.now()
 let ticks = 0
 
+const failedFiles: string[] = []
+const seenFiles: string[] = []
+
 async function readAndAddToTagMap(file: string) {
   const task = ReadTask.for(file, ["-G"])
   try {
     const tags: any = await exiftool.enqueueTask(() => task)
+    seenFiles.push(file)
     const importantFile = file
       .toString()
       .toLowerCase()
@@ -268,19 +276,20 @@ async function readAndAddToTagMap(file: string) {
       throw tags.errors
     }
   } catch (err) {
+    failedFiles.push(file)
     console.error(err)
     bar.interrupt(`Failed to read ${file}: ${err.stack || err}`)
     throw err
   }
   ticks++
   if (nextTick <= Date.now()) {
+    nextTick = Date.now() + 50
     bar.tick(ticks, {
-      pids: (await exiftool.pids).length,
       tasks: exiftool.pendingTasks
     })
     ticks = 0
-    nextTick = Date.now() + 100
   }
+  return
 }
 
 const start = Date.now()
@@ -294,9 +303,12 @@ _process.on("unhandledRejection", (reason: any, _promise: any) => {
 Promise.all(files.map(file => readAndAddToTagMap(file)))
   .then(async () => {
     bar.terminate()
+    tagMap.finish()
     console.log(
-      `\nRead ${tagMap.map.size} unique tags from ${files.length} files. `
+      `\nRead ${tagMap.map.size} unique tags from ${seenFiles.length} files.`
     )
+    const missingFiles = files.filter(ea => seenFiles.indexOf(ea) === -1)
+    console.log("missing files: " + missingFiles.join("\n"))
     const elapsedMs = Date.now() - start
     console.log(
       `Parsing took ${elapsedMs}ms (${(elapsedMs / files.length).toFixed(
@@ -326,7 +338,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     tagWriter.write(
       "// An example value, JSON stringified, follows the popularity ratings.\n"
     )
-    const groupedTags = tagMap.groupedTags()
+    const groupedTags = tagMap.groupedTags
     const tagGroups: string[] = []
     const seenTagNames = new Set<string>()
     Array.from(groupedTags.entries())
@@ -344,7 +356,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
             tagWriter.write(
               `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
             )
-            tagWriter.write(`  ${tag.withoutGroup}: ${tag.valueType}\n`)
+            tagWriter.write(`  ${tag.withoutGroup}?: ${tag.valueType}\n`)
             seenTagNames.add(tag.withoutGroup)
           })
           tagWriter.write(`}\n`)
@@ -352,9 +364,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
       })
     tagWriter.write("\n")
     tagWriter.write("export interface Tags extends\n")
-    tagWriter.write(
-      `  ${tagGroups.map(s => "Partial<" + s + "Tags>").join(",\n  ")} {\n`
-    )
+    tagWriter.write(`  ${tagGroups.map(s => s + "Tags").join(",\n  ")} {\n`)
     tagWriter.write("  errors?: string[]\n")
     tagWriter.write("  Error?: string\n")
     tagWriter.write("  Warning?: string\n")
@@ -363,7 +373,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     tagWriter.end()
 
     // Let's look at tag distributions:
-    const tags = tagMap.tags()
+    const tags = tagMap.tags
     const tagsByPctPop = times(
       100,
       pct =>
