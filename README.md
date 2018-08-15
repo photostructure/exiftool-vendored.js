@@ -7,7 +7,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/maintainability.svg)](https://codeclimate.com/github/mceachen/exiftool-vendored.js)
 
-_(If links are broken, please read this on <https://exiftool-vendored.js.org>.)_
+_If links are broken, please read this on [exiftool-vendored.js.org](https://exiftool-vendored.js.org)._
 
 ## Features
 
