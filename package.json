@@ -19,7 +19,9 @@
     "prettier": "prettier --write src/*.ts src/**/*.ts",
     "pretest": "npm run compile",
     "test": "nyc mocha --opts .mocha.opts",
-    "report": "npm run test && nyc report -r html"
+    "report": "npm run test && nyc report -r html",
+    "predocs": "typedoc --name exiftool-vendored --out ./docs --readme ./README.md --exclude \"**/*+(test|spec).ts\" --excludePrivate --excludeProtected --theme minimal src",
+    "docs": "echo exiftool-vendored.js.org > docs/CNAME && touch docs/.nojekyll && yarn serve docs"
   },
   "publishConfig": {
     "access": "public"
@@ -73,9 +75,11 @@
     "prettier": "^1.14.2",
     "progress": "^2.0.0",
     "rimraf": "^2.6.2",
+    "serve": "^9.6.0",
     "source-map-support": "^0.5.8",
     "tar-fs": "^1.16.3",
     "tmp": "^0.0.33",
+    "typedoc": "TypeStrong/typedoc",
     "typescript": "^3.0.1",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.27"
