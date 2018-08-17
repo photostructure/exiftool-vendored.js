@@ -167,7 +167,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="defaultexiftooloptions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> Default<wbr>Exif<wbr>Tool<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 10000,onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready.*}&quot;,fail: &quot;{ready.*}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,rejectTaskOnError: (task: any, error: string | Error): boolean &#x3D;&gt; {if (task !&#x3D; null &amp;&amp; typeof task.addError &#x3D;&#x3D;&#x3D; &quot;function&quot;)task.addError(error)return !String(error).toLowerCase().includes(&quot;warning:&quot;)}})</span></div>
+					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 10000,onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready.*}&quot;,fail: &quot;{ready.*}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,rejectTaskOnError: (task: any, error: string | Error): boolean &#x3D;&gt; {if (task !&#x3D; null &amp;&amp; typeof task.addError &#x3D;&#x3D;&#x3D; &quot;function&quot;)task.addError(error)return (String(error).toLowerCase().indexOf(&quot;warning:&quot;) &#x3D;&#x3D; -1)}})</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L144">ExifTool.ts:144</a></li>
@@ -216,7 +216,7 @@
 					<div class="tsd-signature tsd-kind-icon">exiftool<span class="tsd-signature-symbol">:</span> <a href="classes/exiftool.html" class="tsd-signature-type">ExifTool</a><span class="tsd-signature-symbol"> =&nbsp;new ExifTool()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L391">ExifTool.ts:391</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L393">ExifTool.ts:393</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
