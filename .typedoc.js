@@ -3,8 +3,9 @@ module.exports = {
   out: "./docs/",
   readme: "./README.md",
   includes: "./src",
+  gitRevision: "master", // < prevents docs from changing after every commit
   exclude: ["**/update/*", "**/*test*", "**/*spec*"],
-  mode: "modules", // "file" doesn't work with Tags. :(
+  mode: "file", 
   excludePrivate: true,
   excludeProtected: true,
   excludeExternals: true,

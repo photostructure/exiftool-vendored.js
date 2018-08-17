@@ -5,9 +5,17 @@ export function cmd(args: string[]): string {
 }
 
 export abstract class ExifToolTask<T> extends bc.Task<T> {
+  readonly errors: string[] = []
+
   protected constructor(args: string[]) {
     super(cmd(args), data => this.parse(data))
   }
 
   protected abstract parse(input: string): T
+
+  public addError(error: any) {
+    if (error != null) {
+      this.errors.push(String(error))
+    }
+  }
 }

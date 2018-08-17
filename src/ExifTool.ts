@@ -157,7 +157,16 @@ export const DefaultExifToolOptions: Omit<
   pass: "{ready.*}",
   fail: "{ready.*}",
   exitCommand: "-stay_open\nFalse\n",
-  versionCommand: new VersionTask().command
+  versionCommand: new VersionTask().command,
+  rejectTaskOnError: (task: any, error: string | Error): boolean => {
+    if (task != null && typeof task.addError === "function")
+      task.addError(error)
+    return (
+      String(error)
+        .toLowerCase()
+        .indexOf("warning:") == -1
+    )
+  }
 })
 
 /**

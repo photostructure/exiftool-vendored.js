@@ -12,8 +12,8 @@ export class ReadTask extends ExifToolTask<Tags> {
 
   private constructor(readonly sourceFile: string, args: string[]) {
     super(args)
-    const errors: string[] = []
-    this.tags = { SourceFile: sourceFile, errors } as Tags
+    this.tags = { SourceFile: sourceFile } as Tags
+    this.tags.errors = this.errors
   }
 
   static for(filename: string, optionalArgs: string[] = []): ReadTask {
@@ -53,13 +53,6 @@ export class ReadTask extends ExifToolTask<Tags> {
       )
     }
     return this.parseTags()
-  }
-
-  private addError(msg: string): void {
-    if (this.tags.errors == null) {
-      this.tags.errors = []
-    }
-    this.tags.errors.push(msg)
   }
 
   private extractTzoffset(): void {

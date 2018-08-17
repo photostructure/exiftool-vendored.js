@@ -80,13 +80,14 @@
 					</li>
 					<li><p>Support for</p>
 						<ul>
-							<li>extracting embedded binaries, like <a href="classes/_exiftool_.exiftool#extractthumbnail">thumbnail</a> and <a href="classes/_exiftool_.exiftool#extractpreview">preview</a> images</li>
-							<li><a href="classes/_exiftool_.exiftool#write">writing tags</a></li>
-							<li><a href="classes/_exiftool_.exiftool#rewritealltags">rescuing metadata</a></li>
+							<li><a href="classes/exiftool.html#read">reading tags</a></li>
+							<li>extracting embedded binaries, like <a href="classes/exiftool.html#extractthumbnail">thumbnail</a> and <a href="classes/exiftool.html#extractpreview">preview</a> images</li>
+							<li><a href="classes/exiftool.html#write">writing tags</a></li>
+							<li><a href="classes/exiftool.html#rewritealltags">rescuing metadata</a></li>
 						</ul>
 					</li>
 					<li><p><strong><a href="#tags">Robust type definitions</a></strong> of the top 99.5% tags used by over 6,000
-						different camera makes and models (see an <a href="interfaces/_tags_.exiftags">example</a>)</p>
+						different camera makes and models (see an <a href="interfaces/exiftags.html">example</a>)</p>
 					</li>
 					<li><p><strong>Auditable ExifTool source code</strong> (the vendored code is
 						<a href="http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt">checksum verified</a>)</p>
@@ -107,12 +108,14 @@
 				<p>You shouldn&#39;t include either the <code>exiftool-vendored.exe</code> or
 				<code>exiftool-vendored.pl</code> as direct dependencies to your project.</p>
 				<h2 id="upgrading">Upgrading</h2>
-				<p>See the <a href="#version-history">Version History</a> for breaking changes since you last updated.</p>
+				<p>See the
+					<a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/CHANGELOG.md">CHANGELOG</a>
+				for breaking changes since you last updated.</p>
 				<h2 id="usage">Usage</h2>
 				<p>There are many configuration options to ExifTool, but all values have (more or
 				less sensible) defaults.</p>
 				<p>Those defaults have been used to create an exported
-					<a href="modules/_exiftool_#exiftool-1"><code>exiftool</code></a> singleton. Feel free to review the <a href="classes/_exiftool_.exiftool#constructor">ExifTool
+					<a href="globals.html#exiftool"><code>exiftool</code></a> singleton. Feel free to review the <a href="classes/exiftool.html#constructor">ExifTool
 					constructor parameters</a> and override default
 					values where appropriate if the defaults wont&#39; work for you, but you should use
 					your singleton to minimize system load. Note that if you <em>don&#39;t</em> use the default
@@ -125,7 +128,7 @@ exiftool
   .version()
   .then(<span class="hljs-function"><span class="hljs-params">version</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`We're running ExifTool v<span class="hljs-subst">${version}</span>`</span>))</code></pre>
 				<h3 id="general-api">General API</h3>
-				<p><code>ExifTool.read()</code> returns a Promise to a <a href="modules/_tags_">Tags</a> instance. Note
+				<p><code>ExifTool.read()</code> returns a Promise to a <a href="interfaces/tags.html">Tags</a> instance. Note
 					that errors may be returned either by rejecting the promise, or for less
 				severe problems, via the <code>errors</code> field.</p>
 				<p>All other public ExifTool methods return <code>Promise&lt;void&gt;</code>, and will reject
@@ -222,12 +225,12 @@ exiftool
 					script, which parses through over 6,000 unique camera make and model images, in
 					large part sourced from the ExifTool site. <code>mktags</code> groups tags, extracts their
 				type, popularity, and example values such that your IDE can autocomplete.</p>
-				<p>For an example of a group of tags, see the <a href="interfaces/_tags_.exiftags">EXIFTags
+				<p>For an example of a group of tags, see the <a href="interfaces/exiftags.html">EXIFTags
 				interface</a>.</p>
-				<p>Tags marked with ★★★★, like <a href="interfaces/_tags_.filetags#mimetype">MIMEType</a>,
-					should be expected in most files. You&#39;ll find that <strong>very few</strong> tags are found
-					in general populations. You&#39;ll need to do your own research to determine which
-				tags are valid for your uses.</p>
+				<p>Tags marked with &quot;★★★★&quot;, like <a href="interfaces/filetags.html#mimetype">MIMEType</a>,
+					should be found in most files. Of the several thousand metadata tags, realize
+					less than 50 are found generally. You&#39;ll need to do your own research to
+				determine which tags are valid for your uses.</p>
 				<p>Note that if parsing fails (for, example, a datetime string), the raw string
 					will be returned. Consuming code should verify both existence and type as
 				reasonable for safety.</p>
@@ -269,523 +272,9 @@ Parsing took 85654ms (28.4ms / file) <span class="hljs-comment"># ubuntu, core i
 					<li><a href="https://github.com/mesqueeb">Luca Ban</a></li>
 					<li><a href="https://github.com/apolkingg8">Demiurga</a></li>
 				</ul>
-				<h2 id="versioning">Versioning</h2>
-				<p>Providing the flexibility to reversion the API or UPDATE version slots as
-					features or bugfixes arise and using ExifTool&#39;s version number is at odds with
-					eachother, so this library follows <a href="http://semver.org/">Semver</a>, and the
-				vendored versions of ExifTool match the version they vendor.</p>
-				<h3 id="the-major-or-api-version-is-incremented-for">The <code>MAJOR</code> or <code>API</code> version is incremented for</h3>
-				<ul>
-					<li>💔 Non-backward-compatible API changes</li>
-					<li>🌲 New releases of ExifTool that have externally visible changes</li>
-				</ul>
-				<h3 id="the-minor-or-update-version-is-incremented-for">The <code>MINOR</code> or <code>UPDATE</code> version is incremented for</h3>
-				<ul>
-					<li>🌱 New releases of ExifTool with no externally visible changes</li>
-					<li>✨ Backwards-compatible features</li>
-				</ul>
-				<h3 id="the-patch-version-is-incremented-for">The <code>PATCH</code> version is incremented for</h3>
-				<ul>
-					<li>🐞 Backwards-compatible bug fixes</li>
-					<li>📦 Minor packaging changes</li>
-				</ul>
-				<h2 id="version-history">Version history</h2>
-				<h3 id="v6-0-1">v6.0.1</h3>
-				<ul>
-					<li>📦 Typedoc fails to render <code>Partial&lt;&gt;</code> composites, so <code>mktags</code> now renders
-						each Tag as optional. The <code>Tag</code> interface should be exactly the same as from
-					v6.0.0.</li>
-				</ul>
-				<h3 id="v6-0-0">v6.0.0</h3>
-				<ul>
-					<li>💔 <code>ExifTool</code>&#39;s many constructor parameters turned out to be quite unweildy.
-						Version 6 now takes an <a href="interfaces/_exiftool_.exiftooloptions">options hash</a>.
-						If you used the defaults, those haven&#39;t changed, and your code won&#39;t need to
-					change.</li>
-					<li>💔 <code>ExifTool.enqueueTask</code> takes a Task thunk now, to enable cleaner task retry
-					code. I don&#39;t expect many consumers will have used this API directly.</li>
-					<li>🐞 In prior versions, when maxTasksPerProcess was reached, on some OSes, the
-					host process would exit.</li>
-					<li>✨ Rebuilt <code>Tags</code> based on new phone and camera models</li>
-					<li>📦 Files are not <code>stat</code>ed before passing them on to ExifTool, as it seems to
-						be faster on all platforms without this check. If you were error-matching on
-					ENOENT, you&#39;ll need to switch to looking for &quot;File not found&quot;.</li>
-					<li>💔 BatchCluster was updated, which has a robust PID-exists implementation, but
-						those signatures now return Promises rather than being synchronous, so the
-					exported <code>running</code> function has changed to return a <code>Promise&lt;number[]&gt;</code>.</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.09">v11.09</a>.</li>
-				</ul>
-				<h3 id="v5-5-0">v5.5.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.08">v11.08</a>.</li>
-				</ul>
-				<h3 id="v5-4-0">v5.4.0</h3>
-				<ul>
-					<li>✨ Some photo sharing sites will set the <code>CreateDate</code> or <code>SubSecCreateDate</code> to
-						invalid values like <code>0001:01:01 00:00:00.00</code>. These values are now returned as
-					strings so consumers can more consistently discriminate invalid metadata.</li>
-				</ul>
-				<h3 id="v5-3-0">v5.3.0</h3>
-				<ul>
-					<li><p>✨ Prior versions of <code>ExifTool.read()</code> always added the <code>-fast</code> option. This
-							read mode omits metadata found after the image payload. This makes reads much
-							faster, but means that a few tags, like <code>OriginalImageHeight</code>, may not be
-							extracted. See <a href="https://sno.phy.queensu.ca/~phil/exiftool/#performance">https://sno.phy.queensu.ca/~phil/exiftool/#performance</a> for more
-						details.</p>
-						<p><a href="https://github.com/Cuneytt">Cuneytt</a> reported this and I realized I should
-							make <code>-fast</code> a user preference. To maintain existing behavior, I&#39;ve made the
-							optional second argument of <code>ExifTool.read</code> default to <code>[&quot;-fast&quot;]</code>. If you
-							want to use &quot;slow mode&quot;, just give an empty array to the second argument. If
-						you want <code>-fast2</code> mode, provide <code>[&quot;-fast2&quot;]</code> as the second argument.</p>
-					</li>
-				</ul>
-				<h3 id="v5-2-0">v5.2.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.06">v11.06</a>.</li>
-					<li>📦 Removed node 9 from the build graph, as it isn&#39;t supported anymore:
-					<a href="https://github.com/nodejs/Release#release-schedule">https://github.com/nodejs/Release#release-schedule</a></li>
-					<li>📦 Pull in latest dependencies</li>
-				</ul>
-				<h3 id="v5-1-0">v5.1.0</h3>
-				<ul>
-					<li>✨ new <code>exiftool.rewriteAllTags()</code>, which may repair problematic image
-					metadata.</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.02">v11.02</a>.</li>
-					<li>📦 taskRetries default is now 1, which should allow recovery of the rare
-						RPC/fork error, but actual corrupt files and realy errors can be rejected
-					sooner.</li>
-					<li>📦 Pull in latest dependencies, include new batch-cluster.</li>
-				</ul>
-				<h3 id="v5-0-0">v5.0.0</h3>
-				<ul>
-					<li>💔/✨ Task rejections are always <code>Error</code>s now, and <code>ExifTool.on</code> observers will
-						be provided Errors on failure cases. Previously, rejections and events had
-						been a mixture of strings and Errors. I&#39;m bumping the major version just to
-						make sure people adjust their code accordingly, but I&#39;m hoping this is a no-op
-						for most people. Thanks for the suggestion, <a href="https://github.com/nknapp">Nils
-					Knappmeier</a>!</li>
-				</ul>
-				<h3 id="v4-26-0">v4.26.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-						<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.01">v11.01</a>.
-						Note that ExifTool doesn&#39;t really follow semver, so this shouldn&#39;t be a
-					breaking change, so we&#39;ll stay on v4.</li>
-					<li>📦 Pull in latest dependencies, including batch-cluster and TypeScript.</li>
-					<li>📦 Fix version spec because exiftool now has a left-zero-padded version that
-					semver is not happy about.</li>
-				</ul>
-				<h3 id="v4-25-0">v4.25.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.98">v10.98</a></li>
-				</ul>
-				<h3 id="v4-24-0">v4.24.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.95">v10.95</a></li>
-					<li>📦 Fix <code>.pl</code> dependency to omit test files and documentation</li>
-				</ul>
-				<h3 id="v4-23-0">v4.23.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.94">v10.94</a></li>
-					<li>📦 Pull in latest dependencies, including more robust BatchCluster exiting
-						(which may help with rare child zombies during long-lived parent processes on
-					macOS)</li>
-				</ul>
-				<h3 id="v4-22-1">v4.22.1</h3>
-				<ul>
-					<li>📦 Pull in latest dependencies, including less-verbose BatchCluster</li>
-				</ul>
-				<h3 id="v4-22-0">v4.22.0</h3>
-				<ul>
-					<li>✨ Support for writing <code>AllDates</code> (closes
-					<a href="https://github.com/mceachen/exiftool-vendored.js/issues/21">#21</a>.)</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.93">v10.93</a></li>
-				</ul>
-				<h3 id="v4-21-0">v4.21.0</h3>
-				<ul>
-					<li>✨ Before reading or writing tags, we stat the file first to ensure it exists.
-					Expect <code>ENOENT</code> rejections from <code>ExifTool.read</code> and <code>ExifTool.write</code> now.</li>
-					<li>📦 Expose batch-cluster lifecycle events and logger</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.92">v10.92</a></li>
-				</ul>
-				<h3 id="v4-20-0">v4.20.0</h3>
-				<ul>
-					<li>✨ Support for <a href="https://electronjs.org">Electron</a>. Added <code>exiftoolPath</code> to the
-						<code>ExifTool</code> constructor. See the
-						<a href="https://github.com/mceachen/exiftool-vendored.js/wiki#how-do-you-make-this-work-with-electron">wiki</a>
-					for more information.</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.89">v10.89</a></li>
-				</ul>
-				<h3 id="v4-19-0">v4.19.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.86">v10.86</a></li>
-				</ul>
-				<h3 id="v4-18-1">v4.18.1</h3>
-				<ul>
-					<li>📦 Pick up batch-cluster 1.10.0 to possibly address <a href="https://stackoverflow.com/questions/48961238/electron-setinterval-implementation-difference-between-chrome-and-node">this
-					issue</a>.</li>
-				</ul>
-				<h3 id="v4-18-0">v4.18.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.81">v10.81</a></li>
-					<li>📦 Update deps, including batch-cluster 1.9.0</li>
-					<li>📦 Dropped support for node 4 (EOLs in 1 month).</li>
-				</ul>
-				<h3 id="v4-17-0">v4.17.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.79">v10.79</a></li>
-					<li>📦 Update deps, including TypeScript 2.7.2</li>
-					<li>📦 <a href="https://github.com/mceachen/exiftool-vendored.js/issues/16">Removed 🐱</a></li>
-				</ul>
-				<h3 id="v4-16-0">v4.16.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.78">v10.78</a></li>
-					<li>📦 Update deps, including TypeScript 2.7.1</li>
-				</ul>
-				<h3 id="v4-15-0">v4.15.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.76">v10.76</a></li>
-					<li>📦 Update deps</li>
-				</ul>
-				<h3 id="v4-14-1">v4.14.1</h3>
-				<ul>
-					<li>📦 Update deps</li>
-				</ul>
-				<h3 id="v4-14-0">v4.14.0</h3>
-				<ul>
-					<li>🐞 Use <code>spawn</code> instead of <code>execFile</code>, as the latter has buggy <code>maxBuffer</code>
-					exit behavior and could leak exiftool processes on windows</li>
-					<li>🐞 The <code>.exiftool</code> singleton now properly uses a <code>DefaultMaxProcs</code> const.</li>
-				</ul>
-				<h3 id="v4-13-1">v4.13.1</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.70">v10.70</a></li>
-					<li>📦 Replace tslint and tsfmt with prettier</li>
-					<li>📦 Add test coverage report</li>
-				</ul>
-				<p>(due to buggy interactions between <code>yarn</code> and <code>np</code>, v4.13.0 was published in
-				an incomplete state and subsequently unpublished)</p>
-				<h3 id="v4-12-1">v4.12.1</h3>
-				<ul>
-					<li>📦 Rollback the rollback, as it&#39;s a <a href="http://u88.n24.queensu.ca/exiftool/forum/index.php/topic,8747.msg44932.html#msg44932">known issue with
-						par</a>.
-						If this happens again I&#39;ll add a windows-specific validation of the par
-					directory.</li>
-				</ul>
-				<h3 id="v4-12-0">v4.12.0</h3>
-				<ul>
-					<li>🐞 Rollback to ExifTool v10.65 to avoid <a href="http://u88.n24.queensu.ca/exiftool/forum/index.php?topic=8747.msg44926">this windows
-					issue</a></li>
-				</ul>
-				<h3 id="v4-11-0">v4.11.0</h3>
-				<ul>
-					<li>✨ Support for <a href="https://github.com/mceachen/exiftool-vendored.js/issues/14">non-latin filenames and tag
-						values</a>
-					Thanks, <a href="https://github.com/apolkingg8">Demiurga</a>!</li>
-				</ul>
-				<h3 id="v4-10-0">v4.10.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.67">v10.67</a></li>
-				</ul>
-				<h3 id="v4-9-2">v4.9.2</h3>
-				<ul>
-					<li>📦 More conservative default for <code>maxProcs</code>: <code>Math.max(1, system cpus / 4)</code>.</li>
-				</ul>
-				<h3 id="v4-9-0">v4.9.0</h3>
-				<ul>
-					<li>📦 Expose <code>ExifTool.ended</code></li>
-				</ul>
-				<h3 id="v4-8-0">v4.8.0</h3>
-				<ul>
-					<li>✨ Corrected the type interface to <code>ExifTool.write()</code> to be only string or
-					numeric values with keys from <code>Tags</code> so intellisense can work it&#39;s magicks</li>
-					<li>📦 Updated the README with more examples</li>
-					<li>📦 Added timestamp write tests</li>
-				</ul>
-				<h3 id="v4-7-1">v4.7.1</h3>
-				<ul>
-					<li>✨ Metadata writing is now supported. Closes <a href="https://github.com/mceachen/exiftool-vendored.js/issues/6">#6</a></li>
-				</ul>
-				<h3 id="v4-6-0">v4.6.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.66">v10.66</a></li>
-					<li>✨ Pull in new <code>batch-cluster</code> with more aggressive child process management
-					(uses <code>taskkill</code> on win32 platforms and <code>kill -9</code> on unixish platforms)</li>
-					<li>✨ ExifTool constructor defaults were relaxed to handle slow NAS</li>
-					<li>✨ Upgraded to Mocha 4.0. Added calls to <code>exiftool.end()</code> in test <code>after</code>
-					blocks and the README so <code>--exit</code> isn&#39;t necessary.</li>
-					<li>📦 <code>salita --update</code></li>
-				</ul>
-				<h3 id="v4-5-0">v4.5.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.64">v10.64</a></li>
-				</ul>
-				<h3 id="v4-4-1">v4.4.1</h3>
-				<ul>
-					<li>📦 reverted batch-cluster reference</li>
-				</ul>
-				<h3 id="v4-4-0">v4.4.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.61">v10.61</a></li>
-					<li>🐞 Re-added the &quot;-stay_open\nFalse&quot; ExifTool exit command, which may be more
-					reliable than only using signal traps.</li>
-					<li>📦 <code>yarn upgrade --latest</code></li>
-				</ul>
-				<h3 id="v4-3-0">v4.3.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.60">v10.60</a></li>
-					<li>📦 Upgraded all dependencies</li>
-				</ul>
-				<h3 id="v4-2-0">v4.2.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.58">v10.58</a></li>
-				</ul>
-				<h3 id="v4-1-0">v4.1.0</h3>
-				<ul>
-					<li>📦 Added <code>QuickTimeTags</code> from several example movies (previous versions of
-					<code>Tags</code> didn&#39;t have movie tag exemplar values)</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.57">v10.57</a></li>
-				</ul>
-				<h3 id="v4-0-0">v4.0.0</h3>
-				<ul>
-					<li>💔 All <code>Tags</code> fields are now marked as possibly undefined, as there are no
-						EXIF, IPTC, or other values that are guaranteed to be set. Sorry for the major
-						break, but the prior signature that promised all values were always set was
-					strictly wrong.</li>
-					<li>✨ Added support for all downstream
-						<a href="https://github.com/mceachen/batch-cluster.js">batch-cluster</a> options in the
-					ExifTool constructor.</li>
-					<li>📦 Added <code>ExifTool.pids</code> (used by a couple new integration tests)</li>
-					<li>📦 Rebuilt <code>Tags</code> with additional sample images and looser tag filtering.</li>
-				</ul>
-				<h3 id="v3-2-0">v3.2.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.54">v10.54</a></li>
-					<li>📦 Pulled in batch-cluster v1.2.0 that supports more robust child process
-					cleanup</li>
-					<li>✨ Yarn and <code>platform-dependent-modules</code> don&#39;t play nicely. <a href="https://github.com/amokrushin">Anton
-						Mokrushin</a> submitted several PRs to address
-					this. Thanks!</li>
-				</ul>
-				<h3 id="v3-1-1">v3.1.1</h3>
-				<ul>
-					<li>🐞 Fixed <code>package.json</code> references to <code>types</code> and <code>main</code></li>
-				</ul>
-				<h3 id="v3-1-0">v3.1.0</h3>
-				<ul>
-					<li>📦 Completed jsdocs for ExifTool constructor</li>
-					<li>📦 Pulled in batch-cluster v1.1.0 that adds both <code>on(&quot;beforeExit&quot;)</code> and
-					<code>on(&quot;exit&quot;)</code> handlers</li>
-				</ul>
-				<h3 id="v3-0-0">v3.0.0</h3>
-				<ul>
-					<li>✨ Extracted <a href="https://github.com/mceachen/batch-cluster.js">batch-cluster</a> to
-						power child process management. Task timeout, retry, and failure handling has
-					excellent test coverage now.</li>
-					<li>💔 Switched from <a href="https://www.npmjs.com/package/debug">debug</a> to node&#39;s
-						<a href="https://nodejs.org/api/util.html#util_util_debuglog_section">debuglog</a> to
-					reduce external dependencies</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.51">v10.51</a></li>
-					<li>📦 Using <code>.npmignore</code> instead of package.json&#39;s <code>files</code> directive to specify
-					the contents of the module.</li>
-				</ul>
-				<h3 id="v2-17-1">v2.17.1</h3>
-				<ul>
-					<li>🐛 Rounded milliseconds were not set by <code>ExifDateTime.toDate()</code> when timezone
-					was not available. Breaking tests were added.</li>
-				</ul>
-				<h3 id="v2-16-1">v2.16.1</h3>
-				<ul>
-					<li>📦 Exposed datetime parsing via static methods on <code>ExifDateTime</code>, <code>ExifDate</code>, and <code>ExifTime</code>.</li>
-				</ul>
-				<h3 id="v2-16-0">v2.16.0</h3>
-				<ul>
-					<li>✨ Some newer smartphones (like the Google Pixel) render timestamps with
-					microsecond precision, which is now supported.</li>
-				</ul>
-				<h3 id="v2-15-0">v2.15.0</h3>
-				<ul>
-					<li>✨ Added example movies to the sample image corpus used to build the tag
-					definitions.</li>
-				</ul>
-				<h3 id="v2-14-0">v2.14.0</h3>
-				<ul>
-					<li>✨ Added <code>taskTimeoutMillis</code>, which will cause the promise to be rejected if
-						exiftool takes longer than this value to parse the file. Note that this
-						timeout only starts &quot;ticking&quot; when the task is enqueued to an idle ExifTool
-					process.</li>
-					<li>✨ Pump the <code>onIdle</code> method every <code>onIdleIntervalMillis</code> (defaults to every 10
-					seconds) to ensure all requested tasks are serviced.</li>
-					<li>✨ If <code>ECONN</code> or <code>ECONNRESET</code> is raised from the child process (which seems to
-						happen for roughly 1% of requests), the current task is re-enqueued and the
-					current exiftool process is recycled.</li>
-					<li>✨ Rebuilt <code>Tags</code> definitions using more (6,412!) sample image files
-						(via <code>npm run mktags ~/sample-images</code>), including many RAW image types
-					(like <code>.ORF</code>, <code>.CR2</code>, and <code>.NEF</code>).</li>
-				</ul>
-				<h3 id="v2-13-0">v2.13.0</h3>
-				<ul>
-					<li>✨ Added <code>maxReuses</code> before exiftool processes are recycled</li>
-					<li>🌱 ExifTool upgraded to
-					<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.50">v10.50</a></li>
-				</ul>
-				<h3 id="v2-12-0">v2.12.0</h3>
-				<ul>
-					<li>🐛 Fixed <a href="https://github.com/mceachen/exiftool-vendored.js/issues/3"><code>gps.toDate is not a function</code></a></li>
-				</ul>
-				<h3 id="v2-11-0">v2.11.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.47</li>
-					<li>✨ Added call to <code>.kill()</code> on <code>.end()</code> in case the stdin command was missed by ExifTool</li>
-				</ul>
-				<h3 id="v2-10-0">v2.10.0</h3>
-				<ul>
-					<li>✨ Added support for Node 4. TypeScript builds under es5 mode.</li>
-				</ul>
-				<h3 id="v2-9-0">v2.9.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.46</li>
-				</ul>
-				<h3 id="v2-8-0">v2.8.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.44</li>
-					<li>📦 Upgraded to TypeScript 2.2</li>
-					<li>🐞 <code>update/io.ts</code> error message didn&#39;t handle null statuscodes properly</li>
-					<li>🐞 <code>update/mktags.ts</code> had a counting bug exposed by TS 2.2</li>
-				</ul>
-				<h3 id="v2-7-0">v2.7.0</h3>
-				<ul>
-					<li>✨ More robust error handling for child processes (previously there was no
-						<code>.on(&quot;error&quot;)</code> added to the process itself, only on <code>stderr</code> of the child
-					process).</li>
-				</ul>
-				<h3 id="v2-6-0">v2.6.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.41</li>
-					<li>✨ <code>Orientation</code> is <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/exiftool_pod.html#n---printConv">rendered as a string by
-						ExifTool</a>,
-						which was surprising (to me, at least). By exposing optional args in
-					<code>ExifTool.read</code>, the caller can choose how ExifTool renders tag values.</li>
-				</ul>
-				<h3 id="v2-5-0">v2.5.0</h3>
-				<ul>
-					<li>🐞 <code>LANG</code> and <code>LC_</code> environment variables were passed through to exiftool (and
-						subsequently, perl). These are now explicitly unset when exec&#39;ing ExifTool,
-						both to ensure tag names aren&#39;t internationalized, and to prevent perl errors
-					from bubbling up to the caller due to missing locales.</li>
-				</ul>
-				<h3 id="v2-4-0">v2.4.0</h3>
-				<ul>
-					<li>✨ <code>extractBinaryTag</code> exposed because there are a <strong>lot</strong> of binary tags (and
-					they aren&#39;t all embedded images)</li>
-					<li>🐞 <code>JpgFromRaw</code> was missing in <code>Tag</code> (no raw images were in the example corpus!)</li>
-				</ul>
-				<h3 id="v2-3-0">v2.3.0</h3>
-				<ul>
-					<li>✨ <code>extractJpgFromRaw</code> implemented to pull out EXIF-embedded images from RAW formats</li>
-				</ul>
-				<h3 id="v2-2-0">v2.2.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.40</li>
-				</ul>
-				<h3 id="v2-1-1">v2.1.1</h3>
-				<ul>
-					<li>✨ <code>extractThumbnail</code> and <code>extractPreview</code> implemented to pull out EXIF-embedded images</li>
-					<li>📦 Rebuilt package.json.files section</li>
-				</ul>
-				<h3 id="v2-0-1">v2.0.1</h3>
-				<ul>
-					<li>💔 Switched from home-grown <code>logger</code> to <a href="https://www.npmjs.com/package/debug">debug</a></li>
-				</ul>
-				<h3 id="v1-5-3">v1.5.3</h3>
-				<ul>
-					<li>📦 Switch back to <code>platform-dependent-modules</code>.
-						<a href="http://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency">npm warnings</a>
-					aren&#39;t awesome.</li>
-					<li>📦 Don&#39;t include tests or updater in the published package</li>
-				</ul>
-				<h3 id="v1-5-0">v1.5.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.38</li>
-					<li>📦 Use <code>npm</code>&#39;s os-specific optionalDependencies rather than <code>platform-dependent-modules</code>.</li>
-				</ul>
-				<h3 id="v1-4-1">v1.4.1</h3>
-				<ul>
-					<li>🐛 Several imports (like <code>process</code>) name-collided on the globals imported by Electron</li>
-				</ul>
-				<h3 id="v1-4-0">v1.4.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.37</li>
-				</ul>
-				<h3 id="v1-3-0">v1.3.0</h3>
-				<ul>
-					<li>🌱 ExifTool upgraded to v10.36</li>
-					<li>✨ <code>Tag.Error</code> exposed for unsupported file types.</li>
-				</ul>
-				<h3 id="v1-2-0">v1.2.0</h3>
-				<ul>
-					<li>🐛 It was too easy to miss calling <code>ExifTool.end()</code>, which left child ExifTool
-						processes running. The constructor to ExifTool now adds a shutdown hook to
-					send all child processes a shutdown signal.</li>
-				</ul>
-				<h3 id="v1-1-0">v1.1.0</h3>
-				<ul>
-					<li>✨ Added <code>toString()</code> for all date/time types</li>
-				</ul>
-				<h3 id="v1-0-0">v1.0.0</h3>
-				<ul>
-					<li>✨ Added typings reference in the package.json</li>
-					<li>🌱 Upgraded vendored exiftool to 10.33</li>
-				</ul>
-				<h3 id="v0-4-0">v0.4.0</h3>
-				<ul>
-					<li>📦 Fixed packaging (maintain jsdocs in .d.ts and added typings reference)</li>
-					<li>📦 Using <a href="https://www.npmjs.com/package/np">np</a> for packaging</li>
-				</ul>
-				<h3 id="v0-3-0">v0.3.0</h3>
-				<ul>
-					<li>✨ Multithreading support with the <code>maxProcs</code> ctor param</li>
-					<li>✨ Added tests for reading images with truncated or missing EXIF headers</li>
-					<li>✨ Added tests for timezone offset extraction and rendering</li>
-					<li>✨ Subsecond resolution from the Google Pixel has 8 significant digits(!!),
-					added support for that.</li>
-				</ul>
-				<h3 id="v0-2-0">v0.2.0</h3>
-				<ul>
-					<li>✨ More rigorous TimeZone extraction from assets, and added the
-					<code>ExifTimeZoneOffset</code> to handle the <code>TimeZone</code> composite tag</li>
-					<li>✨ Added support for millisecond timestamps</li>
-				</ul>
-				<h3 id="v0-1-1">v0.1.1</h3>
-				<p>🌱✨ Initial Release. Packages ExifTool v10.31.</p>
-				<script src="//twemoji.maxcdn.com/2/twemoji.min.js?11.0"></script>
-				<script>twemoji.parse(document.body, { size: "svg", ext: ".svg" })</script>
-				<style> .emoji { height: 18px; } </style>
+				<h2 id="changelog">CHANGELOG</h2>
+				<p>See the
+				<a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/CHANGELOG.md">CHANGELOG</a> on github.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -794,46 +283,169 @@ Parsing took 85654ms (28.4ms / file) <span class="hljs-comment"># ubuntu, core i
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_array_.html">"<wbr>Array"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_asyncretry_.html">"<wbr>Async<wbr>Retry"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_binaryextractiontask_.html">"<wbr>Binary<wbr>Extraction<wbr>Task"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_datetime_.html">"<wbr>Date<wbr>Time"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_exiftool_.html">"<wbr>Exif<wbr>Tool"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_exiftooltask_.html">"<wbr>Exif<wbr>Tool<wbr>Task"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_readtask_.html">"<wbr>Read<wbr>Task"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_rewritealltagstask_.html">"<wbr>Rewrite<wbr>All<wbr>Tags<wbr>Task"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_string_.html">"<wbr>String"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_tags_.html">"<wbr>Tags"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_versiontask_.html">"<wbr>Version<wbr>Task"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_writetask_.html">"<wbr>Write<wbr>Task"</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/base.html" class="tsd-kind-icon">Base</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/binaryextractiontask.html" class="tsd-kind-icon">Binary<wbr>Extraction<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/exifdate.html" class="tsd-kind-icon">Exif<wbr>Date</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/exifdatetime.html" class="tsd-kind-icon">Exif<wbr>Date<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/exiftime.html" class="tsd-kind-icon">Exif<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/exiftimezoneoffset.html" class="tsd-kind-icon">Exif<wbr>Time<wbr>Zone<wbr>Offset</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/exiftool.html" class="tsd-kind-icon">Exif<wbr>Tool</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/exiftooltask.html" class="tsd-kind-icon">Exif<wbr>Tool<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/readtask.html" class="tsd-kind-icon">Read<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/rewritealltagstask.html" class="tsd-kind-icon">Rewrite<wbr>All<wbr>Tags<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/versiontask.html" class="tsd-kind-icon">Version<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/writetask.html" class="tsd-kind-icon">Write<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/app0tags.html" class="tsd-kind-icon">APP0<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/app12tags.html" class="tsd-kind-icon">APP12<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/app14tags.html" class="tsd-kind-icon">APP14<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/app1tags.html" class="tsd-kind-icon">APP1<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/app4tags.html" class="tsd-kind-icon">APP4<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/compositetags.html" class="tsd-kind-icon">Composite<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exiftags.html" class="tsd-kind-icon">EXIFTags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exiftooloptions.html" class="tsd-kind-icon">Exif<wbr>Tool<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exiftooltags.html" class="tsd-kind-icon">Exif<wbr>Tool<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filetags.html" class="tsd-kind-icon">File<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/flashpixtags.html" class="tsd-kind-icon">Flash<wbr>Pix<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icc_profiletags.html" class="tsd-kind-icon">ICC_<wbr><wbr>Profile<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iptctags.html" class="tsd-kind-icon">IPTCTags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jfiftags.html" class="tsd-kind-icon">JFIFTags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mpftags.html" class="tsd-kind-icon">MPFTags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/makernotestags.html" class="tsd-kind-icon">Maker<wbr>Notes<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metatags.html" class="tsd-kind-icon">Meta<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/panasonicrawtags.html" class="tsd-kind-icon">Panasonic<wbr>Raw<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/photoshoptags.html" class="tsd-kind-icon">Photoshop<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/printimtags.html" class="tsd-kind-icon">PrintIMTags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/quicktimetags.html" class="tsd-kind-icon">Quick<wbr>Time<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/raftags.html" class="tsd-kind-icon">RAFTags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shortcuttags.html" class="tsd-kind-icon">Shortcut<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tags.html" class="tsd-kind-icon">Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/xmptags.html" class="tsd-kind-icon">XMPTags</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#writetags" class="tsd-kind-icon">Write<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultexiftooloptions" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultexiftoolpath" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultexiftoolargs" class="tsd-kind-icon">Default<wbr>Exiftool<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultmaxprocs" class="tsd-kind-icon">Default<wbr>Max<wbr>Procs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#exiftool" class="tsd-kind-icon">exiftool</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#cmd" class="tsd-kind-icon">cmd</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#compact" class="tsd-kind-icon">compact</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#leftpad" class="tsd-kind-icon">left<wbr>Pad</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#millistofractionalpart" class="tsd-kind-icon">millis<wbr>ToFractional<wbr>Part</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#pad2" class="tsd-kind-icon">pad2</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#pad3" class="tsd-kind-icon">pad3</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#parse" class="tsd-kind-icon">parse</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#retryonreject" class="tsd-kind-icon">retry<wbr>OnReject</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#times" class="tsd-kind-icon">times</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
