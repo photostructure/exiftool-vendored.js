@@ -53,6 +53,8 @@ export const DefaultExifToolPath = findExiftool()
 
 export const DefaultExiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
+export const DefaultMinorErrorsRegExp = /(\[minor\])|(warning: duplicate)/i
+
 /**
  * @see https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html
  */
@@ -133,6 +135,15 @@ export interface ExifToolOptions
    * Args passed to exiftool on launch.
    */
   exiftoolArgs: string[]
+
+  /**
+   * If this RegExp matches a given stringified Error, that error should be
+   * considered "minor"/non-fatal, and the task should not be rejected (at least
+   * because of that error)
+   *
+   * Defaults to `DefaultMinorErrorsRegExp`
+   */
+  minorErrorsRegExp: RegExp
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
@@ -158,15 +169,7 @@ export const DefaultExifToolOptions: Omit<
   fail: "{ready.*}",
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
-  rejectTaskOnError: (task: any, error: string | Error): boolean => {
-    if (task != null && typeof task.addError === "function")
-      task.addError(error)
-    return (
-      String(error)
-        .toLowerCase()
-        .indexOf("warning:") == -1
-    )
-  }
+  minorErrorsRegExp: DefaultMinorErrorsRegExp
 })
 
 /**
@@ -191,6 +194,12 @@ export class ExifTool {
     }
     this.options = {
       ...o,
+      rejectTaskOnStderr: (task: any, error: string | Error): boolean => {
+        if (task != null && typeof task.addError === "function") {
+          task.addError(error)
+        }
+        return o.minorErrorsRegExp.exec(String(error)) == null
+      },
       processFactory: () =>
         _child_process.spawn(o.exiftoolPath, o.exiftoolArgs, {
           stdio: "pipe",
@@ -199,7 +208,9 @@ export class ExifTool {
           env: { LANG: "C" }
         }),
       exitCommand: o.exitCommand,
-      versionCommand: o.versionCommand
+      versionCommand: o.versionCommand,
+      // User options win:
+      ...options
     }
     this.batchCluster = new bc.BatchCluster(this.options)
   }

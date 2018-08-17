@@ -123,13 +123,13 @@
 								<li class="tsd-kind-variable"><a href="globals.html#defaultexiftoolpath" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Path</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#defaultexiftoolargs" class="tsd-kind-icon">Default<wbr>Exiftool<wbr>Args</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#defaultmaxprocs" class="tsd-kind-icon">Default<wbr>Max<wbr>Procs</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#defaultminorerrorsregexp" class="tsd-kind-icon">Default<wbr>Minor<wbr>Errors<wbr>Reg<wbr>Exp</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#exiftool" class="tsd-kind-icon">exiftool</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function"><a href="globals.html#cmd" class="tsd-kind-icon">cmd</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#compact" class="tsd-kind-icon">compact</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#leftpad" class="tsd-kind-icon">left<wbr>Pad</a></li>
@@ -152,7 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">Write<wbr>Tags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L68">ExifTool.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L70">ExifTool.ts:70</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -167,10 +167,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="defaultexiftooloptions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> Default<wbr>Exif<wbr>Tool<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 10000,onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready.*}&quot;,fail: &quot;{ready.*}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,rejectTaskOnError: (task: any, error: string | Error): boolean &#x3D;&gt; {if (task !&#x3D; null &amp;&amp; typeof task.addError &#x3D;&#x3D;&#x3D; &quot;function&quot;)task.addError(error)return (String(error).toLowerCase().indexOf(&quot;warning:&quot;) &#x3D;&#x3D; -1)}})</span></div>
+					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 10000,onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready.*}&quot;,fail: &quot;{ready.*}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,minorErrorsRegExp: DefaultMinorErrorsRegExp})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L144">ExifTool.ts:144</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L155">ExifTool.ts:155</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -206,7 +206,17 @@
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Max<wbr>Procs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;Math.max(1, Math.floor(_os.cpus().length / 4))</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L70">ExifTool.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L72">ExifTool.ts:72</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="defaultminorerrorsregexp" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Default<wbr>Minor<wbr>Errors<wbr>Reg<wbr>Exp</h3>
+					<div class="tsd-signature tsd-kind-icon">Default<wbr>Minor<wbr>Errors<wbr>Reg<wbr>Exp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/(\[minor\])|(warning: duplicate)/i</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L56">ExifTool.ts:56</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,7 +226,7 @@
 					<div class="tsd-signature tsd-kind-icon">exiftool<span class="tsd-signature-symbol">:</span> <a href="classes/exiftool.html" class="tsd-signature-type">ExifTool</a><span class="tsd-signature-symbol"> =&nbsp;new ExifTool()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L393">ExifTool.ts:393</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L404">ExifTool.ts:404</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -235,29 +245,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="cmd" class="tsd-anchor"></a>
-					<h3>cmd</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">cmd<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L3">ExifToolTask.ts:3</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>args: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
 					<a name="compact" class="tsd-anchor"></a>
 					<h3>compact</h3>
@@ -733,10 +720,10 @@
 						<a href="globals.html#defaultmaxprocs" class="tsd-kind-icon">Default<wbr>Max<wbr>Procs</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#exiftool" class="tsd-kind-icon">exiftool</a>
+						<a href="globals.html#defaultminorerrorsregexp" class="tsd-kind-icon">Default<wbr>Minor<wbr>Errors<wbr>Reg<wbr>Exp</a>
 					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#cmd" class="tsd-kind-icon">cmd</a>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#exiftool" class="tsd-kind-icon">exiftool</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#compact" class="tsd-kind-icon">compact</a>

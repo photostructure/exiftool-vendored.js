@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v6.1.1
+
+- 🐞 Warnings work now, _and I even have a test to prove it_. 😳
+- ✨ Warning-vs-fatal errors can be configured via the new `minorErrorsRegExp`
+  constructor parameter, or if you need more flexibility, by providing a
+  `rejectTaskOnStderr` implementation to the ExifTool constructor.
+
 ### v6.1.0
 
 - ✨ Warnings are back! Non-fatal processing errors are added to the

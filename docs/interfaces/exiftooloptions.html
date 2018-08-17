@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#maxprocs" class="tsd-kind-icon">max<wbr>Procs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#maxreasonableprocessfailuresperminute" class="tsd-kind-icon">max<wbr>Reasonable<wbr>Process<wbr>Failures<wbr>Per<wbr>Minute</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#maxtasksperprocess" class="tsd-kind-icon">max<wbr>Tasks<wbr>Per<wbr>Process</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#minorerrorsregexp" class="tsd-kind-icon">minor<wbr>Errors<wbr>Reg<wbr>Exp</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#onidleintervalmillis" class="tsd-kind-icon">on<wbr>Idle<wbr>Interval<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#pass" class="tsd-kind-icon">pass</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#processfactory" class="tsd-kind-icon">process<wbr>Factory</a></li>
@@ -139,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">exiftool<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L135">ExifTool.ts:135</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L137">ExifTool.ts:137</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -154,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">exiftool<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L130">ExifTool.ts:130</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L132">ExifTool.ts:132</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -227,7 +228,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.maxProcs</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L81">ExifTool.ts:81</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L83">ExifTool.ts:83</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -265,7 +266,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.maxTasksPerProcess</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L89">ExifTool.ts:89</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L91">ExifTool.ts:91</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -276,6 +277,24 @@
 						<p>Defaults to 500, to balance performance with memory usage.</p>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="minorerrorsregexp" class="tsd-anchor"></a>
+					<h3>minor<wbr>Errors<wbr>Reg<wbr>Exp</h3>
+					<div class="tsd-signature tsd-kind-icon">minor<wbr>Errors<wbr>Reg<wbr>Exp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L146">ExifTool.ts:146</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If this RegExp matches a given stringified Error, that error should be
+								considered &quot;minor&quot;/non-fatal, and the task should not be rejected (at least
+							because of that error)</p>
+						</div>
+						<p>Defaults to <code>DefaultMinorErrorsRegExp</code></p>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="onidleintervalmillis" class="tsd-anchor"></a>
 					<h3>on<wbr>Idle<wbr>Interval<wbr>Millis</h3>
@@ -283,7 +302,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.onIdleIntervalMillis</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L117">ExifTool.ts:117</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L119">ExifTool.ts:119</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -394,7 +413,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.spawnTimeoutMillis</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L100">ExifTool.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L102">ExifTool.ts:102</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -414,7 +433,7 @@
 					<div class="tsd-signature tsd-kind-icon">task<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L124">ExifTool.ts:124</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L126">ExifTool.ts:126</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -431,7 +450,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.taskTimeoutMillis</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L109">ExifTool.ts:109</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L111">ExifTool.ts:111</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -505,6 +524,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="exiftooloptions.html#maxtasksperprocess" class="tsd-kind-icon">max<wbr>Tasks<wbr>Per<wbr>Process</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="exiftooloptions.html#minorerrorsregexp" class="tsd-kind-icon">minor<wbr>Errors<wbr>Reg<wbr>Exp</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="exiftooloptions.html#onidleintervalmillis" class="tsd-kind-icon">on<wbr>Idle<wbr>Interval<wbr>Millis</a>
