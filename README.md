@@ -101,9 +101,10 @@ regularly found in otherwise-not-corrupt images.
 If we rejected every `read` or `write` when any error happened, this would
 prevent reading and/or writing to otherwise-ok files. To "demote" errors to be
 warnings that don't reject the underlying task, you can provide either a
-`minorErrorsRegExp` (which defaults to `/(\[minor\])|(warning: duplicate)/i`),
-or an implementation of `rejectTaskOnStderr`. Either of these parameters are
-provided to the `ExifTool` constructor.
+[`minorErrorsRegExp`](interfaces/exiftooloptions.html#minorerrorsregexp), or an
+implementation of
+[`rejectTaskOnStderr`](interfaces/exiftooloptions.html#rejecttaskonstderr).
+Either of these parameters are provided to the `ExifTool` constructor.
 
 ### Logging and events
 
