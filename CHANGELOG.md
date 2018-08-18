@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v6.1.2
+
+- 📦 By pulling in the latest batch-cluster, the default logger is NoLogger,
+  which may be a nicer default for people. Added logging, event, and error
+  information to the README.
+
+
 ### v6.1.1
 
 - 🐞 Warnings work now, _and I even have a test to prove it_. 😳

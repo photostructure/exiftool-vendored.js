@@ -114,12 +114,12 @@
 				<h2 id="usage">Usage</h2>
 				<p>There are many configuration options to ExifTool, but all values have (more or
 				less sensible) defaults.</p>
-				<p>Those defaults have been used to create an exported
-					<a href="globals.html#exiftool"><code>exiftool</code></a> singleton. Feel free to review the <a href="classes/exiftool.html#constructor">ExifTool
-					constructor parameters</a> and override default
-					values where appropriate if the defaults wont&#39; work for you, but you should use
-					your singleton to minimize system load. Note that if you <em>don&#39;t</em> use the default
-				singleton, note that you don&#39;t need to <code>.end()</code> it.</p>
+				<p>Those defaults have been used to create the <a href="globals.html#exiftool"><code>exiftool</code></a>
+					singleton. Feel free to review the <a href="classes/exiftool.html#constructor">ExifTool constructor
+					parameters</a> and override default values where
+					appropriate if the defaults wont&#39; work for you, but you should use your
+					singleton to minimize system load. Note that if you <em>don&#39;t</em> use the default
+				singleton, you don&#39;t need to <code>.end()</code> it.</p>
 				<pre><code class="language-js"><span class="hljs-comment">// We're using the singleton here for convenience:</span>
 <span class="hljs-keyword">const</span> exiftool = <span class="hljs-built_in">require</span>(<span class="hljs-string">"exiftool-vendored"</span>).exiftool
 
@@ -133,6 +133,25 @@ exiftool
 				severe problems, via the <code>errors</code> field.</p>
 				<p>All other public ExifTool methods return <code>Promise&lt;void&gt;</code>, and will reject
 				the promise if the operation is not successful.</p>
+				<h3 id="errors-and-warnings">Errors and Warnings</h3>
+				<p>ExifTool has a pretty exhaustive set of error checking, and many &quot;errors&quot; are
+					actually non-fatal warnings about invalid tag structures that seem to be
+				regularly found in otherwise-not-corrupt images.</p>
+				<p>If we rejected every <code>read</code> or <code>write</code> when any error happened, this would
+					prevent reading and/or writing to otherwise-ok files. To &quot;demote&quot; errors to be
+					warnings that don&#39;t reject the underlying task, you can provide either a
+					<code>minorErrorsRegExp</code> (which defaults to <code>/(\[minor\])|(warning: duplicate)/i</code>),
+					or an implementation of <code>rejectTaskOnStderr</code>. Either of these parameters are
+				provided to the <code>ExifTool</code> constructor.</p>
+				<h3 id="logging-and-events">Logging and events</h3>
+				<p>To enable trace, debug, info, warning, or error logging from this library and
+					the underlying <code>batch-cluster</code> library,
+					use<a href="https://batch-cluster.js.org/globals.html#setlogger"><code>setLogger</code></a>. Example
+					code can be found
+				<a href="https://github.com/mceachen/batch-cluster.js/blob/master/src/_chai.spec.ts#L20">here</a>.</p>
+				<p>ExifTool instances emits events for &quot;startError&quot;, &quot;taskError&quot;, &quot;endError&quot;,
+					&quot;beforeEnd&quot;, and &quot;end&quot; that you can register listeners for, using
+				<a href="https://batch-cluster.js.org/classes/batchcluster.html#on">on</a>.</p>
 				<h3 id="reading-tags">Reading tags</h3>
 				<pre><code class="language-js">exiftool
   .read(<span class="hljs-string">"path/to/image.jpg"</span>)

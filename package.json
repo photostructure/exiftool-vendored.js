@@ -90,7 +90,7 @@
     "xpath": "^0.0.27"
   },
   "dependencies": {
-    "batch-cluster": "^4.1.0"
+    "batch-cluster": "^4.2.0"
   },
   "optionalDependencies": {
     "exiftool-vendored.exe": "11.09.0",

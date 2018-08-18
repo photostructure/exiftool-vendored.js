@@ -66,12 +66,12 @@ for breaking changes since you last updated.
 There are many configuration options to ExifTool, but all values have (more or
 less sensible) defaults.
 
-Those defaults have been used to create an exported
-[`exiftool`](globals.html#exiftool) singleton. Feel free to review the [ExifTool
-constructor parameters](classes/exiftool.html#constructor) and override default
-values where appropriate if the defaults wont' work for you, but you should use
-your singleton to minimize system load. Note that if you _don't_ use the default
-singleton, note that you don't need to `.end()` it.
+Those defaults have been used to create the [`exiftool`](globals.html#exiftool)
+singleton. Feel free to review the [ExifTool constructor
+parameters](classes/exiftool.html#constructor) and override default values where
+appropriate if the defaults wont' work for you, but you should use your
+singleton to minimize system load. Note that if you _don't_ use the default
+singleton, you don't need to `.end()` it.
 
 ```js
 // We're using the singleton here for convenience:
@@ -91,6 +91,31 @@ severe problems, via the `errors` field.
 
 All other public ExifTool methods return `Promise<void>`, and will reject
 the promise if the operation is not successful.
+
+### Errors and Warnings
+
+ExifTool has a pretty exhaustive set of error checking, and many "errors" are
+actually non-fatal warnings about invalid tag structures that seem to be
+regularly found in otherwise-not-corrupt images.
+
+If we rejected every `read` or `write` when any error happened, this would
+prevent reading and/or writing to otherwise-ok files. To "demote" errors to be
+warnings that don't reject the underlying task, you can provide either a
+`minorErrorsRegExp` (which defaults to `/(\[minor\])|(warning: duplicate)/i`),
+or an implementation of `rejectTaskOnStderr`. Either of these parameters are
+provided to the `ExifTool` constructor.
+
+### Logging and events
+
+To enable trace, debug, info, warning, or error logging from this library and
+the underlying `batch-cluster` library,
+use[`setLogger`](https://batch-cluster.js.org/globals.html#setlogger). Example
+code can be found
+[here](https://github.com/mceachen/batch-cluster.js/blob/master/src/_chai.spec.ts#L20).
+
+ExifTool instances emits events for "startError", "taskError", "endError",
+"beforeEnd", and "end" that you can register listeners for, using
+[on](https://batch-cluster.js.org/classes/batchcluster.html#on).
 
 ### Reading tags
 
