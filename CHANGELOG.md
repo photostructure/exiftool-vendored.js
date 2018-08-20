@@ -30,18 +30,19 @@ vendored versions of ExifTool match the version they vendor.
   which may be a nicer default for people. Added logging, event, and error
   information to the README.
 
-
 ### v6.1.1
 
 - 🐞 Warnings work now, _and I even have a test to prove it_. 😳
-- ✨ Warning-vs-fatal errors can be configured via the new `minorErrorsRegExp`
+- ✨ Warning-vs-fatal errors can be configured via the new
+  [`minorErrorsRegExp`](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html#minorerrorsregexp)
   constructor parameter, or if you need more flexibility, by providing a
-  `rejectTaskOnStderr` implementation to the ExifTool constructor.
+  [`rejectTaskOnStderr`](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html#rejecttaskonstderr)
+  implementation to the ExifTool constructor.
 
 ### v6.1.0
 
 - ✨ Warnings are back! Non-fatal processing errors are added to the
-  [Tags.errors](https://exiftool-vendored.js.org/interfaces/_tags_.tags.html#errors)
+  [Tags.errors](https://exiftool-vendored.js.org/interfaces/tags.html#errors)
   field.
 - 📦 Pulled in new typedoc version and switched to "file" rendering, which seems
   to generate better docs. This unfortunately broke links to underlying jsdocs.
@@ -55,8 +56,8 @@ vendored versions of ExifTool match the version they vendor.
 ### v6.0.0
 
 - 💔 `ExifTool`'s many constructor parameters turned out to be quite unweildy.
-  Version 6 now takes an [options
-  hash](https://exiftool-vendored.js.org/interfaces/_exiftool_.exiftooloptions.html).
+  Version 6's [constructor](https://exiftool-vendored.js.org/classes/exiftool.html#constructor) now takes an [options
+  hash](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html).
   If you used the defaults, those haven't changed, and your code won't need to
   change.
 - 💔 `ExifTool.enqueueTask` takes a Task thunk now, to enable cleaner task retry
