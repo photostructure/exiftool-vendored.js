@@ -19,9 +19,20 @@ export class WriteTask extends ExifToolTask<void> {
     optionalArgs: string[] = []
   ): WriteTask {
     const sourceFile = _path.resolve(filename)
-    const args = Object.keys(tags)
+
+    const args: Array<string> = []
+
+    Object.keys(tags)
       .filter(k => typeof k === "string" && tags.propertyIsEnumerable(k))
-      .map((key: keyof Tags) => `-${key}=${tags[key]}`)
+      .forEach((key: keyof Tags) => {
+        if (Array.isArray(tags[key])) {
+          const array = tags[key] as Array<string | number>
+          array.forEach(item => args.push(`-${key}=${item}`))
+        } else {
+          args.push(`-${key}=${tags[key]}`)
+        }
+      })
+
     optionalArgs.forEach(ea => args.push(ea))
     utfCharsetArgs.forEach(ea => args.push(ea))
     args.push(sourceFile)
