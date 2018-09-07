@@ -67,7 +67,7 @@ export interface ShortcutTags {
   AllDates?: string
 }
 
-export type WriteTags = { [K in keyof (Tags & ShortcutTags)]: string | number }
+export type WriteTags = { [K in keyof (Tags & ShortcutTags)]: string | number | (string | number)[] }
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 
