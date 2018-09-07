@@ -1,4 +1,5 @@
 import { expect, testImg } from "./_chai.spec"
+import { ExifDateTime } from "./DateTime"
 import { ExifTool, Tags, WriteTags } from "./ExifTool"
 
 describe("WriteTask", () => {
@@ -8,7 +9,7 @@ describe("WriteTask", () => {
   async function assertRoundTrip(args: {
     tag: keyof Tags
     inputValue: string | number | string[]
-    expectedValue?: string | string[]
+    expectedValue?: any
     imgName?: string
     args?: string[]
   }) {
@@ -18,8 +19,8 @@ describe("WriteTask", () => {
     await exiftool.write(src, wt, args.args)
     const result = await exiftool.read(src)
     const expected =
-      args.expectedValue == null ? String(args.inputValue) : args.expectedValue
-    expect(String(result[args.tag])).to.eql(expected)
+      args.expectedValue == null ? args.inputValue : args.expectedValue
+    expect(result[args.tag]).to.eql(expected)
     return
   }
 
@@ -80,15 +81,14 @@ describe("WriteTask", () => {
     return assertRoundTrip({
       tag: "DateTimeOriginal",
       inputValue: "2017-11-15T12:34:56",
-      expectedValue: "2017-11-15T12:34:56.000"
+      expectedValue: ExifDateTime.for("2017-11-15T12:34:56")
     })
   })
 
   it("round-trips list tag array input", async () => {
     return assertRoundTrip({
       tag: "Keywords",
-      inputValue: ["one", "two", "three"],
-      expectedValue: 'one,two,three'
+      inputValue: ["one", "two", "three"]
     })
   })
 
