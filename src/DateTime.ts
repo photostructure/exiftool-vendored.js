@@ -128,7 +128,7 @@ export class ExifDate {
  */
 export class ExifDateTime extends Base {
   // The timezone offset will be extricated prior to this regex:
-  private static regex = /^(\d{4})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(\.\d{1,9})?$/
+  private static regex = /^(\d{4})[ :-]+(\d{2})[ :-]+(\d{2})[ :T]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(\.\d{1,9})?$/
 
   /**
    * Note that this may have fractional precision (123.456ms)

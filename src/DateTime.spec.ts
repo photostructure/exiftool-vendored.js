@@ -31,6 +31,7 @@ describe(".millisToFractionalPart()", () => {
 
 describe("ExifDateTime", () => {
   describe("example strings with no tz", () => {
+    const iso = "2016-08-12T07:28:50.76812"
     const dt = parse(
       "DateTimeOriginal",
       "2016:08:12 07:28:50.768120"
@@ -53,15 +54,18 @@ describe("ExifDateTime", () => {
       expect(d.getMilliseconds()).to.eql(768)
     })
     it("ISO .toString()s", () => {
-      expect(dt.toString()).to.eql("2016-08-12T07:28:50.76812")
+      expect(dt.toString()).to.eql(iso)
     })
     it(".toISOString() matches .toString()", () => {
-      expect(dt.toISOString()).to.eql(dt.toString())
+      expect(dt.toISOString()).to.eql(iso)
     })
     it("Renders a Date assuming the current timezone offset", () => {
       expect(dt.toDate().toLocaleString("en-US")).to.eql(
         "8/12/2016, 7:28:50 AM"
       )
+    })
+    it("Round-trips from ISO", () => {
+      expect(ExifDateTime.for(iso)).to.eql(dt)
     })
   })
 
