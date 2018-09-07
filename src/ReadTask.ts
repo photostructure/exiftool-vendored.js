@@ -116,6 +116,8 @@ export class ReadTask extends ExifToolTask<Tags> {
           .split(" ")
           .map((i: string) => parseInt(i, 10))
       } else if (tagName.endsWith("FlashFired")) {
+        // TODO: are there other boolean tags we need to fix? As of 20180907, I
+        // couldn't find any others in the latest Tags.ts, but there may be more later.
         const s = value.toString().toLowerCase()
         return s === "yes" || s === "1" || s === "true"
       } else if (
@@ -137,6 +139,7 @@ export class ReadTask extends ExifToolTask<Tags> {
           return parseFloat(value) * (sorw ? -1 : 1)
         }
       } else {
+        // Trust that ExifTool rendered the value with the correct type in JSON:
         return value
       }
     } catch (e) {
