@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v6.2.0
+
+- ✨/🐞 [Joshua Harris](https://github.com/Circuit8) added support for [writing
+  arrays](https://github.com/mceachen/exiftool-vendored.js/pull/32)
+- 🌱 ExifTool upgraded to
+  [v11.10](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.10).
+
 ### v6.1.2
 
 - 📦 By pulling in the latest batch-cluster, the default logger is NoLogger,
