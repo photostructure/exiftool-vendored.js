@@ -332,6 +332,7 @@ very fast disk IO, you may see a speed increase with larger values of
 
 ## Contributors 🎉
 
+- [Joshua Harris](https://github.com/Circuit8)
 - [Anton Mokrushin](https://github.com/amokrushin)
 - [Luca Ban](https://github.com/mesqueeb)
 - [Demiurga](https://github.com/apolkingg8)
