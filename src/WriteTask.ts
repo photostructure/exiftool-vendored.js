@@ -20,7 +20,7 @@ export class WriteTask extends ExifToolTask<void> {
   ): WriteTask {
     const sourceFile = _path.resolve(filename)
 
-    const args: Array<string> = []
+    const args: string[] = []
 
     Object.keys(tags)
       .filter(k => typeof k === "string" && tags.propertyIsEnumerable(k))

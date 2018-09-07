@@ -7,8 +7,8 @@ describe("WriteTask", () => {
 
   async function assertRoundTrip(args: {
     tag: keyof Tags
-    inputValue: string | number
-    expectedValue?: string
+    inputValue: string | number | string[]
+    expectedValue?: string | string[]
     imgName?: string
     args?: string[]
   }) {
@@ -81,6 +81,14 @@ describe("WriteTask", () => {
       tag: "DateTimeOriginal",
       inputValue: "2017-11-15T12:34:56",
       expectedValue: "2017-11-15T12:34:56.000"
+    })
+  })
+
+  it("round-trips list tag array input", async () => {
+    return assertRoundTrip({
+      tag: "Keywords",
+      inputValue: ["one", "two", "three"],
+      expectedValue: 'one,two,three'
     })
   })
 
