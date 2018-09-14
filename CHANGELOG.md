@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v6.2.2
+
+- 🐞 Increased default task timeout to 20s to resolve
+  [#34](https://github.com/mceachen/exiftool-vendored.js/issues/34)
+
 ### v6.2.1
 
 - 📦 Pull in batch-cluster 4.3.0, which exposes `taskData` events.
