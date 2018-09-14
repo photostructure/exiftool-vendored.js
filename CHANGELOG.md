@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v6.2.1
+
+- 📦 Pull in batch-cluster 4.3.0, which exposes `taskData` events.
+
 ### v6.2.0
 
 - ✨/🐞 [Joshua Harris](https://github.com/Circuit8) added support for [writing
