@@ -341,27 +341,25 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     const groupedTags = tagMap.groupedTags
     const tagGroups: string[] = []
     const seenTagNames = new Set<string>()
-    Array.from(groupedTags.entries())
-      .sort()
-      .forEach(([group, tags]) => {
-        const filteredTags = tags
-          .sort((a, b) => cmp(a.tag, b.tag))
-          // First group with a tag name wins. Other group's colliding tag names
-          // are omitted:
-          .filter(tag => !seenTagNames.has(tag.withoutGroup))
-        if (filteredTags.length > 0) {
-          tagGroups.push(group)
-          tagWriter.write(`\nexport interface ${group}Tags {\n`)
-          filteredTags.forEach(tag => {
-            tagWriter.write(
-              `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
-            )
-            tagWriter.write(`  ${tag.withoutGroup}?: ${tag.valueType}\n`)
-            seenTagNames.add(tag.withoutGroup)
-          })
-          tagWriter.write(`}\n`)
-        }
-      })
+    Array.from(groupedTags.entries()).forEach(([group, tags]) => {
+      const filteredTags = tags
+        .sort((a, b) => cmp(a.tag, b.tag))
+        // First group with a tag name wins. Other group's colliding tag names
+        // are omitted:
+        .filter(tag => !seenTagNames.has(tag.withoutGroup))
+      if (filteredTags.length > 0) {
+        tagGroups.push(group)
+        tagWriter.write(`\nexport interface ${group}Tags {\n`)
+        filteredTags.forEach(tag => {
+          tagWriter.write(
+            `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
+          )
+          tagWriter.write(`  ${tag.withoutGroup}?: ${tag.valueType}\n`)
+          seenTagNames.add(tag.withoutGroup)
+        })
+        tagWriter.write(`}\n`)
+      }
+    })
     tagWriter.write("\n")
     tagWriter.write("export interface Tags extends\n")
     tagWriter.write(`  ${tagGroups.map(s => s + "Tags").join(",\n  ")} {\n`)

@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v6.2.3
+
+- 📦 Better tag ratings by rebuilding tags with ExifTool's default category
+  sorting. This fixed a number of tags (like ExposureTime, ISO, and FNumber)
+  that were erroneously marked as "rare" because they were also (rarely) found
+  in APP categories.
+
 ### v6.2.2
 
 - 🐞 Increased default task timeout to 20s to resolve

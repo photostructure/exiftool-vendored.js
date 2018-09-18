@@ -141,9 +141,13 @@
   version "5.2.5"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.5.tgz#8a4accfc403c124a0bafe8a9fc61a05ec1032073"
 
-"@types/node@*", "@types/node@^10.9.4":
+"@types/node@*":
   version "10.9.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.4.tgz#0f4cb2dc7c1de6096055357f70179043c33e9897"
+
+"@types/node@^10.10.1":
+  version "10.10.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.10.1.tgz#d5c96ca246a418404914d180b7fdd625ad18eca6"
 
 "@types/pify@^3.0.2":
   version "3.0.2"
@@ -177,9 +181,9 @@
   version "0.1.29"
   resolved "https://registry.yarnpkg.com/@types/xmldom/-/xmldom-0.1.29.tgz#c4428b0ca86d3b881475726fd94980b38a27c381"
 
-"@zeit/schemas@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@zeit/schemas/-/schemas-2.1.1.tgz#bca9d84df177c85f2d2a7dad37512f384761b23d"
+"@zeit/schemas@2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@zeit/schemas/-/schemas-2.6.0.tgz#004e8e553b4cd53d538bd38eac7bcbf58a867fe3"
 
 abbrev@1:
   version "1.1.1"
@@ -262,9 +266,9 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
-batch-cluster@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-4.2.0.tgz#74f6399eb1cfefa3e5db2c1354064f7b5b4eb697"
+batch-cluster@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-4.3.0.tgz#067c4df0c26aac87c685678888aef858493c6cf5"
 
 binary@^0.3.0:
   version "0.3.0"
@@ -1479,11 +1483,11 @@ serve-handler@5.0.0:
     path-to-regexp "2.2.1"
     range-parser "1.2.0"
 
-serve@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/serve/-/serve-10.0.0.tgz#4d640167c88f07f1f730a52bb992e94d2e4a174c"
+serve@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/serve/-/serve-10.0.1.tgz#265f2328dd8cb4da908dc37a90f21dd6e0be47d5"
   dependencies:
-    "@zeit/schemas" "2.1.1"
+    "@zeit/schemas" "2.6.0"
     ajv "6.5.3"
     arg "2.0.0"
     boxen "1.3.0"
