@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v6.3.0
+
+- 🌱 ExifTool upgraded to
+  [v11.13](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.13).
+- ✨ Rebuilt `Tags` based on new phone and camera models
+
 ### v6.2.3
 
 - 📦 Better tag ratings by rebuilding tags with ExifTool's default category
