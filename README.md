@@ -6,7 +6,8 @@
 [![Build status](https://travis-ci.org/mceachen/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored.js)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/maintainability.svg)](https://codeclimate.com/github/mceachen/exiftool-vendored.js)
-
+[![Known Vulnerabilities](https://snyk.io/test/github/mceachen/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mceachen/exiftool-vendored.js?targetFile=package.json)
+  
 ## Features
 
 1.  **Best-of-class cross-platform performance and reliability**.
