@@ -1,11 +1,20 @@
 import { times } from "./Array"
+import { Maybe } from "./Maybe"
 
 const spaces = times(10, i => times(i, () => " ").join(""))
 const zeroes = times(10, i => times(i, () => "0").join(""))
 
+export function blank(s: Maybe<string>): boolean {
+  return s == null || String(s).trim().length == 0
+}
+
 function padding(padChar: "0" | " ", count: number): string {
   if (count <= 0) return ""
   return (padChar === "0" ? zeroes : spaces)[Math.floor(count)]
+}
+
+export function toS(s: Maybe<string>): string {
+  return s == null ? "" : String(s)
 }
 
 export function leftPad(i: any, minLen: number, padChar: "0" | " "): string {

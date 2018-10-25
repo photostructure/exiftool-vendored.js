@@ -1,4 +1,3 @@
-import { retryOnReject } from "./AsyncRetry"
 import * as bc from "batch-cluster"
 import * as _child_process from "child_process"
 import * as _fs from "fs"
@@ -6,6 +5,7 @@ import * as _os from "os"
 import * as _path from "path"
 import * as _process from "process"
 
+import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifToolTask } from "./ExifToolTask"
 import { ReadTask } from "./ReadTask"
@@ -15,12 +15,10 @@ import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
 
 export { Tags } from "./Tags"
-export {
-  ExifDate,
-  ExifTime,
-  ExifDateTime,
-  ExifTimeZoneOffset
-} from "./DateTime"
+export { ExifDate } from "./ExifDate"
+export { ExifTime } from "./ExifTime"
+export { ExifDateTime } from "./ExifDateTime"
+export { offsetMinutesToZoneName } from "./Timezones"
 
 function findExiftool(): string {
   const isWin32 = _process.platform === "win32"
@@ -65,6 +63,7 @@ export interface ShortcutTags {
    * `read`.
    */
   AllDates?: string
+  "Orientation#"?: number
 }
 
 export type WriteTags = {
@@ -146,6 +145,16 @@ export interface ExifToolOptions
    * Defaults to `DefaultMinorErrorsRegExp`
    */
   minorErrorsRegExp: RegExp
+
+  /**
+   * Tag names (which can have '*' glob matchers) which you want numeric values,
+   * rather than ExifTool's "Print Conversion."
+   *
+   * If the tag value is only for human consumption, you may want to leave this
+   * blank. The default is `["*Duration*"]`, but you may want to include
+   * "Orientation" as well.
+   */
+  numericTags: string[]
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
@@ -171,7 +180,8 @@ export const DefaultExifToolOptions: Omit<
   fail: "{ready.*}",
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
-  minorErrorsRegExp: DefaultMinorErrorsRegExp
+  minorErrorsRegExp: DefaultMinorErrorsRegExp,
+  numericTags: ["Orientation", "*Duration*"]
 })
 
 /**
@@ -235,18 +245,19 @@ export class ExifTool {
    * Read the tags in `file`.
    *
    * @param {string} file the file to extract metadata tags from
-   * @param {string[]} [args] any additional ExifTool arguments, like "-n",
-   * "-fast", or "-fast2". Note that the default is "-fast", so if you want
-   * ExifTool to read the entire file for metadata, you should pass an empty
-   * array as the second parameter. See
-   * https://sno.phy.queensu.ca/~phil/exiftool/#performance for more information
-   * about `-fast` and `-fast2`.
+   * @param {string[]} [args] any additional ExifTool arguments, like "-fast" or
+   * "-fast2". Note that the default is "-fast", so if you want ExifTool to read
+   * the entire file for metadata, you should pass an empty array as the second
+   * parameter. See https://sno.phy.queensu.ca/~phil/exiftool/#performance for
+   * more information about `-fast` and `-fast2`.
    * @returns {Promise<Tags>} A resolved Tags promise. If there are errors
    * during reading, the `.errors` field will be present.
    * @memberof ExifTool
    */
   read(file: string, args: string[] = ["-fast"]): Promise<Tags> {
-    return this.enqueueTask(() => ReadTask.for(file, args))
+    return this.enqueueTask(() =>
+      ReadTask.for(file, this.options.numericTags, args)
+    )
   }
 
   /**

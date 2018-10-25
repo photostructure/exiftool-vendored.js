@@ -1,8 +1,10 @@
-import { Checksums } from "./checksums"
-import * as io from "./io"
 import * as _path from "path"
 import * as _url from "url"
 import * as xmldom from "xmldom"
+
+import { Maybe } from "../Maybe"
+import { Checksums } from "./checksums"
+import * as io from "./io"
 
 const xpath = require("xpath")
 
@@ -17,7 +19,7 @@ export class Enclosure {
     readonly version: string
   ) {}
 
-  static parsedPath(url: string): _path.ParsedPath | undefined {
+  static parsedPath(url: string): Maybe<_path.ParsedPath> {
     const parsedUrlPathname = _url.parse(url).pathname
     if (parsedUrlPathname) {
       return _path.posix.parse(parsedUrlPathname)
@@ -25,9 +27,7 @@ export class Enclosure {
     return undefined
   }
 
-  static versionFromParsedPath(
-    parsedPath: _path.ParsedPath
-  ): string | undefined {
+  static versionFromParsedPath(parsedPath: _path.ParsedPath): Maybe<string> {
     const match = Enclosure.regex.exec(parsedPath.base)
     if (match !== null) {
       return match[1]
@@ -39,7 +39,7 @@ export class Enclosure {
   static fromNode(
     enclosureNode: Element,
     checksums: Checksums
-  ): Enclosure | undefined {
+  ): Maybe<Enclosure> {
     const urlNode = enclosureNode.getAttributeNode("url")
     if (urlNode == null) return
     const url = urlNode.value

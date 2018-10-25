@@ -7,7 +7,7 @@ export abstract class ExifToolTask<T> extends bc.Task<T> {
 
   readonly errors: string[] = []
 
-  constructor(args: string[]) {
+  constructor(readonly args: string[]) {
     super(ExifToolTask.renderCommand(args), data => this.parse(data))
   }
 

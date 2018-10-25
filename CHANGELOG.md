@@ -24,6 +24,31 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.0.0: the "time zones & types are hard" edition
+
+- ✨ More robust time zone extraction: this required adding `luxon` and
+  `tz-lookup` as dependencies. See <https://exiftool-vendored.js.org/#dates> for
+  more information.
+
+- 💔 Tag types are now **unions** of seen types. Previous typings only included
+  the most prevalent type, which, unfortunately, meant values might return
+  unexpected types at runtime. In an extreme case, `DateTimeOriginal` is now
+  correctly reported as being `ExifDateTime | ExifTime | number | string`, as we
+  return the value from ExifTool if the value is not a valid datetime, date, or
+  time.
+
+- ✨ ExifTool's "print conversion" can be disabled for arbitrary tags, and the
+  defaults include `GPS*`, `Orientation` and `*Duration*` (not that globs are
+  supported!).
+
+  By default, ExifTool-Vendored versions prior to `7.0.0` used ExifTool's print
+  conversion code for most numeric values, rather than the actual numeric value.
+  While ExifTool's output is reasonable for humans, writing code that consumed
+  those values turned out to be hacky and brittle.
+
+- 🌱 ExifTool upgraded to
+  [v11.14](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.14).
+
 ### v6.3.0
 
 - 🌱 ExifTool upgraded to

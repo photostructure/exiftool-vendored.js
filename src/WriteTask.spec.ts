@@ -1,13 +1,13 @@
 import { expect, testImg } from "./_chai.spec"
-import { ExifDateTime } from "./DateTime"
-import { ExifTool, Tags, WriteTags } from "./ExifTool"
+import { ExifDateTime } from "./ExifDateTime"
+import { ExifTool, WriteTags } from "./ExifTool"
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
   after(() => exiftool.end())
 
   async function assertRoundTrip(args: {
-    tag: keyof Tags
+    tag: keyof WriteTags
     inputValue: string | number | string[]
     expectedValue?: any
     imgName?: string
@@ -17,10 +17,17 @@ describe("WriteTask", () => {
     const wt: WriteTags = {}
     wt[args.tag] = args.inputValue
     await exiftool.write(src, wt, args.args)
-    const result = await exiftool.read(src)
+    const result = (await exiftool.read(src)) as any
     const expected =
       args.expectedValue == null ? args.inputValue : args.expectedValue
-    expect(result[args.tag]).to.eql(expected)
+    const tag = args.tag.endsWith("#")
+      ? args.tag.substring(0, args.tag.length - 1)
+      : args.tag
+    const actual = result[tag]
+    expect(actual).to.eql(
+      expected,
+      JSON.stringify({ src, tag, expected, actual })
+    )
     return
   }
 
@@ -56,32 +63,30 @@ describe("WriteTask", () => {
 
   it("round-trips a numeric Orientation", async () => {
     return assertRoundTrip({
-      tag: "Orientation",
-      args: ["-n"],
-      inputValue: 8,
-      expectedValue: "Rotate 270 CW"
+      tag: "Orientation#",
+      inputValue: 1
     })
   })
 
   it("round-trips a string Orientation 90 CW", async () => {
     return assertRoundTrip({
-      tag: "Orientation",
-      inputValue: "Rotate 90 CW"
+      tag: "Orientation#",
+      inputValue: 6
     })
   })
 
   it("round-trips a string Orientation 180 CW", async () => {
     return assertRoundTrip({
-      tag: "Orientation",
-      inputValue: "Rotate 180"
+      tag: "Orientation#",
+      inputValue: 3
     })
   })
 
   it("updates DateTimeOriginal to a specific time", async () => {
     return assertRoundTrip({
       tag: "DateTimeOriginal",
-      inputValue: "2017-11-15T12:34:56",
-      expectedValue: ExifDateTime.for("2017-11-15T12:34:56")
+      inputValue: "2017-11-15T12:34:56+8:00",
+      expectedValue: ExifDateTime.for("2017-11-15T12:34:56", 480)
     })
   })
 
@@ -95,7 +100,7 @@ describe("WriteTask", () => {
   it("rejects setting to a non-time value", async () => {
     const src = await testImg()
     return expect(
-      exiftool.write(src, { DateTimeOriginal: "this is not a time" })
+      exiftool.write(src, { DateTimeOriginal: "this is not a time" as any })
     ).to.be.rejectedWith(/Invalid date\/time/)
   })
 
@@ -107,7 +112,7 @@ describe("WriteTask", () => {
   })
 
   it("Accepts a shortcut tag", async () => {
-    const date = "2018-04-17T12:34:56.000"
+    const date = "2018-04-17T12:34:56.000+08:00"
     const src = await testImg()
     await exiftool.write(src, { AllDates: date })
     const tags = await exiftool.read(src)

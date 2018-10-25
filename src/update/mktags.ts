@@ -6,10 +6,10 @@ import * as _process from "process"
 import * as ProgressBar from "progress"
 
 import "source-map-support/register"
-import { compact, filterInPlace, times } from "../Array"
+import { compact, filterInPlace, times, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
-import { ReadTask } from "../ReadTask"
-import { leftPad } from "../String"
+import { map, Maybe } from "../Maybe"
+import { blank, leftPad, toS } from "../String"
 
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
@@ -50,7 +50,7 @@ _process.on("unhandledRejection", (reason: any, _promise: any) => {
 })
 
 function usage() {
-  console.log("Usage: `npm run mktags IMG_DIR`")
+  console.log("Usage: `yarn run mktags IMG_DIR`")
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.")
   _process.exit(1)
 }
@@ -73,18 +73,14 @@ if (files.length === 0) {
 
 logger().info("Found " + files.length + " files...")
 
-function valueType(value: any): string {
+function valueType(value: any): Maybe<string> {
+  if (value == null) return
+  if (Array.isArray(value)) {
+    const types = uniq(value.map(ea => typeof ea))
+    return (types.length == 1 ? types[0] : "any") + "[]"
+  }
   if (typeof value === "object") {
-    const ctorName = value.constructor.name
-    if (ctorName === "Array") {
-      if (value.length === 0) {
-        return "any[]"
-      } else {
-        return `${valueType(value[0])}[]`
-      }
-    } else {
-      return ctorName
-    }
+    return value.constructor.name
   } else {
     return typeof value
   }
@@ -93,14 +89,24 @@ function valueType(value: any): string {
 // except CountingMap. Isn't it cute? Not ashamed of you, little guy!
 
 class CountingMap<T> {
+  private size = 0
   private readonly m = new Map<T, number>()
   add(t: T) {
+    this.size++
     this.m.set(t, 1 + (this.m.get(t) || 0))
   }
   byCountDesc(): T[] {
     return Array.from(this.m.keys()).sort((a, b) =>
       cmp(this.m.get(b), this.m.get(a))
     )
+  }
+  /**
+   * @param p [0,1]
+   * @return the values found in the top p of values
+   */
+  byP(p: number): T[] {
+    const min = p * this.size
+    return this.byCountDesc().filter(ea => this.m.get(ea) || 0 > min)
   }
 }
 
@@ -115,33 +121,34 @@ class Tag {
   get withoutGroup(): string {
     return this.tag.split(":")[1]
   }
-  get valueType(): string {
-    // hard-coded because the ☆☆☆ ITPC tag doesn't match the ★★★ Composite tag, causing Tags not to compile
-    if (this.withoutGroup === "DateCreated") {
-      return "ExifDate"
-    }
+  get valueTypes(): string[] {
     const cm = new CountingMap<string>()
     compact(this.values)
       .map(i => valueType(i))
-      .forEach(i => cm.add(i))
-    const byCount = cm.byCountDesc().slice(0, 2)
-    // If an "Exif*" type is common, let's use that instead of string.
-    if (byCount[0] === "string" && ("" + byCount[1]).startsWith("Exif")) {
-      byCount.shift()
-    }
-    return byCount[0]
+      .forEach(i => i != null && cm.add(i))
+    return cm.byP(0.5).sort()
+  }
+  get valueType(): string {
+    return this.valueTypes.join(" | ")
   }
   vacuumValues() {
-    filterInPlace(this.values, ea => ea != null && String(ea).trim().length > 0)
+    return filterInPlace(this.values, ea => {
+      const s = toS(ea)
+      return !blank(s) && s != "null" && s != "undef"
+    })
   }
   keep(minValues: number): boolean {
     this.vacuumValues()
     // If it's a tag from an "important" camera, always include the tag.
     // Otherwise, if we never get a valid value for the tag, skip it.
-    return this.important || this.values.length >= minValues
+    return (
+      !blank(this.valueType) &&
+      (this.important || this.values.length >= minValues)
+    )
   }
   popIcon(totalValues: number): string {
     const f = this.values.length / totalValues
+
     // kid: dad srsly stop with the emojicode no one likes it
 
     // dad: ur not the boss of me
@@ -151,28 +158,114 @@ class Tag {
     // like a power law, long-tail distribution, so lets make the cutoffs more
     // exponentialish rather than linearish.
 
-    // 22 at 99%, 64 at 50%, 87 at 25%, 120 at 10%, 230 at 5%.
+    // 22 at 99%, 64 at 50%, 87 at 25%, 120 at 10%, 230 at 5%, so if we make the
+    // four star cutoff too high, nothing will have four stars.
+
+    // Read 4311 unique tags from 6526 files.
+    // missing files:
+    // Parsing took 20075ms (3.1ms / file)
+    // Distribution of tags:
+
+    //  0%: 2714:#################################
+    //  1%:  700:########
+    //  2%:  389:####
+    //  3%:  323:###
+    //  4%:  265:###
+    //  5%:  236:##
+    //  6%:  207:##
+    //  7%:  188:##
+    //  8%:  173:##
+    //  9%:  142:#
+    // 10%:  130:#
+    // 11%:  125:#
+    // 12%:  118:#
+    // 13%:  108:#
+    // 14%:  103:#
+    // 15%:  102:#
+    // 16%:  101:#
+    // 17%:   96:#
+    // 18%:   93:#
+    // 19%:   92:#
+    // 20%:   91:#
+    // 21%:   90:#
+    // 22%:   89:#
+    // 23%:   88:#
+    // 24%:   86:#
+    // 25%:   85:#
+    // 26%:   81:
+    // 27%:   80:
+    // 28%:   80:
+    // 29%:   79:
+    // 30%:   77:
+    // 31%:   76:
+    // 32%:   75:
+    // 33%:   75:
+    // 34%:   74:
+    // 35%:   74:
+    // 36%:   72:
+    // 37%:   71:
+    // 38%:   70:
+    // 39%:   70:
+    // 40%:   70:
+    // 41%:   70:
+
     const stars =
       f > 0.75
         ? "★★★★"
-        : f > 0.5
+        : f > 0.325
           ? "★★★☆"
-          : f > 0.25
+          : f > 0.1625
             ? "★★☆☆"
-            : f > 0.1
+            : f > 0.08125
               ? "★☆☆☆"
               : "☆☆☆☆"
     const important = this.important ? "✔" : " "
     return `${stars} ${important}`
   }
-  firstValue(): any {
-    this.vacuumValues()
-    return this.values[0]
-  }
+
   example(): string {
-    const v = this.firstValue()
-    return v == null ? "" : "Example: " + ellipsize(JSON.stringify(v), 60)
+    if (this.tag.endsWith("Comment")) return "This is a comment."
+    if (this.tag.endsWith("Directory")) return "/home/username/image.jpg"
+    if (this.tag.endsWith("Copyright")) return "© PhotoStructure, Inc."
+    if (this.tag.endsWith("CopyrightNotice")) return "This work is licensed under a Creative Commons Attribution 4.0 International License."
+    if (this.tag.endsWith("OwnerName")) return "Itsa Myowna"
+    if (this.tag.endsWith("Artist")) return "Ansel Adams"
+    if (this.tag.endsWith("Author")) return "Arturo DeImage"
+    if (this.tag.endsWith("Contact")) return "Donna Calme"
+    if (this.tag.endsWith("Credit")) return "photo by Jenny McSnapsalot"
+    const byValueType = new Map<string, any[]>()
+    // Shove boring values to the end:
+    this.vacuumValues()
+    uniq(this.values)
+      .sort()
+      .reverse()
+      .forEach(ea => {
+        getOrSet(byValueType, valueType(ea), () => []).push(ea)
+      })
+    // If there are multiple types, try to show one of each type:
+    const examples: any[] = compact(
+      this.valueTypes.map(key => map(byValueType.get(key), ea => ea[0]))
+    )
+    return examples.length == 1
+      ? "Example: " + JSON.stringify(toStr(examples[0]))
+      : "Examples: " + JSON.stringify(toStr(examples))
   }
+}
+
+function sigFigs(i: number, digits: number): number {
+  if (i == 0 || digits == 0) return 0
+  const pow = Math.pow(
+    10,
+    digits - Math.round(Math.ceil(Math.log10(Math.abs(i))))
+  )
+  return Math.round(i * pow) / pow
+}
+
+function toStr(o: any): any {
+  if (typeof o == "string") return ellipsize(o, 40)
+  if (typeof o == "number") return sigFigs(o, 8)
+  if (Array.isArray(o)) return o.map(toStr)
+  return ellipsize(String(o), 40)
 }
 
 function getOrSet<K, V>(m: Map<K, V>, k: K, valueThunk: () => V): V {
@@ -258,9 +351,8 @@ const failedFiles: string[] = []
 const seenFiles: string[] = []
 
 async function readAndAddToTagMap(file: string) {
-  const task = ReadTask.for(file, ["-G"])
   try {
-    const tags: any = await exiftool.enqueueTask(() => task)
+    const tags: any = await exiftool.read(file, ["-G", "-fast"])
     seenFiles.push(file)
     const importantFile = file
       .toString()
@@ -273,13 +365,10 @@ async function readAndAddToTagMap(file: string) {
     })
     if (tags.errors && tags.errors.length > 0) {
       bar.interrupt(`Error from ${file}: ${tags.errors}`)
-      throw tags.errors
     }
   } catch (err) {
+    bar.interrupt(`Error from ${file}: ${err}`)
     failedFiles.push(file)
-    console.error(err)
-    bar.interrupt(`Failed to read ${file}: ${err.stack || err}`)
-    throw err
   }
   ticks++
   if (nextTick <= Date.now()) {
@@ -319,24 +408,21 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     const destFile = _path.resolve(__dirname, "../../src/Tags.ts")
     const tagWriter = _fs.createWriteStream(destFile)
     tagWriter.write(
-      `import { ExifDate, ExifTime, ExifDateTime, ExifTimeZoneOffset } from "./DateTime"\n\n`
-    )
-    tagWriter.write(
-      `// Autogenerated by "npm run mktags" by ExifTool ${version} on ${new Date().toDateString()}.\n`
-    )
-    tagWriter.write(
-      `// ${tagMap.map.size} unique tags were found in ${
-        files.length
-      } different digital imagery files.\n\n`
-    )
-    tagWriter.write(
-      "// Comments by each tag include popularity (★★★★ is found in > 75% of cameras, ☆☆☆☆ is rare),\n"
-    )
-    tagWriter.write(
-      "// followed by a checkmark if the tag is used by popular devices (like iPhones)\n"
-    )
-    tagWriter.write(
-      "// An example value, JSON stringified, follows the popularity ratings.\n"
+      [
+        'import { ExifDate } from "./ExifDate"',
+        'import { ExifDateTime } from "./ExifDateTime"',
+        'import { ExifTime } from "./ExifTime"',
+        "",
+        `// Autogenerated by "npm run mktags" by ExifTool ${version} on ${new Date().toDateString()}.`,
+        `// ${tagMap.map.size} unique tags were found in ${
+          files.length
+        } different digital imagery files.`,
+        "",
+        "// Comments by each tag include popularity (★★★★ is found in > 75% of cameras, ☆☆☆☆ is rare),",
+        "// followed by a checkmark if the tag is used by popular devices (like iPhones)",
+        "// An example value, JSON stringified, follows the popularity ratings.",
+        ""
+      ].join("\n")
     )
     const groupedTags = tagMap.groupedTags
     const tagGroups: string[] = []

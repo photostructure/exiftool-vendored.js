@@ -26,8 +26,10 @@ describe("ExifTool", () => {
     // it's ok) and exiftool (which bumps the major version because minor hit 99
     // and you've got to maintain ascibetical sort order so...)
     // </rant>
-    const [major, minor] = vendorVersion.replace(/^\D+/g, "").split(".")
-    return `${major}.${minor}`
+    return vendorVersion
+      .split(".")
+      .slice(0, 2)
+      .join(".")
   }
 
   it("perl and win32 versions match", () => {
@@ -66,14 +68,8 @@ describe("ExifTool", () => {
     ).to.eventually.eql("iPhone 7 Plus")
   })
 
-  it("renders Orientation as strings normally", async () => {
+  it("renders Orientation as numbers", async () => {
     const tags = await et.read(img)
-    expect(tags.Orientation).to.eql("Horizontal (normal)")
-    return
-  })
-
-  it("renders Orientation as a number when specified", async () => {
-    const tags = await et.read(img, ["-Orientation#"])
     expect(tags.Orientation).to.eql(1)
     return
   })

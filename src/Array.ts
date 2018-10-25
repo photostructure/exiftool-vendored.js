@@ -1,4 +1,6 @@
-export function compact<T>(array: (T | undefined | null)[]): T[] {
+import { MaybeNull } from "./Maybe"
+
+export function compact<T>(array: MaybeNull<T>[]): T[] {
   return array.filter(elem => elem != null) as T[]
 }
 
@@ -22,4 +24,14 @@ export function filterInPlace<T>(arr: T[], filter: (t: T) => boolean): T[] {
   })
   arr.length = j
   return arr
+}
+
+export function uniq<T>(arr: T[]): T[] {
+  return arr.reduce(
+    (acc, ea) => {
+      if (acc.indexOf(ea) == -1) acc.push(ea)
+      return acc
+    },
+    [] as T[]
+  )
 }

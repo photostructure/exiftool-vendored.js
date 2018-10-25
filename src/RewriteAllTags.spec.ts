@@ -1,5 +1,5 @@
 import { expect, testImg } from "./_chai.spec"
-import { ExifDateTime } from "./DateTime"
+import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool } from "./ExifTool"
 
 describe("RewriteAllTagsTask", () => {
@@ -31,7 +31,7 @@ describe("RewriteAllTagsTask", () => {
     const img = await testImg()
     await exiftool.write(img, { CreateDate: d.toISOString() })
     const tags = await exiftool.read(img)
-    expectSameYmdHms(tags.CreateDate!, d)
+    expectSameYmdHms(tags.CreateDate as any, d)
     return
   })
 
@@ -48,7 +48,7 @@ describe("RewriteAllTagsTask", () => {
     await exiftool.rewriteAllTags(img, rewritten)
     await exiftool.write(rewritten, { CreateDate: d.toISOString() })
     const tags = await exiftool.read(rewritten)
-    expectSameYmdHms(tags.CreateDate!, d)
+    expectSameYmdHms(tags.CreateDate as any, d)
     return
   })
 })

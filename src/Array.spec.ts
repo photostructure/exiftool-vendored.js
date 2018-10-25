@@ -1,5 +1,5 @@
 import { expect } from "./_chai.spec"
-import { compact, filterInPlace, times } from "./Array"
+import { compact, filterInPlace, times, uniq } from "./Array"
 
 describe("Array", () => {
   describe("compact()", () => {
@@ -36,6 +36,18 @@ describe("Array", () => {
       const exp = [0, 2, 4]
       expect(filterInPlace(arr, i => i % 2 === 0)).to.eql(exp)
       expect(arr).to.eql(exp)
+    })
+  })
+
+  describe("uniq()", () => {
+    it("removes dupes and orders first-one-in", () => {
+      expect(uniq([1, 1, 2, 3, 4, 5, 3, 2, 1, 2, 3, 4, 3])).to.eql([
+        1,
+        2,
+        3,
+        4,
+        5
+      ])
     })
   })
 })

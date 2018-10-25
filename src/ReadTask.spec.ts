@@ -1,9 +1,10 @@
 import { expect } from "./_chai.spec"
+import { ExifDateTime } from "./ExifDateTime"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
 
 function parse(tags: any): Tags {
-  const tt = ReadTask.for("/tmp/example.jpg")
+  const tt = ReadTask.for("/tmp/example.jpg", [])
   tags.SourceFile = "/tmp/example.jpg"
   const json = JSON.stringify([tags])
   return tt["parse"](json)
@@ -16,64 +17,73 @@ describe("Lat/Lon parsing", () => {
     "GPSLongitudeRef": "East",
     "GPSAltitudeRef": "Above Sea Level",
     "GPSAltitude": "73 m Above Sea Level",
-    "GPSLatitude": "22.33543889 N",
-    "GPSLongitude": "114.16401667 E",
+    "GPSLatitude": 22.33543889,
+    "GPSLongitude": 114.16401667,
    */
   it("N lat is positive", () => {
-    expect(parse({ GPSLatitude: "22.33543889 N" }).GPSLatitude).to.be.closeTo(
-      22.33543889,
-      0.00001
-    )
+    expect(
+      parse({ GPSLatitude: 22.33543889, GPSLatitudeRef: "N" }).GPSLatitude
+    ).to.be.closeTo(22.33543889, 0.00001)
   })
   it("S lat is negative", () => {
-    expect(parse({ GPSLatitude: "33.84842123 S" }).GPSLatitude).to.be.closeTo(
-      -33.84842123,
-      0.00001
-    )
+    expect(
+      parse({ GPSLatitude: 33.84842123, GPSLatitudeRef: "S" }).GPSLatitude
+    ).to.be.closeTo(-33.84842123, 0.00001)
   })
   it("E lon is positive", () => {
     expect(
-      parse({ GPSLongitude: "114.16401667 E" }).GPSLongitude
+      parse({ GPSLongitude: 114.16401667, GPSLongitudeRef: "E" }).GPSLongitude
     ).to.be.closeTo(114.16401667, 0.00001)
   })
   it("W lon is negative", () => {
-    expect(parse({ GPSLongitude: "122.4406148 W" }).GPSLongitude).to.be.closeTo(
-      -122.4406148,
-      0.00001
-    )
+    expect(
+      parse({ GPSLongitude: 122.4406148, GPSLongitudeRef: "W" }).GPSLongitude
+    ).to.be.closeTo(-122.4406148, 0.00001)
   })
 })
 
-describe("TimeZone extraction", () => {
-  it("finds positive TimeZone and sets accordingly", () => {
+describe("Time zone extraction", () => {
+  it("finds singular positive TimeZoneOffset and sets accordingly", () => {
     const t = parse({
-      TimeZone: "+09:00",
+      TimeZoneOffset: 9,
       DateTimeOriginal: "2016:08:12 13:28:50"
     })
-    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(9 * 60)
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
   })
-  it("finds zulu TimeZone and sets accordingly", () => {
+
+  it("finds positive array TimeZoneOffset and sets accordingly", () => {
     const t = parse({
-      TimeZone: "+00:00",
-      DateTimeOriginal: "2016:08:12 13:28:50"
+      TimeZoneOffset: [9, 8],
+      DateTimeOriginal: "2016:08:12 13:28:50",
+      ModifyDate: "2017:09:13 13:28:50"
     })
-    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(0)
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
+    expect((t.ModifyDate as any).tzoffsetMinutes).to.eql(8 * 60)
   })
-  it("finds negative TimeZone and sets accordingly", () => {
+
+  it("finds zulu TimeZoneOffset and sets accordingly", () => {
     const t = parse({
-      TimeZone: "-04:00",
+      TimeZoneOffset: 0,
       DateTimeOriginal: "2016:08:12 13:28:50"
     })
-    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(-4 * 60)
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(0)
+  })
+
+  it("finds negative TimeZoneOffset in array and sets accordingly", () => {
+    const t = parse({
+      TimeZoneOffset: [-4],
+      DateTimeOriginal: "2016:08:12 13:28:50"
+    })
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-4 * 60)
   })
 
   it("uses GPSDateTime and DateTimeOriginal and sets accordingly for -7", () => {
     const t = parse({
       DateTimeOriginal: "2016:10:19 11:15:14",
-      GPSDateTime: "2016:10:19 18:15:12Z",
+      GPSDateTime: "2016:10:19 18:15:12",
       DateTimeCreated: "2016:10:19 11:15:14"
     })
-    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(-7 * 60)
+    expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(-7 * 60)
     expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(-7 * 60)
   })
 
@@ -83,7 +93,7 @@ describe("TimeZone extraction", () => {
       GPSDateTime: "2016:08:12 05:28:49Z",
       DateTimeCreated: "2016:08:12 13:28:50"
     })
-    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.eql(8 * 60)
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(8 * 60)
     expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(8 * 60)
   })
 
@@ -93,9 +103,9 @@ describe("TimeZone extraction", () => {
       GPSDateTime: "2016:12:13 17:05:25Z",
       SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200"
     })
-    expect(t.SubSecDateTimeOriginal!.tzoffsetMinutes).to.eql(-8 * 60)
+    expect((t.SubSecDateTimeOriginal as any).tzoffsetMinutes).to.eql(-8 * 60)
     expect(t.SubSecDateTimeOriginal!.toString()).to.eql(
-      "2016-12-13T09:05:27.120382-08:00"
+      "2016-12-13T09:05:27.120-08:00"
     )
   })
 
@@ -104,14 +114,14 @@ describe("TimeZone extraction", () => {
       DateTimeOriginal: "2016:08:12 13:28:50",
       GPSDateTime: "not a timestamp"
     })
-    expect(t.DateTimeOriginal!.tzoffsetMinutes).to.be.undefined
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.be.undefined
   })
 })
 
 describe("SubSecDateTimeOriginal", () => {
   it("extracts datetimestamp with millis", () => {
     const t = parse({ SubSecDateTimeOriginal: "2016:10:19 11:15:14.437831" })
-      .SubSecDateTimeOriginal!
+      .SubSecDateTimeOriginal as ExifDateTime
     expect(t.year).to.eql(2016)
     expect(t.month).to.eql(10)
     expect(t.day).to.eql(19)
@@ -119,7 +129,7 @@ describe("SubSecDateTimeOriginal", () => {
     expect(t.minute).to.eql(15)
     expect(t.second).to.eql(14)
     expect(t.tzoffsetMinutes).to.be.undefined
-    expect(t.millis).to.be.closeTo(437.831, 0.01)
+    expect(t.millis).to.eql(437)
     const d = t.toDate()
     expect(d.getFullYear()).to.eql(2016)
     expect(d.getMonth()).to.eql(10 - 1)
@@ -127,6 +137,6 @@ describe("SubSecDateTimeOriginal", () => {
     expect(d.getHours()).to.eql(11)
     expect(d.getMinutes()).to.eql(15)
     expect(d.getSeconds()).to.eql(14)
-    expect(d.getMilliseconds()).to.eql(438) // Javascript Date doesn't do fractional millis.
+    expect(d.getMilliseconds()).to.eql(437) // Javascript Date doesn't do fractional millis.
   })
 })

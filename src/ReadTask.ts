@@ -1,32 +1,60 @@
 import { logger } from "batch-cluster"
+import { Info } from "luxon"
 import * as _path from "path"
 
-import * as _dt from "./DateTime"
+import { parseExifDate, parseExifDateTime, parseExifTime } from "./DateTime"
 import { ExifToolTask } from "./ExifToolTask"
+import { toF } from "./Number"
+import { blank, toS } from "./String"
 import { Tags } from "./Tags"
+import { offsetMinutesToZoneName, reasonableTzOffsetMinutes } from "./Timezones"
+
+const tzlookup = require("tz-lookup")
+
+/**
+ * tag names we don't need to muck with:
+ */
+const PassthroughTags = [
+  "ExifToolVersion",
+  "DateStampMode",
+  "Sharpness",
+  "Firmware",
+  "DateDisplayFormat"
+]
 
 export class ReadTask extends ExifToolTask<Tags> {
-  private rawTags: any
+  private readonly degroup: boolean
+  // May have keys that are group-prefixed:
+  private _raw: any = {}
+  // Always has non-group-prefixed keys:
+  private _tags: any = {}
   private readonly tags: Tags
-  private tzoffsetMinutes: number | undefined
+  private lat?: number
+  private lon?: number
+  private invalidLatLon = false
+  private tz?: string
+  private modifyDateTz?: string
 
-  private constructor(readonly sourceFile: string, args: string[]) {
+  private constructor(readonly sourceFile: string, readonly args: string[]) {
     super(args)
+    this.degroup = this.args.indexOf("-G") != -1
     this.tags = { SourceFile: sourceFile } as Tags
     this.tags.errors = this.errors
   }
 
-  static for(filename: string, optionalArgs: string[] = []): ReadTask {
+  static for(
+    filename: string,
+    numericTags: string[],
+    optionalArgs: string[] = []
+  ): ReadTask {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
       "-coordFormat",
-      "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N"
-      "-charset",
-      "filename=utf8",
-      ...optionalArgs,
-      sourceFile
+      "%.8f" // Just a float, please, not the default of "22 deg 20' 7.58\" N"
     ]
+    args.push(...numericTags.map(ea => "-" + ea + "#"))
+    args.push("-all", "-charset", "filename=utf8", ...optionalArgs, sourceFile)
     return new ReadTask(sourceFile, args)
   }
 
@@ -36,112 +64,155 @@ export class ReadTask extends ExifToolTask<Tags> {
 
   protected parse(data: string): Tags {
     try {
-      this.rawTags = JSON.parse(data)[0]
+      this._raw = JSON.parse(data)[0]
     } catch (err) {
       logger().error("ExifTool.ReadTask(): Invalid JSON", { data })
       throw err
     }
     // ExifTool does humorous things to paths, like flip slashes. resolve() undoes that.
-    const SourceFile = _path.resolve(this.rawTags.SourceFile)
+    const SourceFile = _path.resolve(this._raw.SourceFile)
     // Sanity check that the result is for the file we want:
     if (SourceFile !== this.sourceFile) {
       // Throw an error rather than add an errors string because this is *really* bad:
       throw new Error(
         `Internal error: unexpected SourceFile of ${
-          this.rawTags.SourceFile
+          this._raw.SourceFile
         } for file ${this.sourceFile}`
       )
     }
+    if (this.degroup) {
+      Object.keys(this._raw).forEach(keyWithGroup => {
+        this._tags[this.tagName(keyWithGroup)] = this._raw[keyWithGroup]
+      })
+    } else {
+      this._tags = this._raw
+    }
+
     return this.parseTags()
   }
 
-  private extractTzoffset(): void {
-    // TimeZone wins if we've got it:
-    const tze = new _dt.ExifTimeZoneOffset("TimeZone", this.rawTags.TimeZone)
-    if (tze.tzOffsetMinutes !== undefined) {
-      this.tzoffsetMinutes = tze.tzOffsetMinutes
-    } else if (
-      this.rawTags.GPSDateTime != null &&
-      this.rawTags.DateTimeOriginal != null
-    ) {
-      const gps = _dt.parse(
-        "GPSDateTime",
-        this.rawTags.GPSDateTime,
-        0
-      ) as _dt.ExifDateTime
-      const local = _dt.parse(
-        "DateTimeOriginal",
-        this.rawTags.DateTimeOriginal,
-        0
-      ) as _dt.ExifDateTime
+  private tagName(k: string): string {
+    return this.degroup ? k.split(":")[1] || k : k
+  }
+
+  private parseTags(): Tags {
+    this.extractTzOffset()
+    Object.keys(this._raw).forEach(key => {
+      ;(this.tags as any)[key] = this.parseTag(key, this._raw[key])
+    })
+    if (this.errors.length > 0) this.tags.errors = this.errors
+    return this.tags as Tags
+  }
+
+  private extractLatLon(): void {
+    if (this.invalidLatLon) return
+    if (this.lat == null) {
+      this.lat = toF(this._tags.GPSLatitude)
+      if (
+        this.lat != null &&
+        toS(this._tags.GPSLatitudeRef)
+          .toLowerCase()
+          .startsWith("s")
+      ) {
+        this.lat = this.lat! * -1
+      }
+      if (this.lat != null && Math.abs(this.lat) > 90) {
+        this.errors.push(`Invalid GPSLatitude, "${this._tags.GPSLatitude}"`)
+        this.invalidLatLon = true
+      }
+    }
+
+    if (this.lon == null) {
+      this.lon = toF(this._tags.GPSLongitude)
+      if (
+        this.lon != null &&
+        toS(this._tags.GPSLongitudeRef)
+          .toLowerCase()
+          .startsWith("w")
+      ) {
+        this.lon = this.lon! * -1
+      }
+      if (this.lon != null && Math.abs(this.lon) > 180) {
+        this.errors.push(`Invalid GPSLongitude, "${this._tags.GPSLongitude}"`)
+        this.invalidLatLon = true
+      }
+    }
+  }
+
+  private extractTzOffset() {
+    {
+      const tzo = this._tags.TimeZoneOffset
+      ;[this.tz, this.modifyDateTz] = (Array.isArray(tzo)
+        ? tzo
+        : toS(tzo).split(" ")
+      )
+        .map(toF)
+        .filter(ea => ea != null)
+        .map(ea => Math.round(ea! * 60))
+        .filter(reasonableTzOffsetMinutes)
+        .map(offsetMinutesToZoneName)
+      if (this.tz != null) return
+    }
+    {
+      const tz = toS(this._tags.TimeZone)
+      if (!blank(tz) && Info.isValidIANAZone(tz)) {
+        this.tz = tz
+        return
+      }
+    }
+    this.extractLatLon()
+    if (!this.invalidLatLon && this.lat != null && this.lon != null) {
+      try {
+        this.tz = tzlookup(this.lat, this.lon)
+        return
+      } catch (err) {}
+    }
+    if (this._tags.GPSDateTime != null && this._tags.DateTimeOriginal != null) {
+      const gps = parseExifDateTime(this._tags.GPSDateTime, "utc")
+      const local = parseExifDateTime(this._tags.DateTimeOriginal, "utc")
       if (gps && local && gps.toDate && local.toDate) {
-        // timezone offsets are never less than 30 minutes.
+        // timezone offsets always on the hour or half hour:
         const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
         const localToHalfHour = local.toDate().getTime() / (30 * 60 * 1000)
         const tzoffsetMinutes = 30 * Math.round(localToHalfHour - gpsToHalfHour)
         if (reasonableTzOffsetMinutes(tzoffsetMinutes)) {
-          this.tzoffsetMinutes = tzoffsetMinutes
+          this.tz = offsetMinutesToZoneName(tzoffsetMinutes)
         }
       }
     }
-    logger().debug(
-      "ReadTask(" +
-        this.sourceFile +
-        ").tzoffsetMinutes = " +
-        this.tzoffsetMinutes
-    )
   }
 
-  private parseTags(): Tags {
-    this.extractTzoffset()
-    Object.keys(this.rawTags).forEach(key => {
-      ;(this.tags as any)[key] = this.parseTag(key, this.rawTags[key])
-    })
-    return this.tags as Tags
-  }
+  private parseTag(tagNameWithGroup: string, value: any): any {
+    if (value == null || value == "undef" || value == "null") return undefined
 
-  private parseTag(tagName: string, value: any): any {
+    const tagName = this.tagName(tagNameWithGroup)
     try {
-      if (
-        tagName.endsWith("ExifToolVersion") ||
-        tagName.endsWith("DateStampMode") ||
-        tagName.endsWith("Sharpness") ||
-        tagName.endsWith("Firmware") ||
-        tagName.endsWith("DateDisplayFormat")
-      ) {
-        return value.toString() // force to string
-      } else if (tagName.endsWith("BitsPerSample")) {
-        return value
-          .toString()
-          .split(" ")
-          .map((i: string) => parseInt(i, 10))
-      } else if (tagName.endsWith("FlashFired")) {
-        // TODO: are there other boolean tags we need to fix? As of 20180907, I
-        // couldn't find any others in the latest Tags.ts, but there may be more later.
-        const s = value.toString().toLowerCase()
-        return s === "yes" || s === "1" || s === "true"
-      } else if (
-        (typeof value === "string" && tagName.includes("Date")) ||
-        tagName.includes("Time")
-      ) {
-        return _dt.parse(tagName, value, this.tzoffsetMinutes)
-      } else if (
-        tagName.endsWith("GPSLatitude") ||
-        tagName.endsWith("GPSLongitude")
-      ) {
-        const ref =
-          this.rawTags[tagName + "Ref"] || value.toString().split(" ")[1]
-        if (ref === undefined) {
-          return value // give up
-        } else {
-          const direction = ref.trim().toLowerCase()
-          const sorw = direction.startsWith("w") || direction.startsWith("s")
-          return parseFloat(value) * (sorw ? -1 : 1)
-        }
-      } else {
-        // Trust that ExifTool rendered the value with the correct type in JSON:
+      if (PassthroughTags.indexOf(tagName) >= 0) {
         return value
       }
+
+      if (tagName == "GPSLatitude") {
+        return this.lat
+      }
+      if (tagName == "GPSLongitude") {
+        return this.lon
+      }
+      if (typeof value === "string" && tagName.includes("Date")) {
+        const tz = tagName.endsWith("ModifyDate")
+          ? this.modifyDateTz || this.tz
+          : this.tz
+        const dt = parseExifDateTime(value, tz) || parseExifDate(value)
+        if (dt != null) {
+          // console.log("parseTag", { tagName, value, dt, tz })
+          return dt
+        }
+      }
+      if (typeof value === "string" && tagName.includes("Time")) {
+        const t = parseExifTime(value)
+        if (t != null) return t
+      }
+      // Trust that ExifTool rendered the value with the correct type in JSON:
+      return value
     } catch (e) {
       this.addError(
         `Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`
@@ -149,10 +220,4 @@ export class ReadTask extends ExifToolTask<Tags> {
       return value
     }
   }
-}
-
-function reasonableTzOffsetMinutes(tzOffsetMinutes: number): boolean {
-  // Pacific/Kiritimati is +14:00 TIL
-  // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  return Math.abs(tzOffsetMinutes) <= 14 * 60
 }

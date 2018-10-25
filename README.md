@@ -235,27 +235,50 @@ after(() => exiftool.end()) // assuming your singleton is called `exiftool`
 
 ## Dates
 
-Generally, EXIF tags encode dates and times with **no timezone offset.**
-Presumably the time is captured in local time, but this means parsing the same
-file in different parts of the world results in a different _absolute_ timestamp
-for the same file.
+**The date metadata in all your images and videos are, most likely,
+underspecified.**
 
-Rather than returning a
-[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
-which always includes a timezone, this library returns classes that encode the
-date, the time of day, or both, with an optional tzoffset. It's up to you, then,
-to do what's right.
+Images and videos rarely specify a time zone in their dates. If all your files
+were captured in your current time zone, defaulting to the local time zone is a
+safe assumption, but if you have files that were captured in different parts of
+the world, **this assumption will not be correct**. Parsing the same file in
+different parts of the world results in a different times for the same file.
 
-In many cases, though, **a tzoffset can be determined**, either by the composite
-`TimeZone` tag, or by looking at the difference between the local
-`DateTimeOriginal` and `GPSDateTime` tags. `GPSDateTime` is present in most
-smartphone images.
+Prior to version 7, heuristic 1 and 3 was applied.
 
-If a tzoffset can be determined, it is encoded in all related `ExifDateTime`
-tags for those files.
+As of version 7.0.0, `exiftool-vendored` uses the following heuristics. The
+highest-priority heuristic to return a value will be used as the timezone offset
+for all datetime tags that don't already have a specified timezone.
 
-Note also that some smartphones record timestamps with microsecond precision (not just millis!),
-and both `ExifDateTime` and `ExifTime` have floating point milliseconds.
+### Heuristic 1: explicit metadata
+
+If the [EXIF](https://sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html)
+`TimeZoneOffset` tag is present it will be applied as per the spec to
+`DateTimeOriginal`, and if there are two values, the `ModifyDate` tag as well.
+
+### Heuristic 2: GPS location
+
+If GPS latitude and longitude is present and valid (the value of `0, 0` is
+considered invalid), the `tz-lookup` library will be used to determine the time
+zone name for that location.
+
+### Heuristic 3: GPS timestamp delta
+
+If `GPSDateTime` is present, the delta with the dates found within the file, as
+long as the delta is valid, is used as the timezone offset. Deltas of > 14 hours
+are considered invalid.
+
+### ExifDate and ExifDateTime
+
+Because datetimes have this optionally-set timezone, and some tags only specify
+the date, this library returns classes that encode the date, the time of day, or
+both, **with an optional timezone and an optional tzoffset**: `ExifDateTime` and
+`ExifTime`. It's up to you, then, to determine what's correct for your
+situation.
+
+Note also that some smartphones record timestamps with microsecond precision
+(not just millis!), and both `ExifDateTime` and `ExifTime` have floating point
+milliseconds.
 
 ## Tags
 

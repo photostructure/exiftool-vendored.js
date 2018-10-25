@@ -1,5 +1,148 @@
-import { compact } from "./Array"
-import { pad2 } from "./String"
+import { DateTime, DateTimeOptions } from "luxon"
+
+import { ExifDate } from "./ExifDate"
+import { ExifDateTime } from "./ExifDateTime"
+import { ExifTime } from "./ExifTime"
+import { Maybe, map } from "./Maybe"
+
+const { FixedOffsetZone } = require("luxon")
+const unsetZoneOffset = -24 * 60
+const unsetZone = new FixedOffsetZone(unsetZoneOffset)
+
+function first<T>(
+  text: string,
+  f: (dt: DateTime, offsetMinutes?: number) => T,
+  arr: {
+    fmt: string
+    opts?: DateTimeOptions
+  }[]
+) {
+  for (const { fmt, opts } of arr) {
+    const dt = DateTime.fromFormat(text.trim(), fmt, {
+      setZone: true,
+      ...(opts || {})
+    })
+    if (dt != null && dt.isValid) {
+      return f(dt, dt.offset == unsetZoneOffset ? undefined : dt.offset)
+    }
+  }
+  return undefined
+}
+
+export function parseExifDateTime(
+  text: string,
+  defaultZone?: Maybe<string>
+): Maybe<ExifDateTime> {
+  const zone = defaultZone != null ? defaultZone : unsetZone
+  const f = (dt: DateTime, offsetMinutes?: number) =>
+    ExifDateTime.fromDateTime(dt, offsetMinutes)
+  return (
+    first(
+      text,
+      f,
+      [
+        // {
+        //   fmt: "y-M-dTH:m:s.uZZZ"
+        // },
+        // {
+        //   fmt: "y-M-dTH:m:s.uZZ"
+        // },
+        // {
+        //   fmt: "y-M-dTH:m:s.u'Z'",
+        //   opts: { zone: "utc" }
+        // },
+        // {
+        //   fmt: "y-M-dTH:m:s.u",
+        //   opts: { zone }
+        // },
+        // {
+        //   fmt: "y-M-dTH:m:sZZZ"
+        // },
+        // {
+        //   fmt: "y-M-dTH:m:sZZ"
+        // },
+        // {
+        //   fmt: "y-M-dTH:m:s'Z'",
+        //   opts: { zone: "utc" }
+        // },
+        // {
+        //   fmt: "y-M-dTH:m:s",
+        //   opts: { zone }
+        // },
+        {
+          fmt: "y:M:d H:m:s.uZZ"
+        },
+        {
+          fmt: "y:M:d H:m:sZZ"
+        },
+        {
+          fmt: "y:M:d H:m:s.u'Z'",
+          opts: { zone: "utc" }
+        },
+        {
+          fmt: "y:M:d H:m:s'Z'",
+          opts: { zone: "utc" }
+        },
+        {
+          fmt: "y:M:d H:m:s.u",
+          opts: { zone }
+        },
+        {
+          fmt: "y:M:d H:m:s",
+          opts: { zone }
+        },
+        {
+          fmt: "MMM d yyyy H:m:sZZZ"
+        },
+        {
+          fmt: "MMM d yyyy H:m:s",
+          opts: { zone }
+        },
+        {
+          fmt: "MMM d yyyy, H:m:sZZZ"
+        },
+        {
+          fmt: "MMM d yyyy, H:m:s",
+          opts: { zone }
+        },
+        {
+          fmt: "ccc MMM d H:m:s yyyyZZ" // Thu Oct 13 00:12:27 2016
+        },
+        {
+          fmt: "ccc MMM d H:m:s yyyy",
+          opts: { zone }
+        }
+      ]
+    ) ||
+    map(
+      DateTime.fromISO(text, { setZone: true, zone }),
+      dt =>
+        dt.isValid
+          ? ExifDateTime.fromDateTime(
+              dt,
+              dt.offset == unsetZoneOffset ? undefined : dt.offset
+            )
+          : undefined
+    )
+  )
+}
+
+export function parseExifDate(text: string): Maybe<ExifDate> {
+  const f = (dt: DateTime) => new ExifDate(dt.year, dt.month, dt.day)
+  return first(text, f, [
+    { fmt: "yyyy:MM:dd" },
+    { fmt: "yyyy-MM-dd" },
+    { fmt: "y:M:d" },
+    { fmt: "MMM d y" },
+    { fmt: "MMMM d y" }
+  ])
+}
+
+export function parseExifTime(text: string): Maybe<ExifTime> {
+  const f = (dt: DateTime) =>
+    new ExifTime(dt.hour, dt.minute, dt.second, dt.millisecond)
+  return first(text, f, [{ fmt: "HH:mm:ss.u" }, { fmt: "HH:mm:ss" }])
+}
 
 /**
  * Given a time value in milliseconds, return a decimal in seconds units,
@@ -10,294 +153,8 @@ import { pad2 } from "./String"
  * @returns {string} the decimal fraction of the second (to maximally
  * microsecond precision)
  */
-export function millisToFractionalPart(
-  millis: number,
-  precision: number = 6
-): string {
-  const frac = (millis / 1000).toPrecision(precision).split("")
-  if (frac[0] === "0") frac.shift() // pop off the initial "0"
-
-  // strip off microsecond zero padding:
-  while (frac.length > 4 && frac[frac.length - 1] === "0") {
-    frac.pop()
-  }
-  return frac.join("")
-}
-
-function maybeNew<T>(
-  input: string,
-  tzoffsetMinutes: number | undefined,
-  re: RegExp,
-  ctor: (args: number[]) => T
-): T | undefined {
-  const match = re.exec(input)
-  if (match !== null) {
-    const args = match.slice(1).map(ea => parseNum((ea || "").trim()))
-    if (tzoffsetMinutes != null) {
-      args.push(tzoffsetMinutes)
-    }
-    return ctor(args)
-  } else {
-    return
-  }
-}
-
-export abstract class Base {
-  protected tz(tzoffsetMinutes: number | undefined): string {
-    if (tzoffsetMinutes === undefined) {
-      return ""
-    } else if (tzoffsetMinutes === 0) {
-      return "Z"
-    } else {
-      const sign = tzoffsetMinutes >= 0 ? "+" : "-"
-      const tzoff = Math.abs(tzoffsetMinutes)
-      const hours = Math.floor(tzoff / 60)
-      const mins = tzoff - hours * 60
-      return `${sign}${pad2(hours)}:${pad2(mins)}`
-    }
-  }
-}
-
-/**
- * Encodes an ExifTime (which may not have a timezone offset)
- */
-export class ExifTime {
-  private static regex = /^(\d{2}):(\d{2}):(\d{2})(\.\d{1,9})?$/
-
-  readonly millis: number
-
-  /**
-   * @param hour [1, 23]
-   * @param minute [0, 59]
-   * @param second [0, 59]
-   * @param secondFraction [0,1)
-   * @param tzoffsetMinutes [-24 * 60, 24 * 60]
-   */
-  private constructor(
-    readonly hour: number,
-    readonly minute: number,
-    readonly second: number,
-    secondFraction?: number,
-    readonly tzoffsetMinutes?: number
-  ) {
-    this.millis = secondFraction != null ? secondFraction * 1000 : 0
-  }
-
-  static for(input: string, tzoffsetMinutes?: number): ExifTime | undefined {
-    return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
-      return new this(a[0], a[1], a[2], a[3], a[4])
-    })
-  }
-
-  toString(): string {
-    return (
-      pad2(this.hour, this.minute, this.second).join(":") +
-      millisToFractionalPart(this.millis)
-    )
-  }
-}
-
-/**
- * Encodes an ExifDate
- */
-export class ExifDate {
-  private static regex = /^(\d{4}):(\d{2}):(\d{2})$/
-  constructor(
-    readonly year: number, // four-digit year
-    readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
-    readonly day: number // 1-31
-  ) {}
-
-  static for(input: string, tzoffsetMinutes?: number): ExifDate | undefined {
-    return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
-      return new this(a[0], a[1], a[2])
-    })
-  }
-
-  toString(): string {
-    return `${this.year}-${pad2(this.month)}-${pad2(this.day)}`
-  }
-
-  toDate(): Date {
-    return new Date(this.year, this.month - 1, this.day)
-  }
-}
-
-/**
- * Encodes an ExifDateTime.
- */
-export class ExifDateTime extends Base {
-  // The timezone offset will be extricated prior to this regex:
-  private static regex = /^(\d{4})[ :-]+(\d{2})[ :-]+(\d{2})[ :T]+(\d{2})[ :]+(\d{2})[ :]+(\d{2})(\.\d{1,9})?$/
-
-  /**
-   * Note that this may have fractional precision (123.456ms)
-   */
-  readonly millis: number
-
-  /**
-   * @param year full 4-digit value
-   * @param month 1-12, no crazy 0-11 nonsense
-   * @param day 1-31
-   * @param hour 1-23
-   * @param minute 0-59
-   * @param second 0-59
-   * @param secondFraction `[0-1)`
-   * @param tzoffsetMinutes
-   */
-  constructor(
-    readonly year: number,
-    readonly month: number,
-    readonly day: number,
-    readonly hour: number,
-    readonly minute: number,
-    readonly second: number,
-    secondFraction?: number,
-    readonly tzoffsetMinutes?: number
-  ) {
-    super()
-    this.millis = secondFraction != null ? secondFraction * 1000 : 0
-  }
-
-  static for(
-    input: string,
-    tzoffsetMinutes?: number
-  ): ExifDateTime | undefined {
-    return maybeNew(input, tzoffsetMinutes, this.regex, (a: number[]) => {
-      return new ExifDateTime(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7])
-    })
-  }
-
-  /**
-   * Note that this is most likely incorrect if the timezone offset is not set.
-   *
-   * See the README for details.
-   */
-  toDate(): Date {
-    if (this.tzoffsetMinutes == null) {
-      const d = new Date()
-      d.setFullYear(this.year, this.month - 1, this.day)
-      d.setHours(this.hour, this.minute, this.second, Math.round(this.millis))
-      return d
-    } else if (this.tzoffsetMinutes === 0) {
-      // Don't leave it up to string parsing
-      return new Date(
-        Date.UTC(
-          this.year,
-          this.month - 1,
-          this.day,
-          this.hour,
-          this.minute,
-          this.second,
-          Math.round(this.millis)
-        )
-      )
-    } else {
-      return new Date(this.toISOString())
-    }
-  }
-
-  toString(): string {
-    return this.toISOString()
-  }
-
-  toISOString(millisPrecision: number = 6): string {
-    const [mo, da, ho, mi, se] = pad2(
-      this.month,
-      this.day,
-      this.hour,
-      this.minute,
-      this.second
-    )
-    const ms = millisToFractionalPart(this.millis, millisPrecision)
-    const tz = this.tz(this.tzoffsetMinutes)
-    return `${this.year}-${mo}-${da}T${ho}:${mi}:${se}${ms}${tz}`
-  }
-}
-
-function parseNum(s: string): number {
-  if (s.indexOf(".") !== -1) {
-    return parseFloat("0" + s)
-  } else {
-    return parseInt("0" + s, 10)
-  }
-}
-
-export class ExifTimeZoneOffset extends Base {
-  static regex = /([-+])(\d{2}):(\d{2})$/
-  readonly tzOffsetMinutes?: number
-  readonly inputWithoutTimezone: string
-
-  constructor(readonly tagName: string, readonly input: string) {
-    super()
-    if (input === undefined) {
-      this.tzOffsetMinutes = undefined
-      this.inputWithoutTimezone = input
-    } else if (
-      tagName.includes("UTC") ||
-      tagName.includes("GPS") ||
-      input.toString().endsWith("Z")
-    ) {
-      this.tzOffsetMinutes = 0
-      this.inputWithoutTimezone = input.endsWith("Z")
-        ? input.slice(0, -1)
-        : input
-    } else {
-      const match = ExifTimeZoneOffset.regex.exec(input)
-      if (match) {
-        const [wholeMatch, offsetSignS, hourOffsetS, minuteOffsetS] = match
-        const offsetSign = offsetSignS === "-" ? -1 : 1
-        const hourOffset = parseInt(hourOffsetS, 10)
-        const minuteOffset = parseInt(minuteOffsetS, 10)
-        this.tzOffsetMinutes = offsetSign * (hourOffset * 60 + minuteOffset)
-        this.inputWithoutTimezone = input.slice(0, -1 * wholeMatch.length)
-      } else {
-        this.tzOffsetMinutes = undefined
-        this.inputWithoutTimezone = input
-      }
-    }
-  }
-
-  toString(): string {
-    return this.tz(this.tzOffsetMinutes)
-  }
-}
-
-const emptyRe = /^[\s:0]*$/ // Empty datetimes come back as "  :  :  " or "00:00:00"
-
-/**
- * Empty datetimes can come back as "  :  :  " or "00:00:00".
- *
- * Some evil datetimes come back as "0001:01:01 00:00:00.00"
- */
-const emptyDates = ["0001:01:01", "0000:00:00", "00:00:00 "]
-
-export function parse(
-  tagName: string,
-  rawTagValue: string,
-  globalTzOffsetMinutes?: number
-): ExifDate | ExifTime | ExifDateTime | ExifTimeZoneOffset | string {
-  const s = String(rawTagValue).trim()
-  if (
-    rawTagValue == null ||
-    s == "" ||
-    emptyDates.some(ea => s.startsWith(ea))
-  ) {
-    return rawTagValue
-  }
-
-  const tz = new ExifTimeZoneOffset(tagName, rawTagValue)
-  // If it's just a timezone:
-  if (tz.tzOffsetMinutes != null && emptyRe.exec(tz.inputWithoutTimezone)) {
-    return tz
-  }
-  const tzoffset = compact([tz.tzOffsetMinutes, globalTzOffsetMinutes])[0]
-  const tagValue = tz.inputWithoutTimezone
-
-  return (
-    ExifDateTime.for(tagValue, tzoffset) ||
-    ExifDate.for(tagValue, tzoffset) ||
-    ExifTime.for(tagValue, tzoffset) ||
-    rawTagValue
-  )
+export function millisToFractionalPart(millis: Maybe<number>): string {
+  return millis == null
+    ? ""
+    : (Math.round(millis) / 1000).toFixed(3).substring(1)
 }
