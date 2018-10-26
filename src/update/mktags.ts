@@ -224,16 +224,21 @@ class Tag {
   }
 
   example(): string {
-    if (this.tag.endsWith("Comment")) return "This is a comment."
-    if (this.tag.endsWith("Directory")) return "/home/username/pictures"
-    if (this.tag.endsWith("Copyright")) return "© PhotoStructure, Inc."
+    // There are a bunch of tag values that have people's actual names or
+    // contact information. Replace those values with stub values:
+    if (this.tag.endsWith("Comment")) return exampleToS(["This is a comment."])
+    if (this.tag.endsWith("Directory"))
+      return exampleToS(["/home/username/pictures"])
+    if (this.tag.endsWith("Copyright"))
+      return exampleToS(["© Chuckles McSnortypants, Inc."])
     if (this.tag.endsWith("CopyrightNotice"))
-      return "This work is licensed under a Creative Commons Attribution 4.0 International License."
-    if (this.tag.endsWith("OwnerName")) return "Itsa Myowna"
-    if (this.tag.endsWith("Artist")) return "Ansel Adams"
-    if (this.tag.endsWith("Author")) return "Arturo DeImage"
-    if (this.tag.endsWith("Contact")) return "Donna Calme"
-    if (this.tag.endsWith("Credit")) return "photo by Jenny McSnapsalot"
+      return exampleToS(["Creative Commons Attribution 4.0 International"])
+    if (this.tag.endsWith("OwnerName")) return exampleToS(["Itsa Myowna"])
+    if (this.tag.endsWith("Artist")) return exampleToS(["Ansel Adams"])
+    if (this.tag.endsWith("Author")) return exampleToS(["Arturo DeImage"])
+    if (this.tag.endsWith("Contact")) return exampleToS(["Dohncha Calmeplz"])
+    if (this.tag.endsWith("Credit"))
+      return exampleToS(["photo by Jenny McSnapsalot"])
     const byValueType = new Map<string, any[]>()
     // Shove boring values to the end:
     this.vacuumValues()
@@ -244,13 +249,18 @@ class Tag {
         getOrSet(byValueType, valueType(ea), () => []).push(ea)
       })
     // If there are multiple types, try to show one of each type:
-    const examples: any[] = compact(
-      this.valueTypes.map(key => map(byValueType.get(key), ea => ea[0]))
+    return exampleToS(
+      compact(
+        this.valueTypes.map(key => map(byValueType.get(key), ea => ea[0]))
+      )
     )
-    return examples.length == 1
-      ? "Example: " + JSON.stringify(toStr(examples[0]))
-      : "Examples: " + JSON.stringify(toStr(examples))
   }
+}
+
+function exampleToS(examples: any[]): string {
+  return examples.length > 1
+    ? "Examples: " + JSON.stringify(toStr(examples))
+    : "Example: " + JSON.stringify(toStr(examples[0]))
 }
 
 function sigFigs(i: number, digits: number): number {
