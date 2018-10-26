@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.0.1: "nbd it's just the tags"
+
+- 📦 Added more test images to corpus, so there are more tags now.
+- 📦 Found error in `Directory` tag example, rebuilt tags
+
 ### v7.0.0: the "time zones & types are hard" edition
 
 - ✨ More robust time zone extraction: this required adding `luxon` and
