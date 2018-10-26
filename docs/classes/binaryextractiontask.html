@@ -88,18 +88,23 @@
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#args" class="tsd-kind-icon">args</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#command" class="tsd-kind-icon">command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#errors" class="tsd-kind-icon">errors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#parser" class="tsd-kind-icon">parser</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#pending" class="tsd-kind-icon">pending</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#promise" class="tsd-kind-icon">promise</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#state" class="tsd-kind-icon">state</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#stderr" class="tsd-kind-icon">stderr</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#stdout" class="tsd-kind-icon">stdout</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#adderror" class="tsd-kind-icon">add<wbr>Error</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#onstderr" class="tsd-kind-icon">on<wbr>Stderr</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#onstdout" class="tsd-kind-icon">on<wbr>Stdout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="binaryextractiontask.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#reject" class="tsd-kind-icon">reject</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="binaryextractiontask.html#resolve" class="tsd-kind-icon">resolve</a></li>
@@ -125,7 +130,7 @@
 								<p>Inherited from <a href="exiftooltask.html">ExifToolTask</a>.<a href="exiftooltask.html#constructor">constructor</a></p>
 								<p>Overrides Task.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L8">ExifToolTask.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L10">ExifToolTask.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -142,13 +147,24 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="args" class="tsd-anchor"></a>
+					<h3>args</h3>
+					<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="exiftooltask.html">ExifToolTask</a>.<a href="exiftooltask.html#args">args</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L12">ExifToolTask.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="command" class="tsd-anchor"></a>
 					<h3>command</h3>
 					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Task.command</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:13</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:9</li>
 						</ul>
 					</aside>
 				</section>
@@ -159,7 +175,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="exiftooltask.html">ExifToolTask</a>.<a href="exiftooltask.html#errors">errors</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L8">ExifToolTask.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L10">ExifToolTask.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +186,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Task.parser</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:14</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:10</li>
 						</ul>
 					</aside>
 				</section>
@@ -181,7 +197,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Task.pending</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:27</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:25</li>
 						</ul>
 					</aside>
 				</section>
@@ -192,7 +208,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Task.promise</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:26</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:24</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -210,7 +226,29 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Task.state</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:28</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:26</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="stderr" class="tsd-anchor"></a>
+					<h3>stderr</h3>
+					<div class="tsd-signature tsd-kind-icon">stderr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Task.stderr</p>
+						<ul>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:31</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="stdout" class="tsd-anchor"></a>
+					<h3>stdout</h3>
+					<div class="tsd-signature tsd-kind-icon">stdout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Task.stdout</p>
+						<ul>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:30</li>
 						</ul>
 					</aside>
 				</section>
@@ -228,13 +266,61 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="exiftooltask.html">ExifToolTask</a>.<a href="exiftooltask.html#adderror">addError</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L16">ExifToolTask.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L25">ExifToolTask.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>err: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="onstderr" class="tsd-anchor"></a>
+					<h3>on<wbr>Stderr</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Stderr<span class="tsd-signature-symbol">(</span>buf<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Task.onStderr</p>
+								<ul>
+									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:29</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buf: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="onstdout" class="tsd-anchor"></a>
+					<h3>on<wbr>Stdout</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Stdout<span class="tsd-signature-symbol">(</span>buf<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Task.onStdout</p>
+								<ul>
+									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:28</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buf: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -268,14 +354,14 @@
 					<a name="reject" class="tsd-anchor"></a>
 					<h3>reject</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">reject<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">reject<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, source<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Task.reject</p>
 								<ul>
-									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:39</li>
+									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:41</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,6 +375,9 @@
 								<li>
 									<h5>error: <span class="tsd-signature-type">Error</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> source: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
@@ -298,14 +387,14 @@
 					<a name="resolve" class="tsd-anchor"></a>
 					<h3>resolve</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, stderr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Task.resolve</p>
 								<ul>
-									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:34</li>
+									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:36</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -317,7 +406,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <span class="tsd-signature-type">string</span></h5>
+									<h5>result: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>stderr: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -335,7 +427,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Task.toString</p>
 								<ul>
-									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:29</li>
+									<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/Task.d.ts:27</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -382,7 +474,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="exiftooltask.html">ExifToolTask</a>.<a href="exiftooltask.html#rendercommand">renderCommand</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L4">ExifToolTask.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifToolTask.ts#L6">ExifToolTask.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -416,6 +508,9 @@
 								<a href="binaryextractiontask.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="binaryextractiontask.html#args" class="tsd-kind-icon">args</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="binaryextractiontask.html#command" class="tsd-kind-icon">command</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -433,8 +528,20 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="binaryextractiontask.html#state" class="tsd-kind-icon">state</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="binaryextractiontask.html#stderr" class="tsd-kind-icon">stderr</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="binaryextractiontask.html#stdout" class="tsd-kind-icon">stdout</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="binaryextractiontask.html#adderror" class="tsd-kind-icon">add<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="binaryextractiontask.html#onstderr" class="tsd-kind-icon">on<wbr>Stderr</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="binaryextractiontask.html#onstdout" class="tsd-kind-icon">on<wbr>Stdout</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="binaryextractiontask.html#parse" class="tsd-kind-icon">parse</a>
