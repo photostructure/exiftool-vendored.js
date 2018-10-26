@@ -46,6 +46,11 @@ vendored versions of ExifTool match the version they vendor.
   While ExifTool's output is reasonable for humans, writing code that consumed
   those values turned out to be hacky and brittle.
 
+- 🐞 Depending on OS, [errors might not be correctly
+  reported](https://github.com/mceachen/exiftool-vendored.js/issues/36). This
+  issue was from `batch-cluster`, whose version 5.0.0 fixed this problem, and
+  was pulled into this release.
+
 - 🌱 ExifTool upgraded to
   [v11.15](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.15).
 
