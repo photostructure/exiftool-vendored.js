@@ -75,6 +75,49 @@ describe("Time zone extraction", () => {
     expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-4 * 60)
   })
 
+  it("respects positive HH:MM OffsetTime", () => {
+    const t = parse({
+      OffsetTime: "+02:30",
+      DateTimeOriginal: "2016:08:12 13:28:50"
+    })
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(2 * 60 + 30)
+  })
+
+  it("respects positive HH OffsetTime", () => {
+    const t = parse({
+      OffsetTime: "+07",
+      DateTimeOriginal: "2016:08:12 13:28:50"
+    })
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(7 * 60)
+  })
+
+  it("respects negative HH:MM OffsetTime", () => {
+    const t = parse({
+      OffsetTime: "-06:30",
+      DateTimeOriginal: "2016:08:12 13:28:50"
+    })
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-(6 * 60 + 30))
+  })
+
+  it("respects negative HH OffsetTime", () => {
+    const t = parse({
+      OffsetTime: "-9",
+      DateTimeOriginal: "2016:08:12 13:28:50"
+    })
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60)
+  })
+
+  it("determines timezone offset from GPS (specifically, Landscape Arch!)", () => {
+    const t = parse({
+      GPSLatitude: 38.791121,
+      GPSLatitudeRef: "N",
+      GPSLongitude: 109.606407,
+      GPSLongitudeRef: "W",
+      DateTimeOriginal: "2016:08:12 13:28:50"
+    })
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-6 * 60)
+  })
+
   it("uses GPSDateTime and DateTimeOriginal and sets accordingly for -7", () => {
     const t = parse({
       DateTimeOriginal: "2016:10:19 11:15:14",

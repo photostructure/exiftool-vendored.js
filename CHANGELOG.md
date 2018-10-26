@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### unreleased
+
+- 📦 added more timezone extraction tests
+
 ### v7.1.0
 
 - 📦 Moved the date and time parsing into the `ExifDateTime`, `ExifDate`, and
