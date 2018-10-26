@@ -225,7 +225,7 @@ class Tag {
 
   example(): string {
     if (this.tag.endsWith("Comment")) return "This is a comment."
-    if (this.tag.endsWith("Directory")) return "/home/username/image.jpg"
+    if (this.tag.endsWith("Directory")) return "/home/username/pictures"
     if (this.tag.endsWith("Copyright")) return "© PhotoStructure, Inc."
     if (this.tag.endsWith("CopyrightNotice"))
       return "This work is licensed under a Creative Commons Attribution 4.0 International License."
