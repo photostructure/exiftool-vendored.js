@@ -122,11 +122,11 @@ export interface EXIFTags {
   GPSImgDirection?: number
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
   GPSImgDirectionRef?: string
-  /** ☆☆☆☆ ✔ Example: null */
+  /** ☆☆☆☆ ✔ Example: 7.196465 */
   GPSLatitude?: number
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
   GPSLatitudeRef?: string
-  /** ☆☆☆☆ ✔ Example: null */
+  /** ☆☆☆☆ ✔ Example: 91.438431 */
   GPSLongitude?: number
   /** ☆☆☆☆ ✔ Example: "West" */
   GPSLongitudeRef?: string
@@ -252,7 +252,7 @@ export interface EXIFTags {
   PhotometricInterpretation?: string
   /** ☆☆☆☆ ✔ Example: "Chunky" */
   PlanarConfiguration?: string
-  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000" */
+  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000+01:00" */
   PreviewDateTime?: ExifDateTime
   /** ☆☆☆☆ ✔ Example: "(Binary data 895146 bytes, use -b optio…" */
   PreviewImage?: string
@@ -1533,7 +1533,7 @@ export interface MakerNotesTags {
   DateTime2?: ExifDateTime
   /** ☆☆☆☆   Example: "Off" */
   DateTimeStamp?: string
-  /** ☆☆☆☆ ✔ Examples: ["0000:00:00 00:00:00","2017-05-07T19:37:49.000"] */
+  /** ☆☆☆☆ ✔ Examples: ["0000:00:00 00:00:00","2017-05-07T19:37:49.000-07:00"] */
   DateTimeUTC?: string | ExifDateTime
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DaylightSavings?: string
@@ -3439,7 +3439,7 @@ export interface MakerNotesTags {
   SoftFocusFilter?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   SoftSkinEffect?: string
-  /** ☆☆☆☆ ✔ Examples: ["2018-06-14T11:35:45.000","????????????????????"] */
+  /** ☆☆☆☆ ✔ Examples: ["2018-06-14T11:35:45.000+09:00","????????????????????"] */
   SonyDateTime?: ExifDateTime | string
   /** ☆☆☆☆   Example: "2015-11-26T14:41:25.000" */
   SonyDateTime2?: ExifDateTime
@@ -3950,7 +3950,7 @@ export interface CompositeTags {
   DOF?: string
   /** ☆☆☆☆   Example: "2006-12-19" */
   DateCreated?: ExifDate
-  /** ☆☆☆☆ ✔ Example: "2018-08-21T11:34:51.000" */
+  /** ☆☆☆☆ ✔ Example: "2018-08-21T11:34:51.000Z" */
   DateTimeCreated?: ExifDateTime
   /** ☆☆☆☆ ✔ Example: "2016-08-12T13:28:50.000+08:00" */
   DigitalCreationDateTime?: ExifDateTime
@@ -4270,13 +4270,13 @@ export interface XMPTags {
   CroppedAreaLeftPixels?: number
   /** ☆☆☆☆   Example: 0 */
   CroppedAreaTopPixels?: number
-  /** ☆☆☆☆ ✔ Example: "2014-05-11T13:08:25.659" */
+  /** ☆☆☆☆ ✔ Example: "2014-05-11T13:08:25.659-04:00" */
   DateAcquired?: ExifDateTime
-  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000" */
+  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000+01:00" */
   DateTime?: ExifDateTime
   /** ☆☆☆☆   Example: "2015-12-09T15:03:34.310+09:00" */
   DateTimeDigitized?: ExifDateTime
-  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000" */
+  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000+01:00" */
   DateUTC?: ExifDateTime
   /** ☆☆☆☆ ✔ Example: "mde" */
   Description?: string
@@ -4342,7 +4342,7 @@ export interface XMPTags {
   MobileCountryCode?: number
   /** ☆☆☆☆   Example: 8 */
   MobileNetworkCode?: number
-  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000" */
+  /** ☆☆☆☆ ✔ Example: "2015-06-02T09:56:01.000+01:00" */
   ModificationDate?: ExifDateTime
   /** ☆☆☆☆   Example: "36864,40960,40961,37121,37122,40962,409…" */
   NativeDigest?: string
@@ -4794,18 +4794,18 @@ export interface APP1Tags {
   UnderflowColor?: string
   /** ☆☆☆☆   Example: "asdl;kflkj" */
   Value0?: string
-  /** ☆☆☆☆   Examples: ["Lighting Panel",1] */
-  Value1?: string | number
+  /** ☆☆☆☆   Examples: [1,"Lighting Panel"] */
+  Value1?: number | string
   /** ☆☆☆☆   Example: "-" */
   Value2?: string
   /** ☆☆☆☆   Example: 50 */
   Value3?: number
   /** ☆☆☆☆   Example: 40 */
   Value4?: number
-  /** ☆☆☆☆   Examples: ["(  )",303.439] */
-  Value5?: string | number
-  /** ☆☆☆☆   Examples: ["Check load",301.978] */
-  Value6?: string | number
+  /** ☆☆☆☆   Examples: [303.439,"(  )"] */
+  Value5?: number | string
+  /** ☆☆☆☆   Examples: [301.978,"Check load"] */
+  Value6?: number | string
 }
 
 export interface MetaTags {
