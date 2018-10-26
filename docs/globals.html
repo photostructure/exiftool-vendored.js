@@ -134,17 +134,14 @@
 								<li class="tsd-kind-function"><a href="globals.html#extractoffset" class="tsd-kind-icon">extract<wbr>Offset</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#extracttzoffsetfromtags" class="tsd-kind-icon">extract<wbr>TzOffset<wbr>From<wbr>Tags</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#first" class="tsd-kind-icon">first</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#leftpad" class="tsd-kind-icon">left<wbr>Pad</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#map" class="tsd-kind-icon">map</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#millistofractionalpart" class="tsd-kind-icon">millis<wbr>ToFractional<wbr>Part</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#notblank" class="tsd-kind-icon">not<wbr>Blank</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#offsetminutestozonename" class="tsd-kind-icon">offset<wbr>Minutes<wbr>ToZone<wbr>Name</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#pad2" class="tsd-kind-icon">pad2</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#pad3" class="tsd-kind-icon">pad3</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#parseexifdate" class="tsd-kind-icon">parse<wbr>Exif<wbr>Date</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#parseexifdatetime" class="tsd-kind-icon">parse<wbr>Exif<wbr>Date<wbr>Time</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#parseexiftime" class="tsd-kind-icon">parse<wbr>Exif<wbr>Time</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#reasonabletzoffsetminutes" class="tsd-kind-icon">reasonable<wbr>TzOffset<wbr>Minutes</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#retryonreject" class="tsd-kind-icon">retry<wbr>OnReject</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#stripprefix" class="tsd-kind-icon">strip<wbr>Prefix</a></li>
@@ -153,6 +150,7 @@
 								<li class="tsd-kind-function"><a href="globals.html#toi" class="tsd-kind-icon">toI</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#tos" class="tsd-kind-icon">toS</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#uniq" class="tsd-kind-icon">uniq</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#validdatetime" class="tsd-kind-icon">valid<wbr>Date<wbr>Time</a></li>
 							</ul>
 						</section>
 					</div>
@@ -425,6 +423,59 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="first" class="tsd-anchor"></a>
+					<h3>first</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">first&lt;T, U&gt;<span class="tsd-signature-symbol">(</span>iter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L8">Maybe.ts:8</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+								<li>
+									<h4>U</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iter: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>f: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>t: <span class="tsd-signature-type">T</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="isnumber" class="tsd-anchor"></a>
 					<h3>is<wbr>Number</h3>
@@ -531,44 +582,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="millistofractionalpart" class="tsd-anchor"></a>
-					<h3>millis<wbr>ToFractional<wbr>Part</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">millis<wbr>ToFractional<wbr>Part<span class="tsd-signature-symbol">(</span>millis<span class="tsd-signature-symbol">: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L129">DateTime.ts:129</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given a time value in milliseconds, return a decimal in seconds units,
-									rounded to the given precision, without zero right or left padding.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>export</dt>
-									<dd></dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>millis: <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>[0,1000)</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the decimal fraction of the second (to maximally
-							microsecond precision)</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="notblank" class="tsd-anchor"></a>
 					<h3>not<wbr>Blank</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -662,78 +675,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="parseexifdate" class="tsd-anchor"></a>
-					<h3>parse<wbr>Exif<wbr>Date</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Exif<wbr>Date<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/exifdate.html" class="tsd-signature-type">ExifDate</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L103">DateTime.ts:103</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/exifdate.html" class="tsd-signature-type">ExifDate</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="parseexifdatetime" class="tsd-anchor"></a>
-					<h3>parse<wbr>Exif<wbr>Date<wbr>Time</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Exif<wbr>Date<wbr>Time<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, defaultZone<span class="tsd-signature-symbol">?: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/exifdatetime.html" class="tsd-signature-type">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L32">DateTime.ts:32</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> defaultZone: <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/exifdatetime.html" class="tsd-signature-type">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="parseexiftime" class="tsd-anchor"></a>
-					<h3>parse<wbr>Exif<wbr>Time</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Exif<wbr>Time<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/exiftime.html" class="tsd-signature-type">ExifTime</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L114">DateTime.ts:114</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/exiftime.html" class="tsd-signature-type">ExifTime</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -981,6 +922,29 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="validdatetime" class="tsd-anchor"></a>
+					<h3>valid<wbr>Date<wbr>Time</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">valid<wbr>Date<wbr>Time<span class="tsd-signature-symbol">(</span>dt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DateTime</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L3">DateTime.ts:3</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dt: <span class="tsd-signature-type">DateTime</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -1137,6 +1101,9 @@
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#first" class="tsd-kind-icon">first</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a>
 					</li>
@@ -1145,9 +1112,6 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#map" class="tsd-kind-icon">map</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#millistofractionalpart" class="tsd-kind-icon">millis<wbr>ToFractional<wbr>Part</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#notblank" class="tsd-kind-icon">not<wbr>Blank</a>
@@ -1160,15 +1124,6 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#pad3" class="tsd-kind-icon">pad3</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#parseexifdate" class="tsd-kind-icon">parse<wbr>Exif<wbr>Date</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#parseexifdatetime" class="tsd-kind-icon">parse<wbr>Exif<wbr>Date<wbr>Time</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#parseexiftime" class="tsd-kind-icon">parse<wbr>Exif<wbr>Time</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#reasonabletzoffsetminutes" class="tsd-kind-icon">reasonable<wbr>TzOffset<wbr>Minutes</a>
@@ -1193,6 +1148,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#uniq" class="tsd-kind-icon">uniq</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#validdatetime" class="tsd-kind-icon">valid<wbr>Date<wbr>Time</a>
 					</li>
 				</ul>
 			</nav>
