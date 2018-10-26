@@ -47,7 +47,7 @@ vendored versions of ExifTool match the version they vendor.
   those values turned out to be hacky and brittle.
 
 - 🌱 ExifTool upgraded to
-  [v11.14](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.14).
+  [v11.15](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.15).
 
 ### v6.3.0
 
