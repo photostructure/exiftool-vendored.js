@@ -104,11 +104,20 @@ describe("WriteTask", () => {
     ).to.be.rejectedWith(/Invalid date\/time/)
   })
 
-  it("rejects a numeric Orientation without -n", async () => {
+  it("rejects an invalid numeric Orientation", async () => {
     const src = await testImg()
-    return expect(exiftool.write(src, { Orientation: "3" })).to.be.rejectedWith(
-      /Can't convert IFD0:Orientation/
-    )
+    return expect(
+      exiftool.write(src, { "Orientation#": -1 })
+    ).to.be.rejectedWith(/Value below int16u minimum/i)
+  })
+
+  it("rejects an invalid string Orientation", async () => {
+    const src = await testImg()
+    return expect(
+      exiftool.write(src, {
+        Orientation: "this isn't a valid orientation" as any
+      })
+    ).to.be.rejectedWith(/Can't convert IFD0:Orientation/i)
   })
 
   it("Accepts a shortcut tag", async () => {

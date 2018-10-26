@@ -1,13 +1,16 @@
 import { logger } from "batch-cluster"
-import { Info } from "luxon"
 import * as _path from "path"
 
 import { parseExifDate, parseExifDateTime, parseExifTime } from "./DateTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { toF } from "./Number"
-import { blank, toS } from "./String"
+import { toS } from "./String"
 import { Tags } from "./Tags"
-import { offsetMinutesToZoneName, reasonableTzOffsetMinutes } from "./Timezones"
+import {
+  extractTzOffsetFromTags,
+  offsetMinutesToZoneName,
+  reasonableTzOffsetMinutes
+} from "./Timezones"
 
 const tzlookup = require("tz-lookup")
 
@@ -24,16 +27,15 @@ const PassthroughTags = [
 
 export class ReadTask extends ExifToolTask<Tags> {
   private readonly degroup: boolean
-  // May have keys that are group-prefixed:
+  /** May have keys that are group-prefixed */
   private _raw: any = {}
-  // Always has non-group-prefixed keys:
+  /** Always has non-group-prefixed keys */
   private _tags: any = {}
   private readonly tags: Tags
   private lat?: number
   private lon?: number
   private invalidLatLon = false
   private tz?: string
-  private modifyDateTz?: string
 
   private constructor(readonly sourceFile: string, readonly args: string[]) {
     super(args)
@@ -62,12 +64,12 @@ export class ReadTask extends ExifToolTask<Tags> {
     return "ReadTask" + this.sourceFile + ")"
   }
 
-  protected parse(data: string): Tags {
+  protected parse(data: string, err?: Error): Tags {
     try {
       this._raw = JSON.parse(data)[0]
-    } catch (err) {
+    } catch (jsonError) {
       logger().error("ExifTool.ReadTask(): Invalid JSON", { data })
-      throw err
+      throw err || jsonError
     }
     // ExifTool does humorous things to paths, like flip slashes. resolve() undoes that.
     const SourceFile = _path.resolve(this._raw.SourceFile)
@@ -140,25 +142,10 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private extractTzOffset() {
-    {
-      const tzo = this._tags.TimeZoneOffset
-      ;[this.tz, this.modifyDateTz] = (Array.isArray(tzo)
-        ? tzo
-        : toS(tzo).split(" ")
-      )
-        .map(toF)
-        .filter(ea => ea != null)
-        .map(ea => Math.round(ea! * 60))
-        .filter(reasonableTzOffsetMinutes)
-        .map(offsetMinutesToZoneName)
-      if (this.tz != null) return
-    }
-    {
-      const tz = toS(this._tags.TimeZone)
-      if (!blank(tz) && Info.isValidIANAZone(tz)) {
-        this.tz = tz
-        return
-      }
+    const tz = extractTzOffsetFromTags(this._tags)
+    if (tz != null) {
+      this.tz = tz
+      return
     }
     this.extractLatLon()
     if (!this.invalidLatLon && this.lat != null && this.lon != null) {
@@ -198,12 +185,8 @@ export class ReadTask extends ExifToolTask<Tags> {
         return this.lon
       }
       if (typeof value === "string" && tagName.includes("Date")) {
-        const tz = tagName.endsWith("ModifyDate")
-          ? this.modifyDateTz || this.tz
-          : this.tz
-        const dt = parseExifDateTime(value, tz) || parseExifDate(value)
+        const dt = parseExifDateTime(value, this.tz) || parseExifDate(value)
         if (dt != null) {
-          // console.log("parseTag", { tagName, value, dt, tz })
           return dt
         }
       }

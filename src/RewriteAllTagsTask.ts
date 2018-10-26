@@ -30,7 +30,8 @@ export class RewriteAllTagsTask extends ExifToolTask<void> {
     return new RewriteAllTagsTask(args)
   }
 
-  parse(data: string): void {
+  parse(data: string, error?: Error): void {
+    if (error) throw error
     if (data.trim() !== "1 image files created") {
       throw new Error(
         data.trim().split("\n")[0] || "Missing expected status message"

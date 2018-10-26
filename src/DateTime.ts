@@ -3,7 +3,7 @@ import { DateTime, DateTimeOptions } from "luxon"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
-import { Maybe, map } from "./Maybe"
+import { map, Maybe } from "./Maybe"
 
 const { FixedOffsetZone } = require("luxon")
 const unsetZoneOffset = -24 * 60
@@ -41,34 +41,6 @@ export function parseExifDateTime(
       text,
       f,
       [
-        // {
-        //   fmt: "y-M-dTH:m:s.uZZZ"
-        // },
-        // {
-        //   fmt: "y-M-dTH:m:s.uZZ"
-        // },
-        // {
-        //   fmt: "y-M-dTH:m:s.u'Z'",
-        //   opts: { zone: "utc" }
-        // },
-        // {
-        //   fmt: "y-M-dTH:m:s.u",
-        //   opts: { zone }
-        // },
-        // {
-        //   fmt: "y-M-dTH:m:sZZZ"
-        // },
-        // {
-        //   fmt: "y-M-dTH:m:sZZ"
-        // },
-        // {
-        //   fmt: "y-M-dTH:m:s'Z'",
-        //   opts: { zone: "utc" }
-        // },
-        // {
-        //   fmt: "y-M-dTH:m:s",
-        //   opts: { zone }
-        // },
         {
           fmt: "y:M:d H:m:s.uZZ"
         },
@@ -91,6 +63,7 @@ export function parseExifDateTime(
           fmt: "y:M:d H:m:s",
           opts: { zone }
         },
+        // FWIW, the following are from actual datestamps seen in the wild:
         {
           fmt: "MMM d yyyy H:m:sZZZ"
         },

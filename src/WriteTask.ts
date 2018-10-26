@@ -28,7 +28,7 @@ export class WriteTask extends ExifToolTask<void> {
       .forEach((key: keyof Tags) => {
         const value = tags[key]
         if (Array.isArray(value)) {
-          value.forEach(ea => args.push(`-${key}=${ea}`))
+          ;(value as any[]).forEach(ea => args.push(`-${key}=${ea}`))
         } else {
           args.push(`-${key}=${value}`)
         }
@@ -44,12 +44,14 @@ export class WriteTask extends ExifToolTask<void> {
     return "WriteTask(" + this.sourceFile + ")"
   }
 
-  protected parse(data: string): void {
+  protected parse(data: string, err: Error): void {
+    if (err) throw err
+    if (this.errors.length > 0) throw new Error(this.errors.join(";"))
     data = data.trim()
     if (successRE.exec(data) != null) {
       return
     } else {
-      throw new Error(data)
+      throw err || new Error("No success message: " + data)
     }
   }
 }

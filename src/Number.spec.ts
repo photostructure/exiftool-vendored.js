@@ -38,6 +38,12 @@ describe("Number", () => {
       isNum: false,
       i: 124,
       f: 123.5
+    },
+    {
+      n: " 567.890 W 21431",
+      isNum: false,
+      i: 568,
+      f: 567.89
     }
   ]
   describe("isNumber()", () => {

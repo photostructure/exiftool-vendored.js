@@ -76,7 +76,7 @@ logger().info("Found " + files.length + " files...")
 function valueType(value: any): Maybe<string> {
   if (value == null) return
   if (Array.isArray(value)) {
-    const types = uniq(value.map(ea => typeof ea))
+    const types = uniq(compact(value.map(ea => valueType(ea))))
     return (types.length == 1 ? types[0] : "any") + "[]"
   }
   if (typeof value === "object") {
@@ -125,8 +125,8 @@ class Tag {
     const cm = new CountingMap<string>()
     compact(this.values)
       .map(i => valueType(i))
-      .forEach(i => i != null && cm.add(i))
-    return cm.byP(0.5).sort()
+      .forEach(i => i != null && i != "undefined" && cm.add(i))
+    return cm.byP(0.5)
   }
   get valueType(): string {
     return this.valueTypes.join(" | ")
@@ -227,7 +227,8 @@ class Tag {
     if (this.tag.endsWith("Comment")) return "This is a comment."
     if (this.tag.endsWith("Directory")) return "/home/username/image.jpg"
     if (this.tag.endsWith("Copyright")) return "© PhotoStructure, Inc."
-    if (this.tag.endsWith("CopyrightNotice")) return "This work is licensed under a Creative Commons Attribution 4.0 International License."
+    if (this.tag.endsWith("CopyrightNotice"))
+      return "This work is licensed under a Creative Commons Attribution 4.0 International License."
     if (this.tag.endsWith("OwnerName")) return "Itsa Myowna"
     if (this.tag.endsWith("Artist")) return "Ansel Adams"
     if (this.tag.endsWith("Author")) return "Arturo DeImage"

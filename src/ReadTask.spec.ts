@@ -3,11 +3,11 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
 
-function parse(tags: any): Tags {
+function parse(tags: any, err?: Error): Tags {
   const tt = ReadTask.for("/tmp/example.jpg", [])
   tags.SourceFile = "/tmp/example.jpg"
   const json = JSON.stringify([tags])
-  return tt["parse"](json)
+  return tt["parse"](json, err)
 }
 
 describe("Lat/Lon parsing", () => {
@@ -54,11 +54,9 @@ describe("Time zone extraction", () => {
   it("finds positive array TimeZoneOffset and sets accordingly", () => {
     const t = parse({
       TimeZoneOffset: [9, 8],
-      DateTimeOriginal: "2016:08:12 13:28:50",
-      ModifyDate: "2017:09:13 13:28:50"
+      DateTimeOriginal: "2016:08:12 13:28:50"
     })
     expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
-    expect((t.ModifyDate as any).tzoffsetMinutes).to.eql(8 * 60)
   })
 
   it("finds zulu TimeZoneOffset and sets accordingly", () => {

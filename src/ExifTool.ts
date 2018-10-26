@@ -51,24 +51,25 @@ export const DefaultExifToolPath = findExiftool()
 
 export const DefaultExiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
-export const DefaultMinorErrorsRegExp = /(\[minor\])|(warning: duplicate)/i
-
 /**
  * @see https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html
  */
 export interface ShortcutTags {
   /**
    * Shortcut for writing the "common EXIF date/time tags": `DateTimeOriginal`,
-   * `CreateDate`, and `ModifyDate` tags. Only used by `write`--not returned by
-   * `read`.
+   * `CreateDate`, and `ModifyDate` tags.
+   *
+   * Only used by `write`. This tag is not returned by `read`.
    */
   AllDates?: string
   "Orientation#"?: number
+  /**
+   * Included because it's so rare, it doesn't always make the Tags build:
+   */
+  TimeZoneOffset?: number | string
 }
 
-export type WriteTags = {
-  [K in keyof (Tags & ShortcutTags)]: string | number | (string | number)[]
-}
+export type WriteTags = Partial<Tags & ShortcutTags>
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 
@@ -138,15 +139,6 @@ export interface ExifToolOptions
   exiftoolArgs: string[]
 
   /**
-   * If this RegExp matches a given stringified Error, that error should be
-   * considered "minor"/non-fatal, and the task should not be rejected (at least
-   * because of that error)
-   *
-   * Defaults to `DefaultMinorErrorsRegExp`
-   */
-  minorErrorsRegExp: RegExp
-
-  /**
    * Tag names (which can have '*' glob matchers) which you want numeric values,
    * rather than ExifTool's "Print Conversion."
    *
@@ -180,7 +172,6 @@ export const DefaultExifToolOptions: Omit<
   fail: "{ready.*}",
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
-  minorErrorsRegExp: DefaultMinorErrorsRegExp,
   numericTags: ["Orientation", "*Duration*"]
 })
 
@@ -206,12 +197,6 @@ export class ExifTool {
     }
     this.options = {
       ...o,
-      rejectTaskOnStderr: (task: any, error: string | Error): boolean => {
-        if (task != null && typeof task.addError === "function") {
-          task.addError(error)
-        }
-        return o.minorErrorsRegExp.exec(String(error)) == null
-      },
       processFactory: () =>
         _child_process.spawn(o.exiftoolPath, o.exiftoolArgs, {
           stdio: "pipe",

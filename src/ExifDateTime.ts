@@ -30,7 +30,6 @@ export class ExifDateTime {
     dt: DateTime,
     tzOffsetMinutes: Maybe<number>
   ): Maybe<ExifDateTime> {
-    // console.log("fromDateTime()", { dt, tzOffsetMinutes })
     if (dt.toMillis() === 0 || dt.year == 0 || dt.year == 1) return undefined
     return new ExifDateTime(
       dt.year,

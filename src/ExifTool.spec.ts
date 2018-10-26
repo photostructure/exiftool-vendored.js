@@ -5,7 +5,6 @@ import { expect, testImg } from "./_chai.spec"
 import { times } from "./Array"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { Tags } from "./Tags"
-import { WriteTask } from "./WriteTask"
 
 describe("ExifTool", () => {
   const et = new ExifTool({ maxProcs: 2 })
@@ -197,34 +196,21 @@ describe("ExifTool", () => {
       await et.end()
       expect(await et.pids).to.eql([])
     } finally {
-      await et.end()
+      et.end()
     }
     return
   })
 
-  // This test failed in versions before
-  it("handles warnings properly", async function() {
+  it("invalid images throw errors on write", async function() {
     this.slow(1000)
     const et = new ExifTool()
     try {
       const img = await testImg("bad-exif-ifd.jpg")
-      // Hey, if you're reading this--this isn't how you should normally do
-      // writes. Use ExifTool.write().
-
-      // This test needs access to the errors array, so I need to keep
-      // it in scope (so I can't use exiftool.write()).
-      const tasks: WriteTask[] = []
-      await et.enqueueTask(() => {
-        const t = WriteTask.for(img, { AllDates: new Date().toISOString() })
-        tasks.push(t)
-        return t
-      })
-      const lastTask = tasks[tasks.length - 1]!
-      expect(lastTask.errors[0]).to.match(
-        /Warning: Duplicate MakerNoteUnknown tag in ExifIFD/
-      )
+      expect(
+        et.write(img, { AllDates: new Date().toISOString() })
+      ).to.be.rejectedWith(/Duplicate MakerNoteUnknown/)
     } finally {
-      await et.end()
+      et.end()
     }
     return
   })
