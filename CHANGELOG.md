@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.1.0
+
+- 📦 Moved the date and time parsing into the `ExifDateTime`, `ExifDate`, and
+  `ExifTime` classes.
+
 ### v7.0.1: "nbd it's just the tags"
 
 - 📦 Added more test images to corpus, so there are more tags now.

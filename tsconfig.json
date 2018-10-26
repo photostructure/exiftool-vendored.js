@@ -3,6 +3,7 @@
     "allowJs": false,
     "allowUnreachableCode": false,
     "declaration": true,
+    "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "moduleResolution": "node",

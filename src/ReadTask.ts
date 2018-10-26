@@ -1,8 +1,11 @@
 import { logger } from "batch-cluster"
 import * as _path from "path"
 
-import { parseExifDate, parseExifDateTime, parseExifTime } from "./DateTime"
+import { ExifDate } from "./ExifDate"
+import { ExifDateTime } from "./ExifDateTime"
+import { ExifTime } from "./ExifTime"
 import { ExifToolTask } from "./ExifToolTask"
+import { first } from "./Maybe"
 import { toF } from "./Number"
 import { toS } from "./String"
 import { Tags } from "./Tags"
@@ -155,8 +158,15 @@ export class ReadTask extends ExifToolTask<Tags> {
       } catch (err) {}
     }
     if (this._tags.GPSDateTime != null && this._tags.DateTimeOriginal != null) {
-      const gps = parseExifDateTime(this._tags.GPSDateTime, "utc")
-      const local = parseExifDateTime(this._tags.DateTimeOriginal, "utc")
+      const gps = ExifDateTime.fromEXIF(this._tags.GPSDateTime, "utc")
+      const local = first(
+        [
+          this._tags.DateTimeOriginal,
+          this._tags.CreateDate,
+          this._tags.MediaCreateDate
+        ],
+        text => ExifDateTime.fromEXIF(text, "utc")
+      )
       if (gps && local && gps.toDate && local.toDate) {
         // timezone offsets always on the hour or half hour:
         const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
@@ -177,7 +187,6 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (PassthroughTags.indexOf(tagName) >= 0) {
         return value
       }
-
       if (tagName == "GPSLatitude") {
         return this.lat
       }
@@ -185,13 +194,14 @@ export class ReadTask extends ExifToolTask<Tags> {
         return this.lon
       }
       if (typeof value === "string" && tagName.includes("Date")) {
-        const dt = parseExifDateTime(value, this.tz) || parseExifDate(value)
+        const dt =
+          ExifDateTime.fromEXIF(value, this.tz) || ExifDate.fromEXIF(value)
         if (dt != null) {
           return dt
         }
       }
       if (typeof value === "string" && tagName.includes("Time")) {
-        const t = parseExifTime(value)
+        const t = ExifTime.fromEXIF(value)
         if (t != null) return t
       }
       // Trust that ExifTool rendered the value with the correct type in JSON:

@@ -1,6 +1,7 @@
 import { expect, testImg } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTags } from "./ExifTool"
+import { offsetMinutesToZoneName } from "./Timezones"
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
@@ -86,7 +87,10 @@ describe("WriteTask", () => {
     return assertRoundTrip({
       tag: "DateTimeOriginal",
       inputValue: "2017-11-15T12:34:56+8:00",
-      expectedValue: ExifDateTime.for("2017-11-15T12:34:56", 480)
+      expectedValue: ExifDateTime.fromISO(
+        "2017-11-15T12:34:56",
+        offsetMinutesToZoneName(480)
+      )
     })
   })
 

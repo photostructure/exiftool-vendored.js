@@ -1,10 +1,26 @@
-import { millisToFractionalPart } from "./DateTime"
-import { pad2 } from "./String"
+import { DateTime } from "luxon"
+
+import { first, map, Maybe } from "./Maybe"
+import { blank, pad2, toS } from "./String"
 
 /**
  * Encodes an ExifTime (which may not have a timezone offset)
  */
 export class ExifTime {
+  static fromEXIF(text: string): Maybe<ExifTime> {
+    if (blank(text) == null) return
+    text = toS(text).trim()
+    return first(["HH:mm:ss.u", "HH:mm:ss"], fmt =>
+      map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
+    )
+  }
+
+  static fromDateTime(dt: DateTime): Maybe<ExifTime> {
+    return dt == null || !dt.isValid
+      ? undefined
+      : new ExifTime(dt.hour, dt.minute, dt.second, dt.millisecond)
+  }
+
   constructor(
     readonly hour: number,
     readonly minute: number,
@@ -17,10 +33,12 @@ export class ExifTime {
   }
 
   toISOString(): string {
-    return (
-      pad2(this.hour, this.minute, this.second).join(":") +
-      millisToFractionalPart(this.millisecond)
-    )
+    const fracpart =
+      this.millisecond == null || this.millisecond == 0
+        ? ""
+        : (Math.round(this.millisecond) / 1000).toFixed(3).substring(1)
+
+    return pad2(this.hour, this.minute, this.second).join(":") + fracpart
   }
 
   toString() {

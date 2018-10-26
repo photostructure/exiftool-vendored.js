@@ -1,5 +1,5 @@
 import { expect } from "./_chai.spec"
-import { parseExifDate } from "./DateTime"
+import { ExifDate } from "./ExifDate"
 
 describe("ExifDateTime", () => {
   ;[
@@ -10,7 +10,7 @@ describe("ExifDateTime", () => {
     { text: "April 09 2018", iso: "2018-04-09" }
   ].forEach(({ text, iso }) => {
     it("parses " + iso, () => {
-      expect(parseExifDate(text)!.toISOString()).to.eql(iso)
+      expect(ExifDate.fromEXIF(text)!.toISOString()).to.eql(iso)
     })
   })
 })

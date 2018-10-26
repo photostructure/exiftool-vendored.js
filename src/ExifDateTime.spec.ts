@@ -1,12 +1,11 @@
 import { expect } from "./_chai.spec"
-import { parseExifDateTime } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
 
 describe("ExifDateTime", () => {
   describe("example strings with no tz", () => {
     const iso = "2016-08-12T07:28:50.768"
-    const dt = parseExifDateTime("2016:08:12 07:28:50.768120")!
-    const dtIso = parseExifDateTime(iso)!
+    const dt = ExifDateTime.fromEXIF("2016:08:12 07:28:50.768120")!
+    const dtIso = ExifDateTime.fromEXIF(iso)!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
     })
@@ -39,12 +38,12 @@ describe("ExifDateTime", () => {
       )
     })
     it("Round-trips from ISO", () => {
-      expect(ExifDateTime.for(iso)).to.eql(dt)
+      expect(ExifDateTime.fromISO(iso)).to.eql(dt)
     })
   })
 
   describe("example strings with UTC tzoffset", () => {
-    const dt = parseExifDateTime("2011:01:23 18:19:20", "utc")!
+    const dt = ExifDateTime.fromEXIF("2011:01:23 18:19:20", "utc")!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2011, 1, 23])
     })
@@ -77,7 +76,7 @@ describe("ExifDateTime", () => {
   })
 
   describe("example strings with tz and no millis", () => {
-    const dt = parseExifDateTime("2013:12:30 11:04:15-05:00")!
+    const dt = ExifDateTime.fromEXIF("2013:12:30 11:04:15-05:00")!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
     })
@@ -110,7 +109,7 @@ describe("ExifDateTime", () => {
   })
 
   describe("example strings with tz and millis", () => {
-    const edt = parseExifDateTime("2013:12:30 03:04:15.079321-05:00")!
+    const edt = ExifDateTime.fromEXIF("2013:12:30 03:04:15.079321-05:00")!
     it("parses year/month/day", () => {
       expect([edt.year, edt.month, edt.day]).to.eql([2013, 12, 30])
     })
@@ -159,10 +158,10 @@ describe("ExifDateTime", () => {
     ]
     examples.forEach(bad => {
       it(bad + " for DateTimeOriginal", () => {
-        expect(parseExifDateTime(bad)).to.be.undefined
+        expect(ExifDateTime.fromEXIF(bad)).to.be.undefined
       })
       it(bad + " for SubSecCreateDate", () => {
-        expect(parseExifDateTime("SubSecCreateDate")).to.be.undefined
+        expect(ExifDateTime.fromEXIF("SubSecCreateDate")).to.be.undefined
       })
     })
   })
