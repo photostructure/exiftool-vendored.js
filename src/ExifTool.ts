@@ -172,7 +172,7 @@ export const DefaultExifToolOptions: Omit<
   fail: "{ready.*}",
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
-  numericTags: ["Orientation", "*Duration*"]
+  numericTags: ["*Duration*", "GPS*", "Orientation"]
 })
 
 /**
