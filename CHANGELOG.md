@@ -24,8 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### unreleased
+### v7.2.0
 
+- 🌱 ExifTool upgraded to
+  [v11.20](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.20).
+- 🐞 `GPS*` was added to the default print conversion exceptions. GPS Latitude
+  and Longitude parsing was DRY'ed up, and now ensures correct sign based on
+  Ref. With prior heuristics, if the GPS values were re-encoded without updating
+  ref, the sign would be incorrect. 
+- 🐞 Timezone offset from GPS will be ignored if the date is > 14 hours different
 - 📦 added more timezone extraction tests
 
 ### v7.1.0
@@ -52,7 +59,7 @@ vendored versions of ExifTool match the version they vendor.
   time.
 
 - ✨ ExifTool's "print conversion" can be disabled for arbitrary tags, and the
-  defaults include `GPS*`, `Orientation` and `*Duration*` (not that globs are
+  defaults include `Orientation` and `*Duration*` (note that globs are
   supported!).
 
   By default, ExifTool-Vendored versions prior to `7.0.0` used ExifTool's print

@@ -12,8 +12,10 @@ import { Tags } from "./Tags"
 import {
   extractTzOffsetFromTags,
   offsetMinutesToZoneName,
-  reasonableTzOffsetMinutes
+  reasonableTzOffsetMinutes,
+  MaxTzOffsetHours
 } from "./Timezones"
+import { MinuteMs, HourMs, diffMs } from "./DateTime"
 
 const tzlookup = require("tz-lookup")
 
@@ -55,11 +57,14 @@ export class ReadTask extends ExifToolTask<Tags> {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
+      ...optionalArgs,
       "-coordFormat",
       "%.8f" // Just a float, please, not the default of "22 deg 20' 7.58\" N"
     ]
+    // IMPORTANT: "-all" must be after numeric tag references (first reference
+    // in wins)
     args.push(...numericTags.map(ea => "-" + ea + "#"))
-    args.push("-all", "-charset", "filename=utf8", ...optionalArgs, sourceFile)
+    args.push("-all", "-charset", "filename=utf8", sourceFile)
     return new ReadTask(sourceFile, args)
   }
 
@@ -109,53 +114,53 @@ export class ReadTask extends ExifToolTask<Tags> {
     return this.tags as Tags
   }
 
-  private extractLatLon(): void {
-    if (this.invalidLatLon) return
-    if (this.lat == null) {
-      this.lat = toF(this._tags.GPSLatitude)
-      if (
-        this.lat != null &&
-        toS(this._tags.GPSLatitudeRef)
-          .toLowerCase()
-          .startsWith("s")
-      ) {
-        this.lat = this.lat! * -1
-      }
-      if (this.lat != null && Math.abs(this.lat) > 90) {
-        this.errors.push(`Invalid GPSLatitude, "${this._tags.GPSLatitude}"`)
-        this.invalidLatLon = true
-      }
+  private latlon(
+    tagName: "GPSLatitude" | "GPSLongitude",
+    negateRef: "S" | "W",
+    maxValid: 90 | 180
+  ): number | undefined {
+    const tagValue = this._tags[tagName]
+    const r = toF(tagValue)
+    if (r == null) return
+    if (Math.abs(r) > maxValid) {
+      this.errors.push(`Invalid ${tagName}, ${JSON.stringify(tagValue)}`)
+      this.invalidLatLon = true
+      return
     }
+    const ref = toS(this._tags[tagName + "Ref"]).toUpperCase()
+    if (ref.startsWith(negateRef)) {
+      return Math.abs(r) * -1
+    } else {
+      return r
+    }
+  }
 
-    if (this.lon == null) {
-      this.lon = toF(this._tags.GPSLongitude)
-      if (
-        this.lon != null &&
-        toS(this._tags.GPSLongitudeRef)
-          .toLowerCase()
-          .startsWith("w")
-      ) {
-        this.lon = this.lon! * -1
-      }
-      if (this.lon != null && Math.abs(this.lon) > 180) {
-        this.errors.push(`Invalid GPSLongitude, "${this._tags.GPSLongitude}"`)
-        this.invalidLatLon = true
-      }
+  private extractLatLon(): void {
+    if (!this.invalidLatLon && this.lat == null) {
+      this.lat = this.latlon("GPSLatitude", "S", 90)
+    }
+    if (!this.invalidLatLon && this.lon == null) {
+      this.lon = this.latlon("GPSLongitude", "W", 180)
     }
   }
 
   private extractTzOffset() {
-    const tz = extractTzOffsetFromTags(this._tags)
-    if (tz != null) {
-      this.tz = tz
-      return
-    }
-    this.extractLatLon()
-    if (!this.invalidLatLon && this.lat != null && this.lon != null) {
-      try {
-        this.tz = tzlookup(this.lat, this.lon)
+    {
+      this.tz = extractTzOffsetFromTags(this._tags)
+      if (this.tz != null) {
         return
-      } catch (err) {}
+      }
+    }
+    {
+      this.extractLatLon()
+      if (!this.invalidLatLon && this.lat != null && this.lon != null) {
+        try {
+          this.tz = tzlookup(this.lat, this.lon)
+          if (this.tz != null) {
+            return
+          }
+        } catch (err) {}
+      }
     }
     if (this._tags.GPSDateTime != null && this._tags.DateTimeOriginal != null) {
       const gps = ExifDateTime.fromEXIF(this._tags.GPSDateTime, "utc")
@@ -167,10 +172,17 @@ export class ReadTask extends ExifToolTask<Tags> {
         ],
         text => ExifDateTime.fromEXIF(text, "utc")
       )
-      if (gps && local && gps.toDate && local.toDate) {
+      if (
+        gps &&
+        gps.toDate &&
+        local &&
+        local.toDate &&
+        Math.abs(diffMs(local.toDate(), gps.toDate())) <=
+          MaxTzOffsetHours * HourMs
+      ) {
         // timezone offsets always on the hour or half hour:
-        const gpsToHalfHour = gps.toDate().getTime() / (30 * 60 * 1000)
-        const localToHalfHour = local.toDate().getTime() / (30 * 60 * 1000)
+        const gpsToHalfHour = gps.toDate().getTime() / (30 * MinuteMs)
+        const localToHalfHour = local.toDate().getTime() / (30 * MinuteMs)
         const tzoffsetMinutes = 30 * Math.round(localToHalfHour - gpsToHalfHour)
         if (reasonableTzOffsetMinutes(tzoffsetMinutes)) {
           this.tz = offsetMinutesToZoneName(tzoffsetMinutes)
