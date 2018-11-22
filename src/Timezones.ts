@@ -22,12 +22,17 @@ export function offsetMinutesToZoneName(
   )
 }
 
+// Pacific/Kiritimati is +14:00 TIL
+// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+export const MaxTzOffsetHours = 14
+
 export function reasonableTzOffsetMinutes(
   tzOffsetMinutes: Maybe<number>
 ): boolean {
-  // Pacific/Kiritimati is +14:00 TIL
-  // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  return isNumber(tzOffsetMinutes) && Math.abs(tzOffsetMinutes) < 14 * 60
+  return (
+    isNumber(tzOffsetMinutes) &&
+    Math.abs(tzOffsetMinutes) < MaxTzOffsetHours * 60
+  )
 }
 
 const tzRe = /([+-]?)(\d\d?)(?::(\d\d))?/
