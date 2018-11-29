@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.2.1
+
+- 📦 Update dependencies to deal with
+  [event-stream](https://github.com/dominictarr/event-stream/issues/116) 💩🌩️
+
 ### v7.2.0
 
 - 🌱 ExifTool upgraded to
