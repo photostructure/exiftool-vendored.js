@@ -330,10 +330,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-batch-cluster@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.0.0.tgz#00cf17520ebd30158e3c356cc565da19950d4365"
-  integrity sha512-EmaBbO3DAeiQOpVnO6hLbYlUnc6iCqYG58yReU9zi21dVFiiEwU/DkA6gvlF5zjUxA87TpMZ+Bjc/WxCUSOEgg==
+batch-cluster@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.0.1.tgz#9586107b0b0adbd7d72a46b24d2d0720eee685a9"
+  integrity sha512-mYyzNATTYC1M0FS8uNVz6OK34AqClODVPENbTrw+eh+n1Tf8xuSVHJvQFUQ00QmBp9Crk73lJYXqemLLEr1vow==
 
 binary@^0.3.0:
   version "0.3.0"

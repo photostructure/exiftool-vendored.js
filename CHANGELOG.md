@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.3.0
+
+- 📦 Rebuilt tags using new numeric default for GPS and new smartphone test
+  images. Note that some tags were incorrect, and have now changed types (like
+  `GPSLatitude` and `GPSLongitude`). New ExifTool versions gave us a new
+  `FlashPixTags` group of tags, as well.
+- 📦 Rebuilt docs
+
 ### v7.2.1
 
 - 📦 Update dependencies to deal with
@@ -36,7 +44,7 @@ vendored versions of ExifTool match the version they vendor.
 - 🐞 `GPS*` was added to the default print conversion exceptions. GPS Latitude
   and Longitude parsing was DRY'ed up, and now ensures correct sign based on
   Ref. With prior heuristics, if the GPS values were re-encoded without updating
-  ref, the sign would be incorrect. 
+  ref, the sign would be incorrect.
 - 🐞 Timezone offset from GPS will be ignored if the date is > 14 hours different
 - 📦 added more timezone extraction tests
 

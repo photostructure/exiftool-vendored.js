@@ -119,10 +119,14 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable"><a href="globals.html#dayms" class="tsd-kind-icon">Day<wbr>Ms</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#defaultexiftooloptions" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#defaultexiftoolpath" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Path</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#defaultexiftoolargs" class="tsd-kind-icon">Default<wbr>Exiftool<wbr>Args</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#defaultmaxprocs" class="tsd-kind-icon">Default<wbr>Max<wbr>Procs</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#hourms" class="tsd-kind-icon">Hour<wbr>Ms</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#maxtzoffsethours" class="tsd-kind-icon">Max<wbr>TzOffset<wbr>Hours</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#minutems" class="tsd-kind-icon">Minute<wbr>Ms</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#exiftool" class="tsd-kind-icon">exiftool</a></li>
 							</ul>
 						</section>
@@ -131,6 +135,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function"><a href="globals.html#blank" class="tsd-kind-icon">blank</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#compact" class="tsd-kind-icon">compact</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#diffms" class="tsd-kind-icon">diff<wbr>Ms</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#extractoffset" class="tsd-kind-icon">extract<wbr>Offset</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#extracttzoffsetfromtags" class="tsd-kind-icon">extract<wbr>TzOffset<wbr>From<wbr>Tags</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a></li>
@@ -192,9 +197,19 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="dayms" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Day<wbr>Ms</h3>
+					<div class="tsd-signature tsd-kind-icon">Day<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;24 * HourMs</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L17">DateTime.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="defaultexiftooloptions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> Default<wbr>Exif<wbr>Tool<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready.*}&quot;,fail: &quot;{ready.*}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,numericTags: [&quot;Orientation&quot;, &quot;*Duration*&quot;]})</span></div>
+					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready.*}&quot;,fail: &quot;{ready.*}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,numericTags: [&quot;*Duration*&quot;, &quot;GPS*&quot;, &quot;Orientation&quot;]})</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L158">ExifTool.ts:158</a></li>
@@ -234,6 +249,36 @@
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L74">ExifTool.ts:74</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="hourms" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Hour<wbr>Ms</h3>
+					<div class="tsd-signature tsd-kind-icon">Hour<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;60 * MinuteMs</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L16">DateTime.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="maxtzoffsethours" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Max<wbr>TzOffset<wbr>Hours</h3>
+					<div class="tsd-signature tsd-kind-icon">Max<wbr>TzOffset<wbr>Hours<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">14</span><span class="tsd-signature-symbol"> =&nbsp;14</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L27">Timezones.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="minutems" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Minute<wbr>Ms</h3>
+					<div class="tsd-signature tsd-kind-icon">Minute<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;60 * 1000</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L15">DateTime.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -315,6 +360,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="diffms" class="tsd-anchor"></a>
+					<h3>diff<wbr>Ms</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">diff<wbr>Ms<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/DateTime.ts#L11">DateTime.ts:11</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>a: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+								<li>
+									<h5>b: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="extractoffset" class="tsd-anchor"></a>
 					<h3>extract<wbr>Offset</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -324,7 +395,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L38">Timezones.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L43">Timezones.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -352,7 +423,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L48">Timezones.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L53">Timezones.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -688,7 +759,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L25">Timezones.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L29">Timezones.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -834,7 +905,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Number.ts#L13">Number.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Number.ts#L11">Number.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1072,6 +1143,9 @@
 						<a href="globals.html#writetags" class="tsd-kind-icon">Write<wbr>Tags</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="globals.html#dayms" class="tsd-kind-icon">Day<wbr>Ms</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#defaultexiftooloptions" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-variable">
@@ -1084,6 +1158,15 @@
 						<a href="globals.html#defaultmaxprocs" class="tsd-kind-icon">Default<wbr>Max<wbr>Procs</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="globals.html#hourms" class="tsd-kind-icon">Hour<wbr>Ms</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxtzoffsethours" class="tsd-kind-icon">Max<wbr>TzOffset<wbr>Hours</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#minutems" class="tsd-kind-icon">Minute<wbr>Ms</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#exiftool" class="tsd-kind-icon">exiftool</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -1091,6 +1174,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#compact" class="tsd-kind-icon">compact</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#diffms" class="tsd-kind-icon">diff<wbr>Ms</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#extractoffset" class="tsd-kind-icon">extract<wbr>Offset</a>

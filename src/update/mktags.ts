@@ -110,6 +110,13 @@ class CountingMap<T> {
   }
 }
 
+function nullish(o: any): boolean {
+  const s = toS(o)
+  return (
+    o == null || blank(s) || s == "null" || s == "undefined" || s == "undef"
+  )
+}
+
 class Tag {
   values: any[] = []
   important: boolean
@@ -132,10 +139,7 @@ class Tag {
     return this.valueTypes.join(" | ")
   }
   vacuumValues() {
-    return filterInPlace(this.values, ea => {
-      const s = toS(ea)
-      return !blank(s) && s != "null" && s != "undef"
-    })
+    return filterInPlace(this.values, ea => !nullish(ea))
   }
   keep(minValues: number): boolean {
     this.vacuumValues()
@@ -213,12 +217,12 @@ class Tag {
       f > 0.75
         ? "★★★★"
         : f > 0.325
-          ? "★★★☆"
-          : f > 0.1625
-            ? "★★☆☆"
-            : f > 0.08125
-              ? "★☆☆☆"
-              : "☆☆☆☆"
+        ? "★★★☆"
+        : f > 0.1625
+        ? "★★☆☆"
+        : f > 0.08125
+        ? "★☆☆☆"
+        : "☆☆☆☆"
     const important = this.important ? "✔" : " "
     return `${stars} ${important}`
   }
@@ -226,6 +230,8 @@ class Tag {
   example(): string {
     // There are a bunch of tag values that have people's actual names or
     // contact information. Replace those values with stub values:
+    if (this.tag.endsWith("GPSLatitude")) return exampleToS([48.8577484])
+    if (this.tag.endsWith("GPSLongitude")) return exampleToS([2.2918888])
     if (this.tag.endsWith("Comment")) return exampleToS(["This is a comment."])
     if (this.tag.endsWith("Directory"))
       return exampleToS(["/home/username/pictures"])
@@ -250,9 +256,9 @@ class Tag {
       })
     // If there are multiple types, try to show one of each type:
     return exampleToS(
-      compact(
-        this.valueTypes.map(key => map(byValueType.get(key), ea => ea[0]))
-      )
+      this.valueTypes
+        .map(key => map(byValueType.get(key), ea => ea[0]))
+        .filter(ea => !nullish(ea))
     )
   }
 }
