@@ -51,7 +51,7 @@ export class WriteTask extends ExifToolTask<void> {
     if (successRE.exec(data) != null) {
       return
     } else {
-      throw err || new Error("No success message: " + data)
+      throw new Error("No success message: " + data)
     }
   }
 }

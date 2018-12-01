@@ -8,7 +8,7 @@ import { blank, pad2, toS } from "./String"
  */
 export class ExifTime {
   static fromEXIF(text: string): Maybe<ExifTime> {
-    if (blank(text) == null) return
+    if (blank(text)) return
     text = toS(text).trim()
     return first(["HH:mm:ss.u", "HH:mm:ss"], fmt =>
       map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
