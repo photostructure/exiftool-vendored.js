@@ -20,13 +20,12 @@
     "pretest": "yarn compile",
     "test": "nyc mocha --opts .mocha.opts",
     "report": "yarn test && nyc report -r html",
-    "docs:0": "bash -c 'rm -rf docs ; mkdir -p docs'",
-    "docs:1": "typedoc --options ./.typedoc.js",
+    "docs:1": "typedoc --options .typedoc.js",
     "docs:2": "echo exiftool-vendored.js.org > docs/CNAME",
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
-    "predocs": "bash -c 'for i in {0..4} ; do yarn docs:$i ; done'",
-    "docs": "yarn serve docs"
+    "docs:5": "yarn serve docs",
+    "docs": "bash -c 'for i in {1..5} ; do yarn docs:$i ; done'"
   },
   "publishConfig": {
     "access": "public"
