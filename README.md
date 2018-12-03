@@ -2,10 +2,11 @@
 
 **Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
 
-[![npm version](https://badge.fury.io/js/exiftool-vendored.svg)](https://badge.fury.io/js/exiftool-vendored)
+[![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
+[![GitHub issues](https://img.shields.io/github/issues/mceachen/exiftool-vendored.js.svg)](https://github.com/mceachen/exiftool-vendored.js/issues)
 [![Build status](https://travis-ci.org/mceachen/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored.js)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/9bdc62a0da0dbb5879e8/maintainability.svg)](https://codeclimate.com/github/mceachen/exiftool-vendored.js)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/mceachen/exiftool-vendored.js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/mceachen/exiftool-vendored.js/context:javascript)
 [![Known Vulnerabilities](https://snyk.io/test/github/mceachen/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mceachen/exiftool-vendored.js?targetFile=package.json)
   
 ## Features
