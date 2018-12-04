@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.4.0
+
+- 🐞 `WriteTask` now supports newlines. [Fixes
+  #37](https://github.com/mceachen/exiftool-vendored.js/issues/37).
+
 ### v7.3.0
 
 - 📦 Rebuilt tags using new numeric default for GPS and new smartphone test

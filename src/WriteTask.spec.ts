@@ -39,6 +39,13 @@ describe("WriteTask", () => {
     })
   })
 
+  it("round-trips a comment with a newline and carriage return", async () => {
+    return assertRoundTrip({
+      tag: "XPComment",
+      inputValue: "new comment\nfrom\r" + new Date()
+    })
+  })
+
   it("round-trips a non-latin comment", async () => {
     return assertRoundTrip({
       tag: "XPComment",

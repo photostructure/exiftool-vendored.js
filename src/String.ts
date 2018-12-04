@@ -46,3 +46,16 @@ export function stripPrefix(s: string, prefix: string): string {
     ? s.slice(prefix.length)
     : s
 }
+
+const safeChars = /[a-z0-9 :\/+\.-]/i
+
+/**
+ * This is a basic HTML entities encoder (so we don't have to pull in another
+ * npm dependency). No named entries are used, only decimal char values.
+ */
+export function htmlEncode(s: string): string {
+  return s
+    .split("")
+    .map(ea => (safeChars.exec(ea) == null ?  `&#${ea.charCodeAt(0)};` : ea))
+    .join("")
+}
