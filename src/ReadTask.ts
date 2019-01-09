@@ -106,6 +106,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private parseTags(): Tags {
+    this.extractLatLon()
     this.extractTzOffset()
     Object.keys(this._raw).forEach(key => {
       ;(this.tags as any)[key] = this.parseTag(key, this._raw[key])
@@ -152,7 +153,6 @@ export class ReadTask extends ExifToolTask<Tags> {
       }
     }
     {
-      this.extractLatLon()
       if (!this.invalidLatLon && this.lat != null && this.lon != null) {
         try {
           this.tz = tzlookup(this.lat, this.lon)
