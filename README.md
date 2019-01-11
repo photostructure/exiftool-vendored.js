@@ -361,6 +361,7 @@ very fast disk IO, you may see a speed increase with larger values of
 - [Anton Mokrushin](https://github.com/amokrushin)
 - [Luca Ban](https://github.com/mesqueeb)
 - [Demiurga](https://github.com/apolkingg8)
+- [David Randler](https://github.com/draity)
 
 ## CHANGELOG
 
