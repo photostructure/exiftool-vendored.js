@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.6.1
+
+- 🐞 Removed `yyyy` padding references that would break under Japanese year
+  eras. Also removed 0 and 1 year validity heuristics.
+
 ### v7.6.0
 
 - 🌱 ExifTool upgraded to

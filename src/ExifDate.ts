@@ -16,7 +16,7 @@ export class ExifDate {
     if (blank(text)) return
     text = toS(text).trim()
     return first(
-      ["yyyy:MM:dd", "yyyy-MM-dd", "y:M:d", "MMM d y", "MMMM d y"],
+      ["y:MM:dd", "y-MM-dd", "y:M:d", "MMM d y", "MMMM d y"],
       fmt => map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
     )
   }
@@ -28,7 +28,7 @@ export class ExifDate {
   }
 
   constructor(
-    readonly year: number, // four-digit year
+    readonly year: number, // full year (probably 2019-ish, but maybe Japanese 30-ish). See https://ericasadun.com/2018/12/25/iso-8601-yyyy-yyyy-and-why-your-year-may-be-wrong/
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
     readonly day: number // 1-31
   ) {}

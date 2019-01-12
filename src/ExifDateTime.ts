@@ -52,13 +52,13 @@ export class ExifDateTime {
           { fmt: "y:M:d H:m:s.u", zone },
           { fmt: "y:M:d H:m:s", zone },
           // FWIW, the following are from actual datestamps seen in the wild:
-          { fmt: "MMM d yyyy H:m:sZZZ" },
-          { fmt: "MMM d yyyy H:m:s", zone },
-          { fmt: "MMM d yyyy, H:m:sZZZ" },
-          { fmt: "MMM d yyyy, H:m:s", zone },
+          { fmt: "MMM d y H:m:sZZZ" },
+          { fmt: "MMM d y H:m:s", zone },
+          { fmt: "MMM d y, H:m:sZZZ" },
+          { fmt: "MMM d y, H:m:s", zone },
           // Thu Oct 13 00:12:27 2016:
-          { fmt: "ccc MMM d H:m:s yyyyZZ" },
-          { fmt: "ccc MMM d H:m:s yyyy", zone }
+          { fmt: "ccc MMM d H:m:s yZZ" },
+          { fmt: "ccc MMM d H:m:s y", zone }
         ],
         ({ fmt, zone }) =>
           map(DateTime.fromFormat(text, fmt, { setZone: true, zone }), dt =>
