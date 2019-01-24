@@ -59,12 +59,12 @@ export class WriteTask extends ExifToolTask<void> {
                   }
                 )
 
-                return `{ ${structKeyValuePairs} }`
+                return `{${structKeyValuePairs}}`
               })
               .join(", ")
 
             // EG. ArtworkOrObject: [{ AOCreator=badger, AOTitle=a title }, { AOTitle=another one }]
-            args.push(`${key}=[${structs}]`)
+            args.push(`-${key}=[${structs}]`)
           }
         } else {
           // Its a string type

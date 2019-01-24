@@ -108,16 +108,6 @@ describe("WriteTask", () => {
     })
   })
 
-  it("round-trips object/strut input", async () => {
-    return assertRoundTrip({
-      tag: "RegistryId",
-      inputValue: [
-        { RegItemId: "item 1", RegOrgId: "org 1" },
-        { RegEntryRole: "role 2", RegOrgId: "org 2" }
-      ]
-    })
-  })
-
   it("rejects setting to a non-time value", async () => {
     const src = await testImg()
     return expect(
@@ -163,5 +153,17 @@ describe("WriteTask", () => {
     return expect(
       exiftool.write(src, { RandomTag: 123 } as any)
     ).to.be.rejectedWith(/Tag \'RandomTag\' is not defined/)
+  })
+
+  it("Accepts a struct tag", async () => {
+    const struct = [
+      { RegItemId: "item 1", RegOrgId: "org 1" },
+      { RegEntryRole: "role 2", RegOrgId: "org 2" }
+    ]
+    const src = await testImg()
+    await exiftool.write(src, { RegistryID: struct })
+    const tags = await exiftool.read(src)
+    expect(tags.RegistryID).to.eql(struct)
+    return
   })
 })

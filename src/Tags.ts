@@ -4441,7 +4441,7 @@ export interface XMPTags {
   /** ☆☆☆☆ ✔ Examples: ["Focus",["Face","Focus"]] */
   RegionType?: string | string[]
   /** ☆☆☆☆   Example: "+7.10" */
-  RegistryId?: {
+  RegistryID?: {
     RegItemId?: string
     RegEntryRole?: string
     RegOrgId?: string
