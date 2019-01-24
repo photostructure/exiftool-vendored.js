@@ -9,7 +9,7 @@ describe("WriteTask", () => {
 
   async function assertRoundTrip(args: {
     tag: keyof WriteTags
-    inputValue: string | number | string[]
+    inputValue: string | number | string[] | { [key: string]: string }[]
     expectedValue?: any
     imgName?: string
     args?: string[]
@@ -105,6 +105,16 @@ describe("WriteTask", () => {
     return assertRoundTrip({
       tag: "Keywords",
       inputValue: ["one", "two", "three"]
+    })
+  })
+
+  it("round-trips object/strut input", async () => {
+    return assertRoundTrip({
+      tag: "RegistryId",
+      inputValue: [
+        { RegItemId: "item 1", RegOrgId: "org 1" },
+        { RegEntryRole: "role 2", RegOrgId: "org 2" }
+      ]
     })
   })
 
