@@ -57,6 +57,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
+      "-struct", // Return struct tags https://sno.phy.queensu.ca/~phil/exiftool/struct.html
       ...optionalArgs,
       "-coordFormat",
       "%.8f" // Just a float, please, not the default of "22 deg 20' 7.58\" N"
@@ -216,6 +217,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         const t = ExifTime.fromEXIF(value)
         if (t != null) return t
       }
+
       // Trust that ExifTool rendered the value with the correct type in JSON:
       return value
     } catch (e) {

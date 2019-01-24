@@ -49,7 +49,7 @@ export class WriteTask extends ExifToolTask<void> {
 
             // Ultimately this would have to be a recursive function as in theory structs can be
             // nested in one another, and even inlucde arrays etc. However in this basic implementation
-            // they just support simple strings as values
+            // just support simple strings as values
             const structs = (value as { [key: string]: string }[])
               .map(struct => {
                 const structKeyValuePairs = Object.keys(struct).map(
