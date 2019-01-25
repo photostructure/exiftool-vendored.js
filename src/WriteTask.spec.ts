@@ -9,7 +9,7 @@ describe("WriteTask", () => {
 
   async function assertRoundTrip(args: {
     tag: keyof WriteTags
-    inputValue: string | number | string[] | { [key: string]: string }[]
+    inputValue: string | number | string[] | { [key: string]: string | number }[]
     expectedValue?: any
     imgName?: string
     args?: string[]
