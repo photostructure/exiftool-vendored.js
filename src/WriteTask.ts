@@ -3,7 +3,6 @@ import * as _path from "path"
 import { Tags, WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
 import { htmlEncode } from "./String"
-import { isString } from "util"
 
 const successRE = /1 image files? updated/
 
@@ -39,7 +38,7 @@ export class WriteTask extends ExifToolTask<void> {
       .forEach((key: keyof Tags) => {
         const value = tags[key]
         if (Array.isArray(value)) {
-          if ((value as any[]).every(entry => isString(entry))) {
+          if ((value as any[]).every(entry => typeof entry === "string")) {
             // Its a simple array type
             ;(value as any[]).forEach(ea => args.push(`-${key}=${enc(ea)}`))
           }
@@ -50,11 +49,11 @@ export class WriteTask extends ExifToolTask<void> {
             // Ultimately this would have to be a recursive function as in theory structs can be
             // nested in one another, and even inlucde arrays etc. However in this basic implementation
             // just support simple strings as values
-            const structs = (value as { [key: string]: string }[])
+            const structs = (value as { [key: string]: string | number }[])
               .map(struct => {
                 const structKeyValuePairs = Object.keys(struct).map(
                   structKey => {
-                    const structValue: string = struct[structKey]
+                    const structValue: string | number = struct[structKey]
                     return `${structKey}=${enc(structValue)}`
                   }
                 )
