@@ -24,9 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### v7.7.0
+### v8.0.0
 
-- ✨ support for
+Note that this release supports structures. The value associated to `struct`
+tags will be different from prior versions (in that they will actually be a
+structure!). Because of that, I bumped the major version number (but I suspect
+most users won't be affected, unless you've been waiting for this feature!)
+
+- 💔 support for
   [structs](https://github.com/mceachen/exiftool-vendored.js/pull/43). Thanks,
   [Joshua Harris](https://github.com/Circuit8)!
 - 🌱 ExifTool upgraded to
