@@ -2,21 +2,24 @@ import { expect, testImg } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTags } from "./ExifTool"
 import { offsetMinutesToZoneName } from "./Timezones"
+import { Struct } from "./WriteTask"
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
   after(() => exiftool.end())
 
+  type InputValue = string | number | Struct
+
   async function assertRoundTrip(args: {
     tag: keyof WriteTags
-    inputValue: string | number | string[]
+    inputValue: InputValue | InputValue[]
     expectedValue?: any
     imgName?: string
     args?: string[]
   }) {
     const src = await testImg(args.imgName)
     const wt: WriteTags = {}
-    wt[args.tag] = args.inputValue
+    wt[args.tag] = args.inputValue as any
     await exiftool.write(src, wt, args.args)
     const result = (await exiftool.read(src)) as any
     const expected =
@@ -106,6 +109,18 @@ describe("WriteTask", () => {
       tag: "Keywords",
       inputValue: ["one", "two", "three"]
     })
+  })
+
+  it("round-trips a struct tag", async () => {
+    const struct = [
+      { RegItemId: "item 1", RegOrgId: "org 1" },
+      { RegEntryRole: "role 2", RegOrgId: "org 2" }
+    ]
+    const src = await testImg()
+    await exiftool.write(src, { RegistryID: struct })
+    const tags = await exiftool.read(src)
+    expect(tags.RegistryID).to.eql(struct)
+    return
   })
 
   it("rejects setting to a non-time value", async () => {
