@@ -6,7 +6,10 @@ import { times } from "./Array"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { Tags } from "./Tags"
 
-describe("ExifTool", () => {
+describe("ExifTool", function() {
+  this.timeout(15000)
+  this.slow(100)
+
   const et = new ExifTool({ maxProcs: 2 })
   after(() => et.end())
 
@@ -156,26 +159,26 @@ describe("ExifTool", () => {
   }
 
   it("ends procs when they've run > maxTasksPerProcess", async function() {
-    this.slow(5000)
-    this.retries(3)
-    const maxProcs = 8
-    const maxTasksPerProcess = 15
+    const maxProcs = 5
+    const maxTasksPerProcess = 5
     const et = new ExifTool({ maxProcs, maxTasksPerProcess })
-    const promises = times(maxProcs * maxTasksPerProcess * 3, () =>
-      et.read(img)
-    )
-    await Promise.all(promises)
+
+    const iters = maxProcs * maxTasksPerProcess
+    // Warm up the children:
+    const promises = times(iters, () => et.read(img))
+    const tags = await Promise.all(promises)
 
     // Not all pids will be alive, so we have to grant some slop:
-    expect((await et.pids).length).to.be.within(1, maxProcs * 1.5)
+    const pidsBefore = await et.pids
+    expect((await et.pids).length).to.be.within(1, maxProcs)
 
     const bc = et["batchCluster"] as BatchCluster
-    const tags = await Promise.all(promises)
+    expect(bc.spawnedProcs).to.be.gte(maxProcs)
     expect(bc.meanTasksPerProc).to.be.within(
       maxTasksPerProcess - 3,
       maxTasksPerProcess
     )
-    expect((await et.pids).length).to.be.within(1, maxProcs)
+    expect(pidsBefore.length).to.be.within(2, maxProcs * 1.5)
     assertReasonableTags(tags)
     await et.end()
     expect(await et.pids).to.eql([])
@@ -183,7 +186,6 @@ describe("ExifTool", () => {
   })
 
   it("ends with multiple procs", async function() {
-    this.slow(500)
     const maxProcs = 4
     const et = new ExifTool({ maxProcs })
     try {
@@ -203,7 +205,6 @@ describe("ExifTool", () => {
   })
 
   it("invalid images throw errors on write", async function() {
-    this.slow(1000)
     const et = new ExifTool()
     try {
       const img = await testImg("bad-exif-ifd.jpg")
