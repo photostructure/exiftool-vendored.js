@@ -3,7 +3,10 @@ import * as _path from "path"
 
 import { WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
-import { htmlEncode } from "./String"
+import { isNumber } from "./Number"
+import { keys } from "./Object"
+import { htmlEncode, isString } from "./String"
+import { isStruct } from "./Struct"
 
 const successRE = /1 image files? updated/
 
@@ -17,19 +20,12 @@ const utfCharsetArgs = [
   "-E" // < html encoding https://sno.phy.queensu.ca/~phil/exiftool/faq.html#Q10
 ]
 
-function isStr(o: any): o is string {
-  return typeof o == "string"
-}
-function isNum(o: any): o is number | string {
-  return typeof o == "number"
-}
-
 function enc(o: any): string {
   return o == null
     ? ""
-    : isNum(o)
+    : isNumber(o)
     ? String(o)
-    : isStr(o)
+    : isString(o)
     ? htmlEncode(String(o))
     : Array.isArray(o)
     ? `[${o.map(enc).join(",")}]`
@@ -38,29 +34,6 @@ function enc(o: any): string {
         .map(k => enc(k) + " = " + enc(o[k]))
         .join(",")}}`
     : fail("cannot encode " + JSON.stringify(o))
-}
-
-export interface Struct {
-  [k: string]: number | string | Struct
-}
-
-function keys<T, K extends string & keyof T>(o: T): K[] {
-  return o == null
-    ? []
-    : (Object.keys(o).filter(
-        ea => typeof ea === "string" && o.propertyIsEnumerable(ea)
-      ) as K[])
-}
-
-function isStruct(o: any): o is Struct {
-  return (
-    o != null &&
-    !Array.isArray(o) &&
-    keys(o).every(k => {
-      const t = typeof o[k]
-      return t == "string" || t == "number" || isStruct(o[k])
-    })
-  )
 }
 
 export class WriteTask extends ExifToolTask<void> {

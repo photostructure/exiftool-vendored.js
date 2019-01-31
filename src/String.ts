@@ -1,6 +1,10 @@
 import { times } from "./Array"
 import { Maybe } from "./Maybe"
 
+export function isString(o: any): o is string {
+  return typeof o == "string"
+}
+
 const spaces = times(10, i => times(i, () => " ").join(""))
 const zeroes = times(10, i => times(i, () => "0").join(""))
 
@@ -56,6 +60,6 @@ const safeChars = /[a-z0-9 :\/+\.-]/i
 export function htmlEncode(s: string): string {
   return s
     .split("")
-    .map(ea => (safeChars.exec(ea) == null ?  `&#${ea.charCodeAt(0)};` : ea))
+    .map(ea => (safeChars.exec(ea) == null ? `&#${ea.charCodeAt(0)};` : ea))
     .join("")
 }

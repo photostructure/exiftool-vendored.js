@@ -1,8 +1,8 @@
 import { expect, testImg } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTags } from "./ExifTool"
+import { Struct } from "./Struct"
 import { offsetMinutesToZoneName } from "./Timezones"
-import { Struct } from "./WriteTask"
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
@@ -112,7 +112,7 @@ describe("WriteTask", () => {
   })
 
   it("round-trips a struct tag", async () => {
-    const struct = [
+    const struct: Struct[] = [
       { RegItemId: "item 1", RegOrgId: "org 1" },
       { RegEntryRole: "role 2", RegOrgId: "org 2" }
     ]
