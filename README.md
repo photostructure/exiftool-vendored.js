@@ -8,7 +8,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/mceachen/exiftool-vendored.js.svg)](https://github.com/mceachen/exiftool-vendored.js/issues)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/mceachen/exiftool-vendored.js.svg)](https://lgtm.com/projects/g/mceachen/exiftool-vendored.js/context:javascript)
 [![Known Vulnerabilities](https://snyk.io/test/github/mceachen/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mceachen/exiftool-vendored.js?targetFile=package.json)
-  
+
 ## Features
 
 1.  **Best-of-class cross-platform performance and reliability**.
@@ -60,6 +60,19 @@ You shouldn't include either the `exiftool-vendored.exe` or
 See the
 [CHANGELOG](https://github.com/mceachen/exiftool-vendored.js/blob/master/CHANGELOG.md)
 for breaking changes since you last updated.
+
+### Major version bumps
+
+I bump the major version if there's a **chance** existing code might be
+affected.
+
+I've been bit too many times by my code breaking when I pull in minor or patch
+upgrades with other libraries. I think it's better to be pessimistic in code
+change impact analysis: "over-promise and under-deliver" your breaking-code
+changes.
+
+When you upgrade to a new major version, please take a bit more care in
+validating your own systems, but don't be surprised when everything still works.
 
 ## Usage
 
