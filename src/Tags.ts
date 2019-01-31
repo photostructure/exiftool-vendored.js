@@ -4440,6 +4440,12 @@ export interface XMPTags {
   RegionName?: string | string[]
   /** ☆☆☆☆ ✔ Examples: ["Focus",["Face","Focus"]] */
   RegionType?: string | string[]
+  /** ☆☆☆☆   Example: [{ RegItemId: "item 1", RegOrgId: "org 1"}, { RegEntryRole: "role 2", RegOrgId: "org 2"}] */
+  RegistryID?: {
+    RegItemId?: string
+    RegEntryRole?: string
+    RegOrgId?: string
+  }[]
   /** ☆☆☆☆   Example: "+7.10" */
   RelativeAltitude?: string
   /** ☆☆☆☆   Example: "james robinson taylor" */
