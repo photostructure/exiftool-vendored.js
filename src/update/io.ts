@@ -1,51 +1,43 @@
+import { Deferred } from "batch-cluster"
 import * as _crypto from "crypto"
 import * as _fs from "fs"
-import * as _http from "http"
-import * as _rimraf from "rimraf"
+import * as _fse from "fs-extra"
+import { IncomingMessage } from "http"
+import * as _https from "https"
+import { Duplex, DuplexOptions, Writable } from "stream"
+import * as tar from "tar-fs"
 import * as _zlib from "zlib"
 
-const tar = require("tar-fs")
-const https = require("https")
-const http = require("http")
 const DecompressZip = require("decompress-zip")
 
-interface Consumer {
-  onData(data: Buffer | string): void
-  onEnd(): string
-}
+export class WritableToBuffer extends Duplex {
+  private readonly deferred = new Deferred<Buffer>()
+  private readonly _buf: Buffer[] = []
 
-class StringConsumer implements Consumer {
-  private readonly data: string[] = []
-
-  onData(data: Buffer | string) {
-    this.data.push(data.toString())
+  constructor(opts?: DuplexOptions) {
+    super(opts)
+    this.on("finish", () => this.deferred.resolve(Buffer.concat(this._buf)))
+    this.on("error", err => {
+      this.deferred.reject(err)
+    })
   }
 
-  onEnd(): string {
-    return this.data.join("")
-  }
-}
-
-class FileConsumer implements Consumer {
-  private readonly out: _fs.WriteStream
-  constructor(readonly destination: string) {
-    this.out = _fs.createWriteStream(destination)
+  get data(): Promise<Buffer> {
+    return this.deferred.promise
   }
 
-  onData(data: Buffer | string) {
-    this.out.write(data)
-  }
+  _read() {} // required by stream
 
-  onEnd(): string {
-    this.out.end()
-    return this.destination
+  _write(chunk: any, encoding: string, next: () => void) {
+    const buf = Buffer.isBuffer(chunk) ? chunk : new Buffer(chunk, encoding)
+    this._buf.push(buf)
+    next()
   }
 }
 
-function wget(url: string, consumer: Consumer): Promise<string> {
+function wget(url: string, writeable: Writable): Promise<void> {
   return new Promise((resolve, reject) => {
-    const lib = url.startsWith("https") ? https : http
-    const request = lib.get(url, (response: _http.IncomingMessage) => {
+    const request = _https.get(url, (response: IncomingMessage) => {
       if (
         response.statusCode == null ||
         response.statusCode < 200 ||
@@ -55,73 +47,51 @@ function wget(url: string, consumer: Consumer): Promise<string> {
           new Error(`Failed to load page, status code: ${response.statusCode}`)
         )
       }
-      response.on("data", (chunk: Buffer | string) => consumer.onData(chunk))
-      response.on("end", () => resolve(consumer.onEnd()))
+      response.on("error", reject)
+      writeable.on("error", reject)
+      response
+        .pipe(writeable)
+        .on("error", reject)
+        .on("finish", resolve)
     })
-    request.on("error", (err: any) => reject(err))
+    request.on("error", reject)
   })
 }
 
-export function wgetString(url: string): Promise<string> {
-  return wget(url, new StringConsumer()).then(str => {
-    console.log(`✅ ${url} downloaded (${str.length} bytes)`)
-    return str
-  })
+export async function wgetString(url: string): Promise<string> {
+  const w = new WritableToBuffer()
+  await wget(url, w)
+  const str = (await w.data).toString()
+  console.log(`✅ ${url} downloaded (${str.length} bytes)`)
+  return str
 }
 
-export function wgetFile(url: string, destinationFile: string): Promise<void> {
-  return wget(url, new FileConsumer(destinationFile)).then(() => {
-    console.log(`✅ ${url} downloaded to ${destinationFile}`)
-  })
+export async function wgetFile(
+  url: string,
+  destinationFile: string
+): Promise<void> {
+  await wget(url, _fs.createWriteStream(destinationFile))
+  console.log(`✅ ${url} downloaded to ${destinationFile}`)
 }
 
 export function readFile(filename: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    _fs.readFile(filename, "utf8", (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  })
+  return _fse.readFile(filename).then(buf => buf.toString())
 }
 
-export function writeFile(filename: string, content: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    _fs.writeFile(
-      filename,
-      content,
-      { encoding: "utf8" },
-      (err: NodeJS.ErrnoException) => {
-        if (err) {
-          reject(err)
-        } else {
-          console.log(`✅ Wrote ${filename}`)
-          resolve()
-        }
-      }
-    )
-  })
+export async function writeFile(file: string, content: string): Promise<void> {
+  await _fse.writeFile(file, content)
+  console.log(`✅ Wrote ${file}`)
 }
 
-export function rename(before: string, after: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    _fs.rename(before, after, (err?: NodeJS.ErrnoException) => {
-      if (err) {
-        reject(err)
-      } else {
-        console.log(`✅ Renamed ${before} to ${after}`)
-        resolve()
-      }
-    })
-  })
+export async function rename(before: string, after: string): Promise<void> {
+  await _fse.rename(before, after)
+  console.log(`✅ Renamed ${before} to ${after}`)
 }
 
-export function sha1(filename: string, expectedSha: string): Promise<string> {
+export function sha1(file: string, expectedSha: string) {
   return new Promise<string>((resolve, reject) => {
     const hash = _crypto.createHash("SHA1")
-    const stream = _fs.createReadStream(filename)
+    const stream = _fs.createReadStream(file)
     stream.on("error", (error: Error) => {
       reject(error)
       stream.close()
@@ -135,10 +105,10 @@ export function sha1(filename: string, expectedSha: string): Promise<string> {
   }).then(actualSha => {
     if (expectedSha !== actualSha) {
       throw new Error(
-        `SHA1 MISMATCH: expected ${expectedSha} for ${filename}, got ${actualSha}`
+        `SHA1 MISMATCH: expected ${expectedSha} for ${file}, got ${actualSha}`
       )
     } else {
-      console.log(`✅ ${filename} matches expected SHA`)
+      console.log(`✅ ${file} matches expected SHA`)
       return actualSha
     }
   })
@@ -191,20 +161,6 @@ export function updatePackageVersion(
   return editPackageJson(packageJson, pkg => (pkg.version = version))
 }
 
-export function rmrf(
-  path: string,
-  ignoreErrors: boolean = false
-): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    _rimraf(path, (err: Error) => {
-      if (err && !ignoreErrors) {
-        reject(err)
-      } else {
-        resolve()
-      }
-    })
-  })
-}
 
 export function mkdir(
   path: string,

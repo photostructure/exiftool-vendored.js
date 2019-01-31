@@ -1,47 +1,58 @@
-import { Enclosure } from "./enclosure"
-import * as io from "./io"
+import * as _fse from "fs-extra"
+import * as globule from "globule"
 import * as _path from "path"
 
-const globule = require("globule")
+import * as io from "./io"
 
+const BaseUrl = "https://owl.phy.queensu.ca/~phil/exiftool/"
+const DlDir = _path.join(__dirname, "..", "..", "dl")
+const PatchVersion = ".0"
+
+type UpdateOpts = {
+  version: string
+  baseName: string
+  sha1: string
+}
 abstract class Update {
-  abstract readonly patchVersion: string
-  abstract readonly enclosure: Enclosure
-  abstract readonly dlDest: string
-  abstract readonly unpackDest: string
-  abstract readonly moduleDir: string
-  abstract readonly packageJson: string
+  constructor(
+    readonly opts: UpdateOpts & {
+      packageJson: string
+      unpackDir: string
+    }
+  ) {}
 
-  get version(): string {
-    return (this.enclosure.version + this.patchVersion)
-      .split(".")
-      .slice(0, 3)
-      .join(".")
+  get url() {
+    return BaseUrl + "/" + this.opts.baseName
+  }
+
+  get dlFile() {
+    return _path.join(DlDir, this.opts.baseName)
   }
 
   download(): Promise<void> {
-    return io.wgetFile(this.enclosure.url, this.dlDest)
+    return io.wgetFile(this.url, this.dlFile)
   }
 
-  verify(): Promise<void> {
-    return io.sha1(this.dlDest, this.enclosure.sha1).then(() => undefined)
+  verify() {
+    return io.sha1(this.dlFile, this.opts.sha1)
   }
 
-  async downloadMaybeAndVerify(): Promise<void> {
+  async downloadMaybeAndVerify() {
     try {
       await this.verify()
       return
     } catch (err) {
-      await io.rmrf(this.dlDest, true)
+      await _fse.remove(this.dlFile)
       await this.download()
-      return this.verify()
+      await this.verify()
+      return
     }
   }
 
   async cleanDest(): Promise<void> {
-    await io.rmrf(this.unpackDest, true)
-    await io.mkdir(this.unpackDest)
-    console.log(`[ √ ] Cleaned ${this.unpackDest}`)
+    await _fse.remove(this.opts.unpackDir)
+    await _fse.mkdirp(this.opts.unpackDir)
+    console.log(`✅ Cleaned ${this.opts.unpackDir}`)
     return
   }
 
@@ -51,62 +62,56 @@ abstract class Update {
     await this.downloadMaybeAndVerify()
     await this.cleanDest()
     await this.unpack()
-    await io.updatePackageVersion(this.packageJson, this.version + "-pre")
+    await io.updatePackageVersion(
+      this.opts.packageJson,
+      this.opts.version + PatchVersion + "-pre"
+    )
     return
   }
 }
+
+const ExeModuleDir = _path.resolve(
+  _path.join(__dirname, "..", "..", "..", "exiftool-vendored.exe")
+)
+const ExePackageJson = _path.join(ExeModuleDir, "package.json")
 
 class ZipUpdate extends Update {
-  readonly patchVersion = ".0"
-  readonly moduleDir = _path.join(
-    __dirname,
-    "..",
-    "..",
-    "..",
-    "exiftool-vendored.exe"
-  )
-  readonly packageJson = _path.join(this.moduleDir, "package.json")
-  readonly unpackDest: string
-  readonly dlDest: string
-
-  constructor(readonly enclosure: Enclosure, readonly dlDir: string) {
-    super()
-    this.dlDest = _path.join(dlDir, enclosure.path.base)
-    this.unpackDest = _path.join(this.moduleDir, "bin")
+  constructor(readonly o: UpdateOpts) {
+    super({
+      ...o,
+      packageJson: ExePackageJson,
+      unpackDir: _path.join(ExeModuleDir, "bin")
+    })
   }
 
   async unpack(): Promise<void> {
-    const before = _path.join(this.unpackDest, "exiftool(-k).exe")
-    const after = _path.join(this.unpackDest, "exiftool.exe")
-    await io.unzip(this.dlDest, this.unpackDest)
+    const destDir = this.opts.unpackDir
+    const before = _path.join(destDir, "exiftool(-k).exe")
+    const after = _path.join(destDir, "exiftool.exe")
+    await io.unzip(this.dlFile, destDir)
     await io.rename(before, after)
-    console.log(` ${after}`)
+    console.log(`✅ unzipped ${after}`)
     return
   }
 }
 
-class TarUpdate extends Update {
-  readonly patchVersion = ".0"
-  readonly moduleDir = _path.join(
-    __dirname,
-    "..",
-    "..",
-    "..",
-    "exiftool-vendored.pl"
-  )
-  readonly packageJson = _path.join(this.moduleDir, "package.json")
-  readonly dlDest: string
-  readonly unpackDest: string
+const PlModuleDir = _path.resolve(
+  _path.join(__dirname, "..", "..", "..", "exiftool-vendored.pl")
+)
+const PlPackageJson = _path.join(PlModuleDir, "package.json")
 
-  constructor(readonly enclosure: Enclosure, readonly dlDir: string) {
-    super()
-    this.dlDest = _path.join(dlDir, enclosure.path.base)
-    this.unpackDest = _path.join(this.moduleDir, "bin")
+class TarUpdate extends Update {
+  constructor(readonly o: UpdateOpts) {
+    super({
+      ...o,
+      packageJson: PlPackageJson,
+      unpackDir: _path.join(PlModuleDir, "bin")
+    })
   }
 
   async unpack(): Promise<void> {
-    const tmpUnpack = _path.join(this.moduleDir, "tmp")
-    await io.tarxzf(this.dlDest, tmpUnpack)
+    const tmpUnpack = _path.join(PlModuleDir, "tmp")
+    await io.tarxzf(this.dlFile, tmpUnpack)
     // The tarball is prefixed with "Image-ExifTool-VERSION". Move that subdirectory into bin proper.
     const subdir = globule.find(
       _path.join(tmpUnpack, `Image-ExifTool*${_path.sep}`)
@@ -114,40 +119,53 @@ class TarUpdate extends Update {
     if (subdir.length !== 1) {
       throw new Error(`Failed to find subdirector in ${tmpUnpack}`)
     }
-    await io.rmrf(this.unpackDest)
-    await io.rename(subdir[0], this.unpackDest)
-    await io.rmrf(this.unpackDest + "/t/")
-    await io.rmrf(this.unpackDest + "/html/")
+    // We have to remove the unpack dir, "bin," because we're renaming the
+    // Image-ExifTool-11.26 directory to "bin":
+    await _fse.remove(this.opts.unpackDir)
+    await _fse.rename(subdir[0], this.opts.unpackDir)
+    await _fse.remove(_path.join(this.opts.unpackDir, "t"))
+    await _fse.remove(_path.join(this.opts.unpackDir, "html"))
+    console.log(`✅ finished with ${this.opts.unpackDir}`)
     return
   }
 }
 
-function updatePlatformDependentModules(
-  perlVersion: string,
-  exeVersion: string
-): Promise<void> {
+function updatePlatformDependentModules(version: string): Promise<void> {
   return io.editPackageJson(
     _path.join(__dirname, "..", "..", "package.json"),
     pkg => {
       const mods = pkg.optionalDependencies
-      mods["exiftool-vendored.pl"] = perlVersion
-      mods["exiftool-vendored.exe"] = exeVersion
+      mods["exiftool-vendored.pl"] = version
+      mods["exiftool-vendored.exe"] = version
     }
   )
 }
 
+async function releases() {
+  const version = await io.wgetString(BaseUrl + "ver.txt")
+  const files: { baseName: string; sha1: string }[] = []
+
+  const checksums = await io.wgetString(BaseUrl + "checksums.txt")
+  const re = /SHA1\((\S+)\)=\s*([a-f0-9]+)/gim
+  let m: RegExpExecArray | null
+  while ((m = re.exec(checksums)) !== null) {
+    if (m.index === re.lastIndex) re.lastIndex++
+    files.push({ baseName: m[1], sha1: m[2] })
+  }
+  return { version, files }
+}
+
 export async function update(): Promise<void> {
-  const encs = await Enclosure.get()
-  const tar = encs.find(enc => enc.path.ext === ".gz")
-  const zip = encs.find(enc => enc.path.ext === ".zip")
+  const { version, files } = await releases()
+  const tar = files.find(ea => ea.baseName.endsWith(".tar.gz"))
+  const zip = files.find(ea => ea.baseName.endsWith(".zip"))
   if (tar && zip) {
-    const dl = _path.join(__dirname, "..", "..", "dl")
-    await io.mkdir(dl, true)
-    const tarUpdate = new TarUpdate(tar, dl)
+    await _fse.mkdirp(DlDir)
+    const tarUpdate = new TarUpdate({ version, ...tar })
     await tarUpdate.update()
-    const zipUpdate = new ZipUpdate(zip, dl)
+    const zipUpdate = new ZipUpdate({ version, ...zip })
     await zipUpdate.update()
-    await updatePlatformDependentModules(tarUpdate.version, zipUpdate.version)
+    await updatePlatformDependentModules(version + PatchVersion)
     console.log(
       "👍 now run `git commit` and `np` in the .pl and .exe subdirectories."
     )
