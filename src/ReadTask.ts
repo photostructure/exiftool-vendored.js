@@ -57,6 +57,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
+      "-struct", // Return struct tags https://sno.phy.queensu.ca/~phil/exiftool/struct.html
       ...optionalArgs,
       "-coordFormat",
       "%.8f" // Just a float, please, not the default of "22 deg 20' 7.58\" N"
@@ -64,6 +65,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     // IMPORTANT: "-all" must be after numeric tag references (first reference
     // in wins)
     args.push(...numericTags.map(ea => "-" + ea + "#"))
+    // TODO: Do you need -xmp:all, -all, or -all:all?
     args.push("-all", "-charset", "filename=utf8", sourceFile)
     return new ReadTask(sourceFile, args)
   }
