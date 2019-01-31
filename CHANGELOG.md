@@ -4,7 +4,7 @@
 
 Providing the flexibility to reversion the API or UPDATE version slots as
 features or bugfixes arise and using ExifTool's version number is at odds with
-eachother, so this library follows [Semver](http://semver.org/), and the
+eachother, so this library follows [Semver](https://semver.org/), and the
 vendored versions of ExifTool match the version they vendor.
 
 ### The `MAJOR` or `API` version is incremented for
@@ -24,6 +24,16 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v7.7.0
+
+- ✨ support for
+  [structs](https://github.com/mceachen/exiftool-vendored.js/pull/43). Thanks,
+  [Joshua Harris](https://github.com/Circuit8)!
+- 🌱 ExifTool upgraded to
+  [v11.26](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.26).
+- 📦 `update` now requires `https` for new ExifTool instance checksums.
+- 📦 Updated dependencies
+
 ### v7.6.1
 
 - 🐞 Removed `yyyy` padding references that would break under Japanese year
@@ -32,7 +42,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v7.6.0
 
 - 🌱 ExifTool upgraded to
-  [v11.24](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.24).
+  [v11.24](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.24).
 - 🐞 Fix [Lat/Lon parsing
   bug](https://github.com/mceachen/exiftool-vendored.js/pull/42). Thanks, [David
   Randler](https://github.com/draity)!
@@ -40,7 +50,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v7.5.0
 
 - 🌱 ExifTool upgraded to
-  [v11.21](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.21).
+  [v11.21](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.21).
 
 ### v7.4.0
 
@@ -63,7 +73,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v7.2.0
 
 - 🌱 ExifTool upgraded to
-  [v11.20](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.20).
+  [v11.20](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.20).
 - 🐞 `GPS*` was added to the default print conversion exceptions. GPS Latitude
   and Longitude parsing was DRY'ed up, and now ensures correct sign based on
   Ref. With prior heuristics, if the GPS values were re-encoded without updating
@@ -109,12 +119,12 @@ vendored versions of ExifTool match the version they vendor.
   was pulled into this release.
 
 - 🌱 ExifTool upgraded to
-  [v11.15](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.15).
+  [v11.15](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.15).
 
 ### v6.3.0
 
 - 🌱 ExifTool upgraded to
-  [v11.13](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.13).
+  [v11.13](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.13).
 - ✨ Rebuilt `Tags` based on new phone and camera models
 
 ### v6.2.3
@@ -138,7 +148,7 @@ vendored versions of ExifTool match the version they vendor.
 - ✨/🐞 [Joshua Harris](https://github.com/Circuit8) added support for [writing
   arrays](https://github.com/mceachen/exiftool-vendored.js/pull/32)
 - 🌱 ExifTool upgraded to
-  [v11.10](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.10).
+  [v11.10](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.10).
 
 ### v6.1.2
 
@@ -188,12 +198,12 @@ vendored versions of ExifTool match the version they vendor.
   those signatures now return Promises rather than being synchronous, so the
   exported `running` function has changed to return a `Promise<number[]>`.
 - 🌱 ExifTool upgraded to
-  [v11.09](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.09).
+  [v11.09](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.09).
 
 ### v5.5.0
 
 - 🌱 ExifTool upgraded to
-  [v11.08](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.08).
+  [v11.08](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.08).
 
 ### v5.4.0
 
@@ -218,7 +228,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v5.2.0
 
 - 🌱 ExifTool upgraded to
-  [v11.06](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.06).
+  [v11.06](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.06).
 - 📦 Removed node 9 from the build graph, as it isn't supported anymore:
   https://github.com/nodejs/Release#release-schedule
 - 📦 Pull in latest dependencies
@@ -228,7 +238,7 @@ vendored versions of ExifTool match the version they vendor.
 - ✨ new `exiftool.rewriteAllTags()`, which may repair problematic image
   metadata.
 - 🌱 ExifTool upgraded to
-  [v11.02](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.02).
+  [v11.02](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.02).
 - 📦 taskRetries default is now 1, which should allow recovery of the rare
   RPC/fork error, but actual corrupt files and realy errors can be rejected
   sooner.
@@ -246,7 +256,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v4.26.0
 
 - 🌱 ExifTool upgraded to
-  [v11.01](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.01).
+  [v11.01](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.01).
   Note that ExifTool doesn't really follow semver, so this shouldn't be a
   breaking change, so we'll stay on v4.
 - 📦 Pull in latest dependencies, including batch-cluster and TypeScript.
@@ -256,18 +266,18 @@ vendored versions of ExifTool match the version they vendor.
 ### v4.25.0
 
 - 🌱 ExifTool upgraded to
-  [v10.98](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.98)
+  [v10.98](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.98)
 
 ### v4.24.0
 
 - 🌱 ExifTool upgraded to
-  [v10.95](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.95)
+  [v10.95](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.95)
 - 📦 Fix `.pl` dependency to omit test files and documentation
 
 ### v4.23.0
 
 - 🌱 ExifTool upgraded to
-  [v10.94](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.94)
+  [v10.94](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.94)
 - 📦 Pull in latest dependencies, including more robust BatchCluster exiting
   (which may help with rare child zombies during long-lived parent processes on
   macOS)
@@ -281,7 +291,7 @@ vendored versions of ExifTool match the version they vendor.
 - ✨ Support for writing `AllDates` (closes
   [#21](https://github.com/mceachen/exiftool-vendored.js/issues/21).)
 - 🌱 ExifTool upgraded to
-  [v10.93](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.93)
+  [v10.93](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.93)
 
 ### v4.21.0
 
@@ -289,7 +299,7 @@ vendored versions of ExifTool match the version they vendor.
   Expect `ENOENT` rejections from `ExifTool.read` and `ExifTool.write` now.
 - 📦 Expose batch-cluster lifecycle events and logger
 - 🌱 ExifTool upgraded to
-  [v10.92](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.92)
+  [v10.92](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.92)
 
 ### v4.20.0
 
@@ -298,12 +308,12 @@ vendored versions of ExifTool match the version they vendor.
   [wiki](https://github.com/mceachen/exiftool-vendored.js/wiki#how-do-you-make-this-work-with-electron)
   for more information.
 - 🌱 ExifTool upgraded to
-  [v10.89](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.89)
+  [v10.89](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.89)
 
 ### v4.19.0
 
 - 🌱 ExifTool upgraded to
-  [v10.86](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.86)
+  [v10.86](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.86)
 
 ### v4.18.1
 
@@ -313,27 +323,27 @@ vendored versions of ExifTool match the version they vendor.
 ### v4.18.0
 
 - 🌱 ExifTool upgraded to
-  [v10.81](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.81)
+  [v10.81](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.81)
 - 📦 Update deps, including batch-cluster 1.9.0
 - 📦 Dropped support for node 4 (EOLs in 1 month).
 
 ### v4.17.0
 
 - 🌱 ExifTool upgraded to
-  [v10.79](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.79)
+  [v10.79](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.79)
 - 📦 Update deps, including TypeScript 2.7.2
 - 📦 [Removed 🐱](https://github.com/mceachen/exiftool-vendored.js/issues/16)
 
 ### v4.16.0
 
 - 🌱 ExifTool upgraded to
-  [v10.78](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.78)
+  [v10.78](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.78)
 - 📦 Update deps, including TypeScript 2.7.1
 
 ### v4.15.0
 
 - 🌱 ExifTool upgraded to
-  [v10.76](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.76)
+  [v10.76](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.76)
 - 📦 Update deps
 
 ### v4.14.1
@@ -349,7 +359,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v4.13.1
 
 - 🌱 ExifTool upgraded to
-  [v10.70](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.70)
+  [v10.70](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.70)
 - 📦 Replace tslint and tsfmt with prettier
 - 📦 Add test coverage report
 
@@ -359,14 +369,14 @@ an incomplete state and subsequently unpublished)
 ### v4.12.1
 
 - 📦 Rollback the rollback, as it's a [known issue with
-  par](http://u88.n24.queensu.ca/exiftool/forum/index.php/topic,8747.msg44932.html#msg44932).
+  par](https://u88.n24.queensu.ca/exiftool/forum/index.php/topic,8747.msg44932.html#msg44932).
   If this happens again I'll add a windows-specific validation of the par
   directory.
 
 ### v4.12.0
 
 - 🐞 Rollback to ExifTool v10.65 to avoid [this windows
-  issue](http://u88.n24.queensu.ca/exiftool/forum/index.php?topic=8747.msg44926)
+  issue](https://u88.n24.queensu.ca/exiftool/forum/index.php?topic=8747.msg44926)
 
 ### v4.11.0
 
@@ -377,7 +387,7 @@ an incomplete state and subsequently unpublished)
 ### v4.10.0
 
 - 🌱 ExifTool upgraded to
-  [v10.67](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.67)
+  [v10.67](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.67)
 
 ### v4.9.2
 
@@ -401,7 +411,7 @@ an incomplete state and subsequently unpublished)
 ### v4.6.0
 
 - 🌱 ExifTool upgraded to
-  [v10.66](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.66)
+  [v10.66](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.66)
 - ✨ Pull in new `batch-cluster` with more aggressive child process management
   (uses `taskkill` on win32 platforms and `kill -9` on unixish platforms)
 - ✨ ExifTool constructor defaults were relaxed to handle slow NAS
@@ -412,7 +422,7 @@ an incomplete state and subsequently unpublished)
 ### v4.5.0
 
 - 🌱 ExifTool upgraded to
-  [v10.64](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.64)
+  [v10.64](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.64)
 
 ### v4.4.1
 
@@ -421,7 +431,7 @@ an incomplete state and subsequently unpublished)
 ### v4.4.0
 
 - 🌱 ExifTool upgraded to
-  [v10.61](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.61)
+  [v10.61](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.61)
 - 🐞 Re-added the "-stay_open\nFalse" ExifTool exit command, which may be more
   reliable than only using signal traps.
 - 📦 `yarn upgrade --latest`
@@ -429,20 +439,20 @@ an incomplete state and subsequently unpublished)
 ### v4.3.0
 
 - 🌱 ExifTool upgraded to
-  [v10.60](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.60)
+  [v10.60](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.60)
 - 📦 Upgraded all dependencies
 
 ### v4.2.0
 
 - 🌱 ExifTool upgraded to
-  [v10.58](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.58)
+  [v10.58](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.58)
 
 ### v4.1.0
 
 - 📦 Added `QuickTimeTags` from several example movies (previous versions of
   `Tags` didn't have movie tag exemplar values)
 - 🌱 ExifTool upgraded to
-  [v10.57](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.57)
+  [v10.57](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.57)
 
 ### v4.0.0
 
@@ -459,7 +469,7 @@ an incomplete state and subsequently unpublished)
 ### v3.2.0
 
 - 🌱 ExifTool upgraded to
-  [v10.54](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.54)
+  [v10.54](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.54)
 - 📦 Pulled in batch-cluster v1.2.0 that supports more robust child process
   cleanup
 - ✨ Yarn and `platform-dependent-modules` don't play nicely. [Anton
@@ -485,7 +495,7 @@ an incomplete state and subsequently unpublished)
   [debuglog](https://nodejs.org/api/util.html#util_util_debuglog_section) to
   reduce external dependencies
 - 🌱 ExifTool upgraded to
-  [v10.51](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.51)
+  [v10.51](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.51)
 - 📦 Using `.npmignore` instead of package.json's `files` directive to specify
   the contents of the module.
 
@@ -527,7 +537,7 @@ an incomplete state and subsequently unpublished)
 
 - ✨ Added `maxReuses` before exiftool processes are recycled
 - 🌱 ExifTool upgraded to
-  [v10.50](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.50)
+  [v10.50](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v10.50)
 
 ### v2.12.0
 
@@ -563,7 +573,7 @@ an incomplete state and subsequently unpublished)
 
 - 🌱 ExifTool upgraded to v10.41
 - ✨ `Orientation` is [rendered as a string by
-  ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/exiftool_pod.html#n---printConv),
+  ExifTool](https://www.sno.phy.queensu.ca/~phil/exiftool/exiftool_pod.html#n---printConv),
   which was surprising (to me, at least). By exposing optional args in
   `ExifTool.read`, the caller can choose how ExifTool renders tag values.
 
@@ -600,7 +610,7 @@ an incomplete state and subsequently unpublished)
 ### v1.5.3
 
 - 📦 Switch back to `platform-dependent-modules`.
-  [npm warnings](http://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency)
+  [npm warnings](https://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency)
   aren't awesome.
 - 📦 Don't include tests or updater in the published package
 
