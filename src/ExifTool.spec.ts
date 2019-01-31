@@ -157,6 +157,7 @@ describe("ExifTool", () => {
 
   it("ends procs when they've run > maxTasksPerProcess", async function() {
     this.slow(5000)
+    this.retries(3)
     const maxProcs = 8
     const maxTasksPerProcess = 15
     const et = new ExifTool({ maxProcs, maxTasksPerProcess })
