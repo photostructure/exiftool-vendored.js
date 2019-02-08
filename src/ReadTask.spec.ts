@@ -42,7 +42,11 @@ describe("Lat/Lon parsing", () => {
   })
   it("parses lat lon even if timezone is given", () => {
     expect(
-      parse({ GPSLongitude: 122.4406148, GPSLongitudeRef: "W", OffsetTime: "+02:00" }).GPSLongitude
+      parse({
+        GPSLongitude: 122.4406148,
+        GPSLongitudeRef: "W",
+        OffsetTime: "+02:00"
+      }).GPSLongitude
     ).to.be.closeTo(-122.4406148, 0.00001)
   })
 })

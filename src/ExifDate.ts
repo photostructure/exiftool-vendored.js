@@ -15,9 +15,8 @@ export class ExifDate {
   static fromEXIF(text: string): Maybe<ExifDate> {
     if (blank(text)) return
     text = toS(text).trim()
-    return first(
-      ["y:MM:dd", "y-MM-dd", "y:M:d", "MMM d y", "MMMM d y"],
-      fmt => map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
+    return first(["y:MM:dd", "y-MM-dd", "y:M:d", "MMM d y", "MMMM d y"], fmt =>
+      map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
     )
   }
 

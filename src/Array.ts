@@ -4,7 +4,7 @@ export function compact<T>(array: MaybeNull<T>[]): T[] {
   return array.filter(elem => elem != null) as T[]
 }
 
-export function times<T>(n: number, f: ((idx: number) => T)): T[] {
+export function times<T>(n: number, f: (idx: number) => T): T[] {
   return Array(n)
     .fill(undefined)
     .map((_, i) => f(i))

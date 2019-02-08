@@ -5106,29 +5106,29 @@ export interface APP0Tags {
   OcadRevision?: number
 }
 
-export interface Tags extends
-  EXIFTags,
-  ExifToolTags,
-  FileTags,
-  MakerNotesTags,
-  CompositeTags,
-  PrintIMTags,
-  JFIFTags,
-  APP12Tags,
-  XMPTags,
-  PhotoshopTags,
-  FlashPixTags,
-  ICC_ProfileTags,
-  IPTCTags,
-  MPFTags,
-  APP1Tags,
-  MetaTags,
-  QuickTimeTags,
-  RIFFTags,
-  APP14Tags,
-  RAFTags,
-  PanasonicRawTags,
-  APP0Tags {
+export interface Tags
+  extends EXIFTags,
+    ExifToolTags,
+    FileTags,
+    MakerNotesTags,
+    CompositeTags,
+    PrintIMTags,
+    JFIFTags,
+    APP12Tags,
+    XMPTags,
+    PhotoshopTags,
+    FlashPixTags,
+    ICC_ProfileTags,
+    IPTCTags,
+    MPFTags,
+    APP1Tags,
+    MetaTags,
+    QuickTimeTags,
+    RIFFTags,
+    APP14Tags,
+    RAFTags,
+    PanasonicRawTags,
+    APP0Tags {
   errors?: string[]
   Error?: string
   Warning?: string

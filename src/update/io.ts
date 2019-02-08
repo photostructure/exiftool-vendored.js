@@ -146,7 +146,7 @@ export function tarxzf(targzFile: string, destDir: string): Promise<void> {
 
 export async function editPackageJson(
   packageJson: string,
-  f: ((packageObj: any) => void)
+  f: (packageObj: any) => void
 ): Promise<void> {
   const pkg = JSON.parse(await readFile(packageJson))
   f(pkg)
@@ -160,7 +160,6 @@ export function updatePackageVersion(
 ): Promise<void> {
   return editPackageJson(packageJson, pkg => (pkg.version = version))
 }
-
 
 export function mkdir(
   path: string,
