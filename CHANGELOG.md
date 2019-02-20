@@ -24,6 +24,16 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.1.0
+
+- ✨ Added support for EXIF dates that include both the UTC offset as well as the
+  time zone abbreviation, like `2014:07:17 08:46:27-07:00 DST`. The TZA is
+  actually an overspecification, and can be safely discarded.
+- 🌱 ExifTool upgraded to
+  [v11.27](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.27).
+- 📦 Updated dependencies
+- 📦 Mocha 6.0.0 broke `mocha.opts`, switched to `.mocharc.yaml`
+
 ### v8.0.0
 
 Note that this release supports structures. The value associated to `struct`
