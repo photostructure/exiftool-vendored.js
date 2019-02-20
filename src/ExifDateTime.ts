@@ -40,31 +40,44 @@ export class ExifDateTime {
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return
-    text = toS(text).trim()
+    const s = toS(text).trim()
+    const inputs = [s]
+
+    // Some EXIF datetime will "over-specify" and include both the utc offset
+    // *and* the "time zone abbreviation", like PST or PDT.
+    // TZAs are between 2 (AT) and 5 (WEST) characters.
+
+    // Unfortunately, luxon doesn't support regex.
+    const noTza = s.replace(/ [a-z]{2,5}$/i, "")
+    if (noTza != s) inputs.push(noTza)
+
     const zone = notBlank(defaultZone) ? defaultZone : unsetZone
+
+    const fmts = [
+      { fmt: "y:M:d H:m:s.uZZ" },
+      { fmt: "y:M:d H:m:sZZ" },
+      { fmt: "y:M:d H:m:s.u'Z'", zone: "utc" },
+      { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
+      { fmt: "y:M:d H:m:s.u", zone },
+      { fmt: "y:M:d H:m:s", zone },
+      // FWIW, the following are from actual datestamps seen in the wild:
+      { fmt: "MMM d y H:m:sZZZ" },
+      { fmt: "MMM d y H:m:s", zone },
+      { fmt: "MMM d y, H:m:sZZZ" },
+      { fmt: "MMM d y, H:m:s", zone },
+      // Thu Oct 13 00:12:27 2016:
+      { fmt: "ccc MMM d H:m:s yZZ" },
+      { fmt: "ccc MMM d H:m:s y", zone }
+    ]
+
     return (
-      first(
-        [
-          { fmt: "y:M:d H:m:s.uZZ" },
-          { fmt: "y:M:d H:m:sZZ" },
-          { fmt: "y:M:d H:m:s.u'Z'", zone: "utc" },
-          { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
-          { fmt: "y:M:d H:m:s.u", zone },
-          { fmt: "y:M:d H:m:s", zone },
-          // FWIW, the following are from actual datestamps seen in the wild:
-          { fmt: "MMM d y H:m:sZZZ" },
-          { fmt: "MMM d y H:m:s", zone },
-          { fmt: "MMM d y, H:m:sZZZ" },
-          { fmt: "MMM d y, H:m:s", zone },
-          // Thu Oct 13 00:12:27 2016:
-          { fmt: "ccc MMM d H:m:s yZZ" },
-          { fmt: "ccc MMM d H:m:s y", zone }
-        ],
-        ({ fmt, zone }) =>
-          map(DateTime.fromFormat(text, fmt, { setZone: true, zone }), dt =>
+      first(inputs, input =>
+        first(fmts, ({ fmt, zone }) =>
+          map(DateTime.fromFormat(input, fmt, { setZone: true, zone }), dt =>
             this.fromDateTime(dt)
           )
-      ) || this.fromISO(text, defaultZone)
+        )
+      ) || this.fromISO(s, defaultZone)
     )
   }
 

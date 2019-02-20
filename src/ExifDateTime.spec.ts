@@ -2,7 +2,7 @@ import { expect } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 
 describe("ExifDateTime", () => {
-  describe("example strings with no tz", () => {
+  describe("example with no tzoffset or zulu suffix", () => {
     const iso = "2016-08-12T07:28:50.768"
     const dt = ExifDateTime.fromEXIF("2016:08:12 07:28:50.768120")!
     const dtIso = ExifDateTime.fromEXIF(iso)!
@@ -42,7 +42,7 @@ describe("ExifDateTime", () => {
     })
   })
 
-  describe("example strings with UTC tzoffset", () => {
+  describe("example with no tzoffset and UTC default", () => {
     const dt = ExifDateTime.fromEXIF("2011:01:23 18:19:20", "utc")!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2011, 1, 23])
@@ -75,7 +75,26 @@ describe("ExifDateTime", () => {
     })
   })
 
-  describe("example strings with tz and no millis", () => {
+  describe("example with tzoffset and spurious timezone", () => {
+    const dt = ExifDateTime.fromEXIF("2014:07:17 08:46:27-07:00 DST")!
+    it("parses year/month/day", () => {
+      expect([dt.year, dt.month, dt.day]).to.eql([2014, 7, 17])
+    })
+    it("parses hour/minute/second", () => {
+      expect([dt.hour, dt.minute, dt.second]).to.eql([8, 46, 27])
+    })
+    it("parses tzoffset", () => {
+      expect(dt.tzoffsetMinutes).to.eql(-60 * 7)
+    })
+    it(".toISOString", () => {
+      expect(dt.toISOString()).to.eql("2014-07-17T08:46:27.000-07:00")
+    })
+    it(".toISOString() matches .toString()", () => {
+      expect(dt.toISOString()).to.eql(dt.toString())
+    })
+  })
+
+  describe("example with tzoffset and no millis", () => {
     const dt = ExifDateTime.fromEXIF("2013:12:30 11:04:15-05:00")!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
@@ -108,7 +127,7 @@ describe("ExifDateTime", () => {
     })
   })
 
-  describe("example strings with tz and millis", () => {
+  describe("example with tzoffset and millis", () => {
     const edt = ExifDateTime.fromEXIF("2013:12:30 03:04:15.079321-05:00")!
     it("parses year/month/day", () => {
       expect([edt.year, edt.month, edt.day]).to.eql([2013, 12, 30])
