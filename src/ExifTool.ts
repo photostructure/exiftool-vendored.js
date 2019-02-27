@@ -13,6 +13,7 @@ import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
+import { ReadRawTask } from "./ReadRawTask"
 
 export { Tags } from "./Tags"
 export { ExifDate } from "./ExifDate"
@@ -231,8 +232,9 @@ export class ExifTool {
    *
    * @param {string} file the file to extract metadata tags from
    * @param {string[]} [args] any additional ExifTool arguments, like "-fast" or
-   * "-fast2". Note that the default is "-fast", so if you want ExifTool to read
-   * the entire file for metadata, you should pass an empty array as the second
+   * "-fast2". **Most other arguments will require you to use `readRaw`.**
+   * Note that the default is "-fast", so if you want ExifTool to read the
+   * entire file for metadata, you should pass an empty array as the second
    * parameter. See https://sno.phy.queensu.ca/~phil/exiftool/#performance for
    * more information about `-fast` and `-fast2`.
    * @returns {Promise<Tags>} A resolved Tags promise. If there are errors
@@ -243,6 +245,32 @@ export class ExifTool {
     return this.enqueueTask(() =>
       ReadTask.for(file, this.options.numericTags, args)
     )
+  }
+
+  /**
+   * Read the tags from `file`, without any post-processing of ExifTool values.
+   *
+   * **You probably don't want this method. You want `read`. READ THE REST OF THIS CAREFULLY.** 
+   *
+   * If you want to extract specific tag values from a file, you may want to use
+   * this, but all data validation and error recovery heuristics provided by
+   * `read` will be skipped.
+   *
+   * Note that performance will be very similar to `read`, and will actually be
+   * worse if you don't include `-fast` or `-fast2` (as the most expensive bit
+   * is the perl interpreter and scanning the file on disk).
+   *
+   * @param args **all ExifTool arguments**, except for the file path. If
+   * `-charset` or `filename=utf8` are missing, and you have non-ascii tag
+   * values, you're going to have a bad day. The resolved pathname will be
+   * appended to the args array for you, and if `-json` is missing from `args`,
+   * that will be prepended, as it's a prerequisite to parsing the result.
+   *
+   * @return Note that the values **might** match `Tags`, but they might not.
+   * You're off the reservation here.
+   */
+  readRaw(file: string, args: string[]): Promise<Tags> {
+    return this.enqueueTask(() => ReadRawTask.for(file, args))
   }
 
   /**

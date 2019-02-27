@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.2.0
+
+- ✨ Implemented `ExifTool.readRaw`. If you decide to use this method, please
+  take care to read the method's documentation. Addresses both
+  [#44](https://github.com/mceachen/exiftool-vendored.js/issues/44) and
+  [#45](https://github.com/mceachen/exiftool-vendored.js/issues/45).
+
 ### v8.1.0
 
 - ✨ Added support for EXIF dates that include both the UTC offset as well as the

@@ -63,6 +63,14 @@ describe("ExifTool", function() {
     )
   })
 
+  it("returns raw tag values", async () => {
+    return expect(et.readRaw(img, ["-Make", "-Model"])).to.eventually.eql({
+      Make: "Apple",
+      Model: "iPhone 7 Plus",
+      SourceFile: img
+    }) // and nothing else
+  })
+
   it("returns expected results for a given file with non-english filename", async function() {
     this.slow(500)
     return expect(
