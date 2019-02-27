@@ -19,6 +19,10 @@ describe("ExifTool", function() {
   const img2 = _path.join(__dirname, "..", "test", "ExifTool.jpg")
   const nonEnglishImg = _path.join(__dirname, "..", "test", "中文.jpg")
 
+  function posixPath(path: string) {
+    return path.split(_path.sep).join("/")
+  }
+ 
   const packageJson = require("../package.json")
 
   function expectedExiftoolVersion(flavor: "exe" | "pl" = "pl"): string {
@@ -67,7 +71,7 @@ describe("ExifTool", function() {
     return expect(et.readRaw(img, ["-Make", "-Model"])).to.eventually.eql({
       Make: "Apple",
       Model: "iPhone 7 Plus",
-      SourceFile: img
+      SourceFile: posixPath(img)
     }) // and nothing else
   })
 
