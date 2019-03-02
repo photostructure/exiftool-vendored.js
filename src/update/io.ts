@@ -8,7 +8,7 @@ import { Duplex, DuplexOptions, Writable } from "stream"
 import * as tar from "tar-fs"
 import * as _zlib from "zlib"
 
-const DecompressZip = require("decompress-zip")
+const ExtractZip = require("extract-zip")
 
 export class WritableToBuffer extends Duplex {
   private readonly deferred = new Deferred<Buffer>()
@@ -114,18 +114,15 @@ export function sha1(file: string, expectedSha: string) {
   })
 }
 
-export function unzip(zipFile: string, destDir: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    let unzipper = new DecompressZip(zipFile)
-    unzipper.on("error", reject)
-    unzipper.on("extract", () => {
-      console.log(`✅ ${zipFile} unzipped to ${destDir}`)
-      resolve()
-    })
-    unzipper.extract({
-      path: destDir
-    })
-  })
+export async function unzip(zipFile: string, destDir: string) {
+  await _fse.mkdirp(destDir)
+  const p = new Promise<void>((res, rej) =>
+    ExtractZip(zipFile, { dir: destDir }, (err: any) =>
+      err ? rej(err) : res()
+    )
+  )
+  p.then(() => console.log(`✅ ${zipFile} unzipped to ${destDir}`))
+  return p
 }
 
 export function tarxzf(targzFile: string, destDir: string): Promise<void> {

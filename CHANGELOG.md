@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.3.0
+
+- 📦 Updated dependencies
+- 📦 `yarn update` now uses `extract-zip`.
+- 🌱 ExifTool upgraded to
+  [v11.29](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.29).
+
 ### v8.2.0
 
 - ✨ Implemented `ExifTool.readRaw`. If you decide to use this method, please
