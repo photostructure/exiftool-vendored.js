@@ -26,7 +26,7 @@
     "docs:4": "touch docs/.nojekyll",
     "docs:5": "yarn serve docs",
     "docs": "bash -c 'for i in {1..5} ; do yarn docs:$i ; done'",
-    "prep:0": "bash -c 'for i in ../exiftool-vendored.exe ../exiftool-vendored.pl ; do (cd $i ; git add . ; git stash) ; done'",
+    "prep:0": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git add . ; git stash) ; done'",
     "prep:1": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git pull) ; done'",
     "prep:2": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; salita -u) ; done'",
     "prep:3": "bash -c 'rm -rf ../exiftool-vendored*/node_modules ../exiftool-vendored*/yarn.lock'",
