@@ -12,9 +12,15 @@ import { isNumber } from "../Number"
 import { nullish } from "../ReadTask"
 import { blank, isString, leftPad } from "../String"
 
+require("source-map-support").install()
+
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
-const exiftool = new ExifTool({ maxProcs: 4, taskRetries: 3 })
+const exiftool = new ExifTool({
+  maxProcs: 8,
+  taskRetries: 3,
+  streamFlushMillis: 1
+})
 
 function ellipsize(str: string, max: number) {
   str = "" + str
@@ -57,6 +63,9 @@ function usage() {
 }
 
 const roots = _process.argv.slice(2)
+if (roots.length === 0)
+  throw new Error("USAGE: mktags <path to image directory>")
+
 const patternSuffix = "/**/*.+(avi|jpg|mov|mp4|cr2|nef|orf|raf|arw|rw2)"
 
 const files = roots

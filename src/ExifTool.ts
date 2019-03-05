@@ -8,12 +8,12 @@ import * as _process from "process"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifToolTask } from "./ExifToolTask"
+import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
-import { ReadRawTask } from "./ReadRawTask"
 
 export { Tags } from "./Tags"
 export { ExifDate } from "./ExifDate"
@@ -70,7 +70,10 @@ export interface ShortcutTags {
   TimeZoneOffset?: number | string
 }
 
-export type WriteTags = Partial<Tags & ShortcutTags>
+export type WriteTags = ShortcutTags &
+  // exiftool expects numeric tags to be numbers, but everything else (except
+  // for arrays and structs) is stringable:
+  { [K in keyof Tags]: Tags[K] extends number ? number : string | Tags[K] }
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 
@@ -166,6 +169,7 @@ export const DefaultExifToolOptions: Omit<
   spawnTimeoutMillis: 30000,
   taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34
   onIdleIntervalMillis: 2000,
+  streamFlushMillis: 7, // just a little luck. 1 ms seems to work on linux, fwiw.
   taskRetries: 1,
   exiftoolPath: DefaultExifToolPath,
   exiftoolArgs: DefaultExiftoolArgs,

@@ -27,10 +27,14 @@ vendored versions of ExifTool match the version they vendor.
 ### v8.4.0
 
 - ✨ Pulled in new [batch-cluster
-  5.3.0](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md#v520),
+  5.3.1](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md),
   which adds support for child start and exit events, internal errors, and more
   robust result parsing.
-- ✨ Added tslint, and delinted the codebase. Sparkles because no lint.
+- ✨ Rebuilt `Tags` from over 6,600 unique camera makes and models. Added new
+  exemplars to ensure `Keywords`, `Title`, `Subject`, and other common
+  user-added tags were included in `Tags`.
+- ✨ Added tslint, and delinted the codebase. Sparkles because no lint === ✨.
+- 📦 `WriteTags` now is a proper superset of values from Tags.
 - 📦 Updated dependencies
 
 ### v8.3.0
