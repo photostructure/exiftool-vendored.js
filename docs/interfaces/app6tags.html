@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PrintIMTags | exiftool-vendored</title>
+	<title>APP6Tags | exiftool-vendored</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="printimtags.html">PrintIMTags</a>
+					<a href="app6tags.html">APP6Tags</a>
 				</li>
 			</ul>
-			<h1>Interface PrintIMTags</h1>
+			<h1>Interface APP6Tags</h1>
 		</div>
 	</div>
 </header>
@@ -66,7 +66,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PrintIMTags</span>
+						<span class="target">APP6Tags</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<a href="tags.html" class="tsd-signature-type">Tags</a>
@@ -82,7 +82,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="printimtags.html#printimversion" class="tsd-kind-icon">PrintIMVersion</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="app6tags.html#autoisomin" class="tsd-kind-icon">AutoISOMin</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="app6tags.html#autorotation" class="tsd-kind-icon">Auto<wbr>Rotation</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="app6tags.html#devicename" class="tsd-kind-icon">Device<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="app6tags.html#photoresolution" class="tsd-kind-icon">Photo<wbr>Resolution</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="app6tags.html#protune" class="tsd-kind-icon">Pro<wbr>Tune</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="app6tags.html#rate" class="tsd-kind-icon">Rate</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,17 +96,92 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="printimversion" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> PrintIMVersion</h3>
-					<div class="tsd-signature tsd-kind-icon">PrintIMVersion<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="autoisomin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> AutoISOMin</h3>
+					<div class="tsd-signature tsd-kind-icon">AutoISOMin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Tags.ts#L4088">Tags.ts:4088</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Tags.ts#L4925">Tags.ts:4925</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>★★☆☆ ✔ Example: &quot;0300&quot;</p>
+							<p>☆☆☆☆ ✔ Example: 3200</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="autorotation" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Auto<wbr>Rotation</h3>
+					<div class="tsd-signature tsd-kind-icon">Auto<wbr>Rotation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Tags.ts#L4927">Tags.ts:4927</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>☆☆☆☆ ✔ Example: &quot;Up&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="devicename" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Device<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">Device<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Tags.ts#L4929">Tags.ts:4929</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>☆☆☆☆ ✔ Example: &quot;Photo Global Settings&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="photoresolution" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Photo<wbr>Resolution</h3>
+					<div class="tsd-signature tsd-kind-icon">Photo<wbr>Resolution<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Tags.ts#L4931">Tags.ts:4931</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>☆☆☆☆ ✔ Example: &quot;12MP_W&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="protune" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Pro<wbr>Tune</h3>
+					<div class="tsd-signature tsd-kind-icon">Pro<wbr>Tune<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Tags.ts#L4933">Tags.ts:4933</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>☆☆☆☆ ✔ Example: &quot;On&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="rate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Rate</h3>
+					<div class="tsd-signature tsd-kind-icon">Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Tags.ts#L4935">Tags.ts:4935</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>☆☆☆☆ ✔ Example: &quot;4_1SEC&quot;</p>
 						</div>
 					</div>
 				</section>
@@ -120,10 +200,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="printimtags.html" class="tsd-kind-icon">PrintIMTags</a>
+						<a href="app6tags.html" class="tsd-kind-icon">APP6<wbr>Tags</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="printimtags.html#printimversion" class="tsd-kind-icon">PrintIMVersion</a>
+								<a href="app6tags.html#autoisomin" class="tsd-kind-icon">AutoISOMin</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="app6tags.html#autorotation" class="tsd-kind-icon">Auto<wbr>Rotation</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="app6tags.html#devicename" class="tsd-kind-icon">Device<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="app6tags.html#photoresolution" class="tsd-kind-icon">Photo<wbr>Resolution</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="app6tags.html#protune" class="tsd-kind-icon">Pro<wbr>Tune</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="app6tags.html#rate" class="tsd-kind-icon">Rate</a>
 							</li>
 						</ul>
 					</li>
