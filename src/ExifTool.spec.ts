@@ -22,7 +22,7 @@ describe("ExifTool", function() {
   function posixPath(path: string) {
     return path.split(_path.sep).join("/")
   }
- 
+
   const packageJson = require("../package.json")
 
   function expectedExiftoolVersion(flavor: "exe" | "pl" = "pl"): string {
@@ -93,8 +93,8 @@ describe("ExifTool", function() {
     expect(tags.Keywords).to.eql("jambalaya")
     expect(tags.ImageHeight).to.eql(8)
     expect(tags.ImageWidth).to.eql(8)
-    expect(tags.OriginalImageHeight).to.be.undefined
-    expect(tags.OriginalImageWidth).to.be.undefined
+    expect(tags.OriginalImageHeight).to.eql(undefined)
+    expect(tags.OriginalImageWidth).to.eql(undefined)
     return
   })
 
@@ -163,7 +163,7 @@ describe("ExifTool", function() {
 
   function assertReasonableTags(tags: Tags[]): void {
     tags.forEach(tag => {
-      expect(tag.errors).to.be.empty
+      expect(tag.errors).to.eql([])
       expect(tag.MIMEType).to.eql("image/jpeg")
       expect(tag.GPSLatitude).to.be.within(-90, 90)
       expect(tag.GPSLongitude).to.be.within(-180, 180)
@@ -173,18 +173,18 @@ describe("ExifTool", function() {
   it("ends procs when they've run > maxTasksPerProcess", async function() {
     const maxProcs = 5
     const maxTasksPerProcess = 5
-    const et = new ExifTool({ maxProcs, maxTasksPerProcess })
+    const et2 = new ExifTool({ maxProcs, maxTasksPerProcess })
 
     const iters = maxProcs * maxTasksPerProcess
     // Warm up the children:
-    const promises = times(iters, () => et.read(img))
+    const promises = times(iters, () => et2.read(img))
     const tags = await Promise.all(promises)
 
     // Not all pids will be alive, so we have to grant some slop:
-    const pidsBefore = await et.pids
-    expect((await et.pids).length).to.be.within(1, maxProcs)
+    const pidsBefore = await et2.pids
+    expect((await et2.pids).length).to.be.within(1, maxProcs)
 
-    const bc = et["batchCluster"] as BatchCluster
+    const bc = et2["batchCluster"] as BatchCluster
     expect(bc.spawnedProcs).to.be.gte(maxProcs)
     expect(bc.meanTasksPerProc).to.be.within(
       maxTasksPerProcess - 3,
@@ -192,39 +192,41 @@ describe("ExifTool", function() {
     )
     expect(pidsBefore.length).to.be.within(2, maxProcs * 1.5)
     assertReasonableTags(tags)
-    await et.end()
-    expect(await et.pids).to.eql([])
+    await et2.end()
+    expect(await et2.pids).to.eql([])
     return
   })
 
   it("ends with multiple procs", async function() {
     const maxProcs = 4
-    const et = new ExifTool({ maxProcs })
+    const et2 = new ExifTool({ maxProcs })
     try {
-      const warmupTasks = await Promise.all(times(maxProcs, () => et.read(img)))
-      expect((await et.pids).length).to.be.within(2, maxProcs)
+      const warmupTasks = await Promise.all(
+        times(maxProcs, () => et2.read(img))
+      )
+      expect((await et2.pids).length).to.be.within(2, maxProcs)
       const secondTasks = await Promise.all(
-        times(maxProcs * 4, () => et.read(img))
+        times(maxProcs * 4, () => et2.read(img))
       )
       warmupTasks.forEach(t => expect(t).to.not.be.undefined)
       secondTasks.forEach(t => expect(t).to.not.be.undefined)
-      await et.end()
-      expect(await et.pids).to.eql([])
+      await et2.end()
+      expect(await et2.pids).to.eql([])
     } finally {
-      et.end()
+      await et2.end()
     }
     return
   })
 
   it("invalid images throw errors on write", async function() {
-    const et = new ExifTool()
+    const et2 = new ExifTool()
     try {
-      const img = await testImg("bad-exif-ifd.jpg")
+      const badImg = await testImg("bad-exif-ifd.jpg")
       expect(
-        et.write(img, { AllDates: new Date().toISOString() })
+        et2.write(badImg, { AllDates: new Date().toISOString() })
       ).to.be.rejectedWith(/Duplicate MakerNoteUnknown/)
     } finally {
-      et.end()
+      await et2.end()
     }
     return
   })

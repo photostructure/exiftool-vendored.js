@@ -2,6 +2,7 @@ import { logger } from "batch-cluster"
 import * as _path from "path"
 
 import { ExifToolTask } from "./ExifToolTask"
+import { orElse } from "./Maybe"
 import { Tags } from "./Tags"
 
 export class ReadRawTask extends ExifToolTask<Tags> {
@@ -26,7 +27,7 @@ export class ReadRawTask extends ExifToolTask<Tags> {
       return JSON.parse(data)[0]
     } catch (jsonError) {
       logger().error("ExifTool.ReadRawTask(): Invalid JSON", { data })
-      throw err || jsonError
+      throw orElse(err, jsonError)
     }
   }
 }

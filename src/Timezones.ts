@@ -1,6 +1,6 @@
 import { Info } from "luxon"
 
-import { map, Maybe } from "./Maybe"
+import { map, Maybe, orElse } from "./Maybe"
 import { isNumber } from "./Number"
 import { blank, pad2 } from "./String"
 
@@ -11,14 +11,14 @@ export function offsetMinutesToZoneName(
   offsetMinutes: Maybe<number>
 ): Maybe<string> {
   if (offsetMinutes == null) return undefined
-  if (offsetMinutes == 0) return "UTC"
+  if (offsetMinutes === 0) return "UTC"
   const sign = offsetMinutes < 0 ? "-" : "+"
   const abs = Math.abs(offsetMinutes)
   const hours = Math.floor(abs / 60)
   const minutes = Math.abs(abs % 60)
   return (
     `UTC${sign}` +
-    (minutes == 0 ? `${hours}` : `${pad2(hours)}:${pad2(minutes)}`)
+    (minutes === 0 ? `${hours}` : `${pad2(hours)}:${pad2(minutes)}`)
   )
 }
 
@@ -43,11 +43,15 @@ const tzRe = /([+-]?)(\d\d?)(?::(\d\d))?/
 export function extractOffset(tz: Maybe<string>): Maybe<string> {
   return tz == null || blank(tz)
     ? undefined
-    : map(tzRe.exec(tz), m =>
-        offsetMinutesToZoneName(
-          (m[1] == "-" ? -1 : 1) * (parseInt(m[2]) * 60 + parseInt(m[3] || "0"))
-        )
-      ) || (Info.isValidIANAZone(tz) ? tz : undefined)
+    : orElse(
+        map(tzRe.exec(tz), m =>
+          offsetMinutesToZoneName(
+            (m[1] === "-" ? -1 : 1) *
+              (parseInt(m[2]) * 60 + parseInt(orElse(m[3], "0")))
+          )
+        ),
+        () => (Info.isValidIANAZone(tz) ? tz : undefined)
+      )
 }
 
 export function extractTzOffsetFromTags(t: {
@@ -75,9 +79,8 @@ export function extractTzOffsetFromTags(t: {
   if (arr.length > 0) return arr[0]!
 
   const tzo = t.TimeZoneOffset
-  return (
-    tzHourToOffset(tzo) ||
-    (Array.isArray(tzo) ? tzHourToOffset(tzo[0]) : undefined)
+  return orElse(tzHourToOffset(tzo), () =>
+    Array.isArray(tzo) ? tzHourToOffset(tzo[0]) : undefined
   )
 }
 

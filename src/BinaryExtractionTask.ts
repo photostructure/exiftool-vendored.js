@@ -1,5 +1,7 @@
-import { ExifToolTask } from "./ExifToolTask"
 import * as _path from "path"
+
+import { ExifToolTask } from "./ExifToolTask"
+import { notBlank } from "./String"
 
 export class BinaryExtractionTask extends ExifToolTask<void> {
   private constructor(args: string[]) {
@@ -23,10 +25,11 @@ export class BinaryExtractionTask extends ExifToolTask<void> {
     return new BinaryExtractionTask(args)
   }
 
-  parse(data: string): void {
-    if (data.trim() !== "1 output files created") {
+  parse(stdout: string, err?: Error): void {
+    if (err != null) throw err
+    if (null == /1 output files? created/.exec(stdout)) {
       throw new Error(
-        data.trim().split("\n")[0] || "Missing expected status message"
+        notBlank(stdout) ? stdout : "Missing expected status message"
       )
     }
   }

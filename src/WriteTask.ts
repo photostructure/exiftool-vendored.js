@@ -66,7 +66,7 @@ export class WriteTask extends ExifToolTask<void> {
   }
 
   protected parse(data: string, err: Error): void {
-    if (err) throw err
+    if (err != null) throw err
     if (this.errors.length > 0) throw new Error(this.errors.join(";"))
     data = data.trim()
     if (successRE.exec(data) != null) {

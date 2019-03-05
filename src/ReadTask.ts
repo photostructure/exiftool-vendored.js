@@ -1,13 +1,15 @@
 import { logger } from "batch-cluster"
 import * as _path from "path"
 
+import { diffMs, HourMs, MinuteMs } from "./DateTime"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolTask } from "./ExifToolTask"
-import { first } from "./Maybe"
+import { first, orElse } from "./Maybe"
 import { toF } from "./Number"
-import { toS } from "./String"
+import { isFunction } from "./Object"
+import { isString, toS } from "./String"
 import { Tags } from "./Tags"
 import {
   extractTzOffsetFromTags,
@@ -15,7 +17,6 @@ import {
   reasonableTzOffsetMinutes,
   MaxTzOffsetHours
 } from "./Timezones"
-import { MinuteMs, HourMs, diffMs } from "./DateTime"
 
 const tzlookup = require("tz-lookup")
 
@@ -44,7 +45,7 @@ export class ReadTask extends ExifToolTask<Tags> {
 
   private constructor(readonly sourceFile: string, readonly args: string[]) {
     super(args)
-    this.degroup = this.args.indexOf("-G") != -1
+    this.degroup = this.args.indexOf("-G") !== -1
     this.tags = { SourceFile: sourceFile } as Tags
     this.tags.errors = this.errors
   }
@@ -79,7 +80,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       this._raw = JSON.parse(data)[0]
     } catch (jsonError) {
       logger().error("ExifTool.ReadTask(): Invalid JSON", { data })
-      throw err || jsonError
+      throw orElse(err, jsonError)
     }
     // ExifTool does humorous things to paths, like flip slashes. resolve() undoes that.
     const SourceFile = _path.resolve(this._raw.SourceFile)
@@ -104,7 +105,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private tagName(k: string): string {
-    return this.degroup ? k.split(":")[1] || k : k
+    return this.degroup ? orElse(k.split(":")[1], k) : k
   }
 
   private parseTags(): Tags {
@@ -175,10 +176,10 @@ export class ReadTask extends ExifToolTask<Tags> {
         text => ExifDateTime.fromEXIF(text, "utc")
       )
       if (
-        gps &&
-        gps.toDate &&
-        local &&
-        local.toDate &&
+        gps != null &&
+        isFunction(gps.toDate) &&
+        local != null &&
+        isFunction(local.toDate) &&
         Math.abs(diffMs(local.toDate(), gps.toDate())) <=
           MaxTzOffsetHours * HourMs
       ) {
@@ -194,22 +195,27 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private parseTag(tagNameWithGroup: string, value: any): any {
-    if (value == null || value == "undef" || value == "null") return undefined
+    if (nullish(value)) return undefined
 
     const tagName = this.tagName(tagNameWithGroup)
     try {
       if (PassthroughTags.indexOf(tagName) >= 0) {
         return value
       }
-      if (tagName == "GPSLatitude") {
+      if (tagName === "GPSLatitude") {
         return this.lat
       }
-      if (tagName == "GPSLongitude") {
+      if (tagName === "GPSLongitude") {
         return this.lon
       }
       if (typeof value === "string" && tagName.includes("Date")) {
-        const dt =
-          ExifDateTime.fromEXIF(value, this.tz) || ExifDate.fromEXIF(value)
+        const dt = orElse(
+          // First try DateTime:
+          ExifDateTime.fromEXIF(value, this.tz),
+          () =>
+            // OK, fine, is it a date?
+            ExifDate.fromEXIF(value)
+        )
         if (dt != null) {
           return dt
         }
@@ -227,4 +233,10 @@ export class ReadTask extends ExifToolTask<Tags> {
       return value
     }
   }
+}
+
+const nullishes = ["undef", "null", "undefined"]
+
+export function nullish(s: string | undefined) {
+  return s == null || (isString(s) && nullishes.includes(s.trim()))
 }

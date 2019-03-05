@@ -164,7 +164,7 @@ describe("Time zone extraction", () => {
       DateTimeOriginal: "2016:08:12 13:28:50",
       GPSDateTime: "not a timestamp"
     })
-    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.be.undefined
+    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(undefined)
   })
 })
 
@@ -178,7 +178,7 @@ describe("SubSecDateTimeOriginal", () => {
     expect(t.hour).to.eql(11)
     expect(t.minute).to.eql(15)
     expect(t.second).to.eql(14)
-    expect(t.tzoffsetMinutes).to.be.undefined
+    expect(t.tzoffsetMinutes).to.eql(undefined)
     expect(t.millis).to.eql(437)
     const d = t.toDate()
     expect(d.getFullYear()).to.eql(2016)

@@ -2,14 +2,14 @@ import { times } from "./Array"
 import { Maybe } from "./Maybe"
 
 export function isString(o: any): o is string {
-  return typeof o == "string"
+  return typeof o === "string"
 }
 
 const spaces = times(10, i => times(i, () => " ").join(""))
 const zeroes = times(10, i => times(i, () => "0").join(""))
 
 export function blank(s: Maybe<string>): boolean {
-  return s == null || String(s).trim().length == 0
+  return s == null || String(s).trim().length === 0
 }
 
 export function notBlank(s: Maybe<string>): s is string {

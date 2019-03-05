@@ -5,12 +5,12 @@ import * as _path from "path"
 import * as _process from "process"
 import * as ProgressBar from "progress"
 
-import "source-map-support/register"
 import { compact, filterInPlace, times, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
-import { map, Maybe } from "../Maybe"
+import { map, Maybe, orElse } from "../Maybe"
 import { isNumber } from "../Number"
-import { blank, isString, leftPad, toS } from "../String"
+import { nullish } from "../ReadTask"
+import { blank, isString, leftPad } from "../String"
 
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
@@ -34,7 +34,7 @@ setLogger(
           warn: console.warn,
           error: console.error
         },
-        (_process.env.LOG as any) || "info"
+        orElse(_process.env.LOG as any, "info")
       )
     )
   )
@@ -46,7 +46,7 @@ _process.on("uncaughtException", (error: any) => {
 
 _process.on("unhandledRejection", (reason: any, _promise: any) => {
   console.error(
-    "Ack, caught unhandledRejection: " + reason.stack || reason.toString
+    "Ack, caught unhandledRejection: " + (reason.stack || reason.toString)
   )
 })
 
@@ -78,11 +78,11 @@ function valueType(value: any): Maybe<string> {
   if (value == null) return
   if (Array.isArray(value)) {
     const types = uniq(compact(value.map(ea => valueType(ea))))
-    return (types.length == 1 ? types[0] : "any") + "[]"
+    return (types.length === 1 ? types[0] : "any") + "[]"
   }
   if (typeof value === "object") {
     const ctor = value.constructor.name
-    return ctor == "Object" ? "Struct" : ctor
+    return ctor === "Object" ? "Struct" : ctor
   } else {
     return typeof value
   }
@@ -95,7 +95,7 @@ class CountingMap<T> {
   private readonly m = new Map<T, number>()
   add(t: T) {
     this.size++
-    this.m.set(t, 1 + (this.m.get(t) || 0))
+    this.m.set(t, 1 + orElse(this.m.get(t), 0))
   }
   byCountDesc(): T[] {
     return Array.from(this.m.keys()).sort((a, b) =>
@@ -108,15 +108,8 @@ class CountingMap<T> {
    */
   byP(p: number): T[] {
     const min = p * this.size
-    return this.byCountDesc().filter(ea => this.m.get(ea) || 0 > min)
+    return this.byCountDesc().filter(ea => orElse(this.m.get(ea), 0) > min)
   }
-}
-
-function nullish(o: any): boolean {
-  const s = toS(o)
-  return (
-    o == null || blank(s) || s == "null" || s == "undefined" || s == "undef"
-  )
 }
 
 class Tag {
@@ -133,8 +126,9 @@ class Tag {
   get valueTypes(): string[] {
     const cm = new CountingMap<string>()
     compact(this.values)
-      .map(i => valueType(i))
-      .forEach(i => i != null && i != "undefined" && cm.add(i))
+      .map(ea => valueType(ea))
+      .filter(ea => !nullish(ea))
+      .forEach(ea => cm.add(ea!))
     return cm.byP(0.5)
   }
   get valueType(): string {
@@ -272,7 +266,7 @@ function exampleToS(examples: any[]): string {
 }
 
 function sigFigs(i: number, digits: number): number {
-  if (i == 0 || digits == 0) return 0
+  if (i === 0 || digits === 0) return 0
   const pow = Math.pow(
     10,
     digits - Math.round(Math.ceil(Math.log10(Math.abs(i))))
@@ -308,7 +302,7 @@ class TagMap {
 
   tag(tag: string) {
     const prevTag = this.map.get(tag)
-    if (prevTag) {
+    if (prevTag != null) {
       return prevTag
     } else {
       const t = new Tag(tag)
@@ -378,7 +372,7 @@ async function readAndAddToTagMap(file: string) {
       .toLowerCase()
       .includes("important")
     Object.keys(tags).forEach(key => {
-      if (saneTagRe.exec(key)) {
+      if (null != saneTagRe.exec(key)) {
         tagMap.add(key, tags[key], importantFile)
       }
     })
@@ -404,7 +398,7 @@ const start = Date.now()
 
 _process.on("unhandledRejection", (reason: any, _promise: any) => {
   console.error(
-    "Ack, caught unhandled rejection: " + reason.stack || reason.toString
+    "Ack, caught unhandled rejection: " + (reason.stack || reason.toString)
   )
 })
 
@@ -447,8 +441,8 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     const groupedTags = tagMap.groupedTags
     const tagGroups: string[] = []
     const seenTagNames = new Set<string>()
-    Array.from(groupedTags.entries()).forEach(([group, tags]) => {
-      const filteredTags = tags
+    Array.from(groupedTags.entries()).forEach(([group, tagsForGroup]) => {
+      const filteredTags = tagsForGroup
         .sort((a, b) => cmp(a.tag, b.tag))
         // First group with a tag name wins. Other group's colliding tag names
         // are omitted:
@@ -498,7 +492,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     console.log(
       "\nInternal error count: " + exiftool["batchCluster"].internalErrorCount
     )
-    exiftool.end()
+    return exiftool.end()
   })
   .catch(err => {
     console.error(err)

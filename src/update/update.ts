@@ -148,6 +148,7 @@ async function releases() {
   const checksums = await io.wgetString(BaseUrl + "checksums.txt")
   const re = /SHA1\((\S+)\)=\s*([a-f0-9]+)/gim
   let m: RegExpExecArray | null
+  // tslint:disable-next-line: no-conditional-assignment
   while ((m = re.exec(checksums)) !== null) {
     if (m.index === re.lastIndex) re.lastIndex++
     files.push({ baseName: m[1], sha1: m[2] })
@@ -159,7 +160,7 @@ export async function update(): Promise<void> {
   const { version, files } = await releases()
   const tar = files.find(ea => ea.baseName.endsWith(".tar.gz"))
   const zip = files.find(ea => ea.baseName.endsWith(".zip"))
-  if (tar && zip) {
+  if (tar != null && zip != null) {
     await _fse.mkdirp(DlDir)
     const tarUpdate = new TarUpdate({ version, ...tar })
     await tarUpdate.update()
@@ -174,4 +175,5 @@ export async function update(): Promise<void> {
   }
 }
 
+// tslint:disable-next-line: no-floating-promises
 update()

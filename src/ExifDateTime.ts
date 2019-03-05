@@ -1,9 +1,10 @@
 import { DateTime, ISOTimeOptions } from "luxon"
 
-import { first, map, Maybe } from "./Maybe"
+import { first, map, Maybe, orElse } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
 import { offsetMinutesToZoneName } from "./Timezones"
 
+// Not in typings:
 const { FixedOffsetZone } = require("luxon")
 const unsetZoneOffset = -24 * 60
 const unsetZone = new FixedOffsetZone(unsetZoneOffset)
@@ -21,7 +22,7 @@ export class ExifDateTime {
       : this.fromDateTime(
           DateTime.fromISO(iso, {
             setZone: true,
-            zone: defaultZone || unsetZone
+            zone: orElse(defaultZone, unsetZone)
           })
         )
   }
@@ -49,7 +50,7 @@ export class ExifDateTime {
 
     // Unfortunately, luxon doesn't support regex.
     const noTza = s.replace(/ [a-z]{2,5}$/i, "")
-    if (noTza != s) inputs.push(noTza)
+    if (noTza !== s) inputs.push(noTza)
 
     const zone = notBlank(defaultZone) ? defaultZone : unsetZone
 
@@ -70,14 +71,16 @@ export class ExifDateTime {
       { fmt: "ccc MMM d H:m:s y", zone }
     ]
 
-    return (
+    return orElse(
       first(inputs, input =>
-        first(fmts, ({ fmt, zone }) =>
-          map(DateTime.fromFormat(input, fmt, { setZone: true, zone }), dt =>
-            this.fromDateTime(dt)
+        first(fmts, ({ fmt, zone: fmtZone }) =>
+          map(
+            DateTime.fromFormat(input, fmt, { setZone: true, zone: fmtZone }),
+            dt => this.fromDateTime(dt)
           )
         )
-      ) || this.fromISO(s, defaultZone)
+      ),
+      () => this.fromISO(s, defaultZone)
     )
   }
 
@@ -86,8 +89,8 @@ export class ExifDateTime {
       dt == null ||
       !dt.isValid ||
       dt.toMillis() === 0 ||
-      dt.year == 0 ||
-      dt.year == 1
+      dt.year === 0 ||
+      dt.year === 1
     ) {
       return undefined
     }
@@ -99,7 +102,7 @@ export class ExifDateTime {
       dt.minute,
       dt.second,
       dt.millisecond,
-      dt.offset == unsetZoneOffset ? undefined : dt.offset
+      dt.offset === unsetZoneOffset ? undefined : dt.offset
     )
   }
 

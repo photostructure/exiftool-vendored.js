@@ -34,7 +34,7 @@ export class ExifTime {
 
   toISOString(): string {
     const fracpart =
-      this.millisecond == null || this.millisecond == 0
+      this.millisecond == null || this.millisecond === 0
         ? ""
         : (Math.round(this.millisecond) / 1000).toFixed(3).substring(1)
 

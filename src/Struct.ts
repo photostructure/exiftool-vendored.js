@@ -10,7 +10,7 @@ export function isStruct(o: any): o is Struct {
     !Array.isArray(o) &&
     keys(o).every(k => {
       const t = typeof o[k]
-      return t == "string" || t == "number" || isStruct(o[k])
+      return t === "string" || t === "number" || isStruct(o[k])
     })
   )
 }

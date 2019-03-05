@@ -1,10 +1,10 @@
-import "source-map-support/register"
-
 import { Logger, setLogger } from "batch-cluster"
 import { tmpdir } from "os"
 import { join } from "path"
 import * as pify from "pify"
 import { env } from "process"
+
+import { orElse } from "./Maybe"
 
 const cpFile = require("cp-file")
 const chai = require("chai")
@@ -23,7 +23,7 @@ setLogger(
           warn: console.warn,
           error: console.error
         },
-        (env.LOG as any) || "error"
+        orElse(env.LOG as any, "error")
       )
     )
   )

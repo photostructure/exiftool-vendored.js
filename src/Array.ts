@@ -18,7 +18,7 @@ export function filterInPlace<T>(arr: T[], filter: (t: T) => boolean): T[] {
   let j = 0
   arr.forEach((ea, i) => {
     if (filter(ea)) {
-      if (i != j) arr[j] = ea
+      if (i !== j) arr[j] = ea
       j++
     }
   })
@@ -29,7 +29,7 @@ export function filterInPlace<T>(arr: T[], filter: (t: T) => boolean): T[] {
 export function uniq<T>(arr: T[]): T[] {
   return arr.reduce(
     (acc, ea) => {
-      if (acc.indexOf(ea) == -1) acc.push(ea)
+      if (acc.indexOf(ea) === -1) acc.push(ea)
       return acc
     },
     [] as T[]

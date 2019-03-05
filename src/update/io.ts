@@ -29,7 +29,7 @@ export class WritableToBuffer extends Duplex {
   _read() {} // required by stream
 
   _write(chunk: any, encoding: string, next: () => void) {
-    const buf = Buffer.isBuffer(chunk) ? chunk : new Buffer(chunk, encoding)
+    const buf = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk, encoding)
     this._buf.push(buf)
     next()
   }
@@ -121,8 +121,7 @@ export async function unzip(zipFile: string, destDir: string) {
       err ? rej(err) : res()
     )
   )
-  p.then(() => console.log(`✅ ${zipFile} unzipped to ${destDir}`))
-  return p
+  return p.then(() => console.log(`✅ ${zipFile} unzipped to ${destDir}`))
 }
 
 export function tarxzf(targzFile: string, destDir: string): Promise<void> {
@@ -164,7 +163,7 @@ export function mkdir(
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     _fs.mkdir(path, (err?: Error) => {
-      if (err && !ignoreErrors) {
+      if (err != null && !ignoreErrors) {
         reject(err)
       } else {
         resolve()

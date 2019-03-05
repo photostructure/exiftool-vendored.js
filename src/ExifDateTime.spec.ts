@@ -177,10 +177,10 @@ describe("ExifDateTime", () => {
     ]
     examples.forEach(bad => {
       it(bad + " for DateTimeOriginal", () => {
-        expect(ExifDateTime.fromEXIF(bad)).to.be.undefined
+        expect(ExifDateTime.fromEXIF(bad)).to.eql(undefined)
       })
       it(bad + " for SubSecCreateDate", () => {
-        expect(ExifDateTime.fromEXIF("SubSecCreateDate")).to.be.undefined
+        expect(ExifDateTime.fromEXIF("SubSecCreateDate")).to.eql(undefined)
       })
     })
   })

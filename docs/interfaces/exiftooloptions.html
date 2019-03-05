@@ -102,6 +102,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#pass" class="tsd-kind-icon">pass</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#processfactory" class="tsd-kind-icon">process<wbr>Factory</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#spawntimeoutmillis" class="tsd-kind-icon">spawn<wbr>Timeout<wbr>Millis</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#streamflushmillis" class="tsd-kind-icon">stream<wbr>Flush<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#taskretries" class="tsd-kind-icon">task<wbr>Retries</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#tasktimeoutmillis" class="tsd-kind-icon">task<wbr>Timeout<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#versioncommand" class="tsd-kind-icon">version<wbr>Command</a></li>
@@ -352,11 +353,14 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildProcess</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildProcess</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ChildProcess</span><span class="tsd-signature-symbol">&gt;</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ChildProcess</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ChildProcess</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ChildProcess</span><span class="tsd-signature-symbol">&gt;</span>
+										</h4>
 									</li>
 								</ul>
 							</li>
@@ -382,6 +386,28 @@
 							less than 100ms.</p>
 						</div>
 						<p>Defaults to 30 seconds, to accomodate slow Windows machines.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="streamflushmillis" class="tsd-anchor"></a>
+					<h3>stream<wbr>Flush<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">stream<wbr>Flush<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from BatchClusterOptions.streamFlushMillis</p>
+						<ul>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:96</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When a task sees a &quot;pass&quot; or &quot;fail&quot; from either stdout or stderr, it needs
+								to wait for the other stream to finish flushing to ensure the task&#39;s Parser
+								sees the entire relevant stream contents. A larger number may be required
+								for slower computers to prevent internal errors due to lack of stream
+							coercion.</p>
+						</div>
+						<p>Note that this puts a hard lower limit on task latency. You don&#39;t want to
+						set this to a large number.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -496,6 +522,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="exiftooloptions.html#spawntimeoutmillis" class="tsd-kind-icon">spawn<wbr>Timeout<wbr>Millis</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="exiftooloptions.html#streamflushmillis" class="tsd-kind-icon">stream<wbr>Flush<wbr>Millis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="exiftooloptions.html#taskretries" class="tsd-kind-icon">task<wbr>Retries</a>

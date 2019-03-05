@@ -24,6 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.4.0
+
+- ✨ Pulled in new [batch-cluster
+  5.3.0](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md#v520),
+  which adds support for child start and exit events, internal errors, and more
+  robust result parsing.
+- ✨ Added tslint, and delinted the codebase. Sparkles because no lint.
+- 📦 Updated dependencies
+
 ### v8.3.0
 
 - 📦 Updated dependencies

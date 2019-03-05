@@ -143,6 +143,7 @@
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#first" class="tsd-kind-icon">first</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#htmlencode" class="tsd-kind-icon">html<wbr>Encode</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#isfunction" class="tsd-kind-icon">is<wbr>Function</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#isstring" class="tsd-kind-icon">is<wbr>String</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#isstruct" class="tsd-kind-icon">is<wbr>Struct</a></li>
@@ -150,7 +151,9 @@
 								<li class="tsd-kind-function"><a href="globals.html#leftpad" class="tsd-kind-icon">left<wbr>Pad</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#map" class="tsd-kind-icon">map</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#notblank" class="tsd-kind-icon">not<wbr>Blank</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#nullish" class="tsd-kind-icon">nullish</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#offsetminutestozonename" class="tsd-kind-icon">offset<wbr>Minutes<wbr>ToZone<wbr>Name</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#orelse" class="tsd-kind-icon">or<wbr>Else</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#pad2" class="tsd-kind-icon">pad2</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#pad3" class="tsd-kind-icon">pad3</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#reasonabletzoffsetminutes" class="tsd-kind-icon">reasonable<wbr>TzOffset<wbr>Minutes</a></li>
@@ -175,7 +178,7 @@
 					<div class="tsd-signature tsd-kind-icon">Maybe<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L1">Maybe.ts:1</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L3">Maybe.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">Maybe<wbr>Null<span class="tsd-signature-symbol">:</span> <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L2">Maybe.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L4">Maybe.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -233,7 +236,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="defaultexiftooloptions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> Default<wbr>Exif<wbr>Tool<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready.*}&quot;,fail: &quot;{ready.*}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,numericTags: [&quot;*Duration*&quot;, &quot;GPS*&quot;, &quot;Orientation&quot;]})</span></div>
+					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34onIdleIntervalMillis: 2000,taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready}&quot;,fail: &quot;{ready}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,numericTags: [&quot;*Duration*&quot;, &quot;GPS*&quot;, &quot;Orientation&quot;]})</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ExifTool.ts#L159">ExifTool.ts:159</a></li>
@@ -447,7 +450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L53">Timezones.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Timezones.ts#L57">Timezones.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -528,7 +531,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L8">Maybe.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L18">Maybe.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -597,6 +600,29 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="isfunction" class="tsd-anchor"></a>
+					<h3>is<wbr>Function</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Function<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Object.ts#L9">Object.ts:9</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>obj: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -740,7 +766,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L4">Maybe.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L6">Maybe.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -807,6 +833,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="nullish" class="tsd-anchor"></a>
+					<h3>nullish</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">nullish<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/ReadTask.ts#L240">ReadTask.ts:240</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>s: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="offsetminutestozonename" class="tsd-anchor"></a>
 					<h3>offset<wbr>Minutes<wbr>ToZone<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -831,6 +880,38 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="orelse" class="tsd-anchor"></a>
+					<h3>or<wbr>Else</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">or<wbr>Else&lt;T&gt;<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="globals.html#maybenull" class="tsd-signature-type">MaybeNull</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/mceachen/exiftool-vendored.js/blob/master/src/Maybe.ts#L10">Maybe.ts:10</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>obj: <a href="globals.html#maybenull" class="tsd-signature-type">MaybeNull</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>defaultValue: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1331,6 +1412,9 @@
 						<a href="globals.html#htmlencode" class="tsd-kind-icon">html<wbr>Encode</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#isfunction" class="tsd-kind-icon">is<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -1352,7 +1436,13 @@
 						<a href="globals.html#notblank" class="tsd-kind-icon">not<wbr>Blank</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#nullish" class="tsd-kind-icon">nullish</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#offsetminutestozonename" class="tsd-kind-icon">offset<wbr>Minutes<wbr>ToZone<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#orelse" class="tsd-kind-icon">or<wbr>Else</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#pad2" class="tsd-kind-icon">pad2</a>

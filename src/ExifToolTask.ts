@@ -1,5 +1,6 @@
 import * as bc from "batch-cluster"
 
+import { orElse } from "./Maybe"
 import { notBlank, stripPrefix } from "./String"
 
 export abstract class ExifToolTask<T> extends bc.Task<T> {
@@ -10,13 +11,13 @@ export abstract class ExifToolTask<T> extends bc.Task<T> {
   readonly errors: string[] = []
 
   constructor(readonly args: string[]) {
-    super(ExifToolTask.renderCommand(args), (data, stderr) => {
+    super(ExifToolTask.renderCommand(args), (stdout, stderr, passed) => {
       let err
-      if (notBlank(stderr)) {
-        this.errors.push(stderr)
-        err = new Error(stripPrefix((stderr || data).trim(), "error: "))
+      if (notBlank(stderr) || !passed) {
+        this.errors.push(orElse(stderr, "failed"))
+        err = new Error(stripPrefix(orElse(stderr, stdout).trim(), "error: "))
       }
-      return this.parse(data, err)
+      return this.parse(stdout, err)
     })
   }
 
