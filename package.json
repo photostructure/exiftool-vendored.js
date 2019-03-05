@@ -16,6 +16,7 @@
     "update": "node dist/update/update.js",
     "premktags": "yarn compile",
     "mktags": "node dist/update/mktags.js",
+    "tslint": "tslint -p . src/*.ts src/**/*.ts",
     "prettier": "prettier --write src/*.ts src/**/*.ts",
     "pretest": "yarn compile",
     "test": "nyc mocha",
@@ -79,7 +80,7 @@
     "@types/xmldom": "^0.1.29",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "cp-file": "^6.0.0",
+    "cp-file": "^6.1.0",
     "extract-zip": "^1.6.7",
     "fs-extra": "^7.0.1",
     "globule": "^1.2.1",
@@ -94,14 +95,15 @@
     "source-map-support": "^0.5.10",
     "tar-fs": "^2.0.0",
     "tmp": "^0.0.33",
+    "tslint": "^5.13.1",
     "typedoc": "^0.14.2",
     "typescript": "^3.3.3333",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.27"
   },
   "dependencies": {
-    "batch-cluster": "^5.1.0",
-    "luxon": "^1.11.3",
+    "batch-cluster": "^5.3.0",
+    "luxon": "^1.11.4",
     "tz-lookup": "^6.1.8"
   },
   "optionalDependencies": {
