@@ -49,8 +49,12 @@ export class ExifDateTime {
     // TZAs are between 2 (AT) and 5 (WEST) characters.
 
     // Unfortunately, luxon doesn't support regex.
-    const noTza = s.replace(/ [a-z]{2,5}$/i, "")
-    if (noTza !== s) inputs.push(noTza)
+
+    // We only want to strip off the TZA if it isn't "UTC" or "Z"
+    if (null == s.match(/[.\d\s](utc|z)$/i)) {
+      const noTza = s.replace(/ [a-z]{2,5}$/i, "")
+      if (noTza !== s) inputs.push(noTza)
+    }
 
     const zone = notBlank(defaultZone) ? defaultZone : unsetZone
 
