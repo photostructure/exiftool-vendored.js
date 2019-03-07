@@ -172,7 +172,7 @@ describe("ExifTool", function() {
 
   it("ends procs when they've run > maxTasksPerProcess", async function() {
     const maxProcs = 5
-    const maxTasksPerProcess = 5
+    const maxTasksPerProcess = 8
     const et2 = new ExifTool({ maxProcs, maxTasksPerProcess })
 
     const iters = maxProcs * maxTasksPerProcess
@@ -181,16 +181,15 @@ describe("ExifTool", function() {
     const tags = await Promise.all(promises)
 
     // Not all pids will be alive, so we have to grant some slop:
-    const pidsBefore = await et2.pids
     expect((await et2.pids).length).to.be.within(1, maxProcs)
 
+    // I don't want to expose the .batchCluster field as part of the public API:
     const bc = et2["batchCluster"] as BatchCluster
     expect(bc.spawnedProcs).to.be.gte(maxProcs)
     expect(bc.meanTasksPerProc).to.be.within(
-      maxTasksPerProcess - 3,
+      maxTasksPerProcess / 2,
       maxTasksPerProcess
     )
-    expect(pidsBefore.length).to.be.within(2, maxProcs * 1.5)
     assertReasonableTags(tags)
     await et2.end()
     expect(await et2.pids).to.eql([])
