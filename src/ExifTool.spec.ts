@@ -17,6 +17,7 @@ describe("ExifTool", function() {
   const noexif = _path.join(__dirname, "..", "test", "noexif.jpg")
   const img = _path.join(__dirname, "..", "test", "img.jpg")
   const img2 = _path.join(__dirname, "..", "test", "ExifTool.jpg")
+  const img3 = _path.join(__dirname, "..", "test", "with_thumb.jpg")
   const nonEnglishImg = _path.join(__dirname, "..", "test", "中文.jpg")
 
   function posixPath(path: string) {
@@ -180,9 +181,6 @@ describe("ExifTool", function() {
     const promises = times(iters, () => et2.read(img))
     const tags = await Promise.all(promises)
 
-    // Not all pids will be alive, so we have to grant some slop:
-    expect((await et2.pids).length).to.be.within(1, maxProcs)
-
     // I don't want to expose the .batchCluster field as part of the public API:
     const bc = et2["batchCluster"] as BatchCluster
     expect(bc.spawnedProcs).to.be.gte(maxProcs)
@@ -200,15 +198,16 @@ describe("ExifTool", function() {
     const maxProcs = 4
     const et2 = new ExifTool({ maxProcs })
     try {
-      const warmupTasks = await Promise.all(
-        times(maxProcs, () => et2.read(img))
+      const tasks = await Promise.all(times(maxProcs * 4, () => et2.read(img3)))
+      tasks.forEach(t =>
+        expect(t).to.include({
+          SourceFile: img3,
+          MIMEType: "image/jpeg",
+          Model: "C2020Z",
+          ImageWidth: 1600,
+          ImageHeight: 1200
+        })
       )
-      expect((await et2.pids).length).to.be.within(2, maxProcs)
-      const secondTasks = await Promise.all(
-        times(maxProcs * 4, () => et2.read(img))
-      )
-      warmupTasks.forEach(t => expect(t).to.not.be.undefined)
-      secondTasks.forEach(t => expect(t).to.not.be.undefined)
       await et2.end()
       expect(await et2.pids).to.eql([])
     } finally {
