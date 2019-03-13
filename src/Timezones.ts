@@ -2,7 +2,7 @@ import { Info } from "luxon"
 
 import { map, Maybe, orElse } from "./Maybe"
 import { isNumber } from "./Number"
-import { blank, pad2 } from "./String"
+import { blank, pad2, toS } from "./String"
 
 /**
  * Returns a "zone name" (used by `luxon`) that encodes the given offset.
@@ -74,7 +74,7 @@ export function extractTzOffsetFromTags(t: {
     t.OffsetTimeDigitized,
     t.TimeZoneOffset
   ]
-    .map(extractOffset)
+    .map(ea => extractOffset(toS(ea)))
     .filter(ea => ea != null)
   if (arr.length > 0) return arr[0]!
 
