@@ -420,6 +420,20 @@ export class ExifTool {
   get pendingTasks(): number {
     return this.batchCluster.pendingTasks
   }
+
+  /**
+   * @return the total number of child processes created by this instance
+   */
+  get spawnedProcs(): number {
+    return this.batchCluster.spawnedProcs
+  }
+
+  /**
+   * @return the current number of child processes currently servicing tasks
+   */
+  get busyProcs(): number {
+    return this.batchCluster.busyProcs
+  }
 }
 
 /**
