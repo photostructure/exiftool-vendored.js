@@ -35,6 +35,6 @@ describe("BinaryExtractionTask", () => {
     const dest = await ptmp.tmpName()
     await exiftool.extractThumbnail(src, dest)
     // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
-    return sha1(dest, "a35697d72c7781392b26c674d2c1612c587097c1")
+    return sha1(dest, "c7c14706fce4038f6a9da96e213768756a4b2ad2")
   })
 })
