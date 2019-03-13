@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#maxprocs" class="tsd-kind-icon">max<wbr>Procs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#maxreasonableprocessfailuresperminute" class="tsd-kind-icon">max<wbr>Reasonable<wbr>Process<wbr>Failures<wbr>Per<wbr>Minute</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#maxtasksperprocess" class="tsd-kind-icon">max<wbr>Tasks<wbr>Per<wbr>Process</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#mindelaybetweenspawnmillis" class="tsd-kind-icon">min<wbr>Delay<wbr>Between<wbr>Spawn<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#numerictags" class="tsd-kind-icon">numeric<wbr>Tags</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#onidleintervalmillis" class="tsd-kind-icon">on<wbr>Idle<wbr>Interval<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#pass" class="tsd-kind-icon">pass</a></li>
@@ -120,7 +121,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BatchClusterOptions.endGracefulWaitTimeMillis</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:85</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:92</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -277,6 +278,24 @@
 						<p>Defaults to 500, to balance performance with memory usage.</p>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="mindelaybetweenspawnmillis" class="tsd-anchor"></a>
+					<h3>min<wbr>Delay<wbr>Between<wbr>Spawn<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">min<wbr>Delay<wbr>Between<wbr>Spawn<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from BatchClusterOptions.minDelayBetweenSpawnMillis</p>
+						<ul>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:61</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If maxProcs &gt; 1, spawning new child processes to process tasks can slow
+							down initial processing, and create unnecessary processes.</p>
+						</div>
+						<p>Must be &gt;= 0ms. Defaults to 1.5 seconds.</p>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="numerictags" class="tsd-anchor"></a>
 					<h3>numeric<wbr>Tags</h3>
@@ -395,7 +414,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BatchClusterOptions.streamFlushMillis</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:96</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:103</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -507,6 +526,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="exiftooloptions.html#maxtasksperprocess" class="tsd-kind-icon">max<wbr>Tasks<wbr>Per<wbr>Process</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="exiftooloptions.html#mindelaybetweenspawnmillis" class="tsd-kind-icon">min<wbr>Delay<wbr>Between<wbr>Spawn<wbr>Millis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="exiftooloptions.html#numerictags" class="tsd-kind-icon">numeric<wbr>Tags</a>
