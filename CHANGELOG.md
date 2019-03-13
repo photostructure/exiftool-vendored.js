@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.5.0
+
+- 🐞 `RewriteAllTagsTask` doesn't fail on warnings anymore
+- ✨ Pulled in new [batch-cluster
+  5.4.0](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md),
+  which fixed `maxProcs`.
+
 ### v8.4.0
 
 - ✨ Pulled in new [batch-cluster
