@@ -1,9 +1,11 @@
+require("source-map-support").install()
+
 import { Logger, logger, setLogger } from "batch-cluster"
 import * as _fs from "fs"
 import * as globule from "globule"
 import * as _path from "path"
-import * as _process from "process"
-import * as ProgressBar from "progress"
+import { argv, env, exit, on } from "process"
+import ProgressBar = require("progress")
 
 import { compact, filterInPlace, times, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
@@ -12,14 +14,13 @@ import { isNumber } from "../Number"
 import { nullish } from "../ReadTask"
 import { blank, isString, leftPad } from "../String"
 
-require("source-map-support").install()
-
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
 const exiftool = new ExifTool({
   maxProcs: 8,
   taskRetries: 3,
-  streamFlushMillis: 1
+  streamFlushMillis: 1,
+  minDelayBetweenSpawnMillis: 0
 })
 
 function ellipsize(str: string, max: number) {
@@ -40,17 +41,17 @@ setLogger(
           warn: console.warn,
           error: console.error
         },
-        orElse(_process.env.LOG as any, "info")
+        orElse(env.LOG as any, "info")
       )
     )
   )
 )
 
-_process.on("uncaughtException", (error: any) => {
+on("uncaughtException", (error: any) => {
   console.error("Ack, caught uncaughtException: " + error.stack)
 })
 
-_process.on("unhandledRejection", (reason: any, _promise: any) => {
+on("unhandledRejection", (reason: any, _promise: any) => {
   console.error(
     "Ack, caught unhandledRejection: " + (reason.stack || reason.toString)
   )
@@ -59,10 +60,10 @@ _process.on("unhandledRejection", (reason: any, _promise: any) => {
 function usage() {
   console.log("Usage: `yarn run mktags IMG_DIR`")
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.")
-  _process.exit(1)
+  exit(1)
 }
 
-const roots = _process.argv.slice(2)
+const roots = argv.slice(2)
 if (roots.length === 0)
   throw new Error("USAGE: mktags <path to image directory>")
 
@@ -123,7 +124,7 @@ class CountingMap<T> {
 
 class Tag {
   values: any[] = []
-  important: boolean
+  important: boolean = false
   constructor(readonly tag: string) {}
 
   get group(): string {
@@ -357,12 +358,13 @@ const tagMap = new TagMap()
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
 const bar = new ProgressBar(
-  "reading tags [:bar] :current/:total files, :tasks pending @ :rate files/sec :etas",
+  "reading tags [:bar] :current/:total files, :tasks pending @ :rate files/sec w/:procs procs :etas",
   {
     complete: "=",
     incomplete: " ",
     width: 40,
-    total: files.length
+    total: files.length,
+    renderThrottle: 100
   }
 )
 
@@ -396,7 +398,8 @@ async function readAndAddToTagMap(file: string) {
   if (nextTick <= Date.now()) {
     nextTick = Date.now() + 50
     bar.tick(ticks, {
-      tasks: exiftool.pendingTasks
+      tasks: exiftool.pendingTasks,
+      procs: exiftool.busyProcs
     })
     ticks = 0
   }
@@ -405,7 +408,7 @@ async function readAndAddToTagMap(file: string) {
 
 const start = Date.now()
 
-_process.on("unhandledRejection", (reason: any, _promise: any) => {
+on("unhandledRejection", (reason: any, _promise: any) => {
   console.error(
     "Ack, caught unhandled rejection: " + (reason.stack || reason.toString)
   )
