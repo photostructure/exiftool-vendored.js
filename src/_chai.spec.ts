@@ -1,7 +1,9 @@
+require("source-map-support").install()
+
 import { Logger, setLogger } from "batch-cluster"
 import { tmpdir } from "os"
 import { join } from "path"
-import * as pify from "pify"
+import pify = require("pify")
 import { env } from "process"
 
 import { orElse } from "./Maybe"
