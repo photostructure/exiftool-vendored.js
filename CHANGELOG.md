@@ -26,6 +26,8 @@ vendored versions of ExifTool match the version they vendor.
 
 ### v8.5.0
 
+- 🌱 ExifTool upgraded to
+  [v11.31](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.31).
 - 🐞 `RewriteAllTagsTask` doesn't fail on warnings anymore
 - ✨ Pulled in new [batch-cluster
   5.4.0](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md),
