@@ -95,14 +95,14 @@
     "source-map-support": "^0.5.11",
     "tar-fs": "^2.0.0",
     "tmp": "^0.0.33",
-    "tslint": "^5.13.1",
+    "tslint": "^5.14.0",
     "typedoc": "^0.14.2",
     "typescript": "^3.3.3333",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.27"
   },
   "dependencies": {
-    "batch-cluster": "^5.4.0",
+    "batch-cluster": "^5.5.0",
     "luxon": "^1.11.4",
     "tz-lookup": "^6.1.16"
   },
