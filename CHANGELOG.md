@@ -24,9 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### v8.5.1
+### v8.6.0
 
-- 📦 Updated dependencies
+- 🌱 ExifTool upgraded to
+  [v11.32](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.32).
+- 🐞 Pulled in new [batch-cluster
+  5.6.0](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md),
+  which fixed an issue with graceful `end` promise resolutions.
 
 ### v8.5.0
 
