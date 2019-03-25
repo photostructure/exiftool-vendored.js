@@ -393,10 +393,10 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-batch-cluster@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.5.0.tgz#3e270f58bc2353bcfc060b4a6bc4d5d9268386b9"
-  integrity sha512-so13W1COlH/wYelPobTc+T1lJqG1yXOAt2D8Mour6OafmVfxKGIkhkA3u4kb21s3fqafZ1bGPQaHxO9VnVVm8Q==
+batch-cluster@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.6.0.tgz#b5ab4e73668bd4f21248ddb2fd67894c1c606218"
+  integrity sha512-5t5dHRdYATLsi6uoe+x1Qo0CMeaNXtZ7V/dFSnLXJVzaAmDfvZxnZz3QqUQfCTMmZVQ1sBlxpBaZKISwOMQkCg==
 
 bl@^3.0.0:
   version "3.0.0"
@@ -612,15 +612,10 @@ color-name@1.1.3:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
   integrity sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=
 
-commander@^2.12.1:
+commander@^2.12.1, commander@~2.19.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
-
-commander@~2.17.1:
-  version "2.17.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
-  integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -911,15 +906,15 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@11.31.0:
-  version "11.31.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.31.0.tgz#31a61a5598bdb89d14fb3c659ed267a5324487db"
-  integrity sha512-hoMQxpepjFciTAZcXnb0ZyfDSNvzC61VKGYB8FuJ2e5yVnJgNnQp05WAPAMjqblSe5IR9FPZ4rva0DPCW8aIUQ==
+exiftool-vendored.exe@11.32.0:
+  version "11.32.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.32.0.tgz#7e48d0ec1844b9c2e50833a18fbff4fd4be0a7fd"
+  integrity sha512-xMtx2Ot2TNvM5HjVDu8K9jxVtSfvdgpT+vXquxwa2lpbZZDfqgbgiUYfNZ3pL2CSWfszub8O5T8qi2BxOnx8tQ==
 
-exiftool-vendored.pl@11.31.0:
-  version "11.31.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.31.0.tgz#bba3100f74c6e19aede1b8d32f5150b456f77764"
-  integrity sha512-WhTcTwrQ1p5wHG3tKJv1vFu31Ul02EVXKdd+D25KIQlXw9goRm2dy9kmUBwA4XC+PyB1Z28fMjSUwFG3Nh1vlg==
+exiftool-vendored.pl@11.32.0:
+  version "11.32.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.32.0.tgz#9f0fb51a3c80889f556612915c1e7f741cff87fd"
+  integrity sha512-JaX22lT5fwEgPwtzBd5HiukNyNSu4lDfMpxhDueOiCkW7xNIRkZOxYvaz2CI2uLzhzk2TJG86eEsI/CCyKSdzA==
 
 expand-brackets@^2.1.4:
   version "2.1.4"
@@ -2839,11 +2834,11 @@ tz-lookup@^6.1.16:
   integrity sha512-bjCwA0U7lc2aIVWGwl6ljZn7E1YuJ74W3bwiFAacHGIIQc+/J6EVjkyV2yGySAiVm4lmp4f4IPWL0ui+K8NJtw==
 
 uglify-js@^3.1.4:
-  version "3.4.9"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.9.tgz#af02f180c1207d76432e473ed24a28f4a782bae3"
-  integrity sha512-8CJsbKOtEbnJsTyv6LE6m6ZKniqMiFWmm9sRbopbkGs3gMPPfd3Fh8iIA4Ykv5MgaTbqHr4BaoGLJLZNhsrW1Q==
+  version "3.4.10"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.10.tgz#9ad9563d8eb3acdfb8d38597d2af1d815f6a755f"
+  integrity sha512-Y2VsbPVs0FIshJztycsO2SfPk7/KAF/T72qzv9u5EpQ4kB2hQoHlhNQTsNyy6ul7lQtqJN/AoWeS23OzEiEFxw==
   dependencies:
-    commander "~2.17.1"
+    commander "~2.19.0"
     source-map "~0.6.1"
 
 union-value@^1.0.0:
