@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.6.1
+
+- 🐞 Luxon 1.12.0 caused [issue
+  #46](https://github.com/mceachen/exiftool-vendored.js/issues/46). I'll pin to
+  1.11.4 until they fix their bug.
+
 ### v8.6.0
 
 - 🌱 ExifTool upgraded to

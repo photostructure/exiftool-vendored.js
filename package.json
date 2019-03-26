@@ -103,7 +103,7 @@
   },
   "dependencies": {
     "batch-cluster": "^5.6.1",
-    "luxon": "^1.12.0",
+    "luxon": "1.11.4",
     "tz-lookup": "^6.1.16"
   },
   "optionalDependencies": {
