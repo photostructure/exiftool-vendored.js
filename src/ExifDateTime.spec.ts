@@ -184,4 +184,10 @@ describe("ExifDateTime", () => {
       })
     })
   })
+
+  it("try to repro issue #46", () => {
+    const edt = new ExifDateTime(2019, 3, 8, 14, 24, 54, 0, -480)
+    const dt = edt.toDateTime()
+    expect(dt.toISO()).to.eql("2019-03-08T14:24:54.000-08:00")
+  })
 })
