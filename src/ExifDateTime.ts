@@ -121,16 +121,18 @@ export class ExifDateTime {
     readonly tzoffsetMinutes?: number
   ) {}
 
-  get millis() {
-    return this.millisecond
-  }
-
-  get zone() {
-    return offsetMinutesToZoneName(this.tzoffsetMinutes)
-  }
-
   toDateTime(): DateTime {
-    return DateTime.fromObject(this)
+    const o: any = {
+      year: this.year,
+      month: this.month,
+      day: this.day,
+      hour: this.hour,
+      minute: this.minute,
+      second: this.second
+    }
+    map(this.millisecond, ea => (o.millisecond = ea))
+    map(this.tzoffsetMinutes, ea => (o.zone = offsetMinutesToZoneName(ea)))
+    return DateTime.fromObject(o)
   }
 
   toDate(): Date {
