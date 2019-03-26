@@ -121,6 +121,14 @@ export class ExifDateTime {
     readonly tzoffsetMinutes?: number
   ) {}
 
+  get millis() {
+    return this.millisecond
+  }
+
+  get zone() {
+    return offsetMinutesToZoneName(this.tzoffsetMinutes)
+  }
+
   toDateTime(): DateTime {
     const o: any = {
       year: this.year,

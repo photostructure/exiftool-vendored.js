@@ -14,7 +14,7 @@ describe("ExifDateTime", () => {
     })
     it("parses hour/minute/second/millis", () => {
       expect([dt.hour, dt.minute, dt.second]).to.eql([7, 28, 50])
-      expect(dt.millis).to.eql(768)
+      expect(dt.millisecond).to.eql(768)
     })
     it(".toDate() renders a valid Date", () => {
       const d = dt.toDate()
@@ -134,7 +134,7 @@ describe("ExifDateTime", () => {
     })
     it("parses hour/minute/second/millis", () => {
       expect([edt.hour, edt.minute, edt.second]).to.eql([3, 4, 15])
-      expect(edt.millis).to.be.eql(79)
+      expect(edt.millisecond).to.be.eql(79)
     })
     it("parses tzoffset", () => {
       expect(edt.tzoffsetMinutes).to.eql(-60 * 5)

@@ -179,7 +179,7 @@ describe("SubSecDateTimeOriginal", () => {
     expect(t.minute).to.eql(15)
     expect(t.second).to.eql(14)
     expect(t.tzoffsetMinutes).to.eql(undefined)
-    expect(t.millis).to.eql(437)
+    expect(t.millisecond).to.eql(437)
     const d = t.toDate()
     expect(d.getFullYear()).to.eql(2016)
     expect(d.getMonth()).to.eql(10 - 1)
