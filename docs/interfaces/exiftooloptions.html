@@ -88,6 +88,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#cleanupchildprocs" class="tsd-kind-icon">cleanup<wbr>Child<wbr>Procs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#endgracefulwaittimemillis" class="tsd-kind-icon">end<wbr>Graceful<wbr>Wait<wbr>Time<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#exiftoolargs" class="tsd-kind-icon">exiftool<wbr>Args</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#exiftoolpath" class="tsd-kind-icon">exiftool<wbr>Path</a></li>
@@ -114,6 +115,25 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="cleanupchildprocs" class="tsd-anchor"></a>
+					<h3>cleanup<wbr>Child<wbr>Procs</h3>
+					<div class="tsd-signature tsd-kind-icon">cleanup<wbr>Child<wbr>Procs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from BatchClusterOptions.cleanupChildProcs</p>
+						<ul>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:114</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Should batch-cluster try to clean up after spawned processes that don&#39;t
+							shut down?</p>
+						</div>
+						<p>Only disable this if you have another means of PID cleanup.</p>
+						<p>Defaults to <code>true</code>.</p>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="endgracefulwaittimemillis" class="tsd-anchor"></a>
 					<h3>end<wbr>Graceful<wbr>Wait<wbr>Time<wbr>Millis</h3>
@@ -414,7 +434,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BatchClusterOptions.streamFlushMillis</p>
 						<ul>
-							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:103</li>
+							<li>Defined in /home/mrm/src/exiftool-vendored.js/node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:105</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -427,6 +447,7 @@
 						</div>
 						<p>Note that this puts a hard lower limit on task latency. You don&#39;t want to
 						set this to a large number.</p>
+						<p>Defaults to 10ms.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -500,6 +521,9 @@
 					<li class="current tsd-kind-interface">
 						<a href="exiftooloptions.html" class="tsd-kind-icon">Exif<wbr>Tool<wbr>Options</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="exiftooloptions.html#cleanupchildprocs" class="tsd-kind-icon">cleanup<wbr>Child<wbr>Procs</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="exiftooloptions.html#endgracefulwaittimemillis" class="tsd-kind-icon">end<wbr>Graceful<wbr>Wait<wbr>Time<wbr>Millis</a>
 							</li>
