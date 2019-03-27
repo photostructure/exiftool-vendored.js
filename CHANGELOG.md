@@ -286,7 +286,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 - ✨ Prior versions of `ExifTool.read()` always added the `-fast` option. This
   read mode omits metadata found after the image payload. This makes reads much
   faster, but means that a few tags, like `OriginalImageHeight`, may not be
-  extracted. See https://sno.phy.queensu.ca/~phil/exiftool/#performance for more
+  extracted. See <https://sno.phy.queensu.ca/~phil/exiftool/#performance> for more
   details.
 
   [Cuneytt](https://github.com/Cuneytt) reported this and I realized I should
@@ -300,7 +300,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 🌱 ExifTool upgraded to
   [v11.06](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.06).
 - 📦 Removed node 9 from the build graph, as it isn't supported anymore:
-  https://github.com/nodejs/Release#release-schedule
+  <https://github.com/nodejs/Release#release-schedule>
 - 📦 Pull in latest dependencies
 
 ### v5.1.0
