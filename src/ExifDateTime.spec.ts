@@ -3,8 +3,9 @@ import { ExifDateTime } from "./ExifDateTime"
 
 describe("ExifDateTime", () => {
   describe("example with no tzoffset or zulu suffix", () => {
+    const raw = "2016:08:12 07:28:50.768120"
     const iso = "2016-08-12T07:28:50.768"
-    const dt = ExifDateTime.fromEXIF("2016:08:12 07:28:50.768120")!
+    const dt = ExifDateTime.fromEXIF(raw)!
     const dtIso = ExifDateTime.fromEXIF(iso)!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
@@ -15,6 +16,9 @@ describe("ExifDateTime", () => {
     it("parses hour/minute/second/millis", () => {
       expect([dt.hour, dt.minute, dt.second]).to.eql([7, 28, 50])
       expect(dt.millisecond).to.eql(768)
+    })
+    it("includes the raw value", () => {
+      expect(dt.rawValue).to.eql(raw)
     })
     it(".toDate() renders a valid Date", () => {
       const d = dt.toDate()
@@ -38,12 +42,13 @@ describe("ExifDateTime", () => {
       )
     })
     it("Round-trips from ISO", () => {
-      expect(ExifDateTime.fromISO(iso)).to.eql(dt)
+      expect(ExifDateTime.fromISO(iso, undefined, dt.rawValue)).to.eql(dt)
     })
   })
 
   describe("example with no tzoffset and UTC default", () => {
-    const dt = ExifDateTime.fromEXIF("2011:01:23 18:19:20", "utc")!
+    const raw = "2011:01:23 18:19:20"
+    const dt = ExifDateTime.fromEXIF(raw, "utc")!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2011, 1, 23])
     })
@@ -52,6 +57,9 @@ describe("ExifDateTime", () => {
     })
     it("parses tzoffset", () => {
       expect(dt.tzoffsetMinutes).to.eql(0)
+    })
+    it("includes the raw value", () => {
+      expect(dt.rawValue).to.eql(raw)
     })
     it(".toISOString", () => {
       expect(dt.toISOString()).to.eql("2011-01-23T18:19:20.000Z")
@@ -76,7 +84,8 @@ describe("ExifDateTime", () => {
   })
 
   describe("example with tzoffset and spurious timezone", () => {
-    const dt = ExifDateTime.fromEXIF("2014:07:17 08:46:27-07:00 DST")!
+    const raw = "2014:07:17 08:46:27-07:00 DST"
+    const dt = ExifDateTime.fromEXIF(raw)!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2014, 7, 17])
     })
@@ -85,6 +94,9 @@ describe("ExifDateTime", () => {
     })
     it("parses tzoffset", () => {
       expect(dt.tzoffsetMinutes).to.eql(-60 * 7)
+    })
+    it("includes the raw value", () => {
+      expect(dt.rawValue).to.eql(raw)
     })
     it(".toISOString", () => {
       expect(dt.toISOString()).to.eql("2014-07-17T08:46:27.000-07:00")
@@ -95,7 +107,8 @@ describe("ExifDateTime", () => {
   })
 
   describe("example with tzoffset and no millis", () => {
-    const dt = ExifDateTime.fromEXIF("2013:12:30 11:04:15-05:00")!
+    const raw = "2013:12:30 11:04:15-05:00"
+    const dt = ExifDateTime.fromEXIF(raw)!
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
     })
@@ -104,6 +117,9 @@ describe("ExifDateTime", () => {
     })
     it("parses tzoffset", () => {
       expect(dt.tzoffsetMinutes).to.eql(-60 * 5)
+    })
+    it("includes the raw value", () => {
+      expect(dt.rawValue).to.eql(raw)
     })
     it(".toISOString", () => {
       expect(dt.toISOString()).to.eql("2013-12-30T11:04:15.000-05:00")
@@ -128,7 +144,8 @@ describe("ExifDateTime", () => {
   })
 
   describe("example with tzoffset and millis", () => {
-    const edt = ExifDateTime.fromEXIF("2013:12:30 03:04:15.079321-05:00")!
+    const raw = "2013:12:30 03:04:15.079321-05:00"
+    const edt = ExifDateTime.fromEXIF(raw)!
     it("parses year/month/day", () => {
       expect([edt.year, edt.month, edt.day]).to.eql([2013, 12, 30])
     })
@@ -138,6 +155,9 @@ describe("ExifDateTime", () => {
     })
     it("parses tzoffset", () => {
       expect(edt.tzoffsetMinutes).to.eql(-60 * 5)
+    })
+    it("includes the raw value", () => {
+      expect(edt.rawValue).to.eql(raw)
     })
     it(".toISOString", () => {
       expect(edt.toISOString()).to.eql("2013-12-30T03:04:15.079-05:00")

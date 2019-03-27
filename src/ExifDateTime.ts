@@ -15,7 +15,8 @@ const unsetZone = new FixedOffsetZone(unsetZoneOffset)
 export class ExifDateTime {
   static fromISO(
     iso: string,
-    defaultZone?: Maybe<string>
+    defaultZone?: Maybe<string>,
+    rawValue?: string
   ): Maybe<ExifDateTime> {
     return blank(iso)
       ? undefined
@@ -23,7 +24,8 @@ export class ExifDateTime {
           DateTime.fromISO(iso, {
             setZone: true,
             zone: orElse(defaultZone, unsetZone)
-          })
+          }),
+          orElse(rawValue, iso)
         )
   }
 
@@ -80,7 +82,7 @@ export class ExifDateTime {
         first(fmts, ({ fmt, zone: fmtZone }) =>
           map(
             DateTime.fromFormat(input, fmt, { setZone: true, zone: fmtZone }),
-            dt => this.fromDateTime(dt)
+            dt => this.fromDateTime(dt, s)
           )
         )
       ),
@@ -88,7 +90,7 @@ export class ExifDateTime {
     )
   }
 
-  static fromDateTime(dt: DateTime): Maybe<ExifDateTime> {
+  static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifDateTime> {
     if (
       dt == null ||
       !dt.isValid ||
@@ -106,7 +108,8 @@ export class ExifDateTime {
       dt.minute,
       dt.second,
       dt.millisecond,
-      dt.offset === unsetZoneOffset ? undefined : dt.offset
+      dt.offset === unsetZoneOffset ? undefined : dt.offset,
+      rawValue
     )
   }
 
@@ -118,7 +121,8 @@ export class ExifDateTime {
     readonly minute: number,
     readonly second: number,
     readonly millisecond?: number,
-    readonly tzoffsetMinutes?: number
+    readonly tzoffsetMinutes?: number,
+    readonly rawValue?: string
   ) {}
 
   get millis() {

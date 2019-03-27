@@ -99,7 +99,8 @@ describe("WriteTask", () => {
       inputValue: "2017-11-15T12:34:56+8:00",
       expectedValue: ExifDateTime.fromISO(
         "2017-11-15T12:34:56",
-        offsetMinutesToZoneName(480)
+        offsetMinutesToZoneName(480),
+        "2017:11:15 12:34:56" // < expected EXIF date time format
       )
     })
   })
