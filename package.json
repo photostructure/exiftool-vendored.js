@@ -19,7 +19,7 @@
     "tslint": "tslint -p . src/*.ts src/**/*.ts",
     "prettier": "prettier --write src/*.ts src/**/*.ts",
     "pretest": "yarn compile",
-    "test": "nyc mocha",
+    "test": "nyc mocha dist/**/*.spec.js",
     "report": "yarn test && nyc report -r html",
     "docs:1": "typedoc --options .typedoc.js",
     "docs:2": "echo exiftool-vendored.js.org > docs/CNAME",
