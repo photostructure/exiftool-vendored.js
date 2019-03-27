@@ -391,10 +391,10 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-batch-cluster@^5.6.1:
-  version "5.6.1"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.6.1.tgz#6cc72435f82a3e1823bcfd529c7f250c1bb79fbc"
-  integrity sha512-ILyc7iYjUJ8MiobjyHhsHn0QV/AnkDRCgt4XjWhtmq6obdp5eQF0frNHCWXz+4H/vuAtcRmQ20oSyU9cv7JcWw==
+batch-cluster@^5.6.2:
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.6.2.tgz#67b1547f53909054a1422ac4eab240d8996b844b"
+  integrity sha512-UquXc8yn+2dX91kH8cN411nQMUSJDMG8VyRpf6DHxq/5hcwfmntyZSdBueAYmdkM9L3fdSrrodF/Afa/Da0D2w==
 
 bl@^3.0.0:
   version "3.0.0"
