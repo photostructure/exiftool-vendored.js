@@ -3,11 +3,11 @@
 **Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
 
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
-[![Build status](https://travis-ci.org/mceachen/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/mceachen/exiftool-vendored.js)
+[![Build status](https://travis-ci.org/photostructure/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/photostructure/exiftool-vendored.js)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
-[![GitHub issues](https://img.shields.io/github/issues/mceachen/exiftool-vendored.js.svg)](https://github.com/mceachen/exiftool-vendored.js/issues)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/mceachen/exiftool-vendored.js.svg)](https://lgtm.com/projects/g/mceachen/exiftool-vendored.js/context:javascript)
-[![Known Vulnerabilities](https://snyk.io/test/github/mceachen/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mceachen/exiftool-vendored.js?targetFile=package.json)
+[![GitHub issues](https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg)](https://github.com/photostructure/exiftool-vendored.js/issues)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/photostructure/exiftool-vendored.js.svg)](https://lgtm.com/projects/g/photostructure/exiftool-vendored.js/context:javascript)
+[![Known Vulnerabilities](https://snyk.io/test/github/photostructure/batch-cluster.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/photostructure/batch-cluster.js?targetFile=package.json)
 
 ## Features
 
@@ -37,7 +37,7 @@
     monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
 1.  **Robust test coverage**, performed with the latest Node v6, v8, and v10 on [Linux,
-    Mac](https://travis-ci.org/mceachen/exiftool-vendored.js), &
+    Mac](https://travis-ci.org/photostructure/exiftool-vendored.js), &
     [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
 ## Installation
@@ -124,9 +124,9 @@ Either of these parameters are provided to the `ExifTool` constructor.
 
 To enable trace, debug, info, warning, or error logging from this library and
 the underlying `batch-cluster` library,
-use[`setLogger`](https://batch-cluster.js.org/globals.html#setlogger). Example
+use[`setLogger`](globals.html#setlogger). Example
 code can be found
-[here](https://github.com/mceachen/batch-cluster.js/blob/master/src/_chai.spec.ts#L20).
+[here](https://github.com/photostructure/batch-cluster.js/blob/master/src/_chai.spec.ts#L20).
 
 ExifTool instances emits events for "startError", "taskError", "endError",
 "beforeEnd", and "end" that you can register listeners for, using

@@ -24,10 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.7.1
+
+- 📦 Updated dependencies
+- 📦 Moved project to the PhotoStructure github org
+
 ### v8.7.0
 
-- ✨ `ExifDateTime` now has a `rawValue` field holding the EXIF-formatted date
-  time string.
+- ✨ `ExifDateTime` now has a `rawValue` field holding the raw value provided by
+  `exiftool`.
 
 ### v8.6.1
 
