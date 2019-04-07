@@ -27,3 +27,11 @@ export function first<T, U>(
   }
   return
 }
+
+export function firstDefinedThunk<T>(iter: Iterable<() => Maybe<T>>): Maybe<T> {
+  for (const f of iter) {
+    const result = f()
+    if (result != null) return result
+  }
+  return
+}

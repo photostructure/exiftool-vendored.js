@@ -1,6 +1,6 @@
 import { DateTime } from "luxon"
 
-import { first, map, Maybe } from "./Maybe"
+import { first, map, Maybe, firstDefinedThunk } from "./Maybe"
 import { pad2, toS, blank } from "./String"
 import { validDateTime } from "./DateTime"
 
@@ -12,12 +12,34 @@ export class ExifDate {
     return this.fromDateTime(DateTime.fromISO(text))
   }
 
-  static fromEXIF(text: string): Maybe<ExifDate> {
+  private static fromPatterns(text: string, fmts: string[]) {
     if (blank(text)) return
     text = toS(text).trim()
-    return first(["y:MM:dd", "y-MM-dd", "y:M:d", "MMM d y", "MMMM d y"], fmt =>
+    return first(fmts, fmt =>
       map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
     )
+  }
+
+  // These are all formats I've seen in the wild from exiftool's output.
+
+  // More iterations might make sense, like "d MMM, y" or "MMM d, y", but I
+  // want to be constrained in what I consider a valid date to lessen the
+  // chance of misinterpreting a given value.
+
+  static fromExifStrict(text: string): Maybe<ExifDate> {
+    return this.fromPatterns(text, ["y:MM:dd", "y-MM-dd", "y:M:d"])
+  }
+
+  static fromExifLoose(text: string): Maybe<ExifDate> {
+    return this.fromPatterns(text, ["MMM d y", "MMMM d y"])
+  }
+
+  static fromEXIF(text: string): Maybe<ExifDate> {
+    return firstDefinedThunk([
+      () => this.fromExifStrict(text),
+      () => this.fromExifLoose(text),
+      () => this.fromISO(text)
+    ])
   }
 
   static fromDateTime(dt: DateTime): Maybe<ExifDate> {

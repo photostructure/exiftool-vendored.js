@@ -1,6 +1,6 @@
 import { DateTime, ISOTimeOptions } from "luxon"
 
-import { first, map, Maybe, orElse } from "./Maybe"
+import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
 import { offsetMinutesToZoneName } from "./Timezones"
 
@@ -18,15 +18,14 @@ export class ExifDateTime {
     defaultZone?: Maybe<string>,
     rawValue?: string
   ): Maybe<ExifDateTime> {
-    return blank(iso)
-      ? undefined
-      : this.fromDateTime(
-          DateTime.fromISO(iso, {
-            setZone: true,
-            zone: orElse(defaultZone, unsetZone)
-          }),
-          orElse(rawValue, iso)
-        )
+    if (blank(iso)) return undefined
+    return this.fromDateTime(
+      DateTime.fromISO(iso, {
+        setZone: true,
+        zone: orElse(defaultZone, unsetZone)
+      }),
+      orElse(rawValue, iso)
+    )
   }
 
   /**
@@ -42,7 +41,18 @@ export class ExifDateTime {
     text: string,
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
-    if (blank(text)) return
+    if (blank(text)) return undefined
+    return firstDefinedThunk([
+      () => this.fromExifStrict(text, defaultZone),
+      () => this.fromISO(text, defaultZone),
+      () => this.fromExifLoose(text, defaultZone)
+    ])
+  }
+
+  private static fromPatterns(
+    text: string,
+    fmts: { fmt: string; zone?: string }[]
+  ) {
     const s = toS(text).trim()
     const inputs = [s]
 
@@ -58,15 +68,42 @@ export class ExifDateTime {
       if (noTza !== s) inputs.push(noTza)
     }
 
-    const zone = notBlank(defaultZone) ? defaultZone : unsetZone
+    return first(inputs, input =>
+      first(fmts, ({ fmt, zone: fmtZone }) =>
+        map(
+          DateTime.fromFormat(input, fmt, { setZone: true, zone: fmtZone }),
+          dt => this.fromDateTime(dt, s)
+        )
+      )
+    )
+  }
 
-    const fmts = [
+  static fromExifStrict(
+    text: string,
+    defaultZone?: Maybe<string>
+  ): Maybe<ExifDateTime> {
+    if (blank(text)) return undefined
+    const zone = notBlank(defaultZone) ? defaultZone : unsetZone
+    return this.fromPatterns(text, [
+      // if it specifies a zone, use it:
       { fmt: "y:M:d H:m:s.uZZ" },
       { fmt: "y:M:d H:m:sZZ" },
+      // if it specifies UTC, use it:
       { fmt: "y:M:d H:m:s.u'Z'", zone: "utc" },
       { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
+      // Otherwise use the default zone:
       { fmt: "y:M:d H:m:s.u", zone },
-      { fmt: "y:M:d H:m:s", zone },
+      { fmt: "y:M:d H:m:s", zone }
+    ])
+  }
+
+  static fromExifLoose(
+    text: string,
+    defaultZone?: Maybe<string>
+  ): Maybe<ExifDateTime> {
+    if (blank(text)) return undefined
+    const zone = notBlank(defaultZone) ? defaultZone : unsetZone
+    return this.fromPatterns(text, [
       // FWIW, the following are from actual datestamps seen in the wild:
       { fmt: "MMM d y H:m:sZZZ" },
       { fmt: "MMM d y H:m:s", zone },
@@ -75,19 +112,7 @@ export class ExifDateTime {
       // Thu Oct 13 00:12:27 2016:
       { fmt: "ccc MMM d H:m:s yZZ" },
       { fmt: "ccc MMM d H:m:s y", zone }
-    ]
-
-    return orElse(
-      first(inputs, input =>
-        first(fmts, ({ fmt, zone: fmtZone }) =>
-          map(
-            DateTime.fromFormat(input, fmt, { setZone: true, zone: fmtZone }),
-            dt => this.fromDateTime(dt, s)
-          )
-        )
-      ),
-      () => this.fromISO(s, defaultZone)
-    )
+    ])
   }
 
   static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifDateTime> {

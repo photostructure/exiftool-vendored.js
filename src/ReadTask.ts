@@ -6,7 +6,7 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolTask } from "./ExifToolTask"
-import { first, orElse } from "./Maybe"
+import { first, firstDefinedThunk, orElse } from "./Maybe"
 import { toF } from "./Number"
 import { isFunction } from "./Object"
 import { isString, toS } from "./String"
@@ -209,13 +209,14 @@ export class ReadTask extends ExifToolTask<Tags> {
         return this.lon
       }
       if (typeof value === "string" && tagName.includes("Date")) {
-        const dt = orElse(
-          // First try DateTime:
-          ExifDateTime.fromEXIF(value, this.tz),
-          () =>
-            // OK, fine, is it a date?
-            ExifDate.fromEXIF(value)
-        )
+        const dt = firstDefinedThunk([
+          () => ExifDate.fromExifStrict(value),
+          () => ExifDateTime.fromExifStrict(value, this.tz),
+          () => ExifDate.fromISO(value),
+          () => ExifDateTime.fromISO(value, this.tz),
+          () => ExifDate.fromExifLoose(value),
+          () => ExifDateTime.fromExifLoose(value, this.tz)
+        ])
         if (dt != null) {
           return dt
         }

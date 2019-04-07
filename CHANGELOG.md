@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.8.0
+
+- ✨ `ExifDateTime` and `ExifDate` now have `fromExifStrict` and `fromExifLoose`
+  parsing methods.
+- 📦 Updated dependencies
+
+
+
 ### v8.7.1
 
 - 📦 Updated dependencies
