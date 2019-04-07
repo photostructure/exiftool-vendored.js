@@ -26,11 +26,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ### v8.8.0
 
+- 🌱 ExifTool upgraded to
+  [v11.34](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.34).
 - ✨ `ExifDateTime` and `ExifDate` now have `fromExifStrict` and `fromExifLoose`
   parsing methods.
 - 📦 Updated dependencies
-
-
 
 ### v8.7.1
 

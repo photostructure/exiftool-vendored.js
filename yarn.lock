@@ -904,15 +904,15 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@11.32.0:
-  version "11.32.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.32.0.tgz#7e48d0ec1844b9c2e50833a18fbff4fd4be0a7fd"
-  integrity sha512-xMtx2Ot2TNvM5HjVDu8K9jxVtSfvdgpT+vXquxwa2lpbZZDfqgbgiUYfNZ3pL2CSWfszub8O5T8qi2BxOnx8tQ==
+exiftool-vendored.exe@11.34.0:
+  version "11.34.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.34.0.tgz#311a933683ad55fe9a57a4e26ce329e36c9eebc2"
+  integrity sha512-wPQdKQCp6oGiX8hgVcavtMK3ncq/xv2Xi624QI1gWpeJEAPS3ygQNEjP1NGOyGeMttne0g5PNsYzzXVEWitmsw==
 
-exiftool-vendored.pl@11.32.0:
-  version "11.32.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.32.0.tgz#9f0fb51a3c80889f556612915c1e7f741cff87fd"
-  integrity sha512-JaX22lT5fwEgPwtzBd5HiukNyNSu4lDfMpxhDueOiCkW7xNIRkZOxYvaz2CI2uLzhzk2TJG86eEsI/CCyKSdzA==
+exiftool-vendored.pl@11.34.0:
+  version "11.34.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.34.0.tgz#14000166de9f946f3a12db833ba991d36723dfb0"
+  integrity sha512-eXJRevwYg01YoKPQfNCkoKl7gQ/ajG1HzV4nYpnsbzKo9HiHoZLaKZMRU0C2biey31/G2rSU2O0O89vGQJy6Ww==
 
 expand-brackets@^2.1.4:
   version "2.1.4"
@@ -1791,7 +1791,7 @@ mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mocha@6.0:
+mocha@6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/mocha/-/mocha-6.0.2.tgz#cdc1a6fdf66472c079b5605bac59d29807702d2c"
   integrity sha512-RtTJsmmToGyeTznSOMoM6TPEk1A84FQaHIciKrRqARZx+B5ccJ5tXlmJzEKGBxZdqk9UjpRsesZTUkZmR5YnuQ==
