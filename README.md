@@ -35,7 +35,8 @@
 1.  **Automated updates** to ExifTool ([as new versions come out
     monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1.  **Robust test coverage**, performed with the latest Node v6, v8, and v10 on [Linux,
+1.  **Robust test coverage**, performed with [supported Node
+    versions](https://nodejs.org/en/about/releases/) on [Linux,
     Mac](https://travis-ci.org/photostructure/exiftool-vendored.js), &
     [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
 
