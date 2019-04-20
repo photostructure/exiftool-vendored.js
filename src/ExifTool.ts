@@ -22,7 +22,13 @@ export { ExifDateTime } from "./ExifDateTime"
 export { offsetMinutesToZoneName } from "./Timezones"
 
 function findExiftool(): string {
-  const isWin32 = _process.platform === "win32"
+  const platform = _process.platform
+  if (platform == null) {
+    throw new Error(
+      "findExiftool(): process.platform is not set. Are we running in node?"
+    )
+  }
+  const isWin32 = platform === "win32"
   const path: string = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
   // This s/app.asar/app.asar.unpacked/ path switch adds support for Electron
   // apps that are ASAR-packed.

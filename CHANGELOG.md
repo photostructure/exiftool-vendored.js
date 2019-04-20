@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.8.1
+
+- 🐞 Throw an error if
+  [process.platform()](https://nodejs.org/api/process.html#process_process_platform)
+  returns nullish
+
 ### v8.8.0
 
 - 🌱 ExifTool upgraded to
