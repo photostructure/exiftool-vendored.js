@@ -28,7 +28,7 @@ export class WritableToBuffer extends Duplex {
 
   _read() {} // required by stream
 
-  _write(chunk: any, encoding: string, next: () => void) {
+  _write(chunk: any, encoding: BufferEncoding, next: () => void) {
     const buf = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk, encoding)
     this._buf.push(buf)
     next()
@@ -162,7 +162,7 @@ export function mkdir(
   ignoreErrors: boolean = false
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    _fs.mkdir(path, (err?: Error) => {
+    _fs.mkdir(path, err => {
       if (err != null && !ignoreErrors) {
         reject(err)
       } else {

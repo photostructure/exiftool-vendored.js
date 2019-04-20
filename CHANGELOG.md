@@ -29,6 +29,8 @@ vendored versions of ExifTool match the version they vendor.
 - 🐞 Throw an error if
   [process.platform()](https://nodejs.org/api/process.html#process_process_platform)
   returns nullish
+- 📦 Updated dependencies, fixed a couple typing nits
+
 
 ### v8.8.0
 
