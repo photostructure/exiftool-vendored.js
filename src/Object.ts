@@ -1,4 +1,4 @@
-export function keys<T, K extends string & keyof T>(o: T): K[] {
+export function keys<T extends any, K extends string & keyof T>(o: T): K[] {
   return o == null
     ? []
     : (Object.keys(o).filter(
