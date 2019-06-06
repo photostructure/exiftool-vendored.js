@@ -1,6 +1,6 @@
 import { join } from "path"
 
-import { expect, ptmp } from "./_chai.spec"
+import { expect, tmpname } from "./_chai.spec"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifTool } from "./ExifTool"
 import { sha1 } from "./update/io"
@@ -32,7 +32,7 @@ describe("BinaryExtractionTask", () => {
   it("extracts expected thumb", async function() {
     this.slow(500)
     const src = join(testDir, "with_thumb.jpg")
-    const dest = await ptmp.tmpName()
+    const dest = await tmpname()
     await exiftool.extractThumbnail(src, dest)
     // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
     return sha1(dest, "c7c14706fce4038f6a9da96e213768756a4b2ad2")

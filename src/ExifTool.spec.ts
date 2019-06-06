@@ -5,6 +5,7 @@ import { expect, testImg } from "./_chai.spec"
 import { times } from "./Array"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { Tags } from "./Tags"
+import { ExifDateTime } from "./ExifDateTime"
 
 describe("ExifTool", function() {
   this.timeout(15000)
@@ -227,5 +228,26 @@ describe("ExifTool", function() {
       await et2.end()
     }
     return
+  })
+
+  it("reads from a directory with dots", async () => {
+    const dots = await testImg("img.jpg", "2019.05.28")
+    const tags = await et.read(dots)
+    console.log("read img.jpg", { dots, tags })
+    expect(tags).to.contain({
+      MIMEType: "image/jpeg",
+      GPSLatitudeRef: "N",
+      GPSLongitudeRef: "E",
+      Make: "Apple",
+      Model: "iPhone 7 Plus",
+      FNumber: 1.8
+    })
+    expect(tags.DateTimeCreated).to.eql(
+      ExifDateTime.fromISO(
+        "2016-08-12T13:28:50",
+        "UTC+8",
+        "2016:08:12 13:28:50"
+      )
+    )
   })
 })

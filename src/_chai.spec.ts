@@ -1,12 +1,12 @@
 import { Logger, setLogger } from "batch-cluster"
+import * as fse from "fs-extra"
 import { tmpdir } from "os"
 import { join } from "path"
-import pify = require("pify")
 import { env } from "process"
 
+import { compact } from "./Array"
 import { orElse } from "./Maybe"
 
-const cpFile = require("cp-file")
 const chai = require("chai")
 const chaiAsPromised = require("chai-as-promised")
 chai.use(chaiAsPromised)
@@ -31,17 +31,24 @@ setLogger(
 
 export { expect } from "chai"
 
-export const pfs = pify(require("fs"))
-export const ptmp = pify(require("tmp"))
-
 export const testDir = join(__dirname, "..", "test")
+
+export function tmpname(prefix = "") {
+  return prefix + Math.floor(Math.random() * 1000000000).toString(16)
+}
 
 /**
  * Copy a test image to a tmp directory and return the path
  */
-export async function testImg(name: string = "img.jpg"): Promise<string> {
-  const dir = join(tmpdir(), (Math.random() * 1000000).toFixed())
-  await pfs.mkdir(dir)
+export async function testImg(
+  name: string = "img.jpg",
+  parentDir?: string
+): Promise<string> {
+  const dir = join(
+    tmpdir(),
+    ...compact([tmpname(), parentDir])
+  )
+  await fse.mkdirp(dir)
   const dest = join(dir, name)
-  return cpFile(join(testDir, name), dest).then(() => dest)
+  return fse.copyFile(join(testDir, name), dest).then(() => dest)
 }
