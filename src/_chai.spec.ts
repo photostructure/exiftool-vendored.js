@@ -4,7 +4,6 @@ import { tmpdir } from "os"
 import { join } from "path"
 import { env } from "process"
 
-import { compact } from "./Array"
 import { orElse } from "./Maybe"
 
 const chai = require("chai")
@@ -34,7 +33,10 @@ export { expect } from "chai"
 export const testDir = join(__dirname, "..", "test")
 
 export function tmpname(prefix = "") {
-  return prefix + Math.floor(Math.random() * 1000000000).toString(16)
+  return join(
+    tmpdir(),
+    prefix + Math.floor(Math.random() * 1000000000).toString(16)
+  )
 }
 
 /**
@@ -42,12 +44,9 @@ export function tmpname(prefix = "") {
  */
 export async function testImg(
   name: string = "img.jpg",
-  parentDir?: string
+  parentDir: string = "test"
 ): Promise<string> {
-  const dir = join(
-    tmpdir(),
-    ...compact([tmpname(), parentDir])
-  )
+  const dir = join(tmpname(), parentDir)
   await fse.mkdirp(dir)
   const dest = join(dir, name)
   return fse.copyFile(join(testDir, name), dest).then(() => dest)
