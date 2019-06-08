@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.12.0
+
+- ✨ Rebuilt `Tags` from 6779 examples. New tags were found, including `PreviewTIFF`.
+- 📦 Updated dependencies
+- 🌱 ExifTool upgraded to
+  [v11.49](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.47).
+
 ### v8.11.0
 
 - 📦 Updated dependencies

@@ -151,9 +151,9 @@
   integrity sha512-pGF/zvYOACZ/gLGWdQH8zSwteQS1epp68yRcVLJMgUck/MjEn/FBYmPub9pXT8C1e4a8YZfHo1CKyV8q1vKUnQ==
 
 "@types/lodash@^4.14.110":
-  version "4.14.133"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.133.tgz#430721c96da22dd1694443e68e6cec7ba1c1003d"
-  integrity sha512-/3JqnvPnY58GLzG3Y7fpphOhATV1DDZ/Ak3DQufjlRK5E4u+s0CfClfNFtAGBabw+jDGtRFbOZe+Z02ZMWCBNQ==
+  version "4.14.134"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.134.tgz#9032b440122db3a2a56200e91191996161dde5b9"
+  integrity sha512-2/O0khFUCFeDlbi7sZ7ZFRCcT812fAeOLm7Ev4KbwASkZ575TDrDcY7YyaoHdTOzKcNbfiwLYZqPmoC4wadrsw==
 
 "@types/luxon@^1.15.1":
   version "1.15.1"
@@ -175,10 +175,10 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.7.tgz#315d570ccb56c53452ff8638738df60726d5b6ea"
   integrity sha512-NYrtPht0wGzhwe9+/idPaBB+TqkY9AhTvOLMkThm0IoEfLaiVQZwBwyJ5puCkO3AUCWrmcoePjp2mbFocKy4SQ==
 
-"@types/node@*", "@types/node@^12.0.5":
-  version "12.0.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.5.tgz#ac14404c33d1a789973c45379a67f7f7e58a01b9"
-  integrity sha512-CFLSALoE+93+Hcb5pFjp0J1uMrrbLRe+L1+gFwerJ776R3TACSF0kTVRQ7AvRa7aFx70nqYHAc7wQPlt9kY2Mg==
+"@types/node@*", "@types/node@^12.0.7":
+  version "12.0.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.7.tgz#4f2563bad652b2acb1722d7e7aae2b0ff62d192c"
+  integrity sha512-1YKeT4JitGgE4SOzyB9eMwO0nGVNkNEsm9qlIt1Lqm/tG2QEiSMTD4kS3aO6L+w5SClLVxALmIBESK6Mk5wX0A==
 
 "@types/progress@^2.0.3":
   version "2.0.3"
@@ -756,15 +756,15 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@11.47.0:
-  version "11.47.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.47.0.tgz#50d3ea5fbf472bc8bf6beb50a40dd7ea00f797b5"
-  integrity sha512-njDAQlaJIgUO2GlZ4VfVQZOsTC4DEPY5Wah6xlgCzwCn0SBvduGrphWVp+uOGWu1+swRle3zQlff3gi0oN8GTw==
+exiftool-vendored.exe@11.49.0:
+  version "11.49.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.49.0.tgz#a6ad0ad8aa59d22250b1a78a0249b1d4a95d558f"
+  integrity sha512-OB9CbWwKRooDd7btLD0gN9GB4avzYpVjDFn8fgIaGEvkWvrWYIfoPGP/QrB9MphB5TOJNbnrux4bfqxvLHggIw==
 
-exiftool-vendored.pl@11.47.0:
-  version "11.47.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.47.0.tgz#a41f1c0461128176066891b05d25a6858297a103"
-  integrity sha512-GM5/SL5jctAek5jHwvpbiJwXXyohPpSi3OUqUMZjtNJ4qjjQ2ES26nlo2QKZsMWnksEDzSTBj1+cA5Zks4pLVQ==
+exiftool-vendored.pl@11.49.0:
+  version "11.49.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.49.0.tgz#bdc44593d1404a2fc53af10c6cc9495133e8ddbe"
+  integrity sha512-PcBUkLFRtLHRQMIY8jQpfb9W5cAU4msgdCD5bQnYdu0g5QPaEG5UTBd62dtL8N2TvS5gChKS+xw62myhew69dg==
 
 extract-zip@^1.6.7:
   version "1.6.7"
@@ -1363,10 +1363,15 @@ ms@2.0.0:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
   integrity sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=
 
-ms@2.1.1, ms@^2.1.1:
+ms@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
+
+ms@^2.1.1:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
+  integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
 negotiator@0.6.2:
   version "0.6.2"
@@ -1642,10 +1647,10 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
-prettier@^1.17.1:
-  version "1.17.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.17.1.tgz#ed64b4e93e370cb8a25b9ef7fef3e4fd1c0995db"
-  integrity sha512-TzGRNvuUSmPgwivDqkZ9tM/qTGW9hqDKWOE9YHiyQdixlKbv7kvEqsmDPrcHJTKwthU774TQwZXVtaQ/mMsvjg==
+prettier@^1.18.2:
+  version "1.18.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
+  integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
 
 process-nextick-args@~2.0.0:
   version "2.0.0"

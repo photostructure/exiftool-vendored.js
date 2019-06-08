@@ -67,7 +67,7 @@ const roots = argv.slice(2)
 if (roots.length === 0)
   throw new Error("USAGE: mktags <path to image directory>")
 
-const patternSuffix = "/**/*.+(avi|jpg|mov|mp4|cr2|nef|orf|raf|arw|rw2)"
+const patternSuffix = "/**/*.+(3fr|avi|jpg|mov|mp4|cr2|cr3|nef|orf|raf|arw|rw2)"
 
 const files = roots
   .map(root => {
