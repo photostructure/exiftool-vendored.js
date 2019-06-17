@@ -1,8 +1,8 @@
 import { DateTime } from "luxon"
 
-import { first, map, Maybe, firstDefinedThunk } from "./Maybe"
-import { pad2, toS, blank } from "./String"
 import { validDateTime } from "./DateTime"
+import { first, firstDefinedThunk, map, Maybe } from "./Maybe"
+import { blank, pad2, toS } from "./String"
 
 /**
  * Encodes an ExifDate
@@ -59,10 +59,14 @@ export class ExifDate {
   }
 
   toISOString(): string {
-    return `${this.year}-${pad2(this.month)}-${pad2(this.day)}`
+    return this.toString("-")
   }
 
-  toString() {
-    return this.toISOString()
+  toExifString() {
+    return this.toString(":")
+  }
+
+  toString(sep = "-"): string {
+    return `${this.year}${sep}${pad2(this.month, this.day).join(sep)}`
   }
 }

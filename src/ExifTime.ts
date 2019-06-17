@@ -1,7 +1,7 @@
 import { DateTime } from "luxon"
 
 import { first, map, Maybe } from "./Maybe"
-import { blank, pad2, toS } from "./String"
+import { blank, pad2, pad3, toS } from "./String"
 
 /**
  * Encodes an ExifTime (which may not have a timezone offset)
@@ -10,8 +10,9 @@ export class ExifTime {
   static fromEXIF(text: string): Maybe<ExifTime> {
     if (blank(text)) return
     text = toS(text).trim()
-    return first(["HH:mm:ss.u", "HH:mm:ss"], fmt =>
-      map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
+    return first(
+      ["HH:mm:ss.uZZ", "HH:mm:ssZZ", "HH:mm:ss.u", "HH:mm:ss"],
+      fmt => map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
     )
   }
 
@@ -32,16 +33,15 @@ export class ExifTime {
     return this.millisecond
   }
 
-  toISOString(): string {
-    const fracpart =
-      this.millisecond == null || this.millisecond === 0
-        ? ""
-        : (Math.round(this.millisecond) / 1000).toFixed(3).substring(1)
-
-    return pad2(this.hour, this.minute, this.second).join(":") + fracpart
+  private subsec() {
+    return this.millisecond == null || this.millisecond === 0
+      ? ""
+      : "." + pad3(this.millisecond)
   }
 
-  toString() {
-    return this.toISOString()
-  }
+  readonly toString = () =>
+    pad2(this.hour, this.minute, this.second).join(":") + this.subsec()
+
+  readonly toISOString = this.toString
+  readonly toExifString = this.toString
 }

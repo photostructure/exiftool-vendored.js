@@ -233,7 +233,6 @@ describe("ExifTool", function() {
   it("reads from a directory with dots", async () => {
     const dots = await testImg("img.jpg", "2019.05.28")
     const tags = await et.read(dots)
-    console.log("read img.jpg", { dots, tags })
     expect(tags).to.contain({
       MIMEType: "image/jpeg",
       GPSLatitudeRef: "N",

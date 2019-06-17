@@ -7,6 +7,8 @@ import * as _process from "process"
 
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
+import { ExifDate } from "./ExifDate"
+import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
@@ -69,6 +71,9 @@ export interface ShortcutTags {
    * Only used by `write`. This tag is not returned by `read`.
    */
   AllDates?: string
+}
+
+type AdditionalWriteTags = {
   "Orientation#"?: number
   /**
    * Included because it's so rare, it doesn't always make the Tags build:
@@ -76,10 +81,18 @@ export interface ShortcutTags {
   TimeZoneOffset?: number | string
 }
 
-export type WriteTags = ShortcutTags &
-  // exiftool expects numeric tags to be numbers, but everything else (except
-  // for arrays and structs) is stringable:
-  { [K in keyof Tags]: Tags[K] extends number ? number : string | Tags[K] }
+// exiftool expects numeric tags to be numbers, but everything else is a string:
+type ExpandedDateTags = {
+  [K in keyof Tags]:
+    | (Tags[K] extends number
+        ? number
+        : Tags[K] extends ExifDateTime
+        ? ExifDate | ExifDateTime
+        : Tags[K])
+    | string
+}
+
+export type WriteTags = ShortcutTags & AdditionalWriteTags & ExpandedDateTags
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 

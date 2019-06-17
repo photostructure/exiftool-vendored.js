@@ -1,8 +1,9 @@
-import { fail } from "assert"
 import * as _path from "path"
 
+import { isDateOrTime, toExifString } from "./DateTime"
 import { WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
+import { Maybe } from "./Maybe"
 import { isNumber } from "./Number"
 import { keys } from "./Object"
 import { htmlEncode, isString } from "./String"
@@ -20,20 +21,24 @@ const utfCharsetArgs = [
   "-E" // < html encoding https://sno.phy.queensu.ca/~phil/exiftool/faq.html#Q10
 ]
 
-function enc(o: any): string {
-  return o == null
-    ? ""
-    : isNumber(o)
-    ? String(o)
-    : isString(o)
-    ? htmlEncode(String(o))
-    : Array.isArray(o)
-    ? `[${o.map(enc).join(",")}]`
-    : isStruct(o)
-    ? `{${keys(o)
-        .map(k => enc(k) + " = " + enc(o[k]))
-        .join(",")}}`
-    : fail("cannot encode " + JSON.stringify(o))
+function enc(o: any): Maybe<string> {
+  if (o == null) {
+    return ""
+  } else if (isNumber(o)) {
+    return String(o)
+  } else if (isString(o)) {
+    return htmlEncode(String(o))
+  } else if (isDateOrTime(o)) {
+    return toExifString(o)
+  } else if (Array.isArray(o)) {
+    return `[${o.map(enc).join(",")}]`
+  } else if (isStruct(o)) {
+    return `{${keys(o)
+      .map(k => enc(k) + " = " + enc(o[k]))
+      .join(",")}}`
+  } else {
+    throw new Error("cannot encode " + JSON.stringify(o))
+  }
 }
 
 export class WriteTask extends ExifToolTask<void> {

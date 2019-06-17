@@ -88,9 +88,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     if (SourceFile !== this.sourceFile) {
       // Throw an error rather than add an errors string because this is *really* bad:
       throw new Error(
-        `Internal error: unexpected SourceFile of ${
-          this._raw.SourceFile
-        } for file ${this.sourceFile}`
+        `Internal error: unexpected SourceFile of ${this._raw.SourceFile} for file ${this.sourceFile}`
       )
     }
     if (this.degroup) {

@@ -24,12 +24,23 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.13.0
+
+- 🐞 Better support for writing tags with date and time values. [See
+  #50](https://github.com/photostructure/exiftool-vendored.js/issues/50).
+- ✨ Manually added
+  [ApplicationRecordTags](https://sno.phy.queensu.ca/~phil/exiftool/TagNames/IPTC.html#ApplicationRecord)
+- 📦 Updated dependencies
+- 📦 Added NodeJS version 12 to the CI build matrix
+- 🌱 ExifTool upgraded to
+  [v11.51](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.51).
+
 ### v8.12.0
 
 - ✨ Rebuilt `Tags` from 6779 examples. New tags were found, including `PreviewTIFF`.
 - 📦 Updated dependencies
 - 🌱 ExifTool upgraded to
-  [v11.49](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.47).
+  [v11.49](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.49).
 
 ### v8.11.0
 

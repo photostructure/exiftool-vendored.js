@@ -1,5 +1,6 @@
 import { DateTime, ISOTimeOptions } from "luxon"
 
+import { dateTimeToExif } from "./DateTime"
 import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
 import { offsetMinutesToZoneName } from "./Timezones"
@@ -181,6 +182,10 @@ export class ExifDateTime {
       ...options,
       includeOffset: this.tzoffsetMinutes != null
     })
+  }
+
+  toExifString() {
+    return dateTimeToExif(this.toDateTime())
   }
 
   toString() {

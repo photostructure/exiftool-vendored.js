@@ -1,5 +1,7 @@
 import { expect, testImg } from "./_chai.spec"
+import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
+import { ExifTime } from "./ExifTime"
 import { ExifTool, WriteTags } from "./ExifTool"
 import { Struct } from "./Struct"
 import { offsetMinutesToZoneName } from "./Timezones"
@@ -103,6 +105,52 @@ describe("WriteTask", () => {
         "2017:11:15 12:34:56" // < expected EXIF date time format
       )
     })
+  })
+
+  it("updates DateTimeOriginal", async () => {
+    const src = await testImg()
+    const wt: WriteTags = {
+      DateTimeOriginal: new ExifDateTime(2010, 7, 13, 14, 15, 16)
+    }
+    await exiftool.write(src, wt)
+    const newTags = await exiftool.read(src)
+    expect(newTags.DateTimeOriginal!.rawValue).to.eql("2010:07:13 14:15:16")
+    return
+  })
+
+  it("updates CreateDate to a time with zeroes", async () => {
+    const src = await testImg()
+    const wt: WriteTags = {
+      CreateDate: new ExifDateTime(2019, 1, 2, 0, 0, 0, undefined, -480)
+    }
+    await exiftool.write(src, wt)
+    const newTags = await exiftool.read(src)
+    expect(newTags.CreateDate!.toISOString()).to.eql(
+      "2019-01-02T00:00:00.000+08:00"
+    )
+    return
+  })
+
+  it("updates ReleaseDate to a specific date", async () => {
+    const src = await testImg()
+    const wt: WriteTags = {
+      ReleaseDate: ExifDate.fromISO("2019-01-02")
+    }
+    await exiftool.write(src, wt)
+    const newTags = await exiftool.read(src)
+    expect(newTags.ReleaseDate!.toISOString()).to.eql("2019-01-02")
+    return
+  })
+
+  it("updates DigitalCreationTime to a specific time", async () => {
+    const src = await testImg()
+    const wt: WriteTags = {
+      DigitalCreationTime: new ExifTime(12, 34, 56)
+    }
+    await exiftool.write(src, wt)
+    const newTags = await exiftool.read(src)
+    expect(newTags.DigitalCreationTime!.toString()).to.match(/^12:34:56/)
+    return
   })
 
   it("round-trips list tag array input", async () => {
