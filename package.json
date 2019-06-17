@@ -104,7 +104,7 @@
     "tz-lookup": "^6.1.18"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "11.49.0",
-    "exiftool-vendored.pl": "11.49.0"
+    "exiftool-vendored.exe": "11.51.0",
+    "exiftool-vendored.pl": "11.51.0"
   }
 }

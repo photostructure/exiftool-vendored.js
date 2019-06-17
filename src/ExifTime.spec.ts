@@ -30,10 +30,6 @@ describe("ExifTime", () => {
         ])
       })
     })
-    it("with timezone offset", () => {
-      const et = ExifTime.fromEXIF("23:01:13-07:00")!
-      expect([et.hour, et.minute, et.second, et.millis]).to.eql([23, 1, 13, 0])
-    })
   })
 
   it("renders EXIF for 12:34:56", () => {
