@@ -79,7 +79,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     try {
       this._raw = JSON.parse(data)[0]
     } catch (jsonError) {
-      logger().error("ExifTool.ReadTask(): Invalid JSON", { data })
+      logger().error("ExifTool.ReadTask(): Invalid JSON", { data, err, jsonError })
       throw orElse(err, jsonError)
     }
     // ExifTool does humorous things to paths, like flip slashes. resolve() undoes that.

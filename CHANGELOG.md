@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.13.1
+
+- 📦 Updated dependencies
+
 ### v8.13.0
 
 - 🐞 Better support for writing tags with date and time values. [See
