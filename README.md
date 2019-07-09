@@ -8,6 +8,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg)](https://github.com/photostructure/exiftool-vendored.js/issues)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/photostructure/exiftool-vendored.js.svg)](https://lgtm.com/projects/g/photostructure/exiftool-vendored.js/context:javascript)
 [![Known Vulnerabilities](https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json)
+
 ## Features
 
 1.  **Best-of-class cross-platform performance and reliability**.
@@ -54,6 +55,10 @@ for your local platform through
 
 You shouldn't include either the `exiftool-vendored.exe` or
 `exiftool-vendored.pl` as direct dependencies to your project.
+
+If you're installing on a minimal Linux distribution, like
+[Alpine](https://alpinelinux.org/), you may need to install `perl` (ala `apk add
+perl`).
 
 ## Upgrading
 
