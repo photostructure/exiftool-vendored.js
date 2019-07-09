@@ -26,10 +26,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ### v8.14.0
 
-- 📦 Updated dependencies
 - 🌱 ExifTool upgraded to
-  [v11.51](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.51).
-- 📦 Mention the need for `perl`
+  [v11.54](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.54).
+- 📦 Updated dependencies
+- 📦 Mention the need for `perl` in the installation instructions. [See
+  #51](https://github.com/photostructure/exiftool-vendored.js/issues/51).
 
 ### v8.13.1
 
