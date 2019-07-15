@@ -9,7 +9,8 @@ import { keys } from "./Object"
 import { htmlEncode, isString } from "./String"
 import { isStruct } from "./Struct"
 
-const successRE = /1 image files? updated/
+const successRE = /1 image files? (?:created|updated)/
+const sep = String.fromCharCode(31) // unit separator
 
 // See https://sno.phy.queensu.ca/%7Ephil/exiftool/faq.html#Q10
 // (`-charset utf8` is set by default)
@@ -17,7 +18,8 @@ const utfCharsetArgs = [
   "-charset",
   "filename=utf8",
   "-codedcharacterset=utf8",
-  "-struct",
+  `-sep`,
+  `${sep}`,
   "-E" // < html encoding https://sno.phy.queensu.ca/~phil/exiftool/faq.html#Q10
 ]
 
@@ -31,7 +33,10 @@ function enc(o: any): Maybe<string> {
   } else if (isDateOrTime(o)) {
     return toExifString(o)
   } else if (Array.isArray(o)) {
-    return `[${o.map(enc).join(",")}]`
+    const primitiveArray = o.every(ea => isString(ea) || isNumber(ea))
+    return primitiveArray
+      ? `${o.map(enc).join(sep)}`
+      : `[${o.map(enc).join(",")}]`
   } else if (isStruct(o)) {
     return `{${keys(o)
       .map(k => enc(k) + " = " + enc(o[k]))
@@ -55,11 +60,10 @@ export class WriteTask extends ExifToolTask<void> {
 
     const args: string[] = [...utfCharsetArgs]
 
-    keys(tags).forEach(key => {
+    for (const key of keys(tags)) {
       const val = tags[key]
-      const arr: any[] = Array.isArray(val) ? val : [val]
-      arr.forEach(ea => args.push(`-${key}=${enc(ea)}`))
-    })
+      args.push(`-${key}=${enc(val)}`)
+    }
 
     optionalArgs.forEach(ea => args.push(ea))
     args.push(sourceFile)

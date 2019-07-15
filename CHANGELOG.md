@@ -24,6 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.15.0
+
+- ✨ Write support has been improved
+    - Creation of new sidecar files is now supported
+    - Non-struct list tags (like `Keywords`) is now supported
+    - Test coverage includes images, `.XMP` files, and `.MIE` files
+- 📦 Set up `nyc` (test coverage report)
+- 📦 Updated dependencies
+
 ### v8.14.0
 
 - 🌱 ExifTool upgraded to

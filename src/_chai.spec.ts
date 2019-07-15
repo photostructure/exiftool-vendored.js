@@ -7,8 +7,7 @@ import { env } from "process"
 import { orElse } from "./Maybe"
 
 const chai = require("chai")
-const chaiAsPromised = require("chai-as-promised")
-chai.use(chaiAsPromised)
+chai.use(require("chai-as-promised"))
 
 // Tests should be quiet unless LOG is set
 setLogger(
@@ -33,10 +32,7 @@ export { expect } from "chai"
 export const testDir = join(__dirname, "..", "test")
 
 export function tmpname(prefix = "") {
-  return join(
-    tmpdir(),
-    prefix + Math.floor(Math.random() * 1000000000).toString(16)
-  )
+  return join(tmpdir(), prefix + Math.floor(Math.random() * 1e9).toString(16))
 }
 
 /**
@@ -50,4 +46,10 @@ export async function testImg(
   await fse.mkdirp(dir)
   const dest = join(dir, name)
   return fse.copyFile(join(testDir, name), dest).then(() => dest)
+}
+
+export async function testFile(name: string = "img.XMP"): Promise<string> {
+  const dir = tmpname()
+  await fse.mkdirp(dir)
+  return join(dir, name)
 }

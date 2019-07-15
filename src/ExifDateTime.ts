@@ -179,8 +179,9 @@ export class ExifDateTime {
 
   toISOString(options: ISOTimeOptions = {}): string {
     return this.toDateTime().toISO({
-      ...options,
-      includeOffset: this.tzoffsetMinutes != null
+      suppressMilliseconds: this.millisecond == null,
+      includeOffset: this.tzoffsetMinutes != null,
+      ...options
     })
   }
 

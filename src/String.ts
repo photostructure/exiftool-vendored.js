@@ -43,12 +43,20 @@ export function pad3(...numbers: number[]): string[] {
   return numbers.map(i => leftPad(i, 3, "0"))
 }
 
+/**
+ * NOTE: case insensitive
+ */
 export function stripPrefix(s: string, prefix: string): string {
   return toS(s)
     .toLowerCase()
     .startsWith(prefix.toLowerCase())
     ? s.slice(prefix.length)
     : s
+}
+
+export function stripSuffix(s: string, suffix: string): string {
+  const str = toS(s)
+  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str
 }
 
 const safeChars = /[a-z0-9 :\/+\.-]/i

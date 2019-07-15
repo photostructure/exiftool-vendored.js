@@ -35,7 +35,7 @@ export function reasonableTzOffsetMinutes(
   )
 }
 
-const tzRe = /([+-]?)(\d\d?)(?::(\d\d))?/
+const tzRe = /(?:UTC)?([+-]?)(\d\d?)(?::(\d\d))?/
 
 /**
  * Parse a timezone offset and return the offset minutes
@@ -63,7 +63,8 @@ export function extractTzOffsetFromTags(t: {
   OffsetTimeDigitized?: string
   /**
    * 1 or 2 values: 1. The time zone offset of DateTimeOriginal from GMT in
-   * hours, 2. If present, the time zone offset of ModifyDate
+   * hours, 2. If present, the time zone offset of ModifyDate (which we ignore)
+   * @see https://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html
    */
   TimeZoneOffset?: number | number[] | string
 }): Maybe<string> {

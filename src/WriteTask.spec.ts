@@ -1,10 +1,11 @@
-import { expect, testImg } from "./_chai.spec"
+import { expect, testFile, testImg } from "./_chai.spec"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
-import { ExifTime } from "./ExifTime"
 import { ExifTool, WriteTags } from "./ExifTool"
+import { map, orElse } from "./Maybe"
+import { stripSuffix } from "./String"
 import { Struct } from "./Struct"
-import { offsetMinutesToZoneName } from "./Timezones"
+import { Tags } from "./Tags"
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
@@ -12,210 +13,261 @@ describe("WriteTask", () => {
 
   type InputValue = string | number | Struct
 
-  async function assertRoundTrip(args: {
-    tag: keyof WriteTags
+  async function assertRoundTrip({
+    dest,
+    tagName,
+    inputValue,
+    expectedValue,
+    args,
+    cmp
+  }: {
+    dest: string
+    tagName: keyof WriteTags
     inputValue: InputValue | InputValue[]
     expectedValue?: any
-    imgName?: string
     args?: string[]
+    cmp?: (actual: any, tags: Tags) => any
   }) {
-    const src = await testImg(args.imgName)
     const wt: WriteTags = {}
-    wt[args.tag] = args.inputValue as any
-    await exiftool.write(src, wt, args.args)
-    const result = (await exiftool.read(src)) as any
-    const expected =
-      args.expectedValue == null ? args.inputValue : args.expectedValue
-    const tag = args.tag.endsWith("#")
-      ? args.tag.substring(0, args.tag.length - 1)
-      : args.tag
-    const actual = result[tag]
-    expect(actual).to.eql(
-      expected,
-      JSON.stringify({ src, tag, expected, actual })
-    )
+    wt[tagName] = inputValue as any
+    await exiftool.write(dest, wt, args)
+    const result = (await exiftool.read(dest)) as any
+    const expected = orElse(expectedValue, inputValue)
+    const cleanTagName = stripSuffix(tagName, "#")
+    const actual = result[cleanTagName]
+    if (cmp != null) {
+      cmp(actual, result)
+    } else {
+      expect(actual).to.eql(
+        expected,
+        JSON.stringify({ src: dest, tagName, expected, actual })
+      )
+    }
     return
   }
 
-  it("round-trips a comment", async () => {
-    return assertRoundTrip({
-      tag: "XPComment",
-      inputValue: "new comment from " + new Date()
-    })
-  })
+  // Well-supported text tag name:
+  const textTagName = "Description"
 
-  it("round-trips a comment with a newline and carriage return", async () => {
-    return assertRoundTrip({
-      tag: "XPComment",
-      inputValue: "new comment\nfrom\r" + new Date()
-    })
-  })
+  // Well-supported multi-value string tag:
+  const multiTagName = "TagsList" as any
 
-  it("round-trips a non-latin comment", async () => {
-    return assertRoundTrip({
-      tag: "XPComment",
-      inputValue: "早安晨之美" + new Date()
-    })
-  })
+  describe("round-trip with an image", () =>
+    runRoundTripTests({
+      withTZ: true,
+      dest: name => testImg(map(name, ea => ea + ".jpg"))
+    }))
 
-  it("round-trips a comment with non-latin filename", async () => {
-    return assertRoundTrip({
-      tag: "XPComment",
-      inputValue: "new comment from " + new Date(),
-      imgName: "中文.jpg"
-    })
-  })
+  describe("round-trip with an XMP sidecar", () =>
+    runRoundTripTests({
+      withTZ: false, // BOO XMP
+      dest: ea => testFile(orElse(ea, "img") + ".xmp")
+    }))
 
-  it("round-trips a non-latin comment with non-latin filename", async () => {
-    return assertRoundTrip({
-      tag: "XPComment",
-      inputValue: "早安晨之美" + new Date(),
-      imgName: "中文.jpg"
-    })
-  })
+  describe("round-trip with an MIE sidecar", () =>
+    runRoundTripTests({
+      withTZ: true,
+      dest: ea => testFile(orElse(ea, "img") + ".mie")
+    }))
 
-  it("round-trips a numeric Orientation", async () => {
-    return assertRoundTrip({
-      tag: "Orientation#",
-      inputValue: 1
-    })
-  })
-
-  it("round-trips a string Orientation 90 CW", async () => {
-    return assertRoundTrip({
-      tag: "Orientation#",
-      inputValue: 6
-    })
-  })
-
-  it("round-trips a string Orientation 180 CW", async () => {
-    return assertRoundTrip({
-      tag: "Orientation#",
-      inputValue: 3
-    })
-  })
-
-  it("updates DateTimeOriginal to a specific time", async () => {
-    return assertRoundTrip({
-      tag: "DateTimeOriginal",
-      inputValue: "2017-11-15T12:34:56+8:00",
-      expectedValue: ExifDateTime.fromISO(
-        "2017-11-15T12:34:56",
-        offsetMinutesToZoneName(480),
-        "2017:11:15 12:34:56" // < expected EXIF date time format
-      )
-    })
-  })
-
-  it("updates DateTimeOriginal", async () => {
-    const src = await testImg()
-    const wt: WriteTags = {
-      DateTimeOriginal: new ExifDateTime(2010, 7, 13, 14, 15, 16)
-    }
-    await exiftool.write(src, wt)
-    const newTags = await exiftool.read(src)
-    expect(newTags.DateTimeOriginal!.rawValue).to.eql("2010:07:13 14:15:16")
-    return
-  })
-
-  it("updates CreateDate to a time with zeroes", async () => {
-    const src = await testImg()
-    const wt: WriteTags = {
-      CreateDate: new ExifDateTime(2019, 1, 2, 0, 0, 0, undefined, -480)
-    }
-    await exiftool.write(src, wt)
-    const newTags = await exiftool.read(src)
-    expect(newTags.CreateDate!.toISOString()).to.eql(
-      "2019-01-02T00:00:00.000+08:00"
-    )
-    return
-  })
-
-  it("updates ReleaseDate to a specific date", async () => {
-    const src = await testImg()
-    const wt: WriteTags = {
-      ReleaseDate: ExifDate.fromISO("2019-01-02")
-    }
-    await exiftool.write(src, wt)
-    const newTags = await exiftool.read(src)
-    expect(newTags.ReleaseDate!.toISOString()).to.eql("2019-01-02")
-    return
-  })
-
-  it("updates DigitalCreationTime to a specific time", async () => {
-    const src = await testImg()
-    const wt: WriteTags = {
-      DigitalCreationTime: new ExifTime(12, 34, 56)
-    }
-    await exiftool.write(src, wt)
-    const newTags = await exiftool.read(src)
-    expect(newTags.DigitalCreationTime!.toString()).to.match(/^12:34:56/)
-    return
-  })
-
-  it("round-trips list tag array input", async () => {
-    return assertRoundTrip({
-      tag: "Keywords",
-      inputValue: ["one", "two", "three"]
-    })
-  })
-
-  it("round-trips a struct tag", async () => {
-    const struct: Struct[] = [
-      { RegItemId: "item 1", RegOrgId: "org 1" },
-      { RegEntryRole: "role 2", RegOrgId: "org 2" }
-    ]
-    const src = await testImg()
-    await exiftool.write(src, { RegistryID: struct })
-    const tags = await exiftool.read(src)
-    expect(tags.RegistryID).to.eql(struct)
-    return
-  })
-
-  it("rejects setting to a non-time value", async () => {
-    const src = await testImg()
-    return expect(
-      exiftool.write(src, { DateTimeOriginal: "this is not a time" as any })
-    ).to.be.rejectedWith(/Invalid date\/time/)
-  })
-
-  it("rejects an invalid numeric Orientation", async () => {
-    const src = await testImg()
-    return expect(
-      exiftool.write(src, { "Orientation#": -1 })
-    ).to.be.rejectedWith(/Value below int16u minimum/i)
-  })
-
-  it("rejects an invalid string Orientation", async () => {
-    const src = await testImg()
-    return expect(
-      exiftool.write(src, {
-        Orientation: "this isn't a valid orientation" as any
+  function runRoundTripTests({
+    withTZ,
+    dest
+  }: {
+    withTZ: boolean
+    dest: (basename?: string) => Promise<string>
+  }) {
+    const tzo = withTZ ? "+08:00" : ""
+    it("round-trips a comment", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: textTagName,
+        inputValue: "new comment from " + new Date()
       })
-    ).to.be.rejectedWith(/Can't convert IFD0:Orientation/i)
-  })
+    })
 
-  it("Accepts a shortcut tag", async () => {
-    const date = "2018-04-17T12:34:56.000+08:00"
-    const src = await testImg()
-    await exiftool.write(src, { AllDates: date })
-    const tags = await exiftool.read(src)
-    expect(String(tags.DateTimeOriginal)).to.eql(date)
-    expect(String(tags.CreateDate)).to.eql(date)
-    expect(String(tags.ModifyDate)).to.eql(date)
-    return
-  })
+    it("round-trips a comment with a newline and carriage return", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: textTagName,
+        inputValue: "new comment\nfrom\r" + new Date()
+      })
+    })
 
-  it("rejects unknown files", () => {
-    return expect(
-      exiftool.write("/tmp/.nonexistant-" + Date.now(), { XPComment: "boom" })
-    ).to.be.rejectedWith(/ENOENT|File not found/i)
-  })
+    it("round-trips a non-latin comment", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: textTagName,
+        inputValue: "早安晨之美" + new Date()
+      })
+    })
 
-  it("rejects unknown tags", async () => {
-    const src = await testImg()
-    return expect(
-      exiftool.write(src, { RandomTag: 123 } as any)
-    ).to.be.rejectedWith(/Tag \'RandomTag\' is not defined/)
-  })
+    it("round-trips a comment with non-latin filename", async () => {
+      return assertRoundTrip({
+        dest: await dest("中文"),
+        tagName: textTagName,
+        inputValue: "new comment from " + new Date()
+      })
+    })
+
+    it("round-trips a non-latin comment with non-latin filename", async () => {
+      return assertRoundTrip({
+        dest: await dest("中文"),
+        tagName: textTagName,
+        inputValue: "早安晨之美" + new Date()
+      })
+    })
+
+    it("round-trips a numeric Orientation", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: "Orientation#",
+        inputValue: 1
+      })
+    })
+
+    it("round-trips a string Orientation 90 CW", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: "Orientation#",
+        inputValue: 6
+      })
+    })
+
+    it("round-trips a string Orientation 180 CW", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: "Orientation#",
+        inputValue: 3
+      })
+    })
+
+    it("updates ExposureTime to a specific time", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: "ExposureTime",
+        inputValue: "1/300"
+      })
+    })
+
+    it("updates DateTimeOriginal to a specific time", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: "DateTimeOriginal",
+        inputValue: "2017-11-15T12:34:56" + tzo,
+        cmp: (actual: ExifDateTime) => {
+          expect(actual.toISOString()).to.eql(`2017-11-15T12:34:56.000${tzo}`)
+        } // offsetMinutesToZoneName(480),
+        // "2017:11:15 12:34:56" + tzo
+      })
+    })
+
+    it("round-trips list tag array input", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: multiTagName,
+        inputValue: ["one", "two", "three", "commas, even!"]
+      })
+    })
+
+    it("updates DateTimeDigitized with TimeZoneOffset", async () => {
+      const src = await dest()
+      const wt: WriteTags = {
+        DateTimeDigitized: new ExifDateTime(2010, 7, 13, 14, 15, 16, 123),
+        TimeZoneOffset: +8
+      }
+      await exiftool.write(src, wt)
+      const newTags = await exiftool.read(src)
+      const d = newTags.DateTimeDigitized as ExifDateTime
+      expect(d.toISOString()).to.eql(
+        "2010-07-13T14:15:16.123" + tzo,
+        JSON.stringify(d)
+      )
+      return
+    })
+
+    it("updates CreateDate to a time with zeroes and OffsetTime", async () => {
+      const src = await dest()
+      const wt: WriteTags = {
+        CreateDate: new ExifDateTime(2019, 1, 2, 0, 0, 0, 0),
+        OffsetTime: "-05:00"
+      }
+      await exiftool.write(src, wt)
+      const t = await exiftool.read(src)
+      expect(t.CreateDate!.toISOString()).to.eql(
+        "2019-01-02T00:00:00.000" + (withTZ ? "-05:00" : "")
+      )
+      return
+    })
+
+    it("updates ReleaseDate to a specific date", async () => {
+      const f = await dest()
+      const wt: WriteTags = {
+        ReleaseDate: ExifDate.fromISO("2019-01-02")
+      }
+      await exiftool.write(f, wt)
+      const newTags = await exiftool.read(f)
+      expect(newTags.ReleaseDate!.toISOString()).to.eql("2019-01-02")
+      return
+    })
+
+    it("round-trips a struct tag", async () => {
+      const struct: Struct[] = [
+        { RegItemId: "item 1", RegOrgId: "org 1" },
+        { RegEntryRole: "role 2", RegOrgId: "org 2" }
+      ]
+      const f = await dest()
+      await exiftool.write(f, { RegistryID: struct })
+      const tags = await exiftool.read(f)
+      expect(tags.RegistryID).to.eql(struct)
+      return
+    })
+
+    it("rejects setting to a non-time value", async () => {
+      const src = await dest()
+      return expect(
+        exiftool.write(src, { DateTimeOriginal: "this is not a time" as any })
+      ).to.be.rejectedWith(/Invalid date\/time/)
+    })
+
+    it("rejects an invalid numeric Orientation", async () => {
+      const src = await dest()
+      return expect(
+        exiftool.write(src, { "Orientation#": -1 })
+      ).to.be.rejectedWith(/Value below int16u minimum/i)
+    })
+
+    it("rejects an invalid string Orientation", async () => {
+      const src = await dest()
+      return expect(
+        exiftool.write(src, {
+          Orientation: "this isn't a valid orientation" as any
+        })
+      ).to.be.rejectedWith(/Can't convert IFD0:Orientation/i)
+    })
+
+    it("Accepts a shortcut tag", async () => {
+      const date = "2018-04-17T12:34:56.000+08:00"
+      const src = await dest()
+      await exiftool.write(src, { AllDates: date })
+      const tags = await exiftool.read(src)
+      expect(String(tags.DateTimeOriginal)).to.eql(date)
+      expect(String(tags.CreateDate)).to.eql(date)
+      expect(String(tags.ModifyDate)).to.eql(date)
+      return
+    })
+
+    it("rejects unknown files", () => {
+      return expect(
+        exiftool.write("/tmp/.nonexistant-" + Date.now(), { XPComment: "boom" })
+      ).to.be.rejectedWith(/ENOENT|File not found/i)
+    })
+
+    it("rejects unknown tags", async () => {
+      const src = await dest()
+      return expect(
+        exiftool.write(src, { RandomTag: 123 } as any)
+      ).to.be.rejectedWith(/Tag \'RandomTag\' is not defined/)
+    })
+  }
 })
