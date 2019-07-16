@@ -157,8 +157,7 @@ describe("WriteTask", () => {
         inputValue: "2017-11-15T12:34:56" + tzo,
         cmp: (actual: ExifDateTime) => {
           expect(actual.toISOString()).to.eql(`2017-11-15T12:34:56.000${tzo}`)
-        } // offsetMinutesToZoneName(480),
-        // "2017:11:15 12:34:56" + tzo
+        }
       })
     })
 
