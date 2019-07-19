@@ -57,8 +57,7 @@ You shouldn't include either the `exiftool-vendored.exe` or
 `exiftool-vendored.pl` as direct dependencies to your project.
 
 If you're installing on a minimal Linux distribution, like
-[Alpine](https://alpinelinux.org/), you may need to install `perl` (ala `apk add
-perl`).
+[Alpine](https://alpinelinux.org/), you may need to install `perl` (à la "`apk add perl`").
 
 ## Upgrading
 
