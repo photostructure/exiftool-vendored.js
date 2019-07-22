@@ -94,6 +94,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#exiftoolpath" class="tsd-kind-icon">exiftool<wbr>Path</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#exitcommand" class="tsd-kind-icon">exit<wbr>Command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#fail" class="tsd-kind-icon">fail</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#ignoreshebang" class="tsd-kind-icon">ignore<wbr>Shebang</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#maxprocagemillis" class="tsd-kind-icon">max<wbr>Proc<wbr>Age<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#maxprocs" class="tsd-kind-icon">max<wbr>Procs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#maxreasonableprocessfailuresperminute" class="tsd-kind-icon">max<wbr>Reasonable<wbr>Process<wbr>Failures<wbr>Per<wbr>Minute</a></li>
@@ -220,6 +221,29 @@
 							<p>Expected text to print if a command fails. Cannot be blank. Strings will be
 							interpreted as a regular expression fragment.</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="ignoreshebang" class="tsd-anchor"></a>
+					<h3>ignore<wbr>Shebang</h3>
+					<div class="tsd-signature tsd-kind-icon">ignore<wbr>Shebang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L188">ExifTool.ts:188</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><code>ExifTool</code> has a shebang line that assumes a valid <code>perl</code> is installed at
+							<code>/usr/bin/perl</code>.</p>
+						</div>
+						<p>Some environments may not include a valid <code>/usr/bin/perl</code> (like AWS
+							Lambda), but <code>perl</code> may be available in your <code>PATH</code> some place else (like
+						<code>/opt/bin/perl</code>), if you pull in a perl layer.</p>
+						<p>This will default to <code>true</code> in those environments as a workaround in these
+						situations. Note also that <code>perl</code> will be spawned in a subshell.</p>
+						<p>This value should probably not be set on Windows (unless you&#39;ve installed
+						<code>perl</code>).</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -538,6 +562,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="exiftooloptions.html#fail" class="tsd-kind-icon">fail</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="exiftooloptions.html#ignoreshebang" class="tsd-kind-icon">ignore<wbr>Shebang</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="exiftooloptions.html#maxprocagemillis" class="tsd-kind-icon">max<wbr>Proc<wbr>Age<wbr>Millis</a>

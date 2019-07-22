@@ -154,6 +154,7 @@
 								<li class="tsd-kind-function"><a href="globals.html#isstring" class="tsd-kind-icon">is<wbr>String</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#isstruct" class="tsd-kind-icon">is<wbr>Struct</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#keys" class="tsd-kind-icon">keys</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#lazy" class="tsd-kind-icon">lazy</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#leftpad" class="tsd-kind-icon">left<wbr>Pad</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#map" class="tsd-kind-icon">map</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#notblank" class="tsd-kind-icon">not<wbr>Blank</a></li>
@@ -254,10 +255,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="defaultexiftooloptions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> Default<wbr>Exif<wbr>Tool<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34onIdleIntervalMillis: 2000,streamFlushMillis: 7, // just a little luck. 1 ms seems to work on linux, fwiw.taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready}&quot;,fail: &quot;{ready}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,numericTags: [&quot;*Duration*&quot;, &quot;GPS*&quot;, &quot;Orientation&quot;]})</span></div>
+					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/exiftooloptions.html" class="tsd-signature-type">ExifToolOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"processFactory"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"ignoreShebang"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({...new bc.BatchClusterOptions(),maxProcs: DefaultMaxProcs,maxTasksPerProcess: 500,spawnTimeoutMillis: 30000,taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34onIdleIntervalMillis: 2000,streamFlushMillis: 7, // just a little luck. 1 ms seems to work on linux, fwiw.taskRetries: 1,exiftoolPath: DefaultExifToolPath,exiftoolArgs: DefaultExiftoolArgs,pass: &quot;{ready}&quot;,fail: &quot;{ready}&quot;,exitCommand: &quot;-stay_open\nFalse\n&quot;,versionCommand: new VersionTask().command,numericTags: [&quot;*Duration*&quot;, &quot;GPS*&quot;, &quot;Orientation&quot;]})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L181">ExifTool.ts:181</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L197">ExifTool.ts:197</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -273,7 +274,7 @@
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;findExiftool()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L59">ExifTool.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L55">ExifTool.ts:55</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -283,7 +284,7 @@
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Exiftool<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot;-stay_open&quot;, &quot;True&quot;, &quot;-@&quot;, &quot;-&quot;]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L61">ExifTool.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L57">ExifTool.ts:57</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -333,7 +334,7 @@
 					<div class="tsd-signature tsd-kind-icon">exiftool<span class="tsd-signature-symbol">:</span> <a href="classes/exiftool.html" class="tsd-signature-type">ExifTool</a><span class="tsd-signature-symbol"> =&nbsp;new ExifTool()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L469">ExifTool.ts:469</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L494">ExifTool.ts:494</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -820,6 +821,59 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="lazy" class="tsd-anchor"></a>
+					<h3>lazy</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">lazy&lt;T&gt;<span class="tsd-signature-symbol">(</span>thunk<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Lazy.ts:1</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>thunk: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="leftpad" class="tsd-anchor"></a>
 					<h3>left<wbr>Pad</h3>
@@ -935,7 +989,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ReadTask.ts#L244">ReadTask.ts:244</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ReadTask.ts#L245">ReadTask.ts:245</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1590,6 +1644,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#keys" class="tsd-kind-icon">keys</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#lazy" class="tsd-kind-icon">lazy</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#leftpad" class="tsd-kind-icon">left<wbr>Pad</a>
