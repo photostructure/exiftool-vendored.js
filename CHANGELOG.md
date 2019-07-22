@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.17.0
+
+- ✨ Automagick workaround for AWS Lambda. See [the new `ignoreShebang`
+  option](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html#ignoreshebang),
+  which should automatically be set to `true` on non-Windows platforms that
+  don't have `/usr/bin/perl` installed. [See
+  #53](https://github.com/photostructure/exiftool-vendored.js/issues/53).
+
 ### v8.16.0
 
 - 🌱 ExifTool upgraded to
