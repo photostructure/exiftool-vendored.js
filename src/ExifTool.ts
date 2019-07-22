@@ -3,13 +3,14 @@ import * as _child_process from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
 import * as _path from "path"
-import * as _process from "process"
 
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
+import { lazy } from "./Lazy"
+import { orElse } from "./Maybe"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
@@ -23,15 +24,10 @@ export { ExifTime } from "./ExifTime"
 export { ExifDateTime } from "./ExifDateTime"
 export { offsetMinutesToZoneName } from "./Timezones"
 
+const isWin32 = lazy(() => _os.platform() === "win32")
+
 function findExiftool(): string {
-  const platform = _process.platform
-  if (platform == null) {
-    throw new Error(
-      "findExiftool(): process.platform is not set. Are we running in node?"
-    )
-  }
-  const isWin32 = platform === "win32"
-  const path: string = require(`exiftool-vendored.${isWin32 ? "exe" : "pl"}`)
+  const path: string = require(`exiftool-vendored.${isWin32() ? "exe" : "pl"}`)
   // This s/app.asar/app.asar.unpacked/ path switch adds support for Electron
   // apps that are ASAR-packed.
 
@@ -59,6 +55,10 @@ function findExiftool(): string {
 export const DefaultExifToolPath = findExiftool()
 
 export const DefaultExiftoolArgs = ["-stay_open", "True", "-@", "-"]
+
+const _ignoreShebang = lazy(
+  () => !isWin32() && !_fs.existsSync("/usr/bin/perl")
+)
 
 /**
  * @see https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html
@@ -170,6 +170,22 @@ export interface ExifToolOptions
    * "Orientation" as well.
    */
   numericTags: string[]
+
+  /**
+   * `ExifTool` has a shebang line that assumes a valid `perl` is installed at
+   * `/usr/bin/perl`.
+   *
+   * Some environments may not include a valid `/usr/bin/perl` (like AWS
+   * Lambda), but `perl` may be available in your `PATH` some place else (like
+   * `/opt/bin/perl`), if you pull in a perl layer.
+   *
+   * This will default to `true` in those environments as a workaround in these
+   * situations. Note also that `perl` will be spawned in a subshell.
+   *
+   * This value should probably not be set on Windows (unless you've installed
+   * `perl`).
+   */
+  ignoreShebang: boolean
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
@@ -180,7 +196,7 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
  */
 export const DefaultExifToolOptions: Omit<
   ExifToolOptions,
-  "processFactory"
+  "processFactory" | "ignoreShebang"
 > = Object.freeze({
   ...new bc.BatchClusterOptions(),
   maxProcs: DefaultMaxProcs,
@@ -219,15 +235,25 @@ export class ExifTool {
       ...DefaultExifToolOptions,
       ...options
     }
+    const ignoreShebang = orElse(o.ignoreShebang, () => _ignoreShebang())
+    const spawnOpts: _child_process.SpawnOptions = {
+      stdio: "pipe",
+      shell: ignoreShebang, // we need to spawn a shell if we ignore the shebang.
+      detached: false,
+      env: { LANG: "C" }
+    }
+    const processFactory = () =>
+      ignoreShebang
+        ? _child_process.spawn(
+            "perl",
+            [o.exiftoolPath, ...o.exiftoolArgs],
+            spawnOpts
+          )
+        : _child_process.spawn(o.exiftoolPath, o.exiftoolArgs, spawnOpts)
     this.options = {
       ...o,
-      processFactory: () =>
-        _child_process.spawn(o.exiftoolPath, o.exiftoolArgs, {
-          stdio: "pipe",
-          shell: false,
-          detached: false,
-          env: { LANG: "C" }
-        }),
+      ignoreShebang,
+      processFactory,
       exitCommand: o.exitCommand,
       versionCommand: o.versionCommand,
       // User options win:
@@ -239,7 +265,6 @@ export class ExifTool {
   /**
    * Register lifecycle event listeners. Delegates to BatchProcess.
    */
-  // SITS: crazy TS to pull in BatchCluster's .on signature:
   readonly on: bc.BatchCluster["on"] = (event: any, listener: any) =>
     this.batchCluster.on(event, listener)
 
