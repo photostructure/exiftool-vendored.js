@@ -141,9 +141,9 @@
 								<li class="tsd-kind-function"><a href="globals.html#blank" class="tsd-kind-icon">blank</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#compact" class="tsd-kind-icon">compact</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#datetimetoexif" class="tsd-kind-icon">date<wbr>Time<wbr>ToExif</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#diffms" class="tsd-kind-icon">diff<wbr>Ms</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#extractoffset" class="tsd-kind-icon">extract<wbr>Offset</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#extracttzoffsetfromtags" class="tsd-kind-icon">extract<wbr>TzOffset<wbr>From<wbr>Tags</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#extracttzoffsetfromutcoffset" class="tsd-kind-icon">extract<wbr>TzOffset<wbr>FromUTCOffset</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#first" class="tsd-kind-icon">first</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#firstdefinedthunk" class="tsd-kind-icon">first<wbr>Defined<wbr>Thunk</a></li>
@@ -187,29 +187,41 @@
 					<div class="tsd-signature tsd-kind-icon">Date<wbr>OrTime<span class="tsd-signature-symbol">:</span> <a href="classes/exifdatetime.html" class="tsd-signature-type">ExifDateTime</a><span class="tsd-signature-symbol"> | </span><a href="classes/exifdate.html" class="tsd-signature-type">ExifDate</a><span class="tsd-signature-symbol"> | </span><a href="classes/exiftime.html" class="tsd-signature-type">ExifTime</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DateTime</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L20">DateTime.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L16">DateTime.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="maybe" class="tsd-anchor"></a>
 					<h3>Maybe</h3>
-					<div class="tsd-signature tsd-kind-icon">Maybe<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">Maybe&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Maybe.ts#L3">Maybe.ts:3</a></li>
 						</ul>
 					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="maybenull" class="tsd-anchor"></a>
 					<h3>Maybe<wbr>Null</h3>
-					<div class="tsd-signature tsd-kind-icon">Maybe<wbr>Null<span class="tsd-signature-symbol">:</span> <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<div class="tsd-signature tsd-kind-icon">Maybe<wbr>Null&lt;T&gt;<span class="tsd-signature-symbol">:</span> <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Maybe.ts#L4">Maybe.ts:4</a></li>
 						</ul>
 					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="struct" class="tsd-anchor"></a>
@@ -248,7 +260,7 @@
 					<div class="tsd-signature tsd-kind-icon">Day<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;24 * HourMs</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L18">DateTime.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L14">DateTime.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -304,7 +316,7 @@
 					<div class="tsd-signature tsd-kind-icon">Hour<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;60 * MinuteMs</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L17">DateTime.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L13">DateTime.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -314,7 +326,7 @@
 					<div class="tsd-signature tsd-kind-icon">Max<wbr>TzOffset<wbr>Hours<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">14</span><span class="tsd-signature-symbol"> =&nbsp;14</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L27">Timezones.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L28">Timezones.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -324,7 +336,7 @@
 					<div class="tsd-signature tsd-kind-icon">Minute<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;60 * 1000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L16">DateTime.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L12">DateTime.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -334,7 +346,7 @@
 					<div class="tsd-signature tsd-kind-icon">exiftool<span class="tsd-signature-symbol">:</span> <a href="classes/exiftool.html" class="tsd-signature-type">ExifTool</a><span class="tsd-signature-symbol"> =&nbsp;new ExifTool()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L494">ExifTool.ts:494</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L496">ExifTool.ts:496</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -415,7 +427,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L39">DateTime.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L35">DateTime.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -429,32 +441,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="diffms" class="tsd-anchor"></a>
-					<h3>diff<wbr>Ms</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">diff<wbr>Ms<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L12">DateTime.ts:12</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>a: <span class="tsd-signature-type">Date</span></h5>
-								</li>
-								<li>
-									<h5>b: <span class="tsd-signature-type">Date</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="extractoffset" class="tsd-anchor"></a>
 					<h3>extract<wbr>Offset</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -464,7 +450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L43">Timezones.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L44">Timezones.ts:44</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -492,7 +478,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L57">Timezones.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L58">Timezones.ts:58</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>t: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="extracttzoffsetfromutcoffset" class="tsd-anchor"></a>
+					<h3>extract<wbr>TzOffset<wbr>FromUTCOffset</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">extract<wbr>TzOffset<wbr>FromUTCOffset<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L91">Timezones.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -684,7 +695,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L22">DateTime.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L18">DateTime.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -831,7 +842,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Lazy.ts:1</li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Lazy.ts#L1">Lazy.ts:1</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -989,7 +1000,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ReadTask.ts#L245">ReadTask.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ReadTask.ts#L210">ReadTask.ts:210</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1012,7 +1023,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L10">Timezones.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L11">Timezones.ts:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1118,7 +1129,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L29">Timezones.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Timezones.ts#L30">Timezones.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1295,7 +1306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L31">DateTime.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/DateTime.ts#L27">DateTime.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1607,13 +1618,13 @@
 						<a href="globals.html#datetimetoexif" class="tsd-kind-icon">date<wbr>Time<wbr>ToExif</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#diffms" class="tsd-kind-icon">diff<wbr>Ms</a>
-					</li>
-					<li class=" tsd-kind-function">
 						<a href="globals.html#extractoffset" class="tsd-kind-icon">extract<wbr>Offset</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#extracttzoffsetfromtags" class="tsd-kind-icon">extract<wbr>TzOffset<wbr>From<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#extracttzoffsetfromutcoffset" class="tsd-kind-icon">extract<wbr>TzOffset<wbr>FromUTCOffset</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#filterinplace" class="tsd-kind-icon">filter<wbr>InPlace</a>
@@ -1722,6 +1733,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -1770,7 +1782,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
