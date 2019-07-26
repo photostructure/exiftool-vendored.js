@@ -80,12 +80,12 @@ export class ExifDateTime {
   }
 
   static fromExifStrict(
-    text: string,
+    text: Maybe<string>,
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
     const zone = notBlank(defaultZone) ? defaultZone : unsetZone
-    return this.fromPatterns(text, [
+    return this.fromPatterns(text!, [
       // if it specifies a zone, use it:
       { fmt: "y:M:d H:m:s.uZZ" },
       { fmt: "y:M:d H:m:sZZ" },
@@ -99,12 +99,12 @@ export class ExifDateTime {
   }
 
   static fromExifLoose(
-    text: string,
+    text: Maybe<string>,
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
     const zone = notBlank(defaultZone) ? defaultZone : unsetZone
-    return this.fromPatterns(text, [
+    return this.fromPatterns(text!, [
       // FWIW, the following are from actual datestamps seen in the wild:
       { fmt: "MMM d y H:m:sZZZ" },
       { fmt: "MMM d y H:m:s", zone },

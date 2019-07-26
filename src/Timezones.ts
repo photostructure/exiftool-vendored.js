@@ -1,6 +1,7 @@
 import { Info } from "luxon"
 
-import { map, Maybe, orElse } from "./Maybe"
+import { ExifDateTime } from "./ExifDateTime"
+import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { isNumber } from "./Number"
 import { blank, pad2, toS } from "./String"
 
@@ -68,20 +69,76 @@ export function extractTzOffsetFromTags(t: {
    */
   TimeZoneOffset?: number | number[] | string
 }): Maybe<string> {
-  const arr = [
-    t.TimeZone,
-    t.OffsetTime,
-    t.OffsetTimeOriginal,
-    t.OffsetTimeDigitized,
-    t.TimeZoneOffset
-  ]
-    .map(ea => extractOffset(toS(ea)))
-    .filter(ea => ea != null)
-  if (arr.length > 0) return arr[0]!
+  return firstDefinedThunk([
+    () =>
+      first(
+        [
+          t.TimeZone,
+          t.OffsetTime,
+          t.OffsetTimeOriginal,
+          t.OffsetTimeDigitized,
+          t.TimeZoneOffset
+        ],
+        ea => extractOffset(toS(ea))
+      ),
+    () =>
+      map(t.TimeZoneOffset, ea =>
+        tzHourToOffset(Array.isArray(ea) ? ea[0] : ea)
+      )
+  ])
+}
 
-  const tzo = t.TimeZoneOffset
-  return orElse(tzHourToOffset(tzo), () =>
-    Array.isArray(tzo) ? tzHourToOffset(tzo[0]) : undefined
+export function extractTzOffsetFromUTCOffset(t: {
+  DateTimeUTC?: string
+  GPSDateTime?: string
+  SubSecDateTimeOriginal?: string
+  DateTimeOriginal?: string
+  SubSecCreateDate?: string
+  CreateDate?: string
+  SubSecMediaCreateDate?: string
+  MediaCreateDate?: string
+  DateTimeCreated?: string
+}): Maybe<string> {
+  return map(first([t.GPSDateTime, t.DateTimeUTC], utcToMs), utcMs =>
+    map(
+      first(
+        [
+          t.SubSecDateTimeOriginal,
+          t.DateTimeOriginal,
+          t.SubSecCreateDate,
+          t.CreateDate,
+          t.SubSecMediaCreateDate,
+          t.MediaCreateDate,
+          t.DateTimeCreated
+        ],
+        utcToMs
+      ),
+      tMs => {
+        const offsetMinutes =
+          (TzBoundaryMs *
+            (Math.round(tMs / TzBoundaryMs) -
+              Math.round(utcMs / TzBoundaryMs))) /
+          (60 * 1000)
+        return reasonableTzOffsetMinutes(offsetMinutes)
+          ? offsetMinutesToZoneName(offsetMinutes)
+          : undefined
+      }
+    )
+  )
+}
+
+// timezone offsets may be on a 15 minute boundary. See
+// https://www.timeanddate.com/time/time-zones-interesting.html
+
+const TzBoundaryMs = 15 * 60 * 1000
+
+function utcToMs(s: Maybe<string>): Maybe<number> {
+  return dtToMs(s, "UTC")
+}
+
+function dtToMs(s: Maybe<string>, defaultZone?: string): Maybe<number> {
+  return map(ExifDateTime.fromExifStrict(s!, defaultZone), dt =>
+    dt.toDate().getTime()
   )
 }
 

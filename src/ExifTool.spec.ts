@@ -246,6 +246,53 @@ describe("ExifTool", function() {
         ).to.be.rejectedWith(/Duplicate MakerNoteUnknown/)
       })
 
+      it("reads from a dSLR", async () => {
+        const t = await et.read("./test/oly.jpg")
+        expect(t).to.contain({
+          MIMEType: "image/jpeg",
+          Make: "OLYMPUS IMAGING CORP.",
+          Model: "E-M1",
+          ExposureTime: "1/320",
+          FNumber: 5,
+          ExposureProgram: "Program AE",
+          ISO: 200,
+          Aperture: 5,
+          MaxApertureValue: 2.8,
+          ExifImageWidth: 3200,
+          ExifImageHeight: 2400,
+          LensInfo: "12-40mm f/2.8",
+          LensModel: "OLYMPUS M.12-40mm F2.8",
+          tz: "UTC-7"
+        })
+        expect(t.DateTimeOriginal!.toISOString()).to.eql(
+          "2014-07-19T12:05:19.000-07:00"
+        )
+      })
+
+      it("reads from a smartphone with GPS", async () => {
+        const t = await et.read("./test/pixel.jpg")
+        expect(t).to.contain({
+          MIMEType: "image/jpeg",
+          Make: "Google",
+          Model: "Pixel",
+          ExposureTime: "1/831",
+          FNumber: 2,
+          ExposureProgram: "Program AE",
+          ISO: 50,
+          Aperture: 2,
+          MaxApertureValue: 2,
+          ExifImageWidth: 4048,
+          ExifImageHeight: 3036,
+          GPSLatitude: 37.4836666666667,
+          GPSLongitude: -122.452094444444,
+          GPSAltitude: -47,
+          tz: "America/Los_Angeles"
+        })
+        expect(t.SubSecDateTimeOriginal!.toISOString()).to.eql(
+          "2016-12-13T09:05:27.120-08:00"
+        )
+      })
+
       it("reads from a directory with dots", async () => {
         const dots = await testImg("img.jpg", "2019.05.28")
         const tags = await et.read(dots)
@@ -255,7 +302,8 @@ describe("ExifTool", function() {
           GPSLongitudeRef: "E",
           Make: "Apple",
           Model: "iPhone 7 Plus",
-          FNumber: 1.8
+          FNumber: 1.8,
+          tz: "Asia/Hong_Kong"
         })
         expect(tags.DateTimeCreated).to.eql(
           ExifDateTime.fromISO(

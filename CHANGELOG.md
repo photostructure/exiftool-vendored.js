@@ -24,6 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.18.0
+
+- ✨ Expose `Tags.tz` from `.read`. This is an optional string holding the
+  timezone offset, like `UTC+1`, or an actual location specification, like
+  `America/Los_Angeles`. This is only included when it is specified or inferred
+  from tag values.
+- ✨ Added another timezone offset extraction heuristic: if `DateTimeUTC` and
+  another created-at time is present, the offset is inferred from the delta.
+
 ### v8.17.0
 
 - ✨ Automagick workaround for AWS Lambda. See [the new `ignoreShebang`

@@ -95,14 +95,14 @@
     "tar-fs": "^2.0.0",
     "tmp": "^0.1.0",
     "tslint": "^5.18.0",
-    "typedoc": "^0.14.2",
+    "typedoc": "^0.15.0",
     "typescript": "^3.5.3",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.27"
   },
   "dependencies": {
     "batch-cluster": "^5.6.7",
-    "luxon": "^1.17.1",
+    "luxon": "^1.17.2",
     "tz-lookup": "^6.1.21"
   },
   "optionalDependencies": {

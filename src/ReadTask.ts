@@ -1,22 +1,15 @@
 import { logger } from "batch-cluster"
 import * as _path from "path"
 
-import { diffMs, HourMs, MinuteMs } from "./DateTime"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolTask } from "./ExifToolTask"
-import { first, firstDefinedThunk, orElse } from "./Maybe"
+import { firstDefinedThunk, map, orElse } from "./Maybe"
 import { toF } from "./Number"
-import { isFunction } from "./Object"
 import { isString, toS } from "./String"
 import { Tags } from "./Tags"
-import {
-  extractTzOffsetFromTags,
-  offsetMinutesToZoneName,
-  reasonableTzOffsetMinutes,
-  MaxTzOffsetHours
-} from "./Timezones"
+import * as tz from "./Timezones"
 
 const tzlookup = require("tz-lookup")
 
@@ -117,6 +110,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     Object.keys(this._raw).forEach(key => {
       ;(this.tags as any)[key] = this.parseTag(key, this._raw[key])
     })
+    map(this.tz, ea => (this.tags.tz = ea))
     if (this.errors.length > 0) this.tags.errors = this.errors
     return this.tags as Tags
   }
@@ -152,50 +146,17 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private extractTzOffset() {
-    {
-      this.tz = extractTzOffsetFromTags(this._tags)
-      if (this.tz != null) {
-        return
-      }
-    }
-    {
-      if (!this.invalidLatLon && this.lat != null && this.lon != null) {
-        try {
-          this.tz = tzlookup(this.lat, this.lon)
-          if (this.tz != null) {
-            return
-          }
-        } catch (err) {}
-      }
-    }
-    if (this._tags.GPSDateTime != null && this._tags.DateTimeOriginal != null) {
-      const gps = ExifDateTime.fromEXIF(this._tags.GPSDateTime, "utc")
-      const local = first(
-        [
-          this._tags.DateTimeOriginal,
-          this._tags.CreateDate,
-          this._tags.MediaCreateDate,
-          this._tags.Date
-        ],
-        text => ExifDateTime.fromEXIF(text, "utc")
-      )
-      if (
-        gps != null &&
-        isFunction(gps.toDate) &&
-        local != null &&
-        isFunction(local.toDate) &&
-        Math.abs(diffMs(local.toDate(), gps.toDate())) <=
-          MaxTzOffsetHours * HourMs
-      ) {
-        // timezone offsets always on the hour or half hour:
-        const gpsToHalfHour = gps.toDate().getTime() / (30 * MinuteMs)
-        const localToHalfHour = local.toDate().getTime() / (30 * MinuteMs)
-        const tzoffsetMinutes = 30 * Math.round(localToHalfHour - gpsToHalfHour)
-        if (reasonableTzOffsetMinutes(tzoffsetMinutes)) {
-          this.tz = offsetMinutesToZoneName(tzoffsetMinutes)
+    this.tz = firstDefinedThunk([
+      () => tz.extractTzOffsetFromTags(this._tags),
+      () => {
+        if (!this.invalidLatLon && this.lat != null && this.lon != null) {
+          try {
+            return tzlookup(this.lat, this.lon)
+          } catch (err) {}
         }
-      }
-    }
+      },
+      () => tz.extractTzOffsetFromUTCOffset(this._tags)
+    ])
   }
 
   private parseTag(tagNameWithGroup: string, value: any): any {
@@ -215,7 +176,11 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (typeof value === "string" && tagName.includes("Date")) {
         const dt = firstDefinedThunk([
           () => ExifDate.fromExifStrict(value),
-          () => ExifDateTime.fromExifStrict(value, this.tz),
+          () =>
+            ExifDateTime.fromExifStrict(
+              value,
+              tagName.includes("UTC") ? "UTC" : this.tz
+            ),
           () => ExifDate.fromISO(value),
           () => ExifDateTime.fromISO(value, this.tz),
           () => ExifDate.fromExifLoose(value),

@@ -114,6 +114,7 @@ describe("Time zone extraction", () => {
       DateTimeOriginal: "2016:08:12 13:28:50"
     })
     expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60)
+    expect(t.tz).to.eql("UTC-9")
   })
 
   it("determines timezone offset from GPS (specifically, Landscape Arch!)", () => {
@@ -125,6 +126,7 @@ describe("Time zone extraction", () => {
       DateTimeOriginal: "2016:08:12 13:28:50"
     })
     expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-6 * 60)
+    expect(t.tz).to.eql("America/Denver")
   })
 
   it("uses GPSDateTime and DateTimeOriginal and sets accordingly for -7", () => {
@@ -135,16 +137,29 @@ describe("Time zone extraction", () => {
     })
     expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(-7 * 60)
     expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(-7 * 60)
+    expect(t.tz).to.eql("UTC-7")
   })
 
-  it("uses GPSDateTime and DateTimeOriginal and sets accordingly for +8", () => {
+  it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +8", () => {
     const t = parse({
-      DateTimeOriginal: "2016:08:12 13:28:50",
-      GPSDateTime: "2016:08:12 05:28:49Z",
-      DateTimeCreated: "2016:08:12 13:28:50"
+      DateTimeOriginal: "2016:10:19 11:15:14",
+      DateTimeUTC: "2016:10:19 03:15:12",
+      DateTimeCreated: "2016:10:19 11:15:14"
     })
-    expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(8 * 60)
+    expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(8 * 60)
     expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(8 * 60)
+    expect(t.tz).to.eql("UTC+8")
+  })
+
+  it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +5:30", () => {
+    const t = parse({
+      DateTimeOriginal: "2018:10:19 11:15:14",
+      DateTimeUTC: "2018:10:19 05:45:12",
+      DateTimeCreated: "2018:10:19 11:15:14"
+    })
+    expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(5.5 * 60)
+    expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(5.5 * 60)
+    expect(t.tz).to.eql("UTC+05:30")
   })
 
   it("renders SubSecDateTimeOriginal for -8", () => {
@@ -157,6 +172,7 @@ describe("Time zone extraction", () => {
     expect(t.SubSecDateTimeOriginal!.toString()).to.eql(
       "2016-12-13T09:05:27.120-08:00"
     )
+    expect(t.tz).to.eql("UTC-8")
   })
 
   it("skips invalid timestamps", () => {
@@ -165,6 +181,7 @@ describe("Time zone extraction", () => {
       GPSDateTime: "not a timestamp"
     })
     expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(undefined)
+    expect(t.tz).to.eql(undefined)
   })
 })
 

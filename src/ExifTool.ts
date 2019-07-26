@@ -298,11 +298,12 @@ export class ExifTool {
   /**
    * Read the tags from `file`, without any post-processing of ExifTool values.
    *
-   * **You probably don't want this method. You want `read`. READ THE REST OF THIS CAREFULLY.**
+   * **You probably want `read`, not this method. READ THE REST OF THIS COMMENT
+   * CAREFULLY.**
    *
    * If you want to extract specific tag values from a file, you may want to use
-   * this, but all data validation and error recovery heuristics provided by
-   * `read` will be skipped.
+   * this, but all data validation and inferrence heuristics provided by `read`
+   * will be skipped.
    *
    * Note that performance will be very similar to `read`, and will actually be
    * worse if you don't include `-fast` or `-fast2` (as the most expensive bit
@@ -314,12 +315,13 @@ export class ExifTool {
    * appended to the args array for you, and if `-json` is missing from `args`,
    * that will be prepended, as it's a prerequisite to parsing the result.
    *
-   * @return Note that the values **might** match `Tags`, but they might not.
-   * You're off the reservation here.
+   * @return Note that the return value will be similar to `Tags`, but with no
+   * date, time, or other rich type parsing that you get from `.read()`, the
+   * return value is wholly untyped.
    *
    * @see https://github.com/mceachen/exiftool-vendored.js/issues/44
    */
-  readRaw(file: string, args: string[]): Promise<Tags> {
+  readRaw(file: string, args: string[]): Promise<any> {
     return this.enqueueTask(() => ReadRawTask.for(file, args))
   }
 
