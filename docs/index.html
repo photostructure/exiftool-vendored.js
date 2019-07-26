@@ -283,19 +283,21 @@ exiftool
 				</a>
 				<p>If the <a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html">EXIF</a>
 					<code>TimeZoneOffset</code> tag is present it will be applied as per the spec to
-				<code>DateTimeOriginal</code>, and if there are two values, the <code>ModifyDate</code> tag as well.</p>
+					<code>DateTimeOriginal</code>, and if there are two values, the <code>ModifyDate</code> tag as well.
+					<code>OffsetTime</code>, <code>OffsetTimeOriginal</code>, and <code>OffsetTimeDigitized</code> are also
+				respected, if present (but are very rarely set).</p>
 				<a href="#heuristic-2-gps-location" id="heuristic-2-gps-location" style="color: inherit; text-decoration: none;">
 					<h3>Heuristic 2: GPS location</h3>
 				</a>
 				<p>If GPS latitude and longitude is present and valid (the value of <code>0, 0</code> is
 					considered invalid), the <code>tz-lookup</code> library will be used to determine the time
 				zone name for that location.</p>
-				<a href="#heuristic-3-gps-timestamp-delta" id="heuristic-3-gps-timestamp-delta" style="color: inherit; text-decoration: none;">
-					<h3>Heuristic 3: GPS timestamp delta</h3>
+				<a href="#heuristic-3-utc-timestamps" id="heuristic-3-utc-timestamps" style="color: inherit; text-decoration: none;">
+					<h3>Heuristic 3: UTC timestamps</h3>
 				</a>
-				<p>If <code>GPSDateTime</code> is present, the delta with the dates found within the file, as
-					long as the delta is valid, is used as the timezone offset. Deltas of &gt; 14 hours
-				are considered invalid.</p>
+				<p>If <code>GPSDateTime</code> or <code>DateTimeUTC</code> is present, the delta with the dates found
+					within the file, as long as the delta is valid, is used as the timezone offset.
+				Deltas of &gt; 14 hours are considered invalid.</p>
 				<a href="#exifdate-and-exifdatetime" id="exifdate-and-exifdatetime" style="color: inherit; text-decoration: none;">
 					<h3>ExifDate and ExifDateTime</h3>
 				</a>

@@ -273,6 +273,8 @@ for all datetime tags that don't already have a specified timezone.
 If the [EXIF](https://sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html)
 `TimeZoneOffset` tag is present it will be applied as per the spec to
 `DateTimeOriginal`, and if there are two values, the `ModifyDate` tag as well.
+`OffsetTime`, `OffsetTimeOriginal`, and `OffsetTimeDigitized` are also
+respected, if present (but are very rarely set).
 
 ### Heuristic 2: GPS location
 
@@ -280,11 +282,11 @@ If GPS latitude and longitude is present and valid (the value of `0, 0` is
 considered invalid), the `tz-lookup` library will be used to determine the time
 zone name for that location.
 
-### Heuristic 3: GPS timestamp delta
+### Heuristic 3: UTC timestamps
 
-If `GPSDateTime` is present, the delta with the dates found within the file, as
-long as the delta is valid, is used as the timezone offset. Deltas of > 14 hours
-are considered invalid.
+If `GPSDateTime` or `DateTimeUTC` is present, the delta with the dates found
+within the file, as long as the delta is valid, is used as the timezone offset.
+Deltas of > 14 hours are considered invalid.
 
 ### ExifDate and ExifDateTime
 
