@@ -179,7 +179,7 @@ export class ReadTask extends ExifToolTask<Tags> {
           () =>
             ExifDateTime.fromExifStrict(
               value,
-              tagName.includes("UTC") ? "UTC" : this.tz
+              tagName.includes("UTC") || tagName === "GPSDateTime" ? "UTC" : this.tz
             ),
           () => ExifDate.fromISO(value),
           () => ExifDateTime.fromISO(value, this.tz),

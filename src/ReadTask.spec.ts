@@ -165,12 +165,15 @@ describe("Time zone extraction", () => {
   it("renders SubSecDateTimeOriginal for -8", () => {
     const t = parse({
       DateTimeOriginal: "2016:12:13 09:05:27",
-      GPSDateTime: "2016:12:13 17:05:25Z",
+      GPSDateTime: "2016:12:13 17:05:25",
       SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200"
     })
     expect((t.SubSecDateTimeOriginal as any).tzoffsetMinutes).to.eql(-8 * 60)
     expect(t.SubSecDateTimeOriginal!.toString()).to.eql(
       "2016-12-13T09:05:27.120-08:00"
+    )
+    expect(t.GPSDateTime!.toISOString({ includeOffset: true })).to.eql(
+      "2016-12-13T17:05:25.000Z"
     )
     expect(t.tz).to.eql("UTC-8")
   })

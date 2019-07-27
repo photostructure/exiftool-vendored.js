@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.18.1
+
+- 🐞 `GPSDateTime` is now forced to be `UTC`.
+
 ### v8.18.0
 
 - ✨ Expose `Tags.tz` from `.read`. This is an optional string holding the
