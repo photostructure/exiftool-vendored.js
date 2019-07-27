@@ -31,7 +31,7 @@
     "prep:1": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git pull) ; done'",
     "prep:2": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; salita -u) ; done'",
     "prep:3": "bash -c 'rm -rf ../exiftool-vendored*/node_modules ../exiftool-vendored*/yarn.lock'",
-    "prep:4": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; yarn install ; yarn test) ; done'",
+    "prep:4": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; yarn install) ; done'",
     "prep": "bash -c 'for i in {0..4} ; do yarn prep:$i ; done'"
   },
   "publishConfig": {
