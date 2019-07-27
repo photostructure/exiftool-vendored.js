@@ -24,8 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### v8.18.1
+### v8.19.0
 
+- 🌱 ExifTool upgraded to
+  [v11.59](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.59).
+- ✨ Rebuilt `Tags` from 6,818 sample images.
 - 🐞 `GPSDateTime` is now forced to be `UTC`.
 
 ### v8.18.0
