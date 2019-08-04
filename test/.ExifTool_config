@@ -1,0 +1,15 @@
+# See http://owl.phy.queensu.ca/~phil/exiftool/config.html
+
+# This is just for testing the configuration integration
+
+%Image::ExifTool::UserDefined = (
+    'Image::ExifTool::Composite' => {
+        UppercaseBaseName => {
+            Require => {
+                0 => 'FileName',
+            },
+            # remove the extension from FileName
+            ValueConv => 'uc($val[0] =~ /(.*)\./ ? $1 : $val[0])',
+        },
+    }
+);

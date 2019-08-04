@@ -91,6 +91,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#cleanupchildprocs" class="tsd-kind-icon">cleanup<wbr>Child<wbr>Procs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#endgracefulwaittimemillis" class="tsd-kind-icon">end<wbr>Graceful<wbr>Wait<wbr>Time<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#exiftoolargs" class="tsd-kind-icon">exiftool<wbr>Args</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#exiftoolenv" class="tsd-kind-icon">exiftool<wbr>Env</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#exiftoolpath" class="tsd-kind-icon">exiftool<wbr>Path</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#exitcommand" class="tsd-kind-icon">exit<wbr>Command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#fail" class="tsd-kind-icon">fail</a></li>
@@ -162,7 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">exiftool<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L162">ExifTool.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L164">ExifTool.ts:164</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -172,12 +173,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="exiftoolenv" class="tsd-anchor"></a>
+					<h3>exiftool<wbr>Env</h3>
+					<div class="tsd-signature tsd-kind-icon">exiftool<wbr>Env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ProcessEnv</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L169">ExifTool.ts:169</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Environment variables passed to ExifTool (besides <code>EXIFTOOL_HOME</code>)</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="exiftoolpath" class="tsd-anchor"></a>
 					<h3>exiftool<wbr>Path</h3>
 					<div class="tsd-signature tsd-kind-icon">exiftool<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L157">ExifTool.ts:157</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L159">ExifTool.ts:159</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -229,7 +245,7 @@
 					<div class="tsd-signature tsd-kind-icon">ignore<wbr>Shebang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L188">ExifTool.ts:188</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L195">ExifTool.ts:195</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -241,7 +257,7 @@
 							Lambda), but <code>perl</code> may be available in your <code>PATH</code> some place else (like
 						<code>/opt/bin/perl</code>), if you pull in a perl layer.</p>
 						<p>This will default to <code>true</code> in those environments as a workaround in these
-						situations. Note also that <code>perl</code> will be spawned in a subshell.</p>
+						situations. Note also that <code>perl</code> will be spawned in a sub-shell.</p>
 						<p>This value should probably not be set on Windows (unless you&#39;ve installed
 						<code>perl</code>).</p>
 					</div>
@@ -273,7 +289,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.maxProcs</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L108">ExifTool.ts:108</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L110">ExifTool.ts:110</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -311,7 +327,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.maxTasksPerProcess</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L116">ExifTool.ts:116</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L118">ExifTool.ts:118</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -346,7 +362,7 @@
 					<div class="tsd-signature tsd-kind-icon">numeric<wbr>Tags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L172">ExifTool.ts:172</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L179">ExifTool.ts:179</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -366,7 +382,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.onIdleIntervalMillis</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L144">ExifTool.ts:144</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L146">ExifTool.ts:146</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -437,7 +453,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.spawnTimeoutMillis</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L127">ExifTool.ts:127</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L129">ExifTool.ts:129</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -448,7 +464,7 @@
 								a process, thanks to antivirus shenanigans. This can&#39;t be set to a value
 							less than 100ms.</p>
 						</div>
-						<p>Defaults to 30 seconds, to accomodate slow Windows machines.</p>
+						<p>Defaults to 30 seconds, to accommodate slow Windows machines.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -480,7 +496,7 @@
 					<div class="tsd-signature tsd-kind-icon">task<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L151">ExifTool.ts:151</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L153">ExifTool.ts:153</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -497,7 +513,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BatchClusterOptions.taskTimeoutMillis</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L136">ExifTool.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L138">ExifTool.ts:138</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -553,6 +569,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="exiftooloptions.html#exiftoolargs" class="tsd-kind-icon">exiftool<wbr>Args</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="exiftooloptions.html#exiftoolenv" class="tsd-kind-icon">exiftool<wbr>Env</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="exiftooloptions.html#exiftoolpath" class="tsd-kind-icon">exiftool<wbr>Path</a>

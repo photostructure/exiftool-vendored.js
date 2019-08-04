@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.20.0
+
+- ✨ Support for `.ExifTool_config` files was added. Either place your [user
+  configuration file](http://owl.phy.queensu.ca/~phil/exiftool/config.html) in
+  your `HOME` directory, or set the `EXIFTOOL_HOME` environment variable to the
+  fully-qualified path that contains your user config. Addresses
+  [#55](https://github.com/photostructure/exiftool-vendored.js/issues/55).
+
 ### v8.19.0
 
 - 🌱 ExifTool upgraded to
@@ -189,7 +197,7 @@ vendored versions of ExifTool match the version they vendor.
 
 - ✨ Added support for EXIF dates that include both the UTC offset as well as the
   time zone abbreviation, like `2014:07:17 08:46:27-07:00 DST`. The TZA is
-  actually an overspecification, and can be safely discarded.
+  actually an over-specification, and can be safely discarded.
 - 🌱 ExifTool upgraded to
   [v11.27](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.27).
 - 📦 Updated dependencies
@@ -369,7 +377,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 - ✨ Rebuilt `Tags` based on new phone and camera models
 - 📦 Files are not `stat`ed before passing them on to ExifTool, as it seems to
   be faster on all platforms without this check. If you were error-matching on
-  ENOENT, you'll need to switch to looking for "File not found".
+  `ENOENT`, you'll need to switch to looking for "File not found".
 - 💔 BatchCluster was updated, which has a robust PID-exists implementation, but
   those signatures now return Promises rather than being synchronous, so the
   exported `running` function has changed to return a `Promise<number[]>`.

@@ -3,6 +3,7 @@ import * as _child_process from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
 import * as _path from "path"
+import * as _p from "process"
 
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
@@ -14,6 +15,7 @@ import { orElse } from "./Maybe"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
+import { blank, notBlank } from "./String"
 import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
@@ -122,7 +124,7 @@ export interface ExifToolOptions
    * a process, thanks to antivirus shenanigans. This can't be set to a value
    * less than 100ms.
    *
-   * Defaults to 30 seconds, to accomodate slow Windows machines.
+   * Defaults to 30 seconds, to accommodate slow Windows machines.
    */
   spawnTimeoutMillis: number
 
@@ -162,6 +164,11 @@ export interface ExifToolOptions
   exiftoolArgs: string[]
 
   /**
+   * Environment variables passed to ExifTool (besides `EXIFTOOL_HOME`)
+   */
+  exiftoolEnv: NodeJS.ProcessEnv
+
+  /**
    * Tag names (which can have '*' glob matchers) which you want numeric values,
    * rather than ExifTool's "Print Conversion."
    *
@@ -180,7 +187,7 @@ export interface ExifToolOptions
    * `/opt/bin/perl`), if you pull in a perl layer.
    *
    * This will default to `true` in those environments as a workaround in these
-   * situations. Note also that `perl` will be spawned in a subshell.
+   * situations. Note also that `perl` will be spawned in a sub-shell.
    *
    * This value should probably not be set on Windows (unless you've installed
    * `perl`).
@@ -208,6 +215,7 @@ export const DefaultExifToolOptions: Omit<
   taskRetries: 1,
   exiftoolPath: DefaultExifToolPath,
   exiftoolArgs: DefaultExiftoolArgs,
+  exiftoolEnv: {},
   pass: "{ready}",
   fail: "{ready}",
   exitCommand: "-stay_open\nFalse\n",
@@ -236,11 +244,16 @@ export class ExifTool {
       ...options
     }
     const ignoreShebang = orElse(o.ignoreShebang, () => _ignoreShebang())
+
+    const env: NodeJS.ProcessEnv = { ...o.exiftoolEnv, LANG: "C" }
+    if (notBlank(_p.env.EXIFTOOL_HOME) && blank(env.EXIFTOOL_HOME)) {
+      env.EXIFTOOL_HOME = _p.env.EXIFTOOL_HOME
+    }
     const spawnOpts: _child_process.SpawnOptions = {
       stdio: "pipe",
       shell: ignoreShebang, // we need to spawn a shell if we ignore the shebang.
       detached: false,
-      env: { LANG: "C" }
+      env
     }
     const processFactory = () =>
       ignoreShebang
@@ -263,7 +276,7 @@ export class ExifTool {
   }
 
   /**
-   * Register lifecycle event listeners. Delegates to BatchProcess.
+   * Register life cycle event listeners. Delegates to BatchProcess.
    */
   readonly on: bc.BatchCluster["on"] = (event: any, listener: any) =>
     this.batchCluster.on(event, listener)
@@ -302,7 +315,7 @@ export class ExifTool {
    * CAREFULLY.**
    *
    * If you want to extract specific tag values from a file, you may want to use
-   * this, but all data validation and inferrence heuristics provided by `read`
+   * this, but all data validation and inference heuristics provided by `read`
    * will be skipped.
    *
    * Note that performance will be very similar to `read`, and will actually be
