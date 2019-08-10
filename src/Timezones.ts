@@ -3,7 +3,8 @@ import { Info } from "luxon"
 import { ExifDateTime } from "./ExifDateTime"
 import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { isNumber } from "./Number"
-import { blank, pad2, toS } from "./String"
+import { blank, pad2, isString } from "./String"
+import { MinuteMs } from "./DateTime"
 
 /**
  * Returns a "zone name" (used by `luxon`) that encodes the given offset.
@@ -11,12 +12,13 @@ import { blank, pad2, toS } from "./String"
 export function offsetMinutesToZoneName(
   offsetMinutes: Maybe<number>
 ): Maybe<string> {
-  if (offsetMinutes == null) return undefined
+  if (offsetMinutes == null || !isNumber(offsetMinutes)) return undefined
   if (offsetMinutes === 0) return "UTC"
   const sign = offsetMinutes < 0 ? "-" : "+"
-  const abs = Math.abs(offsetMinutes)
-  const hours = Math.floor(abs / 60)
-  const minutes = Math.abs(abs % 60)
+  const absMinutes = Math.abs(offsetMinutes)
+  if (absMinutes > MaxTzOffsetHours * 60) return undefined
+  const hours = Math.floor(absMinutes / 60)
+  const minutes = Math.abs(absMinutes % 60)
   return (
     `UTC${sign}` +
     (minutes === 0 ? `${hours}` : `${pad2(hours)}:${pad2(minutes)}`)
@@ -38,21 +40,30 @@ export function reasonableTzOffsetMinutes(
 
 const tzRe = /(?:UTC)?([+-]?)(\d\d?)(?::(\d\d))?/
 
+export interface TzSrc {
+  tz: string
+  src: string
+}
+
 /**
  * Parse a timezone offset and return the offset minutes
  */
-export function extractOffset(tz: Maybe<string>): Maybe<string> {
-  return tz == null || blank(tz)
-    ? undefined
-    : orElse(
-        map(tzRe.exec(tz), m =>
-          offsetMinutesToZoneName(
-            (m[1] === "-" ? -1 : 1) *
-              (parseInt(m[2]) * 60 + parseInt(orElse(m[3], "0")))
-          )
-        ),
-        () => (Info.isValidIANAZone(tz) ? tz : undefined)
-      )
+export function extractOffset(tz: Maybe<string>): Maybe<TzSrc> {
+  if (tz == null || blank(tz)) {
+    return undefined
+  }
+  if (isString(tz) && Info.isValidIANAZone(tz)) {
+    return { tz, src: "validIANAZone" }
+  }
+  return map(tzRe.exec(tz), m =>
+    map(
+      offsetMinutesToZoneName(
+        (m[1] === "-" ? -1 : 1) *
+          (parseInt(m[2]) * 60 + parseInt(orElse(m[3], "0")))
+      ),
+      ea => ({ tz: ea, src: "offsetMinutesToZoneName" })
+    )
+  )
 }
 
 export function extractTzOffsetFromTags(t: {
@@ -68,24 +79,49 @@ export function extractTzOffsetFromTags(t: {
    * @see https://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html
    */
   TimeZoneOffset?: number | number[] | string
-}): Maybe<string> {
+}): Maybe<TzSrc> {
   return firstDefinedThunk([
     () =>
       first(
         [
-          t.TimeZone,
-          t.OffsetTime,
-          t.OffsetTimeOriginal,
-          t.OffsetTimeDigitized,
-          t.TimeZoneOffset
+          "TimeZone",
+          "OffsetTime",
+          "OffsetTimeOriginal",
+          "OffsetTimeDigitized",
+          "TimeZoneOffset"
         ],
-        ea => extractOffset(toS(ea))
+        tagName =>
+          map(extractOffset((t as any)[tagName]), ea => ({
+            tz: ea.tz,
+            src: ea.src + " from " + tagName
+          }))
       ),
     () =>
-      map(t.TimeZoneOffset, ea =>
-        tzHourToOffset(Array.isArray(ea) ? ea[0] : ea)
+      map(t.TimeZoneOffset, value =>
+        map(tzHourToOffset(Array.isArray(value) ? value[0] : value), tz => ({
+          tz,
+          src: "TimeZoneOffset"
+        }))
       )
   ])
+}
+
+function firstUtcMs(
+  tags: any,
+  tagNames: string[]
+): Maybe<{ tagName: string; utcMs: number }> {
+  return first(tagNames, tagName =>
+    map(utcToMs(tags[tagName]), utcMs => ({ tagName, utcMs }))
+  )
+}
+
+// timezone offsets may be on a 15 minute boundary. See
+// https://www.timeanddate.com/time/time-zones-interesting.html
+
+const TzBoundaryMinutes = 15
+
+function rndMinTz(ms: number): number {
+  return Math.round(ms / (MinuteMs * TzBoundaryMinutes)) * TzBoundaryMinutes
 }
 
 export function extractTzOffsetFromUTCOffset(t: {
@@ -98,39 +134,24 @@ export function extractTzOffsetFromUTCOffset(t: {
   SubSecMediaCreateDate?: string
   MediaCreateDate?: string
   DateTimeCreated?: string
-}): Maybe<string> {
-  return map(first([t.GPSDateTime, t.DateTimeUTC], utcToMs), utcMs =>
-    map(
-      first(
-        [
-          t.SubSecDateTimeOriginal,
-          t.DateTimeOriginal,
-          t.SubSecCreateDate,
-          t.CreateDate,
-          t.SubSecMediaCreateDate,
-          t.MediaCreateDate,
-          t.DateTimeCreated
-        ],
-        utcToMs
-      ),
-      tMs => {
-        const offsetMinutes =
-          (TzBoundaryMs *
-            (Math.round(tMs / TzBoundaryMs) -
-              Math.round(utcMs / TzBoundaryMs))) /
-          (60 * 1000)
-        return reasonableTzOffsetMinutes(offsetMinutes)
-          ? offsetMinutesToZoneName(offsetMinutes)
-          : undefined
-      }
-    )
-  )
+}): Maybe<TzSrc> {
+  const utc = firstUtcMs(t, ["GPSDateTime", "DateTimeUTC"])
+  const dt = firstUtcMs(t, [
+    "SubSecDateTimeOriginal",
+    "DateTimeOriginal",
+    "SubSecCreateDate",
+    "CreateDate",
+    "SubSecMediaCreateDate",
+    "MediaCreateDate",
+    "DateTimeCreated"
+  ])
+  if (utc == null || dt == null) return
+  const offsetMinutes = rndMinTz(dt.utcMs) - rndMinTz(utc.utcMs)
+  return map(offsetMinutesToZoneName(offsetMinutes), tz => ({
+    tz,
+    src: `offset between ${dt.tagName} and ${utc.tagName}`
+  }))
 }
-
-// timezone offsets may be on a 15 minute boundary. See
-// https://www.timeanddate.com/time/time-zones-interesting.html
-
-const TzBoundaryMs = 15 * 60 * 1000
 
 function utcToMs(s: Maybe<string>): Maybe<number> {
   return dtToMs(s, "UTC")

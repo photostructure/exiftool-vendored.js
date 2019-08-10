@@ -5293,4 +5293,5 @@ export interface Tags
   SourceFile?: string
   /** Either an offset, like `UTC-7`, or an actual timezone, like `America/Los_Angeles` */
   tz?: string
+  tzSource?: string
 }

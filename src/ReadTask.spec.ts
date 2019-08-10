@@ -10,6 +10,7 @@ function parse(tags: any, err?: Error): Tags {
   const tt = ReadTask.for("/tmp/example.jpg", [])
   tags.SourceFile = "/tmp/example.jpg"
   const json = JSON.stringify([tags])
+  // We have to incant parse directly because it's private:
   return tt["parse"](json, err)
 }
 
@@ -119,6 +120,7 @@ describe("ReadTask", () => {
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60)
       expect(t.tz).to.eql("UTC-9")
+      expect(t.tzSource).to.eql("offsetMinutesToZoneName from OffsetTime")
     })
 
     it("determines timezone offset from GPS (specifically, Landscape Arch!)", () => {
@@ -131,6 +133,7 @@ describe("ReadTask", () => {
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-6 * 60)
       expect(t.tz).to.eql("America/Denver")
+      expect(t.tzSource).to.eql("from Lat/Lon")
     })
 
     it("uses GPSDateTime and DateTimeOriginal and sets accordingly for -7", () => {
@@ -142,6 +145,7 @@ describe("ReadTask", () => {
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(-7 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(-7 * 60)
       expect(t.tz).to.eql("UTC-7")
+      expect(t.tzSource).to.eql("offset between DateTimeOriginal and GPSDateTime")
     })
 
     it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +8", () => {
@@ -153,6 +157,7 @@ describe("ReadTask", () => {
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(8 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(8 * 60)
       expect(t.tz).to.eql("UTC+8")
+      expect(t.tzSource).to.eql("offset between DateTimeOriginal and DateTimeUTC")
     })
 
     it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +5:30", () => {
@@ -164,6 +169,7 @@ describe("ReadTask", () => {
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(5.5 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(5.5 * 60)
       expect(t.tz).to.eql("UTC+05:30")
+      expect(t.tzSource).to.eql("offset between DateTimeOriginal and DateTimeUTC")
     })
 
     it("renders SubSecDateTimeOriginal for -8", () => {
@@ -180,6 +186,7 @@ describe("ReadTask", () => {
         "2016-12-13T17:05:25.000Z"
       )
       expect(t.tz).to.eql("UTC-8")
+      expect(t.tzSource).to.eql("offset between SubSecDateTimeOriginal and GPSDateTime")
     })
 
     it("skips invalid timestamps", () => {
@@ -189,6 +196,7 @@ describe("ReadTask", () => {
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(undefined)
       expect(t.tz).to.eql(undefined)
+      expect(t.tzSource).to.eql(undefined)
     })
   })
 

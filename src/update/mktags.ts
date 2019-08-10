@@ -475,18 +475,22 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
       ...tagGroups.map(s => s + "Tags"),
       "ApplicationRecordTags"
     ]
-    tagWriter.write("\n")
-    tagWriter.write("export interface Tags\n  extends ")
-    tagWriter.write(`${interfaceNames.join(",\n    ")} {\n`)
-    tagWriter.write("  errors?: string[]\n")
-    tagWriter.write("  Error?: string\n")
-    tagWriter.write("  Warning?: string\n")
-    tagWriter.write("  SourceFile?: string\n")
     tagWriter.write(
-      "  /** Either an offset, like `UTC-7`, or an actual timezone, like `America/Los_Angeles` */\n"
+      [
+        "",
+        "export interface Tags",
+        `  extends ${interfaceNames.join(",\n    ")} {`,
+        "  errors?: string[]",
+        "  Error?: string",
+        "  Warning?: string",
+        "  SourceFile?: string",
+        "  /** Either an offset, like `UTC-7`, or an actual timezone, like `America/Los_Angeles` */",
+        "  tz?: string",
+        "  /** Description of where and how `tz` was extracted */",
+        "  tzSource?: string",
+        "}"
+      ].join("\n")
     )
-    tagWriter.write("  tz?: string\n")
-    tagWriter.write("}\n")
     tagWriter.end()
 
     // Let's look at tag distributions:

@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.21.0
+
+- ✨ Exposed `Tags.tzSource` from `.read`. This is an optional string holding a
+  description of where and how the source timezone offset, `Tags.tz`, was
+  extracted. You will love it.
+
 ### v8.20.0
 
 - ✨ Support for `.ExifTool_config` files was added. Either place your [user

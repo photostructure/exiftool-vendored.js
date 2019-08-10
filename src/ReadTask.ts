@@ -9,7 +9,10 @@ import { firstDefinedThunk, map, orElse } from "./Maybe"
 import { toF } from "./Number"
 import { isString, toS } from "./String"
 import { Tags } from "./Tags"
-import * as tz from "./Timezones"
+import {
+  extractTzOffsetFromTags,
+  extractTzOffsetFromUTCOffset
+} from "./Timezones"
 
 const tzlookup = require("tz-lookup")
 
@@ -35,6 +38,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   private lon?: number
   private invalidLatLon = false
   private tz?: string
+  private tzSource?: string
 
   private constructor(readonly sourceFile: string, readonly args: string[]) {
     super(args)
@@ -111,6 +115,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       ;(this.tags as any)[key] = this.parseTag(key, this._raw[key])
     })
     map(this.tz, ea => (this.tags.tz = ea))
+    map(this.tzSource, ea => (this.tags.tzSource = ea))
     if (this.errors.length > 0) this.tags.errors = this.errors
     return this.tags as Tags
   }
@@ -146,17 +151,24 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private extractTzOffset() {
-    this.tz = firstDefinedThunk([
-      () => tz.extractTzOffsetFromTags(this._tags),
-      () => {
-        if (!this.invalidLatLon && this.lat != null && this.lon != null) {
-          try {
-            return tzlookup(this.lat, this.lon)
-          } catch (err) {}
-        }
-      },
-      () => tz.extractTzOffsetFromUTCOffset(this._tags)
-    ])
+    map(
+      firstDefinedThunk([
+        () => extractTzOffsetFromTags(this._tags),
+        () => {
+          if (!this.invalidLatLon && this.lat != null && this.lon != null) {
+            try {
+              return map(tzlookup(this.lat, this.lon), tz => ({
+                tz,
+                src: "from Lat/Lon"
+              }))
+            } catch (err) {}
+          }
+          return
+        },
+        () => extractTzOffsetFromUTCOffset(this._tags)
+      ]),
+      ea => ({ tz: this.tz, src: this.tzSource } = ea)
+    )
   }
 
   private parseTag(tagNameWithGroup: string, value: any): any {
@@ -179,7 +191,9 @@ export class ReadTask extends ExifToolTask<Tags> {
           () =>
             ExifDateTime.fromExifStrict(
               value,
-              tagName.includes("UTC") || tagName === "GPSDateTime" ? "UTC" : this.tz
+              tagName.includes("UTC") || tagName === "GPSDateTime"
+                ? "UTC"
+                : this.tz
             ),
           () => ExifDate.fromISO(value),
           () => ExifDateTime.fromISO(value, this.tz),
