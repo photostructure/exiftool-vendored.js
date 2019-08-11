@@ -1,10 +1,11 @@
 import { Info } from "luxon"
 
+import { compact } from "./Array"
+import { MinuteMs } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
 import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { isNumber } from "./Number"
-import { blank, pad2, isString } from "./String"
-import { MinuteMs } from "./DateTime"
+import { blank, isString, pad2 } from "./String"
 
 /**
  * Returns a "zone name" (used by `luxon`) that encodes the given offset.
@@ -115,18 +116,22 @@ function firstUtcMs(
   )
 }
 
-// timezone offsets may be on a 15 minute boundary. See
+// timezone offsets may be on a 15 minute boundary, but if GPS acquisition is
+// old, this can be spurious. We get less mistakes with a larger multiple, so
+// we're using 30 minutes instead of 15. See
 // https://www.timeanddate.com/time/time-zones-interesting.html
 
-const TzBoundaryMinutes = 15
+const TzBoundaryMinutes = 30
 
-function rndMinTz(ms: number): number {
-  return Math.round(ms / (MinuteMs * TzBoundaryMinutes)) * TzBoundaryMinutes
+export function inferLikelyOffsetMinutes(deltaMs: number): number {
+  return TzBoundaryMinutes * Math.floor(deltaMs / MinuteMs / TzBoundaryMinutes)
 }
 
 export function extractTzOffsetFromUTCOffset(t: {
   DateTimeUTC?: string
   GPSDateTime?: string
+  GPSDateStamp?: string
+  GPSTimeStamp?: string
   SubSecDateTimeOriginal?: string
   DateTimeOriginal?: string
   SubSecCreateDate?: string
@@ -135,7 +140,14 @@ export function extractTzOffsetFromUTCOffset(t: {
   MediaCreateDate?: string
   DateTimeCreated?: string
 }): Maybe<TzSrc> {
-  const utc = firstUtcMs(t, ["GPSDateTime", "DateTimeUTC"])
+  const gpsStamps = compact([t.GPSDateStamp, t.GPSTimeStamp])
+  const GPSDateTimeStamp =
+    gpsStamps.length === 2 ? gpsStamps.join(" ") : undefined
+  const utc = firstUtcMs({ ...t, GPSDateTimeStamp }, [
+    "GPSDateTime",
+    "DateTimeUTC",
+    "GPSDateTimeStamp"
+  ])
   const dt = firstUtcMs(t, [
     "SubSecDateTimeOriginal",
     "DateTimeOriginal",
@@ -146,7 +158,8 @@ export function extractTzOffsetFromUTCOffset(t: {
     "DateTimeCreated"
   ])
   if (utc == null || dt == null) return
-  const offsetMinutes = rndMinTz(dt.utcMs) - rndMinTz(utc.utcMs)
+  // By flooring
+  const offsetMinutes = inferLikelyOffsetMinutes(dt.utcMs - utc.utcMs)
   return map(offsetMinutesToZoneName(offsetMinutes), tz => ({
     tz,
     src: `offset between ${dt.tagName} and ${utc.tagName}`

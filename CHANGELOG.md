@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.21.1
+
+- 🐞 Fixed timezone inference rounding bug (`UTC+2` would return `UTC+02:15`)
+
 ### v8.21.0
 
 - ✨ Exposed `Tags.tzSource` from `.read`. This is an optional string holding a

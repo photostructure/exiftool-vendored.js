@@ -72,7 +72,7 @@ describe("Timezones", () => {
     })
   })
   describe("extractTzOffsetFromUTCOffset", () => {
-    it("with DateTimeUTC and another created-at DateTime", () => {
+    it("with DateTimeUTC and created-at DateTime", () => {
       expect(
         extractTzOffsetFromUTCOffset({
           CreateDate: "2014:07:19 12:05:19",
@@ -81,6 +81,40 @@ describe("Timezones", () => {
       ).to.eql({
         tz: "UTC-7",
         src: "offset between CreateDate and DateTimeUTC"
+      })
+    })
+    it("with lagging DateTimeUTC and CreateDate in positive whole-number offset", () => {
+      expect(
+        extractTzOffsetFromUTCOffset({
+          CreateDate: "2016:07:18 09:54:03",
+          DateTimeUTC: "2016:07:18 07:41:01Z"
+        })
+      ).to.eql({
+        tz: "UTC+2",
+        src: "offset between CreateDate and DateTimeUTC"
+      })
+    })
+    it("with lagging DateTimeUTC and SubSecCreateDate in positive half-hour offset", () => {
+      expect(
+        extractTzOffsetFromUTCOffset({
+          SubSecCreateDate: "2016:07:18 09:54:03",
+          DateTimeUTC: "2016:07:18 04:16:01"
+        })
+      ).to.eql({
+        tz: "UTC+05:30",
+        src: "offset between SubSecCreateDate and DateTimeUTC"
+      })
+    })
+    it("with lagging GPSDateStamp & GPSTimeStamp and DateTimeOriginal in negative offset", () => {
+      expect(
+        extractTzOffsetFromUTCOffset({
+          DateTimeOriginal: "2016:07:25 11:08:49",
+          GPSDateStamp: "2016:07:25",
+          GPSTimeStamp: "17:45:46"
+        })
+      ).to.eql({
+        tz: "UTC-7",
+        src: "offset between DateTimeOriginal and GPSDateTimeStamp"
       })
     })
     it("with DateTimeUTC and very different created-at DateTime", () => {

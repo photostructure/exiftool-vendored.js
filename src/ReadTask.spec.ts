@@ -145,7 +145,9 @@ describe("ReadTask", () => {
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(-7 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(-7 * 60)
       expect(t.tz).to.eql("UTC-7")
-      expect(t.tzSource).to.eql("offset between DateTimeOriginal and GPSDateTime")
+      expect(t.tzSource).to.eql(
+        "offset between DateTimeOriginal and GPSDateTime"
+      )
     })
 
     it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +8", () => {
@@ -157,7 +159,9 @@ describe("ReadTask", () => {
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(8 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(8 * 60)
       expect(t.tz).to.eql("UTC+8")
-      expect(t.tzSource).to.eql("offset between DateTimeOriginal and DateTimeUTC")
+      expect(t.tzSource).to.eql(
+        "offset between DateTimeOriginal and DateTimeUTC"
+      )
     })
 
     it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +5:30", () => {
@@ -169,7 +173,9 @@ describe("ReadTask", () => {
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(5.5 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(5.5 * 60)
       expect(t.tz).to.eql("UTC+05:30")
-      expect(t.tzSource).to.eql("offset between DateTimeOriginal and DateTimeUTC")
+      expect(t.tzSource).to.eql(
+        "offset between DateTimeOriginal and DateTimeUTC"
+      )
     })
 
     it("renders SubSecDateTimeOriginal for -8", () => {
@@ -186,7 +192,9 @@ describe("ReadTask", () => {
         "2016-12-13T17:05:25.000Z"
       )
       expect(t.tz).to.eql("UTC-8")
-      expect(t.tzSource).to.eql("offset between SubSecDateTimeOriginal and GPSDateTime")
+      expect(t.tzSource).to.eql(
+        "offset between SubSecDateTimeOriginal and GPSDateTime"
+      )
     })
 
     it("skips invalid timestamps", () => {
@@ -234,7 +242,7 @@ describe("ReadTask", () => {
     after(() => et.end())
     it("returns the new custom tag", async () => {
       const t: any = await et.read("./test/pixel.jpg")
-      
+
       // This is a non-standard tag, added by the custom user configuration:
       expect(t.UppercaseBaseName).to.eql("PIXEL")
     })
