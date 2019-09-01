@@ -22,7 +22,7 @@ export function offsetMinutesToZoneName(
   const minutes = Math.abs(absMinutes % 60)
   return (
     `UTC${sign}` +
-    (minutes === 0 ? `${hours}` : `${pad2(hours)}:${pad2(minutes)}`)
+    (minutes === 0 ? `${pad2(hours)}` : `${pad2(hours)}:${pad2(minutes)}`)
   )
 }
 

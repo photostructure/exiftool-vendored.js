@@ -24,6 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v8.22.0
+
+- ✨ Added `ExifDateTime.hasZone`
+- ✨ `ExifDateTime.toISOString` automatically omits the timezone offset if unset
+- 🐞 Hour timezone offsets were rendered without padding (which doesn't comply
+  with the ISO spec).
+- 🌱 ExifTool upgraded to
+  [v11.65](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.65).
+
 ### v8.21.1
 
 - 🐞 Fixed timezone inference rounding bug (`UTC+2` would return `UTC+02:15`)

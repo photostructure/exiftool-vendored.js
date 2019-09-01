@@ -7,8 +7,8 @@ import { offsetMinutesToZoneName } from "./Timezones"
 
 // Not in typings:
 const { FixedOffsetZone } = require("luxon")
-const unsetZoneOffset = -24 * 60
-const unsetZone = new FixedOffsetZone(unsetZoneOffset)
+const unsetZoneOffsetMinutes = -24 * 60
+const unsetZone = new FixedOffsetZone(unsetZoneOffsetMinutes)
 
 /**
  * Encodes an ExifDateTime with an optional tz offset in minutes.
@@ -134,7 +134,7 @@ export class ExifDateTime {
       dt.minute,
       dt.second,
       dt.millisecond,
-      dt.offset === unsetZoneOffset ? undefined : dt.offset,
+      dt.offset === unsetZoneOffsetMinutes ? undefined : dt.offset,
       rawValue
     )
   }
@@ -155,8 +155,17 @@ export class ExifDateTime {
     return this.millisecond
   }
 
+  get hasZone() {
+    return (
+      this.tzoffsetMinutes != null &&
+      this.tzoffsetMinutes !== unsetZoneOffsetMinutes
+    )
+  }
+
   get zone() {
-    return offsetMinutesToZoneName(this.tzoffsetMinutes)
+    return this.hasZone
+      ? offsetMinutesToZoneName(this.tzoffsetMinutes)
+      : undefined
   }
 
   toDateTime(): DateTime {
@@ -169,7 +178,9 @@ export class ExifDateTime {
       second: this.second
     }
     map(this.millisecond, ea => (o.millisecond = ea))
-    map(this.tzoffsetMinutes, ea => (o.zone = offsetMinutesToZoneName(ea)))
+    if (this.hasZone) {
+      map(this.tzoffsetMinutes, ea => (o.zone = offsetMinutesToZoneName(ea)))
+    }
     return DateTime.fromObject(o)
   }
 
@@ -179,9 +190,11 @@ export class ExifDateTime {
 
   toISOString(options: ISOTimeOptions = {}): string {
     return this.toDateTime().toISO({
-      suppressMilliseconds: this.millisecond == null,
-      includeOffset: this.tzoffsetMinutes != null,
-      ...options
+      suppressMilliseconds: orElse(
+        options.suppressMilliseconds,
+        () => this.millisecond == null
+      ),
+      includeOffset: this.hasZone && options.includeOffset !== false
     })
   }
 

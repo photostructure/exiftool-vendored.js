@@ -119,7 +119,7 @@ describe("ReadTask", () => {
         DateTimeOriginal: "2016:08:12 13:28:50"
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60)
-      expect(t.tz).to.eql("UTC-9")
+      expect(t.tz).to.eql("UTC-09")
       expect(t.tzSource).to.eql("offsetMinutesToZoneName from OffsetTime")
     })
 
@@ -144,7 +144,7 @@ describe("ReadTask", () => {
       })
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(-7 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(-7 * 60)
-      expect(t.tz).to.eql("UTC-7")
+      expect(t.tz).to.eql("UTC-07")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and GPSDateTime"
       )
@@ -158,7 +158,7 @@ describe("ReadTask", () => {
       })
       expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(8 * 60)
       expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(8 * 60)
-      expect(t.tz).to.eql("UTC+8")
+      expect(t.tz).to.eql("UTC+08")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and DateTimeUTC"
       )
@@ -191,7 +191,7 @@ describe("ReadTask", () => {
       expect(t.GPSDateTime!.toISOString({ includeOffset: true })).to.eql(
         "2016-12-13T17:05:25.000Z"
       )
-      expect(t.tz).to.eql("UTC-8")
+      expect(t.tz).to.eql("UTC-08")
       expect(t.tzSource).to.eql(
         "offset between SubSecDateTimeOriginal and GPSDateTime"
       )

@@ -262,7 +262,7 @@ describe("ExifTool", function() {
           ExifImageHeight: 2400,
           LensInfo: "12-40mm f/2.8",
           LensModel: "OLYMPUS M.12-40mm F2.8",
-          tz: "UTC-7"
+          tz: "UTC-07"
         })
         expect(t.DateTimeOriginal!.toISOString()).to.eql(
           "2014-07-19T12:05:19.000-07:00"
