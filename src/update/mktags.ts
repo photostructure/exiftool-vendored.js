@@ -249,6 +249,7 @@ class Tag {
     if (this.tag.endsWith("Artist")) return exampleToS(["Ansel Adams"])
     if (this.tag.endsWith("Author")) return exampleToS(["Arturo DeImage"])
     if (this.tag.endsWith("Contact")) return exampleToS(["Dohncha Ringmanumba"])
+    if (this.tag.endsWith("Software")) return exampleToS(["<https://PhotoStructure.com/>"])
     if (this.tag.endsWith("Credit"))
       return exampleToS(["photo by Jenny McSnapsalot"])
     const byValueType = new Map<string, any[]>()
