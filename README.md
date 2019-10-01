@@ -85,11 +85,8 @@ less sensible) defaults.
 
 Those defaults have been used to create the
 [`exiftool`](https://exiftool-vendored.js.org/globals.html#exiftool) singleton.
-Feel free to review the [ExifTool constructor
-parameters](https://exiftool-vendored.js.org/classes/exiftool.html#constructor)
-and override default values where appropriate if the defaults wont' work for
-you, but you should use your singleton to minimize system load. Note that if you
-_don't_ use the default singleton, you don't need to `.end()` it.
+Note that if you _don't_ use the default singleton, you don't need to `.end()`
+it.
 
 ```js
 // We're using the singleton here for convenience:
@@ -100,6 +97,19 @@ exiftool
   .version()
   .then(version => console.log(`We're running ExifTool v${version}`))
 ```
+
+If the default [ExifTool constructor
+parameters](https://exiftool-vendored.js.org/classes/exiftool.html#constructor)
+wont' work for you, it's just a class that takes an options hash:
+
+```js
+const ExifTool = require("exiftool-vendored").ExifTool
+const exiftool = new ExifTool({ taskTimeoutMillis: 5000 })
+```
+
+You should only use the exported default `exiftool` singleton, or only create one instance of `ExifTool` as a singleton.
+
+Remember to `.end()` whichever singleton you use.
 
 ### General API
 
