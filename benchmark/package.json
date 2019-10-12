@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "exiftool": "0.0.3",
-    "globule": "^1.1.0"
+    "exiftool": "^0.0.3",
+    "globule": "^1.2.1"
   }
 }
