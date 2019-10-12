@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node ./index.js"
+    "test": "node ./index.js",
+    "prettier": "prettier --no-config --write *.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "exiftool": "^0.0.3",
     "globule": "^1.2.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
   }
 }
