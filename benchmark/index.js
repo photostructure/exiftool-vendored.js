@@ -3,7 +3,7 @@ const exif = require("exiftool");
 const process = require("process");
 
 const dir = process.argv[2];
-const files = globule.find(`${dir}/**/*.jpg`).slice(0, 1000);
+const files = globule.find(`${dir}/**/*.jpg`).slice(0, 25);
 
 if (files.length === 0) {
   console.error(`Please provide a directory with example images.`);

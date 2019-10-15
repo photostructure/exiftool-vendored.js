@@ -1,5 +1,3 @@
-require("source-map-support").install()
-
 import { Logger, logger, setLogger } from "batch-cluster"
 import * as _fs from "fs"
 import * as globule from "globule"
@@ -13,6 +11,8 @@ import { map, Maybe, orElse } from "../Maybe"
 import { isNumber } from "../Number"
 import { nullish } from "../ReadTask"
 import { blank, isString, leftPad } from "../String"
+
+require("source-map-support").install()
 
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
@@ -67,13 +67,14 @@ const roots = argv.slice(2)
 if (roots.length === 0)
   throw new Error("USAGE: mktags <path to image directory>")
 
-const patternSuffix = "/**/*.+(3fr|avi|jpg|mov|mp4|cr2|cr3|nef|orf|raf|arw|rw2)"
+const pattern = "**/*.+(3fr|avi|jpg|mov|mp4|cr2|cr3|nef|orf|raf|arw|rw2)"
 
 const files = roots
   .map(root => {
-    const pattern = _path.resolve(root) + patternSuffix
     logger().info("Scanning " + pattern + "...")
-    return globule.find(pattern, { nocase: true, nodir: true })
+    return globule
+      .find(pattern, { srcBase: root, nocase: true, nodir: true })
+      .map(ea => _path.resolve(root + "/" + ea))
   })
   .reduce((prev, curr) => prev.concat(curr))
 
@@ -82,7 +83,7 @@ if (files.length === 0) {
   usage()
 }
 
-logger().info("Found " + files.length + " files...")
+logger().info("Found " + files.length + " files...", files.slice(0,7))
 
 function valueType(value: any): Maybe<string> {
   if (value == null) return
@@ -249,7 +250,8 @@ class Tag {
     if (this.tag.endsWith("Artist")) return exampleToS(["Ansel Adams"])
     if (this.tag.endsWith("Author")) return exampleToS(["Arturo DeImage"])
     if (this.tag.endsWith("Contact")) return exampleToS(["Dohncha Ringmanumba"])
-    if (this.tag.endsWith("Software")) return exampleToS(["<https://PhotoStructure.com/>"])
+    if (this.tag.endsWith("Software"))
+      return exampleToS(["<https://PhotoStructure.com/>"])
     if (this.tag.endsWith("Credit"))
       return exampleToS(["photo by Jenny McSnapsalot"])
     const byValueType = new Map<string, any[]>()
