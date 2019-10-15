@@ -64,7 +64,8 @@
 					<h1>exiftool-vendored</h1>
 				</a>
 				<p><strong>Fast, cross-platform <a href="https://nodejs.org/">Node.js</a> access to <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a>.</strong></p>
-				<p><a href="https://www.npmjs.com/package/exiftool-vendored"><img src="https://img.shields.io/npm/v/exiftool-vendored.svg" alt="npm version"></a>
+				<p><a href="https://github.com/users/mceachen/sponsorship"><svg xmlns="http://www.w3.org/2000/svg" width="118" height="20"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="118" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path fill="#555" d="M0 0h65v20H0z"/><path fill="#fe7d37" d="M65 0h53v20H65z"/><path fill="url(#b)" d="M0 0h118v20H0z"/></g><g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110"><text x="335" y="150" fill="#010101" fill-opacity=".3" textLength="550" transform="scale(.1)">Become a</text><text x="335" y="140" textLength="550" transform="scale(.1)">Become a</text><text x="905" y="150" fill="#010101" fill-opacity=".3" textLength="430" transform="scale(.1)">sponsor</text><text x="905" y="140" textLength="430" transform="scale(.1)">sponsor</text></g></svg></a>
+					<a href="https://www.npmjs.com/package/exiftool-vendored"><img src="https://img.shields.io/npm/v/exiftool-vendored.svg" alt="npm version"></a>
 					<a href="https://travis-ci.org/photostructure/exiftool-vendored.js"><img src="https://travis-ci.org/photostructure/exiftool-vendored.js.svg?branch=master" alt="Build status"></a>
 					<a href="https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master"><img src="https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true" alt="Build status"></a>
 					<a href="https://github.com/photostructure/exiftool-vendored.js/issues"><img src="https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg" alt="GitHub issues"></a>
@@ -141,11 +142,8 @@
 				less sensible) defaults.</p>
 				<p>Those defaults have been used to create the
 					<a href="https://exiftool-vendored.js.org/globals.html#exiftool"><code>exiftool</code></a> singleton.
-					Feel free to review the <a href="https://exiftool-vendored.js.org/classes/exiftool.html#constructor">ExifTool constructor
-					parameters</a>
-					and override default values where appropriate if the defaults wont&#39; work for
-					you, but you should use your singleton to minimize system load. Note that if you
-				<em>don&#39;t</em> use the default singleton, you don&#39;t need to <code>.end()</code> it.</p>
+					Note that if you <em>don&#39;t</em> use the default singleton, you don&#39;t need to <code>.end()</code>
+				it.</p>
 				<pre><code class="language-js"><span class="hljs-comment">// We're using the singleton here for convenience:</span>
 <span class="hljs-keyword">const</span> exiftool = <span class="hljs-built_in">require</span>(<span class="hljs-string">"exiftool-vendored"</span>).exiftool
 
@@ -153,6 +151,13 @@
 exiftool
   .version()
   .then(<span class="hljs-function"><span class="hljs-params">version</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`We're running ExifTool v<span class="hljs-subst">${version}</span>`</span>))</code></pre>
+				<p>If the default <a href="https://exiftool-vendored.js.org/classes/exiftool.html#constructor">ExifTool constructor
+					parameters</a>
+				wont&#39; work for you, it&#39;s just a class that takes an options hash:</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> ExifTool = <span class="hljs-built_in">require</span>(<span class="hljs-string">"exiftool-vendored"</span>).ExifTool
+<span class="hljs-keyword">const</span> exiftool = <span class="hljs-keyword">new</span> ExifTool({ <span class="hljs-attr">taskTimeoutMillis</span>: <span class="hljs-number">5000</span> })</code></pre>
+				<p>You should only use the exported default <code>exiftool</code> singleton, or only create one instance of <code>ExifTool</code> as a singleton.</p>
+				<p>Remember to <code>.end()</code> whichever singleton you use.</p>
 				<a href="#general-api" id="general-api" style="color: inherit; text-decoration: none;">
 					<h3>General API</h3>
 				</a>

@@ -2,6 +2,7 @@
 
 **Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
 
+<a href="https://github.com/users/mceachen/sponsorship"><svg xmlns="http://www.w3.org/2000/svg" width="118" height="20"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="118" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path fill="#555" d="M0 0h65v20H0z"/><path fill="#fe7d37" d="M65 0h53v20H65z"/><path fill="url(#b)" d="M0 0h118v20H0z"/></g><g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110"><text x="335" y="150" fill="#010101" fill-opacity=".3" textLength="550" transform="scale(.1)">Become a</text><text x="335" y="140" textLength="550" transform="scale(.1)">Become a</text><text x="905" y="150" fill="#010101" fill-opacity=".3" textLength="430" transform="scale(.1)">sponsor</text><text x="905" y="140" textLength="430" transform="scale(.1)">sponsor</text></g></svg></a>
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
 [![Build status](https://travis-ci.org/photostructure/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/photostructure/exiftool-vendored.js)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
