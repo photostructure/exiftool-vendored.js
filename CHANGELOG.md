@@ -24,6 +24,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v9.0.0-alpha.1
+
+- 📦 This version is using the new Windows packaging of ExifTool written by
+  [Oliver Betz](https://oliverbetz.de/pages/Artikel/ExifTool-for-Windows), and
+  is why I bumped the major version (as there may be issues with the new
+  packaging).
+- 🌱 ExifTool upgraded to
+  [v11.71](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.71)
+
 ### v8.22.0
 
 - ✨ Added `ExifDateTime.hasZone`
