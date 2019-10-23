@@ -28,10 +28,10 @@
     "prep:0": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git add . ; git stash) ; done'",
     "prep:1": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git pull) ; done'",
     "prep:2": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; salita -u) ; done'",
-    "prep:3": "bash -c 'rm -rf ../exiftool-vendored*/node_modules ../exiftool-vendored*/yarn.lock'",
+    "prep:3": "bash -c 'rm -rf ../exiftool-vendored./node_modules ../exiftool-vendored*/yarn.lock'",
     "prep:4": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; yarn install) ; done'",
     "prep": "run-s prep:*",
-    "update:0": "bash -c '(cd ../exiftool-vendored.pl ; ./update.sh)'",
+    "update:0": "bash -c '(cd ../exiftool-vendored.pl ; rm -rf node_modules yarn.lock ; salita -u ; yarn ; ./update.sh)'",
     "update:1": "bash -c '(cd ../exiftool-vendored.exe ; ./update.sh)'",
     "update:2": "echo 'now git commit and np, then salita here.'",
     "update": "run-s update:*"
@@ -70,13 +70,13 @@
     ]
   },
   "devDependencies": {
-    "@types/chai": "^4.2.3",
+    "@types/chai": "^4.2.4",
     "@types/chai-as-promised": "^7.1.2",
     "@types/fs-extra": "^8.0.1",
     "@types/globule": "^1.1.3",
     "@types/luxon": "^1.15.2",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.11.2",
+    "@types/node": "^12.11.5",
     "@types/progress": "^2.0.3",
     "@types/rimraf": "^2.0.2",
     "@types/tar-fs": "^1.16.1",
@@ -108,7 +108,7 @@
     "tz-lookup": "^6.1.24"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "11.71.0",
-    "exiftool-vendored.pl": "11.71.0"
+    "exiftool-vendored.exe": "11.73.0",
+    "exiftool-vendored.pl": "11.73.0"
   }
 }

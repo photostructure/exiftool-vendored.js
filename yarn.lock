@@ -25,10 +25,10 @@
   dependencies:
     "@types/chai" "*"
 
-"@types/chai@*", "@types/chai@^4.2.3":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.3.tgz#419477a3d5202bad19e14c787940a61dc9ea6407"
-  integrity sha512-VRw2xEGbll3ZiTQ4J02/hUjNqZoue1bMhoo2dgM2LXjDdyaq4q80HgBDHwpI0/VKlo4Eg+BavyQMv/NYgTetzA==
+"@types/chai@*", "@types/chai@^4.2.4":
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.4.tgz#8936cffad3c96ec470a2dc26a38c3ba8b9b6f619"
+  integrity sha512-7qvf9F9tMTzo0akeswHPGqgUx/gIaJqrOEET/FCD8CFRkSUHlygQiM5yB6OvjrtdxBVLSyw7COJubsFYs0683g==
 
 "@types/events@*":
   version "3.0.0"
@@ -74,10 +74,10 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.7.tgz#315d570ccb56c53452ff8638738df60726d5b6ea"
   integrity sha512-NYrtPht0wGzhwe9+/idPaBB+TqkY9AhTvOLMkThm0IoEfLaiVQZwBwyJ5puCkO3AUCWrmcoePjp2mbFocKy4SQ==
 
-"@types/node@*", "@types/node@^12.11.2":
-  version "12.11.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.11.2.tgz#75ba3beda30d690b89a5089ca1c6e8e386150b76"
-  integrity sha512-dsfE4BHJkLQW+reOS6b17xhZ/6FB1rB8eRRvO08nn5o+voxf3i74tuyFWNH6djdfgX7Sm5s6LD8t6mJug4dpDw==
+"@types/node@*", "@types/node@^12.11.5":
+  version "12.11.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.11.5.tgz#6c3c8dc84988aff11fd2a63d7b5fbf39eaaab7b1"
+  integrity sha512-LC8ALj/24PhByn39nr5jnTvpE7MujK8y7LQmV74kHYF5iQ0odCPkMH4IZNZw+cobKfSXqaC8GgegcbIsQpffdA==
 
 "@types/progress@^2.0.3":
   version "2.0.3"
@@ -544,15 +544,15 @@ execa@^0.8.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@11.71.0:
-  version "11.71.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.71.0.tgz#d95eedbb58ce61aa43a7fe151114d056eb33a0aa"
-  integrity sha512-XrVIvBF1IxP9uOMiBNsti7pRvE95mvxrooZPHaXwD2xkJu8uLYwp2aN3/xuR3/AYdfWvY8BMJ/GokTvkvYFGCQ==
+exiftool-vendored.exe@11.73.0:
+  version "11.73.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.73.0.tgz#5f16806d6b76da42be949769b371d0ab6b5c17bd"
+  integrity sha512-900Ps45111nR1eEH8VzCYh5CmLSxabYOmW6hyw5HzM5y0Cj2ppArRtfCqRhGlLs/ubl5h699YllpeGlImMGuZg==
 
-exiftool-vendored.pl@11.71.0:
-  version "11.71.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.71.0.tgz#401b9766b6581c549f1cbae094d53e3ea540c26d"
-  integrity sha512-rOdJURWi6Vb9pS8iSOOA+Z1qsWpkWo6mTTpeoVJJYBVTBpJU87JsFbD5vm6LyktCsFlYMhys41PpQ+Y4or7UhA==
+exiftool-vendored.pl@11.73.0:
+  version "11.73.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.73.0.tgz#49ab1855f5fbe3ca1ad0137959c0bc38d4fd18a8"
+  integrity sha512-7LCWp7Eff1UGyiKmGt3xMCU9GxNANXzzQrdFDaZ/tMWxEoB4wSpc4SWHC54WLdnRlU9kxg9m77icX8rCf5r6Rg==
 
 extract-zip@^1.6.7:
   version "1.6.7"
@@ -878,9 +878,9 @@ lru-cache@^4.0.1:
     yallist "^2.1.2"
 
 lunr@^2.3.6:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.7.tgz#05ccf3af9d0e169b8f432c97e02fc1bdf3f36343"
-  integrity sha512-HjFSiy0Y0qZoW5OA1I6qBi7OnsDdqQnaUr03jhorh30maQoaP+4lQCKklYE3Nq3WJMSUfuBl6N+bKY5wxCb9hw==
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.8.tgz#a8b89c31f30b5a044b97d2d28e2da191b6ba2072"
+  integrity sha512-oxMeX/Y35PNFuZoHp+jUj5OSEmLCaIH4KTFJh7a93cHBoFmpw2IoPs22VIz7vyO2YUnx2Tn9dzIwO2P/4quIRg==
 
 luxon@^1.19.3:
   version "1.19.3"
@@ -1670,9 +1670,9 @@ tz-lookup@^6.1.24:
   integrity sha512-HdNjpzDk9nXTbHMGTzN7Dr0sueSudjOhYjMCKkXCUMZyrYMgERPcoRpZSAhzTv30vQMvMe/Z5fYOu95xWt6nLA==
 
 uglify-js@^3.1.4:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.6.3.tgz#1351533bbe22cc698f012589ed6bd4cbd971bff8"
-  integrity sha512-KfQUgOqTkLp2aZxrMbCuKCDGW9slFYu2A23A36Gs7sGzTLcRBDORdOi5E21KWHFIfkY8kzgi/Pr1cXCh0yIp5g==
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.6.4.tgz#88cc880c6ed5cf9868fdfa0760654e7bed463f1d"
+  integrity sha512-9Yc2i881pF4BPGhjteCXQNaXx1DCwm3dtOyBaG2hitHjLWOczw/ki8vD1bqyT3u6K0Ms/FpCShkmfg+FtlOfYA==
   dependencies:
     commander "~2.20.3"
     source-map "~0.6.1"
