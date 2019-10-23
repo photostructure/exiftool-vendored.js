@@ -12,8 +12,6 @@
     "clean": "rimraf lib dist coverage .nyc_output",
     "precompile": "yarn clean",
     "compile": "tsc",
-    "preupdate": "yarn compile",
-    "update": "node dist/update/update.js",
     "premktags": "yarn compile",
     "mktags": "node dist/update/mktags.js",
     "tslint": "tslint -p . src/*.ts src/**/*.ts",
@@ -26,13 +24,17 @@
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
     "docs:5": "yarn serve docs",
-    "docs": "bash -c 'for i in {1..5} ; do yarn docs:$i ; done'",
+    "docs": "run-s docs:*",
     "prep:0": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git add . ; git stash) ; done'",
     "prep:1": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git pull) ; done'",
     "prep:2": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; salita -u) ; done'",
     "prep:3": "bash -c 'rm -rf ../exiftool-vendored*/node_modules ../exiftool-vendored*/yarn.lock'",
     "prep:4": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; yarn install) ; done'",
-    "prep": "bash -c 'for i in {0..4} ; do yarn prep:$i ; done'"
+    "prep": "run-s prep:*",
+    "update:0": "bash -c '(cd ../exiftool-vendored.pl ; ./update.sh)'",
+    "update:1": "bash -c '(cd ../exiftool-vendored.exe ; ./update.sh)'",
+    "update:2": "echo 'now git commit and np, then salita here.'",
+    "update": "run-s update:*"
   },
   "publishConfig": {
     "access": "public"
