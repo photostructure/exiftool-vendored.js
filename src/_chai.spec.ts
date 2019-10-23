@@ -1,4 +1,5 @@
-import { Logger, setLogger } from "batch-cluster"
+import { Deferred, Logger, setLogger } from "batch-cluster"
+import { createHash } from "crypto"
 import * as fse from "fs-extra"
 import { tmpdir } from "os"
 import { join } from "path"
@@ -52,4 +53,14 @@ export async function testFile(name: string = "img.XMP"): Promise<string> {
   const dir = tmpname()
   await fse.mkdirp(dir)
   return join(dir, name)
+}
+
+export function sha1(path: string) {
+  const d = new Deferred<string>()
+  const readStream = fse.createReadStream(path, { autoClose: true })
+  const sha = createHash("sha1")
+  readStream.on("data", ea => sha.update(ea))
+  readStream.on("error", err => d.reject(err))
+  readStream.on("end", () => d.resolve(sha.digest().toString("hex")))
+  return d.promise
 }
