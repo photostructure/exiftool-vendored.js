@@ -375,14 +375,6 @@ Parsing took 85654ms (28.4ms / file) # ubuntu, core i3
 
 ### Batch mode
 
-Starting the perl version of ExifTool is expensive, and is _especially_
-expensive on the Windows version of ExifTool.
-
-On Windows, for **every invocation**, `exiftool` _installs a distribution of
-Perl **and** extracts the ~1000 files that make up ExifTool_, and **then** runs
-the perl script. Windows virus scanners prevent reads on these files while they
-are scanned, which makes this approach even more costly.
-
 Using ExifTool's `-stay_open` batch mode means we can reuse a single
 instance of ExifTool across many requests, dropping response latency
 dramatically as well as reducing system load.
