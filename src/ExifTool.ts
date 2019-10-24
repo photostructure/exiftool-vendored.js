@@ -442,7 +442,7 @@ export class ExifTool {
    * scripts for them to exit cleanly.
    */
   end(gracefully: boolean = true): Promise<void> {
-    return this.batchCluster.end(gracefully)
+    return this.batchCluster.end(gracefully).promise
   }
 
   /**

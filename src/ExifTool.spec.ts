@@ -34,11 +34,14 @@ describe("ExifTool", function() {
   function expectedExiftoolVersion(flavor: "exe" | "pl" = "pl"): string {
     const vendorVersion =
       packageJson.optionalDependencies["exiftool-vendored." + flavor]
-    // Frakkin semver, which is pissy about 0-padded version numbers (srsly,
-    // it's ok) and exiftool (which bumps the major version because minor hit 99
-    // and you've got to maintain ascibetical sort order so...)
-    // </rant>
+    // Everyone's a monster here:
+    // * semver is pissy about 0-padded version numbers (srsly, it's ok)
+    // * exiftool bumps the major version because minor hit 99</rant>
+
+    // vendorVersion might have a ^ or ~ or something else as a prefix, so get
+    // rid of that:
     return vendorVersion
+      .replace(/^[^\.0-9]+/, "")
       .split(".")
       .slice(0, 2)
       .join(".")

@@ -83,7 +83,7 @@ if (files.length === 0) {
   usage()
 }
 
-logger().info("Found " + files.length + " files...", files.slice(0,7))
+logger().info("Found " + files.length + " files...", files.slice(0, 7))
 
 function valueType(value: any): Maybe<string> {
   if (value == null) return
