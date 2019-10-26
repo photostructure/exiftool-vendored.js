@@ -108,6 +108,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exiftool.html#deletealltags" class="tsd-kind-icon">delete<wbr>All<wbr>Tags</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exiftool.html#end" class="tsd-kind-icon">end</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="exiftool.html#enqueuetask" class="tsd-kind-icon">enqueue<wbr>Task</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exiftool.html#extractbinarytag" class="tsd-kind-icon">extract<wbr>Binary<wbr>Tag</a></li>
@@ -176,7 +177,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L493">ExifTool.ts:493</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L503">ExifTool.ts:503</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,7 +197,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L451">ExifTool.ts:451</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L461">ExifTool.ts:461</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -216,7 +217,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L479">ExifTool.ts:479</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L489">ExifTool.ts:489</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -236,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L472">ExifTool.ts:472</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L482">ExifTool.ts:482</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L486">ExifTool.ts:486</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L496">ExifTool.ts:496</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -273,6 +274,37 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletealltags" class="tsd-anchor"></a>
+					<h3>delete<wbr>All<wbr>Tags</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>All<wbr>Tags<span class="tsd-signature-symbol">(</span>file<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L363">ExifTool.ts:363</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This will strip <code>file</code> of all metadata tags. The original file (with the
+										name <code>${FILENAME}_original</code>) will be retained. Note that some tags, like
+										stat information and image dimensions, are intrinsic to the file and will
+									continue to exist if you re-<code>read</code> the file.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>file: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="end" class="tsd-anchor"></a>
 					<h3>end</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -282,7 +314,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L444">ExifTool.ts:444</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L454">ExifTool.ts:454</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -313,7 +345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L459">ExifTool.ts:459</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L469">ExifTool.ts:469</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -360,7 +392,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L405">ExifTool.ts:405</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L415">ExifTool.ts:415</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -397,7 +429,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L394">ExifTool.ts:394</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L404">ExifTool.ts:404</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -433,7 +465,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L380">ExifTool.ts:380</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L390">ExifTool.ts:390</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -469,7 +501,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L366">ExifTool.ts:366</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L376">ExifTool.ts:376</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -630,7 +662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L427">ExifTool.ts:427</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTool.ts#L437">ExifTool.ts:437</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -781,6 +813,9 @@
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="exiftool.html#spawnedprocs" class="tsd-kind-icon">spawned<wbr>Procs</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="exiftool.html#deletealltags" class="tsd-kind-icon">delete<wbr>All<wbr>Tags</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="exiftool.html#end" class="tsd-kind-icon">end</a>

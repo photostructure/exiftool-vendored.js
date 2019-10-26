@@ -365,12 +365,6 @@ Parsing took 85654ms (28.4ms / file) <span class="hljs-comment"># ubuntu, core i
 				<a href="#batch-mode" id="batch-mode" style="color: inherit; text-decoration: none;">
 					<h3>Batch mode</h3>
 				</a>
-				<p>Starting the perl version of ExifTool is expensive, and is <em>especially</em>
-				expensive on the Windows version of ExifTool.</p>
-				<p>On Windows, for <strong>every invocation</strong>, <code>exiftool</code> <em>installs a distribution of
-					Perl <strong>and</strong> extracts the ~1000 files that make up ExifTool</em>, and <strong>then</strong> runs
-					the perl script. Windows virus scanners prevent reads on these files while they
-				are scanned, which makes this approach even more costly.</p>
 				<p>Using ExifTool&#39;s <code>-stay_open</code> batch mode means we can reuse a single
 					instance of ExifTool across many requests, dropping response latency
 				dramatically as well as reducing system load.</p>

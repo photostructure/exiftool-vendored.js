@@ -6,6 +6,7 @@ import { expect, testImg } from "./_chai.spec"
 import { times } from "./Array"
 import { ExifDateTime } from "./ExifDateTime"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
+import { keys } from "./Object"
 import { Tags } from "./Tags"
 
 function normalize(tagNames: string[]): string[] {
@@ -315,6 +316,60 @@ describe("ExifTool", function() {
             "2016:08:12 13:28:50"
           )
         )
+      })
+
+      it("deleteAllTags() removes all metadata tags", async () => {
+        const f = await testImg()
+        const before = await et.read(f)
+        // This is just a sample of additional tags that are expected to be removed:
+        const expectedBeforeTags = [
+          "ApertureValue",
+          "DateCreated",
+          "DateTimeOriginal",
+          "Flash",
+          "GPSAltitude",
+          "GPSLatitude",
+          "GPSLongitude",
+          "GPSTimeStamp",
+          "LensInfo",
+          "Make",
+          "Model",
+          "ShutterSpeedValue",
+          "TimeCreated",
+          "XPKeywords"
+        ].sort()
+
+        // These are intrinsic fields that are expected to remain:
+        const expectedAfterTags = [
+          "BitsPerSample",
+          "ColorComponents",
+          "Directory",
+          "EncodingProcess",
+          "errors",
+          "ExifToolVersion",
+          "FileAccessDate",
+          "FileInodeChangeDate",
+          "FileModifyDate",
+          "FileName",
+          "FilePermissions",
+          "FileSize",
+          "FileType",
+          "FileTypeExtension",
+          "ImageHeight",
+          "ImageSize",
+          "ImageWidth",
+          "Megapixels",
+          "MIMEType",
+          "SourceFile",
+          "YCbCrSubSampling"
+        ].sort()
+        const beforeKeys = keys(before)
+        expectedBeforeTags.forEach(ea => expect(beforeKeys).to.include(ea))
+        expectedAfterTags.forEach(ea => expect(beforeKeys).to.include(ea))
+        await et.deleteAllTags(f)
+        const after = await et.read(f)
+        const afterKeys = keys(after).sort()
+        expect(afterKeys).to.eql(expectedAfterTags)
       })
     })
   }

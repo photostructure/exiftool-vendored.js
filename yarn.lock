@@ -18,6 +18,13 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@types/chai-arrays@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/chai-arrays/-/chai-arrays-1.0.3.tgz#2318c8ceb39044606d60b7347a6e9746def467cf"
+  integrity sha512-phRR7fP3qQSGyElel6MOObDE4BQvPZXPjZypgSZ7PvNZlKVK/LgChhpnsH3z/m/yGavXh7Qwa2Ih4/BYP3ynmg==
+  dependencies:
+    "@types/chai" "*"
+
 "@types/chai-as-promised@^7.1.2":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@types/chai-as-promised/-/chai-as-promised-7.1.2.tgz#2f564420e81eaf8650169e5a3a6b93e096e5068b"
@@ -264,6 +271,11 @@ camelcase@^5.0.0:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
+
+chai-arrays@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/chai-arrays/-/chai-arrays-2.0.0.tgz#d95820d1b39dc2e4abaa01f984b7f9123986a7cc"
+  integrity sha512-jWAvZu1BV8tL3pj0iosBECzzHEg+XB1zSnMjJGX83bGi/1GlGdDO7J/A0sbBBS6KJT0FVqZIzZW9C6WLiMkHpQ==
 
 chai-as-promised@^7.1.1:
   version "7.1.1"

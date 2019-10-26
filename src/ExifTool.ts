@@ -355,6 +355,16 @@ export class ExifTool {
   }
 
   /**
+   * This will strip `file` of all metadata tags. The original file (with the
+   * name `${FILENAME}_original`) will be retained. Note that some tags, like
+   * stat information and image dimensions, are intrinsic to the file and will
+   * continue to exist if you re-`read` the file.
+   */
+  deleteAllTags(file: string): Promise<void> {
+    return this.write(file, {}, ["-all="])
+  }
+
+  /**
    * Extract the low-resolution thumbnail in `path/to/image.jpg`
    * and write it to `path/to/thumbnail.jpg`.
    *

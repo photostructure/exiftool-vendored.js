@@ -24,6 +24,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v9.1.0
+
+- ✨ Aded `ExifTool.deleteAllTags`.
+
 ### v9.0.0
 
 - 📦 This version is using the new Windows packaging of ExifTool written by
