@@ -9,7 +9,6 @@ import { orElse } from "./Maybe"
 
 const chai = require("chai")
 chai.use(require("chai-as-promised"))
-chai.use(require("chai-arrays"))
 
 // Tests should be quiet unless LOG is set
 setLogger(

@@ -337,7 +337,7 @@ describe("ExifTool", function() {
           "ShutterSpeedValue",
           "TimeCreated",
           "XPKeywords"
-        ].sort()
+        ]
 
         // These are intrinsic fields that are expected to remain:
         const expectedAfterTags = [
@@ -348,7 +348,6 @@ describe("ExifTool", function() {
           "errors",
           "ExifToolVersion",
           "FileAccessDate",
-          "FileInodeChangeDate",
           "FileModifyDate",
           "FileName",
           "FilePermissions",
@@ -362,14 +361,18 @@ describe("ExifTool", function() {
           "MIMEType",
           "SourceFile",
           "YCbCrSubSampling"
-        ].sort()
-        const beforeKeys = keys(before)
-        expectedBeforeTags.forEach(ea => expect(beforeKeys).to.include(ea))
-        expectedAfterTags.forEach(ea => expect(beforeKeys).to.include(ea))
+        ]
+        {
+          const beforeKeys = keys(before)
+          ;[...expectedBeforeTags, ...expectedAfterTags].forEach(ea =>
+            expect(beforeKeys).to.include(ea)
+          )
+        }
         await et.deleteAllTags(f)
         const after = await et.read(f)
         const afterKeys = keys(after).sort()
-        expect(afterKeys).to.eql(expectedAfterTags)
+        expectedBeforeTags.forEach(ea => expect(afterKeys).to.not.include(ea))
+        expectedAfterTags.forEach(ea => expect(afterKeys).to.include(ea))
       })
     })
   }
