@@ -121,29 +121,34 @@ describe("ExifTool", function() {
       })
 
       it("omits OriginalImage{Width,Height} by default", async () => {
-        const tags = await et.read(img2)
-        expect(tags.Keywords).to.eql("jambalaya")
-        expect(tags.ImageHeight).to.eql(8)
-        expect(tags.ImageWidth).to.eql(8)
-        expect(tags.OriginalImageHeight).to.eql(undefined)
-        expect(tags.OriginalImageWidth).to.eql(undefined)
-        return
+        return expect(await et.read(img2)).to.containSubset({
+          Keywords: "jambalaya",
+          ImageHeight: 8,
+          ImageWidth: 8,
+          OriginalImageHeight: undefined,
+          OriginalImageWidth: undefined
+        })
       })
 
       it("extracts OriginalImage{Width,Height} if [] is provided to override the -fast option", async () => {
-        const tags = await et.read(img2, [])
-        expect(tags.Keywords).to.eql("jambalaya")
-        expect(tags.ImageHeight).to.eql(8)
-        expect(tags.ImageWidth).to.eql(8)
-        expect(tags.OriginalImageHeight).to.eql(16)
-        expect(tags.OriginalImageWidth).to.eql(16)
-        return
+        return expect(await et.read(img2, [])).to.containSubset({
+          Keywords: "jambalaya",
+          ImageHeight: 8,
+          ImageWidth: 8,
+          OriginalImageHeight: 16,
+          OriginalImageWidth: 16
+        })
       })
 
-      it("returns warning for a truncated file", () => {
-        return expect(
-          et.read(truncated).then(tags => tags.Warning)
-        ).to.eventually.eql("JPEG format error")
+      it("returns warning for a truncated file", async () => {
+        return expect(await et.read(truncated)).to.containSubset({
+          FileName: "truncated.jpg",
+          FileSize: "1000 bytes",
+          FileType: "JPEG",
+          FileTypeExtension: "jpg",
+          MIMEType: "image/jpeg",
+          Warning: "JPEG format error"
+        })
       })
 
       it("returns no exif metadata for an image with no headers", () => {
@@ -181,10 +186,14 @@ describe("ExifTool", function() {
         )
       })
 
-      it("sets Error for unsupported file types", async () => {
-        return expect((await et.read(__filename)).Error).to.match(
-          /Unknown file type/i
-        )
+      it("works with text files", async () => {
+        return expect(await et.read(__filename)).to.containSubset({
+          FileType: "TXT",
+          FileTypeExtension: "txt",
+          MIMEType: "text/plain",
+          MIMEEncoding: "us-ascii",
+          errors: []
+        })
       })
 
       function assertReasonableTags(tags: Tags[]): void {

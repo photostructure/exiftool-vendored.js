@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v9.2.0
+
+- 🌱 ExifTool upgraded to
+  [v11.75](https://www.sno.phy.queensu.ca/~phil/exiftool/history.html#v11.75)
+- 📦 Updated dependencies, including TypeScript 2.7
+
 ### v9.1.0
 
 - ✨ Aded `ExifTool.deleteAllTags`.
