@@ -1047,9 +1047,9 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: 2019-11-14T10:59:39.000-08:00 */
+  /** ★★★★ ✔ Example: 2019-11-14T11:07:32.000-08:00 */
   FileAccessDate?: ExifDateTime
-  /** ★★★★ ✔ Example: 2019-11-14T10:58:18.000-08:00 */
+  /** ★★★★ ✔ Example: 2019-11-14T11:07:04.000-08:00 */
   FileInodeChangeDate?: ExifDateTime
   /** ★★★★ ✔ Example: 2019-11-13T19:01:58.000-08:00 */
   FileModifyDate?: ExifDateTime
