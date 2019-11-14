@@ -191,7 +191,8 @@ describe("ExifTool", function() {
           FileType: "TXT",
           FileTypeExtension: "txt",
           MIMEType: "text/plain",
-          MIMEEncoding: "us-ascii",
+          // may be utf-8 or us-ascii, but we don't really care.
+          // MIMEEncoding: "us-ascii",
           errors: []
         })
       })
