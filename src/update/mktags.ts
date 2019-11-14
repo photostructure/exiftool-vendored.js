@@ -455,25 +455,27 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     const groupedTags = tagMap.groupedTags
     const tagGroups: string[] = []
     const seenTagNames = new Set<string>()
-    Array.from(groupedTags.entries()).forEach(([group, tagsForGroup]) => {
-      const filteredTags = tagsForGroup
-        .sort((a, b) => cmp(a.tag, b.tag))
-        // First group with a tag name wins. Other group's colliding tag names
-        // are omitted:
-        .filter(tag => !seenTagNames.has(tag.withoutGroup))
-      if (filteredTags.length > 0) {
-        tagGroups.push(group)
-        tagWriter.write(`\nexport interface ${group}Tags {\n`)
-        filteredTags.forEach(tag => {
-          tagWriter.write(
-            `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
-          )
-          tagWriter.write(`  ${tag.withoutGroup}?: ${tag.valueType}\n`)
-          seenTagNames.add(tag.withoutGroup)
-        })
-        tagWriter.write(`}\n`)
-      }
-    })
+    Array.from(groupedTags.entries())
+      .sort()
+      .forEach(([group, tagsForGroup]) => {
+        const filteredTags = tagsForGroup
+          .sort((a, b) => cmp(a.tag, b.tag))
+          // First group with a tag name wins. Other group's colliding tag names
+          // are omitted:
+          .filter(tag => !seenTagNames.has(tag.withoutGroup))
+        if (filteredTags.length > 0) {
+          tagGroups.push(group)
+          tagWriter.write(`\nexport interface ${group}Tags {\n`)
+          filteredTags.forEach(tag => {
+            tagWriter.write(
+              `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
+            )
+            tagWriter.write(`  ${tag.withoutGroup}?: ${tag.valueType}\n`)
+            seenTagNames.add(tag.withoutGroup)
+          })
+          tagWriter.write(`}\n`)
+        }
+      })
     const interfaceNames = [
       ...tagGroups.map(s => s + "Tags"),
       "ApplicationRecordTags"
@@ -491,7 +493,8 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
         "  tz?: string",
         "  /** Description of where and how `tz` was extracted */",
         "  tzSource?: string",
-        "}"
+        "}",
+        ""
       ].join("\n")
     )
     tagWriter.end()
