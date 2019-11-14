@@ -13,7 +13,10 @@ describe("Timezones", () => {
         src: "offsetMinutesToZoneName"
       }
     }
-    const arr = [{ s: "7", exp: "UTC+07" }, { s: "3:30", exp: "UTC+03:30" }]
+    const arr = [
+      { s: "7", exp: "UTC+07" },
+      { s: "3:30", exp: "UTC+03:30" }
+    ]
     const ex = [
       { tz: "", exp: undefined },
       { tz: "garbage", exp: undefined },

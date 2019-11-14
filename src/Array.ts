@@ -27,11 +27,8 @@ export function filterInPlace<T>(arr: T[], filter: (t: T) => boolean): T[] {
 }
 
 export function uniq<T>(arr: T[]): T[] {
-  return arr.reduce(
-    (acc, ea) => {
-      if (acc.indexOf(ea) === -1) acc.push(ea)
-      return acc
-    },
-    [] as T[]
-  )
+  return arr.reduce((acc, ea) => {
+    if (acc.indexOf(ea) === -1) acc.push(ea)
+    return acc
+  }, [] as T[])
 }
