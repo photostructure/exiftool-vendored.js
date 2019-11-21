@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v9.3.1
+
+- 📦 Updated dependencies. New batch-cluster shouldn't throw errors within async
+  blocks anymore.
+
 ### v9.3.0
 
 - ✨ Rebuilt `Tags` from 8008 example images and videos. New tags were found, but

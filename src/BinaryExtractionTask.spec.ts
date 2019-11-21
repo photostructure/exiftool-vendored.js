@@ -1,6 +1,7 @@
+import { fail } from "assert"
 import { join } from "path"
 
-import { expect, tmpname, sha1 } from "./_chai.spec"
+import { expect, sha1, tmpname } from "./_chai.spec"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifTool } from "./ExifTool"
 
@@ -20,9 +21,11 @@ describe("BinaryExtractionTask", () => {
     it("extracts the expected error message", () => {
       expect(() =>
         sut.parse(
-          `Error creating /etc/test.jpg
-            1 files could not be read
-            0 output files created`
+          [
+            "Error creating /etc/test.jpg",
+            "1 files could not be read",
+            "0 output files created"
+          ].join("\n")
         )
       ).to.throw(/Error creating \/etc\/test.jpg/)
     })
@@ -35,5 +38,17 @@ describe("BinaryExtractionTask", () => {
     await exiftool.extractThumbnail(src, dest)
     // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
     expect(await sha1(dest)).to.eql("c7c14706fce4038f6a9da96e213768756a4b2ad2")
+  })
+
+  it("throws for missing thumb", async function() {
+    this.slow(500)
+    const src = join(testDir, "with_thumb.jpg")
+    const dest = await tmpname()
+    try {
+      await exiftool.extractJpgFromRaw(src, dest)
+      fail("expected error to be thrown")
+    } catch (err) {
+      expect(String(err)).to.match(/Error: 0 output files created/i)
+    }
   })
 })
