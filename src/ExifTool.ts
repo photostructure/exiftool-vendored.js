@@ -63,7 +63,7 @@ const _ignoreShebang = lazy(
 )
 
 /**
- * @see https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html
+ * @see https://exiftool.org/TagNames/Shortcuts.html
  */
 export interface ShortcutTags {
   /**
@@ -296,7 +296,7 @@ export class ExifTool {
    * "-fast2". **Most other arguments will require you to use `readRaw`.**
    * Note that the default is "-fast", so if you want ExifTool to read the
    * entire file for metadata, you should pass an empty array as the second
-   * parameter. See https://sno.phy.queensu.ca/~phil/exiftool/#performance for
+   * parameter. See https://exiftool.org/#performance for
    * more information about `-fast` and `-fast2`.
    * @returns {Promise<Tags>} A resolved Tags promise. If there are errors
    * during reading, the `.errors` field will be present.
@@ -425,7 +425,7 @@ export class ExifTool {
    * This should only be applied as a last resort to images whose metadata is
    * not readable via {@link .read()}.
    *
-   * @see http://owl.phy.queensu.ca/~phil/exiftool/faq.html#Q20
+   * @see https://exiftool.org/faq.html#Q20
    *
    * @param {string} inputFile the path to the problematic image
    * @param {string} outputFile the path to write the repaired image

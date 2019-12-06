@@ -1,6 +1,6 @@
 # exiftool-vendored
 
-**Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](http://www.sno.phy.queensu.ca/~phil/exiftool/).**
+**Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](https://exiftool.org/).**
 
 [![Become a sponsor](https://img.shields.io/badge/Become%20a-sponsor-orange)](https://github.com/users/mceachen/sponsorship)
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)

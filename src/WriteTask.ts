@@ -12,7 +12,7 @@ import { isStruct } from "./Struct"
 const successRE = /1 image files? (?:created|updated)/
 const sep = String.fromCharCode(31) // unit separator
 
-// See https://sno.phy.queensu.ca/%7Ephil/exiftool/faq.html#Q10
+// See https://exiftool.org/faq.html#Q10
 // (`-charset utf8` is set by default)
 const utfCharsetArgs = [
   "-charset",
@@ -20,7 +20,7 @@ const utfCharsetArgs = [
   "-codedcharacterset=utf8",
   `-sep`,
   `${sep}`,
-  "-E" // < html encoding https://sno.phy.queensu.ca/~phil/exiftool/faq.html#Q10
+  "-E" // < html encoding https://exiftool.org/faq.html#Q10
 ]
 
 function enc(o: any): Maybe<string> {
