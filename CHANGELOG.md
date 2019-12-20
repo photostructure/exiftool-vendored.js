@@ -24,10 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v9.5.0
+
+- 🌱 ExifTool upgraded to [v11.80](https://exiftool.org/history.html#v11.80)
+
 ### v9.4.0
 
-- 🌱 ExifTool upgraded to
-  [v11.78](https://exiftool.org/history.html#v11.78)
+- 🌱 ExifTool upgraded to [v11.78](https://exiftool.org/history.html#v11.78)
 - 📦 Updated ExifTool's homepage from
   <https://www.sno.phy.queensu.ca/~phil/exiftool/> to <https://exiftool.org>.
 - 📦 Updated dependencies. New batch-cluster doesn't propagate errors from ended
