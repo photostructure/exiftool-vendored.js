@@ -115,7 +115,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v8.17.0
 
 - ✨ Automagick workaround for AWS Lambda. See [the new `ignoreShebang`
-  option](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html#ignoreshebang),
+  option](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html#ignoreshebang),
   which should automatically be set to `true` on non-Windows platforms that
   don't have `/usr/bin/perl` installed. [See
   #53](https://github.com/photostructure/exiftool-vendored.js/issues/53).
@@ -218,7 +218,7 @@ vendored versions of ExifTool match the version they vendor.
 - 🌱 ExifTool upgraded to
   [v11.32](https://exiftool.org/history.html#v11.32).
 - 🐞 Pulled in new [batch-cluster
-  5.6.0](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md),
+  5.6.0](https://github.com/photostructure/batch-cluster.js/blob/master/CHANGELOG.md),
   which fixed an issue with graceful `end` promise resolutions.
 
 ### v8.5.0
@@ -227,13 +227,13 @@ vendored versions of ExifTool match the version they vendor.
   [v11.31](https://exiftool.org/history.html#v11.31).
 - 🐞 `RewriteAllTagsTask` doesn't fail on warnings anymore
 - ✨ Pulled in new [batch-cluster
-  5.4.0](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md),
+  5.4.0](https://github.com/photostructure/batch-cluster.js/blob/master/CHANGELOG.md),
   which fixed `maxProcs`.
 
 ### v8.4.0
 
 - ✨ Pulled in new [batch-cluster
-  5.3.1](https://github.com/mceachen/batch-cluster.js/blob/master/CHANGELOG.md),
+  5.3.1](https://github.com/photostructure/batch-cluster.js/blob/master/CHANGELOG.md),
   which adds support for child start and exit events, internal errors, and more
   robust result parsing.
 - ✨ Rebuilt `Tags` from over 6,600 unique camera makes and models. Added new
@@ -342,7 +342,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 ### v7.0.0: the "time zones & types are hard" edition
 
 - ✨ More robust time zone extraction: this required adding `luxon` and
-  `tz-lookup` as dependencies. See <https://exiftool-vendored.js.org/#dates> for
+  `tz-lookup` as dependencies. See <https://photostructure.github.io/exiftool-vendored.js/#dates> for
   more information.
 
 - 💔 Tag types are now **unions** of seen types. Previous typings only included
@@ -408,15 +408,15 @@ most users won't be affected, unless you've been waiting for this feature!)
 
 - 🐞 Warnings work now, _and I even have a test to prove it_. 😳
 - ✨ Warning-vs-fatal errors can be configured via the new
-  [`minorErrorsRegExp`](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html#minorerrorsregexp)
+  [`minorErrorsRegExp`](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html#minorerrorsregexp)
   constructor parameter, or if you need more flexibility, by providing a
-  [`rejectTaskOnStderr`](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html#rejecttaskonstderr)
+  [`rejectTaskOnStderr`](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html#rejecttaskonstderr)
   implementation to the ExifTool constructor.
 
 ### v6.1.0
 
 - ✨ Warnings are back! Non-fatal processing errors are added to the
-  [Tags.errors](https://exiftool-vendored.js.org/interfaces/tags.html#errors)
+  [Tags.errors](https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html#errors)
   field.
 - 📦 Pulled in new typedoc version and switched to "file" rendering, which seems
   to generate better docs. This unfortunately broke links to underlying jsdocs.
@@ -430,8 +430,8 @@ most users won't be affected, unless you've been waiting for this feature!)
 ### v6.0.0
 
 - 💔 `ExifTool`'s many constructor parameters turned out to be quite unweildy.
-  Version 6's [constructor](https://exiftool-vendored.js.org/classes/exiftool.html#constructor) now takes an [options
-  hash](https://exiftool-vendored.js.org/interfaces/exiftooloptions.html).
+  Version 6's [constructor](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#constructor) now takes an [options
+  hash](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html).
   If you used the defaults, those haven't changed, and your code won't need to
   change.
 - 💔 `ExifTool.enqueueTask` takes a Task thunk now, to enable cleaner task retry
@@ -709,7 +709,7 @@ an incomplete state and subsequently unpublished)
   break, but the prior signature that promised all values were always set was
   strictly wrong.
 - ✨ Added support for all downstream
-  [batch-cluster](https://github.com/mceachen/batch-cluster.js) options in the
+  [batch-cluster](https://github.com/photostructure/batch-cluster.js) options in the
   ExifTool constructor.
 - 📦 Added `ExifTool.pids` (used by a couple new integration tests)
 - 📦 Rebuilt `Tags` with additional sample images and looser tag filtering.
@@ -736,7 +736,7 @@ an incomplete state and subsequently unpublished)
 
 ### v3.0.0
 
-- ✨ Extracted [batch-cluster](https://github.com/mceachen/batch-cluster.js) to
+- ✨ Extracted [batch-cluster](https://github.com/photostructure/batch-cluster.js) to
   power child process management. Task timeout, retry, and failure handling has
   excellent test coverage now.
 - 💔 Switched from [debug](https://www.npmjs.com/package/debug) to node's

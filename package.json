@@ -4,7 +4,7 @@
   "description": "Efficient, cross-platform access to ExifTool",
   "main": "./dist/ExifTool.js",
   "types": "./dist/ExifTool.d.ts",
-  "homepage": "https://exiftool-vendored.js.org/",
+  "homepage": "https://photostructure.github.io/exiftool-vendored.js/",
   "bugs": {
     "url": "https://github.com/photostructure/exiftool-vendored.js/issues"
   },
@@ -20,7 +20,6 @@
     "test": "mocha 'dist/*.spec.js'",
     "report": "yarn test && nyc report -r html",
     "docs:1": "typedoc --options .typedoc.js",
-    "docs:2": "echo exiftool-vendored.js.org > docs/CNAME",
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
     "docs:5": "yarn serve docs",
