@@ -42,9 +42,6 @@
     "type": "git",
     "url": "https://github.com/photostructure/exiftool-vendored.js.git"
   },
-  "engines": {
-    "node": ">= 8"
-  },
   "keywords": [
     "ExifTool",
     "EXIF",
