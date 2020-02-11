@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v9.6.0
+
+- 🌱 ExifTool upgraded to [v11.86](https://exiftool.org/history.html#v11.86)
+- 📦 Updated dependencies.
+
 ### v9.5.0
 
 - 🌱 ExifTool upgraded to [v11.80](https://exiftool.org/history.html#v11.80)
@@ -33,8 +38,8 @@ vendored versions of ExifTool match the version they vendor.
 - 🌱 ExifTool upgraded to [v11.78](https://exiftool.org/history.html#v11.78)
 - 📦 Updated ExifTool's homepage from
   <https://www.sno.phy.queensu.ca/~phil/exiftool/> to <https://exiftool.org>.
-- 📦 Updated dependencies. New batch-cluster doesn't propagate errors from ended
-  processes anymore, which should address [issue
+- 📦 Updated dependencies. New `batch-cluster` doesn't propagate errors from
+  ended processes anymore, which should address [issue
   #46](https://github.com/photostructure/exiftool-vendored.js/issues/69).
 
 ### v9.3.1
