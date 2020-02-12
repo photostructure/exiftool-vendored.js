@@ -6,7 +6,9 @@ export function lazy<T>(thunk: () => T): () => T {
       try {
         invoked = true
         result = thunk()
-      } catch (_) {}
+      } catch (_) {
+        //
+      }
     }
     return result
   }

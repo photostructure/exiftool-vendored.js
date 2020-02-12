@@ -42,7 +42,7 @@ describe("ExifTool", function() {
     // vendorVersion might have a ^ or ~ or something else as a prefix, so get
     // rid of that:
     return vendorVersion
-      .replace(/^[^\.0-9]+/, "")
+      .replace(/^[^.0-9]+/, "")
       .split(".")
       .slice(0, 2)
       .join(".")
@@ -278,7 +278,7 @@ describe("ExifTool", function() {
           LensModel: "OLYMPUS M.12-40mm F2.8",
           tz: "UTC-07"
         })
-        expect(t.DateTimeOriginal!.toISOString()).to.eql(
+        expect(t.DateTimeOriginal?.toISOString()).to.eql(
           "2014-07-19T12:05:19.000-07:00"
         )
       })
@@ -302,7 +302,7 @@ describe("ExifTool", function() {
           GPSAltitude: -47,
           tz: "America/Los_Angeles"
         })
-        expect(t.SubSecDateTimeOriginal!.toISOString()).to.eql(
+        expect(t.SubSecDateTimeOriginal?.toISOString()).to.eql(
           "2016-12-13T09:05:27.120-08:00"
         )
       })

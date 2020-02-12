@@ -1,18 +1,19 @@
+require("source-map-support").install()
+
 import { Logger, logger, setLogger } from "batch-cluster"
 import * as _fs from "fs"
 import * as globule from "globule"
 import * as _path from "path"
 import { argv, env, exit, on } from "process"
-import ProgressBar = require("progress")
-
 import { compact, filterInPlace, times, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
 import { map, Maybe, orElse } from "../Maybe"
 import { isNumber } from "../Number"
 import { nullish } from "../ReadTask"
 import { blank, isString, leftPad } from "../String"
+import ProgressBar = require("progress")
 
-require("source-map-support").install()
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
@@ -51,9 +52,9 @@ on("uncaughtException", (error: any) => {
   console.error("Ack, caught uncaughtException: " + error.stack)
 })
 
-on("unhandledRejection", (reason: any, _promise: any) => {
+on("unhandledRejection", (reason: any) => {
   console.error(
-    "Ack, caught unhandledRejection: " + (reason.stack || reason.toString)
+    "Ack, caught unhandledRejection: " + (reason.stack ?? reason.toString)
   )
 })
 
@@ -61,6 +62,10 @@ function usage() {
   console.log("Usage: `yarn run mktags IMG_DIR`")
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.")
   exit(1)
+}
+
+function cmp(a: any, b: any): number {
+  return a > b ? 1 : a < b ? -1 : 0
 }
 
 const roots = argv.slice(2)
@@ -123,9 +128,42 @@ class CountingMap<T> {
   }
 }
 
+function sigFigs(i: number, digits: number): number {
+  if (i === 0 || digits === 0) return 0
+  const pow = Math.pow(
+    10,
+    digits - Math.round(Math.ceil(Math.log10(Math.abs(i))))
+  )
+  return Math.round(i * pow) / pow
+}
+
+function toStr(o: any): any {
+  if (isString(o)) return `"${ellipsize(o, 65)}"`
+  else if (o["toISOString"] != null) return o.toISOString()
+  else if (isNumber(o)) return sigFigs(o, 8)
+  else return ellipsize(JSON.stringify(o), 65)
+}
+
+function exampleToS(examples: any[]): string {
+  return examples.length > 1
+    ? "Examples: " + toStr(examples)
+    : "Example: " + toStr(examples[0])
+}
+
+function getOrSet<K, V>(m: Map<K, V>, k: K, valueThunk: () => V): V {
+  const prior = m.get(k)
+  if (prior != null) {
+    return prior
+  } else {
+    const v = valueThunk()
+    m.set(k, v)
+    return v
+  }
+}
+
 class Tag {
   values: any[] = []
-  important: boolean = false
+  important = false
   constructor(readonly tag: string) {}
 
   get group(): string {
@@ -138,8 +176,9 @@ class Tag {
     const cm = new CountingMap<string>()
     compact(this.values)
       .map(ea => valueType(ea))
-      .filter(ea => !nullish(ea))
-      .forEach(ea => cm.add(ea!))
+      .forEach(ea => {
+        if (!nullish(ea)) cm.add(ea)
+      })
     return cm.byP(0.5)
   }
   get valueType(): string {
@@ -272,38 +311,6 @@ class Tag {
   }
 }
 
-function exampleToS(examples: any[]): string {
-  return examples.length > 1
-    ? "Examples: " + toStr(examples)
-    : "Example: " + toStr(examples[0])
-}
-
-function sigFigs(i: number, digits: number): number {
-  if (i === 0 || digits === 0) return 0
-  const pow = Math.pow(
-    10,
-    digits - Math.round(Math.ceil(Math.log10(Math.abs(i))))
-  )
-  return Math.round(i * pow) / pow
-}
-
-function toStr(o: any): any {
-  if (isString(o)) return `"${ellipsize(o, 65)}"`
-  else if (o["toISOString"]) return o.toISOString()
-  else if (isNumber(o)) return sigFigs(o, 8)
-  else return ellipsize(JSON.stringify(o), 65)
-}
-
-function getOrSet<K, V>(m: Map<K, V>, k: K, valueThunk: () => V): V {
-  if (m.has(k)) {
-    return m.get(k)!
-  } else {
-    const v = valueThunk()
-    m.set(k, v)
-    return v
-  }
-}
-
 const minOccurences = 2
 
 class TagMap {
@@ -353,10 +360,6 @@ class TagMap {
   }
 }
 
-function cmp(a: any, b: any): number {
-  return a > b ? 1 : a < b ? -1 : 0
-}
-
 const tagMap = new TagMap()
 const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
 
@@ -390,7 +393,7 @@ async function readAndAddToTagMap(file: string) {
         tagMap.add(key, tags[key], importantFile)
       }
     })
-    if (tags.errors && tags.errors.length > 0) {
+    if (tags.errors?.length > 0) {
       bar.interrupt(`Error from ${file}: ${tags.errors}`)
     }
   } catch (err) {
@@ -411,9 +414,9 @@ async function readAndAddToTagMap(file: string) {
 
 const start = Date.now()
 
-on("unhandledRejection", (reason: any, _promise: any) => {
+on("unhandledRejection", (reason: any) => {
   console.error(
-    "Ack, caught unhandled rejection: " + (reason.stack || reason.toString)
+    "Ack, caught unhandled rejection: " + (reason.stack ?? reason.toString)
   )
 })
 
@@ -442,6 +445,11 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
         'import { Struct } from "./Struct"',
+        "",
+        "/* eslint-disable @typescript-eslint/camelcase */",
+        "/* eslint-disable @typescript-eslint/class-name-casing */",
+        "/* eslint-disable @typescript-eslint/interface-name-prefix */",
+        "/* eslint-disable @typescript-eslint/no-explicit-any */",
         "",
         `// Autogenerated by "npm run mktags" by ExifTool ${version} on ${new Date().toDateString()}.`,
         `// ${tagMap.map.size} unique tags were found in ${files.length} different digital imagery files.`,

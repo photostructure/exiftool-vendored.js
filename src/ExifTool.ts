@@ -1,10 +1,9 @@
 import * as bc from "batch-cluster"
-import * as _child_process from "child_process"
+import * as _cp from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
 import * as _path from "path"
 import * as _p from "process"
-
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifDate } from "./ExifDate"
@@ -20,10 +19,10 @@ import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
 
-export { Tags } from "./Tags"
 export { ExifDate } from "./ExifDate"
-export { ExifTime } from "./ExifTime"
 export { ExifDateTime } from "./ExifDateTime"
+export { ExifTime } from "./ExifTime"
+export { Tags } from "./Tags"
 export { offsetMinutesToZoneName } from "./Timezones"
 
 const isWin32 = lazy(() => _os.platform() === "win32")
@@ -249,7 +248,7 @@ export class ExifTool {
     if (notBlank(_p.env.EXIFTOOL_HOME) && blank(env.EXIFTOOL_HOME)) {
       env.EXIFTOOL_HOME = _p.env.EXIFTOOL_HOME
     }
-    const spawnOpts: _child_process.SpawnOptions = {
+    const spawnOpts: _cp.SpawnOptions = {
       stdio: "pipe",
       shell: ignoreShebang, // we need to spawn a shell if we ignore the shebang.
       detached: false,
@@ -257,12 +256,8 @@ export class ExifTool {
     }
     const processFactory = () =>
       ignoreShebang
-        ? _child_process.spawn(
-            "perl",
-            [o.exiftoolPath, ...o.exiftoolArgs],
-            spawnOpts
-          )
-        : _child_process.spawn(o.exiftoolPath, o.exiftoolArgs, spawnOpts)
+        ? _cp.spawn("perl", [o.exiftoolPath, ...o.exiftoolArgs], spawnOpts)
+        : _cp.spawn(o.exiftoolPath, o.exiftoolArgs, spawnOpts)
     this.options = {
       ...o,
       ignoreShebang,
@@ -278,6 +273,7 @@ export class ExifTool {
   /**
    * Register life cycle event listeners. Delegates to BatchProcess.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly on: bc.BatchCluster["on"] = (event: any, listener: any) =>
     this.batchCluster.on(event, listener)
 
@@ -332,9 +328,9 @@ export class ExifTool {
    * date, time, or other rich type parsing that you get from `.read()`, the
    * return value is wholly untyped.
    *
-   * @see https://github.com/mceachen/exiftool-vendored.js/issues/44
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/44
    */
-  readRaw(file: string, args: string[]): Promise<any> {
+  readRaw(file: string, args: string[]) {
     return this.enqueueTask(() => ReadRawTask.for(file, args))
   }
 
@@ -437,7 +433,7 @@ export class ExifTool {
   rewriteAllTags(
     inputFile: string,
     outputFile: string,
-    allowMakerNoteRepair: boolean = false
+    allowMakerNoteRepair = false
   ): Promise<void> {
     return this.enqueueTask(() =>
       RewriteAllTagsTask.for(inputFile, outputFile, allowMakerNoteRepair)
@@ -451,7 +447,7 @@ export class ExifTool {
    * This may need to be called in `after` or `finally` clauses in tests or
    * scripts for them to exit cleanly.
    */
-  end(gracefully: boolean = true): Promise<void> {
+  end(gracefully = true): Promise<void> {
     return this.batchCluster.end(gracefully).promise
   }
 

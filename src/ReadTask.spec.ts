@@ -1,10 +1,9 @@
 import { resolve } from "path"
-
-import { expect } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
+import { expect } from "./_chai.spec"
 
 function parse(tags: any, err?: Error): Tags {
   const tt = ReadTask.for("/tmp/example.jpg", [])
@@ -142,8 +141,8 @@ describe("ReadTask", () => {
         GPSDateTime: "2016:10:19 18:15:12",
         DateTimeCreated: "2016:10:19 11:15:14"
       })
-      expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(-7 * 60)
-      expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(-7 * 60)
+      expect(t.DateTimeOriginal?.tzoffsetMinutes).to.eql(-7 * 60)
+      expect(t.DateTimeCreated?.tzoffsetMinutes).to.eql(-7 * 60)
       expect(t.tz).to.eql("UTC-07")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and GPSDateTime"
@@ -156,8 +155,8 @@ describe("ReadTask", () => {
         DateTimeUTC: "2016:10:19 03:15:12",
         DateTimeCreated: "2016:10:19 11:15:14"
       })
-      expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(8 * 60)
-      expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(8 * 60)
+      expect(t.DateTimeOriginal?.tzoffsetMinutes).to.eql(8 * 60)
+      expect(t.DateTimeCreated?.tzoffsetMinutes).to.eql(8 * 60)
       expect(t.tz).to.eql("UTC+08")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and DateTimeUTC"
@@ -170,8 +169,8 @@ describe("ReadTask", () => {
         DateTimeUTC: "2018:10:19 05:45:12",
         DateTimeCreated: "2018:10:19 11:15:14"
       })
-      expect((t.DateTimeOriginal as any)!.tzoffsetMinutes).to.eql(5.5 * 60)
-      expect(t.DateTimeCreated!.tzoffsetMinutes).to.eql(5.5 * 60)
+      expect(t.DateTimeOriginal?.tzoffsetMinutes).to.eql(5.5 * 60)
+      expect(t.DateTimeCreated?.tzoffsetMinutes).to.eql(5.5 * 60)
       expect(t.tz).to.eql("UTC+05:30")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and DateTimeUTC"
@@ -185,10 +184,10 @@ describe("ReadTask", () => {
         SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200"
       })
       expect((t.SubSecDateTimeOriginal as any).tzoffsetMinutes).to.eql(-8 * 60)
-      expect(t.SubSecDateTimeOriginal!.toString()).to.eql(
+      expect(t.SubSecDateTimeOriginal?.toString()).to.eql(
         "2016-12-13T09:05:27.120-08:00"
       )
-      expect(t.GPSDateTime!.toISOString({ includeOffset: true })).to.eql(
+      expect(t.GPSDateTime?.toISOString({ includeOffset: true })).to.eql(
         "2016-12-13T17:05:25.000Z"
       )
       expect(t.tz).to.eql("UTC-08")

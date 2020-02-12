@@ -1,0 +1,34 @@
+module.exports = {
+  env: {
+    node: true
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:eslint-plugin-import/recommended",
+    "plugin:node/recommended"
+  ],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: "tsconfig.json",
+    sourceType: "module"
+  },
+  plugins: ["@typescript-eslint", "eslint-plugin-import", "eslint-plugin-node"],
+  rules: {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/member-delimiter-style": [
+      "warn",
+      { multiline: { delimiter: "none" } }
+    ],
+    "@typescript-eslint/no-var-requires": "off",
+    "import/no-cycle": "warn",
+    "node/no-unsupported-features/es-syntax": "off",
+    "node/no-missing-import": "off",
+    "import/no-unresolved": "off",
+    "no-redeclare": "warn",
+    "no-undef-init": "warn",
+    "no-unused-expressions": "warn"
+  }
+}

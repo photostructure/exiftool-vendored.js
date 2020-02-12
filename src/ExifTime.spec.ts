@@ -2,6 +2,8 @@ import { expect } from "./_chai.spec"
 import { toExifString } from "./DateTime"
 import { ExifTime } from "./ExifTime"
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 describe("ExifTime", () => {
   describe(".fromEXIF()", () => {
     it("parses hour/minute/second", () => {

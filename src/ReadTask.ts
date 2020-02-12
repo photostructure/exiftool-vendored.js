@@ -1,6 +1,5 @@
 import { logger } from "batch-cluster"
 import * as _path from "path"
-
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
@@ -13,7 +12,6 @@ import {
   extractTzOffsetFromTags,
   extractTzOffsetFromUTCOffset
 } from "./Timezones"
-
 const tzlookup = require("tz-lookup")
 
 /**
@@ -26,6 +24,12 @@ const PassthroughTags = [
   "Firmware",
   "DateDisplayFormat"
 ]
+
+const nullishes = ["undef", "null", "undefined"]
+
+export function nullish(s: string | undefined): s is undefined {
+  return s == null || (isString(s) && nullishes.includes(s.trim()))
+}
 
 export class ReadTask extends ExifToolTask<Tags> {
   private readonly degroup: boolean
@@ -111,9 +115,9 @@ export class ReadTask extends ExifToolTask<Tags> {
   private parseTags(): Tags {
     this.extractLatLon()
     this.extractTzOffset()
-    Object.keys(this._raw).forEach(key => {
-      ;(this.tags as any)[key] = this.parseTag(key, this._raw[key])
-    })
+    Object.keys(this._raw).forEach(
+      key => ((this.tags as any)[key] = this.parseTag(key, this._raw[key]))
+    )
     map(this.tz, ea => (this.tags.tz = ea))
     map(this.tzSource, ea => (this.tags.tzSource = ea))
     if (this.errors.length > 0) this.tags.errors = this.errors
@@ -161,7 +165,9 @@ export class ReadTask extends ExifToolTask<Tags> {
                 tz,
                 src: "from Lat/Lon"
               }))
-            } catch (err) {}
+            } catch (err) {
+              /* */
+            }
           }
           return
         },
@@ -217,10 +223,4 @@ export class ReadTask extends ExifToolTask<Tags> {
       return value
     }
   }
-}
-
-const nullishes = ["undef", "null", "undefined"]
-
-export function nullish(s: string | undefined) {
-  return s == null || (isString(s) && nullishes.includes(s.trim()))
 }

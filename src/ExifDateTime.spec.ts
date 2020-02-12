@@ -1,6 +1,7 @@
 import { expect } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 describe("ExifDateTime", () => {
   describe("example with no tzoffset or zulu suffix", () => {
     const raw = "2016:08:12 07:28:50.768120"

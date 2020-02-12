@@ -27,7 +27,8 @@ vendored versions of ExifTool match the version they vendor.
 ### v9.6.0
 
 - 🌱 ExifTool upgraded to [v11.86](https://exiftool.org/history.html#v11.86)
-- 📦 Updated dependencies.
+- 📦 Replace tslint with eslint. Fixed new linting errors.
+- 📦 Updated dependencies
 
 ### v9.5.0
 

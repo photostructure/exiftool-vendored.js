@@ -8,7 +8,7 @@ export function isString(o: any): o is string {
 const spaces = times(10, i => times(i, () => " ").join(""))
 const zeroes = times(10, i => times(i, () => "0").join(""))
 
-export function blank(s: Maybe<string>): boolean {
+export function blank(s: Maybe<string>): s is undefined {
   return s == null || String(s).trim().length === 0
 }
 
@@ -21,11 +21,17 @@ function padding(padChar: "0" | " ", count: number): string {
   return (padChar === "0" ? zeroes : spaces)[Math.floor(count)]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function toS(s: Maybe<any>): string {
   return s == null ? "" : String(s)
 }
 
-export function leftPad(i: any, minLen: number, padChar: "0" | " "): string {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function leftPad(
+  i: Maybe<any>,
+  minLen: number,
+  padChar: "0" | " "
+): string {
   if (i == null || isNaN(i)) i = 0
   if (i < 0) {
     return "-" + leftPad(-i, minLen - 1, padChar)
@@ -59,7 +65,7 @@ export function stripSuffix(s: string, suffix: string): string {
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str
 }
 
-const safeChars = /[a-z0-9 :\/+\.-]/i
+const safeChars = /[a-z0-9 :/+.-]/i
 
 /**
  * This is a basic HTML entities encoder (so we don't have to pull in another

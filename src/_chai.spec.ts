@@ -4,7 +4,6 @@ import * as fse from "fs-extra"
 import { tmpdir } from "os"
 import { join } from "path"
 import { env } from "process"
-
 import { orElse } from "./Maybe"
 
 const chai = require("chai")
@@ -41,8 +40,8 @@ export function tmpname(prefix = "") {
  * Copy a test image to a tmp directory and return the path
  */
 export async function testImg(
-  name: string = "img.jpg",
-  parentDir: string = "test"
+  name = "img.jpg",
+  parentDir = "test"
 ): Promise<string> {
   const dir = join(tmpname(), parentDir)
   await fse.mkdirp(dir)
@@ -50,7 +49,7 @@ export async function testImg(
   return fse.copyFile(join(testDir, name), dest).then(() => dest)
 }
 
-export async function testFile(name: string = "img.XMP"): Promise<string> {
+export async function testFile(name = "img.XMP"): Promise<string> {
   const dir = tmpname()
   await fse.mkdirp(dir)
   return join(dir, name)

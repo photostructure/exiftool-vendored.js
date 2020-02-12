@@ -1,8 +1,8 @@
 export function keys<T extends any, K extends string & keyof T>(o: T): K[] {
   return o == null
     ? []
-    : (Object.keys(o).filter(
-        ea => typeof ea === "string" && o.propertyIsEnumerable(ea)
+    : (Object.keys(o).filter(ea =>
+        ({}.propertyIsEnumerable.call(o, ea))
       ) as K[])
 }
 

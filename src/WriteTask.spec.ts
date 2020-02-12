@@ -1,4 +1,3 @@
-import { expect, testFile, testImg } from "./_chai.spec"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTags } from "./ExifTool"
@@ -6,6 +5,9 @@ import { map, orElse } from "./Maybe"
 import { stripSuffix } from "./String"
 import { Struct } from "./Struct"
 import { Tags } from "./Tags"
+import { expect, testFile, testImg } from "./_chai.spec"
+
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 describe("WriteTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
@@ -51,24 +53,6 @@ describe("WriteTask", () => {
 
   // Well-supported multi-value string tag:
   const multiTagName = "TagsList" as any
-
-  describe("round-trip with an image", () =>
-    runRoundTripTests({
-      withTZ: true,
-      dest: name => testImg(map(name, ea => ea + ".jpg"))
-    }))
-
-  describe("round-trip with an XMP sidecar", () =>
-    runRoundTripTests({
-      withTZ: false, // BOO XMP
-      dest: ea => testFile(orElse(ea, "img") + ".xmp")
-    }))
-
-  describe("round-trip with an MIE sidecar", () =>
-    runRoundTripTests({
-      withTZ: true,
-      dest: ea => testFile(orElse(ea, "img") + ".mie")
-    }))
 
   function runRoundTripTests({
     withTZ,
@@ -266,7 +250,25 @@ describe("WriteTask", () => {
       const src = await dest()
       return expect(
         exiftool.write(src, { RandomTag: 123 } as any)
-      ).to.be.rejectedWith(/Tag \'RandomTag\' is not defined/)
+      ).to.be.rejectedWith(/Tag 'RandomTag' is not defined/)
     })
   }
+
+  describe("round-trip with an image", () =>
+    runRoundTripTests({
+      withTZ: true,
+      dest: name => testImg(map(name, ea => ea + ".jpg"))
+    }))
+
+  describe("round-trip with an XMP sidecar", () =>
+    runRoundTripTests({
+      withTZ: false, // BOO XMP
+      dest: ea => testFile(orElse(ea, "img") + ".xmp")
+    }))
+
+  describe("round-trip with an MIE sidecar", () =>
+    runRoundTripTests({
+      withTZ: true,
+      dest: ea => testFile(orElse(ea, "img") + ".mie")
+    }))
 })

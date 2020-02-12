@@ -1,11 +1,23 @@
 import { Info } from "luxon"
-
 import { compact } from "./Array"
 import { MinuteMs } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
 import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { isNumber } from "./Number"
 import { blank, isString, pad2 } from "./String"
+
+// Pacific/Kiritimati is +14:00 TIL
+// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+export const MaxTzOffsetHours = 14
+
+export function reasonableTzOffsetMinutes(
+  tzOffsetMinutes: Maybe<number>
+): boolean {
+  return (
+    isNumber(tzOffsetMinutes) &&
+    Math.abs(tzOffsetMinutes) < MaxTzOffsetHours * 60
+  )
+}
 
 /**
  * Returns a "zone name" (used by `luxon`) that encodes the given offset.
@@ -26,17 +38,20 @@ export function offsetMinutesToZoneName(
   )
 }
 
-// Pacific/Kiritimati is +14:00 TIL
-// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-export const MaxTzOffsetHours = 14
-
-export function reasonableTzOffsetMinutes(
-  tzOffsetMinutes: Maybe<number>
-): boolean {
-  return (
-    isNumber(tzOffsetMinutes) &&
-    Math.abs(tzOffsetMinutes) < MaxTzOffsetHours * 60
+function dtToMs(s: Maybe<string>, defaultZone?: string): Maybe<number> {
+  return map(ExifDateTime.fromExifStrict(s, defaultZone), dt =>
+    dt.toDate().getTime()
   )
+}
+
+function utcToMs(s: Maybe<string>): Maybe<number> {
+  return dtToMs(s, "UTC")
+}
+
+function tzHourToOffset(n: any): Maybe<string> {
+  return isNumber(n) && reasonableTzOffsetMinutes(n * 60)
+    ? offsetMinutesToZoneName(n * 60)
+    : undefined
 }
 
 const tzRe = /(?:UTC)?([+-]?)(\d\d?)(?::(\d\d))?/
@@ -164,20 +179,4 @@ export function extractTzOffsetFromUTCOffset(t: {
     tz,
     src: `offset between ${dt.tagName} and ${utc.tagName}`
   }))
-}
-
-function utcToMs(s: Maybe<string>): Maybe<number> {
-  return dtToMs(s, "UTC")
-}
-
-function dtToMs(s: Maybe<string>, defaultZone?: string): Maybe<number> {
-  return map(ExifDateTime.fromExifStrict(s!, defaultZone), dt =>
-    dt.toDate().getTime()
-  )
-}
-
-function tzHourToOffset(n: any): Maybe<string> {
-  return isNumber(n) && reasonableTzOffsetMinutes(n * 60)
-    ? offsetMinutesToZoneName(n * 60)
-    : undefined
 }
