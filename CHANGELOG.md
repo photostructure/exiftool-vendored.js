@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v9.7.0
+
+- 🐞/✨ Date, DateTime, and Time tags can now ISO formatted. See
+  [#71](https://github.com/photostructure/exiftool-vendored.js/issues/71).
+  Thanks for the report, [Roland Ayala](https://github.com/rolanday)!
+
+
 ### v9.6.0
 
 - 🌱 ExifTool upgraded to [v11.86](https://exiftool.org/history.html#v11.86)

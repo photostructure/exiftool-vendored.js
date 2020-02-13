@@ -84,6 +84,43 @@ describe("ExifDateTime", () => {
     })
   })
 
+  describe("example with ISO formatting and no tzoffset", () => {
+    const raw = "2015-11-14T14:20:36"
+    const dt = ExifDateTime.fromExifStrict(raw, "utc")!
+    it("parses year/month/day", () => {
+      expect([dt.year, dt.month, dt.day]).to.eql([2015, 11, 14])
+    })
+    it("parses hour/minute/second", () => {
+      expect([dt.hour, dt.minute, dt.second]).to.eql([14, 20, 36])
+    })
+    it("parses tzoffset", () => {
+      expect(dt.tzoffsetMinutes).to.eql(0)
+    })
+    it("includes the raw value", () => {
+      expect(dt.rawValue).to.eql(raw)
+    })
+    it(".toISOString", () => {
+      expect(dt.toISOString()).to.eql("2015-11-14T14:20:36.000Z")
+    })
+    it(".toISOString() matches .toString()", () => {
+      expect(dt.toISOString()).to.eql(dt.toString())
+    })
+    it("Renders a Date assuming the current timezone offset", () => {
+      const d = dt.toDate()
+      const actual = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]
+      expect(actual).to.eql([2015, 11, 14])
+      expect([
+        d.getUTCHours(),
+        d.getUTCMinutes(),
+        d.getUTCSeconds(),
+        d.getUTCMilliseconds()
+      ]).to.eql([14, 20, 36, 0])
+    })
+    it("Renders a UTC Date assuming the current timezone offset", () => {
+      expect(dt.toDate().toISOString()).to.eql("2015-11-14T14:20:36.000Z")
+    })
+  })
+
   describe("example with tzoffset and spurious timezone", () => {
     const raw = "2014:07:17 08:46:27-07:00 DST"
     const dt = ExifDateTime.fromEXIF(raw)!

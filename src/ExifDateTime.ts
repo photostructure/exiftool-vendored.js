@@ -89,12 +89,28 @@ export class ExifDateTime {
       // if it specifies a zone, use it:
       { fmt: "y:M:d H:m:s.uZZ" },
       { fmt: "y:M:d H:m:sZZ" },
+
       // if it specifies UTC, use it:
       { fmt: "y:M:d H:m:s.u'Z'", zone: "utc" },
       { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
+
       // Otherwise use the default zone:
       { fmt: "y:M:d H:m:s.u", zone },
-      { fmt: "y:M:d H:m:s", zone }
+      { fmt: "y:M:d H:m:s", zone },
+
+      // Not found yet? Maybe it's in ISO format? See https://github.com/photostructure/exiftool-vendored.js/issues/71
+      
+      // if it specifies a zone, use it:
+      { fmt: "y-M-d'T'H:m:s.uZZ" },
+      { fmt: "y-M-d'T'H:m:sZZ" },
+
+      // if it specifies UTC, use it:
+      { fmt: "y-M-d'T'H:m:s.u'Z'", zone: "utc" },
+      { fmt: "y-M-d'T'H:m:s'Z'", zone: "utc" },
+
+      // Otherwise use the default zone:
+      { fmt: "y-M-d'T'H:m:s.u", zone },
+      { fmt: "y-M-d'T'H:m:s", zone }
     ])
   }
 
