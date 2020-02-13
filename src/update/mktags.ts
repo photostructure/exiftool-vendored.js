@@ -3,6 +3,7 @@ require("source-map-support").install()
 import { Logger, logger, setLogger } from "batch-cluster"
 import * as _fs from "fs"
 import * as globule from "globule"
+import { cpus } from "os"
 import * as _path from "path"
 import { argv, env, exit, on } from "process"
 import { compact, filterInPlace, times, uniq } from "../Array"
@@ -18,10 +19,10 @@ import ProgressBar = require("progress")
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
 const exiftool = new ExifTool({
-  maxProcs: 8,
+  maxProcs: cpus().length,
   taskRetries: 3,
   streamFlushMillis: 1,
-  minDelayBetweenSpawnMillis: 0
+  minDelayBetweenSpawnMillis: 10
 })
 
 function ellipsize(str: string, max: number) {
