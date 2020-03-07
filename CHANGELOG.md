@@ -24,12 +24,23 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v10.0.0
+
+- 💔 **Breaking change:** For the past many major versions, when date and time
+  fields are invalid, this library returns the raw (invalid) string provided by
+  ExifTool, rather than an instance of `ExifDateTime`, `ExifDate`, or
+  `ExifTime`. The `Tag` types now reflect this, but you'll _probably need to
+  update your code_. See
+  [#73](https://github.com/photostructure/exiftool-vendored.js/issues/73) for
+  more context.
+- 🌱 ExifTool upgraded to [v11.91](https://exiftool.org/history.html#v11.91)
+- 📦 Updated dependencies
+
 ### v9.7.0
 
 - 🐞/✨ Date, DateTime, and Time tags can now ISO formatted. See
   [#71](https://github.com/photostructure/exiftool-vendored.js/issues/71).
   Thanks for the report, [Roland Ayala](https://github.com/rolanday)!
-
 
 ### v9.6.0
 
@@ -678,7 +689,7 @@ an incomplete state and subsequently unpublished)
 - ✨ ExifTool constructor defaults were relaxed to handle slow NAS
 - ✨ Upgraded to Mocha 4.0. Added calls to `exiftool.end()` in test `after`
   blocks and the README so `--exit` isn't necessary.
-- 📦 `salita --update`
+- 📦 Upgraded all dependencies
 
 ### v4.5.0
 

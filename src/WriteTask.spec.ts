@@ -177,7 +177,7 @@ describe("WriteTask", () => {
       }
       await exiftool.write(src, wt)
       const t = await exiftool.read(src)
-      expect(t.CreateDate!.toISOString()).to.eql(
+      expect(t.CreateDate?.toString()).to.eql(
         "2019-01-02T00:00:00.000" + (withTZ ? "-05:00" : "")
       )
       return

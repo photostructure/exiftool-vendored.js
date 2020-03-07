@@ -99,7 +99,13 @@ function valueType(value: any): Maybe<string> {
   }
   if (typeof value === "object") {
     const ctor = value.constructor.name
-    return ctor === "Object" ? "Struct" : ctor
+    if (ctor === "Object") {
+      return "Struct"
+    }
+    if (ctor.startsWith("ExifDate") || ctor.startsWith("ExifTime")) {
+      return ctor + " | string"
+    }
+    return ctor
   } else {
     return typeof value
   }
