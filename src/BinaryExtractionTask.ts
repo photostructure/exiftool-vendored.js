@@ -26,7 +26,7 @@ export class BinaryExtractionTask extends ExifToolTask<void> {
   }
 
   parse(stdout: string, err?: Error): void {
-    if (err != null) throw err
+    if (err != null && err.message.match(/^warning: /i) == null) throw err
     if (null == /1 output files? created/.exec(stdout)) {
       throw new Error(
         notBlank(stdout) ? stdout : "Missing expected status message"
