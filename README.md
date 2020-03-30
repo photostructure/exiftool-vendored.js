@@ -2,7 +2,6 @@
 
 **Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](https://exiftool.org/).**
 
-[![Become a sponsor](https://img.shields.io/badge/Become%20a-sponsor-orange)](https://github.com/users/mceachen/sponsorship)
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
 [![Build status](https://travis-ci.org/photostructure/exiftool-vendored.js.svg?branch=master)](https://travis-ci.org/photostructure/exiftool-vendored.js)
 [![Build status](https://ci.appveyor.com/api/projects/status/g5pfma7owvtsrrkm/branch/master?svg=true)](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master)
@@ -96,7 +95,7 @@ const exiftool = require("exiftool-vendored").exiftool
 // And to verify everything is working:
 exiftool
   .version()
-  .then(version => console.log(`We're running ExifTool v${version}`))
+  .then((version) => console.log(`We're running ExifTool v${version}`))
 ```
 
 If the default [ExifTool constructor
@@ -157,7 +156,7 @@ exiftool
       `Make: ${tags.Make}, Model: ${tags.Model}, Errors: ${tags.errors}`
     )
   )
-  .catch(err => console.error("Something terrible happened: ", err))
+  .catch((err) => console.error("Something terrible happened: ", err))
 ```
 
 ### Extracting embedded images
