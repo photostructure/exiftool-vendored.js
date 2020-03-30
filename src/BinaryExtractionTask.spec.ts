@@ -24,14 +24,14 @@ describe("BinaryExtractionTask", () => {
           [
             "Error creating /etc/test.jpg",
             "1 files could not be read",
-            "0 output files created"
+            "0 output files created",
           ].join("\n")
         )
       ).to.throw(/Error creating \/etc\/test.jpg/)
     })
   })
 
-  it("extracts expected thumb", async function() {
+  it("extracts expected thumb", async function () {
     this.slow(500)
     const src = join(testDir, "with_thumb.jpg")
     const dest = await tmpname()
@@ -40,7 +40,7 @@ describe("BinaryExtractionTask", () => {
     expect(await sha1(dest)).to.eql("c7c14706fce4038f6a9da96e213768756a4b2ad2")
   })
 
-  it("throws for missing thumb", async function() {
+  it("throws for missing thumb", async function () {
     this.slow(500)
     const src = join(testDir, "with_thumb.jpg")
     const dest = await tmpname()

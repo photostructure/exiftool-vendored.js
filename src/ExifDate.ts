@@ -15,8 +15,8 @@ export class ExifDate {
   private static fromPatterns(text: string, fmts: string[]) {
     if (blank(text)) return
     text = toS(text).trim()
-    return first(fmts, fmt =>
-      map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
+    return first(fmts, (fmt) =>
+      map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt))
     )
   }
 
@@ -38,7 +38,7 @@ export class ExifDate {
     return firstDefinedThunk([
       () => this.fromExifStrict(text),
       () => this.fromExifLoose(text),
-      () => this.fromISO(text)
+      () => this.fromISO(text),
     ])
   }
 

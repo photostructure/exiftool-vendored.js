@@ -10,7 +10,7 @@ import { isString, toS } from "./String"
 import { Tags } from "./Tags"
 import {
   extractTzOffsetFromTags,
-  extractTzOffsetFromUTCOffset
+  extractTzOffsetFromUTCOffset,
 } from "./Timezones"
 const tzlookup = require("tz-lookup")
 
@@ -22,7 +22,7 @@ const PassthroughTags = [
   "DateStampMode",
   "Sharpness",
   "Firmware",
-  "DateDisplayFormat"
+  "DateDisplayFormat",
 ]
 
 const nullishes = ["undef", "null", "undefined"]
@@ -62,11 +62,11 @@ export class ReadTask extends ExifToolTask<Tags> {
       "-struct", // Return struct tags https://exiftool.org/struct.html
       ...optionalArgs,
       "-coordFormat",
-      "%.8f" // Just a float, please, not the default of "22 deg 20' 7.58\" N"
+      "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N"
     ]
     // IMPORTANT: "-all" must be after numeric tag references (first reference
     // in wins)
-    args.push(...numericTags.map(ea => "-" + ea + "#"))
+    args.push(...numericTags.map((ea) => "-" + ea + "#"))
     // TODO: Do you need -xmp:all, -all, or -all:all?
     args.push("-all", "-charset", "filename=utf8", sourceFile)
     return new ReadTask(sourceFile, args)
@@ -84,7 +84,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       logger().warn("ExifTool.ReadTask(): Invalid JSON", {
         data,
         err,
-        jsonError
+        jsonError,
       })
       throw orElse(err, jsonError)
     }
@@ -98,7 +98,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       )
     }
     if (this.degroup) {
-      Object.keys(this._raw).forEach(keyWithGroup => {
+      Object.keys(this._raw).forEach((keyWithGroup) => {
         this._tags[this.tagName(keyWithGroup)] = this._raw[keyWithGroup]
       })
     } else {
@@ -116,10 +116,10 @@ export class ReadTask extends ExifToolTask<Tags> {
     this.extractLatLon()
     this.extractTzOffset()
     Object.keys(this._raw).forEach(
-      key => ((this.tags as any)[key] = this.parseTag(key, this._raw[key]))
+      (key) => ((this.tags as any)[key] = this.parseTag(key, this._raw[key]))
     )
-    map(this.tz, ea => (this.tags.tz = ea))
-    map(this.tzSource, ea => (this.tags.tzSource = ea))
+    map(this.tz, (ea) => (this.tags.tz = ea))
+    map(this.tzSource, (ea) => (this.tags.tzSource = ea))
     if (this.errors.length > 0) this.tags.errors = this.errors
     return this.tags as Tags
   }
@@ -161,9 +161,9 @@ export class ReadTask extends ExifToolTask<Tags> {
         () => {
           if (!this.invalidLatLon && this.lat != null && this.lon != null) {
             try {
-              return map(tzlookup(this.lat, this.lon), tz => ({
+              return map(tzlookup(this.lat, this.lon), (tz) => ({
                 tz,
-                src: "from Lat/Lon"
+                src: "from Lat/Lon",
               }))
             } catch (err) {
               /* */
@@ -171,9 +171,9 @@ export class ReadTask extends ExifToolTask<Tags> {
           }
           return
         },
-        () => extractTzOffsetFromUTCOffset(this._tags)
+        () => extractTzOffsetFromUTCOffset(this._tags),
       ]),
-      ea => ({ tz: this.tz, src: this.tzSource } = ea)
+      (ea) => ({ tz: this.tz, src: this.tzSource } = ea)
     )
   }
 
@@ -204,7 +204,7 @@ export class ReadTask extends ExifToolTask<Tags> {
           () => ExifDate.fromISO(value),
           () => ExifDateTime.fromISO(value, this.tz),
           () => ExifDate.fromExifLoose(value),
-          () => ExifDateTime.fromExifLoose(value, this.tz)
+          () => ExifDateTime.fromExifLoose(value, this.tz),
         ])
         if (dt != null) {
           return dt

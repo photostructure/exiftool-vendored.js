@@ -15,5 +15,5 @@ export function toF(n: any): Maybe<number> {
 }
 
 export function toI(n: any): Maybe<number> {
-  return map(toF(n), f => Math.round(f))
+  return map(toF(n), (f) => Math.round(f))
 }

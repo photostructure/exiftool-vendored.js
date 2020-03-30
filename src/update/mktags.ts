@@ -22,7 +22,7 @@ const exiftool = new ExifTool({
   maxProcs: cpus().length,
   taskRetries: 3,
   streamFlushMillis: 1,
-  minDelayBetweenSpawnMillis: 10
+  minDelayBetweenSpawnMillis: 10,
 })
 
 function ellipsize(str: string, max: number) {
@@ -41,7 +41,7 @@ setLogger(
           debug: console.log,
           info: console.log,
           warn: console.warn,
-          error: console.error
+          error: console.error,
         },
         orElse(env.LOG as any, "info")
       )
@@ -76,11 +76,11 @@ if (roots.length === 0)
 const pattern = "**/*.+(3fr|avi|jpg|mov|mp4|cr2|cr3|nef|orf|raf|arw|rw2)"
 
 const files = roots
-  .map(root => {
+  .map((root) => {
     logger().info("Scanning " + pattern + "...")
     return globule
       .find(pattern, { srcBase: root, nocase: true, nodir: true })
-      .map(ea => _path.resolve(root + "/" + ea))
+      .map((ea) => _path.resolve(root + "/" + ea))
   })
   .reduce((prev, curr) => prev.concat(curr))
 
@@ -94,7 +94,7 @@ logger().info("Found " + files.length + " files...", files.slice(0, 7))
 function valueType(value: any): Maybe<string> {
   if (value == null) return
   if (Array.isArray(value)) {
-    const types = uniq(compact(value.map(ea => valueType(ea))))
+    const types = uniq(compact(value.map((ea) => valueType(ea))))
     return (types.length === 1 ? types[0] : "any") + "[]"
   }
   if (typeof value === "object") {
@@ -131,7 +131,7 @@ class CountingMap<T> {
    */
   byP(p: number): T[] {
     const min = p * this.size
-    return this.byCountDesc().filter(ea => orElse(this.m.get(ea), 0) > min)
+    return this.byCountDesc().filter((ea) => orElse(this.m.get(ea), 0) > min)
   }
 }
 
@@ -182,8 +182,8 @@ class Tag {
   get valueTypes(): string[] {
     const cm = new CountingMap<string>()
     compact(this.values)
-      .map(ea => valueType(ea))
-      .forEach(ea => {
+      .map((ea) => valueType(ea))
+      .forEach((ea) => {
         if (!nullish(ea)) cm.add(ea)
       })
     return cm.byP(0.5)
@@ -192,7 +192,7 @@ class Tag {
     return this.valueTypes.join(" | ")
   }
   vacuumValues() {
-    return filterInPlace(this.values, ea => !nullish(ea))
+    return filterInPlace(this.values, (ea) => !nullish(ea))
   }
   keep(minValues: number): boolean {
     this.vacuumValues()
@@ -306,14 +306,14 @@ class Tag {
     uniq(this.values)
       .sort()
       .reverse()
-      .forEach(ea => {
+      .forEach((ea) => {
         getOrSet(byValueType, valueType(ea), () => []).push(ea)
       })
     // If there are multiple types, try to show one of each type:
     return exampleToS(
       this.valueTypes
-        .map(key => map(byValueType.get(key), ea => ea[0]))
-        .filter(ea => !nullish(ea))
+        .map((key) => map(byValueType.get(key), (ea) => ea[0]))
+        .filter((ea) => !nullish(ea))
     )
   }
 }
@@ -355,13 +355,13 @@ class TagMap {
     )
     console.log(
       allTags
-        .filter(a => !a.keep(minOccurences))
-        .map(t => t.tag)
+        .filter((a) => !a.keep(minOccurences))
+        .map((t) => t.tag)
         .join(", ")
     )
-    this.tags = allTags.filter(a => a.keep(minOccurences))
+    this.tags = allTags.filter((a) => a.keep(minOccurences))
     this.groupedTags.clear()
-    this.tags.forEach(tag => {
+    this.tags.forEach((tag) => {
       getOrSet(this.groupedTags, tag.group, () => []).push(tag)
     })
   }
@@ -377,7 +377,7 @@ const bar = new ProgressBar(
     incomplete: " ",
     width: 40,
     total: files.length,
-    renderThrottle: 100
+    renderThrottle: 100,
   }
 )
 
@@ -391,11 +391,8 @@ async function readAndAddToTagMap(file: string) {
   try {
     const tags: any = await exiftool.read(file, ["-G", "-fast"])
     seenFiles.push(file)
-    const importantFile = file
-      .toString()
-      .toLowerCase()
-      .includes("important")
-    Object.keys(tags).forEach(key => {
+    const importantFile = file.toString().toLowerCase().includes("important")
+    Object.keys(tags).forEach((key) => {
       if (null != saneTagRe.exec(key)) {
         tagMap.add(key, tags[key], importantFile)
       }
@@ -412,7 +409,7 @@ async function readAndAddToTagMap(file: string) {
     nextTick = Date.now() + 50
     bar.tick(ticks, {
       tasks: exiftool.pendingTasks,
-      procs: exiftool.busyProcs
+      procs: exiftool.busyProcs,
     })
     ticks = 0
   }
@@ -427,14 +424,14 @@ on("unhandledRejection", (reason: any) => {
   )
 })
 
-Promise.all(files.map(file => readAndAddToTagMap(file)))
+Promise.all(files.map((file) => readAndAddToTagMap(file)))
   .then(async () => {
     bar.terminate()
     tagMap.finish()
     console.log(
       `\nRead ${tagMap.map.size} unique tags from ${seenFiles.length} files.`
     )
-    const missingFiles = files.filter(ea => seenFiles.indexOf(ea) === -1)
+    const missingFiles = files.filter((ea) => seenFiles.indexOf(ea) === -1)
     console.log("missing files: " + missingFiles.join("\n"))
     const elapsedMs = Date.now() - start
     console.log(
@@ -464,7 +461,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
         "// Comments by each tag include popularity (★★★★ is found in > 75% of cameras, ☆☆☆☆ is rare),",
         "// followed by a checkmark if the tag is used by popular devices (like iPhones)",
         "// An example value, JSON stringified, follows the popularity ratings.",
-        ""
+        "",
       ].join("\n")
     )
     const groupedTags = tagMap.groupedTags
@@ -477,11 +474,11 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
           .sort((a, b) => cmp(a.tag, b.tag))
           // First group with a tag name wins. Other group's colliding tag names
           // are omitted:
-          .filter(tag => !seenTagNames.has(tag.withoutGroup))
+          .filter((tag) => !seenTagNames.has(tag.withoutGroup))
         if (filteredTags.length > 0) {
           tagGroups.push(group)
           tagWriter.write(`\nexport interface ${group}Tags {\n`)
-          filteredTags.forEach(tag => {
+          filteredTags.forEach((tag) => {
             tagWriter.write(
               `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
             )
@@ -492,8 +489,8 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
         }
       })
     const interfaceNames = [
-      ...tagGroups.map(s => s + "Tags"),
-      "ApplicationRecordTags"
+      ...tagGroups.map((s) => s + "Tags"),
+      "ApplicationRecordTags",
     ]
     tagWriter.write(
       [
@@ -509,7 +506,7 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
         "  /** Description of where and how `tz` was extracted */",
         "  tzSource?: string",
         "}",
-        ""
+        "",
       ].join("\n")
     )
     tagWriter.end()
@@ -518,8 +515,8 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     const tags = tagMap.tags
     const tagsByPctPop = times(
       100,
-      pct =>
-        tags.filter(tag => tag.values.length / files.length > pct / 100.0)
+      (pct) =>
+        tags.filter((tag) => tag.values.length / files.length > pct / 100.0)
           .length
     )
     const scale = 80 / files.length
@@ -538,6 +535,6 @@ Promise.all(files.map(file => readAndAddToTagMap(file)))
     )
     return exiftool.end()
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err)
   })

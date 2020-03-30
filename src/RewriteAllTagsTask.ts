@@ -26,7 +26,7 @@ export class RewriteAllTagsTask extends ExifToolTask<void> {
       allowMakerNoteRepair ? "-F" : undefined,
       _path.resolve(imgSrc),
       "-out",
-      _path.resolve(imgDest)
+      _path.resolve(imgDest),
     ])
     return new RewriteAllTagsTask(args)
   }

@@ -12,7 +12,8 @@ export class ExifTime {
     text = toS(text).trim()
     return first(
       ["HH:mm:ss.uZZ", "HH:mm:ssZZ", "HH:mm:ss.u", "HH:mm:ss"],
-      fmt => map(DateTime.fromFormat(text, fmt), dt => this.fromDateTime(dt))
+      (fmt) =>
+        map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt))
     )
   }
 

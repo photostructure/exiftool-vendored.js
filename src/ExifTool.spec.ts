@@ -11,7 +11,7 @@ import { Tags } from "./Tags"
 
 function normalize(tagNames: string[]): string[] {
   return tagNames
-    .filter(i => i !== "FileInodeChangeDate" && i !== "FileCreateDate")
+    .filter((i) => i !== "FileInodeChangeDate" && i !== "FileCreateDate")
     .sort()
 }
 
@@ -19,7 +19,7 @@ function posixPath(path: string) {
   return path.split(_path.sep).join("/")
 }
 
-describe("ExifTool", function() {
+describe("ExifTool", function () {
   this.timeout(15000)
   this.slow(100)
 
@@ -77,12 +77,12 @@ describe("ExifTool", function() {
         () =>
           (et = new ExifTool({
             maxProcs: 2,
-            ignoreShebang
+            ignoreShebang,
           }))
       )
       after(() => et.end())
 
-      it("returns the correct version", async function() {
+      it("returns the correct version", async function () {
         this.slow(500)
         return expect(await et.version()).to.eql(expectedExiftoolVersion())
       })
@@ -92,25 +92,25 @@ describe("ExifTool", function() {
         expect(DefaultMaxProcs).to.be.within(1, 64)
       })
 
-      it("returns expected results for a given file", async function() {
+      it("returns expected results for a given file", async function () {
         this.slow(500)
-        return expect(et.read(img).then(tags => tags.Model)).to.eventually.eql(
-          "iPhone 7 Plus"
-        )
+        return expect(
+          et.read(img).then((tags) => tags.Model)
+        ).to.eventually.eql("iPhone 7 Plus")
       })
 
       it("returns raw tag values", async () => {
         return expect(et.readRaw(img, ["-Make", "-Model"])).to.eventually.eql({
           Make: "Apple",
           Model: "iPhone 7 Plus",
-          SourceFile: posixPath(img)
+          SourceFile: posixPath(img),
         }) // and nothing else
       })
 
-      it("returns expected results for a given file with non-english filename", async function() {
+      it("returns expected results for a given file with non-english filename", async function () {
         this.slow(500)
         return expect(
-          et.read(nonEnglishImg).then(tags => tags.Model)
+          et.read(nonEnglishImg).then((tags) => tags.Model)
         ).to.eventually.eql("iPhone 7 Plus")
       })
 
@@ -126,7 +126,7 @@ describe("ExifTool", function() {
           ImageHeight: 8,
           ImageWidth: 8,
           OriginalImageHeight: undefined,
-          OriginalImageWidth: undefined
+          OriginalImageWidth: undefined,
         })
       })
 
@@ -136,7 +136,7 @@ describe("ExifTool", function() {
           ImageHeight: 8,
           ImageWidth: 8,
           OriginalImageHeight: 16,
-          OriginalImageWidth: 16
+          OriginalImageWidth: 16,
         })
       })
 
@@ -147,13 +147,13 @@ describe("ExifTool", function() {
           FileType: "JPEG",
           FileTypeExtension: "jpg",
           MIMEType: "image/jpeg",
-          Warning: "JPEG format error"
+          Warning: "JPEG format error",
         })
       })
 
       it("returns no exif metadata for an image with no headers", () => {
         return expect(
-          et.read(noexif).then(tags => normalize(Object.keys(tags)))
+          et.read(noexif).then((tags) => normalize(Object.keys(tags)))
         ).to.become(
           normalize([
             "BitsPerSample",
@@ -175,7 +175,7 @@ describe("ExifTool", function() {
             "MIMEType",
             "SourceFile",
             "YCbCrSubSampling",
-            "errors"
+            "errors",
           ])
         )
       })
@@ -193,12 +193,12 @@ describe("ExifTool", function() {
           MIMEType: "text/plain",
           // may be utf-8 or us-ascii, but we don't really care.
           // MIMEEncoding: "us-ascii",
-          errors: []
+          errors: [],
         })
       })
 
       function assertReasonableTags(tags: Tags[]): void {
-        tags.forEach(tag => {
+        tags.forEach((tag) => {
           expect(tag.errors).to.eql([])
           expect(tag.MIMEType).to.eql("image/jpeg")
           expect(tag.GPSLatitude).to.be.within(-90, 90)
@@ -206,7 +206,7 @@ describe("ExifTool", function() {
         })
       }
 
-      it("ends procs when they've run > maxTasksPerProcess", async function() {
+      it("ends procs when they've run > maxTasksPerProcess", async function () {
         const maxProcs = 5
         const maxTasksPerProcess = 8
         const et2 = new ExifTool({ maxProcs, maxTasksPerProcess })
@@ -229,20 +229,20 @@ describe("ExifTool", function() {
         return
       })
 
-      it("ends with multiple procs", async function() {
+      it("ends with multiple procs", async function () {
         const maxProcs = 4
         const et2 = new ExifTool({ maxProcs })
         try {
           const tasks = await Promise.all(
             times(maxProcs * 4, () => et2.read(img3))
           )
-          tasks.forEach(t =>
+          tasks.forEach((t) =>
             expect(t).to.include({
               // SourceFile: img3, Don't include SourceFile, because it's wonky on windows. :\
               MIMEType: "image/jpeg",
               Model: "C2020Z",
               ImageWidth: 1600,
-              ImageHeight: 1200
+              ImageHeight: 1200,
             })
           )
           await et2.end()
@@ -253,7 +253,7 @@ describe("ExifTool", function() {
         return
       })
 
-      it("invalid images throw errors on write", async function() {
+      it("invalid images throw errors on write", async function () {
         const badImg = await testImg("bad-exif-ifd.jpg")
         return expect(
           et.write(badImg, { AllDates: new Date().toISOString() })
@@ -276,7 +276,7 @@ describe("ExifTool", function() {
           ExifImageHeight: 2400,
           LensInfo: "12-40mm f/2.8",
           LensModel: "OLYMPUS M.12-40mm F2.8",
-          tz: "UTC-07"
+          tz: "UTC-07",
         })
         expect(t.DateTimeOriginal?.toString()).to.eql(
           "2014-07-19T12:05:19.000-07:00"
@@ -290,7 +290,7 @@ describe("ExifTool", function() {
           Make: "Google",
           Model: "Pixel",
           ExposureTime: "1/831",
-        FNumber: 2,
+          FNumber: 2,
           ExposureProgram: "Program AE",
           ISO: 50,
           Aperture: 2,
@@ -300,7 +300,7 @@ describe("ExifTool", function() {
           GPSLatitude: 37.4836666666667,
           GPSLongitude: -122.452094444444,
           GPSAltitude: -47,
-          tz: "America/Los_Angeles"
+          tz: "America/Los_Angeles",
         })
         expect(t.SubSecDateTimeOriginal?.toString()).to.eql(
           "2016-12-13T09:05:27.120-08:00"
@@ -317,7 +317,7 @@ describe("ExifTool", function() {
           Make: "Apple",
           Model: "iPhone 7 Plus",
           FNumber: 1.8,
-          tz: "Asia/Hong_Kong"
+          tz: "Asia/Hong_Kong",
         })
         expect(tags.DateTimeCreated).to.eql(
           ExifDateTime.fromISO(
@@ -346,7 +346,7 @@ describe("ExifTool", function() {
           "Model",
           "ShutterSpeedValue",
           "TimeCreated",
-          "XPKeywords"
+          "XPKeywords",
         ]
 
         // These are intrinsic fields that are expected to remain:
@@ -370,19 +370,19 @@ describe("ExifTool", function() {
           "Megapixels",
           "MIMEType",
           "SourceFile",
-          "YCbCrSubSampling"
+          "YCbCrSubSampling",
         ]
         {
           const beforeKeys = keys(before)
-          ;[...expectedBeforeTags, ...expectedAfterTags].forEach(ea =>
+          ;[...expectedBeforeTags, ...expectedAfterTags].forEach((ea) =>
             expect(beforeKeys).to.include(ea)
           )
         }
         await et.deleteAllTags(f)
         const after = await et.read(f)
         const afterKeys = keys(after).sort()
-        expectedBeforeTags.forEach(ea => expect(afterKeys).to.not.include(ea))
-        expectedAfterTags.forEach(ea => expect(afterKeys).to.include(ea))
+        expectedBeforeTags.forEach((ea) => expect(afterKeys).to.not.include(ea))
+        expectedAfterTags.forEach((ea) => expect(afterKeys).to.include(ea))
       })
     })
   }

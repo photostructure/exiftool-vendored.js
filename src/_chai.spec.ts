@@ -20,7 +20,7 @@ setLogger(
           debug: console.log,
           info: console.log,
           warn: console.warn,
-          error: console.error
+          error: console.error,
         },
         orElse(env.LOG as any, "error")
       )
@@ -59,8 +59,8 @@ export function sha1(path: string) {
   const d = new Deferred<string>()
   const readStream = fse.createReadStream(path, { autoClose: true })
   const sha = createHash("sha1")
-  readStream.on("data", ea => sha.update(ea))
-  readStream.on("error", err => d.reject(err))
+  readStream.on("data", (ea) => sha.update(ea))
+  readStream.on("error", (err) => d.reject(err))
   readStream.on("end", () => d.resolve(sha.digest().toString("hex")))
   return d.promise
 }

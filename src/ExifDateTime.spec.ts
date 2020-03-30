@@ -76,7 +76,7 @@ describe("ExifDateTime", () => {
         d.getUTCHours(),
         d.getUTCMinutes(),
         d.getUTCSeconds(),
-        d.getUTCMilliseconds()
+        d.getUTCMilliseconds(),
       ]).to.eql([18, 19, 20, 0])
     })
     it("Renders a UTC Date assuming the current timezone offset", () => {
@@ -113,7 +113,7 @@ describe("ExifDateTime", () => {
         d.getUTCHours(),
         d.getUTCMinutes(),
         d.getUTCSeconds(),
-        d.getUTCMilliseconds()
+        d.getUTCMilliseconds(),
       ]).to.eql([14, 20, 36, 0])
     })
     it("Renders a UTC Date assuming the current timezone offset", () => {
@@ -173,7 +173,7 @@ describe("ExifDateTime", () => {
         d.getUTCHours(),
         d.getUTCMinutes(),
         d.getUTCSeconds(),
-        d.getUTCMilliseconds()
+        d.getUTCMilliseconds(),
       ]).to.eql([11 + 5, 4, 15, 0])
     })
     it("Renders a UTC Date assuming the current timezone offset", () => {
@@ -208,13 +208,13 @@ describe("ExifDateTime", () => {
       expect([d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]).to.eql([
         2013,
         12,
-        30
+        30,
       ])
       expect([
         d.getUTCHours(),
         d.getUTCMinutes(),
         d.getUTCSeconds(),
-        d.getUTCMilliseconds()
+        d.getUTCMilliseconds(),
       ]).to.eql([3 + 5, 4, 15, 79])
     })
     it("Renders a UTC Date assuming the current timezone offset", () => {
@@ -231,9 +231,9 @@ describe("ExifDateTime", () => {
       "0000:00:00",
       "0001:01:01 00:00:00.00", // < actual value from a Fotofly image (SHAME!)
       "0001:01:01",
-      "    :  :     :  :  "
+      "    :  :     :  :  ",
     ]
-    examples.forEach(bad => {
+    examples.forEach((bad) => {
       it(bad + " for DateTimeOriginal", () => {
         expect(ExifDateTime.fromEXIF(bad)).to.eql(undefined)
       })

@@ -8,7 +8,7 @@ describe("Array", () => {
         1,
         0,
         false,
-        ""
+        "",
       ])
     })
   })
@@ -20,21 +20,21 @@ describe("Array", () => {
 
   describe("filterInPlace()", () => {
     it("no-ops for always-true predicates", () => {
-      const arr = times(5, i => i)
-      const exp = times(5, i => i)
+      const arr = times(5, (i) => i)
+      const exp = times(5, (i) => i)
       expect(filterInPlace(arr, () => true)).to.eql(exp)
       expect(arr).to.eql(exp)
     })
     it("removes all items for always-false predicates", () => {
-      const arr = times(5, i => i)
+      const arr = times(5, (i) => i)
       const exp: number[] = []
       expect(filterInPlace(arr, () => false)).to.eql(exp)
       expect(arr).to.eql(exp)
     })
     it("removes filtered items in the source array", () => {
-      const arr = times(5, i => i)
+      const arr = times(5, (i) => i)
       const exp = [0, 2, 4]
-      expect(filterInPlace(arr, i => i % 2 === 0)).to.eql(exp)
+      expect(filterInPlace(arr, (i) => i % 2 === 0)).to.eql(exp)
       expect(arr).to.eql(exp)
     })
   })
@@ -46,7 +46,7 @@ describe("Array", () => {
         2,
         3,
         4,
-        5
+        5,
       ])
     })
   })

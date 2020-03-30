@@ -21,7 +21,7 @@ describe("WriteTask", () => {
     inputValue,
     expectedValue,
     args,
-    cmp
+    cmp,
   }: {
     dest: string
     tagName: keyof WriteTags
@@ -56,7 +56,7 @@ describe("WriteTask", () => {
 
   function runRoundTripTests({
     withTZ,
-    dest
+    dest,
   }: {
     withTZ: boolean
     dest: (basename?: string) => Promise<string>
@@ -66,7 +66,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: textTagName,
-        inputValue: "new comment from " + new Date()
+        inputValue: "new comment from " + new Date(),
       })
     })
 
@@ -74,7 +74,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: textTagName,
-        inputValue: "new comment\nfrom\r" + new Date()
+        inputValue: "new comment\nfrom\r" + new Date(),
       })
     })
 
@@ -82,7 +82,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: textTagName,
-        inputValue: "早安晨之美" + new Date()
+        inputValue: "早安晨之美" + new Date(),
       })
     })
 
@@ -90,7 +90,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest("中文"),
         tagName: textTagName,
-        inputValue: "new comment from " + new Date()
+        inputValue: "new comment from " + new Date(),
       })
     })
 
@@ -98,7 +98,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest("中文"),
         tagName: textTagName,
-        inputValue: "早安晨之美" + new Date()
+        inputValue: "早安晨之美" + new Date(),
       })
     })
 
@@ -106,7 +106,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: "Orientation#",
-        inputValue: 1
+        inputValue: 1,
       })
     })
 
@@ -114,7 +114,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: "Orientation#",
-        inputValue: 6
+        inputValue: 6,
       })
     })
 
@@ -122,7 +122,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: "Orientation#",
-        inputValue: 3
+        inputValue: 3,
       })
     })
 
@@ -130,7 +130,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: "ExposureTime",
-        inputValue: "1/300"
+        inputValue: "1/300",
       })
     })
 
@@ -141,7 +141,7 @@ describe("WriteTask", () => {
         inputValue: "2017-11-15T12:34:56" + tzo,
         cmp: (actual: ExifDateTime) => {
           expect(actual.toISOString()).to.eql(`2017-11-15T12:34:56.000${tzo}`)
-        }
+        },
       })
     })
 
@@ -149,7 +149,7 @@ describe("WriteTask", () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: multiTagName,
-        inputValue: ["one", "two", "three", "commas, even!"]
+        inputValue: ["one", "two", "three", "commas, even!"],
       })
     })
 
@@ -157,7 +157,7 @@ describe("WriteTask", () => {
       const src = await dest()
       const wt: WriteTags = {
         DateTimeDigitized: new ExifDateTime(2010, 7, 13, 14, 15, 16, 123),
-        TimeZoneOffset: +8
+        TimeZoneOffset: +8,
       }
       await exiftool.write(src, wt)
       const newTags = await exiftool.read(src)
@@ -173,7 +173,7 @@ describe("WriteTask", () => {
       const src = await dest()
       const wt: WriteTags = {
         CreateDate: new ExifDateTime(2019, 1, 2, 0, 0, 0, 0),
-        OffsetTime: "-05:00"
+        OffsetTime: "-05:00",
       }
       await exiftool.write(src, wt)
       const t = await exiftool.read(src)
@@ -186,7 +186,7 @@ describe("WriteTask", () => {
     it("updates ReleaseDate to a specific date", async () => {
       const f = await dest()
       const wt: WriteTags = {
-        ReleaseDate: ExifDate.fromISO("2019-01-02")
+        ReleaseDate: ExifDate.fromISO("2019-01-02"),
       }
       await exiftool.write(f, wt)
       const newTags = await exiftool.read(f)
@@ -197,7 +197,7 @@ describe("WriteTask", () => {
     it("round-trips a struct tag", async () => {
       const struct: Struct[] = [
         { RegItemId: "item 1", RegOrgId: "org 1" },
-        { RegEntryRole: "role 2", RegOrgId: "org 2" }
+        { RegEntryRole: "role 2", RegOrgId: "org 2" },
       ]
       const f = await dest()
       await exiftool.write(f, { RegistryID: struct })
@@ -224,7 +224,7 @@ describe("WriteTask", () => {
       const src = await dest()
       return expect(
         exiftool.write(src, {
-          Orientation: "this isn't a valid orientation" as any
+          Orientation: "this isn't a valid orientation" as any,
         })
       ).to.be.rejectedWith(/Can't convert IFD0:Orientation/i)
     })
@@ -257,18 +257,18 @@ describe("WriteTask", () => {
   describe("round-trip with an image", () =>
     runRoundTripTests({
       withTZ: true,
-      dest: name => testImg(map(name, ea => ea + ".jpg"))
+      dest: (name) => testImg(map(name, (ea) => ea + ".jpg")),
     }))
 
   describe("round-trip with an XMP sidecar", () =>
     runRoundTripTests({
       withTZ: false, // BOO XMP
-      dest: ea => testFile(orElse(ea, "img") + ".xmp")
+      dest: (ea) => testFile(orElse(ea, "img") + ".xmp"),
     }))
 
   describe("round-trip with an MIE sidecar", () =>
     runRoundTripTests({
       withTZ: true,
-      dest: ea => testFile(orElse(ea, "img") + ".mie")
+      dest: (ea) => testFile(orElse(ea, "img") + ".mie"),
     }))
 })

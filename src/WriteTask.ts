@@ -20,7 +20,7 @@ const utfCharsetArgs = [
   "-codedcharacterset=utf8",
   `-sep`,
   `${sep}`,
-  "-E" // < html encoding https://exiftool.org/faq.html#Q10
+  "-E", // < html encoding https://exiftool.org/faq.html#Q10
 ]
 
 function enc(o: any): Maybe<string> {
@@ -33,13 +33,13 @@ function enc(o: any): Maybe<string> {
   } else if (isDateOrTime(o)) {
     return toExifString(o)
   } else if (Array.isArray(o)) {
-    const primitiveArray = o.every(ea => isString(ea) || isNumber(ea))
+    const primitiveArray = o.every((ea) => isString(ea) || isNumber(ea))
     return primitiveArray
       ? `${o.map(enc).join(sep)}`
       : `[${o.map(enc).join(",")}]`
   } else if (isStruct(o)) {
     return `{${keys(o)
-      .map(k => enc(k) + " = " + enc(o[k]))
+      .map((k) => enc(k) + " = " + enc(o[k]))
       .join(",")}}`
   } else {
     throw new Error("cannot encode " + JSON.stringify(o))
@@ -65,7 +65,7 @@ export class WriteTask extends ExifToolTask<void> {
       args.push(`-${key}=${enc(val)}`)
     }
 
-    optionalArgs.forEach(ea => args.push(ea))
+    optionalArgs.forEach((ea) => args.push(ea))
     args.push(sourceFile)
     return new WriteTask(sourceFile, args)
   }

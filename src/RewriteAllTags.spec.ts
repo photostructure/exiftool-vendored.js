@@ -11,7 +11,7 @@ describe("RewriteAllTagsTask", () => {
 
   after(() => exiftool.end())
 
-  it("throws on missing input", async function() {
+  it("throws on missing input", async function () {
     this.slow(500)
     return expect(
       exiftool.rewriteAllTags("missing.jpg", "ignored.jpg")
@@ -25,7 +25,7 @@ describe("RewriteAllTagsTask", () => {
       b.getUTCDate(),
       b.getUTCHours(),
       b.getUTCMinutes(),
-      b.getUTCSeconds()
+      b.getUTCSeconds(),
     ])
   }
 

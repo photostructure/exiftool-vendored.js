@@ -39,7 +39,7 @@ export function offsetMinutesToZoneName(
 }
 
 function dtToMs(s: Maybe<string>, defaultZone?: string): Maybe<number> {
-  return map(ExifDateTime.fromExifStrict(s, defaultZone), dt =>
+  return map(ExifDateTime.fromExifStrict(s, defaultZone), (dt) =>
     dt.toDate().getTime()
   )
 }
@@ -71,13 +71,13 @@ export function extractOffset(tz: Maybe<string>): Maybe<TzSrc> {
   if (isString(tz) && Info.isValidIANAZone(tz)) {
     return { tz, src: "validIANAZone" }
   }
-  return map(tzRe.exec(tz), m =>
+  return map(tzRe.exec(tz), (m) =>
     map(
       offsetMinutesToZoneName(
         (m[1] === "-" ? -1 : 1) *
           (parseInt(m[2]) * 60 + parseInt(orElse(m[3], "0")))
       ),
-      ea => ({ tz: ea, src: "offsetMinutesToZoneName" })
+      (ea) => ({ tz: ea, src: "offsetMinutesToZoneName" })
     )
   )
 }
@@ -104,21 +104,21 @@ export function extractTzOffsetFromTags(t: {
           "OffsetTime",
           "OffsetTimeOriginal",
           "OffsetTimeDigitized",
-          "TimeZoneOffset"
+          "TimeZoneOffset",
         ],
-        tagName =>
-          map(extractOffset((t as any)[tagName]), ea => ({
+        (tagName) =>
+          map(extractOffset((t as any)[tagName]), (ea) => ({
             tz: ea.tz,
-            src: ea.src + " from " + tagName
+            src: ea.src + " from " + tagName,
           }))
       ),
     () =>
-      map(t.TimeZoneOffset, value =>
-        map(tzHourToOffset(Array.isArray(value) ? value[0] : value), tz => ({
+      map(t.TimeZoneOffset, (value) =>
+        map(tzHourToOffset(Array.isArray(value) ? value[0] : value), (tz) => ({
           tz,
-          src: "TimeZoneOffset"
+          src: "TimeZoneOffset",
         }))
-      )
+      ),
   ])
 }
 
@@ -126,8 +126,8 @@ function firstUtcMs(
   tags: any,
   tagNames: string[]
 ): Maybe<{ tagName: string; utcMs: number }> {
-  return first(tagNames, tagName =>
-    map(utcToMs(tags[tagName]), utcMs => ({ tagName, utcMs }))
+  return first(tagNames, (tagName) =>
+    map(utcToMs(tags[tagName]), (utcMs) => ({ tagName, utcMs }))
   )
 }
 
@@ -161,7 +161,7 @@ export function extractTzOffsetFromUTCOffset(t: {
   const utc = firstUtcMs({ ...t, GPSDateTimeStamp }, [
     "GPSDateTime",
     "DateTimeUTC",
-    "GPSDateTimeStamp"
+    "GPSDateTimeStamp",
   ])
   const dt = firstUtcMs(t, [
     "SubSecDateTimeOriginal",
@@ -170,13 +170,13 @@ export function extractTzOffsetFromUTCOffset(t: {
     "CreateDate",
     "SubSecMediaCreateDate",
     "MediaCreateDate",
-    "DateTimeCreated"
+    "DateTimeCreated",
   ])
   if (utc == null || dt == null) return
   // By flooring
   const offsetMinutes = inferLikelyOffsetMinutes(dt.utcMs - utc.utcMs)
-  return map(offsetMinutesToZoneName(offsetMinutes), tz => ({
+  return map(offsetMinutesToZoneName(offsetMinutes), (tz) => ({
     tz,
-    src: `offset between ${dt.tagName} and ${utc.tagName}`
+    src: `offset between ${dt.tagName} and ${utc.tagName}`,
   }))
 }

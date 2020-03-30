@@ -5,8 +5,8 @@ export function isString(o: any): o is string {
   return typeof o === "string"
 }
 
-const spaces = times(10, i => times(i, () => " ").join(""))
-const zeroes = times(10, i => times(i, () => "0").join(""))
+const spaces = times(10, (i) => times(i, () => " ").join(""))
+const zeroes = times(10, (i) => times(i, () => "0").join(""))
 
 export function blank(s: Maybe<string>): s is undefined {
   return s == null || String(s).trim().length === 0
@@ -42,20 +42,18 @@ export function leftPad(
 }
 
 export function pad2(...numbers: number[]): string[] {
-  return numbers.map(i => leftPad(i, 2, "0"))
+  return numbers.map((i) => leftPad(i, 2, "0"))
 }
 
 export function pad3(...numbers: number[]): string[] {
-  return numbers.map(i => leftPad(i, 3, "0"))
+  return numbers.map((i) => leftPad(i, 3, "0"))
 }
 
 /**
  * NOTE: case insensitive
  */
 export function stripPrefix(s: string, prefix: string): string {
-  return toS(s)
-    .toLowerCase()
-    .startsWith(prefix.toLowerCase())
+  return toS(s).toLowerCase().startsWith(prefix.toLowerCase())
     ? s.slice(prefix.length)
     : s
 }
@@ -74,6 +72,6 @@ const safeChars = /[a-z0-9 :/+.-]/i
 export function htmlEncode(s: string): string {
   return s
     .split("")
-    .map(ea => (safeChars.exec(ea) == null ? `&#${ea.charCodeAt(0)};` : ea))
+    .map((ea) => (safeChars.exec(ea) == null ? `&#${ea.charCodeAt(0)};` : ea))
     .join("")
 }

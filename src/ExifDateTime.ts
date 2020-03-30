@@ -23,7 +23,7 @@ export class ExifDateTime {
     return this.fromDateTime(
       DateTime.fromISO(iso, {
         setZone: true,
-        zone: orElse(defaultZone, unsetZone)
+        zone: orElse(defaultZone, unsetZone),
       }),
       orElse(rawValue, iso)
     )
@@ -46,7 +46,7 @@ export class ExifDateTime {
     return firstDefinedThunk([
       () => this.fromExifStrict(text, defaultZone),
       () => this.fromISO(text, defaultZone),
-      () => this.fromExifLoose(text, defaultZone)
+      () => this.fromExifLoose(text, defaultZone),
     ])
   }
 
@@ -69,11 +69,11 @@ export class ExifDateTime {
       if (noTza !== s) inputs.push(noTza)
     }
 
-    return first(inputs, input =>
+    return first(inputs, (input) =>
       first(fmts, ({ fmt, zone: fmtZone }) =>
         map(
           DateTime.fromFormat(input, fmt, { setZone: true, zone: fmtZone }),
-          dt => this.fromDateTime(dt, s)
+          (dt) => this.fromDateTime(dt, s)
         )
       )
     )
@@ -99,7 +99,7 @@ export class ExifDateTime {
       { fmt: "y:M:d H:m:s", zone },
 
       // Not found yet? Maybe it's in ISO format? See https://github.com/photostructure/exiftool-vendored.js/issues/71
-      
+
       // if it specifies a zone, use it:
       { fmt: "y-M-d'T'H:m:s.uZZ" },
       { fmt: "y-M-d'T'H:m:sZZ" },
@@ -110,7 +110,7 @@ export class ExifDateTime {
 
       // Otherwise use the default zone:
       { fmt: "y-M-d'T'H:m:s.u", zone },
-      { fmt: "y-M-d'T'H:m:s", zone }
+      { fmt: "y-M-d'T'H:m:s", zone },
     ])
   }
 
@@ -128,7 +128,7 @@ export class ExifDateTime {
       { fmt: "MMM d y, H:m:s", zone },
       // Thu Oct 13 00:12:27 2016:
       { fmt: "ccc MMM d H:m:s yZZ" },
-      { fmt: "ccc MMM d H:m:s y", zone }
+      { fmt: "ccc MMM d H:m:s y", zone },
     ])
   }
 
@@ -191,11 +191,11 @@ export class ExifDateTime {
       day: this.day,
       hour: this.hour,
       minute: this.minute,
-      second: this.second
+      second: this.second,
     }
-    map(this.millisecond, ea => (o.millisecond = ea))
+    map(this.millisecond, (ea) => (o.millisecond = ea))
     if (this.hasZone) {
-      map(this.tzoffsetMinutes, ea => (o.zone = offsetMinutesToZoneName(ea)))
+      map(this.tzoffsetMinutes, (ea) => (o.zone = offsetMinutesToZoneName(ea)))
     }
     return DateTime.fromObject(o)
   }
@@ -210,7 +210,7 @@ export class ExifDateTime {
         options.suppressMilliseconds,
         () => this.millisecond == null
       ),
-      includeOffset: this.hasZone && options.includeOffset !== false
+      includeOffset: this.hasZone && options.includeOffset !== false,
     })
   }
 

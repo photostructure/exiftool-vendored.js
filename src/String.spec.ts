@@ -13,17 +13,17 @@ describe("String", () => {
     { i: 11, pad2: "11", pad3: "011" },
     { i: 99, pad2: "99", pad3: "099" },
     { i: 100, pad2: "100", pad3: "100" },
-    { i: 1999, pad2: "1999", pad3: "1999" }
+    { i: 1999, pad2: "1999", pad3: "1999" },
   ]
   describe("pad2()", () => {
-    examples.forEach(e => {
+    examples.forEach((e) => {
       it(e.i + " => " + e.pad2, () => {
         expect(pad2(e.i)).to.eql([e.pad2])
       })
     })
   })
   describe("pad3()", () => {
-    examples.forEach(e => {
+    examples.forEach((e) => {
       it(e.i + " => " + e.pad3, () => {
         expect(pad3(e.i)).to.eql([e.pad3])
       })

@@ -49,7 +49,7 @@ describe("ReadTask", () => {
         parse({
           GPSLongitude: 122.4406148,
           GPSLongitudeRef: "W",
-          OffsetTime: "+02:00"
+          OffsetTime: "+02:00",
         }).GPSLongitude
       ).to.be.closeTo(-122.4406148, 0.00001)
     })
@@ -59,7 +59,7 @@ describe("ReadTask", () => {
     it("finds singular positive TimeZoneOffset and sets accordingly", () => {
       const t = parse({
         TimeZoneOffset: 9,
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
     })
@@ -67,7 +67,7 @@ describe("ReadTask", () => {
     it("finds positive array TimeZoneOffset and sets accordingly", () => {
       const t = parse({
         TimeZoneOffset: [9, 8],
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
     })
@@ -75,7 +75,7 @@ describe("ReadTask", () => {
     it("finds zulu TimeZoneOffset and sets accordingly", () => {
       const t = parse({
         TimeZoneOffset: 0,
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(0)
     })
@@ -83,7 +83,7 @@ describe("ReadTask", () => {
     it("finds negative TimeZoneOffset in array and sets accordingly", () => {
       const t = parse({
         TimeZoneOffset: [-4],
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-4 * 60)
     })
@@ -91,7 +91,7 @@ describe("ReadTask", () => {
     it("respects positive HH:MM OffsetTime", () => {
       const t = parse({
         OffsetTime: "+02:30",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(2 * 60 + 30)
     })
@@ -99,7 +99,7 @@ describe("ReadTask", () => {
     it("respects positive HH OffsetTime", () => {
       const t = parse({
         OffsetTime: "+07",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(7 * 60)
     })
@@ -107,7 +107,7 @@ describe("ReadTask", () => {
     it("respects negative HH:MM OffsetTime", () => {
       const t = parse({
         OffsetTime: "-06:30",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-(6 * 60 + 30))
     })
@@ -115,7 +115,7 @@ describe("ReadTask", () => {
     it("respects negative HH OffsetTime", () => {
       const t = parse({
         OffsetTime: "-9",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60)
       expect(t.tz).to.eql("UTC-09")
@@ -128,7 +128,7 @@ describe("ReadTask", () => {
         GPSLatitudeRef: "N",
         GPSLongitude: 109.606407,
         GPSLongitudeRef: "W",
-        DateTimeOriginal: "2016:08:12 13:28:50"
+        DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-6 * 60)
       expect(t.tz).to.eql("America/Denver")
@@ -139,10 +139,14 @@ describe("ReadTask", () => {
       const t = parse({
         DateTimeOriginal: "2016:10:19 11:15:14",
         GPSDateTime: "2016:10:19 18:15:12",
-        DateTimeCreated: "2016:10:19 11:15:14"
+        DateTimeCreated: "2016:10:19 11:15:14",
       })
-      expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(-7 * 60)
-      expect((t.DateTimeCreated as ExifDateTime).tzoffsetMinutes).to.eql(-7 * 60)
+      expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(
+        -7 * 60
+      )
+      expect((t.DateTimeCreated as ExifDateTime).tzoffsetMinutes).to.eql(
+        -7 * 60
+      )
       expect(t.tz).to.eql("UTC-07")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and GPSDateTime"
@@ -153,9 +157,11 @@ describe("ReadTask", () => {
       const t = parse({
         DateTimeOriginal: "2016:10:19 11:15:14",
         DateTimeUTC: "2016:10:19 03:15:12",
-        DateTimeCreated: "2016:10:19 11:15:14"
+        DateTimeCreated: "2016:10:19 11:15:14",
       })
-      expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(8 * 60)
+      expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(
+        8 * 60
+      )
       expect((t.DateTimeCreated as ExifDateTime).tzoffsetMinutes).to.eql(8 * 60)
       expect(t.tz).to.eql("UTC+08")
       expect(t.tzSource).to.eql(
@@ -167,7 +173,7 @@ describe("ReadTask", () => {
       const t = parse({
         DateTimeOriginal: "2018:10:19 11:15:14",
         DateTimeUTC: "2018:10:19 05:45:12",
-        DateTimeCreated: "2018:10:19 11:15:14"
+        DateTimeCreated: "2018:10:19 11:15:14",
       })
       expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(
         5.5 * 60
@@ -185,7 +191,7 @@ describe("ReadTask", () => {
       const t = parse({
         DateTimeOriginal: "2016:12:13 09:05:27",
         GPSDateTime: "2016:12:13 17:05:25",
-        SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200"
+        SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200",
       })
       expect((t.SubSecDateTimeOriginal as any).tzoffsetMinutes).to.eql(-8 * 60)
       expect(t.SubSecDateTimeOriginal?.toString()).to.eql(
@@ -204,7 +210,7 @@ describe("ReadTask", () => {
     it("skips invalid timestamps", () => {
       const t = parse({
         DateTimeOriginal: "2016:08:12 13:28:50",
-        GPSDateTime: "not a timestamp"
+        GPSDateTime: "not a timestamp",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(undefined)
       expect(t.tz).to.eql(undefined)
@@ -240,7 +246,7 @@ describe("ReadTask", () => {
     before(
       () =>
         (et = new ExifTool({
-          exiftoolEnv: { EXIFTOOL_HOME: resolve(__dirname, "..", "test") }
+          exiftoolEnv: { EXIFTOOL_HOME: resolve(__dirname, "..", "test") },
         }))
     )
     after(() => et.end())

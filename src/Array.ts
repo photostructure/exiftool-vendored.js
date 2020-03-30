@@ -1,7 +1,7 @@
 import { MaybeNull } from "./Maybe"
 
 export function compact<T>(array: MaybeNull<T>[]): T[] {
-  return array.filter(elem => elem != null) as T[]
+  return array.filter((elem) => elem != null) as T[]
 }
 
 export function times<T>(n: number, f: (idx: number) => T): T[] {

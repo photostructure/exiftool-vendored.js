@@ -38,7 +38,7 @@ function findExiftool(): string {
   // field.
   const fixedPath = path
     .split(_path.sep)
-    .map(ea => (ea === "app.asar" ? "app.asar.unpacked" : ea))
+    .map((ea) => (ea === "app.asar" ? "app.asar.unpacked" : ea))
     .join(_path.sep)
 
   // Note also, that we must check for the fixedPath first, because Electron's
@@ -219,7 +219,7 @@ export const DefaultExifToolOptions: Omit<
   fail: "{ready}",
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
-  numericTags: ["*Duration*", "GPS*", "Orientation"]
+  numericTags: ["*Duration*", "GPS*", "Orientation"],
 })
 
 /**
@@ -240,7 +240,7 @@ export class ExifTool {
     }
     const o = {
       ...DefaultExifToolOptions,
-      ...options
+      ...options,
     }
     const ignoreShebang = orElse(o.ignoreShebang, () => _ignoreShebang())
 
@@ -252,7 +252,7 @@ export class ExifTool {
       stdio: "pipe",
       shell: ignoreShebang, // we need to spawn a shell if we ignore the shebang.
       detached: false,
-      env
+      env,
     }
     const processFactory = () =>
       ignoreShebang
@@ -265,7 +265,7 @@ export class ExifTool {
       exitCommand: o.exitCommand,
       versionCommand: o.versionCommand,
       // User options win:
-      ...options
+      ...options,
     }
     this.batchCluster = new bc.BatchCluster(this.options)
   }
