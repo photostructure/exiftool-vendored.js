@@ -29,7 +29,7 @@ vendored versions of ExifTool match the version they vendor.
 - 🐞 ExifTool doesn't (currently) respect `-ignoreMinorErrors` when extracting
   binary blobs. `BinaryExtractionTask` now assumes stderr messages matching
   `/^warning: /` are not actually errors.
-- 🌱 ExifTool upgraded to [v11.91](https://exiftool.org/history.html#v11.91)
+- 🌱 ExifTool upgraded to [v11.92](https://exiftool.org/history.html#v11.92)
 - 📦 Updated dependencies
 - 📦 Prettier 2.0.0 pulled in and codebase reformatted with new defaults, causing huge (no-op) diff.
 

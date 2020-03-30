@@ -107,12 +107,12 @@
     "xpath": "^0.0.27"
   },
   "dependencies": {
-    "batch-cluster": "^5.9.4",
+    "batch-cluster": "^5.9.5",
     "luxon": "^1.22.2",
     "tz-lookup": "^6.1.25"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "^11.91.0",
-    "exiftool-vendored.pl": "^11.91.0"
+    "exiftool-vendored.exe": "^11.92.0",
+    "exiftool-vendored.pl": "^11.92.0"
   }
 }

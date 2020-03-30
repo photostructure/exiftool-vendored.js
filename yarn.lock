@@ -458,10 +458,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-batch-cluster@^5.9.4:
-  version "5.9.4"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.9.4.tgz#2fa081594ed1f450af420d3a455835039433ac80"
-  integrity sha512-oVHnY74GIHzu4YkCoCxy9ZdyD1H1E3BSNherc7SL2QQYJW6snO3ovhtKrg/BSY4SkDo1SntwzD18SOa/n2mmrg==
+batch-cluster@^5.9.5:
+  version "5.9.5"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-5.9.5.tgz#4bc85448e1394b1b5a8384cd1d6468ac52855997"
+  integrity sha512-0Ih+u80YTVnbhXBdqhdReb5/hTzSgo4ITlkwkmvVZlQw/C/pri5BcTlJawnXiXY1h+e9aIVUzzp3NjZN80qH8A==
 
 binary-extensions@^2.0.0:
   version "2.0.0"
@@ -1252,15 +1252,15 @@ execa@^0.8.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@^11.91.0:
-  version "11.91.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.91.0.tgz#7b7052eefa2abb72e582bb611b4a3cfc412f50c6"
-  integrity sha512-n5Vrz3jCu59ntWmkhlTu/QrXQbJ3adJlzR+nVmrxBMqpp1qEfarTwkhLNQxLMaSCXkKxUD2duwtiH1M1i7UTLw==
+exiftool-vendored.exe@^11.92.0:
+  version "11.92.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-11.92.0.tgz#4bd88615e1460f018c3b9073cf47bf6174c3f48a"
+  integrity sha512-55oQlDe5VFBrWHDTZlqtTprk2y/BnBB+rqq3lSjtpIoEQYB1p0lqrghe4zJK1JwF6QS38ST55W6EXagU3+qrAg==
 
-exiftool-vendored.pl@^11.91.0:
-  version "11.91.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.91.0.tgz#3bdfcf554b9aa0275ae0d4675dc8577ec96af662"
-  integrity sha512-8R4H5ll5Ghq9JBZh2DwdC+pWNhBUcxc7VBA/MUUGeCF0UJzQOYEeufxtWs8uQDzgZuzuarx1zXEMwI47coVJag==
+exiftool-vendored.pl@^11.92.0:
+  version "11.92.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-11.92.0.tgz#36527a21eb3da440264665c45ecf31e8f04a99f3"
+  integrity sha512-uTODzgb47dQu7zNtErJ/guB7p0AcNNnn00uSShCILmAHXlZoOOxSWvd84KUPKx4zh1Fbs/tlEhutzTQ/XmK1Vg==
 
 external-editor@^3.0.3:
   version "3.1.0"
