@@ -27,8 +27,8 @@ vendored versions of ExifTool match the version they vendor.
 ### v11.0.0
 
 - 💔 **Breaking change:** A number of tags were removed from `Tags` because we
-  were getting dangerously close to TypeScript's `error TS2590: Expression
-  produces a union type that is too complex to represent.`
+  were getting dangerously close to TypeScript's `error TS2590: Expression produces a union type that is too complex to represent.`
+- 🌱 ExifTool upgraded to [v11.93](https://exiftool.org/history.html#v11.93)
 
 ### v10.1.0
 
