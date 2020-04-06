@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v11.0.0
+
+- 💔 **Breaking change:** A number of tags were removed from `Tags` because we
+  were getting dangerously close to TypeScript's `error TS2590: Expression
+  produces a union type that is too complex to represent.`
+
 ### v10.1.0
 
 - 🐞 ExifTool doesn't (currently) respect `-ignoreMinorErrors` when extracting
