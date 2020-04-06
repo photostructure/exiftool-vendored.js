@@ -296,8 +296,8 @@ class Tag {
     if (this.tag.endsWith("Artist")) return exampleToS(["Ansel Adams"])
     if (this.tag.endsWith("Author")) return exampleToS(["Arturo DeImage"])
     if (this.tag.endsWith("Contact")) return exampleToS(["Dohncha Ringmanumba"])
-    if (this.tag.endsWith("Software"))
-      return exampleToS(["<https://PhotoStructure.com/>"])
+    if (this.tag.endsWith("Software") || this.tag.endsWith("URL"))
+      return exampleToS(["https://PhotoStructure.com/"])
     if (this.tag.endsWith("Credit"))
       return exampleToS(["photo by Jenny McSnapsalot"])
     const byValueType = new Map<string, any[]>()
@@ -318,7 +318,35 @@ class Tag {
   }
 }
 
-const minOccurences = 2
+// TypeScript fails with
+// error TS2590: Expression produces a union type that is too complex to represent.
+const ExcludedTagRe = new RegExp(
+  [
+    "AEC",
+    "AFR",
+    "AFS",
+    "AFStatus_",
+    "AFTrace",
+    "AFV",
+    "ASF\\d",
+    "AWB",
+    "ChroSupC",
+    "DayltConv",
+    "DefConv",
+    "DefCor",
+    "Face\\d",
+    "HJR",
+    "IncandConv",
+    "Kelvin_?WB",
+    "PF\\d\\d",
+    "R2[A-Z]",
+    "TL84",
+    "WB_",
+    "YhiY",
+  ].join("|")
+)
+
+// const minOccurrences = 2
 
 class TagMap {
   readonly map = new Map<string, Tag>()
@@ -338,6 +366,13 @@ class TagMap {
     }
   }
   add(tagName: string, value: any, important: boolean) {
+    if (
+      tagName == null ||
+      value == null ||
+      tagName.match(ExcludedTagRe) != null
+    ) {
+      return
+    }
     const tag = this.tag(tagName)
     if (important) {
       tag.important = true
@@ -350,16 +385,16 @@ class TagMap {
     if (this._finished) return
     this._finished = true
     const allTags = Array.from(this.map.values())
-    console.log(
-      `Skipping the following tags due to < ${minOccurences} occurances:`
-    )
-    console.log(
-      allTags
-        .filter((a) => !a.keep(minOccurences))
-        .map((t) => t.tag)
-        .join(", ")
-    )
-    this.tags = allTags.filter((a) => a.keep(minOccurences))
+    // console.log(
+    //   `Skipping the following tags due to < ${minOccurrences} occurrences:`
+    // )
+    // console.log(
+    //   allTags
+    //     .filter((a) => !a.keep(minOccurrences))
+    //     .map((t) => t.tag)
+    //     .join(", ")
+    // )
+    this.tags = allTags.filter((a) => a.keep(2))
     this.groupedTags.clear()
     this.tags.forEach((tag) => {
       getOrSet(this.groupedTags, tag.group, () => []).push(tag)
@@ -389,7 +424,7 @@ const seenFiles: string[] = []
 
 async function readAndAddToTagMap(file: string) {
   try {
-    const tags: any = await exiftool.read(file, ["-G", "-fast"])
+    const tags: any = await exiftool.read(file, ["-G"])
     seenFiles.push(file)
     const importantFile = file.toString().toLowerCase().includes("important")
     Object.keys(tags).forEach((key) => {
