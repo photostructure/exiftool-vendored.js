@@ -24,6 +24,13 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v11.1.0
+
+- 📦 Updated dependencies, including `batch-cluster`. The new
+  `maxIdleMsPerProcess` option shuts down ExifTool processes automatically if
+  they are idle for longer than `maxIdleMsPerProcess` milliseconds. New
+  processes are forked when needed.
+
 ### v11.0.0
 
 - 💔 **Breaking change:** A number of tags were removed from `Tags` because we

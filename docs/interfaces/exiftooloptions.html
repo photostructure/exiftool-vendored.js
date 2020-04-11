@@ -96,6 +96,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#exitcommand" class="tsd-kind-icon">exit<wbr>Command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#fail" class="tsd-kind-icon">fail</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="exiftooloptions.html#ignoreshebang" class="tsd-kind-icon">ignore<wbr>Shebang</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#maxidlemsperprocess" class="tsd-kind-icon">max<wbr>Idle<wbr>MsPer<wbr>Process</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#maxprocagemillis" class="tsd-kind-icon">max<wbr>Proc<wbr>Age<wbr>Millis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="exiftooloptions.html#maxprocs" class="tsd-kind-icon">max<wbr>Procs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="exiftooloptions.html#maxreasonableprocessfailuresperminute" class="tsd-kind-icon">max<wbr>Reasonable<wbr>Process<wbr>Failures<wbr>Per<wbr>Minute</a></li>
@@ -260,6 +261,25 @@
 						situations. Note also that <code>perl</code> will be spawned in a sub-shell.</p>
 						<p>This value should probably not be set on Windows (unless you&#39;ve installed
 						<code>perl</code>).</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="maxidlemsperprocess" class="tsd-anchor"></a>
+					<h3>max<wbr>Idle<wbr>MsPer<wbr>Process</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Idle<wbr>MsPer<wbr>Process<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="exiftooloptions.html">ExifToolOptions</a>.<a href="exiftooloptions.html#maxidlemsperprocess">maxIdleMsPerProcess</a></p>
+						<ul>
+							<li>Defined in node_modules/batch-cluster/dist/BatchClusterOptions.d.ts:122</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If a child process is idle for more than this value (in milliseconds), shut
+							it down to reduce system resource consumption.</p>
+						</div>
+						<p>A value of ~10 seconds to a couple minutes would be reasonable. Set this to
+						0 to disable this feature.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -581,6 +601,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="exiftooloptions.html#ignoreshebang" class="tsd-kind-icon">ignore<wbr>Shebang</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="exiftooloptions.html#maxidlemsperprocess" class="tsd-kind-icon">max<wbr>Idle<wbr>MsPer<wbr>Process</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="exiftooloptions.html#maxprocagemillis" class="tsd-kind-icon">max<wbr>Proc<wbr>Age<wbr>Millis</a>
