@@ -22,6 +22,7 @@ import { WriteTask } from "./WriteTask"
 export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"
+export { ExifToolTask } from "./ExifToolTask"
 export { Tags } from "./Tags"
 export { offsetMinutesToZoneName } from "./Timezones"
 
@@ -408,8 +409,19 @@ export class ExifTool {
    * @return a `Promise<void>`. An `Error` is raised if
    * the binary output not be written to `dest`.
    */
-  extractBinaryTag(tagname: string, src: string, dest: string): Promise<void> {
-    return this.enqueueTask(() => BinaryExtractionTask.for(tagname, src, dest))
+  async extractBinaryTag(
+    tagname: string,
+    src: string,
+    dest: string
+  ): Promise<void> {
+    // BinaryExtractionTask returns a stringified error if the output indicates
+    // the task should not be retried.
+    const maybeError = await this.enqueueTask(() =>
+      BinaryExtractionTask.for(tagname, src, dest)
+    )
+    if (maybeError != null) {
+      throw new Error(maybeError)
+    }
   }
 
   /**
@@ -459,8 +471,10 @@ export class ExifTool {
   }
 
   /**
-   * `enqueueTask` is not for normal consumption. External code
-   * can extend `Task` to add functionality.
+   * Most users will not need to use `enqueueTask` directly. This method
+   * supports submitting custom `BatchCluster` tasks.
+   *
+   * @see BinaryExtractionTask for an example task implementation
    */
   enqueueTask<T>(task: () => ExifToolTask<T>): Promise<T> {
     return retryOnReject(

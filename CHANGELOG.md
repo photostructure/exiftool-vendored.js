@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v11.3.0
+
+- 🌱 ExifTool upgraded to [v11.98](https://exiftool.org/history.html#v11.98)
+- 📦 BinaryExtractionTasks don't bother retrying when binary payloads are
+  missing (which turns out to be a common issue)
+- 📦 ExifToolTask is now exported
+- 📦 Updated dependencies
+
 ### v11.2.0
 
 - 🌱 ExifTool upgraded to [v11.95](https://exiftool.org/history.html#v11.95)

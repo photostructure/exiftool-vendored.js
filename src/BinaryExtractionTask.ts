@@ -1,9 +1,15 @@
-import * as _path from "path"
-
+import { resolve } from "path"
 import { ExifToolTask } from "./ExifToolTask"
-import { notBlank } from "./String"
+import { Maybe } from "./Maybe"
+import { toS } from "./String"
 
-export class BinaryExtractionTask extends ExifToolTask<void> {
+const StdoutRe = /\b(\d+) output files? created/i
+
+/**
+ * Task that returns an error string (to prevent retries), or undefined if
+ * everything seems to have worked.
+ */
+export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
   private constructor(args: string[]) {
     super(args)
   }
@@ -16,21 +22,27 @@ export class BinaryExtractionTask extends ExifToolTask<void> {
     const args = [
       "-b",
       "-" + tagname,
-      _path.resolve(imgSrc),
+      resolve(imgSrc),
       "-w",
       // The %0f prevents shell escaping. See
       // https://exiftool.org/exiftool_pod.html#w-EXT-or-FMT--textOut
-      "%0f" + _path.resolve(imgDest),
+      "%0f" + resolve(imgDest),
     ]
     return new BinaryExtractionTask(args)
   }
 
-  parse(stdout: string, err?: Error): void {
-    if (err != null && err.message.match(/^warning: /i) == null) throw err
-    if (null == /1 output files? created/.exec(stdout)) {
-      throw new Error(
-        notBlank(stdout) ? stdout : "Missing expected status message"
-      )
+  parse(stdout: string, err?: Error): Maybe<string> {
+    const s = toS(stdout).trim()
+    const m = StdoutRe.exec(s)
+    if (err != null) {
+      throw err
+    } else if (m == null) {
+      throw new Error("Missing expected status message (got " + stdout + ")")
+    } else if (m[1] === "1") {
+      return
+    } else {
+      // Don't retry: the binary payload is missing, and retrying won't fix that.
+      return s
     }
   }
 }
