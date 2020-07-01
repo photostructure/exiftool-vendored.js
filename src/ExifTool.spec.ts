@@ -8,6 +8,7 @@ import { ExifDateTime } from "./ExifDateTime"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { keys } from "./Object"
 import { Tags } from "./Tags"
+import { leftPad } from "./String"
 
 function normalize(tagNames: string[]): string[] {
   return tagNames
@@ -33,7 +34,7 @@ describe("ExifTool", function () {
   const packageJson = require("../package.json")
 
   function expectedExiftoolVersion(flavor: "exe" | "pl" = "pl"): string {
-    const vendorVersion =
+    const vendorVersion: string =
       packageJson.optionalDependencies["exiftool-vendored." + flavor]
     // Everyone's a monster here:
     // * semver is pissy about 0-padded version numbers (srsly, it's ok)
@@ -45,6 +46,7 @@ describe("ExifTool", function () {
       .replace(/^[^.0-9]+/, "")
       .split(".")
       .slice(0, 2)
+      .map((ea) => leftPad(ea, 2, "0"))
       .join(".")
   }
 

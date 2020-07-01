@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v11.4.0
+
+- 🌱 ExifTool upgraded to [v12.01](https://exiftool.org/history.html#v12.01)
+- ✨ ExifTool now takes a `Logger` thunk in the constructor options.
+- 📦 Updated dependencies
+
 ### v11.3.0
 
 - 🌱 ExifTool upgraded to [v11.98](https://exiftool.org/history.html#v11.98)

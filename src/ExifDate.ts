@@ -62,7 +62,7 @@ export class ExifDate {
     return this.toString("-")
   }
 
-  toExifString() {
+  toExifString(): string {
     return this.toString(":")
   }
 

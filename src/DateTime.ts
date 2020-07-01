@@ -5,7 +5,7 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { Maybe } from "./Maybe"
 
-export function validDateTime(dt: DateTime) {
+export function validDateTime(dt: DateTime): boolean {
   return dt != null && dt.isValid
 }
 

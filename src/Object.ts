@@ -1,4 +1,5 @@
-export function keys<T extends any, K extends string & keyof T>(o: T): K[] {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function keys<T extends object, K extends string & keyof T>(o: T): K[] {
   return o == null
     ? []
     : (Object.keys(o).filter((ea) =>
@@ -6,6 +7,6 @@ export function keys<T extends any, K extends string & keyof T>(o: T): K[] {
       ) as K[])
 }
 
-export function isFunction(obj: any): obj is Function {
+export function isFunction(obj: any): obj is () => any {
   return typeof obj === "function"
 }

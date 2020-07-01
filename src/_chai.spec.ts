@@ -32,7 +32,7 @@ export { expect } from "chai"
 
 export const testDir = join(__dirname, "..", "test")
 
-export function tmpname(prefix = "") {
+export function tmpname(prefix = ""): string {
   return join(tmpdir(), prefix + Math.floor(Math.random() * 1e9).toString(16))
 }
 
@@ -55,7 +55,7 @@ export async function testFile(name = "img.XMP"): Promise<string> {
   return join(dir, name)
 }
 
-export function sha1(path: string) {
+export function sha1(path: string): Promise<string> {
   const d = new Deferred<string>()
   const readStream = fse.createReadStream(path, { autoClose: true })
   const sha = createHash("sha1")
