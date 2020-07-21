@@ -227,6 +227,9 @@ describe("ExifDateTime", () => {
     const examples = [
       "",
       "     ",
+      "0000",
+      "1958",
+      "2010_08",
       "0000:00:00 00:00:00",
       "0000:00:00",
       "0001:01:01 00:00:00.00", // < actual value from a Fotofly image (SHAME!)

@@ -1,5 +1,4 @@
 import { DateTime } from "luxon"
-
 import { first, map, Maybe } from "./Maybe"
 import { blank, pad2, pad3, toS } from "./String"
 
@@ -40,9 +39,15 @@ export class ExifTime {
       : "." + pad3(this.millisecond)
   }
 
-  readonly toString = () =>
-    pad2(this.hour, this.minute, this.second).join(":") + this.subsec()
+  toString() {
+    return pad2(this.hour, this.minute, this.second).join(":") + this.subsec()
+  }
 
-  readonly toISOString = this.toString
-  readonly toExifString = this.toString
+  toISOString() {
+    return this.toString()
+  }
+
+  toExifString() {
+    return this.toString()
+  }
 }

@@ -14,4 +14,9 @@ describe("ExifDateTime", () => {
       expect(ExifDate.fromEXIF(text)?.toISOString()).to.eql(iso)
     })
   }
+  for (const ea of ["", "   ", "0000", "1958", "2010_08"]) {
+    it(`rejects "${ea}"`, () => {
+      expect(ExifDate.fromEXIF(ea)).to.eql(undefined)
+    })
+  }
 })

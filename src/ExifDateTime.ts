@@ -1,5 +1,4 @@
 import { DateTime, ISOTimeOptions } from "luxon"
-
 import { dateTimeToExif } from "./DateTime"
 import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
@@ -19,7 +18,7 @@ export class ExifDateTime {
     defaultZone?: Maybe<string>,
     rawValue?: string
   ): Maybe<ExifDateTime> {
-    if (blank(iso)) return undefined
+    if (blank(iso) || null != iso.match(/^\d+$/)) return undefined
     return this.fromDateTime(
       DateTime.fromISO(iso, {
         setZone: true,

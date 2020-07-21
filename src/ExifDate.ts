@@ -38,7 +38,6 @@ export class ExifDate {
     return firstDefinedThunk([
       () => this.fromExifStrict(text),
       () => this.fromExifLoose(text),
-      () => this.fromISO(text),
     ])
   }
 
