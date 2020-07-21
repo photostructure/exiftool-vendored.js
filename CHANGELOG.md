@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v11.5.0
+
+- 🐞 `ExifDateTime` and `ExifDate` no longer accept just a year or year and month.
+- 📦 Updated dependencies
+
 ### v11.4.0
 
 - 🌱 ExifTool upgraded to [v12.01](https://exiftool.org/history.html#v12.01)
