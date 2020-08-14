@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v12.0.0
+
+- 💔 `ExifDateTime.toISO` now returns `string | null` (as it proxies for Luxon's
+  `DateTime.toISO()`, which now may return `null`.)
+- 🌱 ExifTool upgraded to [v12.04](https://exiftool.org/history.html#v12.04)
+- 📦 Rebuild Tags.ts and docs
+- 📦 Updated dependencies
+
 ### v11.5.0
 
 - 🐞 `ExifDateTime` and `ExifDate` no longer accept just a year or year and month.

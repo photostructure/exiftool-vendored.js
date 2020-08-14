@@ -94,8 +94,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="exiftime.html#millisecond" class="tsd-kind-icon">millisecond</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="exiftime.html#minute" class="tsd-kind-icon">minute</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="exiftime.html#second" class="tsd-kind-icon">second</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="exiftime.html#toexifstring" class="tsd-kind-icon">to<wbr>Exif<wbr>String</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="exiftime.html#toisostring" class="tsd-kind-icon">toISOString</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -107,6 +105,8 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exiftime.html#toexifstring" class="tsd-kind-icon">to<wbr>Exif<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exiftime.html#toisostring" class="tsd-kind-icon">toISOString</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exiftime.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="exiftime.html#fromdatetime" class="tsd-kind-icon">from<wbr>Date<wbr>Time</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="exiftime.html#fromexif" class="tsd-kind-icon">fromEXIF</a></li>
@@ -121,13 +121,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Exif<wbr>Time<span class="tsd-signature-symbol">(</span>hour<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, minute<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, second<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, millisecond<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="exiftime.html" class="tsd-signature-type">ExifTime</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Exif<wbr>Time<span class="tsd-signature-symbol">(</span>hour<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, minute<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, second<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, millisecond<span class="tsd-signature-symbol">?: </span><a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="exiftime.html" class="tsd-signature-type">ExifTime</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L24">src/ExifTime.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L23">src/ExifTime.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -142,7 +142,7 @@
 									<h5>second: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> millisecond: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> millisecond: <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="exiftime.html" class="tsd-signature-type">ExifTime</a></h4>
@@ -154,38 +154,18 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="hour" class="tsd-anchor"></a>
-					<h3>hour</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> hour</h3>
 					<div class="tsd-signature tsd-kind-icon">hour<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L27">src/ExifTime.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L26">src/ExifTime.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="millisecond" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> millisecond</h3>
-					<div class="tsd-signature tsd-kind-icon">millisecond<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L30">src/ExifTime.ts:30</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="minute" class="tsd-anchor"></a>
-					<h3>minute</h3>
-					<div class="tsd-signature tsd-kind-icon">minute<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L28">src/ExifTime.ts:28</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="second" class="tsd-anchor"></a>
-					<h3>second</h3>
-					<div class="tsd-signature tsd-kind-icon">second<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> millisecond</h3>
+					<div class="tsd-signature tsd-kind-icon">millisecond<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L29">src/ExifTime.ts:29</a></li>
@@ -193,22 +173,22 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="toexifstring" class="tsd-anchor"></a>
-					<h3>to<wbr>Exif<wbr>String</h3>
-					<div class="tsd-signature tsd-kind-icon">to<wbr>Exif<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = this.toString</span></div>
+					<a name="minute" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> minute</h3>
+					<div class="tsd-signature tsd-kind-icon">minute<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L47">src/ExifTime.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L27">src/ExifTime.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="toisostring" class="tsd-anchor"></a>
-					<h3>toISOString</h3>
-					<div class="tsd-signature tsd-kind-icon">toISOString<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = this.toString</span></div>
+					<a name="second" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> second</h3>
+					<div class="tsd-signature tsd-kind-icon">second<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L46">src/ExifTime.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L28">src/ExifTime.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,22 +199,56 @@
 					<a name="millis" class="tsd-anchor"></a>
 					<h3>millis</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> millis<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> millis<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L33">src/ExifTime.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L32">src/ExifTime.ts:32</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="toexifstring" class="tsd-anchor"></a>
+					<h3>to<wbr>Exif<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Exif<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L50">src/ExifTime.ts:50</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="toisostring" class="tsd-anchor"></a>
+					<h3>toISOString</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">toISOString<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L46">src/ExifTime.ts:46</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="tostring" class="tsd-anchor"></a>
 					<h3>to<wbr>String</h3>
@@ -245,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L43">src/ExifTime.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L42">src/ExifTime.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -262,7 +276,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L20">src/ExifTime.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L19">src/ExifTime.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -285,7 +299,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L10">src/ExifTime.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/ExifTime.ts#L9">src/ExifTime.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -330,14 +344,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="exiftime.html#second" class="tsd-kind-icon">second</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="exiftime.html#toexifstring" class="tsd-kind-icon">to<wbr>Exif<wbr>String</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="exiftime.html#toisostring" class="tsd-kind-icon">toISOString</a>
-							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="exiftime.html#millis" class="tsd-kind-icon">millis</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="exiftime.html#toexifstring" class="tsd-kind-icon">to<wbr>Exif<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="exiftime.html#toisostring" class="tsd-kind-icon">toISOString</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="exiftime.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
@@ -384,6 +398,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

@@ -109,8 +109,10 @@
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
-				<pre><code> yarn <span class="hljs-keyword">add</span><span class="bash"> exiftool-vendored</span></code></pre><p>or</p>
-				<pre><code> npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save exiftool-vendored</span></code></pre><p>Note that <code>exiftool-vendored</code> provides an installation of ExifTool relevant
+				<pre><code> yarn <span class="hljs-keyword">add</span><span class="bash"> exiftool-vendored</span></code></pre>
+				<p>or</p>
+				<pre><code> npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save exiftool-vendored</span></code></pre>
+				<p>Note that <code>exiftool-vendored</code> provides an installation of ExifTool relevant
 					for your local platform through
 				<a href="https://docs.npmjs.com/files/package.json#optionaldependencies">optionalDependencies</a>.</p>
 				<p>You shouldn&#39;t include either the <code>exiftool-vendored.exe</code> or
@@ -143,17 +145,17 @@
 					<a href="https://photostructure.github.io/exiftool-vendored.js/globals.html#exiftool"><code>exiftool</code></a> singleton.
 					Note that if you <em>don&#39;t</em> use the default singleton, you don&#39;t need to <code>.end()</code>
 				it.</p>
-				<pre><code class="language-js"><span class="hljs-comment">// We're using the singleton here for convenience:</span>
-<span class="hljs-keyword">const</span> exiftool = <span class="hljs-built_in">require</span>(<span class="hljs-string">"exiftool-vendored"</span>).exiftool
+				<pre><code class="language-js"><span class="hljs-comment">// We&#x27;re using the singleton here for convenience:</span>
+<span class="hljs-keyword">const</span> exiftool = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;exiftool-vendored&quot;</span>).exiftool
 
 <span class="hljs-comment">// And to verify everything is working:</span>
 exiftool
   .version()
-  .then(<span class="hljs-function">(<span class="hljs-params">version</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`We're running ExifTool v<span class="hljs-subst">${version}</span>`</span>))</code></pre>
+  .then(<span class="hljs-function">(<span class="hljs-params">version</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`We&#x27;re running ExifTool v<span class="hljs-subst">${version}</span>`</span>))</code></pre>
 				<p>If the default <a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#constructor">ExifTool constructor
 					parameters</a>
 				wont&#39; work for you, it&#39;s just a class that takes an options hash:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> ExifTool = <span class="hljs-built_in">require</span>(<span class="hljs-string">"exiftool-vendored"</span>).ExifTool
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> ExifTool = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;exiftool-vendored&quot;</span>).ExifTool
 <span class="hljs-keyword">const</span> exiftool = <span class="hljs-keyword">new</span> ExifTool({ <span class="hljs-attr">taskTimeoutMillis</span>: <span class="hljs-number">5000</span> })</code></pre>
 				<p>You should only use the exported default <code>exiftool</code> singleton, or only create one instance of <code>ExifTool</code> as a singleton.</p>
 				<p>Remember to <code>.end()</code> whichever singleton you use.</p>
@@ -193,28 +195,28 @@ exiftool
 					<h3>Reading tags</h3>
 				</a>
 				<pre><code class="language-js">exiftool
-  .read(<span class="hljs-string">"path/to/image.jpg"</span>)
+  .read(<span class="hljs-string">&quot;path/to/image.jpg&quot;</span>)
   .then(<span class="hljs-function">(<span class="hljs-params">tags <span class="hljs-regexp">/*: Tags */</span></span>) =&gt;</span>
     <span class="hljs-built_in">console</span>.log(
       <span class="hljs-string">`Make: <span class="hljs-subst">${tags.Make}</span>, Model: <span class="hljs-subst">${tags.Model}</span>, Errors: <span class="hljs-subst">${tags.errors}</span>`</span>
     )
   )
-  .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Something terrible happened: "</span>, err))</code></pre>
+  .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">&quot;Something terrible happened: &quot;</span>, err))</code></pre>
 				<a href="#extracting-embedded-images" id="extracting-embedded-images" style="color: inherit; text-decoration: none;">
 					<h3>Extracting embedded images</h3>
 				</a>
 				<p>Extract the low-resolution thumbnail in <code>path/to/image.jpg</code>, write it to
 					<code>path/to/thumbnail.jpg</code>, and return a <code>Promise&lt;void&gt;</code> that is fulfilled
 				when the image is extracted:</p>
-				<pre><code class="language-js">exiftool.extractThumbnail(<span class="hljs-string">"path/to/image.jpg"</span>, <span class="hljs-string">"path/to/thumbnail.jpg"</span>)</code></pre>
+				<pre><code class="language-js">exiftool.extractThumbnail(<span class="hljs-string">&quot;path/to/image.jpg&quot;</span>, <span class="hljs-string">&quot;path/to/thumbnail.jpg&quot;</span>)</code></pre>
 				<p>Extract the <code>Preview</code> image (only found in some images):</p>
-				<pre><code class="language-js">exiftool.extractPreview(<span class="hljs-string">"path/to/image.jpg"</span>, <span class="hljs-string">"path/to/preview.jpg"</span>)</code></pre>
+				<pre><code class="language-js">exiftool.extractPreview(<span class="hljs-string">&quot;path/to/image.jpg&quot;</span>, <span class="hljs-string">&quot;path/to/preview.jpg&quot;</span>)</code></pre>
 				<p>Extract the <code>JpgFromRaw</code> image (found in some RAW images):</p>
-				<pre><code class="language-js">exiftool.extractJpgFromRaw(<span class="hljs-string">"path/to/image.cr2"</span>, <span class="hljs-string">"path/to/fromRaw.jpg"</span>)</code></pre>
+				<pre><code class="language-js">exiftool.extractJpgFromRaw(<span class="hljs-string">&quot;path/to/image.cr2&quot;</span>, <span class="hljs-string">&quot;path/to/fromRaw.jpg&quot;</span>)</code></pre>
 				<p>Extract the binary value from &quot;tagname&quot; tag in <code>path/to/image.jpg</code>
 					and write it to <code>dest.bin</code> (which cannot exist already
 				and whose parent directory must already exist):</p>
-				<pre><code class="language-js">exiftool.extractBinaryTag(<span class="hljs-string">"tagname"</span>, <span class="hljs-string">"path/to/file.exf"</span>, <span class="hljs-string">"path/to/dest.bin"</span>)</code></pre>
+				<pre><code class="language-js">exiftool.extractBinaryTag(<span class="hljs-string">&quot;tagname&quot;</span>, <span class="hljs-string">&quot;path/to/file.exf&quot;</span>, <span class="hljs-string">&quot;path/to/dest.bin&quot;</span>)</code></pre>
 				<a href="#writing-tags" id="writing-tags" style="color: inherit; text-decoration: none;">
 					<h3>Writing tags</h3>
 				</a>
@@ -226,11 +228,11 @@ exiftool
 				<p>Only string and numeric primitive are supported as values to the object</p>
 				<p>Write a comment to the given file so it shows up in the Windows Explorer
 				Properties panel:</p>
-				<pre><code class="language-js">exiftool.write(<span class="hljs-string">"path/to/file.jpg"</span>, { <span class="hljs-attr">XPComment</span>: <span class="hljs-string">"this is a test comment"</span> })</code></pre>
+				<pre><code class="language-js">exiftool.write(<span class="hljs-string">&quot;path/to/file.jpg&quot;</span>, { <span class="hljs-attr">XPComment</span>: <span class="hljs-string">&quot;this is a test comment&quot;</span> })</code></pre>
 				<p>Change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
 					<a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html">AllDates</a>
 				shortcut) to 4:56pm UTC on February 6, 2016:</p>
-				<pre><code class="language-js">exiftool.write(<span class="hljs-string">"path/to/file.jpg"</span>, { <span class="hljs-attr">AllDates</span>: <span class="hljs-string">"2016-02-06T16:56:00"</span> })</code></pre>
+				<pre><code class="language-js">exiftool.write(<span class="hljs-string">&quot;path/to/file.jpg&quot;</span>, { <span class="hljs-attr">AllDates</span>: <span class="hljs-string">&quot;2016-02-06T16:56:00&quot;</span> })</code></pre>
 				<a href="#always-beware-timezones" id="always-beware-timezones" style="color: inherit; text-decoration: none;">
 					<h3>Always Beware: Timezones</h3>
 				</a>
@@ -251,7 +253,7 @@ exiftool
 				details about this functionality.</p>
 				<p><code>rewriteAllTags</code> returns a void Promise that will be rejected if there are any
 				errors.</p>
-				<pre><code class="language-js">exiftool.rewriteAllTags(<span class="hljs-string">"problematic.jpg"</span>, <span class="hljs-string">"rewritten.jpg"</span>)</code></pre>
+				<pre><code class="language-js">exiftool.rewriteAllTags(<span class="hljs-string">&quot;problematic.jpg&quot;</span>, <span class="hljs-string">&quot;rewritten.jpg&quot;</span>)</code></pre>
 				<a href="#exiftool-configuration-support-exiftool_config" id="exiftool-configuration-support-exiftool_config" style="color: inherit; text-decoration: none;">
 					<h3>ExifTool configuration support (<code>.ExifTool_config</code>)</h3>
 				</a>
@@ -264,7 +266,7 @@ exiftool
 					contains your user config.</li>
 					<li>Specify the in the ExifTool constructor options:</li>
 				</ol>
-				<pre><code class="language-js"><span class="hljs-keyword">new</span> ExifTool({ <span class="hljs-attr">exiftoolEnv</span>: { <span class="hljs-attr">EXIFTOOL_HOME</span>: resolve(<span class="hljs-string">"path"</span>, <span class="hljs-string">"to"</span>, <span class="hljs-string">"config"</span>, <span class="hljs-string">"dir"</span>) }</code></pre>
+				<pre><code class="language-js"><span class="hljs-keyword">new</span> ExifTool({ <span class="hljs-attr">exiftoolEnv</span>: { <span class="hljs-attr">EXIFTOOL_HOME</span>: resolve(<span class="hljs-string">&quot;path&quot;</span>, <span class="hljs-string">&quot;to&quot;</span>, <span class="hljs-string">&quot;config&quot;</span>, <span class="hljs-string">&quot;dir&quot;</span>) }</code></pre>
 				<a href="#resource-hygiene" id="resource-hygiene" style="color: inherit; text-decoration: none;">
 					<h2>Resource hygiene</h2>
 				</a>
@@ -280,7 +282,7 @@ exiftool
 					change is described here</a>,
 					and can be solved by adding an <code>after</code> block that shuts down the instance
 				of ExifTool that your tests are using:</p>
-				<pre><code class="language-js">after(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> exiftool.end()) <span class="hljs-comment">// assuming your singleton is called `exiftool`</span></code></pre>
+				<pre><code class="language-js">after(<span class="hljs-function">() =&gt;</span> exiftool.end()) <span class="hljs-comment">// assuming your singleton is called `exiftool`</span></code></pre>
 				<a href="#dates" id="dates" style="color: inherit; text-decoration: none;">
 					<h2>Dates</h2>
 				</a>
@@ -640,6 +642,9 @@ Parsing took 85654ms (28.4ms / file) <span class="hljs-comment"># ubuntu, core i
 					<li class=" tsd-kind-function">
 						<a href="globals.html#datetimetoexif" class="tsd-kind-icon">date<wbr>Time<wbr>ToExif</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#denull" class="tsd-kind-icon">denull</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#dttoms" class="tsd-kind-icon">dt<wbr>ToMs</a>
 					</li>
@@ -795,6 +800,5 @@ Parsing took 85654ms (28.4ms / file) <span class="hljs-comment"># ubuntu, core i
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

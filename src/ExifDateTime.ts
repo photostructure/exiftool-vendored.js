@@ -1,6 +1,6 @@
 import { DateTime, ISOTimeOptions } from "luxon"
 import { dateTimeToExif } from "./DateTime"
-import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
+import { denull, first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
 import { offsetMinutesToZoneName } from "./Timezones"
 
@@ -203,14 +203,16 @@ export class ExifDateTime {
     return this.toDateTime().toJSDate()
   }
 
-  toISOString(options: ISOTimeOptions = {}): string {
-    return this.toDateTime().toISO({
-      suppressMilliseconds: orElse(
-        options.suppressMilliseconds,
-        () => this.millisecond == null
-      ),
-      includeOffset: this.hasZone && options.includeOffset !== false,
-    })
+  toISOString(options: ISOTimeOptions = {}): Maybe<string> {
+    return denull(
+      this.toDateTime().toISO({
+        suppressMilliseconds: orElse(
+          options.suppressMilliseconds,
+          () => this.millisecond == null
+        ),
+        includeOffset: this.hasZone && options.includeOffset !== false,
+      })
+    )
   }
 
   toExifString() {

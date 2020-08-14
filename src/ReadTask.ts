@@ -192,7 +192,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         return this.lon
       }
       if (typeof value === "string" && tagName.includes("Date")) {
-        const dt = firstDefinedThunk([
+        const dt = firstDefinedThunk<ExifDate | ExifDateTime>([
           () => ExifDate.fromExifStrict(value),
           () =>
             ExifDateTime.fromExifStrict(
