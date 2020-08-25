@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v12.1.0
+
+- 🌱 ExifTool upgraded to [v12.05](https://exiftool.org/history.html#v12.05)
+- 📦 Updated dependencies
+
 ### v12.0.0
 
 - 💔 `ExifDateTime.toISOString()` now returns `string | undefined` (as it
