@@ -265,6 +265,7 @@ describe("ReadTask", () => {
     const base = `it's a "file".jpg`
     it("reads from " + base, async () => {
       const tmp = join(tmpdir(), base)
+      await fse.mkdirp(tmpdir())
       await fse.copyFile("./test/quotes.jpg", tmp)
       const t = await exiftool.read(tmp)
       expect(t.FileName).to.eql(base)
