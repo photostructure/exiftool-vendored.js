@@ -1,4 +1,6 @@
-import { resolve } from "path"
+import * as fse from "fs-extra"
+import { tmpdir } from "os"
+import { join, resolve } from "path"
 import { ExifDateTime } from "./ExifDateTime"
 import { exiftool, ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
@@ -262,7 +264,9 @@ describe("ReadTask", () => {
     after(() => exiftool.end())
     const base = `it's a "file".jpg`
     it("reads from " + base, async () => {
-      const t = await exiftool.read(`test/${base}`)
+      const tmp = join(tmpdir(), base)
+      await fse.copyFile("./test/quotes.jpg", tmp)
+      const t = await exiftool.read(tmp)
       expect(t.FileName).to.eql(base)
       expect(t.MIMEType).to.eql("image/jpeg")
       expect(t.ImageDescription).to.eql("image description for quotes test")
