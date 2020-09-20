@@ -1,6 +1,6 @@
 import { resolve } from "path"
 import { ExifDateTime } from "./ExifDateTime"
-import { ExifTool } from "./ExifTool"
+import { exiftool, ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
 import { expect } from "./_chai.spec"
@@ -255,6 +255,21 @@ describe("ReadTask", () => {
 
       // This is a non-standard tag, added by the custom user configuration:
       expect(t.UppercaseBaseName).to.eql("PIXEL")
+    })
+  })
+
+  describe("quotes in filenames", () => {
+    after(() => exiftool.end())
+    const base = `it's a "file".jpg`
+    it("reads from " + base, async () => {
+      const t = await exiftool.read(`test/${base}`)
+      expect(t.FileName).to.eql(base)
+      expect(t.MIMEType).to.eql("image/jpeg")
+      expect(t.ImageDescription).to.eql("image description for quotes test")
+      expect(t.Keywords).to.eql("quotes")
+      expect(t.DateTimeOriginal?.toString()?.split(/000/)[0]).to.eql(
+        "2016-08-12T13:28:50."
+      )
     })
   })
 })
