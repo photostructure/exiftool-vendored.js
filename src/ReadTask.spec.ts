@@ -5,7 +5,7 @@ import { ExifDateTime } from "./ExifDateTime"
 import { exiftool, ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
-import { expect } from "./_chai.spec"
+import { expect, isWin32 } from "./_chai.spec"
 
 function parse(tags: any, err?: Error): Tags {
   const tt = ReadTask.for("/tmp/example.jpg", [])
@@ -262,7 +262,7 @@ describe("ReadTask", () => {
 
   describe("quotes in filenames", () => {
     after(() => exiftool.end())
-    const base = `it's a "file".jpg`
+    const base = isWin32() ? `it's a file.jpg` : `it's a "file".jpg`
     it("reads from " + base, async () => {
       const tmp = join(tmpdir(), base)
       await fse.mkdirp(tmpdir())

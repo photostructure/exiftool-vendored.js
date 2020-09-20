@@ -1,7 +1,7 @@
 import { Deferred, Logger, setLogger } from "batch-cluster"
 import { createHash } from "crypto"
 import * as fse from "fs-extra"
-import { tmpdir } from "os"
+import { platform, tmpdir } from "os"
 import { join } from "path"
 import { env } from "process"
 import { orElse } from "./Maybe"
@@ -63,4 +63,8 @@ export function sha1(path: string): Promise<string> {
   readStream.on("error", (err) => d.reject(err))
   readStream.on("end", () => d.resolve(sha.digest().toString("hex")))
   return d.promise
+}
+
+export function isWin32() {
+  return platform() === "win32"
 }

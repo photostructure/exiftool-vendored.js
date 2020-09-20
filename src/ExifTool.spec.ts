@@ -1,14 +1,12 @@
 import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
-import { platform } from "process"
-
-import { expect, testImg } from "./_chai.spec"
 import { times } from "./Array"
 import { ExifDateTime } from "./ExifDateTime"
 import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { keys } from "./Object"
-import { Tags } from "./Tags"
 import { leftPad } from "./String"
+import { Tags } from "./Tags"
+import { expect, isWin32, testImg } from "./_chai.spec"
 
 function normalize(tagNames: string[]): string[] {
   return tagNames
@@ -68,7 +66,7 @@ describe("ExifTool", function () {
     ignoreShebangs.push(true)
   } else {
     ignoreShebangs.push(false)
-    if (platform !== "win32") ignoreShebangs.push(true)
+    if (!isWin32()) ignoreShebangs.push(true)
   }
 
   for (const ignoreShebang of ignoreShebangs) {
