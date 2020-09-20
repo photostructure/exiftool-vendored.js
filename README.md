@@ -360,16 +360,20 @@ Using `exiftool-vendored`:
 
 ```sh
 Read 2236 unique tags from 3011 files.
-Parsing took 16191ms (5.4ms / file) # win32, core i7, maxProcs 4
-Parsing took 27141ms (9.0ms / file) # ubuntu, core i3, maxProcs 1
-Parsing took 12545ms (4.2ms / file) # ubuntu, core i3, maxProcs 4
+Parsing took 16s (5.4ms / file) # windows 10, core i7, maxProcs 4
+Parsing took 27s (9.0ms / file) # ubuntu 18.04, core i3, maxProcs 1
+Parsing took 13s (4.2ms / file) # ubuntu 18.04, core i3, maxProcs 4
+
+# September 2020 update with > 2x more files and faster CPU:
+Read 3100 unique tags from 8028 files.
+Parsing took 16s (2.0ms / file) # ubuntu 20.04, AMD Ryzen 9 3900X, maxProcs 24
 ```
 
-Using the `exiftool` npm package takes 7x longer (and doesn't work on Windows):
+Using the `exiftool` npm package takes 7-10x longer, and doesn't work on Windows.
 
 ```sh
 Reading 3011 files...
-Parsing took 85654ms (28.4ms / file) # ubuntu, core i3
+Parsing took 86s (28.4ms / file) # ubuntu, core i3
 ```
 
 ### Batch mode
