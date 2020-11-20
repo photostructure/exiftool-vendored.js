@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v12.3.0
+
+- 🌱 ExifTool upgraded to [v12.10](https://exiftool.org/history.html#v12.10)
+- 📦 Rebuilt Tags.ts and docs
+- 📦 Updated dependencies
+
 ### v12.2.0
 
 - 🌱 ExifTool upgraded to [v12.06](https://exiftool.org/history.html#v12.06)
@@ -39,7 +45,7 @@ vendored versions of ExifTool match the version they vendor.
 - 💔 `ExifDateTime.toISOString()` now returns `string | undefined` (as it
   proxies for Luxon's `DateTime.toISO()`, which now may return `null`.)
 - 🌱 ExifTool upgraded to [v12.04](https://exiftool.org/history.html#v12.04)
-- 📦 Rebuild Tags.ts and docs
+- 📦 Rebuilt Tags.ts and docs
 - 📦 Updated dependencies
 
 ### v11.5.0

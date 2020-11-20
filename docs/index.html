@@ -75,7 +75,7 @@
 				</a>
 				<ol>
 					<li><p><strong>Best-of-class cross-platform performance and reliability</strong>.</p>
-						<p><em>Expect <a href="#performance">an order of magnitude faster performance</a> than other packages.</em></p>
+						<p> <em>Expect <a href="#performance">an order of magnitude faster performance</a> than other packages.</em></p>
 					</li>
 					<li><p>Proper extraction of</p>
 						<ul>
@@ -196,7 +196,7 @@ exiftool
 				</a>
 				<pre><code class="language-js">exiftool
   .read(<span class="hljs-string">&quot;path/to/image.jpg&quot;</span>)
-  .then(<span class="hljs-function">(<span class="hljs-params">tags <span class="hljs-regexp">/*: Tags */</span></span>) =&gt;</span>
+  .then(<span class="hljs-function">(<span class="hljs-params">tags <span class="hljs-comment">/*: Tags */</span></span>) =&gt;</span>
     <span class="hljs-built_in">console</span>.log(
       <span class="hljs-string">`Make: <span class="hljs-subst">${tags.Make}</span>, Model: <span class="hljs-subst">${tags.Model}</span>, Errors: <span class="hljs-subst">${tags.errors}</span>`</span>
     )
@@ -357,12 +357,16 @@ exiftool
 				parses the results.</p>
 				<p>Using <code>exiftool-vendored</code>:</p>
 				<pre><code class="language-sh">Read 2236 unique tags from 3011 files.
-Parsing took 16191ms (5.4ms / file) <span class="hljs-comment"># win32, core i7, maxProcs 4</span>
-Parsing took 27141ms (9.0ms / file) <span class="hljs-comment"># ubuntu, core i3, maxProcs 1</span>
-Parsing took 12545ms (4.2ms / file) <span class="hljs-comment"># ubuntu, core i3, maxProcs 4</span></code></pre>
-				<p>Using the <code>exiftool</code> npm package takes 7x longer (and doesn&#39;t work on Windows):</p>
+Parsing took 16s (5.4ms / file) <span class="hljs-comment"># windows 10, core i7, maxProcs 4</span>
+Parsing took 27s (9.0ms / file) <span class="hljs-comment"># ubuntu 18.04, core i3, maxProcs 1</span>
+Parsing took 13s (4.2ms / file) <span class="hljs-comment"># ubuntu 18.04, core i3, maxProcs 4</span>
+
+<span class="hljs-comment"># September 2020 update with &gt; 2x more files and faster CPU:</span>
+Read 3100 unique tags from 8028 files.
+Parsing took 16s (2.0ms / file) <span class="hljs-comment"># ubuntu 20.04, AMD Ryzen 9 3900X, maxProcs 24</span></code></pre>
+				<p>Using the <code>exiftool</code> npm package takes 7-10x longer, and doesn&#39;t work on Windows.</p>
 				<pre><code class="language-sh">Reading 3011 files...
-Parsing took 85654ms (28.4ms / file) <span class="hljs-comment"># ubuntu, core i3</span></code></pre>
+Parsing took 86s (28.4ms / file) <span class="hljs-comment"># ubuntu, core i3</span></code></pre>
 				<a href="#batch-mode" id="batch-mode" style="color: inherit; text-decoration: none;">
 					<h3>Batch mode</h3>
 				</a>
