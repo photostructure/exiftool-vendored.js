@@ -27,6 +27,7 @@ vendored versions of ExifTool match the version they vendor.
 ### v12.4.0
 
 - 🌱 ExifTool upgraded to [v12.12](https://exiftool.org/history.html#v12.12)
+- 📦 Fetched a bunch new source images. Rebuilt `Tags.ts` and docs
 - 📦 Updated dependencies
 
 ### v12.3.1
