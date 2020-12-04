@@ -1,4 +1,4 @@
-import { Deferred, Logger, setLogger } from "batch-cluster"
+import { Deferred, Log, setLogger } from "batch-cluster"
 import { createHash } from "crypto"
 import * as fse from "fs-extra"
 import { platform, tmpdir } from "os"
@@ -12,9 +12,9 @@ chai.use(require("chai-subset"))
 
 // Tests should be quiet unless LOG is set
 setLogger(
-  Logger.withLevels(
-    Logger.withTimestamps(
-      Logger.filterLevels(
+  Log.withLevels(
+    Log.withTimestamps(
+      Log.filterLevels(
         {
           trace: console.log,
           debug: console.log,

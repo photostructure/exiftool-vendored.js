@@ -24,6 +24,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v12.4.0
+
+- 🌱 ExifTool upgraded to [v12.12](https://exiftool.org/history.html#v12.12)
+- 📦 Updated dependencies
+
 ### v12.3.1
 
 - 📦 Removed dev dependency on `npm-check-updates`, as it no longer supports

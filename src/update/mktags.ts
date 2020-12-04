@@ -1,6 +1,6 @@
 require("source-map-support").install()
 
-import { Logger, logger, setLogger } from "batch-cluster"
+import { Log, logger, setLogger } from "batch-cluster"
 import * as _fs from "fs"
 import * as globule from "globule"
 import { cpus } from "os"
@@ -33,9 +33,9 @@ function ellipsize(str: string, max: number) {
 // NO SRSLY STOP SCROLLING IT REALLY IS BAD
 
 setLogger(
-  Logger.withLevels(
-    Logger.withTimestamps(
-      Logger.filterLevels(
+  Log.withLevels(
+    Log.withTimestamps(
+      Log.filterLevels(
         {
           trace: console.log,
           debug: console.log,
