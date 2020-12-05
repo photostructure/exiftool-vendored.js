@@ -24,10 +24,30 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
-### v12.4.0
+### v13.0.0
 
-- 🌱 ExifTool upgraded to [v12.12](https://exiftool.org/history.html#v12.12)
-- 📦 Fetched a bunch new source images. Rebuilt `Tags.ts` and docs
+- 💔 The `Tags.ts` types have changed. **Some newly-found types were added, many
+  rarely-occurring types have been removed, and `Tag` sub-interfaces have
+  changed**. Tag retention heuristics had to be updated, as TypeScript would
+  crash with `error TS2590: Expression produces a union type that is too complex to represent`.
+
+  `mktags` now has a "safe" set of tags that will be retained, and a set of tags
+  that are expressly excluded.
+
+  These changes won't prevent all type changes from happening in the future, but
+  will prevent these more-common tags from being removed completely.
+
+  As several tags are found in several different
+  [groups](https://exiftool.org/TagNames/index.html), `mktags` now tries to
+  place tags first in `FileTags` and `EXIFTags` groups before more proprietary
+  APP groups, which should help future interface stability. (This explains why
+  `MIMEType` moved to `FileTags`, for example).
+
+- 🌱 ExifTool upgraded to [v12.12](https://exiftool.org/history.html#v12.12).
+
+  Note that this version renders file sizes a bit differently: "756 kB" will now
+  be rendered as "756 KiB".
+
 - 📦 Updated dependencies
 
 ### v12.3.1

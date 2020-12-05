@@ -14,9 +14,159 @@ import { nullish } from "../ReadTask"
 import { blank, isString, leftPad } from "../String"
 import ProgressBar = require("progress")
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
+
+// Avoid error TS2590: Expression produces a union type that is too complex to represent
+const MAX_TAGS = 3000 // TypeScript 4.2 crashes with 3100+
+
+const RequiredTags = [
+  "ApertureValue",
+  "AvgBitrate",
+  "BodySerialNumber",
+  "BurstID", // these seem to be really long, like type 4 UUIDs.
+  "BurstUUID", // these seem to be really long, like type 4 UUIDs.
+  "CameraID",
+  "CameraOrientation",
+  "CameraSerialNumber",
+  "Caption-Abstract",
+  "Compass",
+  "Country",
+  "CountryCode",
+  "CreateDate", // (called DateTimeDigitized by the EXIF spec)
+  "DateTime",
+  "DateTimeCreated",
+  "DateTimeDigitized",
+  "DateTimeGenerated",
+  "DateTimeOriginal", // (date/time when original image was taken)
+  "DateTimeUTC",
+  "Description",
+  "Error",
+  "ExifImageHeight",
+  "ExifImageWidth",
+  "ExposureTime",
+  "FileName",
+  "FileSize",
+  "FileType",
+  "FileTypeExtension",
+  "Fnumber",
+  "FNumber",
+  "FocalLength",
+  "GPSAltitude",
+  "GPSDateTime",
+  "GPSLatitude",
+  "GPSLongitude",
+  "ImageDescription",
+  "ImageHeight",
+  "ImageNumber", // these don't seem to ever be > 100000
+  "ImageSize",
+  "ImageWidth",
+  "InternalSerialNumber",
+  "ISO",
+  "ISOSpeed",
+  "LensID",
+  "LensInfo",
+  "LensMake",
+  "LensModel",
+  "LensSerialNumber",
+  "LensSpec",
+  "LensType",
+  "Make",
+  "MaxDataRate",
+  "MediaCreateDate",
+  "Megapixels",
+  "MIMEType",
+  "Model",
+  "ModifyDate",
+  "ObjectName",
+  "Orientation",
+  "OriginalCreateDateTime",
+  "Rating",
+  "RegistryID",
+  "Rotation",
+  "RunTimeValue",
+  "SerialNumber",
+  "ShutterCount",
+  "ShutterSpeed",
+  "SonyExposureTime",
+  "SonyFNumber",
+  "SonyISO",
+  "SubSecCreateDate",
+  "SubSecDateTimeOriginal", // (fractional seconds for DateTimeOriginal)
+  "SubSecMediaCreateDate",
+  "SubSecTime", // (fractional seconds for ModifyDate)
+  "SubSecTimeDigitized", // (fractional seconds for CreateDate)
+  "TimeZone", // not frequently seen
+  "Title",
+  "Warning",
+  "XPComment",
+  "XPKeywords",
+  "XPSubject",
+  "XPTitle",
+]
+
+// TypeScript fails with
+// error TS2590: Expression produces a union type that is too complex to represent.
+const ExcludedTagRe = new RegExp(
+  [
+    "_",
+    "A[ab]{3,}",
+    "AEC",
+    "AFR",
+    "AFS",
+    "AFStatus_",
+    "AFTrace",
+    "AFV",
+    "ASF\\d",
+    "AtmosphericTrans",
+    "AWB",
+    "CAM\\d",
+    "CameraTemperature",
+    "ChroSupC",
+    "DayltConv",
+    "DefConv",
+    "DefCor",
+    "Face\\d",
+    "FCS\\d",
+    "HJR",
+    "IM[a-z]",
+    "IncandConv",
+    "Kelvin_?WB",
+    "Label\\d",
+    "Value\\d",
+    "Mask_",
+    "MODE",
+    "MTR",
+    "O[a-f]+Revision",
+    "PF\\d\\d",
+    "PictureWizard",
+    "PiP",
+    "Planck",
+    "R2[A-Z]",
+    "STB\\d",
+    "Tag[\\d_]+",
+    "TL84",
+    "WB[_\\d]",
+    "YhiY",
+  ].join("|")
+)
+
+function sortBy<T>(
+  arr: T[],
+  f: (t: T, index: number) => Maybe<string | number>
+): T[] {
+  return (
+    arr
+      .filter((ea) => ea != null)
+      .map((item, idx) => ({
+        item,
+        cmp: map(f(item, idx), (ea) => [ea, idx]),
+      }))
+      .filter((ea) => ea.cmp != null)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .sort((a, b) => cmp(a.cmp!, b.cmp!))
+      .map((ea) => ea.item)
+  )
+}
 
 const exiftool = new ExifTool({
   maxProcs: cpus().length,
@@ -145,6 +295,7 @@ function sigFigs(i: number, digits: number): number {
 }
 
 function toStr(o: any): any {
+  if (o == null) return ""
   if (isString(o)) return `"${ellipsize(o, 65)}"`
   else if (o["toISOString"] != null) return o.toISOString()
   else if (isNumber(o)) return sigFigs(o, 8)
@@ -173,10 +324,24 @@ class Tag {
   important = false
   constructor(readonly tag: string) {}
 
+  toString() {
+    return JSON.stringify(this.toJSON())
+  }
+
+  toJSON() {
+    return {
+      group: this.group,
+      base: this.base,
+      important: this.important,
+      valueTypes: this.valueTypes,
+      values: [...new Set(this.values)].slice(0, 3),
+    }
+  }
+
   get group(): string {
     return this.tag.split(":")[0]
   }
-  get withoutGroup(): string {
+  get base(): string {
     return this.tag.split(":")[1]
   }
   get valueTypes(): string[] {
@@ -189,8 +354,19 @@ class Tag {
     return cm.byP(0.5)
   }
   get valueType(): string {
-    return this.valueTypes.join(" | ")
+    return this.valueTypes.length === 0 ? "string" : this.valueTypes.join(" | ")
   }
+
+  get sortBy() {
+    return (
+      -(this.required ? 1e8 : this.important ? 1e4 : 1) * this.values.length
+    )
+  }
+
+  get required() {
+    return RequiredTags.includes(this.base)
+  }
+
   vacuumValues() {
     return filterInPlace(this.values, (ea) => !nullish(ea))
   }
@@ -199,8 +375,9 @@ class Tag {
     // If it's a tag from an "important" camera, always include the tag.
     // Otherwise, if we never get a valid value for the tag, skip it.
     return (
-      !blank(this.valueType) &&
-      (this.important || this.values.length >= minValues)
+      this.required ||
+      (!blank(this.valueType) &&
+        (this.important || this.values.length >= minValues))
     )
   }
   popIcon(totalValues: number): string {
@@ -267,13 +444,13 @@ class Tag {
     // 41%:   70:
 
     const stars =
-      f > 0.75
+      f > 0.5
         ? "★★★★"
-        : f > 0.325
+        : f > 0.2
         ? "★★★☆"
-        : f > 0.1625
+        : f > 0.1
         ? "★★☆☆"
-        : f > 0.08125
+        : f > 0.05
         ? "★☆☆☆"
         : "☆☆☆☆"
     const important = this.important ? "✔" : " "
@@ -293,8 +470,8 @@ class Tag {
     if (this.tag.endsWith("CopyrightNotice"))
       return exampleToS(["Creative Commons Attribution 4.0 International"])
     if (this.tag.endsWith("OwnerName")) return exampleToS(["Itsa Myowna"])
-    if (this.tag.endsWith("Artist")) return exampleToS(["Ansel Adams"])
-    if (this.tag.endsWith("Author")) return exampleToS(["Arturo DeImage"])
+    if (this.tag.endsWith("Artist")) return exampleToS(["Arturo DeImage"])
+    if (this.tag.endsWith("Author")) return exampleToS(["Maya Picturo"])
     if (this.tag.endsWith("Contact")) return exampleToS(["Dohncha Ringmanumba"])
     if (this.tag.endsWith("Software") || this.tag.endsWith("URL"))
       return exampleToS(["https://PhotoStructure.com/"])
@@ -318,34 +495,6 @@ class Tag {
   }
 }
 
-// TypeScript fails with
-// error TS2590: Expression produces a union type that is too complex to represent.
-const ExcludedTagRe = new RegExp(
-  [
-    "AEC",
-    "AFR",
-    "AFS",
-    "AFStatus_",
-    "AFTrace",
-    "AFV",
-    "ASF\\d",
-    "AWB",
-    "ChroSupC",
-    "DayltConv",
-    "DefConv",
-    "DefCor",
-    "Face\\d",
-    "HJR",
-    "IncandConv",
-    "Kelvin_?WB",
-    "PF\\d\\d",
-    "R2[A-Z]",
-    "TL84",
-    "WB_",
-    "YhiY",
-  ].join("|")
-)
-
 // const minOccurrences = 2
 
 class TagMap {
@@ -353,7 +502,7 @@ class TagMap {
   private maxValueCount = 0
   private _finished = false
   groupedTags = new Map<string, Tag[]>()
-  tags: Tag[] = []
+  readonly tags: Tag[] = []
 
   tag(tag: string) {
     const prevTag = this.map.get(tag)
@@ -384,7 +533,23 @@ class TagMap {
   finish() {
     if (this._finished) return
     this._finished = true
-    const allTags = Array.from(this.map.values())
+    this.tags.length = 0
+    const arr = [...this.map.values()]
+    this.tags.push(...arr.filter((ea) => ea.required))
+    console.log("TagMap.finish(): required tag count:" + this.tags.length)
+    const optional = sortBy(
+      arr.filter((ea) => !ea.required && ea.keep(2)),
+      (ea) => ea.sortBy
+    )
+    this.tags.push(...optional.slice(0, MAX_TAGS - this.tags.length))
+    console.log(
+      "TagMap.finish(): final tag count:" +
+        this.tags.length +
+        " from " +
+        arr.length +
+        " raw tags."
+    )
+
     // console.log(
     //   `Skipping the following tags due to < ${minOccurrences} occurrences:`
     // )
@@ -394,7 +559,6 @@ class TagMap {
     //     .map((t) => t.tag)
     //     .join(", ")
     // )
-    this.tags = allTags.filter((a) => a.keep(2))
     this.groupedTags.clear()
     this.tags.forEach((tag) => {
       getOrSet(this.groupedTags, tag.group, () => []).push(tag)
@@ -424,6 +588,7 @@ const seenFiles: string[] = []
 
 async function readAndAddToTagMap(file: string) {
   try {
+    if (file.includes("metadesert")) return
     const tags: any = await exiftool.read(file, ["-G"])
     seenFiles.push(file)
     const importantFile = file.toString().toLowerCase().includes("important")
@@ -483,14 +648,18 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { ExifDate } from "./ExifDate"',
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
+        'import { ICCProfileTags } from "./ICCProfileTags"',
         'import { Struct } from "./Struct"',
         "",
         "/* eslint-disable @typescript-eslint/no-explicit-any */",
         "",
-        `// Autogenerated by "npm run mktags" by ExifTool ${version} on ${new Date().toDateString()}.`,
+        `// Autogenerated by "yarn mktags" by ExifTool ${version} on ${new Date().toDateString()}.`,
         `// ${tagMap.map.size} unique tags were found in ${files.length} different digital imagery files.`,
         "",
-        "// Comments by each tag include popularity (★★★★ is found in > 75% of cameras, ☆☆☆☆ is rare),",
+        `// To prevent error TS2590: (Expression produces a union type that is too complex to represent)`,
+        `// only the most common ${tagMap.tags.length} tags are retained in this interface.`,
+        "",
+        "// Comments by each tag include popularity (★★★★ is found in > 50% of samples, and ☆☆☆☆ is rare),",
         "// followed by a checkmark if the tag is used by popular devices (like iPhones)",
         "// An example value, JSON stringified, follows the popularity ratings.",
         "",
@@ -499,38 +668,57 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     const groupedTags = tagMap.groupedTags
     const tagGroups: string[] = []
     const seenTagNames = new Set<string>()
-    Array.from(groupedTags.entries())
-      .sort()
-      .forEach(([group, tagsForGroup]) => {
-        const filteredTags = tagsForGroup
-          .sort((a, b) => cmp(a.tag, b.tag))
-          // First group with a tag name wins. Other group's colliding tag names
-          // are omitted:
-          .filter((tag) => !seenTagNames.has(tag.withoutGroup))
-        if (filteredTags.length > 0) {
-          tagGroups.push(group)
-          tagWriter.write(`\nexport interface ${group}Tags {\n`)
-          filteredTags.forEach((tag) => {
-            tagWriter.write(
-              `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
-            )
-            tagWriter.write(`  ${tag.withoutGroup}?: ${tag.valueType}\n`)
-            seenTagNames.add(tag.withoutGroup)
-          })
-          tagWriter.write(`}\n`)
-        }
-      })
+    // Pick from the "APP###" groups last.
+
+    const DesiredOrder = [
+      "exiftool",
+      "file",
+      "composite",
+      "exif",
+      "iptc",
+      "jfif",
+      "makernotes",
+      "xmp",
+    ]
+    const unsortedGroupNames = [...groupedTags.keys()].sort()
+    const groupNames = sortBy(unsortedGroupNames, (ea, index) => {
+      const indexOf = DesiredOrder.indexOf(ea.toLowerCase())
+      return indexOf >= 0 ? indexOf : index + unsortedGroupNames.length
+    })
+    for (const group of groupNames) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const tagsForGroup = groupedTags.get(group)!
+      const filteredTags = sortBy(tagsForGroup, (ea) => ea.tag)
+        // First group with a tag name wins. Other group's colliding tag names
+        // are omitted:
+        .filter((tag) => !seenTagNames.has(tag.base))
+      if (filteredTags.length > 0) {
+        tagGroups.push(group)
+        tagWriter.write(`\nexport interface ${group}Tags {\n`)
+        filteredTags.forEach((tag) => {
+          tagWriter.write(
+            `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
+          )
+          tagWriter.write(`  ${tag.base}?: ${tag.valueType}\n`)
+          seenTagNames.add(tag.base)
+        })
+        tagWriter.write(`}\n`)
+      }
+    }
     const interfaceNames = [
       ...tagGroups.map((s) => s + "Tags"),
       "ApplicationRecordTags",
-    ]
+      "ICCProfileTags",
+    ].sort()
     tagWriter.write(
       [
         "",
         "export interface Tags",
         `  extends ${interfaceNames.join(",\n    ")} {`,
         "  errors?: string[]",
+        `  /** ☆☆☆☆ ✔ Example: "File is empty" */`,
         "  Error?: string",
+        `  /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */`,
         "  Warning?: string",
         "  SourceFile?: string",
         "  /** Either an offset, like `UTC-7`, or an actual timezone, like `America/Los_Angeles` */",

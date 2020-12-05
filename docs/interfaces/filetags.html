@@ -84,8 +84,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#bmpversion" class="tsd-kind-icon">BMPVersion</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#bitdepth" class="tsd-kind-icon">Bit<wbr>Depth</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#bitspersample" class="tsd-kind-icon">Bits<wbr>Per<wbr>Sample</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#colorcomponents" class="tsd-kind-icon">Color<wbr>Components</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#comment" class="tsd-kind-icon">Comment</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#compression" class="tsd-kind-icon">Compression</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#currentiptcdigest" class="tsd-kind-icon">CurrentIPTCDigest</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#directory" class="tsd-kind-icon">Directory</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#encodingprocess" class="tsd-kind-icon">Encoding<wbr>Process</a></li>
@@ -98,13 +100,17 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#filesize" class="tsd-kind-icon">File<wbr>Size</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#filetype" class="tsd-kind-icon">File<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#filetypeextension" class="tsd-kind-icon">File<wbr>Type<wbr>Extension</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#imageheight" class="tsd-kind-icon">Image<wbr>Height</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#imagelength" class="tsd-kind-icon">Image<wbr>Length</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#imagewidth" class="tsd-kind-icon">Image<wbr>Width</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#mimetype" class="tsd-kind-icon">MIMEType</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#numcolors" class="tsd-kind-icon">Num<wbr>Colors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#numimportantcolors" class="tsd-kind-icon">Num<wbr>Important<wbr>Colors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#pixelspermeterx" class="tsd-kind-icon">Pixels<wbr>Per<wbr>MeterX</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#pixelspermetery" class="tsd-kind-icon">Pixels<wbr>Per<wbr>MeterY</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#planes" class="tsd-kind-icon">Planes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#previewimage" class="tsd-kind-icon">Preview<wbr>Image</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filetags.html#ycbcrsubsampling" class="tsd-kind-icon">YCb<wbr>CrSub<wbr>Sampling</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,7 +124,7 @@
 					<div class="tsd-signature tsd-kind-icon">BMPVersion<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1037">src/Tags.ts:1037</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L31">src/Tags.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -133,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">Bit<wbr>Depth<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1039">src/Tags.ts:1039</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L33">src/Tags.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -143,12 +149,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="bitspersample" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Bits<wbr>Per<wbr>Sample</h3>
+					<div class="tsd-signature tsd-kind-icon">Bits<wbr>Per<wbr>Sample<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L35">src/Tags.ts:35</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>★★★★ ✔ Example: 8</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="colorcomponents" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Color<wbr>Components</h3>
 					<div class="tsd-signature tsd-kind-icon">Color<wbr>Components<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1041">src/Tags.ts:1041</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L37">src/Tags.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -163,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">Comment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1043">src/Tags.ts:1043</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L39">src/Tags.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -173,12 +194,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="compression" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Compression</h3>
+					<div class="tsd-signature tsd-kind-icon">Compression<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L41">src/Tags.ts:41</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>☆☆☆☆ ✔ Example: &quot;MJPG&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="currentiptcdigest" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> CurrentIPTCDigest</h3>
 					<div class="tsd-signature tsd-kind-icon">CurrentIPTCDigest<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1045">src/Tags.ts:1045</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L43">src/Tags.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -193,7 +229,7 @@
 					<div class="tsd-signature tsd-kind-icon">Directory<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1047">src/Tags.ts:1047</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L45">src/Tags.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -208,7 +244,7 @@
 					<div class="tsd-signature tsd-kind-icon">Encoding<wbr>Process<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1049">src/Tags.ts:1049</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L47">src/Tags.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -223,7 +259,7 @@
 					<div class="tsd-signature tsd-kind-icon">Exif<wbr>Byte<wbr>Order<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1051">src/Tags.ts:1051</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L49">src/Tags.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -238,12 +274,12 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Access<wbr>Date<span class="tsd-signature-symbol">:</span> <a href="../classes/exifdatetime.html" class="tsd-signature-type">ExifDateTime</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1053">src/Tags.ts:1053</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L51">src/Tags.ts:51</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>★★★★ ✔ Example: 2020-12-04T11:39:31.000-08:00</p>
+							<p>★★★★ ✔ Example: 2020-12-05T11:44:21.000-08:00</p>
 						</div>
 					</div>
 				</section>
@@ -253,12 +289,12 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Inode<wbr>Change<wbr>Date<span class="tsd-signature-symbol">:</span> <a href="../classes/exifdatetime.html" class="tsd-signature-type">ExifDateTime</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1055">src/Tags.ts:1055</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L53">src/Tags.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>★★★★ ✔ Example: 2020-12-04T11:39:31.000-08:00</p>
+							<p>★★★★ ✔ Example: 2020-12-04T13:04:05.000-08:00</p>
 						</div>
 					</div>
 				</section>
@@ -268,7 +304,7 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Modify<wbr>Date<span class="tsd-signature-symbol">:</span> <a href="../classes/exifdatetime.html" class="tsd-signature-type">ExifDateTime</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1057">src/Tags.ts:1057</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L55">src/Tags.ts:55</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -283,7 +319,7 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1059">src/Tags.ts:1059</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L57">src/Tags.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -298,7 +334,7 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Permissions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1061">src/Tags.ts:1061</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L59">src/Tags.ts:59</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -313,7 +349,7 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1063">src/Tags.ts:1063</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L61">src/Tags.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -328,7 +364,7 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1065">src/Tags.ts:1065</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L63">src/Tags.ts:63</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -343,7 +379,7 @@
 					<div class="tsd-signature tsd-kind-icon">File<wbr>Type<wbr>Extension<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1067">src/Tags.ts:1067</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L65">src/Tags.ts:65</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -353,12 +389,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="imageheight" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Image<wbr>Height</h3>
+					<div class="tsd-signature tsd-kind-icon">Image<wbr>Height<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L67">src/Tags.ts:67</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>★★★★ ✔ Example: 8</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="imagelength" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Image<wbr>Length</h3>
 					<div class="tsd-signature tsd-kind-icon">Image<wbr>Length<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1069">src/Tags.ts:1069</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L69">src/Tags.ts:69</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -368,12 +419,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="imagewidth" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Image<wbr>Width</h3>
+					<div class="tsd-signature tsd-kind-icon">Image<wbr>Width<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L71">src/Tags.ts:71</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>★★★★ ✔ Example: 8096</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="mimetype" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> MIMEType</h3>
 					<div class="tsd-signature tsd-kind-icon">MIMEType<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1071">src/Tags.ts:1071</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L73">src/Tags.ts:73</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -388,7 +454,7 @@
 					<div class="tsd-signature tsd-kind-icon">Num<wbr>Colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1073">src/Tags.ts:1073</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L75">src/Tags.ts:75</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -403,7 +469,7 @@
 					<div class="tsd-signature tsd-kind-icon">Num<wbr>Important<wbr>Colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1075">src/Tags.ts:1075</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L77">src/Tags.ts:77</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -418,7 +484,7 @@
 					<div class="tsd-signature tsd-kind-icon">Pixels<wbr>Per<wbr>MeterX<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1077">src/Tags.ts:1077</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L79">src/Tags.ts:79</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -433,7 +499,7 @@
 					<div class="tsd-signature tsd-kind-icon">Pixels<wbr>Per<wbr>MeterY<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1079">src/Tags.ts:1079</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L81">src/Tags.ts:81</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -448,12 +514,42 @@
 					<div class="tsd-signature tsd-kind-icon">Planes<span class="tsd-signature-symbol">:</span> <a href="../globals.html#maybe" class="tsd-signature-type">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L1081">src/Tags.ts:1081</a></li>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L83">src/Tags.ts:83</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>☆☆☆☆ ✔ Example: 1</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="previewimage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> Preview<wbr>Image</h3>
+					<div class="tsd-signature tsd-kind-icon">Preview<wbr>Image<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L85">src/Tags.ts:85</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>☆☆☆☆ ✔ Example: &quot;(Binary data 93064 bytes, use -b option to extract)&quot;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="ycbcrsubsampling" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> YCb<wbr>CrSub<wbr>Sampling</h3>
+					<div class="tsd-signature tsd-kind-icon">YCb<wbr>CrSub<wbr>Sampling<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/master/src/Tags.ts#L87">src/Tags.ts:87</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>★★★★ ✔ Example: &quot;YCbCr4:4:4 (1 1)&quot;</p>
 						</div>
 					</div>
 				</section>
@@ -481,10 +577,16 @@
 								<a href="filetags.html#bitdepth" class="tsd-kind-icon">Bit<wbr>Depth</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="filetags.html#bitspersample" class="tsd-kind-icon">Bits<wbr>Per<wbr>Sample</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="filetags.html#colorcomponents" class="tsd-kind-icon">Color<wbr>Components</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="filetags.html#comment" class="tsd-kind-icon">Comment</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="filetags.html#compression" class="tsd-kind-icon">Compression</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="filetags.html#currentiptcdigest" class="tsd-kind-icon">CurrentIPTCDigest</a>
@@ -523,7 +625,13 @@
 								<a href="filetags.html#filetypeextension" class="tsd-kind-icon">File<wbr>Type<wbr>Extension</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="filetags.html#imageheight" class="tsd-kind-icon">Image<wbr>Height</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="filetags.html#imagelength" class="tsd-kind-icon">Image<wbr>Length</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="filetags.html#imagewidth" class="tsd-kind-icon">Image<wbr>Width</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="filetags.html#mimetype" class="tsd-kind-icon">MIMEType</a>
@@ -542,6 +650,12 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="filetags.html#planes" class="tsd-kind-icon">Planes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="filetags.html#previewimage" class="tsd-kind-icon">Preview<wbr>Image</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="filetags.html#ycbcrsubsampling" class="tsd-kind-icon">YCb<wbr>CrSub<wbr>Sampling</a>
 							</li>
 						</ul>
 					</li>

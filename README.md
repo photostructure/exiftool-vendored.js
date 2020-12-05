@@ -120,6 +120,47 @@ severe problems, via the `errors` field.
 All other public ExifTool methods return `Promise<void>`, and will reject
 the promise if the operation is not successful.
 
+### `Tags` types
+
+ExifTool knows how to extract _several thousand_ different tag fields.
+
+Unfortunately, TypeScript crashes with `error TS2590: Expression produces a union type that is too complex to represent` if the `Tags` interface was comprehensive.
+
+Instead, we build a corpus of "commonly seen" tags from over 5,000 different
+digital camera makes and models, many from the [ExifTool metadata
+repository](https://exiftool.org/sample_images.html).
+
+Here are some example fields:
+
+```ts
+  /** ★☆☆☆ ✔ Example: 200 */
+  ISO?: number
+
+  /** ★★★★ ✔ Example: 1920 */
+  ImageHeight?: number
+
+  /** ★★★★ ✔ Example: 1080 */
+  ImageWidth?: number
+
+  /** ★★★★ ✔ Example: "image/jpeg" */
+  MIMEType?: string
+```
+
+The stars represent how common that field has a value in the example corpus. ★★★★ fields are found in > 50% of the examples.
+☆☆☆☆ fields are found in < 1% of examples.
+
+The checkmark denotes if the field is found in "popular" cameras (like recent
+Nikon, Canon, Sony, and Apple devices).
+
+### Caveats with `Tags`
+
+**The fields in `Tags` are not comprehensive.**
+
+Just because a field is missing from the Tags interface **does not mean the
+field doesn't exist in the returned object**. This library doesn't exclude
+unknown fields, in other words. It's up to you and your code to look for other
+fields you expect, and cast to a more relevant interface.
+
 ### Errors and Warnings
 
 ExifTool has a pretty exhaustive set of error checking, and many "errors" are

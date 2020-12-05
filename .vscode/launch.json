@@ -2,12 +2,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "mktags",
+      "program": "${workspaceFolder}/dist/update/mktags.js",
+      "args": [
+        "../test-images"
+      ],
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
       "name": "Test",
       "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
       "stopOnEntry": false,
-      "args": ["--debug", "lib/**/*.spec.js"],
+      "args": [
+        "--debug",
+        "lib/**/*.spec.js"
+      ],
       "cwd": "${workspaceRoot}",
       "preLaunchTask": "",
       "runtimeExecutable": null,
@@ -17,7 +32,9 @@
       },
       "console": "internalConsole",
       "sourceMaps": true,
-      "outFiles": ["${workspaceRoot}/lib/**/*"]
+      "outFiles": [
+        "${workspaceRoot}/lib/**/*"
+      ]
     },
     {
       "name": "Attach",

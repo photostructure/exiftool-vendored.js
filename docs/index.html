@@ -167,6 +167,38 @@ exiftool
 				severe problems, via the <code>errors</code> field.</p>
 				<p>All other public ExifTool methods return <code>Promise&lt;void&gt;</code>, and will reject
 				the promise if the operation is not successful.</p>
+				<a href="#tags-types" id="tags-types" style="color: inherit; text-decoration: none;">
+					<h3><code>Tags</code> types</h3>
+				</a>
+				<p>ExifTool knows how to extract <em>several thousand</em> different tag fields.</p>
+				<p>Unfortunately, TypeScript crashes with <code>error TS2590: Expression produces a union type that is too complex to represent</code> if the <code>Tags</code> interface was comprehensive.</p>
+				<p>Instead, we build a corpus of &quot;commonly seen&quot; tags from over 5,000 different
+					digital camera makes and models, many from the <a href="https://exiftool.org/sample_images.html">ExifTool metadata
+				repository</a>.</p>
+				<p>Here are some example fields:</p>
+				<pre><code class="language-ts">  <span class="hljs-comment">/** ★☆☆☆ ✔ Example: 200 */</span>
+  ISO?: <span class="hljs-built_in">number</span>
+
+  <span class="hljs-comment">/** ★★★★ ✔ Example: 1920 */</span>
+  ImageHeight?: <span class="hljs-built_in">number</span>
+
+  <span class="hljs-comment">/** ★★★★ ✔ Example: 1080 */</span>
+  ImageWidth?: <span class="hljs-built_in">number</span>
+
+  <span class="hljs-comment">/** ★★★★ ✔ Example: &quot;image/jpeg&quot; */</span>
+  MIMEType?: <span class="hljs-built_in">string</span></code></pre>
+				<p>The stars represent how common that field has a value in the example corpus. ★★★★ fields are found in &gt; 50% of the examples.
+				☆☆☆☆ fields are found in &lt; 1% of examples.</p>
+				<p>The checkmark denotes if the field is found in &quot;popular&quot; cameras (like recent
+				Nikon, Canon, Sony, and Apple devices).</p>
+				<a href="#caveats-with-tags" id="caveats-with-tags" style="color: inherit; text-decoration: none;">
+					<h3>Caveats with <code>Tags</code></h3>
+				</a>
+				<p><strong>The fields in <code>Tags</code> are not comprehensive.</strong></p>
+				<p>Just because a field is missing from the Tags interface <strong>does not mean the
+					field doesn&#39;t exist in the returned object</strong>. This library doesn&#39;t exclude
+					unknown fields, in other words. It&#39;s up to you and your code to look for other
+				fields you expect, and cast to a more relevant interface.</p>
 				<a href="#errors-and-warnings" id="errors-and-warnings" style="color: inherit; text-decoration: none;">
 					<h3>Errors and Warnings</h3>
 				</a>
@@ -449,9 +481,6 @@ Parsing took 86s (28.4ms / file) <span class="hljs-comment"># ubuntu, core i3</s
 						<a href="classes/writetask.html" class="tsd-kind-icon">Write<wbr>Task</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/app0tags.html" class="tsd-kind-icon">APP0<wbr>Tags</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/app12tags.html" class="tsd-kind-icon">APP12<wbr>Tags</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -462,6 +491,9 @@ Parsing took 86s (28.4ms / file) <span class="hljs-comment"># ubuntu, core i3</s
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/app4tags.html" class="tsd-kind-icon">APP4<wbr>Tags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/app5tags.html" class="tsd-kind-icon">APP5<wbr>Tags</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/app6tags.html" class="tsd-kind-icon">APP6<wbr>Tags</a>
@@ -488,7 +520,7 @@ Parsing took 86s (28.4ms / file) <span class="hljs-comment"># ubuntu, core i3</s
 						<a href="interfaces/flashpixtags.html" class="tsd-kind-icon">Flash<wbr>Pix<wbr>Tags</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/icc_profiletags.html" class="tsd-kind-icon">ICC_<wbr><wbr>Profile<wbr>Tags</a>
+						<a href="interfaces/iccprofiletags.html" class="tsd-kind-icon">ICCProfile<wbr>Tags</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iptctags.html" class="tsd-kind-icon">IPTCTags</a>
