@@ -84,7 +84,7 @@ There are many configuration options to ExifTool, but all values have (more or
 less sensible) defaults.
 
 Those defaults have been used to create the
-[`exiftool`](https://photostructure.github.io/exiftool-vendored.js/globals.html#exiftool) singleton.
+[`exiftool`](https://photostructure.github.io/exiftool-vendored.js/modules.html#exiftool) singleton.
 Note that if you _don't_ use the default singleton, you don't need to `.end()`
 it.
 
@@ -99,7 +99,7 @@ exiftool
 ```
 
 If the default [ExifTool constructor
-parameters](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#constructor)
+parameters](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html)
 wont' work for you, it's just a class that takes an options hash:
 
 ```js
@@ -383,7 +383,7 @@ For an example of a group of tags, see the [EXIFTags
 interface](interfaces/exiftags.html).
 
 Tags marked with "★★★★", like
-[MIMEType](https://photostructure.github.io/exiftool-vendored.js/interfaces/filetags.html#mimetype),
+[MIMEType](https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html#mimetype),
 should be found in most files. Of the several thousand metadata tags, realize
 less than 50 are found generally. You'll need to do your own research to
 determine which tags are valid for your uses.

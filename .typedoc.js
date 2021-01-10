@@ -10,11 +10,11 @@ module.exports = {
   // excludeProtected: true,
   // excludeExternals: true,
   entryPoints: [
-    "./src/ExifDate.ts",
-    "./src/ExifDateTime.ts",
-    "./src/ExifTime.ts",
+    // "./src/ExifDate.ts",
+    // "./src/ExifDateTime.ts",
+    // "./src/ExifTime.ts",
     "./src/ExifTool.ts",
-    "./src/Tags.ts",
+    // "./src/Tags.ts",
   ],
   // entryPoints: ["./src"]
   // excludeNotExported: true
