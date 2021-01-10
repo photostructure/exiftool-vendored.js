@@ -9,7 +9,13 @@ module.exports = {
   excludePrivate: true,
   // excludeProtected: true,
   // excludeExternals: true,
-  entryPoints: ["./src/ExifTool.ts", "./src/Tags.ts", "./src/BinaryExtractionTask.ts", "./src/ExifDate.ts", "./src/ExifDateTime.ts", "./src/ReadTask.ts", "./src/WriteTask.ts"],
+  entryPoints: [
+    "./src/ExifDate.ts",
+    "./src/ExifDateTime.ts",
+    "./src/ExifTime.ts",
+    "./src/ExifTool.ts",
+    "./src/Tags.ts",
+  ],
   // entryPoints: ["./src"]
   // excludeNotExported: true
 }
