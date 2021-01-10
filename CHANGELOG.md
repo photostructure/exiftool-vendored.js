@@ -24,6 +24,21 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v13.1.0
+
+- 🐞 More complex characters, like emoji that use compound codepoints, like 🦍,
+  🦄, or 🚵‍♀️, are now supported. See
+  [#87](https://github.com/photostructure/exiftool-vendored.js/issues/87) for
+  more details. Thanks for the report, [Gabe
+  Rodriguez](https://github.com/grod220)!
+
+- 🌱 ExifTool upgraded to [v12.14](https://exiftool.org/history.html#v12.14)
+
+- 📦 [he](https://github.com/mathiasbynens/he) is now a dependency, which was
+  required by the emoji bugfix.
+
+- 📦 Updated dependencies
+
 ### v13.0.0
 
 - 💔 The `Tags.ts` types have changed. **Some newly-found types were added, many
@@ -47,8 +62,6 @@ vendored versions of ExifTool match the version they vendor.
 
   Note that this version renders file sizes a bit differently: "756 kB" will now
   be rendered as "756 KiB".
-
-- 📦 Updated dependencies
 
 ### v12.3.1
 

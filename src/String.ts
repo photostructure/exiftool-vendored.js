@@ -1,3 +1,4 @@
+import { encode } from "he"
 import { times } from "./Array"
 import { Maybe } from "./Maybe"
 
@@ -63,15 +64,9 @@ export function stripSuffix(s: string, suffix: string): string {
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str
 }
 
-const safeChars = /[a-z0-9 :/+.-]/i
-
-/**
- * This is a basic HTML entities encoder (so we don't have to pull in another
- * npm dependency). No named entries are used, only decimal char values.
- */
 export function htmlEncode(s: string): string {
-  return s
-    .split("")
-    .map((ea) => (safeChars.exec(ea) == null ? `&#${ea.charCodeAt(0)};` : ea))
-    .join("")
+  // `he` doesn't encode whitespaces (like newlines), but we need that:
+  return encode(s, { decimal: true }).replace(/\s/g, (m) =>
+    m[0] === " " ? " " : `&#${m[0].charCodeAt(0)};`
+  )
 }

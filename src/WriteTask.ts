@@ -1,5 +1,4 @@
 import * as _path from "path"
-
 import { isDateOrTime, toExifString } from "./DateTime"
 import { WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
@@ -67,6 +66,7 @@ export class WriteTask extends ExifToolTask<void> {
 
     optionalArgs.forEach((ea) => args.push(ea))
     args.push(sourceFile)
+    // console.log("new WriteTask()", { sourceFile, args, tags, optionalArgs })
     return new WriteTask(sourceFile, args)
   }
 

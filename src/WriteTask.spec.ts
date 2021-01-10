@@ -70,11 +70,11 @@ describe("WriteTask", () => {
       })
     })
 
-    it("round-trips a comment with a newline and carriage return", async () => {
+    it("round-trips a comment with many whitespace flavors", async () => {
       return assertRoundTrip({
         dest: await dest(),
         tagName: textTagName,
-        inputValue: "new comment\nfrom\r" + new Date(),
+        inputValue: "a\rnew\ncomment\n\r\tfrom\r\n" + new Date(),
       })
     })
 
@@ -83,6 +83,14 @@ describe("WriteTask", () => {
         dest: await dest(),
         tagName: textTagName,
         inputValue: "早安晨之美" + new Date(),
+      })
+    })
+
+    it("round-trips a comment with simple and compound codepoint emoji", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: textTagName,
+        inputValue: "⌚✨💑🏽👰🏽🦏🌈🦍🦄🧑‍🤝‍🧑🚵‍♀️ " + new Date(),
       })
     })
 
@@ -99,6 +107,14 @@ describe("WriteTask", () => {
         dest: await dest("中文"),
         tagName: textTagName,
         inputValue: "早安晨之美" + new Date(),
+      })
+    })
+
+    it("round-trips a rtl comment", async () => {
+      return assertRoundTrip({
+        dest: await dest(),
+        tagName: textTagName,
+        inputValue: "مرحبا بالعالم " + new Date(),
       })
     })
 
