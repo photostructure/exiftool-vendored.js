@@ -9,6 +9,7 @@
     "url": "https://github.com/photostructure/exiftool-vendored.js/issues"
   },
   "scripts": {
+    "ci": "yarn install --frozen-lockfile",
     "clean": "rimraf lib dist coverage .nyc_output",
     "precompile": "yarn clean",
     "compile": "tsc",
