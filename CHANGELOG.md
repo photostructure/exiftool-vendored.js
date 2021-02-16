@@ -24,6 +24,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v13.2.0
+
+- 🌱 ExifTool upgraded to [v12.18](https://exiftool.org/history.html#v12.18)
+
+- 📦 Updated dependencies
+
 ### v13.1.0
 
 - 🐞 More complex characters, like emoji that use compound codepoints, like 🦍,
