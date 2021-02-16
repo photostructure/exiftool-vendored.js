@@ -299,7 +299,7 @@ describe("ExifTool", function () {
           ExifImageHeight: 3036,
           GPSLatitude: 37.4836666666667,
           GPSLongitude: -122.452094444444,
-          GPSAltitude: -47,
+          GPSAltitude: 47,
           tz: "America/Los_Angeles",
         })
         expect(t.SubSecDateTimeOriginal?.toString()).to.eql(
