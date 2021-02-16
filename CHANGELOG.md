@@ -356,7 +356,7 @@ vendored versions of ExifTool match the version they vendor.
 - 🌱 ExifTool upgraded to
   [v11.32](https://exiftool.org/history.html#v11.32).
 - 🐞 Pulled in new [batch-cluster
-  5.6.0](https://github.com/photostructure/batch-cluster.js/blob/master/CHANGELOG.md),
+  5.6.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
   which fixed an issue with graceful `end` promise resolutions.
 
 ### v8.5.0
@@ -365,13 +365,13 @@ vendored versions of ExifTool match the version they vendor.
   [v11.31](https://exiftool.org/history.html#v11.31).
 - 🐞 `RewriteAllTagsTask` doesn't fail on warnings anymore
 - ✨ Pulled in new [batch-cluster
-  5.4.0](https://github.com/photostructure/batch-cluster.js/blob/master/CHANGELOG.md),
+  5.4.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
   which fixed `maxProcs`.
 
 ### v8.4.0
 
 - ✨ Pulled in new [batch-cluster
-  5.3.1](https://github.com/photostructure/batch-cluster.js/blob/master/CHANGELOG.md),
+  5.3.1](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
   which adds support for child start and exit events, internal errors, and more
   robust result parsing.
 - ✨ Rebuilt `Tags` from over 6,600 unique camera makes and models. Added new

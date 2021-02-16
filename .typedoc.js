@@ -3,12 +3,9 @@ module.exports = {
   out: "./docs/",
   readme: "./README.md",
   includes: "./src",
-  gitRevision: "master", // < prevents docs from changing after every commit
+  gitRevision: "main", // < prevents docs from changing after every commit
   exclude: ["**/update/*", "**/*test*", "**/*spec*"],
-  // mode: "file",
   excludePrivate: true,
-  // excludeProtected: true,
-  // excludeExternals: true,
   entryPoints: [
     // "./src/ExifDate.ts",
     // "./src/ExifDateTime.ts",
@@ -17,5 +14,4 @@ module.exports = {
     // "./src/Tags.ts",
   ],
   // entryPoints: ["./src"]
-  // excludeNotExported: true
 }

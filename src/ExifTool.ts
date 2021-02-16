@@ -188,9 +188,6 @@ export interface ExifToolOptions
    *
    * This will default to `true` in those environments as a workaround in these
    * situations. Note also that `perl` will be spawned in a sub-shell.
-   *
-   * This value should probably not be set on Windows (unless you've installed
-   * `perl`).
    */
   ignoreShebang: boolean
 }

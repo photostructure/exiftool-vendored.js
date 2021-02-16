@@ -3,7 +3,7 @@
 **Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](https://exiftool.org/).**
 
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
-[![CI](https://github.com/photostructure/exiftool-vendored.js/workflows/Node.js%20CI/badge.svg?branch=master)](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
+[![CI](https://github.com/photostructure/exiftool-vendored.js/workflows/Node.js%20CI/badge.svg?branch=main)](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
 [![GitHub issues](https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg)](https://github.com/photostructure/exiftool-vendored.js/issues)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/photostructure/exiftool-vendored.js.svg)](https://lgtm.com/projects/g/photostructure/exiftool-vendored.js/context:javascript)
 [![Known Vulnerabilities](https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json)
@@ -35,10 +35,8 @@
 1.  **Automated updates** to ExifTool ([as new versions come out
     monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
 
-1.  **Robust test coverage**, performed with [supported Node
-    versions](https://nodejs.org/en/about/releases/) on [Linux,
-    Mac](https://travis-ci.org/photostructure/exiftool-vendored.js), &
-    [Windows](https://ci.appveyor.com/project/mceachen/exiftool-vendored/branch/master).
+1.  **Robust test coverage**, performed with on [macOS, Linux, and
+    Windows](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
 
 ## Installation
 
@@ -61,7 +59,7 @@ If you're installing on a minimal Linux distribution, like
 ## Upgrading
 
 See the
-[CHANGELOG](https://github.com/mceachen/exiftool-vendored.js/blob/master/CHANGELOG.md)
+[CHANGELOG](https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md)
 for breaking changes since you last updated.
 
 ### Major version bumps
@@ -180,7 +178,7 @@ To enable trace, debug, info, warning, or error logging from this library and
 the underlying `batch-cluster` library,
 use[`setLogger`](globals.html#setlogger). Example
 code can be found
-[here](https://github.com/photostructure/batch-cluster.js/blob/master/src/_chai.spec.ts#L20).
+[here](https://github.com/photostructure/batch-cluster.js/blob/main/src/_chai.spec.ts#L20).
 
 ExifTool instances emits events for "startError", "taskError", "endError",
 "beforeEnd", and "end" that you can register listeners for, using
@@ -446,4 +444,4 @@ very fast disk IO, you may see a speed increase with larger values of
 ## CHANGELOG
 
 See the
-[CHANGELOG](https://github.com/mceachen/exiftool-vendored.js/blob/master/CHANGELOG.md) on github.
+[CHANGELOG](https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md) on github.
