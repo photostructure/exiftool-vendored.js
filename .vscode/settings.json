@@ -14,6 +14,7 @@
     "preu",
     "randler",
     "structs",
-    "tmpname"
+    "tmpname",
+    "tzoffset"
   ]
 }

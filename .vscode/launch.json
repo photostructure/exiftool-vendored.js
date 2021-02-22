@@ -20,8 +20,7 @@
       "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
       "stopOnEntry": false,
       "args": [
-        "--debug",
-        "lib/**/*.spec.js"
+        "./dist/ExifDateTime.spec.js"
       ],
       "cwd": "${workspaceRoot}",
       "preLaunchTask": "",
