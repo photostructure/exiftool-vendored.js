@@ -1,13 +1,12 @@
-import { DateTime, ISOTimeOptions } from "luxon"
+import { DateTime, ISOTimeOptions, Zone } from "luxon"
 import { dateTimeToExif } from "./DateTime"
 import { denull, first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
-import { offsetMinutesToZoneName } from "./Timezones"
-
-// Not in typings:
-const { FixedOffsetZone } = require("luxon")
-const unsetZoneOffsetMinutes = -24 * 60
-const unsetZone = new FixedOffsetZone(unsetZoneOffsetMinutes)
+import {
+  offsetMinutesToZoneName,
+  UnsetZone,
+  UnsetZoneOffsetMinutes,
+} from "./Timezones"
 
 /**
  * Encodes an ExifDateTime with an optional tz offset in minutes.
@@ -15,14 +14,14 @@ const unsetZone = new FixedOffsetZone(unsetZoneOffsetMinutes)
 export class ExifDateTime {
   static fromISO(
     iso: string,
-    defaultZone?: Maybe<string>,
+    zone?: Maybe<string>,
     rawValue?: string
   ): Maybe<ExifDateTime> {
     if (blank(iso) || null != iso.match(/^\d+$/)) return undefined
     return this.fromDateTime(
       DateTime.fromISO(iso, {
         setZone: true,
-        zone: orElse(defaultZone, unsetZone),
+        zone: zone ?? UnsetZone,
       }),
       orElse(rawValue, iso)
     )
@@ -51,7 +50,7 @@ export class ExifDateTime {
 
   private static fromPatterns(
     text: string,
-    fmts: { fmt: string; zone?: string }[]
+    fmts: { fmt: string; zone?: string | Zone }[]
   ) {
     const s = toS(text).trim()
     const inputs = [s]
@@ -69,9 +68,12 @@ export class ExifDateTime {
     }
 
     return first(inputs, (input) =>
-      first(fmts, ({ fmt, zone: fmtZone }) =>
+      first(fmts, ({ fmt, zone }) =>
         map(
-          DateTime.fromFormat(input, fmt, { setZone: true, zone: fmtZone }),
+          DateTime.fromFormat(input, fmt, {
+            setZone: true,
+            zone: zone ?? UnsetZone,
+          }),
           (dt) => this.fromDateTime(dt, s)
         )
       )
@@ -80,10 +82,9 @@ export class ExifDateTime {
 
   static fromExifStrict(
     text: Maybe<string>,
-    defaultZone?: Maybe<string>
+    zone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
-    const zone = notBlank(defaultZone) ? defaultZone : unsetZone
     return this.fromPatterns(text, [
       // if it specifies a zone, use it:
       { fmt: "y:M:d H:m:s.uZZ" },
@@ -118,7 +119,7 @@ export class ExifDateTime {
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
-    const zone = notBlank(defaultZone) ? defaultZone : unsetZone
+    const zone = notBlank(defaultZone) ? defaultZone : UnsetZone
     return this.fromPatterns(text, [
       // FWIW, the following are from actual datestamps seen in the wild:
       { fmt: "MMM d y H:m:sZZZ" },
@@ -149,8 +150,9 @@ export class ExifDateTime {
       dt.minute,
       dt.second,
       dt.millisecond,
-      dt.offset === unsetZoneOffsetMinutes ? undefined : dt.offset,
-      rawValue
+      dt.offset === UnsetZoneOffsetMinutes ? undefined : dt.offset,
+      rawValue,
+      dt.zone.name === UnsetZone.name ? undefined : dt.zoneName
     )
   }
 
@@ -163,7 +165,8 @@ export class ExifDateTime {
     readonly second: number,
     readonly millisecond?: number,
     readonly tzoffsetMinutes?: number,
-    readonly rawValue?: string
+    readonly rawValue?: string,
+    readonly zoneName?: string
   ) {}
 
   get millis() {
@@ -171,32 +174,24 @@ export class ExifDateTime {
   }
 
   get hasZone() {
-    return (
-      this.tzoffsetMinutes != null &&
-      this.tzoffsetMinutes !== unsetZoneOffsetMinutes
-    )
+    return notBlank(this.zone)
   }
 
   get zone() {
-    return this.hasZone
-      ? offsetMinutesToZoneName(this.tzoffsetMinutes)
-      : undefined
+    return this.zoneName ?? offsetMinutesToZoneName(this.tzoffsetMinutes)
   }
 
-  toDateTime(): DateTime {
-    const o: any = {
+  toDateTime() {
+    return DateTime.fromObject({
       year: this.year,
       month: this.month,
       day: this.day,
       hour: this.hour,
       minute: this.minute,
       second: this.second,
-    }
-    map(this.millisecond, (ea) => (o.millisecond = ea))
-    if (this.hasZone) {
-      map(this.tzoffsetMinutes, (ea) => (o.zone = offsetMinutesToZoneName(ea)))
-    }
-    return DateTime.fromObject(o)
+      millisecond: this.millisecond,
+      zone: this.zone,
+    })
   }
 
   toDate(): Date {
@@ -221,5 +216,9 @@ export class ExifDateTime {
 
   toString() {
     return this.toISOString()
+  }
+
+  get isValid() {
+    return this.toDateTime().isValid
   }
 }

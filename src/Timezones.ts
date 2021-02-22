@@ -1,4 +1,4 @@
-import { Info } from "luxon"
+import { FixedOffsetZone, Info } from "luxon"
 import { compact } from "./Array"
 import { MinuteMs } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
@@ -9,6 +9,11 @@ import { blank, isString, pad2 } from "./String"
 // Pacific/Kiritimati is +14:00 TIL
 // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 export const MaxTzOffsetHours = 14
+
+// Not in typings:
+export const UnsetZoneOffsetMinutes = -1
+export const UnsetZone = FixedOffsetZone.instance(UnsetZoneOffsetMinutes)
+export const UnsetZoneName = UnsetZone.name
 
 export function reasonableTzOffsetMinutes(
   tzOffsetMinutes: Maybe<number>
@@ -25,7 +30,12 @@ export function reasonableTzOffsetMinutes(
 export function offsetMinutesToZoneName(
   offsetMinutes: Maybe<number>
 ): Maybe<string> {
-  if (offsetMinutes == null || !isNumber(offsetMinutes)) return undefined
+  if (
+    offsetMinutes == null ||
+    !isNumber(offsetMinutes) ||
+    offsetMinutes === UnsetZoneOffsetMinutes
+  )
+    return undefined
   if (offsetMinutes === 0) return "UTC"
   const sign = offsetMinutes < 0 ? "-" : "+"
   const absMinutes = Math.abs(offsetMinutes)

@@ -322,7 +322,7 @@ describe("ExifTool", function () {
         expect(tags.DateTimeCreated).to.eql(
           ExifDateTime.fromISO(
             "2016-08-12T13:28:50",
-            "UTC+8",
+            "Asia/Hong_Kong",
             "2016:08:12 13:28:50"
           )
         )

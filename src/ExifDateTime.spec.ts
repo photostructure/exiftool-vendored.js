@@ -1,5 +1,5 @@
-import { expect } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
+import { expect } from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 describe("ExifDateTime", () => {
@@ -8,6 +8,14 @@ describe("ExifDateTime", () => {
     const iso = "2016-08-12T07:28:50.768"
     const dt = ExifDateTime.fromEXIF(raw)!
     const dtIso = ExifDateTime.fromEXIF(iso)!
+    it("doesn't set the zone from EXIF", () => {
+      expect(dt.hasZone).to.eql(false)
+      expect(dt.zone).to.eql(undefined)
+    })
+    it("doesn't set the zone from ISO", () => {
+      expect(dtIso.hasZone).to.eql(false)
+      expect(dtIso.zone).to.eql(undefined)
+    })
     it("parses year/month/day", () => {
       expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
     })
@@ -43,7 +51,9 @@ describe("ExifDateTime", () => {
       )
     })
     it("Round-trips from ISO", () => {
-      expect(ExifDateTime.fromISO(iso, undefined, dt.rawValue)).to.eql(dt)
+      const zone = undefined
+      const actual = ExifDateTime.fromISO(iso, zone, dt.rawValue)!
+      expect(actual.toISOString()).to.eql(dt.toISOString())
     })
   })
 
@@ -250,5 +260,16 @@ describe("ExifDateTime", () => {
     const edt = new ExifDateTime(2019, 3, 8, 14, 24, 54, 0, -480)
     const dt = edt.toDateTime()
     expect(dt.toISO()).to.eql("2019-03-08T14:24:54.000-08:00")
+  })
+
+  it("parses non-standard timezone offset", () => {
+    // 1900-1923, Kyiv had an offset of UTC +2:02:04
+    const edt = ExifDateTime.fromExifStrict(
+      "1904:02:03 13:14:15",
+      "Europe/Kiev"
+    )!
+    expect(edt.hasZone).to.eql(true)
+    expect(edt.isValid).to.eql(true)
+    expect(edt.toISOString()).to.eql("1904-02-03T13:14:15.000+02:02")
   })
 })
