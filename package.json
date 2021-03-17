@@ -38,9 +38,6 @@
     "preu": "npm i -g npm-check-updates",
     "u": "ncu -u ; yarn"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/photostructure/exiftool-vendored.js.git"
@@ -57,6 +54,8 @@
     "NEF",
     "ORF",
     "XMP",
+    "CR2",
+    "CR3",
     "MakerNote",
     "Metadata"
   ],

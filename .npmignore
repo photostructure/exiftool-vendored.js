@@ -4,6 +4,7 @@
 # no configs
 *.json
 *.yml
+*.log
 
 # no testing artifacts
 *spec*
