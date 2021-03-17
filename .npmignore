@@ -1,9 +1,6 @@
 # no hidden files
 .*
 
-# no system maps (they're only used during development)
-*.map
-
 # no configs
 *.json
 *.yml
