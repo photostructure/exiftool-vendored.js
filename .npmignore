@@ -12,4 +12,6 @@
 # no directories except for dist
 */
 !dist/
+
+# but ignore dist/update, that's for internal use only:
 dist/update/
