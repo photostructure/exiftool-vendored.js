@@ -24,6 +24,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v14.1.0
+
+- 🌱 ExifTool upgraded to [v12.21](https://exiftool.org/history.html#v12.21)
+
+- 📦 Stopped excluding sourcemaps
+
+- 📦 Updated dependencies
+
 ### v14.0.0
 
 - 💔 `ExifDateTime.zone` will now return the actual IANA zone name (like `America/Los_Angeles`) rather than the time offset. This addresses issues with timezones like `Europe/Kiev` where, from 1900-1924, had an offset of `UTC +2:02:04`.
