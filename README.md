@@ -238,14 +238,14 @@ supported, the returned `Promise` will be rejected.
 
 Only string and numeric primitive are supported as values to the object.
 
-Write a comment to the given file so it shows up in the Windows Explorer
+To write a comment to the given file so it shows up in the Windows Explorer
 Properties panel:
 
 ```js
 exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" })
 ```
 
-Change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
+To change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
 [AllDates](https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html)
 shortcut) to 4:56pm UTC on February 6, 2016:
 
@@ -253,7 +253,7 @@ shortcut) to 4:56pm UTC on February 6, 2016:
 exiftool.write("path/to/file.jpg", { AllDates: "2016-02-06T16:56:00" })
 ```
 
-Write to a specific metadata group's tag, prefix the tag name with the group.
+To write to a specific metadata group's tag, just prefix the tag name with the group.
 (TypeScript users: you'll need to cast to make this compile).
 
 ```js
