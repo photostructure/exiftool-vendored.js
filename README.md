@@ -236,7 +236,7 @@ and look under the "Writable" column.
 If you apply malformed values or ask to write to tags that aren't
 supported, the returned `Promise` will be rejected.
 
-Only string and numeric primitive are supported as values to the object
+Only string and numeric primitive are supported as values to the object.
 
 Write a comment to the given file so it shows up in the Windows Explorer
 Properties panel:
@@ -251,6 +251,15 @@ shortcut) to 4:56pm UTC on February 6, 2016:
 
 ```js
 exiftool.write("path/to/file.jpg", { AllDates: "2016-02-06T16:56:00" })
+```
+
+Write to a specific metadata group's tag, prefix the tag name with the group.
+(TypeScript users: you'll need to cast to make this compile).
+
+```js
+exiftool.write("path/to/file.jpg", {
+  "IPTC:CopyrightNotice": "© 2021 PhotoStructure, Inc.",
+})
 ```
 
 ### Always Beware: Timezones
