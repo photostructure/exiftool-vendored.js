@@ -262,7 +262,7 @@
 				and look under the &quot;Writable&quot; column.</p>
 				<p>If you apply malformed values or ask to write to tags that aren&#39;t
 				supported, the returned <code>Promise</code> will be rejected.</p>
-				<p>Only string and numeric primitive are supported as values to the object</p>
+				<p>Only string and numeric primitive are supported as values to the object.</p>
 				<p>Write a comment to the given file so it shows up in the Windows Explorer
 				Properties panel:</p>
 				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">write</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/file.jpg&quot;</span><span style="color: #000000">, { </span><span style="color: #001080">XPComment:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;this is a test comment&quot;</span><span style="color: #000000"> })</span>
@@ -271,6 +271,12 @@
 					<a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html">AllDates</a>
 				shortcut) to 4:56pm UTC on February 6, 2016:</p>
 				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">write</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/file.jpg&quot;</span><span style="color: #000000">, { </span><span style="color: #001080">AllDates:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;2016-02-06T16:56:00&quot;</span><span style="color: #000000"> })</span>
+</code></pre>
+				<p>Write to a specific metadata group&#39;s tag, prefix the tag name with the group.
+				(TypeScript users: you&#39;ll need to cast to make this compile).</p>
+				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">write</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/file.jpg&quot;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #A31515">&quot;IPTC:CopyrightNotice&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;© 2021 PhotoStructure, Inc.&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">})</span>
 </code></pre>
 				<a href="#always-beware-timezones" id="always-beware-timezones" style="color: inherit; text-decoration: none;">
 					<h3>Always Beware: Timezones</h3>
