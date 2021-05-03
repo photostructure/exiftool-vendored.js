@@ -15,6 +15,7 @@ vendored versions of ExifTool match the version they vendor.
 ### The `MINOR` or `UPDATE` version is incremented for
 
 - 🌱 New releases of ExifTool with no externally visible changes
+- 🔥 Security updates
 - ✨ Backwards-compatible features
 
 ### The `PATCH` version is incremented for
@@ -23,6 +24,16 @@ vendored versions of ExifTool match the version they vendor.
 - 📦 Minor packaging changes
 
 ## Version history
+
+### v14.3.0 🔥
+
+- 🔥/🌱 ExifTool upgraded to [v12.25](https://exiftool.org/history.html#v12.25).
+
+  **All users should upgrade to this version as soon as possible**, as this should
+  address
+  [CVE-2021-22204](https://twitter.com/wcbowling/status/1385803927321415687).
+
+- 📦 Updated dependencies
 
 ### v14.2.0
 
