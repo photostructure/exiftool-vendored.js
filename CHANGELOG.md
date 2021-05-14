@@ -25,6 +25,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v14.4.0
+
+- ✨ Added `ExifDate.rawValue`
+- 📦 Updated dependencies
+
 ### v14.3.0 🔥
 
 - 🔥/🌱 ExifTool upgraded to [v12.25](https://exiftool.org/history.html#v12.25).

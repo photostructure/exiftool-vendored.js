@@ -9,14 +9,14 @@ import { blank, pad2, toS } from "./String"
  */
 export class ExifDate {
   static fromISO(text: string): Maybe<ExifDate> {
-    return this.fromDateTime(DateTime.fromISO(text))
+    return this.fromDateTime(DateTime.fromISO(text), text)
   }
 
   private static fromPatterns(text: string, fmts: string[]) {
     if (blank(text)) return
     text = toS(text).trim()
     return first(fmts, (fmt) =>
-      map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt))
+      map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt, text))
     )
   }
 
@@ -41,16 +41,17 @@ export class ExifDate {
     ])
   }
 
-  static fromDateTime(dt: DateTime): Maybe<ExifDate> {
+  static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifDate> {
     return validDateTime(dt)
-      ? new ExifDate(dt.year, dt.month, dt.day)
+      ? new ExifDate(dt.year, dt.month, dt.day, rawValue)
       : undefined
   }
 
   constructor(
     readonly year: number, // full year (probably 2019-ish, but maybe Japanese 30-ish). See https://ericasadun.com/2018/12/25/iso-8601-yyyy-yyyy-and-why-your-year-may-be-wrong/
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
-    readonly day: number // 1-31
+    readonly day: number, // 1-31
+    readonly rawValue?: string
   ) {}
 
   toDate(): Date {

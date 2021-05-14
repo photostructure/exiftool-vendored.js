@@ -1,7 +1,7 @@
 import { expect } from "./_chai.spec"
 import { ExifDate } from "./ExifDate"
 
-describe("ExifDateTime", () => {
+describe("ExifDate", () => {
   for (const { text, iso } of [
     { text: "2018:9:3", iso: "2018-09-03" },
     { text: "2018:02:09", iso: "2018-02-09" },
@@ -11,7 +11,9 @@ describe("ExifDateTime", () => {
     { text: "April 09 2018", iso: "2018-04-09" },
   ]) {
     it("parses " + iso, () => {
-      expect(ExifDate.fromEXIF(text)?.toISOString()).to.eql(iso)
+      const ed = ExifDate.fromEXIF(text)
+      expect(ed?.toISOString()).to.eql(iso)
+      expect(ed?.rawValue).to.eql(text)
     })
   }
   for (const ea of ["", "   ", "0000", "1958", "2010_08"]) {
