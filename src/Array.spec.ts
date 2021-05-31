@@ -42,11 +42,7 @@ describe("Array", () => {
   describe("uniq()", () => {
     it("removes dupes and orders first-one-in", () => {
       expect(uniq([1, 1, 2, 3, 4, 5, 3, 2, 1, 2, 3, 4, 3])).to.eql([
-        1,
-        2,
-        3,
-        4,
-        5,
+        1, 2, 3, 4, 5,
       ])
     })
   })

@@ -25,10 +25,7 @@ describe("ExifTime", () => {
       it("hour/minute/second/millis", () => {
         const et = ExifTime.fromEXIF("05:28:09.123")!
         expect([et.hour, et.minute, et.second, et.millis]).to.eql([
-          5,
-          28,
-          9,
-          123,
+          5, 28, 9, 123,
         ])
       })
     })

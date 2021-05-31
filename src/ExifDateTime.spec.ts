@@ -216,9 +216,7 @@ describe("ExifDateTime", () => {
     it("Renders a Date assuming the forced timezone offset", () => {
       const d = edt.toDate()
       expect([d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]).to.eql([
-        2013,
-        12,
-        30,
+        2013, 12, 30,
       ])
       expect([
         d.getUTCHours(),
