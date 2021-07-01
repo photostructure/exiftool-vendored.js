@@ -421,10 +421,10 @@ base64-js@^1.3.1:
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
-batch-cluster@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-6.1.0.tgz#8931aa3ca0ba086eb27b9f8fa49cdf9d641b77f8"
-  integrity sha512-UTEJckl8xanAEW+4DMweKSZPgHzquF5kNU1nULSe2bFI4Z3nW54562aSEIW3POBTtCHWGxUCnk1Mx14PruhAWg==
+batch-cluster@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-6.2.0.tgz#ef4111e783c852e73cb674c9e7cb45c41877f31d"
+  integrity sha512-/aB4wH/45CpmuCQqZHQiFQovhleQdcqElN0I+FuuECirRC627GaVfDG5LIVnTY18J954f9AkNlZ3zlUC2QddWA==
 
 binary-extensions@^2.0.0:
   version "2.2.0"

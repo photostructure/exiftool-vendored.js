@@ -108,7 +108,7 @@
     "xpath": "^0.0.32"
   },
   "dependencies": {
-    "batch-cluster": "^6.1.0",
+    "batch-cluster": "^6.2.0",
     "he": "^1.2.0",
     "luxon": "^1.27.0",
     "tz-lookup": "^6.1.25"
