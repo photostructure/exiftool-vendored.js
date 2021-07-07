@@ -33,6 +33,8 @@ const RequiredTags = [
   "Country",
   "CountryCode",
   "CreateDate", // (called DateTimeDigitized by the EXIF spec)
+  "CreationTime",
+  "DateCreated",
   "DateTime",
   "DateTimeCreated",
   "DateTimeDigitized",
@@ -63,6 +65,7 @@ const RequiredTags = [
   "InternalSerialNumber",
   "ISO",
   "ISOSpeed",
+  "Keywords",
   "LensID",
   "LensInfo",
   "LensMake",
@@ -74,6 +77,7 @@ const RequiredTags = [
   "MaxDataRate",
   "MediaCreateDate",
   "Megapixels",
+  "MetadataDate",
   "MIMEType",
   "Model",
   "ModifyDate",
@@ -104,8 +108,15 @@ const RequiredTags = [
   "XPTitle",
 ]
 
-// TypeScript fails with
+const TypeOverrides: Record<string, string> = {
+  Keywords: "string | string[]",
+}
+
+// If we don't do tag pruning, TypeScript fails with
 // error TS2590: Expression produces a union type that is too complex to represent.
+
+// This is a set of regexp patterns that match tags that are (probably)
+// ignorable:
 const ExcludedTagRe = new RegExp(
   [
     "_",
@@ -344,6 +355,7 @@ class Tag {
   get base(): string {
     return this.tag.split(":")[1]
   }
+
   get valueTypes(): string[] {
     const cm = new CountingMap<string>()
     compact(this.values)
@@ -351,10 +363,14 @@ class Tag {
       .forEach((ea) => {
         if (!nullish(ea)) cm.add(ea)
       })
-    return cm.byP(0.5)
+    return cm.byP(0.5).sort()
   }
+
   get valueType(): string {
-    return this.valueTypes.length === 0 ? "string" : this.valueTypes.join(" | ")
+    return (
+      TypeOverrides[this.base] ??
+      (this.valueTypes.length === 0 ? "string" : this.valueTypes.join(" | "))
+    )
   }
 
   get sortBy() {
@@ -695,13 +711,13 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       if (filteredTags.length > 0) {
         tagGroups.push(group)
         tagWriter.write(`\nexport interface ${group}Tags {\n`)
-        filteredTags.forEach((tag) => {
+        for (const tag of filteredTags) {
           tagWriter.write(
             `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
           )
           tagWriter.write(`  ${tag.base}?: ${tag.valueType}\n`)
           seenTagNames.add(tag.base)
-        })
+        }
         tagWriter.write(`}\n`)
       }
     }

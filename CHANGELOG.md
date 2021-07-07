@@ -25,6 +25,11 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.1.0
+
+- 📦 Rebuild `Tags.ts` from more recent exemplars and tag type overrides
+  (v15.0.0 changed to `Keywords: string`, this version reverts that change)
+
 ### v15.0.0
 
 - 💔 TypeScript now renders modern (ES2018) JavaScript, which requires a
