@@ -218,7 +218,7 @@ describe("ExifTool", function () {
 
         // I don't want to expose the .batchCluster field as part of the public API:
         const bc = et2["batchCluster"] as BatchCluster
-        expect(bc.spawnedProcs).to.be.gte(maxProcs)
+        expect(bc.spawnedProcCount).to.be.gte(maxProcs)
         expect(bc.meanTasksPerProc).to.be.within(
           maxTasksPerProcess / 2,
           maxTasksPerProcess

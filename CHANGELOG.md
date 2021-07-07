@@ -25,6 +25,19 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.0.0
+
+- 💔 TypeScript now renders modern (ES2018) JavaScript, which requires a
+  [supported version of Node.js](https://nodejs.org/en/about/releases/).
+
+- ✨ New `ExifTool.extractBinaryTagToBuffer()`: [extract binary tags directly into a
+  `Buffer`](https://github.com/photostructure/exiftool-vendored.js/issues/99)
+  (watch out for memory bloat from very large binary tag payloads!)
+
+- ✨ Expose `ExifTool.childEndCounts` (counts of why child processes were recycled: useful for debugging)
+
+- 📦 Updated dependencies (including [batch-cluster v7.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v700))
+
 ### v14.6.2
 
 - 📦 Updated batch-cluster (support for listing current tasks)

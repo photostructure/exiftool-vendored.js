@@ -6,11 +6,13 @@ import * as _path from "path"
 import * as _p from "process"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
+import { BinaryToBufferTask } from "./BinaryToBufferTask"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { lazy } from "./Lazy"
 import { orElse } from "./Maybe"
+import { PreviewTag } from "./PreviewTag"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
@@ -206,15 +208,18 @@ export const DefaultExifToolOptions: Omit<
   maxProcs: DefaultMaxProcs,
   maxTasksPerProcess: 500,
   spawnTimeoutMillis: 30000,
-  taskTimeoutMillis: 20000, // see https://github.com/mceachen/exiftool-vendored.js/issues/34
+  // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
+  taskTimeoutMillis: 20000,
   onIdleIntervalMillis: 2000,
-  streamFlushMillis: 7, // just a little luck. 1 ms seems to work on linux, fwiw.
+  // 1 ms seems to work on linux, but stderr and stdout may be buffered
+  // differently on different OSes:
+  streamFlushMillis: 7,
   taskRetries: 1,
   exiftoolPath: DefaultExifToolPath,
   exiftoolArgs: DefaultExiftoolArgs,
   exiftoolEnv: {},
   pass: "{ready}",
-  fail: "{ready}",
+  fail: "{ready}", // < not used
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
   numericTags: ["*Duration*", "GPS*", "Orientation"],
@@ -386,25 +391,26 @@ export class ExifTool {
   }
 
   /**
-   * Extract the "JpgFromRaw" image in `path/to/image.jpg`
-   * and write it to `path/to/fromRaw.jpg`.
+   * Extract the "JpgFromRaw" image in `path/to/image.jpg` and write it to
+   * `path/to/fromRaw.jpg`.
    *
-   * This size of these images varies widely, and is not present in all RAW images.
-   * Nikon and Panasonic use this tag.
+   * This size of these images varies widely, and is not present in all RAW
+   * images. Nikon and Panasonic use this tag.
    *
-   * @return a `Promise<void>`. An `Error` is raised if
-   * the file could not be read or the output not written.
+   * @return a `Promise<void>`. The promise will be rejected if the file could
+   * not be read or the output not written.
    */
   extractJpgFromRaw(imageFile: string, outputFile: string): Promise<void> {
     return this.extractBinaryTag("JpgFromRaw", imageFile, outputFile)
   }
 
   /**
-   * Extract a given binary value from "tagname" tag associated to `path/to/image.jpg`
-   * and write it to `dest` (which cannot exist and whose directory must already exist).
+   * Extract a given binary value from "tagname" tag associated to
+   * `path/to/image.jpg` and write it to `dest` (which cannot exist and whose
+   * directory must already exist).
    *
-   * @return a `Promise<void>`. An `Error` is raised if
-   * the binary output not be written to `dest`.
+   * @return a `Promise<void>`. The promise will be rejected if the binary
+   * output not be written to `dest`.
    */
   async extractBinaryTag(
     tagname: string,
@@ -421,6 +427,32 @@ export class ExifTool {
     }
   }
 
+  /**
+   * Extract a given binary value from "tagname" tag associated to
+   * `path/to/image.jpg` as a `Buffer`. This has the advantage of not writing to
+   * a file, but if the payload associated to `tagname` is large, this can cause
+   * out-of-memory errors.
+   *
+   * @return a `Promise<Buffer>`. The promise will be rejected if the file or
+   * tag is missing.
+   */
+  async extractBinaryTagToBuffer(
+    tagname: PreviewTag,
+    imageFile: string
+  ): Promise<Buffer> {
+    const result = await this.enqueueTask(() =>
+      BinaryToBufferTask.for(tagname, imageFile)
+    )
+    if (Buffer.isBuffer(result)) {
+      return result
+    } else if (result instanceof Error) {
+      throw result
+    } else {
+      throw new Error(
+        "Unexpected result from BinaryToBufferTask: " + JSON.stringify(result)
+      )
+    }
+  }
   /**
    * Attempt to fix metadata problems in JPEG images by deleting all metadata
    * and rebuilding from scratch. After repairing an image you should be able to
@@ -494,22 +526,28 @@ export class ExifTool {
    * @return the number of pending (not currently worked on) tasks
    */
   get pendingTasks(): number {
-    return this.batchCluster.pendingTasks
+    return this.batchCluster.pendingTaskCount
   }
 
   /**
    * @return the total number of child processes created by this instance
    */
   get spawnedProcs(): number {
-    return this.batchCluster.spawnedProcs
+    return this.batchCluster.spawnedProcCount
   }
 
   /**
    * @return the current number of child processes currently servicing tasks
    */
   get busyProcs(): number {
-    return this.batchCluster.busyProcs
+    return this.batchCluster.busyProcCount
   }
+  
+  /**
+   * @return report why child processes were recycled
+   */
+  childEndCounts() {
+    return this.batchCluster.childEndCounts
 }
 
 /**

@@ -65,6 +65,10 @@ export function sha1(path: string): Promise<string> {
   return d.promise
 }
 
+export function sha1buffer(input: string | Buffer): string {
+  return createHash("sha1").update(input).digest().toString("hex")
+}
+
 export function isWin32() {
   return platform() === "win32"
 }
