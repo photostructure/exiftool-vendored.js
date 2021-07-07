@@ -3,7 +3,7 @@
 **Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](https://exiftool.org/).**
 
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
-[![CI](https://github.com/photostructure/exiftool-vendored.js/workflows/Node.js%20CI/badge.svg?branch=main)](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
+[![Node.js CI](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml)
 [![GitHub issues](https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg)](https://github.com/photostructure/exiftool-vendored.js/issues)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/photostructure/exiftool-vendored.js.svg)](https://lgtm.com/projects/g/photostructure/exiftool-vendored.js/context:javascript)
 [![Known Vulnerabilities](https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json)
