@@ -542,12 +542,13 @@ export class ExifTool {
   get busyProcs(): number {
     return this.batchCluster.busyProcCount
   }
-  
+
   /**
    * @return report why child processes were recycled
    */
   childEndCounts() {
     return this.batchCluster.childEndCounts
+  }
 }
 
 /**
