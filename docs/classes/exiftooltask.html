@@ -103,6 +103,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="exiftooltask.html#command" class="tsd-kind-icon">command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="exiftooltask.html#errors" class="tsd-kind-icon">errors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="exiftooltask.html#parser" class="tsd-kind-icon">parser</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="exiftooltask.html#taskid" class="tsd-kind-icon">task<wbr>Id</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
@@ -110,6 +111,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="exiftooltask.html#pending" class="tsd-kind-icon">pending</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="exiftooltask.html#promise" class="tsd-kind-icon">promise</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="exiftooltask.html#runtimems" class="tsd-kind-icon">runtime<wbr>Ms</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="exiftooltask.html#state" class="tsd-kind-icon">state</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="exiftooltask.html#stderr" class="tsd-kind-icon">stderr</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="exiftooltask.html#stdout" class="tsd-kind-icon">stdout</a></li>
@@ -119,6 +121,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exiftooltask.html#adderror" class="tsd-kind-icon">add<wbr>Error</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="exiftooltask.html#onstart" class="tsd-kind-icon">on<wbr>Start</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="exiftooltask.html#onstderr" class="tsd-kind-icon">on<wbr>Stderr</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="exiftooltask.html#onstdout" class="tsd-kind-icon">on<wbr>Stdout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="exiftooltask.html#parse" class="tsd-kind-icon">parse</a></li>
@@ -205,6 +208,17 @@
 						</ul>
 					</aside>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="taskid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> task<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">task<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from bc.Task.taskId</p>
+						<ul>
+							<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:11</li>
+						</ul>
+					</aside>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Accessors</h2>
@@ -218,7 +232,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:25</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:28</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -235,11 +249,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:24</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:27</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>the resolution or rejection of this task.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+					<a name="runtimems" class="tsd-anchor"></a>
+					<h3>runtime<wbr>Ms</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> runtimeMs<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:31</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -253,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:26</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:29</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -270,7 +301,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:31</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:36</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -287,7 +318,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:30</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:35</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -321,6 +352,24 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="onstart" class="tsd-anchor"></a>
+					<h3>on<wbr>Start</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Start<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from bc.Task.onStart</p>
+								<ul>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:30</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="onstderr" class="tsd-anchor"></a>
 					<h3>on<wbr>Stderr</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -331,7 +380,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from bc.Task.onStderr</p>
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:29</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:34</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -355,7 +404,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from bc.Task.onStdout</p>
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:28</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:33</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -405,15 +454,9 @@
 							<aside class="tsd-sources">
 								<p>Inherited from bc.Task.reject</p>
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:41</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:46</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>This is for use by <code>BatchProcess</code> only, and will only be called when the
-									process has errorred after N retries</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -435,14 +478,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from bc.Task.resolve</p>
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:36</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:45</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>This is for use by <code>BatchProcess</code> only, and will only be called when the
-									process is complete for this task&#39;s command</p>
+									process is complete for this task&#39;s command.</p>
 								</div>
+								<p>We don&#39;t use this.stdout or this.stderr because BatchProcess is in charge
+									of stream debouncing, and applying the passRE and failRE patterns to decide
+								if a task passed or failed.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -471,7 +517,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from bc.Task.toString</p>
 								<ul>
-									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:27</li>
+									<li>Defined in node_modules/batch-cluster/dist/Task.d.ts:32</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -545,11 +591,17 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="exiftooltask.html#parser" class="tsd-kind-icon">parser</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="exiftooltask.html#taskid" class="tsd-kind-icon">task<wbr>Id</a>
+							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
 								<a href="exiftooltask.html#pending" class="tsd-kind-icon">pending</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
 								<a href="exiftooltask.html#promise" class="tsd-kind-icon">promise</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+								<a href="exiftooltask.html#runtimems" class="tsd-kind-icon">runtime<wbr>Ms</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
 								<a href="exiftooltask.html#state" class="tsd-kind-icon">state</a>
@@ -562,6 +614,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="exiftooltask.html#adderror" class="tsd-kind-icon">add<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="exiftooltask.html#onstart" class="tsd-kind-icon">on<wbr>Start</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="exiftooltask.html#onstderr" class="tsd-kind-icon">on<wbr>Stderr</a>
