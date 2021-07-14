@@ -68,7 +68,7 @@
     ]
   },
   "devDependencies": {
-    "@types/chai": "^4.2.20",
+    "@types/chai": "^4.2.21",
     "@types/chai-as-promised": "^7.1.4",
     "@types/chai-subset": "^1.3.3",
     "@types/fs-extra": "^9.0.12",
@@ -76,14 +76,14 @@
     "@types/he": "^1.1.2",
     "@types/luxon": "^1.27.1",
     "@types/mocha": "^8.2.3",
-    "@types/node": "^16.0.0",
-    "@types/progress": "^2.0.3",
-    "@types/rimraf": "^3.0.0",
+    "@types/node": "^16.3.2",
+    "@types/progress": "^2.0.4",
+    "@types/rimraf": "^3.0.1",
     "@types/tar-fs": "^2.0.1",
     "@types/tmp": "^0.2.1",
     "@types/xmldom": "^0.1.31",
-    "@typescript-eslint/eslint-plugin": "^4.28.2",
-    "@typescript-eslint/parser": "^4.28.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
@@ -102,19 +102,19 @@
     "source-map-support": "^0.5.19",
     "tar-fs": "^2.1.1",
     "tmp": "^0.2.1",
-    "typedoc": "^0.21.2",
+    "typedoc": "^0.21.4",
     "typescript": "4.3.5",
     "xmldom": "^0.6.0",
     "xpath": "^0.0.32"
   },
   "dependencies": {
-    "batch-cluster": "^7.0.0",
+    "batch-cluster": "^7.1.0",
     "he": "^1.2.0",
     "luxon": "^1.27.0",
     "tz-lookup": "^6.1.25"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "^12.28.0",
-    "exiftool-vendored.pl": "^12.28.0"
+    "exiftool-vendored.exe": "12.28.0",
+    "exiftool-vendored.pl": "12.28.0"
   }
 }
