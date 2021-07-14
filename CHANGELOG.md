@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.2.0
+
+- 📦 Updated dependencies (including [batch-cluster
+  v7.1.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v710),
+  which fixes a 2s startup delay
+
 ### v15.1.0
 
 - 📦 Rebuild `Tags.ts` from more recent exemplars and tag type overrides
