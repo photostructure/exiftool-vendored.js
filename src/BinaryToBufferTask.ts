@@ -1,7 +1,6 @@
 import { resolve } from "path"
 import { ExifToolTask } from "./ExifToolTask"
 import { Maybe } from "./Maybe"
-import { PreviewTag } from "./PreviewTag"
 import { notBlank } from "./String"
 
 /**
@@ -9,7 +8,7 @@ import { notBlank } from "./String"
  * everything seems to have worked.
  */
 export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
-  private constructor(readonly tagname: PreviewTag, args: string[]) {
+  private constructor(readonly tagname: string, args: string[]) {
     super(args)
   }
 

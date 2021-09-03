@@ -1,8 +1,11 @@
 import { BatchCluster } from "batch-cluster"
+import * as fse from "fs-extra"
+import { tmpdir } from "os"
 import * as _path from "path"
+import { join } from "path"
 import { times } from "./Array"
 import { ExifDateTime } from "./ExifDateTime"
-import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
+import { DefaultMaxProcs, ExifTool, exiftool, WriteTags } from "./ExifTool"
 import { keys } from "./Object"
 import { leftPad } from "./String"
 import { Tags } from "./Tags"
@@ -383,6 +386,32 @@ describe("ExifTool", function () {
         const afterKeys = keys(after).sort()
         expectedBeforeTags.forEach((ea) => expect(afterKeys).to.not.include(ea))
         expectedAfterTags.forEach((ea) => expect(afterKeys).to.include(ea))
+      })
+
+      it("supports unknown tags via generics", async () => {
+        const dest = join(tmpdir(), "test.jpg")
+        await fse.rm(dest)
+        await fse.copyFile("./test/img.jpg", dest)
+
+        interface A {
+          // I couldn't find any writable tags that we're in Tags, so this is
+          // just incorrectly cased:
+          rating: number
+        }
+
+        type CustomWriteTags = WriteTags & A
+
+        await et.write<CustomWriteTags>(dest, { rating: 3 }, [
+          "-overwrite_original",
+        ])
+
+        type CustomTags = Tags & A
+
+        const t = await et.read<CustomTags>(dest)
+        // this should compile...
+        expect(t.rating).to.eql(undefined)
+        // but ExifTool will have done the conversion to "Rating":
+        expect(t.Rating).to.eql(3)
       })
     })
   }

@@ -301,10 +301,13 @@ export class ExifTool {
    * during reading, the `.errors` field will be present.
    * @memberof ExifTool
    */
-  read(file: string, args: string[] = ["-fast"]): Promise<Tags> {
+  read<T extends Tags = Tags>(
+    file: string,
+    args: string[] = ["-fast"]
+  ): Promise<T> {
     return this.enqueueTask(() =>
       ReadTask.for(file, this.options.numericTags, args)
-    )
+    ) as any // < no way to know at compile time if we're going to get back a T!
   }
 
   /**
@@ -349,7 +352,11 @@ export class ExifTool {
    * there are errors or warnings.
    * @memberof ExifTool
    */
-  write(file: string, tags: WriteTags, args?: string[]): Promise<void> {
+  write<T extends WriteTags = WriteTags>(
+    file: string,
+    tags: T,
+    args?: string[]
+  ): Promise<void> {
     return this.enqueueTask(() => WriteTask.for(file, tags, args))
   }
 
