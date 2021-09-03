@@ -1,4 +1,4 @@
-import { DateTime, ISOTimeOptions, Zone } from "luxon"
+import { DateTime, ToISOTimeOptions, Zone } from "luxon"
 import { dateTimeToExif } from "./DateTime"
 import { denull, first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
@@ -182,23 +182,27 @@ export class ExifDateTime {
   }
 
   toDateTime() {
-    return DateTime.fromObject({
-      year: this.year,
-      month: this.month,
-      day: this.day,
-      hour: this.hour,
-      minute: this.minute,
-      second: this.second,
-      millisecond: this.millisecond,
-      zone: this.zone,
-    })
+    return DateTime.fromObject(
+      {
+        year: this.year,
+        month: this.month,
+        day: this.day,
+        hour: this.hour,
+        minute: this.minute,
+        second: this.second,
+        millisecond: this.millisecond,
+      },
+      {
+        zone: this.zone,
+      }
+    )
   }
 
   toDate(): Date {
     return this.toDateTime().toJSDate()
   }
 
-  toISOString(options: ISOTimeOptions = {}): Maybe<string> {
+  toISOString(options: ToISOTimeOptions = {}): Maybe<string> {
     return denull(
       this.toDateTime().toISO({
         suppressMilliseconds: orElse(

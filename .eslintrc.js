@@ -24,6 +24,7 @@ module.exports = {
     "eqeqeq": ["warn", "always", {"null": "ignore"}],
     "import/no-cycle": "warn",
     "import/no-unresolved": "off",
+    "import/named": "off",
     "no-redeclare": "warn",
     "no-undef-init": "warn",
     "no-unused-expressions": "warn",
