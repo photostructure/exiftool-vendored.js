@@ -103,8 +103,8 @@
     "tar-fs": "^2.1.1",
     "tmp": "^0.2.1",
     "typedoc": "^0.21.9",
-    "typescript": "4.4.2",
-    "xmldom": "^0.6.0",
+    "typescript": "^4.4.2",
+    "@xmldom/xmldom": "^0.7.4",
     "xpath": "^0.0.32"
   },
   "dependencies": {
