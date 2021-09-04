@@ -1064,15 +1064,15 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@12.28.0:
-  version "12.28.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-12.28.0.tgz#0630279544dad4a61e15927c162ead0e036deb57"
-  integrity sha512-V8VhOgvqt7S1ipc9ygLhI66qMRutYpOXV7vK+ZtHco79UfM3uZ0kFeXsjKJrjQlCSe62SclUyDctBTURNHy4pA==
+exiftool-vendored.exe@12.30.0:
+  version "12.30.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-12.30.0.tgz#473a2e5a92b1abe2938fa0796966c0578865bab5"
+  integrity sha512-h/ufiC09lB71pts3w52vU1FV+UHWqoabDGE6mTRXbNEHMJnULdamR3FTXHq8EOauYuCDllH+8PjLzMioyaV1gA==
 
-exiftool-vendored.pl@12.28.0:
-  version "12.28.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-12.28.0.tgz#c39b4afd9c126653f05d09b79dbdb728c79a9290"
-  integrity sha512-XoQEW7iV81hGekY5k+hx17MpsTpLuWwXrRTPKUdDJnn6Ki+EvBv45Pcj/5xhYXf8OEzfcmigyVt4xRliXX1mOg==
+exiftool-vendored.pl@12.30.0:
+  version "12.30.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-12.30.0.tgz#d7dde5683e5a04d54977f61f8488e171ee2d3d44"
+  integrity sha512-KIskcrDj+YOYcPrBVjuq/iy2BPYAzRk6SLmzgVsnVQ/YeN9tyWU67jNu+qLaDUaz7LbcurxF6ssltij5aBkIDg==
 
 extract-zip@^2.0.1:
   version "2.0.1"
