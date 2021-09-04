@@ -1,8 +1,5 @@
 import { BatchCluster } from "batch-cluster"
-import * as fse from "fs-extra"
-import { tmpdir } from "os"
 import * as _path from "path"
-import { join } from "path"
 import { times } from "./Array"
 import { ExifDateTime } from "./ExifDateTime"
 import { DefaultMaxProcs, ExifTool, exiftool, WriteTags } from "./ExifTool"
@@ -389,9 +386,7 @@ describe("ExifTool", function () {
       })
 
       it("supports unknown tags via generics", async () => {
-        const dest = join(tmpdir(), "test.jpg")
-        await fse.rm(dest)
-        await fse.copyFile("./test/img.jpg", dest)
+        const dest = await testImg()
 
         interface A {
           // I couldn't find any writable tags that we're in Tags, so this is
