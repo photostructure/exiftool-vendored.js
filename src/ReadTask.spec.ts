@@ -1,6 +1,6 @@
 import * as fse from "fs-extra"
-import { tmpdir } from "os"
-import { join, resolve } from "path"
+import os from "os"
+import path from "path"
 import { ExifDateTime } from "./ExifDateTime"
 import { exiftool, ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
@@ -248,7 +248,7 @@ describe("ReadTask", () => {
     before(
       () =>
         (et = new ExifTool({
-          exiftoolEnv: { EXIFTOOL_HOME: resolve(__dirname, "..", "test") },
+          exiftoolEnv: { EXIFTOOL_HOME: path.resolve(__dirname, "..", "test") },
         }))
     )
     after(() => et.end())
@@ -264,8 +264,8 @@ describe("ReadTask", () => {
     after(() => exiftool.end())
     const base = isWin32() ? `it's a file.jpg` : `it's a "file".jpg`
     it("reads from " + base, async () => {
-      const tmp = join(tmpdir(), base)
-      await fse.mkdirp(tmpdir())
+      const tmp = path.join(os.tmpdir(), base)
+      await fse.mkdirp(os.tmpdir())
       await fse.copyFile("./test/quotes.jpg", tmp)
       const t = await exiftool.read(tmp)
       expect(t.FileName).to.eql(base)

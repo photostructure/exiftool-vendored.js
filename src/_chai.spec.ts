@@ -1,10 +1,9 @@
 import { Deferred, Log, setLogger } from "batch-cluster"
-import { createHash } from "crypto"
-import * as fse from "fs-extra"
-import { platform, tmpdir } from "os"
-import { join } from "path"
-import { env } from "process"
-import { orElse } from "./Maybe"
+import crypto from "crypto"
+import { copyFile, createReadStream, mkdirp } from "fs-extra"
+import os from "os"
+import path from "path"
+import process from "process"
 
 const chai = require("chai")
 chai.use(require("chai-as-promised"))
@@ -22,7 +21,7 @@ setLogger(
           warn: console.warn,
           error: console.error,
         },
-        orElse(env.LOG as any, "error")
+        (process.env.LOG as any) ?? "error"
       )
     )
   )
@@ -30,10 +29,13 @@ setLogger(
 
 export { expect } from "chai"
 
-export const testDir = join(__dirname, "..", "test")
+export const testDir = path.join(__dirname, "..", "test")
 
 export function tmpname(prefix = ""): string {
-  return join(tmpdir(), prefix + Math.floor(Math.random() * 1e9).toString(16))
+  return path.join(
+    os.tmpdir(),
+    prefix + Math.floor(Math.random() * 1e9).toString(16)
+  )
 }
 
 /**
@@ -43,22 +45,22 @@ export async function testImg(
   name = "img.jpg",
   parentDir = "test"
 ): Promise<string> {
-  const dir = join(tmpname(), parentDir)
-  await fse.mkdirp(dir)
-  const dest = join(dir, name)
-  return fse.copyFile(join(testDir, name), dest).then(() => dest)
+  const dir = path.join(tmpname(), parentDir)
+  await mkdirp(dir)
+  const dest = path.join(dir, name)
+  return copyFile(path.join(testDir, name), dest).then(() => dest)
 }
 
 export async function testFile(name = "img.XMP"): Promise<string> {
   const dir = tmpname()
-  await fse.mkdirp(dir)
-  return join(dir, name)
+  await mkdirp(dir)
+  return path.join(dir, name)
 }
 
 export function sha1(path: string): Promise<string> {
   const d = new Deferred<string>()
-  const readStream = fse.createReadStream(path, { autoClose: true })
-  const sha = createHash("sha1")
+  const readStream = createReadStream(path, { autoClose: true })
+  const sha = crypto.createHash("sha1")
   readStream.on("data", (ea) => sha.update(ea))
   readStream.on("error", (err) => d.reject(err))
   readStream.on("end", () => d.resolve(sha.digest().toString("hex")))
@@ -66,9 +68,9 @@ export function sha1(path: string): Promise<string> {
 }
 
 export function sha1buffer(input: string | Buffer): string {
-  return createHash("sha1").update(input).digest().toString("hex")
+  return crypto.createHash("sha1").update(input).digest().toString("hex")
 }
 
 export function isWin32() {
-  return platform() === "win32"
+  return os.platform() === "win32"
 }

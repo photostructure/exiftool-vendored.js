@@ -1,8 +1,7 @@
-import { join, parse } from "path"
-
-import { expect, testImg } from "./_chai.spec"
+import path from "path"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool } from "./ExifTool"
+import { expect, testImg } from "./_chai.spec"
 
 describe("RewriteAllTagsTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
@@ -46,8 +45,8 @@ describe("RewriteAllTagsTask", () => {
 
   it("problematic file is not problematic after rewriting", async () => {
     const img = await testImg("problematic.jpg")
-    const f = parse(img)
-    const rewritten = join(f.dir, "rewritten.jpg")
+    const f = path.parse(img)
+    const rewritten = path.join(f.dir, "rewritten.jpg")
     await exiftool.rewriteAllTags(img, rewritten)
     await exiftool.write(rewritten, { CreateDate: d.toISOString() })
     const tags = await exiftool.read(rewritten)

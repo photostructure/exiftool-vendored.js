@@ -1,11 +1,11 @@
-import { fail } from "assert"
-import { join } from "path"
+import assert from "assert"
+import path from "path"
 
 import { expect, sha1, tmpname } from "./_chai.spec"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { ExifTool } from "./ExifTool"
 
-const testDir = join(__dirname, "..", "test")
+const testDir = path.join(__dirname, "..", "test")
 describe("BinaryExtractionTask", () => {
   const exiftool = new ExifTool({ maxProcs: 1 })
   after(() => exiftool.end())
@@ -36,7 +36,7 @@ describe("BinaryExtractionTask", () => {
 
   it("extracts expected thumb", async function () {
     this.slow(500)
-    const src = join(testDir, "with_thumb.jpg")
+    const src = path.join(testDir, "with_thumb.jpg")
     const dest = await tmpname()
     await exiftool.extractThumbnail(src, dest)
     // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
@@ -45,11 +45,11 @@ describe("BinaryExtractionTask", () => {
 
   it("throws for missing src", async function () {
     this.slow(500)
-    const src = join(testDir, "nonexistant-file.jpg")
+    const src = path.join(testDir, "nonexistant-file.jpg")
     const dest = await tmpname()
     try {
       await exiftool.extractJpgFromRaw(src, dest)
-      fail("expected error to be thrown")
+      assert.fail("expected error to be thrown")
     } catch (err) {
       expect(String(err)).to.match(/File not found/i)
     }
@@ -57,11 +57,11 @@ describe("BinaryExtractionTask", () => {
 
   it("throws for missing thumb", async function () {
     this.slow(500)
-    const src = join(testDir, "with_thumb.jpg")
+    const src = path.join(testDir, "with_thumb.jpg")
     const dest = await tmpname()
     try {
       await exiftool.extractJpgFromRaw(src, dest)
-      fail("expected error to be thrown")
+      assert.fail("expected error to be thrown")
     } catch (err) {
       expect(String(err)).to.match(/Error: 0 output files created/i)
     }
