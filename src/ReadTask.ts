@@ -44,7 +44,10 @@ export class ReadTask extends ExifToolTask<Tags> {
   private tz: string | undefined
   private tzSource?: string
 
-  private constructor(readonly sourceFile: string, override readonly args: string[]) {
+  private constructor(
+    readonly sourceFile: string,
+    override readonly args: string[]
+  ) {
     super(args)
     this.degroup = this.args.indexOf("-G") !== -1
     this.tags = { SourceFile: sourceFile } as Tags

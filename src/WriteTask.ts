@@ -46,7 +46,10 @@ function enc(o: any): Maybe<string> {
 }
 
 export class WriteTask extends ExifToolTask<void> {
-  private constructor(readonly sourceFile: string, override readonly args: string[]) {
+  private constructor(
+    readonly sourceFile: string,
+    override readonly args: string[]
+  ) {
     super(args)
   }
 
