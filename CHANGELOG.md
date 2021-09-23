@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.4.0
+
+- 🌱 ExifTool upgraded to [v12.31](https://exiftool.org/history.html#v12.31).
+
+- 📦 Updated dependencies (including new TypeScript, which required import [adjustments](https://github.com/microsoft/TypeScript/issues/46027#issuecomment-926019016).
+
 ### v15.3.0
 
 - ✨ `ExifTool.read` and `ExifTool.write` [now accept generics](https://github.com/photostructure/exiftool-vendored.js/issues/103).
