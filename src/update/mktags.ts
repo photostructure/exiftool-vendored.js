@@ -350,10 +350,12 @@ class Tag {
   }
 
   get group(): string {
-    return this.tag.split(":")[0]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.tag.split(":")[0]!
   }
   get base(): string {
-    return this.tag.split(":")[1]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.tag.split(":")[1]!
   }
 
   get valueTypes(): string[] {

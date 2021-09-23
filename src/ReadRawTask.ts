@@ -14,11 +14,11 @@ export class ReadRawTask extends ExifToolTask<Tags> {
     return new ReadRawTask(sourceFile, args)
   }
 
-  private constructor(readonly sourceFile: string, readonly args: string[]) {
+  private constructor(readonly sourceFile: string, override readonly args: string[]) {
     super(args)
   }
 
-  toString(): string {
+  override toString(): string {
     return "ReadRawTask" + this.sourceFile + ")"
   }
 

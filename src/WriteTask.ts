@@ -46,7 +46,7 @@ function enc(o: any): Maybe<string> {
 }
 
 export class WriteTask extends ExifToolTask<void> {
-  private constructor(readonly sourceFile: string, readonly args: string[]) {
+  private constructor(readonly sourceFile: string, override readonly args: string[]) {
     super(args)
   }
 
@@ -70,7 +70,7 @@ export class WriteTask extends ExifToolTask<void> {
     return new WriteTask(sourceFile, args)
   }
 
-  toString(): string {
+  override toString(): string {
     return "WriteTask(" + this.sourceFile + ")"
   }
 

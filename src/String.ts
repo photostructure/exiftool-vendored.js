@@ -19,7 +19,8 @@ export function notBlank(s: Maybe<string>): s is string {
 
 function padding(padChar: "0" | " ", count: number): string {
   if (count <= 0) return ""
-  return (padChar === "0" ? zeroes : spaces)[Math.floor(count)]
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return (padChar === "0" ? zeroes : spaces)[Math.floor(count)]!
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,6 +68,7 @@ export function stripSuffix(s: string, suffix: string): string {
 export function htmlEncode(s: string): string {
   // `he` doesn't encode whitespaces (like newlines), but we need that:
   return encode(s, { decimal: true }).replace(/\s/g, (m) =>
-    m[0] === " " ? " " : `&#${m[0].charCodeAt(0)};`
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    m[0] === " " ? " " : `&#${m[0]!.charCodeAt(0)};`
   )
 }

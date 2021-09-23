@@ -202,7 +202,7 @@ describe("WriteTask", () => {
     it("updates ReleaseDate to a specific date", async () => {
       const f = await dest()
       const wt: WriteTags = {
-        ReleaseDate: ExifDate.fromISO("2019-01-02"),
+        ReleaseDate: ExifDate.fromISO("2019-01-02")!,
       }
       await exiftool.write(f, wt)
       const newTags = await exiftool.read(f)

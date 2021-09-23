@@ -50,7 +50,7 @@ export class ExifDateTime {
 
   private static fromPatterns(
     text: string,
-    fmts: { fmt: string; zone?: string | Zone }[]
+    fmts: { fmt: string; zone?: string | Zone | undefined }[]
   ) {
     const s = toS(text).trim()
     const inputs = [s]

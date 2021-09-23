@@ -38,13 +38,13 @@ export class ReadTask extends ExifToolTask<Tags> {
   /** Always has non-group-prefixed keys */
   private _tags: any = {}
   private readonly tags: Tags
-  private lat?: number
-  private lon?: number
+  private lat: number | undefined
+  private lon: number | undefined
   private invalidLatLon = false
-  private tz?: string
+  private tz: string | undefined
   private tzSource?: string
 
-  private constructor(readonly sourceFile: string, readonly args: string[]) {
+  private constructor(readonly sourceFile: string, override readonly args: string[]) {
     super(args)
     this.degroup = this.args.indexOf("-G") !== -1
     this.tags = { SourceFile: sourceFile } as Tags
@@ -72,7 +72,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     return new ReadTask(sourceFile, args)
   }
 
-  toString(): string {
+  override toString(): string {
     return "ReadTask" + this.sourceFile + ")"
   }
 

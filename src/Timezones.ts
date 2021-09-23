@@ -85,7 +85,8 @@ export function extractOffset(tz: Maybe<string>): Maybe<TzSrc> {
     map(
       offsetMinutesToZoneName(
         (m[1] === "-" ? -1 : 1) *
-          (parseInt(m[2]) * 60 + parseInt(orElse(m[3], "0")))
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          (parseInt(m[2]!) * 60 + parseInt(orElse(m[3], "0")))
       ),
       (ea) => ({ tz: ea, src: "offsetMinutesToZoneName" })
     )
