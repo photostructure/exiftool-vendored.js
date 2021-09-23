@@ -430,10 +430,10 @@ base64-js@^1.3.1:
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
-batch-cluster@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-7.2.0.tgz#61009a3ed5885de3675032dfeb7cf32d524c9bdd"
-  integrity sha512-9KoV/5BWPeWquYIvzFDhIQyBHN2GggzNhw7x1QwbS6NchDdr9WGxML5bP8qHFORAgaSXKgpjgiqTsBHVSOWt5w==
+batch-cluster@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/batch-cluster/-/batch-cluster-7.2.1.tgz#1c4a8498d7fbb08f4ee454c18b9cf0d36b32f86b"
+  integrity sha512-EPeA7fM9+nX31DExN5FaB6eijT3gPlLhUt7xcaRq4c1iEmvaX6LX2svYJbOGc3jtV2g8/Fi45B5sYOwBfvE/XA==
 
 binary-extensions@^2.0.0:
   version "2.2.0"
@@ -1070,15 +1070,15 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exiftool-vendored.exe@12.30.0:
-  version "12.30.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-12.30.0.tgz#473a2e5a92b1abe2938fa0796966c0578865bab5"
-  integrity sha512-h/ufiC09lB71pts3w52vU1FV+UHWqoabDGE6mTRXbNEHMJnULdamR3FTXHq8EOauYuCDllH+8PjLzMioyaV1gA==
+exiftool-vendored.exe@12.31.0:
+  version "12.31.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.exe/-/exiftool-vendored.exe-12.31.0.tgz#ef740e6ea44eff467a80ccd88f7e245715ccc17d"
+  integrity sha512-7ndV7zCOjo2BxQ6Hpjh6nvLnBQUWyyQvrVESSzcqSeXrLU60fSzv4k8VPQbmQ3vMDaZMVxXX+mtJMbe9Hx4b6w==
 
-exiftool-vendored.pl@12.30.0:
-  version "12.30.0"
-  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-12.30.0.tgz#d7dde5683e5a04d54977f61f8488e171ee2d3d44"
-  integrity sha512-KIskcrDj+YOYcPrBVjuq/iy2BPYAzRk6SLmzgVsnVQ/YeN9tyWU67jNu+qLaDUaz7LbcurxF6ssltij5aBkIDg==
+exiftool-vendored.pl@12.31.0:
+  version "12.31.0"
+  resolved "https://registry.yarnpkg.com/exiftool-vendored.pl/-/exiftool-vendored.pl-12.31.0.tgz#a8f813ab68f5b983b7edd3a1f53dd73cb7fefe91"
+  integrity sha512-dxmTa08n+ZOawWfMYU7c0XtHGGtc7hqCpJz+LncThu0uHBARJ72N56wCxvvpHaBpaQ0zyhYK2kQluxhOSzTYqQ==
 
 extract-zip@^2.0.1:
   version "2.0.1"
