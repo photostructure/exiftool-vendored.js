@@ -1,545 +1,393 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>exiftool-vendored</title>
-	<meta name="description" content="Documentation for exiftool-vendored">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<script async src="assets/js/search.js" id="search-script"></script>
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">exiftool-vendored</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<h1>exiftool-vendored</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#exiftool-vendored" id="exiftool-vendored" style="color: inherit; text-decoration: none;">
-					<h1>exiftool-vendored</h1>
-				</a>
-				<p><strong>Fast, cross-platform <a href="https://nodejs.org/">Node.js</a> access to <a href="https://exiftool.org/">ExifTool</a>.</strong></p>
-				<p><a href="https://www.npmjs.com/package/exiftool-vendored"><img src="https://img.shields.io/npm/v/exiftool-vendored.svg" alt="npm version"></a>
-					<a href="https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml"><img src="https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg" alt="Node.js CI"></a>
-					<a href="https://github.com/photostructure/exiftool-vendored.js/issues"><img src="https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg" alt="GitHub issues"></a>
-					<a href="https://lgtm.com/projects/g/photostructure/exiftool-vendored.js/context:javascript"><img src="https://img.shields.io/lgtm/grade/javascript/g/photostructure/exiftool-vendored.js.svg" alt="Language grade: JavaScript"></a>
-				<a href="https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json"><img src="https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a></p>
-				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
-					<h2>Features</h2>
-				</a>
-				<ol>
-					<li><p><strong>Best-of-class cross-platform performance and reliability</strong>.</p>
-						<p><em>Expect <a href="#performance">an order of magnitude faster performance</a> than other packages.</em></p>
-					</li>
-					<li><p>Proper extraction of</p>
-						<ul>
-							<li><strong>dates</strong> with <a href="#dates">correct timezone offset encoding, when available</a>)</li>
-							<li><strong>latitudes &amp; longitudes</strong> as floats (where negative values indicate west or south of the meridian)</li>
-						</ul>
-					</li>
-					<li><p>Support for</p>
-						<ul>
-							<li><a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#read">reading tags</a></li>
-							<li>extracting embedded binaries, like <a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#extractthumbnail">thumbnail</a> and <a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#extractpreview">preview</a> images</li>
-							<li><a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#write">writing tags</a></li>
-							<li><a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#rewritealltags">rescuing metadata</a></li>
-						</ul>
-					</li>
-					<li><p><strong><a href="#tags">Robust type definitions</a></strong> of the top 99.5% tags used by over 6,000
-						different camera makes and models (see an <a href="interfaces/exiftags.html">example</a>)</p>
-					</li>
-					<li><p><strong>Auditable ExifTool source code</strong> (the vendored code is
-						<a href="http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt">checksum verified</a>)</p>
-					</li>
-					<li><p><strong>Automated updates</strong> to ExifTool (<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html">as new versions come out
-						monthly</a>)</p>
-					</li>
-					<li><p><strong>Robust test coverage</strong>, performed with on <a href="https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22">macOS, Linux, and
-						Windows</a></p>
-					</li>
-				</ol>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
-				<pre><code><span style="color: #000000"> </span><span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> </span><span style="color: #001080">exiftool</span><span style="color: #000000">-</span><span style="color: #001080">vendored</span>
-</code></pre>
-				<p>or</p>
-				<pre><code><span style="color: #000000"> </span><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> </span><span style="color: #001080">exiftool</span><span style="color: #000000">-</span><span style="color: #001080">vendored</span>
-</code></pre>
-				<p>Note that <code>exiftool-vendored</code> provides an installation of ExifTool relevant
-					for your local platform through
-				<a href="https://docs.npmjs.com/files/package.json#optionaldependencies">optionalDependencies</a>.</p>
-				<p>You shouldn&#39;t include either the <code>exiftool-vendored.exe</code> or
-				<code>exiftool-vendored.pl</code> as direct dependencies to your project.</p>
-				<p>If you&#39;re installing on a minimal Linux distribution, like
-				<a href="https://alpinelinux.org/">Alpine</a>, you may need to install <code>perl</code> (à la &quot;<code>apk add perl</code>&quot;).</p>
-				<a href="#upgrading" id="upgrading" style="color: inherit; text-decoration: none;">
-					<h2>Upgrading</h2>
-				</a>
-				<p>See the
-					<a href="https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md">CHANGELOG</a>
-				for breaking changes since you last updated.</p>
-				<a href="#major-version-bumps" id="major-version-bumps" style="color: inherit; text-decoration: none;">
-					<h3>Major version bumps</h3>
-				</a>
-				<p>I bump the major version if there&#39;s a <strong>chance</strong> existing code might be
-				affected.</p>
-				<p>I&#39;ve been bit too many times by my code breaking when I pull in minor or patch
-					upgrades with other libraries. I think it&#39;s better to be pessimistic in code
-					change impact analysis: &quot;over-promise and under-deliver&quot; your breaking-code
-				changes.</p>
-				<p>When you upgrade to a new major version, please take a bit more care in
-				validating your own systems, but don&#39;t be surprised when everything still works.</p>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<p>There are many configuration options to ExifTool, but all values have (more or
-				less sensible) defaults.</p>
-				<p>Those defaults have been used to create the
-					<a href="https://photostructure.github.io/exiftool-vendored.js/modules.html#exiftool"><code>exiftool</code></a> singleton.
-					Note that if you <em>don&#39;t</em> use the default singleton, you don&#39;t need to <code>.end()</code>
-				it.</p>
-				<pre><code class="language-js"><span style="color: #008000">// We&#039;re using the singleton here for convenience:</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">exiftool</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;exiftool-vendored&quot;</span><span style="color: #000000">).</span><span style="color: #001080">exiftool</span>
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>exiftool-vendored</title><meta name="description" content="Documentation for exiftool-vendored"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">exiftool-vendored</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>exiftool-vendored</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#exiftool-vendored" id="exiftool-vendored" style="color: inherit; text-decoration: none;">
+  <h1>exiftool-vendored</h1>
+</a>
+<p><strong>Fast, cross-platform <a href="https://nodejs.org/">Node.js</a> access to <a href="https://exiftool.org/">ExifTool</a>.</strong></p>
+<p><a href="https://www.npmjs.com/package/exiftool-vendored"><img src="https://img.shields.io/npm/v/exiftool-vendored.svg" alt="npm version"></a>
+<a href="https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml"><img src="https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg" alt="Node.js CI"></a>
+<a href="https://github.com/photostructure/exiftool-vendored.js/issues"><img src="https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg" alt="GitHub issues"></a>
+<a href="https://lgtm.com/projects/g/photostructure/exiftool-vendored.js/context:javascript"><img src="https://img.shields.io/lgtm/grade/javascript/g/photostructure/exiftool-vendored.js.svg" alt="Language grade: JavaScript"></a>
+<a href="https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json"><img src="https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a></p>
 
-<span style="color: #008000">// And to verify everything is working:</span>
-<span style="color: #001080">exiftool</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">version</span><span style="color: #000000">()</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">version</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">`We&#039;re running ExifTool v</span><span style="color: #0000FF">${</span><span style="color: #001080">version</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">))</span>
-</code></pre>
-				<p>If the default <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html">ExifTool constructor
-					parameters</a>
-				wont&#39; work for you, it&#39;s just a class that takes an options hash:</p>
-				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ExifTool</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;exiftool-vendored&quot;</span><span style="color: #000000">).</span><span style="color: #001080">ExifTool</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">exiftool</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ExifTool</span><span style="color: #000000">({ </span><span style="color: #001080">taskTimeoutMillis:</span><span style="color: #000000"> </span><span style="color: #098658">5000</span><span style="color: #000000"> })</span>
-</code></pre>
-				<p>You should only use the exported default <code>exiftool</code> singleton, or only create one instance of <code>ExifTool</code> as a singleton.</p>
-				<p>Remember to <code>.end()</code> whichever singleton you use.</p>
-				<a href="#general-api" id="general-api" style="color: inherit; text-decoration: none;">
-					<h3>General API</h3>
-				</a>
-				<p><code>ExifTool.read()</code> returns a Promise to a <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html">Tags</a> instance. Note
-					that errors may be returned either by rejecting the promise, or for less
-				severe problems, via the <code>errors</code> field.</p>
-				<p>All other public ExifTool methods return <code>Promise&lt;void&gt;</code>, and will reject
-				the promise if the operation is not successful.</p>
-				<a href="#tags-types" id="tags-types" style="color: inherit; text-decoration: none;">
-					<h3><code>Tags</code> types</h3>
-				</a>
-				<p>ExifTool knows how to extract <em>several thousand</em> different tag fields.</p>
-				<p>Unfortunately, TypeScript crashes with <code>error TS2590: Expression produces a union type that is too complex to represent</code> if the <code>Tags</code> interface was comprehensive.</p>
-				<p>Instead, we build a corpus of &quot;commonly seen&quot; tags from over 5,000 different
-					digital camera makes and models, many from the <a href="https://exiftool.org/sample_images.html">ExifTool metadata
-				repository</a>.</p>
-				<p>Here are some example fields:</p>
-				<pre><code class="language-ts"><span style="color: #000000">  </span><span style="color: #008000">/** ★☆☆☆ ✔ Example: 200 */</span>
-<span style="color: #000000">  </span><span style="color: #0070C1">ISO</span><span style="color: #000000">?: </span><span style="color: #001080">number</span>
+<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+  <h2>Features</h2>
+</a>
+<ol>
+<li><p><strong>Best-of-class cross-platform performance and reliability</strong>.</p>
+<p><em>Expect <a href="#performance">an order of magnitude faster performance</a> than other packages.</em></p>
+</li>
+<li><p>Proper extraction of</p>
+<ul>
+<li><strong>dates</strong> with <a href="#dates">correct timezone offset encoding, when available</a>)</li>
+<li><strong>latitudes &amp; longitudes</strong> as floats (where negative values indicate west or south of the meridian)</li>
+</ul>
+</li>
+<li><p>Support for</p>
+<ul>
+<li><a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#read">reading tags</a></li>
+<li>extracting embedded binaries, like <a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#extractthumbnail">thumbnail</a> and <a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#extractpreview">preview</a> images</li>
+<li><a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#write">writing tags</a></li>
+<li><a href="https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#rewritealltags">rescuing metadata</a></li>
+</ul>
+</li>
+<li><p><strong><a href="#tags">Robust type definitions</a></strong> of the top 99.5% tags used by over 6,000
+different camera makes and models (see an <a href="interfaces/exiftags.html">example</a>)</p>
+</li>
+<li><p><strong>Auditable ExifTool source code</strong> (the vendored code is
+<a href="http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt">checksum verified</a>)</p>
+</li>
+<li><p><strong>Automated updates</strong> to ExifTool (<a href="http://www.sno.phy.queensu.ca/~phil/exiftool/history.html">as new versions come out
+monthly</a>)</p>
+</li>
+<li><p><strong>Robust test coverage</strong>, performed with on <a href="https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22">macOS, Linux, and
+Windows</a></p>
+</li>
+</ol>
 
-<span style="color: #000000">  </span><span style="color: #008000">/** ★★★★ ✔ Example: 1920 */</span>
-<span style="color: #000000">  </span><span style="color: #001080">ImageHeight</span><span style="color: #000000">?: </span><span style="color: #001080">number</span>
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<pre><code><span class="hl-0"> </span><span class="hl-1">yarn</span><span class="hl-0"> </span><span class="hl-1">add</span><span class="hl-0"> </span><span class="hl-1">exiftool</span><span class="hl-0">-</span><span class="hl-1">vendored</span>
+</code></pre>
+<p>or</p>
+<pre><code><span class="hl-0"> </span><span class="hl-1">npm</span><span class="hl-0"> </span><span class="hl-1">install</span><span class="hl-0"> --</span><span class="hl-1">save</span><span class="hl-0"> </span><span class="hl-1">exiftool</span><span class="hl-0">-</span><span class="hl-1">vendored</span>
+</code></pre>
+<p>Note that <code>exiftool-vendored</code> provides an installation of ExifTool relevant
+for your local platform through
+<a href="https://docs.npmjs.com/files/package.json#optionaldependencies">optionalDependencies</a>.</p>
+<p>You shouldn&#39;t include either the <code>exiftool-vendored.exe</code> or
+<code>exiftool-vendored.pl</code> as direct dependencies to your project.</p>
+<p>If you&#39;re installing on a minimal Linux distribution, like
+<a href="https://alpinelinux.org/">Alpine</a>, you may need to install <code>perl</code> (à la &quot;<code>apk add perl</code>&quot;).</p>
 
-<span style="color: #000000">  </span><span style="color: #008000">/** ★★★★ ✔ Example: 1080 */</span>
-<span style="color: #000000">  </span><span style="color: #001080">ImageWidth</span><span style="color: #000000">?: </span><span style="color: #001080">number</span>
+<a href="#upgrading" id="upgrading" style="color: inherit; text-decoration: none;">
+  <h2>Upgrading</h2>
+</a>
+<p>See the
+<a href="https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md">CHANGELOG</a>
+for breaking changes since you last updated.</p>
 
-<span style="color: #000000">  </span><span style="color: #008000">/** ★★★★ ✔ Example: &quot;image/jpeg&quot; */</span>
-<span style="color: #000000">  </span><span style="color: #001080">MIMEType</span><span style="color: #000000">?: </span><span style="color: #001080">string</span>
-</code></pre>
-				<p>The stars represent how common that field has a value in the example corpus. ★★★★ fields are found in &gt; 50% of the examples.
-				☆☆☆☆ fields are found in &lt; 1% of examples.</p>
-				<p>The checkmark denotes if the field is found in &quot;popular&quot; cameras (like recent
-				Nikon, Canon, Sony, and Apple devices).</p>
-				<a href="#caveats-with-tags" id="caveats-with-tags" style="color: inherit; text-decoration: none;">
-					<h3>Caveats with <code>Tags</code></h3>
-				</a>
-				<p><strong>The fields in <code>Tags</code> are not comprehensive.</strong></p>
-				<p>Just because a field is missing from the Tags interface <strong>does not mean the
-					field doesn&#39;t exist in the returned object</strong>. This library doesn&#39;t exclude
-					unknown fields, in other words. It&#39;s up to you and your code to look for other
-				fields you expect, and cast to a more relevant interface.</p>
-				<a href="#errors-and-warnings" id="errors-and-warnings" style="color: inherit; text-decoration: none;">
-					<h3>Errors and Warnings</h3>
-				</a>
-				<p>ExifTool has a pretty exhaustive set of error checking, and many &quot;errors&quot; are
-					actually non-fatal warnings about invalid tag structures that seem to be
-				regularly found in otherwise-not-corrupt images.</p>
-				<p>If we rejected every <code>read</code> or <code>write</code> when any error happened, this would
-					prevent reading and/or writing to otherwise-ok files. To &quot;demote&quot; errors to be
-					warnings that don&#39;t reject the underlying task, you can provide either a
-					<a href="interfaces/exiftooloptions.html#minorerrorsregexp"><code>minorErrorsRegExp</code></a>, or an
-					implementation of
-					<a href="interfaces/exiftooloptions.html#rejecttaskonstderr"><code>rejectTaskOnStderr</code></a>.
-				Either of these parameters are provided to the <code>ExifTool</code> constructor.</p>
-				<a href="#logging-and-events" id="logging-and-events" style="color: inherit; text-decoration: none;">
-					<h3>Logging and events</h3>
-				</a>
-				<p>To enable trace, debug, info, warning, or error logging from this library and
-					the underlying <code>batch-cluster</code> library,
-					use<a href="globals.html#setlogger"><code>setLogger</code></a>. Example
-					code can be found
-				<a href="https://github.com/photostructure/batch-cluster.js/blob/main/src/_chai.spec.ts#L20">here</a>.</p>
-				<p>ExifTool instances emits events for &quot;startError&quot;, &quot;taskError&quot;, &quot;endError&quot;,
-					&quot;beforeEnd&quot;, and &quot;end&quot; that you can register listeners for, using
-				<a href="https://batch-cluster.js.org/classes/batchcluster.html#on">on</a>.</p>
-				<a href="#reading-tags" id="reading-tags" style="color: inherit; text-decoration: none;">
-					<h3>Reading tags</h3>
-				</a>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">read</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/image.jpg&quot;</span><span style="color: #000000">)</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">tags</span><span style="color: #000000"> </span><span style="color: #008000">/*: Tags */</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span>
-<span style="color: #000000">      </span><span style="color: #A31515">`Make: </span><span style="color: #0000FF">${</span><span style="color: #001080">tags</span><span style="color: #000000FF">.</span><span style="color: #001080">Make</span><span style="color: #0000FF">}</span><span style="color: #A31515">, Model: </span><span style="color: #0000FF">${</span><span style="color: #001080">tags</span><span style="color: #000000FF">.</span><span style="color: #001080">Model</span><span style="color: #0000FF">}</span><span style="color: #A31515">, Errors: </span><span style="color: #0000FF">${</span><span style="color: #001080">tags</span><span style="color: #000000FF">.</span><span style="color: #001080">errors</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span>
-<span style="color: #000000">    )</span>
-<span style="color: #000000">  )</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">catch</span><span style="color: #000000">((</span><span style="color: #001080">err</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">error</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Something terrible happened: &quot;</span><span style="color: #000000">, </span><span style="color: #001080">err</span><span style="color: #000000">))</span>
-</code></pre>
-				<a href="#extracting-embedded-images" id="extracting-embedded-images" style="color: inherit; text-decoration: none;">
-					<h3>Extracting embedded images</h3>
-				</a>
-				<p>Extract the low-resolution thumbnail in <code>path/to/image.jpg</code>, write it to
-					<code>path/to/thumbnail.jpg</code>, and return a <code>Promise&lt;void&gt;</code> that is fulfilled
-				when the image is extracted:</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">extractThumbnail</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/image.jpg&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;path/to/thumbnail.jpg&quot;</span><span style="color: #000000">)</span>
-</code></pre>
-				<p>Extract the <code>Preview</code> image (only found in some images):</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">extractPreview</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/image.jpg&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;path/to/preview.jpg&quot;</span><span style="color: #000000">)</span>
-</code></pre>
-				<p>Extract the <code>JpgFromRaw</code> image (found in some RAW images):</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">extractJpgFromRaw</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/image.cr2&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;path/to/fromRaw.jpg&quot;</span><span style="color: #000000">)</span>
-</code></pre>
-				<p>Extract the binary value from &quot;tagname&quot; tag in <code>path/to/image.jpg</code>
-					and write it to <code>dest.bin</code> (which cannot exist already
-				and whose parent directory must already exist):</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">extractBinaryTag</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;tagname&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;path/to/file.exf&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;path/to/dest.bin&quot;</span><span style="color: #000000">)</span>
-</code></pre>
-				<a href="#writing-tags" id="writing-tags" style="color: inherit; text-decoration: none;">
-					<h3>Writing tags</h3>
-				</a>
-				<p>Note that only a portion of tags are writable. Refer to <a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html">the
-					documentation</a>
-				and look under the &quot;Writable&quot; column.</p>
-				<p>If you apply malformed values or ask to write to tags that aren&#39;t
-				supported, the returned <code>Promise</code> will be rejected.</p>
-				<p>Only string and numeric primitive are supported as values to the object.</p>
-				<p>To write a comment to the given file so it shows up in the Windows Explorer
-				Properties panel:</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">write</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/file.jpg&quot;</span><span style="color: #000000">, { </span><span style="color: #001080">XPComment:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;this is a test comment&quot;</span><span style="color: #000000"> })</span>
-</code></pre>
-				<p>To change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
-					<a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html">AllDates</a>
-				shortcut) to 4:56pm UTC on February 6, 2016:</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">write</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/file.jpg&quot;</span><span style="color: #000000">, { </span><span style="color: #001080">AllDates:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;2016-02-06T16:56:00&quot;</span><span style="color: #000000"> })</span>
-</code></pre>
-				<p>To write to a specific metadata group&#39;s tag, just prefix the tag name with the group.
-				(TypeScript users: you&#39;ll need to cast to make this compile).</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">write</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/file.jpg&quot;</span><span style="color: #000000">, {</span>
-<span style="color: #000000">  </span><span style="color: #A31515">&quot;IPTC:CopyrightNotice&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;© 2021 PhotoStructure, Inc.&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">})</span>
-</code></pre>
-				<a href="#always-beware-timezones" id="always-beware-timezones" style="color: inherit; text-decoration: none;">
-					<h3>Always Beware: Timezones</h3>
-				</a>
-				<p>If you edit a timestamp tag, realize that the difference between the
-					changed timestamp tag and the GPS value is used by <code>exiftool-vendored</code> to
-				infer the timezone.</p>
-				<p>In other words, if you only edit the <code>CreateDate</code> and don&#39;t edit the <code>GPS</code>
-					timestamps, your timezone will either be incorrect or missing. See the
-				section about <a href="#dates">Dates</a> below for more information.</p>
-				<a href="#rewriting-tags" id="rewriting-tags" style="color: inherit; text-decoration: none;">
-					<h3>Rewriting tags</h3>
-				</a>
-				<p>You may find that some of your images have corrupt metadata, and that writing
-					new dates, or editing the rotation information, for example, fails. ExifTool can
-					try to repair these images by rewriting all the metadata into a new file, along
-					with the original image content. See the
-					<a href="http://owl.phy.queensu.ca/~phil/exiftool/faq.html#Q20">documentation</a> for more
-				details about this functionality.</p>
-				<p><code>rewriteAllTags</code> returns a void Promise that will be rejected if there are any
-				errors.</p>
-				<pre><code class="language-js"><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">rewriteAllTags</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;problematic.jpg&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;rewritten.jpg&quot;</span><span style="color: #000000">)</span>
-</code></pre>
-				<a href="#exiftool-configuration-support-exiftool_config" id="exiftool-configuration-support-exiftool_config" style="color: inherit; text-decoration: none;">
-					<h3>ExifTool configuration support (<code>.ExifTool_config</code>)</h3>
-				</a>
-				<p>ExifTool has an <a href="http://owl.phy.queensu.ca/~phil/exiftool/config.html">extensive user configuration system</a>. There are several ways to use one:</p>
-				<ol>
-					<li>Place your <a href="http://owl.phy.queensu.ca/~phil/exiftool/config.html">user configuration
-						file</a> in your <code>HOME</code>
-					directory</li>
-					<li>Set the <code>EXIFTOOL_HOME</code> environment variable to the fully-qualified path that
-					contains your user config.</li>
-					<li>Specify the in the ExifTool constructor options:</li>
-				</ol>
-				<pre><code class="language-js"><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ExifTool</span><span style="color: #000000">({ </span><span style="color: #001080">exiftoolEnv:</span><span style="color: #000000"> { </span><span style="color: #001080">EXIFTOOL_HOME:</span><span style="color: #000000"> </span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;to&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;config&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;dir&quot;</span><span style="color: #000000">) }</span>
-</code></pre>
-				<a href="#resource-hygiene" id="resource-hygiene" style="color: inherit; text-decoration: none;">
-					<h2>Resource hygiene</h2>
-				</a>
-				<p><strong>Always remember to call <code>.end()</code>.</strong></p>
-				<p>ExifTool child processes consume system resources. Ensure you don&#39;t leave zombie
-					processes around by calling <code>.end()</code>, which returns a <code>Promise&lt;void&gt;</code> if you
-				want to wait for the shutdown to be complete.</p>
-				<a href="#mocha-v400" id="mocha-v400" style="color: inherit; text-decoration: none;">
-					<h3>Mocha v4.0.0</h3>
-				</a>
-				<p>If you use <a href="https://mochajs.org/">mocha</a> v4 or later, and you don&#39;t call
-					<code>exiftool.end()</code>, you will find that your test suite hangs. <a href="https://github.com/mochajs/mocha/issues/3044">The relevant
-					change is described here</a>,
-					and can be solved by adding an <code>after</code> block that shuts down the instance
-				of ExifTool that your tests are using:</p>
-				<pre><code class="language-js"><span style="color: #795E26">after</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">exiftool</span><span style="color: #000000">.</span><span style="color: #795E26">end</span><span style="color: #000000">()) </span><span style="color: #008000">// assuming your singleton is called `exiftool`</span>
-</code></pre>
-				<a href="#dates" id="dates" style="color: inherit; text-decoration: none;">
-					<h2>Dates</h2>
-				</a>
-				<p><strong>The date metadata in all your images and videos are, most likely,
-				underspecified.</strong></p>
-				<p>Images and videos rarely specify a time zone in their dates. If all your files
-					were captured in your current time zone, defaulting to the local time zone is a
-					safe assumption, but if you have files that were captured in different parts of
-					the world, <strong>this assumption will not be correct</strong>. Parsing the same file in
-				different parts of the world results in a different times for the same file.</p>
-				<p>Prior to version 7, heuristic 1 and 3 was applied.</p>
-				<p>As of version 7.0.0, <code>exiftool-vendored</code> uses the following heuristics. The
-					highest-priority heuristic to return a value will be used as the timezone offset
-				for all datetime tags that don&#39;t already have a specified timezone.</p>
-				<a href="#heuristic-1-explicit-metadata" id="heuristic-1-explicit-metadata" style="color: inherit; text-decoration: none;">
-					<h3>Heuristic 1: explicit metadata</h3>
-				</a>
-				<p>If the <a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html">EXIF</a>
-					<code>TimeZoneOffset</code> tag is present it will be applied as per the spec to
-					<code>DateTimeOriginal</code>, and if there are two values, the <code>ModifyDate</code> tag as well.
-					<code>OffsetTime</code>, <code>OffsetTimeOriginal</code>, and <code>OffsetTimeDigitized</code> are also
-				respected, if present (but are very rarely set).</p>
-				<a href="#heuristic-2-gps-location" id="heuristic-2-gps-location" style="color: inherit; text-decoration: none;">
-					<h3>Heuristic 2: GPS location</h3>
-				</a>
-				<p>If GPS latitude and longitude is present and valid (the value of <code>0, 0</code> is
-					considered invalid), the <code>tz-lookup</code> library will be used to determine the time
-				zone name for that location.</p>
-				<a href="#heuristic-3-utc-timestamps" id="heuristic-3-utc-timestamps" style="color: inherit; text-decoration: none;">
-					<h3>Heuristic 3: UTC timestamps</h3>
-				</a>
-				<p>If <code>GPSDateTime</code> or <code>DateTimeUTC</code> is present, the delta with the dates found
-					within the file, as long as the delta is valid, is used as the timezone offset.
-				Deltas of &gt; 14 hours are considered invalid.</p>
-				<a href="#exifdate-and-exifdatetime" id="exifdate-and-exifdatetime" style="color: inherit; text-decoration: none;">
-					<h3>ExifDate and ExifDateTime</h3>
-				</a>
-				<p>Because datetimes have this optionally-set timezone, and some tags only specify
-					the date, this library returns classes that encode the date, the time of day, or
-					both, <strong>with an optional timezone and an optional tzoffset</strong>: <code>ExifDateTime</code> and
-					<code>ExifTime</code>. It&#39;s up to you, then, to determine what&#39;s correct for your
-				situation.</p>
-				<p>Note also that some smartphones record timestamps with microsecond precision
-					(not just millis!), and both <code>ExifDateTime</code> and <code>ExifTime</code> have floating point
-				milliseconds.</p>
-				<a href="#tags" id="tags" style="color: inherit; text-decoration: none;">
-					<h2>Tags</h2>
-				</a>
-				<p>Official <a href="http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf">EXIF</a> tag names
-					are <a href="https://en.wikipedia.org/wiki/PascalCase">PascalCased</a>, like
-					<code>AFPointSelected</code> and <code>ISO</code>. (&quot;Fixing&quot; the field names to be camelCase, would
-				result in ungainly <code>aFPointSelected</code> and <code>iSO</code> atrocities).</p>
-				<p>The <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html">Tags</a> interface is
-					auto-generated by the <code>mktags</code> script, which parses through over 6,000 unique
-					camera make and model images, in large part sourced from the ExifTool site.
-					<code>mktags</code> groups tags, extracts their type, popularity, and example values such
-				that your IDE can autocomplete.</p>
-				<p>For an example of a group of tags, see the <a href="interfaces/exiftags.html">EXIFTags
-				interface</a>.</p>
-				<p>Tags marked with &quot;★★★★&quot;, like
-					<a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html#mimetype">MIMEType</a>,
-					should be found in most files. Of the several thousand metadata tags, realize
-					less than 50 are found generally. You&#39;ll need to do your own research to
-				determine which tags are valid for your uses.</p>
-				<p>Note that if parsing fails (for, example, a datetime string), the raw string
-					will be returned. Consuming code should verify both existence and type as
-				reasonable for safety.</p>
-				<a href="#performance" id="performance" style="color: inherit; text-decoration: none;">
-					<h2>Performance</h2>
-				</a>
-				<p>The <code>npm run mktags</code> target reads all tags found in a batch of sample images and
-				parses the results.</p>
-				<p>Using <code>exiftool-vendored</code>:</p>
-				<pre><code class="language-sh"><span style="color: #000000">Read 2236 unique tags from 3011 files.</span>
-<span style="color: #000000">Parsing took 16s (5.4ms / file) </span><span style="color: #008000"># windows 10, core i7, maxProcs 4</span>
-<span style="color: #000000">Parsing took 27s (9.0ms / file) </span><span style="color: #008000"># ubuntu 18.04, core i3, maxProcs 1</span>
-<span style="color: #000000">Parsing took 13s (4.2ms / file) </span><span style="color: #008000"># ubuntu 18.04, core i3, maxProcs 4</span>
+<a href="#major-version-bumps" id="major-version-bumps" style="color: inherit; text-decoration: none;">
+  <h3>Major version bumps</h3>
+</a>
+<p>I bump the major version if there&#39;s a <strong>chance</strong> existing code might be
+affected.</p>
+<p>I&#39;ve been bit too many times by my code breaking when I pull in minor or patch
+upgrades with other libraries. I think it&#39;s better to be pessimistic in code
+change impact analysis: &quot;over-promise and under-deliver&quot; your breaking-code
+changes.</p>
+<p>When you upgrade to a new major version, please take a bit more care in
+validating your own systems, but don&#39;t be surprised when everything still works.</p>
 
-<span style="color: #008000"># September 2020 update with &gt; 2x more files and faster CPU:</span>
-<span style="color: #000000">Read 3100 unique tags from 8028 files.</span>
-<span style="color: #000000">Parsing took 16s (2.0ms / file) </span><span style="color: #008000"># ubuntu 20.04, AMD Ryzen 9 3900X, maxProcs 24</span>
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+<p>There are many configuration options to ExifTool, but all values have (more or
+less sensible) defaults.</p>
+<p>Those defaults have been used to create the
+<a href="https://photostructure.github.io/exiftool-vendored.js/modules.html#exiftool"><code>exiftool</code></a> singleton.
+Note that if you <em>don&#39;t</em> use the default singleton, you don&#39;t need to <code>.end()</code>
+it.</p>
+<pre><code class="language-js"><span class="hl-2">// We&#39;re using the singleton here for convenience:</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-4">exiftool</span><span class="hl-0"> = </span><span class="hl-5">require</span><span class="hl-0">(</span><span class="hl-6">&quot;exiftool-vendored&quot;</span><span class="hl-0">).</span><span class="hl-1">exiftool</span><br/><br/><span class="hl-2">// And to verify everything is working:</span><br/><span class="hl-1">exiftool</span><br/><span class="hl-0">  .</span><span class="hl-5">version</span><span class="hl-0">()</span><br/><span class="hl-0">  .</span><span class="hl-5">then</span><span class="hl-0">((</span><span class="hl-1">version</span><span class="hl-0">) </span><span class="hl-3">=&gt;</span><span class="hl-0"> </span><span class="hl-1">console</span><span class="hl-0">.</span><span class="hl-5">log</span><span class="hl-0">(</span><span class="hl-6">`We&#39;re running ExifTool v</span><span class="hl-3">${</span><span class="hl-1">version</span><span class="hl-3">}</span><span class="hl-6">`</span><span class="hl-0">))</span>
 </code></pre>
-				<p>Using the <code>exiftool</code> npm package takes 7-10x longer, and doesn&#39;t work on Windows.</p>
-				<pre><code class="language-sh"><span style="color: #000000">Reading 3011 files...</span>
-<span style="color: #000000">Parsing took 86s (28.4ms / file) </span><span style="color: #008000"># ubuntu, core i3</span>
+<p>If the default <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html">ExifTool constructor
+parameters</a>
+wont&#39; work for you, it&#39;s just a class that takes an options hash:</p>
+<pre><code class="language-js"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-4">ExifTool</span><span class="hl-0"> = </span><span class="hl-5">require</span><span class="hl-0">(</span><span class="hl-6">&quot;exiftool-vendored&quot;</span><span class="hl-0">).</span><span class="hl-1">ExifTool</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-4">exiftool</span><span class="hl-0"> = </span><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-5">ExifTool</span><span class="hl-0">({ </span><span class="hl-1">taskTimeoutMillis:</span><span class="hl-0"> </span><span class="hl-7">5000</span><span class="hl-0"> })</span>
 </code></pre>
-				<a href="#batch-mode" id="batch-mode" style="color: inherit; text-decoration: none;">
-					<h3>Batch mode</h3>
-				</a>
-				<p>Using ExifTool&#39;s <code>-stay_open</code> batch mode means we can reuse a single
-					instance of ExifTool across many requests, dropping response latency
-				dramatically as well as reducing system load.</p>
-				<a href="#parallelism" id="parallelism" style="color: inherit; text-decoration: none;">
-					<h3>Parallelism</h3>
-				</a>
-				<p>To avoid overwhelming your system, the <code>exiftool</code> singleton is configured with a
-					<code>maxProcs</code> set to a quarter the number of CPUs on the current system (minimally
-					1); no more than <code>maxProcs</code> instances of <code>exiftool</code> will be spawned. If the
-					system is CPU constrained, however, you may want a smaller value. If you have
-					very fast disk IO, you may see a speed increase with larger values of
-				<code>maxProcs</code>, but note that each child process can consume 100 MB of RAM.</p>
-				<a href="#author" id="author" style="color: inherit; text-decoration: none;">
-					<h2>Author</h2>
-				</a>
-				<ul>
-					<li><a href="https://github.com/mceachen">Matthew McEachen</a></li>
-				</ul>
-				<a href="#contributors-🎉" id="contributors-🎉" style="color: inherit; text-decoration: none;">
-					<h2>Contributors 🎉</h2>
-				</a>
-				<ul>
-					<li><a href="https://github.com/Circuit8">Joshua Harris</a></li>
-					<li><a href="https://github.com/amokrushin">Anton Mokrushin</a></li>
-					<li><a href="https://github.com/mesqueeb">Luca Ban</a></li>
-					<li><a href="https://github.com/apolkingg8">Demiurga</a></li>
-					<li><a href="https://github.com/draity">David Randler</a></li>
-				</ul>
-				<a href="#changelog" id="changelog" style="color: inherit; text-decoration: none;">
-					<h2>CHANGELOG</h2>
-				</a>
-				<p>See the
-				<a href="https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md">CHANGELOG</a> on github.</p>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class=" ">
-						<a href="modules.html">Exports</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="classes/ExifDate.html" class="tsd-kind-icon">Exif<wbr>Date</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/ExifDateTime.html" class="tsd-kind-icon">Exif<wbr>Date<wbr>Time</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/ExifTime.html" class="tsd-kind-icon">Exif<wbr>Time</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/ExifTool.html" class="tsd-kind-icon">Exif<wbr>Tool</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/ExifToolTask.html" class="tsd-kind-icon">Exif<wbr>Tool<wbr>Task</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ExifToolOptions.html" class="tsd-kind-icon">Exif<wbr>Tool<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ShortcutTags.html" class="tsd-kind-icon">Shortcut<wbr>Tags</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/Tags.html" class="tsd-kind-icon">Tags</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="modules.html#WriteTags" class="tsd-kind-icon">Write<wbr>Tags</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="modules.html#DefaultExifToolOptions" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="modules.html#DefaultExifToolPath" class="tsd-kind-icon">Default<wbr>Exif<wbr>Tool<wbr>Path</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="modules.html#DefaultExiftoolArgs" class="tsd-kind-icon">Default<wbr>Exiftool<wbr>Args</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="modules.html#DefaultMaxProcs" class="tsd-kind-icon">Default<wbr>Max<wbr>Procs</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="modules.html#exiftool" class="tsd-kind-icon">exiftool</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="modules.html#offsetMinutesToZoneName" class="tsd-kind-icon">offset<wbr>Minutes<wbr>ToZone<wbr>Name</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+<p>You should only use the exported default <code>exiftool</code> singleton, or only create one instance of <code>ExifTool</code> as a singleton.</p>
+<p>Remember to <code>.end()</code> whichever singleton you use.</p>
+
+<a href="#general-api" id="general-api" style="color: inherit; text-decoration: none;">
+  <h3>General API</h3>
+</a>
+<p><code>ExifTool.read()</code> returns a Promise to a <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html">Tags</a> instance. Note
+that errors may be returned either by rejecting the promise, or for less
+severe problems, via the <code>errors</code> field.</p>
+<p>All other public ExifTool methods return <code>Promise&lt;void&gt;</code>, and will reject
+the promise if the operation is not successful.</p>
+
+<a href="#tags-types" id="tags-types" style="color: inherit; text-decoration: none;">
+  <h3><code>Tags</code> types</h3>
+</a>
+<p>ExifTool knows how to extract <em>several thousand</em> different tag fields.</p>
+<p>Unfortunately, TypeScript crashes with <code>error TS2590: Expression produces a union type that is too complex to represent</code> if the <code>Tags</code> interface was comprehensive.</p>
+<p>Instead, we build a corpus of &quot;commonly seen&quot; tags from over 5,000 different
+digital camera makes and models, many from the <a href="https://exiftool.org/sample_images.html">ExifTool metadata
+repository</a>.</p>
+<p>Here are some example fields:</p>
+<pre><code class="language-ts"><span class="hl-0">  </span><span class="hl-2">/** ★☆☆☆ ✔ Example: 200 */</span><br/><span class="hl-0">  </span><span class="hl-4">ISO</span><span class="hl-0">?: </span><span class="hl-1">number</span><br/><br/><span class="hl-0">  </span><span class="hl-2">/** ★★★★ ✔ Example: 1920 */</span><br/><span class="hl-0">  </span><span class="hl-1">ImageHeight</span><span class="hl-0">?: </span><span class="hl-1">number</span><br/><br/><span class="hl-0">  </span><span class="hl-2">/** ★★★★ ✔ Example: 1080 */</span><br/><span class="hl-0">  </span><span class="hl-1">ImageWidth</span><span class="hl-0">?: </span><span class="hl-1">number</span><br/><br/><span class="hl-0">  </span><span class="hl-2">/** ★★★★ ✔ Example: &quot;image/jpeg&quot; */</span><br/><span class="hl-0">  </span><span class="hl-1">MIMEType</span><span class="hl-0">?: </span><span class="hl-1">string</span>
+</code></pre>
+<p>The stars represent how common that field has a value in the example corpus. ★★★★ fields are found in &gt; 50% of the examples.
+☆☆☆☆ fields are found in &lt; 1% of examples.</p>
+<p>The checkmark denotes if the field is found in &quot;popular&quot; cameras (like recent
+Nikon, Canon, Sony, and Apple devices).</p>
+
+<a href="#caveats-with-tags" id="caveats-with-tags" style="color: inherit; text-decoration: none;">
+  <h3>Caveats with <code>Tags</code></h3>
+</a>
+<p><strong>The fields in <code>Tags</code> are not comprehensive.</strong></p>
+<p>Just because a field is missing from the Tags interface <strong>does not mean the
+field doesn&#39;t exist in the returned object</strong>. This library doesn&#39;t exclude
+unknown fields, in other words. It&#39;s up to you and your code to look for other
+fields you expect, and cast to a more relevant interface.</p>
+
+<a href="#errors-and-warnings" id="errors-and-warnings" style="color: inherit; text-decoration: none;">
+  <h3>Errors and Warnings</h3>
+</a>
+<p>ExifTool has a pretty exhaustive set of error checking, and many &quot;errors&quot; are
+actually non-fatal warnings about invalid tag structures that seem to be
+regularly found in otherwise-not-corrupt images.</p>
+<p>If we rejected every <code>read</code> or <code>write</code> when any error happened, this would
+prevent reading and/or writing to otherwise-ok files. To &quot;demote&quot; errors to be
+warnings that don&#39;t reject the underlying task, you can provide either a
+<a href="interfaces/exiftooloptions.html#minorerrorsregexp"><code>minorErrorsRegExp</code></a>, or an
+implementation of
+<a href="interfaces/exiftooloptions.html#rejecttaskonstderr"><code>rejectTaskOnStderr</code></a>.
+Either of these parameters are provided to the <code>ExifTool</code> constructor.</p>
+
+<a href="#logging-and-events" id="logging-and-events" style="color: inherit; text-decoration: none;">
+  <h3>Logging and events</h3>
+</a>
+<p>To enable trace, debug, info, warning, or error logging from this library and
+the underlying <code>batch-cluster</code> library,
+use<a href="globals.html#setlogger"><code>setLogger</code></a>. Example
+code can be found
+<a href="https://github.com/photostructure/batch-cluster.js/blob/main/src/_chai.spec.ts#L20">here</a>.</p>
+<p>ExifTool instances emits events for &quot;startError&quot;, &quot;taskError&quot;, &quot;endError&quot;,
+&quot;beforeEnd&quot;, and &quot;end&quot; that you can register listeners for, using
+<a href="https://batch-cluster.js.org/classes/batchcluster.html#on">on</a>.</p>
+
+<a href="#reading-tags" id="reading-tags" style="color: inherit; text-decoration: none;">
+  <h3>Reading tags</h3>
+</a>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><br/><span class="hl-0">  .</span><span class="hl-5">read</span><span class="hl-0">(</span><span class="hl-6">&quot;path/to/image.jpg&quot;</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-5">then</span><span class="hl-0">((</span><span class="hl-1">tags</span><span class="hl-0"> </span><span class="hl-2">/*: Tags */</span><span class="hl-0">) </span><span class="hl-3">=&gt;</span><br/><span class="hl-0">    </span><span class="hl-1">console</span><span class="hl-0">.</span><span class="hl-5">log</span><span class="hl-0">(</span><br/><span class="hl-0">      </span><span class="hl-6">`Make: </span><span class="hl-3">${</span><span class="hl-1">tags</span><span class="hl-8">.</span><span class="hl-1">Make</span><span class="hl-3">}</span><span class="hl-6">, Model: </span><span class="hl-3">${</span><span class="hl-1">tags</span><span class="hl-8">.</span><span class="hl-1">Model</span><span class="hl-3">}</span><span class="hl-6">, Errors: </span><span class="hl-3">${</span><span class="hl-1">tags</span><span class="hl-8">.</span><span class="hl-1">errors</span><span class="hl-3">}</span><span class="hl-6">`</span><br/><span class="hl-0">    )</span><br/><span class="hl-0">  )</span><br/><span class="hl-0">  .</span><span class="hl-5">catch</span><span class="hl-0">((</span><span class="hl-1">err</span><span class="hl-0">) </span><span class="hl-3">=&gt;</span><span class="hl-0"> </span><span class="hl-1">console</span><span class="hl-0">.</span><span class="hl-5">error</span><span class="hl-0">(</span><span class="hl-6">&quot;Something terrible happened: &quot;</span><span class="hl-0">, </span><span class="hl-1">err</span><span class="hl-0">))</span>
+</code></pre>
+
+<a href="#extracting-embedded-images" id="extracting-embedded-images" style="color: inherit; text-decoration: none;">
+  <h3>Extracting embedded images</h3>
+</a>
+<p>Extract the low-resolution thumbnail in <code>path/to/image.jpg</code>, write it to
+<code>path/to/thumbnail.jpg</code>, and return a <code>Promise&lt;void&gt;</code> that is fulfilled
+when the image is extracted:</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">extractThumbnail</span><span class="hl-0">(</span><span class="hl-6">&quot;path/to/image.jpg&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;path/to/thumbnail.jpg&quot;</span><span class="hl-0">)</span>
+</code></pre>
+<p>Extract the <code>Preview</code> image (only found in some images):</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">extractPreview</span><span class="hl-0">(</span><span class="hl-6">&quot;path/to/image.jpg&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;path/to/preview.jpg&quot;</span><span class="hl-0">)</span>
+</code></pre>
+<p>Extract the <code>JpgFromRaw</code> image (found in some RAW images):</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">extractJpgFromRaw</span><span class="hl-0">(</span><span class="hl-6">&quot;path/to/image.cr2&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;path/to/fromRaw.jpg&quot;</span><span class="hl-0">)</span>
+</code></pre>
+<p>Extract the binary value from &quot;tagname&quot; tag in <code>path/to/image.jpg</code>
+and write it to <code>dest.bin</code> (which cannot exist already
+and whose parent directory must already exist):</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">extractBinaryTag</span><span class="hl-0">(</span><span class="hl-6">&quot;tagname&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;path/to/file.exf&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;path/to/dest.bin&quot;</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#writing-tags" id="writing-tags" style="color: inherit; text-decoration: none;">
+  <h3>Writing tags</h3>
+</a>
+<p>Note that only a portion of tags are writable. Refer to <a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html">the
+documentation</a>
+and look under the &quot;Writable&quot; column.</p>
+<p>If you apply malformed values or ask to write to tags that aren&#39;t
+supported, the returned <code>Promise</code> will be rejected.</p>
+<p>Only string and numeric primitive are supported as values to the object.</p>
+<p>To write a comment to the given file so it shows up in the Windows Explorer
+Properties panel:</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">write</span><span class="hl-0">(</span><span class="hl-6">&quot;path/to/file.jpg&quot;</span><span class="hl-0">, { </span><span class="hl-1">XPComment:</span><span class="hl-0"> </span><span class="hl-6">&quot;this is a test comment&quot;</span><span class="hl-0"> })</span>
+</code></pre>
+<p>To change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
+<a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html">AllDates</a>
+shortcut) to 4:56pm UTC on February 6, 2016:</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">write</span><span class="hl-0">(</span><span class="hl-6">&quot;path/to/file.jpg&quot;</span><span class="hl-0">, { </span><span class="hl-1">AllDates:</span><span class="hl-0"> </span><span class="hl-6">&quot;2016-02-06T16:56:00&quot;</span><span class="hl-0"> })</span>
+</code></pre>
+<p>To write to a specific metadata group&#39;s tag, just prefix the tag name with the group.
+(TypeScript users: you&#39;ll need to cast to make this compile).</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">write</span><span class="hl-0">(</span><span class="hl-6">&quot;path/to/file.jpg&quot;</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">&quot;IPTC:CopyrightNotice&quot;</span><span class="hl-1">:</span><span class="hl-0"> </span><span class="hl-6">&quot;© 2021 PhotoStructure, Inc.&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">})</span>
+</code></pre>
+
+<a href="#always-beware-timezones" id="always-beware-timezones" style="color: inherit; text-decoration: none;">
+  <h3>Always Beware: Timezones</h3>
+</a>
+<p>If you edit a timestamp tag, realize that the difference between the
+changed timestamp tag and the GPS value is used by <code>exiftool-vendored</code> to
+infer the timezone.</p>
+<p>In other words, if you only edit the <code>CreateDate</code> and don&#39;t edit the <code>GPS</code>
+timestamps, your timezone will either be incorrect or missing. See the
+section about <a href="#dates">Dates</a> below for more information.</p>
+
+<a href="#rewriting-tags" id="rewriting-tags" style="color: inherit; text-decoration: none;">
+  <h3>Rewriting tags</h3>
+</a>
+<p>You may find that some of your images have corrupt metadata, and that writing
+new dates, or editing the rotation information, for example, fails. ExifTool can
+try to repair these images by rewriting all the metadata into a new file, along
+with the original image content. See the
+<a href="http://owl.phy.queensu.ca/~phil/exiftool/faq.html#Q20">documentation</a> for more
+details about this functionality.</p>
+<p><code>rewriteAllTags</code> returns a void Promise that will be rejected if there are any
+errors.</p>
+<pre><code class="language-js"><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">rewriteAllTags</span><span class="hl-0">(</span><span class="hl-6">&quot;problematic.jpg&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;rewritten.jpg&quot;</span><span class="hl-0">)</span>
+</code></pre>
+
+<a href="#exiftool-configuration-support-exiftool_config" id="exiftool-configuration-support-exiftool_config" style="color: inherit; text-decoration: none;">
+  <h3>ExifTool configuration support (<code>.ExifTool_config</code>)</h3>
+</a>
+<p>ExifTool has an <a href="http://owl.phy.queensu.ca/~phil/exiftool/config.html">extensive user configuration system</a>. There are several ways to use one:</p>
+<ol>
+<li>Place your <a href="http://owl.phy.queensu.ca/~phil/exiftool/config.html">user configuration
+file</a> in your <code>HOME</code>
+directory</li>
+<li>Set the <code>EXIFTOOL_HOME</code> environment variable to the fully-qualified path that
+contains your user config.</li>
+<li>Specify the in the ExifTool constructor options:</li>
+</ol>
+<pre><code class="language-js"><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-5">ExifTool</span><span class="hl-0">({ </span><span class="hl-1">exiftoolEnv:</span><span class="hl-0"> { </span><span class="hl-1">EXIFTOOL_HOME:</span><span class="hl-0"> </span><span class="hl-5">resolve</span><span class="hl-0">(</span><span class="hl-6">&quot;path&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;to&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;config&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;dir&quot;</span><span class="hl-0">) }</span>
+</code></pre>
+
+<a href="#resource-hygiene" id="resource-hygiene" style="color: inherit; text-decoration: none;">
+  <h2>Resource hygiene</h2>
+</a>
+<p><strong>Always remember to call <code>.end()</code>.</strong></p>
+<p>ExifTool child processes consume system resources. Ensure you don&#39;t leave zombie
+processes around by calling <code>.end()</code>, which returns a <code>Promise&lt;void&gt;</code> if you
+want to wait for the shutdown to be complete.</p>
+
+<a href="#mocha-v400" id="mocha-v400" style="color: inherit; text-decoration: none;">
+  <h3>Mocha v4.0.0</h3>
+</a>
+<p>If you use <a href="https://mochajs.org/">mocha</a> v4 or later, and you don&#39;t call
+<code>exiftool.end()</code>, you will find that your test suite hangs. <a href="https://github.com/mochajs/mocha/issues/3044">The relevant
+change is described here</a>,
+and can be solved by adding an <code>after</code> block that shuts down the instance
+of ExifTool that your tests are using:</p>
+<pre><code class="language-js"><span class="hl-5">after</span><span class="hl-0">(() </span><span class="hl-3">=&gt;</span><span class="hl-0"> </span><span class="hl-1">exiftool</span><span class="hl-0">.</span><span class="hl-5">end</span><span class="hl-0">()) </span><span class="hl-2">// assuming your singleton is called `exiftool`</span>
+</code></pre>
+
+<a href="#dates" id="dates" style="color: inherit; text-decoration: none;">
+  <h2>Dates</h2>
+</a>
+<p><strong>The date metadata in all your images and videos are, most likely,
+underspecified.</strong></p>
+<p>Images and videos rarely specify a time zone in their dates. If all your files
+were captured in your current time zone, defaulting to the local time zone is a
+safe assumption, but if you have files that were captured in different parts of
+the world, <strong>this assumption will not be correct</strong>. Parsing the same file in
+different parts of the world results in a different times for the same file.</p>
+<p>Prior to version 7, heuristic 1 and 3 was applied.</p>
+<p>As of version 7.0.0, <code>exiftool-vendored</code> uses the following heuristics. The
+highest-priority heuristic to return a value will be used as the timezone offset
+for all datetime tags that don&#39;t already have a specified timezone.</p>
+
+<a href="#heuristic-1-explicit-metadata" id="heuristic-1-explicit-metadata" style="color: inherit; text-decoration: none;">
+  <h3>Heuristic 1: explicit metadata</h3>
+</a>
+<p>If the <a href="https://sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html">EXIF</a>
+<code>TimeZoneOffset</code> tag is present it will be applied as per the spec to
+<code>DateTimeOriginal</code>, and if there are two values, the <code>ModifyDate</code> tag as well.
+<code>OffsetTime</code>, <code>OffsetTimeOriginal</code>, and <code>OffsetTimeDigitized</code> are also
+respected, if present (but are very rarely set).</p>
+
+<a href="#heuristic-2-gps-location" id="heuristic-2-gps-location" style="color: inherit; text-decoration: none;">
+  <h3>Heuristic 2: GPS location</h3>
+</a>
+<p>If GPS latitude and longitude is present and valid (the value of <code>0, 0</code> is
+considered invalid), the <code>tz-lookup</code> library will be used to determine the time
+zone name for that location.</p>
+
+<a href="#heuristic-3-utc-timestamps" id="heuristic-3-utc-timestamps" style="color: inherit; text-decoration: none;">
+  <h3>Heuristic 3: UTC timestamps</h3>
+</a>
+<p>If <code>GPSDateTime</code> or <code>DateTimeUTC</code> is present, the delta with the dates found
+within the file, as long as the delta is valid, is used as the timezone offset.
+Deltas of &gt; 14 hours are considered invalid.</p>
+
+<a href="#exifdate-and-exifdatetime" id="exifdate-and-exifdatetime" style="color: inherit; text-decoration: none;">
+  <h3>ExifDate and ExifDateTime</h3>
+</a>
+<p>Because datetimes have this optionally-set timezone, and some tags only specify
+the date, this library returns classes that encode the date, the time of day, or
+both, <strong>with an optional timezone and an optional tzoffset</strong>: <code>ExifDateTime</code> and
+<code>ExifTime</code>. It&#39;s up to you, then, to determine what&#39;s correct for your
+situation.</p>
+<p>Note also that some smartphones record timestamps with microsecond precision
+(not just millis!), and both <code>ExifDateTime</code> and <code>ExifTime</code> have floating point
+milliseconds.</p>
+
+<a href="#tags" id="tags" style="color: inherit; text-decoration: none;">
+  <h2>Tags</h2>
+</a>
+<p>Official <a href="http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf">EXIF</a> tag names
+are <a href="https://en.wikipedia.org/wiki/PascalCase">PascalCased</a>, like
+<code>AFPointSelected</code> and <code>ISO</code>. (&quot;Fixing&quot; the field names to be camelCase, would
+result in ungainly <code>aFPointSelected</code> and <code>iSO</code> atrocities).</p>
+<p>The <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html">Tags</a> interface is
+auto-generated by the <code>mktags</code> script, which parses through over 6,000 unique
+camera make and model images, in large part sourced from the ExifTool site.
+<code>mktags</code> groups tags, extracts their type, popularity, and example values such
+that your IDE can autocomplete.</p>
+<p>For an example of a group of tags, see the <a href="interfaces/exiftags.html">EXIFTags
+interface</a>.</p>
+<p>Tags marked with &quot;★★★★&quot;, like
+<a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html#mimetype">MIMEType</a>,
+should be found in most files. Of the several thousand metadata tags, realize
+less than 50 are found generally. You&#39;ll need to do your own research to
+determine which tags are valid for your uses.</p>
+<p>Note that if parsing fails (for, example, a datetime string), the raw string
+will be returned. Consuming code should verify both existence and type as
+reasonable for safety.</p>
+
+<a href="#performance" id="performance" style="color: inherit; text-decoration: none;">
+  <h2>Performance</h2>
+</a>
+<p>The <code>npm run mktags</code> target reads all tags found in a batch of sample images and
+parses the results.</p>
+<p>Using <code>exiftool-vendored</code>:</p>
+<pre><code class="language-sh"><span class="hl-0">Read 2236 unique tags from 3011 files.</span><br/><span class="hl-0">Parsing took 16s (5.4ms / file) </span><span class="hl-2"># windows 10, core i7, maxProcs 4</span><br/><span class="hl-0">Parsing took 27s (9.0ms / file) </span><span class="hl-2"># ubuntu 18.04, core i3, maxProcs 1</span><br/><span class="hl-0">Parsing took 13s (4.2ms / file) </span><span class="hl-2"># ubuntu 18.04, core i3, maxProcs 4</span><br/><br/><span class="hl-2"># September 2020 update with &gt; 2x more files and faster CPU:</span><br/><span class="hl-0">Read 3100 unique tags from 8028 files.</span><br/><span class="hl-0">Parsing took 16s (2.0ms / file) </span><span class="hl-2"># ubuntu 20.04, AMD Ryzen 9 3900X, maxProcs 24</span>
+</code></pre>
+<p>Using the <code>exiftool</code> npm package takes 7-10x longer, and doesn&#39;t work on Windows.</p>
+<pre><code class="language-sh"><span class="hl-0">Reading 3011 files...</span><br/><span class="hl-0">Parsing took 86s (28.4ms / file) </span><span class="hl-2"># ubuntu, core i3</span>
+</code></pre>
+
+<a href="#batch-mode" id="batch-mode" style="color: inherit; text-decoration: none;">
+  <h3>Batch mode</h3>
+</a>
+<p>Using ExifTool&#39;s <code>-stay_open</code> batch mode means we can reuse a single
+instance of ExifTool across many requests, dropping response latency
+dramatically as well as reducing system load.</p>
+
+<a href="#parallelism" id="parallelism" style="color: inherit; text-decoration: none;">
+  <h3>Parallelism</h3>
+</a>
+<p>To avoid overwhelming your system, the <code>exiftool</code> singleton is configured with a
+<code>maxProcs</code> set to a quarter the number of CPUs on the current system (minimally
+1); no more than <code>maxProcs</code> instances of <code>exiftool</code> will be spawned. If the
+system is CPU constrained, however, you may want a smaller value. If you have
+very fast disk IO, you may see a speed increase with larger values of
+<code>maxProcs</code>, but note that each child process can consume 100 MB of RAM.</p>
+
+<a href="#author" id="author" style="color: inherit; text-decoration: none;">
+  <h2>Author</h2>
+</a>
+<ul>
+<li><a href="https://github.com/mceachen">Matthew McEachen</a></li>
+</ul>
+
+<a href="#contributors-🎉" id="contributors-🎉" style="color: inherit; text-decoration: none;">
+  <h2>Contributors 🎉</h2>
+</a>
+<ul>
+<li><a href="https://github.com/Circuit8">Joshua Harris</a></li>
+<li><a href="https://github.com/amokrushin">Anton Mokrushin</a></li>
+<li><a href="https://github.com/mesqueeb">Luca Ban</a></li>
+<li><a href="https://github.com/apolkingg8">Demiurga</a></li>
+<li><a href="https://github.com/draity">David Randler</a></li>
+</ul>
+
+<a href="#changelog" id="changelog" style="color: inherit; text-decoration: none;">
+  <h2>CHANGELOG</h2>
+</a>
+<p>See the
+<a href="https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md">CHANGELOG</a> on github.</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-class"><a href="classes/ExifDate.html" class="tsd-kind-icon">Exif<wbr/>Date</a></li><li class="tsd-kind-class"><a href="classes/ExifDateTime.html" class="tsd-kind-icon">Exif<wbr/>Date<wbr/>Time</a></li><li class="tsd-kind-class"><a href="classes/ExifTime.html" class="tsd-kind-icon">Exif<wbr/>Time</a></li><li class="tsd-kind-class"><a href="classes/ExifTool.html" class="tsd-kind-icon">Exif<wbr/>Tool</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/ExifToolTask.html" class="tsd-kind-icon">Exif<wbr/>Tool<wbr/>Task</a></li><li class="tsd-kind-interface"><a href="interfaces/ExifToolOptions.html" class="tsd-kind-icon">Exif<wbr/>Tool<wbr/>Options</a></li><li class="tsd-kind-interface"><a href="interfaces/ShortcutTags.html" class="tsd-kind-icon">Shortcut<wbr/>Tags</a></li><li class="tsd-kind-interface"><a href="interfaces/Tags.html" class="tsd-kind-icon">Tags</a></li><li class="tsd-kind-type-alias"><a href="modules.html#WriteTags" class="tsd-kind-icon">Write<wbr/>Tags</a></li><li class="tsd-kind-variable"><a href="modules.html#DefaultExifToolOptions" class="tsd-kind-icon">Default<wbr/>Exif<wbr/>Tool<wbr/>Options</a></li><li class="tsd-kind-variable"><a href="modules.html#DefaultExifToolPath" class="tsd-kind-icon">Default<wbr/>Exif<wbr/>Tool<wbr/>Path</a></li><li class="tsd-kind-variable"><a href="modules.html#DefaultExiftoolArgs" class="tsd-kind-icon">Default<wbr/>Exiftool<wbr/>Args</a></li><li class="tsd-kind-variable"><a href="modules.html#DefaultMaxProcs" class="tsd-kind-icon">Default<wbr/>Max<wbr/>Procs</a></li><li class="tsd-kind-variable"><a href="modules.html#exiftool" class="tsd-kind-icon">exiftool</a></li><li class="tsd-kind-function"><a href="modules.html#offsetMinutesToZoneName" class="tsd-kind-icon">offset<wbr/>Minutes<wbr/>To<wbr/>Zone<wbr/>Name</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
