@@ -1,4 +1,4 @@
-import { resolve } from "path"
+import path from "path"
 import { ExifToolTask } from "./ExifToolTask"
 import { Maybe } from "./Maybe"
 import { toS } from "./String"
@@ -22,11 +22,11 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     const args = [
       "-b",
       "-" + tagname,
-      resolve(imgSrc),
+      path.resolve(imgSrc),
       "-w",
       // The %0f prevents shell escaping. See
       // https://exiftool.org/exiftool_pod.html#w-EXT-or-FMT--textOut
-      "%0f" + resolve(imgDest),
+      "%0f" + path.resolve(imgDest),
     ]
     return new BinaryExtractionTask(args)
   }

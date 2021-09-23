@@ -1,11 +1,11 @@
 require("source-map-support").install()
 
 import { Log, logger, setLogger } from "batch-cluster"
-import * as _fs from "fs"
-import * as globule from "globule"
-import { cpus } from "os"
-import * as _path from "path"
-import { argv, env, exit, on } from "process"
+import fs from "fs"
+import globule from "globule"
+import os from "os"
+import path from "path"
+import process from "process"
 import { compact, filterInPlace, times, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
 import { map, Maybe, orElse } from "../Maybe"
@@ -180,7 +180,7 @@ function sortBy<T>(
 }
 
 const exiftool = new ExifTool({
-  maxProcs: cpus().length,
+  maxProcs: os.cpus().length,
   taskRetries: 3,
   streamFlushMillis: 1,
   minDelayBetweenSpawnMillis: 10,
@@ -204,17 +204,17 @@ setLogger(
           warn: console.warn,
           error: console.error,
         },
-        orElse(env.LOG as any, "info")
+        orElse(process.env.LOG as any, "info")
       )
     )
   )
 )
 
-on("uncaughtException", (error: any) => {
+process.on("uncaughtException", (error: any) => {
   console.error("Ack, caught uncaughtException: " + error.stack)
 })
 
-on("unhandledRejection", (reason: any) => {
+process.on("unhandledRejection", (reason: any) => {
   console.error(
     "Ack, caught unhandledRejection: " + (reason.stack ?? reason.toString)
   )
@@ -223,14 +223,15 @@ on("unhandledRejection", (reason: any) => {
 function usage() {
   console.log("Usage: `yarn run mktags IMG_DIR`")
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.")
-  exit(1)
+  // eslint-disable-next-line no-process-exit
+  process.exit(1)
 }
 
 function cmp(a: any, b: any): number {
   return a > b ? 1 : a < b ? -1 : 0
 }
 
-const roots = argv.slice(2)
+const roots = process.argv.slice(2)
 if (roots.length === 0)
   throw new Error("USAGE: mktags <path to image directory>")
 
@@ -241,7 +242,7 @@ const files = roots
     logger().info("Scanning " + pattern + "...")
     return globule
       .find(pattern, { srcBase: root, nocase: true, nodir: true })
-      .map((ea) => _path.resolve(root + "/" + ea))
+      .map((ea) => path.resolve(root + "/" + ea))
   })
   .reduce((prev, curr) => prev.concat(curr))
 
@@ -636,7 +637,7 @@ async function readAndAddToTagMap(file: string) {
 
 const start = Date.now()
 
-on("unhandledRejection", (reason: any) => {
+process.on("unhandledRejection", (reason: any) => {
   console.error(
     "Ack, caught unhandled rejection: " + (reason.stack ?? reason.toString)
   )
@@ -658,8 +659,8 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       )}ms / file)`
     )
     const version = await exiftool.version()
-    const destFile = _path.resolve(__dirname, "../../src/Tags.ts")
-    const tagWriter = _fs.createWriteStream(destFile)
+    const destFile = path.resolve(__dirname, "../../src/Tags.ts")
+    const tagWriter = fs.createWriteStream(destFile)
     tagWriter.write(
       [
         'import { ApplicationRecordTags } from "./ApplicationRecordTags"',
