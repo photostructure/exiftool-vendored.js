@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.5.0
+
+- 🌱 ExifTool upgraded to [v12.33](https://exiftool.org/history.html#v12.33).
+
+- 📦 Updated dependencies 
+
+- 📦 Now ignoring `yarn.lock`
+
 ### v15.4.0
 
 - 🌱 ExifTool upgraded to [v12.31](https://exiftool.org/history.html#v12.31).
