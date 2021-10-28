@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.6.0
+
+- ✨ Added [serialization support](https://github.com/photostructure/exiftool-vendored.js/issues/102)
+
+- 🌱 ExifTool upgraded to [v12.34](https://exiftool.org/history.html#v12.34).
+
 ### v15.5.0
 
 - 🌱 ExifTool upgraded to [v12.33](https://exiftool.org/history.html#v12.33).
