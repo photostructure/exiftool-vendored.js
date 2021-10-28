@@ -50,4 +50,18 @@ export class ExifTime {
   toExifString() {
     return this.toString()
   }
+
+  toJSON() {
+    return {
+      _ctor: "ExifTime",
+      hour: this.hour,
+      minute: this.minute,
+      second: this.second,
+      millisecond: this.millisecond,
+    }
+  }
+
+  static fromJSON(json: ReturnType<ExifTime["toJSON"]>): ExifTime {
+    return new ExifTime(json.hour, json.minute, json.second, json.millisecond)
+  }
 }

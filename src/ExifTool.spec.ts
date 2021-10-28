@@ -1,8 +1,11 @@
 import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
 import { times } from "./Array"
+import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
+import { ExifTime } from "./ExifTime"
 import { DefaultMaxProcs, ExifTool, exiftool, WriteTags } from "./ExifTool"
+import { parseJSON } from "./JSON"
 import { keys } from "./Object"
 import { leftPad } from "./String"
 import { Tags } from "./Tags"
@@ -21,6 +24,8 @@ function posixPath(path: string) {
 describe("ExifTool", function () {
   this.timeout(15000)
   this.slow(100)
+
+  after(() => exiftool.end())
 
   const truncated = _path.join(__dirname, "..", "test", "truncated.jpg")
   const noexif = _path.join(__dirname, "..", "test", "noexif.jpg")
@@ -410,4 +415,41 @@ describe("ExifTool", function () {
       })
     })
   }
+
+  describe("parseJSON", () => {
+    it("round-trips", async () => {
+      const t = await exiftool.read(img3)
+
+      function assert(ea: Tags) {
+        expect((ea.SubSecCreateDate as any).constructor).to.eql(ExifDateTime)
+        expect((ea.GPSTimeStamp as any).constructor).to.eql(ExifTime)
+        expect((ea.GPSDateStamp as any).constructor).to.eql(ExifDate)
+
+        expect({
+          datetime: ea.SubSecCreateDate?.toString(),
+          time: ea.GPSTimeStamp?.toString(),
+          date: ea.GPSDateStamp?.toString(),
+        }).to.eql({
+          datetime: "2017-12-22T17:08:35.363-08:00",
+          time: "01:08:22",
+          date: "2017-12-23",
+        })
+
+        // Verify that all primitive types are as expected:
+        expect(ea.ISO).to.eql(60)
+        expect(ea.FNumber).to.be.closeTo(2.0, 0.01)
+        expect(ea.Contrast).to.eql("Normal")
+        expect(ea.Keywords).to.eql(["red fish", "blue fish"])
+      }
+
+      assert(t)
+
+      const t2 = parseJSON(JSON.stringify(t))
+      assert(t2)
+
+      expect(t2.SubSecCreateDate).to.eql(t.SubSecCreateDate)
+      expect(t2.GPSDateTime).to.eql(t.GPSDateTime)
+      expect(t2.GPSDateStamp).to.eql(t.GPSDateStamp)
+    })
+  })
 })

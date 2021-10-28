@@ -225,4 +225,35 @@ export class ExifDateTime {
   get isValid() {
     return this.toDateTime().isValid
   }
+
+  toJSON() {
+    return {
+      _ctor: "ExifDateTime",
+      year: this.year,
+      month: this.month,
+      day: this.day,
+      hour: this.hour,
+      minute: this.minute,
+      second: this.second,
+      millisecond: this.millisecond,
+      tzoffsetMinutes: this.tzoffsetMinutes,
+      rawValue: this.rawValue,
+      zoneName: this.zoneName,
+    }
+  }
+
+  static fromJSON(json: ReturnType<ExifDateTime["toJSON"]>): ExifDateTime {
+    return new ExifDateTime(
+      json.year,
+      json.month,
+      json.day,
+      json.hour,
+      json.minute,
+      json.second,
+      json.millisecond,
+      json.tzoffsetMinutes,
+      json.rawValue,
+      json.zoneName
+    )
+  }
 }

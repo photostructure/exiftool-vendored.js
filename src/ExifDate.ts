@@ -69,4 +69,18 @@ export class ExifDate {
   toString(sep = "-"): string {
     return `${this.year}${sep}${pad2(this.month, this.day).join(sep)}`
   }
+
+  toJSON() {
+    return {
+      _ctor: "ExifDate",
+      year: this.year,
+      month: this.month,
+      day: this.day,
+      rawValue: this.rawValue,
+    }
+  }
+
+  static fromJSON(json: ReturnType<ExifDate["toJSON"]>): ExifDate {
+    return new ExifDate(json.year, json.month, json.day, json.rawValue)
+  }
 }

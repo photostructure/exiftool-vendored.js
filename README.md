@@ -398,6 +398,25 @@ Note that if parsing fails (for, example, a datetime string), the raw string
 will be returned. Consuming code should verify both existence and type as
 reasonable for safety.
 
+## Serialization
+
+The `Tags` object returned by `.readTags()` can be serialized to JSON with `JSON.stringify`.
+
+To reconstitute, use the `parseJSON()` method.
+
+```ts
+import { exiftool, parseJSON } from "exiftool-vendored"
+
+const tags: Tags = await exiftool.readTags("/path/to/file.jpg")
+const str: string = JSON.stringify(tags)
+
+// parseJSON doesn't validate the input, so we don't assert that it's a Tags
+// instance, but you can cast it (unsafely...)
+
+const tags2: Tags = parseJSON(str) as Tags 
+
+```
+
 ## Performance
 
 The `npm run mktags` target reads all tags found in a batch of sample images and
