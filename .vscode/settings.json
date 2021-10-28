@@ -9,6 +9,7 @@
     "dry'ed",
     "fmts",
     "fnumber",
+    "gpsdt",
     "mktags",
     "mocharc",
     "nojekyll",
@@ -16,6 +17,7 @@
     "premktags",
     "preu",
     "randler",
+    "sscd",
     "structs",
     "tmpname",
     "tzoffset"
