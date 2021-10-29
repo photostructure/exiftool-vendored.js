@@ -39,8 +39,8 @@ describe("BinaryExtractionTask", () => {
     const src = path.join(testDir, "with_thumb.jpg")
     const dest = await tmpname()
     await exiftool.extractThumbnail(src, dest)
-    // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
-    expect(await sha1(dest)).to.eql("c7c14706fce4038f6a9da96e213768756a4b2ad2")
+    // exiftool test/with_thumb.jpg -b -ThumbnailImage | sha1sum
+    expect(await sha1(dest)).to.eql("57885e5e16b16599ccf208981a87fe198612d9fb")
   })
 
   it("throws for missing src", async function () {

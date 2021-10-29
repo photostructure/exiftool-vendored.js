@@ -21,11 +21,11 @@ function posixPath(path: string) {
   return path.split(_path.sep).join("/")
 }
 
+after(() => exiftool.end())
+
 describe("ExifTool", function () {
   this.timeout(15000)
   this.slow(100)
-
-  after(() => exiftool.end())
 
   const truncated = _path.join(__dirname, "..", "test", "truncated.jpg")
   const noexif = _path.join(__dirname, "..", "test", "noexif.jpg")
@@ -245,9 +245,9 @@ describe("ExifTool", function () {
             expect(t).to.include({
               // SourceFile: img3, Don't include SourceFile, because it's wonky on windows. :\
               MIMEType: "image/jpeg",
-              Model: "C2020Z",
-              ImageWidth: 1600,
-              ImageHeight: 1200,
+              Model: "Pixel",
+              ImageWidth: 4048,
+              ImageHeight: 3036,
             })
           )
           await et2.end()

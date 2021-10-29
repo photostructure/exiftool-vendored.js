@@ -37,7 +37,7 @@ describe("BinaryToBufferTask", () => {
     const src = path.join(testDir, "with_thumb.jpg")
     const buf = await exiftool.extractBinaryTagToBuffer("ThumbnailImage", src)
     // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
-    expect(sha1buffer(buf)).to.eql("c7c14706fce4038f6a9da96e213768756a4b2ad2")
+    expect(sha1buffer(buf)).to.eql("57885e5e16b16599ccf208981a87fe198612d9fb")
   })
 
   it("throws for missing src", async function () {

@@ -15,6 +15,8 @@ function parse(tags: any, err?: Error): Tags {
   return tt["parse"](json, err)
 }
 
+after(() => exiftool.end())
+
 describe("ReadTask", () => {
   describe("Lat/Lon parsing", () => {
     /* Example:
@@ -261,7 +263,6 @@ describe("ReadTask", () => {
   })
 
   describe("quotes in filenames", () => {
-    after(() => exiftool.end())
     const base = isWin32() ? `it's a file.jpg` : `it's a "file".jpg`
     it("reads from " + base, async () => {
       const tmp = path.join(os.tmpdir(), base)
