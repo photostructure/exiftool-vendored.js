@@ -32,3 +32,13 @@ export function uniq<T>(arr: T[]): T[] {
     return acc
   }, [] as T[])
 }
+
+// terrible implementation only for internal use
+export function shallowArrayEql(a: any[], b: any[]): boolean {
+  return (
+    a != null &&
+    b != null &&
+    a.length === b.length &&
+    a.every((ea, idx) => ea === b[idx])
+  )
+}

@@ -1,5 +1,5 @@
 import { expect } from "./_chai.spec"
-import { compact, filterInPlace, times, uniq } from "./Array"
+import { compact, filterInPlace, shallowArrayEql, times, uniq } from "./Array"
 
 describe("Array", () => {
   describe("compact()", () => {
@@ -45,5 +45,21 @@ describe("Array", () => {
         1, 2, 3, 4, 5,
       ])
     })
+  })
+
+  describe("shallowArrayEql", () => {
+    for (const { a, b, exp } of [
+      { a: [], b: undefined, exp: false },
+      { a: [1], b: [], exp: false },
+      { a: [1], b: [1], exp: true },
+      { a: [1], b: [1, 2], exp: false },
+      { a: [2, 1], b: [1, 2], exp: false },
+      { a: ["a", 1], b: ["a", 1], exp: true },
+      { a: ["a", 1], b: ["a ", 1], exp: false },
+    ]) {
+      it(`(${JSON.stringify(a)}, ${JSON.stringify(b)}) -> ${exp}`, () => {
+        expect(shallowArrayEql(a as any, b as any)).to.eql(exp)
+      })
+    }
   })
 })
