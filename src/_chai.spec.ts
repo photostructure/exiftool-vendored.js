@@ -51,7 +51,7 @@ export async function testImg(
   return copyFile(path.join(testDir, name), dest).then(() => dest)
 }
 
-export async function testFile(name = "img.XMP"): Promise<string> {
+export async function testFile(name: string): Promise<string> {
   const dir = tmpname()
   await mkdirp(dir)
   return path.join(dir, name)
