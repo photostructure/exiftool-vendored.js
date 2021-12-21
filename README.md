@@ -262,6 +262,14 @@ exiftool.write("path/to/file.jpg", {
 })
 ```
 
+To delete a tag, use `null` as the value.
+
+```js
+exiftool.write("path/to/file.jpg", { UserComment: null })
+```
+
+The above example removes any value associated to the `UserComment` tag.
+
 ### Always Beware: Timezones
 
 If you edit a timestamp tag, realize that the difference between the
