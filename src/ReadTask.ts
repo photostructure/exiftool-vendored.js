@@ -4,7 +4,7 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolTask } from "./ExifToolTask"
-import { firstDefinedThunk, map, orElse } from "./Maybe"
+import { firstDefinedThunk, map } from "./Maybe"
 import { toF } from "./Number"
 import { isString, toS } from "./String"
 import { Tags } from "./Tags"
@@ -89,7 +89,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         err,
         jsonError,
       })
-      throw orElse(err, jsonError)
+      throw err ?? jsonError
     }
     // ExifTool does "humorous" things to paths, like flip path separators. resolve() undoes that.
     const SourceFile = _path.resolve(this._raw.SourceFile)
@@ -112,7 +112,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private tagName(k: string): string {
-    return this.degroup ? orElse(k.split(":")[1], k) : k
+    return this.degroup ? k.split(":")[1] ?? k : k
   }
 
   private parseTags(): Tags {

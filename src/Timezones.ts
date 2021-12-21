@@ -2,7 +2,7 @@ import { FixedOffsetZone, Info } from "luxon"
 import { compact } from "./Array"
 import { MinuteMs } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
-import { first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
+import { first, firstDefinedThunk, map, Maybe } from "./Maybe"
 import { isNumber } from "./Number"
 import { blank, isString, pad2 } from "./String"
 
@@ -86,7 +86,7 @@ export function extractOffset(tz: Maybe<string>): Maybe<TzSrc> {
       offsetMinutesToZoneName(
         (m[1] === "-" ? -1 : 1) *
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          (parseInt(m[2]!) * 60 + parseInt(orElse(m[3], "0")))
+          (parseInt(m[2]!) * 60 + parseInt(m[3] ?? "0"))
       ),
       (ea) => ({ tz: ea, src: "offsetMinutesToZoneName" })
     )

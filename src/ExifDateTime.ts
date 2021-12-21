@@ -1,6 +1,6 @@
 import { DateTime, ToISOTimeOptions, Zone } from "luxon"
 import { dateTimeToExif } from "./DateTime"
-import { denull, first, firstDefinedThunk, map, Maybe, orElse } from "./Maybe"
+import { denull, first, firstDefinedThunk, map, Maybe } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
 import {
   offsetMinutesToZoneName,
@@ -23,7 +23,7 @@ export class ExifDateTime {
         setZone: true,
         zone: zone ?? UnsetZone,
       }),
-      orElse(rawValue, iso)
+      rawValue ?? iso
     )
   }
 
@@ -152,7 +152,7 @@ export class ExifDateTime {
       dt.millisecond,
       dt.offset === UnsetZoneOffsetMinutes ? undefined : dt.offset,
       rawValue,
-      dt.zone.name === UnsetZone.name ? undefined : dt.zoneName
+      dt.zone?.name === UnsetZone.name ? undefined : dt.zoneName
     )
   }
 
@@ -205,10 +205,8 @@ export class ExifDateTime {
   toISOString(options: ToISOTimeOptions = {}): Maybe<string> {
     return denull(
       this.toDateTime().toISO({
-        suppressMilliseconds: orElse(
-          options.suppressMilliseconds,
-          () => this.millisecond == null
-        ),
+        suppressMilliseconds:
+          options.suppressMilliseconds ?? this.millisecond == null,
         includeOffset: this.hasZone && options.includeOffset !== false,
       })
     )

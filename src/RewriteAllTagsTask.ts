@@ -1,8 +1,6 @@
 import * as _path from "path"
-
 import { compact } from "./Array"
 import { ExifToolTask } from "./ExifToolTask"
-import { orElse } from "./Maybe"
 
 export class RewriteAllTagsTask extends ExifToolTask<void> {
   private constructor(args: string[]) {
@@ -32,19 +30,19 @@ export class RewriteAllTagsTask extends ExifToolTask<void> {
   }
 
   parse(data: string, error?: Error): void {
-    if (error != null && String(error).startsWith("Warning: ")) {
-      throw error
+    if (error != null) {
+      const str = String(error)
+      // Ignore warnings:
+      if (str.match(/\berror\b/i) != null && !str.match(/\bwarning\b/i)) {
+        throw error
+      }
     }
-    if (data.trim() !== "1 image files created") {
-      throw orElse(
-        error,
-        () =>
-          new Error(
-            orElse(
-              data.trim().split("\n")[0],
-              "Missing expected status message"
-            )
-          )
+    if (null == data.match(/^\s*1 image files creat/i)) {
+      throw (
+        error ??
+        new Error(
+          data.trim().split("\n")[0] ?? "Missing expected status message"
+        )
       )
     }
   }

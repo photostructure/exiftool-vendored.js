@@ -1,12 +1,16 @@
 import * as _path from "path"
+import { shallowArrayEql } from "./Array"
 import { isDateOrTime, toExifString } from "./DateTime"
+import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
+import { isFileEmpty } from "./File"
 import { Maybe } from "./Maybe"
 import { isNumber } from "./Number"
 import { keys } from "./Object"
 import { htmlEncode, isString } from "./String"
 import { isStruct } from "./Struct"
+import { VersionTask } from "./VersionTask"
 
 const successRE = /1 image files? (?:created|updated)/
 const sep = String.fromCharCode(31) // unit separator
@@ -53,14 +57,27 @@ export class WriteTask extends ExifToolTask<void> {
     super(args)
   }
 
-  static for(
+  static async for(
     filename: string,
     tags: WriteTags,
     optionalArgs: string[] = []
-  ): WriteTask {
+  ): Promise<WriteTask | ExifToolTask<void>> {
     const sourceFile = _path.resolve(filename)
 
     const args: string[] = [...utfCharsetArgs]
+
+    // ExifTool complains "Nothing to write" if the task will only remove values
+    // and the file is missing.
+
+    if (
+      (optionalArgs.length === 0 ||
+        shallowArrayEql(optionalArgs, DeleteAllTagsArgs)) &&
+      Object.values(tags).every((ea) => ea == null) &&
+      (await isFileEmpty(filename))
+    ) {
+      // no-op!
+      return new VersionTask() as any
+    }
 
     for (const key of keys(tags)) {
       const val = tags[key]
@@ -77,8 +94,9 @@ export class WriteTask extends ExifToolTask<void> {
     return "WriteTask(" + this.sourceFile + ")"
   }
 
-  protected parse(data: string, err: Error): void {
-    if (err != null) throw err
+  protected parse(data: string, error: Error): void {
+    // console.log(this.toString() + ".parse()", { data, error })
+    if (error != null) throw error
     if (this.errors.length > 0) throw new Error(this.errors.join(";"))
     data = data.trim()
     if (successRE.exec(data) != null) {

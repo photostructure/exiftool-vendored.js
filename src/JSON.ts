@@ -9,5 +9,8 @@ const Revivers: any = {
 }
 
 export function parseJSON(s: string) {
-  return JSON.parse(s, (_key, value) => Revivers[value?._ctor]?.(value) ?? value)
+  return JSON.parse(
+    s,
+    (_key, value) => Revivers[value?._ctor]?.(value) ?? value
+  )
 }

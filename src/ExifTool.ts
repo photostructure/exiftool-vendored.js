@@ -7,11 +7,11 @@ import * as _p from "process"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
+import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { lazy } from "./Lazy"
-import { orElse } from "./Maybe"
 import { PreviewTag } from "./PreviewTag"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
@@ -97,7 +97,15 @@ type ExpandedDateTags = {
     | string
 }
 
-export type WriteTags = ShortcutTags & AdditionalWriteTags & ExpandedDateTags
+type NotUndefined<T> = T extends undefined ? never : T
+
+export type DefinedOrNullValued<T> = {
+  [P in keyof T]: NotUndefined<T[P]> | null
+}
+
+export type WriteTags = DefinedOrNullValued<
+  ShortcutTags & AdditionalWriteTags & ExpandedDateTags
+>
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
 
@@ -212,9 +220,6 @@ export const DefaultExifToolOptions: Omit<
   // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
   taskTimeoutMillis: 20000,
   onIdleIntervalMillis: 2000,
-  // 1 ms seems to work on linux, but stderr and stdout may be buffered
-  // differently on different OSes:
-  streamFlushMillis: 7,
   taskRetries: 1,
   exiftoolPath: DefaultExifToolPath,
   exiftoolArgs: DefaultExiftoolArgs,
@@ -246,7 +251,7 @@ export class ExifTool {
       ...DefaultExifToolOptions,
       ...options,
     }
-    const ignoreShebang = orElse(o.ignoreShebang, () => _ignoreShebang())
+    const ignoreShebang = o.ignoreShebang ?? _ignoreShebang()
 
     const env: NodeJS.ProcessEnv = { ...o.exiftoolEnv, LANG: "C" }
     if (notBlank(_p.env.EXIFTOOL_HOME) && blank(env.EXIFTOOL_HOME)) {
@@ -368,7 +373,7 @@ export class ExifTool {
    * continue to exist if you re-`read` the file.
    */
   deleteAllTags(file: string): Promise<void> {
-    return this.write(file, {}, ["-all="])
+    return this.write(file, {}, DeleteAllTagsArgs)
   }
 
   /**
@@ -513,9 +518,11 @@ export class ExifTool {
    *
    * @see BinaryExtractionTask for an example task implementation
    */
-  enqueueTask<T>(task: () => ExifToolTask<T>): Promise<T> {
+  enqueueTask<T>(
+    task: () => ExifToolTask<T> | Promise<ExifToolTask<T>>
+  ): Promise<T> {
     return retryOnReject(
-      () => this.batchCluster.enqueueTask(task()),
+      async () => this.batchCluster.enqueueTask(await task()),
       this.options.taskRetries
     )
   }

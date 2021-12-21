@@ -25,6 +25,20 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.7.0
+
+- 🌱 ExifTool upgraded to [v12.38](https://exiftool.org/history.html#v12.38).
+
+- ✨ Add specific support for [deleting values associated to existing tags](https://github.com/photostructure/exiftool-vendored.js/issues/104)
+
+- 🐞 No-op `.write()` calls to sidecars are now gracefully no-op'ed.
+
+- 📦 Added tests with and without retries (to validate stdout/stderr bugfixes in v8.0 of `batch-cluster`)
+
+- 📦 Replace `orElse` calls with `??`
+
+- 📦 Updated dependencies 
+
 ### v15.6.0
 
 - ✨ Added [serialization support](https://github.com/photostructure/exiftool-vendored.js/issues/102)

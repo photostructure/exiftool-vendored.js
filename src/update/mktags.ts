@@ -8,7 +8,7 @@ import path from "path"
 import process from "process"
 import { compact, filterInPlace, times, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
-import { map, Maybe, orElse } from "../Maybe"
+import { map, Maybe } from "../Maybe"
 import { isNumber } from "../Number"
 import { nullish } from "../ReadTask"
 import { blank, isString, leftPad } from "../String"
@@ -181,7 +181,6 @@ function sortBy<T>(
 
 const exiftool = new ExifTool({
   maxProcs: os.cpus().length,
-  taskRetries: 3,
   streamFlushMillis: 1,
   minDelayBetweenSpawnMillis: 10,
 })
@@ -204,7 +203,7 @@ setLogger(
           warn: console.warn,
           error: console.error,
         },
-        orElse(process.env.LOG as any, "info")
+        (process.env.LOG as any) ?? "info"
       )
     )
   )
@@ -280,7 +279,7 @@ class CountingMap<T> {
   private readonly m = new Map<T, number>()
   add(t: T) {
     this.size++
-    this.m.set(t, 1 + orElse(this.m.get(t), 0))
+    this.m.set(t, 1 + (this.m.get(t) ?? 0))
   }
   byCountDesc(): T[] {
     return Array.from(this.m.keys()).sort((a, b) =>
@@ -293,7 +292,7 @@ class CountingMap<T> {
    */
   byP(p: number): T[] {
     const min = p * this.size
-    return this.byCountDesc().filter((ea) => orElse(this.m.get(ea), 0) > min)
+    return this.byCountDesc().filter((ea) => (this.m.get(ea) ?? 0) > min)
   }
 }
 
