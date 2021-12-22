@@ -6,7 +6,7 @@ import { ExifTime } from "./ExifTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { firstDefinedThunk, map } from "./Maybe"
 import { toF } from "./Number"
-import { isString, toS } from "./String"
+import { blank, isString, toS } from "./String"
 import { Tags } from "./Tags"
 import {
   extractTzOffsetFromTags,
@@ -64,8 +64,6 @@ export class ReadTask extends ExifToolTask<Tags> {
       "-json",
       "-struct", // Return struct tags https://exiftool.org/struct.html
       ...optionalArgs,
-      "-coordFormat",
-      "%.8f", // Just a float, please, not the default of "22 deg 20' 7.58\" N"
     ]
     // IMPORTANT: "-all" must be after numeric tag references (first reference
     // in wins)
@@ -79,7 +77,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     return "ReadTask" + this.sourceFile + ")"
   }
 
-  protected parse(data: string, err?: Error): Tags {
+  parse(data: string, err?: Error): Tags {
     try {
       this._raw = JSON.parse(data)[0]
     } catch (jsonError) {
@@ -127,33 +125,38 @@ export class ReadTask extends ExifToolTask<Tags> {
     return this.tags as Tags
   }
 
+  private extractLatLon() {
+    this.lat ??= this.latlon("GPSLatitude", "S", 90)
+    this.lon ??= this.latlon("GPSLongitude", "W", 180)
+    if (this.invalidLatLon) {
+      this.lat = this.lon = undefined
+    }
+  }
+
   private latlon(
     tagName: "GPSLatitude" | "GPSLongitude",
     negateRef: "S" | "W",
     maxValid: 90 | 180
   ): number | undefined {
     const tagValue = this._tags[tagName]
-    const r = toF(tagValue)
-    if (r == null) return
-    if (Math.abs(r) > maxValid) {
-      this.errors.push(`Invalid ${tagName}, ${JSON.stringify(tagValue)}`)
+    const ref = this._tags[tagName + "Ref"]
+    const result = toF(tagValue)
+    if (result == null) {
+      return
+    } else if (Math.abs(result) > maxValid) {
+      this.errors.push(`Invalid ${tagName}: ${JSON.stringify(tagValue)}`)
       this.invalidLatLon = true
       return
-    }
-    const ref = toS(this._tags[tagName + "Ref"]).toUpperCase()
-    if (ref.startsWith(negateRef)) {
-      return Math.abs(r) * -1
+    } else if (blank(ref)) {
+      // Videos may not have a GPSLatitudeRef or GPSLongitudeRef: if this is the case, assume the given sign is correct.
+      return result
     } else {
-      return r
-    }
-  }
-
-  private extractLatLon(): void {
-    if (!this.invalidLatLon && this.lat == null) {
-      this.lat = this.latlon("GPSLatitude", "S", 90)
-    }
-    if (!this.invalidLatLon && this.lon == null) {
-      this.lon = this.latlon("GPSLongitude", "W", 180)
+      // Versions of ExifTool pre-12 returned properly-negated lat/lon. ExifTool
+      // 12+ always returns positive values (!!). Also: if '-GPS*#' is set,
+      // we'll see "S" instead of "South", hence the .startsWith() instead of
+      // ===:
+      const negative = toS(ref).toUpperCase().startsWith(negateRef)
+      return (negative ? -1 : 1) * Math.abs(result)
     }
   }
 
@@ -194,23 +197,29 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (tagName === "GPSLongitude") {
         return this.lon
       }
+
+      const tz =
+        tagName.includes("UTC") || tagName.startsWith("GPS") ? "UTC" : this.tz
+
+      if (typeof value === "string" && tagName.includes("DateTime")) {
+        const d =
+          ExifDateTime.fromExifStrict(value, tz) ??
+          ExifDateTime.fromISO(value, tz)
+        if (d != null) {
+          return d
+        }
+      }
       if (typeof value === "string" && tagName.includes("Date")) {
-        const dt = firstDefinedThunk<ExifDate | ExifDateTime>([
-          () => ExifDate.fromExifStrict(value),
-          () =>
-            ExifDateTime.fromExifStrict(
-              value,
-              tagName.includes("UTC") || tagName === "GPSDateTime"
-                ? "UTC"
-                : this.tz
-            ),
-          () => ExifDate.fromISO(value),
-          () => ExifDateTime.fromISO(value, this.tz),
-          () => ExifDate.fromExifLoose(value),
-          () => ExifDateTime.fromExifLoose(value, this.tz),
-        ])
-        if (dt != null) {
-          return dt
+        const d =
+          ExifDateTime.fromExifStrict(value, tz) ??
+          ExifDateTime.fromISO(value, tz) ??
+          ExifDateTime.fromExifLoose(value, tz) ??
+          ExifDate.fromExifStrict(value) ??
+          ExifDate.fromISO(value) ??
+          ExifDate.fromExifLoose(value)
+
+        if (d != null) {
+          return d
         }
       }
       if (typeof value === "string" && tagName.includes("Time")) {

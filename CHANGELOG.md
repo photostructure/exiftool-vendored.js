@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.8.0
+
+- 🐞 `GPSDateTime` in prior versions could be incorrectly parsed, resulting in an incorrectly inferred current-date and encoded-time.
+ 
+- 🐞 GPS latitude and longitude parsing could result in the incorrect hemisphere, depending on the version of ExifTool. 
+
+- 📦 The prior default of making all `GPS*` tags numeric has been reduced to only `GPSLatitude` and `GPSLongitude`, which means tags like `GPSImgDirectionRef` will now be something like "Magnetic North" instead of the more cryptic "M", and `GPSAltitudeRef` will now be "Below Sea Level" instead of "1".
+
 ### v15.7.0
 
 - 🌱 ExifTool upgraded to [v12.38](https://exiftool.org/history.html#v12.38).

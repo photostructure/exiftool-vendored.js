@@ -228,7 +228,14 @@ export const DefaultExifToolOptions: Omit<
   fail: "{ready}", // < not used
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
-  numericTags: ["*Duration*", "GPS*", "Orientation"],
+  numericTags: [
+    "*Duration*",
+    "GPSAltitude",
+    "GPSLatitude",
+    "GPSLongitude",
+    "GPSPosition",
+    "Orientation",
+  ],
 })
 
 /**

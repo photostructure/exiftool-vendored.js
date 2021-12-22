@@ -290,7 +290,7 @@ describe("ExifTool", function () {
 
       it("reads from a smartphone with GPS", async () => {
         const t = await et.read("./test/pixel.jpg")
-        expect(t).to.contain({
+        expect(t).to.containSubset({
           MIMEType: "image/jpeg",
           Make: "Google",
           Model: "Pixel",
@@ -304,6 +304,8 @@ describe("ExifTool", function () {
           ExifImageHeight: 3036,
           GPSLatitude: 37.4836666666667,
           GPSLongitude: -122.452094444444,
+          GPSLatitudeRef: "North",
+          GPSLongitudeRef: "West",
           GPSAltitude: 47,
           tz: "America/Los_Angeles",
         })
@@ -315,10 +317,10 @@ describe("ExifTool", function () {
       it("reads from a directory with dots", async () => {
         const dots = await testImg("img.jpg", "2019.05.28")
         const tags = await et.read(dots)
-        expect(tags).to.contain({
+        expect(tags).to.containSubset({
           MIMEType: "image/jpeg",
-          GPSLatitudeRef: "N",
-          GPSLongitudeRef: "E",
+          GPSLatitudeRef: "North",
+          GPSLongitudeRef: "East",
           Make: "Apple",
           Model: "iPhone 7 Plus",
           FNumber: 1.8,

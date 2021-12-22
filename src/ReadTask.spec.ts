@@ -1,17 +1,16 @@
 import * as fse from "fs-extra"
 import os from "os"
-import path from "path"
+import path, { join } from "path"
 import { ExifDateTime } from "./ExifDateTime"
 import { exiftool, ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
-import { expect, isWin32 } from "./_chai.spec"
+import { expect, isWin32, testDir } from "./_chai.spec"
 
 function parse(tags: any, err?: Error): Tags {
   const tt = ReadTask.for("/tmp/example.jpg", [])
   tags.SourceFile = "/tmp/example.jpg"
   const json = JSON.stringify([tags])
-  // We have to incant parse directly because it's private:
   return tt["parse"](json, err)
 }
 
@@ -52,10 +51,42 @@ describe("ReadTask", () => {
       expect(
         parse({
           GPSLongitude: 122.4406148,
-          GPSLongitudeRef: "W",
+          GPSLongitudeRef: "West",
           OffsetTime: "+02:00",
         }).GPSLongitude
       ).to.be.closeTo(-122.4406148, 0.00001)
+    })
+
+    it("extracts problematic GPSDateTime", async () => {
+      const t = await exiftool.read(join(testDir, "nexus5x.jpg"))
+      expect(t).to.containSubset({
+        MIMEType: "image/jpeg",
+        Make: "LGE",
+        Model: "Nexus 5X",
+        ImageWidth: 16,
+        ImageHeight: 16,
+        tz: "Europe/Zurich",
+        tzSource: "from Lat/Lon",
+      })
+
+      const gpsdt = t.GPSDateTime as any as ExifDateTime
+      expect(gpsdt.toString()).to.eql("2016-07-19T10:00:24.000Z")
+      expect(gpsdt.rawValue).to.eql("2016:07:19 10:00:24Z")
+      expect(gpsdt.zoneName).to.eql("UTC")
+    })
+
+    describe("without *Ref fields", () => {
+      for (const latSign of [1, -1]) {
+        for (const lonSign of [1, -1]) {
+          const input = {
+            GPSLatitude: latSign * 34.4,
+            GPSLongitude: lonSign * 119.8,
+          }
+          it(`extracts (${JSON.stringify(input)})`, () => {
+            expect(parse(input)).to.containSubset(input)
+          })
+        }
+      }
     })
   })
 
@@ -129,9 +160,9 @@ describe("ReadTask", () => {
     it("determines timezone offset from GPS (specifically, Landscape Arch!)", () => {
       const t = parse({
         GPSLatitude: 38.791121,
-        GPSLatitudeRef: "N",
+        GPSLatitudeRef: "North",
         GPSLongitude: 109.606407,
-        GPSLongitudeRef: "W",
+        GPSLongitudeRef: "West",
         DateTimeOriginal: "2016:08:12 13:28:50",
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-6 * 60)
@@ -192,19 +223,26 @@ describe("ReadTask", () => {
     })
 
     it("renders SubSecDateTimeOriginal for -8", () => {
-      const t = parse({
+      const input = {
         DateTimeOriginal: "2016:12:13 09:05:27",
-        GPSDateTime: "2016:12:13 17:05:25",
+        GPSDateTime: "2016:12:13 17:05:25Z",
         SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200",
-      })
-      expect((t.SubSecDateTimeOriginal as any).tzoffsetMinutes).to.eql(-8 * 60)
-      expect(t.SubSecDateTimeOriginal?.toString()).to.eql(
-        "2016-12-13T09:05:27.120-08:00"
-      )
-
-      expect(
-        (t.GPSDateTime as ExifDateTime).toISOString({ includeOffset: true })
-      ).to.eql("2016-12-13T17:05:25.000Z")
+      }
+      const t = parse(input)
+      {
+        const edt = t.SubSecDateTimeOriginal as ExifDateTime
+        expect(edt.rawValue).to.eql(input.SubSecDateTimeOriginal)
+        expect(edt.toISOString({ includeOffset: true })).to.eql(
+          "2016-12-13T09:05:27.120-08:00"
+        )
+      }
+      {
+        const edt = t.GPSDateTime as ExifDateTime
+        expect(edt.rawValue).to.eql(input.GPSDateTime)
+        expect(edt.toISOString({ includeOffset: true })).to.eql(
+          "2016-12-13T17:05:25.000Z"
+        )
+      }
       expect(t.tz).to.eql("UTC-08")
       expect(t.tzSource).to.eql(
         "offset between SubSecDateTimeOriginal and GPSDateTime"
