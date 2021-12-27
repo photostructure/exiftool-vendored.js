@@ -272,7 +272,7 @@ export class ExifTool {
     const spawnOpts: _cp.SpawnOptions = {
       stdio: "pipe",
       shell: ignoreShebang, // we need to spawn a shell if we ignore the shebang.
-      detached: false,
+      detached: false, // < no orphaned exiftool procs, please
       env,
     }
     const processFactory = () =>

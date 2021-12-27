@@ -324,9 +324,12 @@ If you run this in a docker image based off Alpine or Debian Slim, **this won't 
 
 **Always remember to call `.end()`.**
 
-ExifTool child processes consume system resources. Ensure you don't leave zombie
-processes around by calling `.end()`, which returns a `Promise<void>` if you
-want to wait for the shutdown to be complete.
+ExifTool child processes consume system resources, and [prevents `node` from
+exiting due to the way Node.js streams
+work](https://github.com/photostructure/exiftool-vendored.js/issues/106).
+
+You must explicitly call `ExifTool.end()` for `node` to exit gracefully. This
+cannot be in a `process.on("exit")` hook, as that will never get called.
 
 ### Mocha v4.0.0
 
