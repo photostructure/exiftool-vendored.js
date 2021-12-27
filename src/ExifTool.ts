@@ -26,7 +26,12 @@ export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"
 export { ExifToolTask } from "./ExifToolTask"
 export { parseJSON } from "./JSON"
-export { offsetMinutesToZoneName, UnsetZone, UnsetZoneName } from "./Timezones"
+export {
+  offsetMinutesToZoneName,
+  UnsetZone,
+  UnsetZoneName,
+  UnsetZoneOffsetMinutes,
+} from "./Timezones"
 export type { Tags }
 
 const isWin32 = lazy(() => _os.platform() === "win32")

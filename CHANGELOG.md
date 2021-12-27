@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.9.1
+
+- 📦 Exposed `UnsetZoneOffsetMinutes` from `Timezones`
+
 ### v15.9.0
 
 - 📦 Exposed `UnsetZone` and `UnsetZoneName` from `Timezones`
