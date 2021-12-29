@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.9.2
+
+- 📦 Rebuild tags and docs with updated test images. Note that some `GPS` tags types changed to `string`: see v15.8.0.
+
 ### v15.9.1
 
 - 📦 Exposed `UnsetZoneOffsetMinutes` from `Timezones`
