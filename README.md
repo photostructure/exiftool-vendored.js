@@ -328,8 +328,12 @@ ExifTool child processes consume system resources, and [prevents `node` from
 exiting due to the way Node.js streams
 work](https://github.com/photostructure/exiftool-vendored.js/issues/106).
 
-You must explicitly call `ExifTool.end()` for `node` to exit gracefully. This
-cannot be in a `process.on("exit")` hook, as that will never get called.
+You must explicitly call `.end()` on any used instance of `ExifTool` for `node`
+to exit gracefully. 
+
+This call cannot be in a `process.on("exit")` hook, as the `stdio` streams
+attached to the child process cannot be `unref`'ed. (If there's a solution to
+this, please post to the above issue!)
 
 ### Mocha v4.0.0
 
