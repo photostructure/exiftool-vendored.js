@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.10.0
+
+- 🌱 ExifTool upgraded to [v12.39](https://exiftool.org/history.html#v12.39).
+
+- 🐞/📦 Include `@types/luxon` in `dependencies` (thanks, [davidmz](https://github.com/photostructure/exiftool-vendored.js/pull/108)!)
+
 ### v15.9.2
 
 - 📦 Rebuild tags and docs with updated test images. Note that some `GPS` tags types changed to `string`: see v15.8.0.
