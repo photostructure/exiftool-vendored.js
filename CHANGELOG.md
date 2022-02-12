@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.11.0
+
+- 🌱 ExifTool upgraded to [v12.40](https://exiftool.org/history.html#v12.40).
+
+- 📦 Updated dependencies (batch-cluster [v10.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1000))
+
+- 📦 Rebuild `Tags.ts` and docs
+
 ### v15.10.1
 
 - 📦 Updated dependencies (batch-cluster v8.1.0)
