@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.12.0
+
+- 📦 We now verify external `exiftool`s are healthy with a `-ver` ping every 30 seconds.
+
+- 📦 Updated dependencies (batch-cluster [v10.2.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1020)) that includes this [performance improvement/bugfix](https://github.com/photostructure/batch-cluster.js/issues/15)
+
 ### v15.11.0
 
 - 🌱 ExifTool upgraded to [v12.40](https://exiftool.org/history.html#v12.40).
