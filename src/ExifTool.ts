@@ -12,11 +12,13 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { lazy } from "./Lazy"
+import { Maybe } from "./Maybe"
 import { PreviewTag } from "./PreviewTag"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { blank, notBlank } from "./String"
+import { Struct } from "./Struct"
 import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
@@ -32,7 +34,7 @@ export {
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
 } from "./Timezones"
-export type { Tags }
+export type { AdditionalWriteTags, ExpandedDateTags, Maybe, Omit, Struct, Tags }
 
 const isWin32 = lazy(() => _os.platform() === "win32")
 
