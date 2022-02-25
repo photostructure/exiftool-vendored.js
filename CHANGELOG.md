@@ -27,7 +27,14 @@ vendored versions of ExifTool match the version they vendor.
 
 ### v15.12.1
 
-- 📦 Updated dependencies (batch-cluster [v10.3.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1030)), including more pessimistic defaults for `streamFlushMillis` and new `noTaskData` event.
+- 📦 Updated dependencies (batch-cluster
+  [v10.3.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1030)),
+  including more pessimistic defaults for `streamFlushMillis` and new
+  `noTaskData` event.
+
+- 📦 Exported type signatures, `AdditionalWriteTags`, `ExpandedDateTags`,
+  `Maybe`, `Omit`, and `Struct` to improve `typedoc`-generated documentation.
+  Rebuilt docs.
 
 ### v15.12.0
 
