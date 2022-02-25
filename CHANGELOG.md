@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v15.12.1
+
+- 📦 Updated dependencies (batch-cluster [v10.3.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1030)), including more pessimistic defaults for `streamFlushMillis` and new `noTaskData` event.
+
 ### v15.12.0
 
 - 📦 We now verify external `exiftool`s are healthy with a `-ver` ping every 30 seconds.
