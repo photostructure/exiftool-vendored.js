@@ -221,10 +221,10 @@ export const DefaultExifToolOptions: Omit<
   ...new bc.BatchClusterOptions(),
   maxProcs: DefaultMaxProcs,
   maxTasksPerProcess: 500,
-  spawnTimeoutMillis: 30000,
+  spawnTimeoutMillis: 30_000,
   // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
-  taskTimeoutMillis: 20000,
-  onIdleIntervalMillis: 2000,
+  taskTimeoutMillis: 20_000,
+  onIdleIntervalMillis: 2_000,
   taskRetries: 1,
   exiftoolPath: DefaultExifToolPath,
   exiftoolArgs: DefaultExiftoolArgs,
@@ -233,6 +233,8 @@ export const DefaultExifToolOptions: Omit<
   fail: "{ready}", // < not used
   exitCommand: "-stay_open\nFalse\n",
   versionCommand: new VersionTask().command,
+  healthCheckIntervalMillis: 30_000,
+  healthCheckCommand: "-ver\n-execute\n",
   numericTags: [
     "*Duration*",
     "GPSAltitude",
