@@ -5,13 +5,30 @@ import { ExifDateTime } from "./ExifDateTime"
 import { exiftool, ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
-import { expect, isWin32, testDir } from "./_chai.spec"
+import {
+  expect,
+  isWin32,
+  renderTagsWithISO,
+  renderTagsWithRawValues,
+  testDir,
+} from "./_chai.spec"
 
-function parse(tags: any, err?: Error): Tags {
-  const tt = ReadTask.for("/tmp/example.jpg", [])
-  tags.SourceFile = "/tmp/example.jpg"
-  const json = JSON.stringify([tags])
-  return tt["parse"](json, err)
+function parse({
+  tags,
+  error,
+  SourceFile = "/tmp/example.jpg",
+  numericTags = [],
+  optionalArgs = [],
+}: {
+  tags: any
+  error?: Error
+  SourceFile?: string
+  numericTags?: never[]
+  optionalArgs?: never[]
+}): Tags {
+  const tt = ReadTask.for(SourceFile, numericTags, optionalArgs)
+  const json = JSON.stringify([{ ...tags, SourceFile }])
+  return tt.parse(json, error)
 }
 
 after(() => exiftool.end())
@@ -29,30 +46,36 @@ describe("ReadTask", () => {
    */
     it("N lat is positive", () => {
       expect(
-        parse({ GPSLatitude: 22.33543889, GPSLatitudeRef: "N" }).GPSLatitude
+        parse({ tags: { GPSLatitude: 22.33543889, GPSLatitudeRef: "N" } })
+          .GPSLatitude
       ).to.be.closeTo(22.33543889, 0.00001)
     })
     it("S lat is negative", () => {
       expect(
-        parse({ GPSLatitude: 33.84842123, GPSLatitudeRef: "S" }).GPSLatitude
+        parse({ tags: { GPSLatitude: 33.84842123, GPSLatitudeRef: "S" } })
+          .GPSLatitude
       ).to.be.closeTo(-33.84842123, 0.00001)
     })
     it("E lon is positive", () => {
       expect(
-        parse({ GPSLongitude: 114.16401667, GPSLongitudeRef: "E" }).GPSLongitude
+        parse({ tags: { GPSLongitude: 114.16401667, GPSLongitudeRef: "E" } })
+          .GPSLongitude
       ).to.be.closeTo(114.16401667, 0.00001)
     })
     it("W lon is negative", () => {
       expect(
-        parse({ GPSLongitude: 122.4406148, GPSLongitudeRef: "W" }).GPSLongitude
+        parse({ tags: { GPSLongitude: 122.4406148, GPSLongitudeRef: "W" } })
+          .GPSLongitude
       ).to.be.closeTo(-122.4406148, 0.00001)
     })
     it("parses lat lon even if timezone is given", () => {
       expect(
         parse({
-          GPSLongitude: 122.4406148,
-          GPSLongitudeRef: "West",
-          OffsetTime: "+02:00",
+          tags: {
+            GPSLongitude: 122.4406148,
+            GPSLongitudeRef: "West",
+            OffsetTime: "+02:00",
+          },
         }).GPSLongitude
       ).to.be.closeTo(-122.4406148, 0.00001)
     })
@@ -83,7 +106,7 @@ describe("ReadTask", () => {
             GPSLongitude: lonSign * 119.8,
           }
           it(`extracts (${JSON.stringify(input)})`, () => {
-            expect(parse(input)).to.containSubset(input)
+            expect(parse({ tags: input })).to.containSubset(input)
           })
         }
       }
@@ -93,77 +116,107 @@ describe("ReadTask", () => {
   describe("Time zone extraction", () => {
     it("finds singular positive TimeZoneOffset and sets accordingly", () => {
       const t = parse({
-        TimeZoneOffset: 9,
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          TimeZoneOffset: 9,
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
     })
 
     it("finds positive array TimeZoneOffset and sets accordingly", () => {
       const t = parse({
-        TimeZoneOffset: [9, 8],
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          TimeZoneOffset: [9, 8],
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
     })
 
     it("finds zulu TimeZoneOffset and sets accordingly", () => {
       const t = parse({
-        TimeZoneOffset: 0,
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          TimeZoneOffset: 0,
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(0)
     })
 
     it("finds negative TimeZoneOffset in array and sets accordingly", () => {
       const t = parse({
-        TimeZoneOffset: [-4],
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          TimeZoneOffset: [-4],
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-4 * 60)
     })
 
     it("respects positive HH:MM OffsetTime", () => {
       const t = parse({
-        OffsetTime: "+02:30",
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          OffsetTime: "+02:30",
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(2 * 60 + 30)
     })
 
     it("respects positive HH OffsetTime", () => {
       const t = parse({
-        OffsetTime: "+07",
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          OffsetTime: "+07",
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(7 * 60)
     })
 
     it("respects negative HH:MM OffsetTime", () => {
       const t = parse({
-        OffsetTime: "-06:30",
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          OffsetTime: "-06:30",
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-(6 * 60 + 30))
     })
 
-    it("respects negative HH OffsetTime", () => {
+    it("respects negative H OffsetTime", () => {
       const t = parse({
-        OffsetTime: "-9",
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          OffsetTime: "-9",
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60)
-      expect(t.tz).to.eql("UTC-09")
+      expect(t.tz).to.eql("UTC-9")
+      expect(t.tzSource).to.eql("offsetMinutesToZoneName from OffsetTime")
+    })
+
+    it("respects negative HH OffsetTime", () => {
+      const t = parse({
+        tags: {
+          OffsetTime: "-09",
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
+      })
+      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60)
+      expect(t.tz).to.eql("UTC-9")
       expect(t.tzSource).to.eql("offsetMinutesToZoneName from OffsetTime")
     })
 
     it("determines timezone offset from GPS (specifically, Landscape Arch!)", () => {
       const t = parse({
-        GPSLatitude: 38.791121,
-        GPSLatitudeRef: "North",
-        GPSLongitude: 109.606407,
-        GPSLongitudeRef: "West",
-        DateTimeOriginal: "2016:08:12 13:28:50",
+        tags: {
+          GPSLatitude: 38.791121,
+          GPSLatitudeRef: "North",
+          GPSLongitude: 109.606407,
+          GPSLongitudeRef: "West",
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-6 * 60)
       expect(t.tz).to.eql("America/Denver")
@@ -172,9 +225,11 @@ describe("ReadTask", () => {
 
     it("uses GPSDateTime and DateTimeOriginal and sets accordingly for -7", () => {
       const t = parse({
-        DateTimeOriginal: "2016:10:19 11:15:14",
-        GPSDateTime: "2016:10:19 18:15:12",
-        DateTimeCreated: "2016:10:19 11:15:14",
+        tags: {
+          DateTimeOriginal: "2016:10:19 11:15:14",
+          GPSDateTime: "2016:10:19 18:15:12",
+          DateTimeCreated: "2016:10:19 11:15:14",
+        },
       })
       expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(
         -7 * 60
@@ -182,7 +237,7 @@ describe("ReadTask", () => {
       expect((t.DateTimeCreated as ExifDateTime).tzoffsetMinutes).to.eql(
         -7 * 60
       )
-      expect(t.tz).to.eql("UTC-07")
+      expect(t.tz).to.eql("UTC-7")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and GPSDateTime"
       )
@@ -190,15 +245,17 @@ describe("ReadTask", () => {
 
     it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +8", () => {
       const t = parse({
-        DateTimeOriginal: "2016:10:19 11:15:14",
-        DateTimeUTC: "2016:10:19 03:15:12",
-        DateTimeCreated: "2016:10:19 11:15:14",
+        tags: {
+          DateTimeOriginal: "2016:10:19 11:15:14",
+          DateTimeUTC: "2016:10:19 03:15:12",
+          DateTimeCreated: "2016:10:19 11:15:14",
+        },
       })
       expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(
         8 * 60
       )
       expect((t.DateTimeCreated as ExifDateTime).tzoffsetMinutes).to.eql(8 * 60)
-      expect(t.tz).to.eql("UTC+08")
+      expect(t.tz).to.eql("UTC+8")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and DateTimeUTC"
       )
@@ -206,9 +263,11 @@ describe("ReadTask", () => {
 
     it("uses DateTimeUTC and DateTimeOriginal and sets accordingly for +5:30", () => {
       const t = parse({
-        DateTimeOriginal: "2018:10:19 11:15:14",
-        DateTimeUTC: "2018:10:19 05:45:12",
-        DateTimeCreated: "2018:10:19 11:15:14",
+        tags: {
+          DateTimeOriginal: "2018:10:19 11:15:14",
+          DateTimeUTC: "2018:10:19 05:45:12",
+          DateTimeCreated: "2018:10:19 11:15:14",
+        },
       })
       expect((t.DateTimeOriginal as ExifDateTime).tzoffsetMinutes).to.eql(
         5.5 * 60
@@ -216,10 +275,24 @@ describe("ReadTask", () => {
       expect((t.DateTimeCreated as ExifDateTime).tzoffsetMinutes).to.eql(
         5.5 * 60
       )
-      expect(t.tz).to.eql("UTC+05:30")
+      expect(t.tz).to.eql("UTC+5:30")
       expect(t.tzSource).to.eql(
         "offset between DateTimeOriginal and DateTimeUTC"
       )
+    })
+
+    it("renders SubSecDateTimeOriginal with no zone if no tz is inferrable", () => {
+      const input = {
+        DateTimeOriginal: "2016:12:13 09:05:27",
+        SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200",
+      }
+      const t = parse({ tags: input })
+      expect(renderTagsWithRawValues(t)).to.eql(input)
+      expect(renderTagsWithISO(t)).to.eql({
+        DateTimeOriginal: "2016-12-13T09:05:27.000",
+        SubSecDateTimeOriginal: "2016-12-13T09:05:27.120",
+        errors: [],
+      })
     })
 
     it("renders SubSecDateTimeOriginal for -8", () => {
@@ -228,42 +301,188 @@ describe("ReadTask", () => {
         GPSDateTime: "2016:12:13 17:05:25Z",
         SubSecDateTimeOriginal: "2016:12:13 09:05:27.12038200",
       }
-      const t = parse(input)
-      {
-        const edt = t.SubSecDateTimeOriginal as ExifDateTime
-        expect(edt.rawValue).to.eql(input.SubSecDateTimeOriginal)
-        expect(edt.toISOString({ includeOffset: true })).to.eql(
-          "2016-12-13T09:05:27.120-08:00"
-        )
-      }
-      {
-        const edt = t.GPSDateTime as ExifDateTime
-        expect(edt.rawValue).to.eql(input.GPSDateTime)
-        expect(edt.toISOString({ includeOffset: true })).to.eql(
-          "2016-12-13T17:05:25.000Z"
-        )
-      }
-      expect(t.tz).to.eql("UTC-08")
-      expect(t.tzSource).to.eql(
-        "offset between SubSecDateTimeOriginal and GPSDateTime"
-      )
+      const t = parse({ tags: input })
+      expect(renderTagsWithRawValues(t)).to.eql(input)
+      expect(renderTagsWithISO(t)).to.eql({
+        DateTimeOriginal: "2016-12-13T09:05:27.000-08:00",
+        GPSDateTime: "2016-12-13T17:05:25.000Z",
+        SubSecDateTimeOriginal: "2016-12-13T09:05:27.120-08:00",
+        errors: [],
+        tz: "UTC-8",
+        tzSource: "offset between SubSecDateTimeOriginal and GPSDateTime",
+      })
     })
 
     it("skips invalid timestamps", () => {
       const t = parse({
-        DateTimeOriginal: "2016:08:12 13:28:50",
-        GPSDateTime: "not a timestamp",
+        tags: {
+          DateTimeOriginal: "2016:08:12 13:28:50",
+          GPSDateTime: "not a timestamp",
+        },
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(undefined)
       expect(t.tz).to.eql(undefined)
       expect(t.tzSource).to.eql(undefined)
     })
+
+    describe("timezone normalization", () => {
+      it("normalizes to GMT timezone", () => {
+        const t = parse({
+          tags: {
+            TimeZone: "+00:00",
+            CreateDate: "2020:08:03 08:00:19-07:00",
+            SubSecCreateDate: "2020:08:03 15:00:19.01+00:00",
+            DateTimeOriginal: "2020:08:03 15:00:19",
+            TimeStamp: "2020:08:03 15:00:19.01",
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          // ALL DATES ARE IN ZULU!
+          CreateDate: "2020-08-03T15:00:19.000Z",
+          SubSecCreateDate: "2020-08-03T15:00:19.010Z",
+          DateTimeOriginal: "2020-08-03T15:00:19.000Z",
+          TimeStamp: "2020-08-03T15:00:19.010Z",
+
+          tz: "UTC",
+          tzSource: "offsetMinutesToZoneName from TimeZone",
+          TimeZone: "+00:00",
+
+          errors: [],
+        })
+      })
+      it("normalizes to CET timezone", () => {
+        const t = parse({
+          tags: {
+            TimeZone: "+01:00",
+            TimeZoneCity: "Rome",
+            CreateDate: "2020:08:03 08:00:19-07:00", // < different (local system) zone!
+            SubSecCreateDate: "2020:08:03 16:00:19.01+01:00",
+            DateTimeOriginal: "2020:08:03 16:00:19", // < missing zone!
+            TimeStamp: "2020:08:03 16:00:19.01", // < missing zone!
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          // NEAT THEY ARE ALL +01:00 NOW YAY
+          CreateDate: "2020-08-03T16:00:19.000+01:00",
+          DateTimeOriginal: "2020-08-03T16:00:19.000+01:00",
+          SubSecCreateDate: "2020-08-03T16:00:19.010+01:00",
+          TimeStamp: "2020-08-03T16:00:19.010+01:00",
+
+          TimeZone: "+01:00",
+          TimeZoneCity: "Rome",
+          tz: "UTC+1",
+          tzSource: "offsetMinutesToZoneName from TimeZone",
+          errors: [],
+        })
+      })
+      it("doesn't normalize if timezone is missing", () => {
+        const t = parse({
+          tags: {
+            CreateDate: "2020:08:03 08:00:19-07:00",
+            DateTimeOriginal: "2020:08:03 15:00:19", // < no zone!
+            SubSecCreateDate: "2020:08:03 15:00:19.01+00:00",
+            TimeStamp: "2020:08:03 15:00:19.01", // < no zone!
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          // No timezone found, so no normalization:
+          CreateDate: "2020-08-03T08:00:19.000-07:00",
+          DateTimeOriginal: "2020-08-03T15:00:19.000", // < no zone!
+          SubSecCreateDate: "2020-08-03T15:00:19.010Z",
+          TimeStamp: "2020-08-03T15:00:19.010", // < no zone!
+          errors: [],
+        })
+        expect(t.tz).to.eql(undefined)
+        expect(t.tzSource).to.eql(undefined)
+      })
+
+      it("normalizes when in EST", () => {
+        const t = parse({
+          tags: {
+            CreateDate: "2020:12:29 14:24:45",
+            DateTimeOriginal: "2020:12:29 14:24:45",
+            GPSAltitude: 259.016,
+            GPSDateStamp: "2020:12:29",
+            GPSLatitude: 34.15,
+            GPSLongitude: -84.73,
+            ModifyDate: "2020:12:29 14:24:45",
+            OffsetTime: "-05:00",
+            OffsetTimeDigitized: "-05:00",
+            OffsetTimeOriginal: "-05:00",
+            SubSecCreateDate: "2020:12:29 14:24:45.700-05:00",
+            SubSecDateTimeOriginal: "2020:12:29 14:24:45.700-05:00",
+            SubSecModifyDate: "2020:12:29 14:24:45-05:00",
+            SubSecTimeDigitized: 700,
+            SubSecTimeOriginal: 700,
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          // Everything normalized to PST:
+          CreateDate: "2020-12-29T14:24:45.000-05:00",
+          DateTimeOriginal: "2020-12-29T14:24:45.000-05:00",
+          SubSecCreateDate: "2020-12-29T14:24:45.700-05:00",
+          SubSecDateTimeOriginal: "2020-12-29T14:24:45.700-05:00",
+          SubSecModifyDate: "2020-12-29T14:24:45.000-05:00",
+          ModifyDate: "2020-12-29T14:24:45.000-05:00",
+
+          GPSAltitude: 259.016,
+          GPSDateStamp: "2020-12-29",
+          GPSLatitude: 34.15,
+          GPSLongitude: -84.73,
+          OffsetTime: "-05:00",
+          OffsetTimeDigitized: "-05:00",
+          OffsetTimeOriginal: "-05:00",
+          SubSecTimeDigitized: 700,
+          SubSecTimeOriginal: 700,
+          errors: [],
+          tz: "America/New_York",
+          tzSource: "from Lat/Lon",
+        })
+      })
+
+      it("normalizes when in EST with only OffsetTime", () => {
+        const t = parse({
+          tags: {
+            CreateDate: "2020:12:29 14:24:45", // < no zone
+            DateTimeOriginal: "2020:12:29 14:24:45", // < no zone
+            ModifyDate: "2020:12:29 14:24:45", // < no zone
+            OffsetTime: "-05:00",
+            OffsetTimeDigitized: "-05:00",
+            OffsetTimeOriginal: "-05:00",
+            SubSecCreateDate: "2020:12:29 14:24:45.700-05:00",
+            SubSecDateTimeOriginal: "2020:12:29 14:24:45.700-05:00",
+            SubSecModifyDate: "2020:12:29 14:24:45-05:00",
+            SubSecTimeDigitized: 700,
+            SubSecTimeOriginal: 700,
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          // Everything normalized to PST:
+          CreateDate: "2020-12-29T14:24:45.000-05:00",
+          DateTimeOriginal: "2020-12-29T14:24:45.000-05:00",
+          ModifyDate: "2020-12-29T14:24:45.000-05:00",
+          SubSecCreateDate: "2020-12-29T14:24:45.700-05:00",
+          SubSecDateTimeOriginal: "2020-12-29T14:24:45.700-05:00",
+          SubSecModifyDate: "2020-12-29T14:24:45.000-05:00",
+
+          OffsetTime: "-05:00",
+          OffsetTimeDigitized: "-05:00",
+          OffsetTimeOriginal: "-05:00",
+          SubSecTimeDigitized: 700,
+          SubSecTimeOriginal: 700,
+          errors: [],
+          tz: "UTC-5",
+          tzSource: "offsetMinutesToZoneName from OffsetTime",
+        })
+      })
+    })
   })
 
   describe("SubSecDateTimeOriginal", () => {
     it("extracts datetimestamp with millis", () => {
-      const t = parse({ SubSecDateTimeOriginal: "2016:10:19 11:15:14.437831" })
-        .SubSecDateTimeOriginal as ExifDateTime
+      const t = parse({
+        tags: { SubSecDateTimeOriginal: "2016:10:19 11:15:14.437831" },
+      }).SubSecDateTimeOriginal as ExifDateTime
       expect(t.year).to.eql(2016)
       expect(t.month).to.eql(10)
       expect(t.day).to.eql(19)

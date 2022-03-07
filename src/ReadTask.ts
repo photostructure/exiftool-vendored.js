@@ -4,7 +4,7 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolTask } from "./ExifToolTask"
-import { firstDefinedThunk, map } from "./Maybe"
+import { firstDefinedThunk, map, Maybe } from "./Maybe"
 import { toF } from "./Number"
 import { blank, isString, toS } from "./String"
 import { Tags } from "./Tags"
@@ -116,11 +116,12 @@ export class ReadTask extends ExifToolTask<Tags> {
   private parseTags(): Tags {
     this.extractLatLon()
     this.extractTzOffset()
-    Object.keys(this._raw).forEach(
-      (key) => ((this.tags as any)[key] = this.parseTag(key, this._raw[key]))
-    )
     map(this.tz, (ea) => (this.tags.tz = ea))
     map(this.tzSource, (ea) => (this.tags.tzSource = ea))
+    const t: any = this.tags // tsc hack :(
+    for (const key of Object.keys(this._raw)) {
+      t[key] = this.parseTag(key, this._raw[key])
+    }
     if (this.errors.length > 0) this.tags.errors = this.errors
     return this.tags as Tags
   }
@@ -161,9 +162,10 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   private extractTzOffset() {
+    // tzlookup will be the "best" tz, as it will be a proper Zone name (like
+    // "America/New_York"), rather than just an hour offset.
     map(
       firstDefinedThunk([
-        () => extractTzOffsetFromTags(this._tags),
         () => {
           if (!this.invalidLatLon && this.lat != null && this.lon != null) {
             try {
@@ -177,10 +179,27 @@ export class ReadTask extends ExifToolTask<Tags> {
           }
           return
         },
+        () => extractTzOffsetFromTags(this._tags),
         () => extractTzOffsetFromUTCOffset(this._tags),
       ]),
       (ea) => ({ tz: this.tz, src: this.tzSource } = ea)
     )
+  }
+
+  private normalizeDateTime(
+    tagName: string,
+    value: Maybe<ExifDateTime | ExifDate>
+  ) {
+    if (
+      tagName.startsWith("File") ||
+      !(value instanceof ExifDateTime) ||
+      tagIsInUTC(tagName) ||
+      this.tz == null
+    ) {
+      return value
+    }
+    // ExifTool may have put this in the current system time, instead of the timezone of the file.
+    return value.zone !== this.tz ? value.setZone(this.tz) : value
   }
 
   private parseTag(tagNameWithGroup: string, value: any): any {
@@ -198,33 +217,37 @@ export class ReadTask extends ExifToolTask<Tags> {
         return this.lon
       }
 
-      const tz =
-        tagName.includes("UTC") || tagName.startsWith("GPS") ? "UTC" : this.tz
+      if (typeof value === "string") {
+        const tz = tagIsInUTC(tagName) ? "UTC" : undefined
 
-      if (typeof value === "string" && tagName.includes("DateTime")) {
-        const d =
-          ExifDateTime.fromExifStrict(value, tz) ??
-          ExifDateTime.fromISO(value, tz)
-        if (d != null) {
-          return d
+        if (
+          tagName.includes("DateTime") ||
+          tagName.toLowerCase().includes("timestamp")
+        ) {
+          const d =
+            ExifDateTime.fromExifStrict(value, tz) ??
+            ExifDateTime.fromISO(value, tz)
+          if (d != null) {
+            return this.normalizeDateTime(tagName, d)
+          }
         }
-      }
-      if (typeof value === "string" && tagName.includes("Date")) {
-        const d =
-          ExifDateTime.fromExifStrict(value, tz) ??
-          ExifDateTime.fromISO(value, tz) ??
-          ExifDateTime.fromExifLoose(value, tz) ??
-          ExifDate.fromExifStrict(value) ??
-          ExifDate.fromISO(value) ??
-          ExifDate.fromExifLoose(value)
+        if (tagName.includes("Date")) {
+          const d =
+            ExifDateTime.fromExifStrict(value, tz) ??
+            ExifDateTime.fromISO(value, tz) ??
+            ExifDateTime.fromExifLoose(value, tz) ??
+            ExifDate.fromExifStrict(value) ??
+            ExifDate.fromISO(value) ??
+            ExifDate.fromExifLoose(value)
 
-        if (d != null) {
-          return d
+          if (d != null) {
+            return this.normalizeDateTime(tagName, d)
+          }
         }
-      }
-      if (typeof value === "string" && tagName.includes("Time")) {
-        const t = ExifTime.fromEXIF(value)
-        if (t != null) return t
+        if (tagName.includes("Time")) {
+          const t = ExifTime.fromEXIF(value)
+          if (t != null) return t
+        }
       }
       // Trust that ExifTool rendered the value with the correct type in JSON:
       return value
@@ -235,4 +258,8 @@ export class ReadTask extends ExifToolTask<Tags> {
       return value
     }
   }
+}
+
+function tagIsInUTC(tagName: string): boolean {
+  return tagName.includes("UTC") || tagName.startsWith("GPS")
 }
