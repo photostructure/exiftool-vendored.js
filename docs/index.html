@@ -129,20 +129,6 @@ field doesn&#39;t exist in the returned object</strong>. This library doesn&#39;
 unknown fields, in other words. It&#39;s up to you and your code to look for other
 fields you expect and cast to a more relevant interface.</p>
 
-<a href="#errors-and-warnings" id="errors-and-warnings" style="color: inherit; text-decoration: none;">
-  <h3>Errors and Warnings</h3>
-</a>
-<p>ExifTool has a pretty exhaustive set of error checking, and many &quot;errors&quot; are
-actually non-fatal warnings about invalid tag structures that seem to be
-regularly found in otherwise-not-corrupt images.</p>
-<p>If we rejected every <code>read</code> or <code>write</code> when any error happened, this would
-prevent reading and/or writing to otherwise-ok files. To &quot;demote&quot; errors to be
-warnings that don&#39;t reject the underlying task, you can provide either a
-<a href="interfaces/exiftooloptions.html#minorerrorsregexp"><code>minorErrorsRegExp</code></a>, or an
-implementation of
-<a href="interfaces/exiftooloptions.html#rejecttaskonstderr"><code>rejectTaskOnStderr</code></a>.
-Either of these parameters is provided to the <code>ExifTool</code> constructor.</p>
-
 <a href="#logging-and-events" id="logging-and-events" style="color: inherit; text-decoration: none;">
   <h3>Logging and events</h3>
 </a>
