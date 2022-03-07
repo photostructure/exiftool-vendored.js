@@ -155,20 +155,6 @@ field doesn't exist in the returned object**. This library doesn't exclude
 unknown fields, in other words. It's up to you and your code to look for other
 fields you expect and cast to a more relevant interface.
 
-### Errors and Warnings
-
-ExifTool has a pretty exhaustive set of error checking, and many "errors" are
-actually non-fatal warnings about invalid tag structures that seem to be
-regularly found in otherwise-not-corrupt images.
-
-If we rejected every `read` or `write` when any error happened, this would
-prevent reading and/or writing to otherwise-ok files. To "demote" errors to be
-warnings that don't reject the underlying task, you can provide either a
-[`minorErrorsRegExp`](interfaces/exiftooloptions.html#minorerrorsregexp), or an
-implementation of
-[`rejectTaskOnStderr`](interfaces/exiftooloptions.html#rejecttaskonstderr).
-Either of these parameters is provided to the `ExifTool` constructor.
-
 ### Logging and events
 
 To enable trace, debug, info, warning, or error logging from this library and
