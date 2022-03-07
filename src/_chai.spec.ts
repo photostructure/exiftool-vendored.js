@@ -4,6 +4,8 @@ import { copyFile, createReadStream, mkdirp } from "fs-extra"
 import os from "os"
 import path from "path"
 import process from "process"
+import { fromEntries } from "./Object"
+import { Tags } from "./Tags"
 
 const chai = require("chai")
 chai.use(require("chai-as-promised"))
@@ -36,6 +38,18 @@ export function tmpname(prefix = ""): string {
     os.tmpdir(),
     prefix + Math.floor(Math.random() * 1e9).toString(16)
   )
+}
+
+export function renderTagsWithISO(t: Tags) {
+  return fromEntries(
+    Object.entries(t).map(([k, v]) =>
+      k === "SourceFile" ? undefined : [k, v["toISOString"]?.() ?? v]
+    )
+  )
+}
+
+export function renderTagsWithRawValues(t: Tags) {
+  return fromEntries(Object.entries(t).map(([k, v]) => [k, v["rawValue"]]))
 }
 
 /**
