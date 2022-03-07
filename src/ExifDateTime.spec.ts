@@ -7,7 +7,7 @@ describe("ExifDateTime", () => {
     const raw = "2016:08:12 07:28:50.768120"
     const iso = "2016-08-12T07:28:50.768"
     const dt = ExifDateTime.fromEXIF(raw)!
-    const dtIso = ExifDateTime.fromEXIF(iso)!
+    const dtIso = ExifDateTime.fromISO(iso)!
     it("doesn't set the zone from EXIF", () => {
       expect(dt.hasZone).to.eql(false)
       expect(dt.zone).to.eql(undefined)
@@ -52,7 +52,7 @@ describe("ExifDateTime", () => {
     })
     it("Round-trips from ISO", () => {
       const zone = undefined
-      const actual = ExifDateTime.fromISO(iso, zone, dt.rawValue)!
+      const actual = ExifDateTime.fromISO(iso, zone)!
       expect(actual.toISOString()).to.eql(dt.toISOString())
     })
   })
@@ -238,6 +238,7 @@ describe("ExifDateTime", () => {
       "0000",
       "1958",
       "2010_08",
+      "01:08:22",
       "0000:00:00 00:00:00",
       "0000:00:00",
       "0001:01:01 00:00:00.00", // < actual value from a Fotofly image (SHAME!)
@@ -245,11 +246,11 @@ describe("ExifDateTime", () => {
       "    :  :     :  :  ",
     ]
     examples.forEach((bad) => {
-      it(bad + " for DateTimeOriginal", () => {
+      it(`.fromEXIF(${bad}) => undefined`, () => {
         expect(ExifDateTime.fromEXIF(bad)).to.eql(undefined)
       })
-      it(bad + " for SubSecCreateDate", () => {
-        expect(ExifDateTime.fromEXIF("SubSecCreateDate")).to.eql(undefined)
+      it(`.fromISO(${bad}) => undefined`, () => {
+        expect(ExifDateTime.fromISO(bad)).to.eql(undefined)
       })
     })
   })

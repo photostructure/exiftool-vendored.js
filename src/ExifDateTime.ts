@@ -1,4 +1,4 @@
-import { DateTime, ToISOTimeOptions, Zone } from "luxon"
+import { DateTime, ToISOTimeOptions, Zone, ZoneOptions } from "luxon"
 import { dateTimeToExif } from "./DateTime"
 import { denull, first, firstDefinedThunk, map, Maybe } from "./Maybe"
 import { blank, notBlank, toS } from "./String"
@@ -12,19 +12,25 @@ import {
  * Encodes an ExifDateTime with an optional tz offset in minutes.
  */
 export class ExifDateTime {
-  static fromISO(
-    iso: string,
-    zone?: Maybe<string>,
-    rawValue?: string
-  ): Maybe<ExifDateTime> {
+  #dt?: DateTime
+
+  static fromISO(iso: string, zone?: Maybe<string>): Maybe<ExifDateTime> {
     if (blank(iso) || null != iso.match(/^\d+$/)) return undefined
-    return this.fromDateTime(
-      DateTime.fromISO(iso, {
-        setZone: true,
-        zone: zone ?? UnsetZone,
-      }),
-      rawValue ?? iso
-    )
+    // Unfortunately, DateTime.fromISO() is happy to parse a date with no time,
+    // so we have to do this ourselves:
+    return this.fromPatterns(iso, [
+      // if it specifies a zone, use it:
+      { fmt: "y-M-d'T'H:m:s.uZZ" },
+      { fmt: "y-M-d'T'H:m:sZZ" },
+
+      // if it specifies UTC, use it:
+      { fmt: "y-M-d'T'H:m:s.u'Z'", zone: "utc" },
+      { fmt: "y-M-d'T'H:m:s'Z'", zone: "utc" },
+
+      // Otherwise use the default zone:
+      { fmt: "y-M-d'T'H:m:s.u", zone },
+      { fmt: "y-M-d'T'H:m:s", zone },
+    ])
   }
 
   /**
@@ -51,7 +57,7 @@ export class ExifDateTime {
   private static fromPatterns(
     text: string,
     fmts: { fmt: string; zone?: string | Zone | undefined }[]
-  ) {
+  ): Maybe<ExifDateTime> {
     const s = toS(text).trim()
     const inputs = [s]
 
@@ -85,33 +91,23 @@ export class ExifDateTime {
     zone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
-    return this.fromPatterns(text, [
-      // if it specifies a zone, use it:
-      { fmt: "y:M:d H:m:s.uZZ" },
-      { fmt: "y:M:d H:m:sZZ" },
+    return (
+      this.fromPatterns(text, [
+        // if it specifies a zone, use it:
+        { fmt: "y:M:d H:m:s.uZZ" },
+        { fmt: "y:M:d H:m:sZZ" },
 
-      // if it specifies UTC, use it:
-      { fmt: "y:M:d H:m:s.u'Z'", zone: "utc" },
-      { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
+        // if it specifies UTC, use it:
+        { fmt: "y:M:d H:m:s.u'Z'", zone: "utc" },
+        { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
 
-      // Otherwise use the default zone:
-      { fmt: "y:M:d H:m:s.u", zone },
-      { fmt: "y:M:d H:m:s", zone },
+        // Otherwise use the default zone:
+        { fmt: "y:M:d H:m:s.u", zone },
+        { fmt: "y:M:d H:m:s", zone },
 
-      // Not found yet? Maybe it's in ISO format? See https://github.com/photostructure/exiftool-vendored.js/issues/71
-
-      // if it specifies a zone, use it:
-      { fmt: "y-M-d'T'H:m:s.uZZ" },
-      { fmt: "y-M-d'T'H:m:sZZ" },
-
-      // if it specifies UTC, use it:
-      { fmt: "y-M-d'T'H:m:s.u'Z'", zone: "utc" },
-      { fmt: "y-M-d'T'H:m:s'Z'", zone: "utc" },
-
-      // Otherwise use the default zone:
-      { fmt: "y-M-d'T'H:m:s.u", zone },
-      { fmt: "y-M-d'T'H:m:s", zone },
-    ])
+        // Not found yet? Maybe it's in ISO format? See https://github.com/photostructure/exiftool-vendored.js/issues/71
+      ]) ?? this.fromISO(text, zone)
+    )
   }
 
   static fromExifLoose(
@@ -181,8 +177,26 @@ export class ExifDateTime {
     return this.zoneName ?? offsetMinutesToZoneName(this.tzoffsetMinutes)
   }
 
+  setZone(zone?: string | Zone, opts?: ZoneOptions): ExifDateTime {
+    // This is a bit tricky... We want to keep the local time and just _say_ it was in the zone of the image **if we don't already have a zone.**
+
+    // If we _do_ have a zone, assume it was already converted by ExifTool into (probably the system) timezone, which means _don't_ keepLocalTime.
+    const result = ExifDateTime.fromDateTime(
+      this.toDateTime().setZone(zone, {
+        keepLocalTime: !this.hasZone,
+        ...opts,
+      }),
+      this.rawValue
+    )
+
+    // We know this will be defined: this is valid, so changing the zone will
+    // also be valid.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return result!
+  }
+
   toDateTime() {
-    return DateTime.fromObject(
+    return (this.#dt ??= DateTime.fromObject(
       {
         year: this.year,
         month: this.month,
@@ -195,7 +209,11 @@ export class ExifDateTime {
       {
         zone: this.zone,
       }
-    )
+    ))
+  }
+
+  toEpochSeconds() {
+    return this.toDateTime().toUnixInteger()
   }
 
   toDate(): Date {
