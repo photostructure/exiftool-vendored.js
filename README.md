@@ -21,19 +21,16 @@
 
 1.  Support for
 
-    - [reading tags](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#read)
-    - extracting embedded binaries, like [thumbnail](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#extractthumbnail) and [preview](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#extractpreview) images
-    - [writing tags](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#write)
-    - [rescuing metadata](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#rewritealltags)
+    - [reading tags](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#read)
+    - extracting embedded binaries, like [thumbnail](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#extractThumbnail) and [preview](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#extractPreview) images
+    - [writing tags](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#write)
+    - [rescuing metadata](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#rewriteAllTags)
 
 1.  **[Robust type definitions](#tags)** of the top 99.5% tags used by over 6,000
-    different camera makes and models (see an [example](interfaces/exiftags.html))
-
-1.  **Auditable ExifTool source code** (the vendored code is
-    [checksum verified](http://owl.phy.queensu.ca/~phil/exiftool/checksums.txt))
+    different camera makes and models (see an [example](https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html))
 
 1.  **Automated updates** to ExifTool ([as new versions come out
-    monthly](http://www.sno.phy.queensu.ca/~phil/exiftool/history.html))
+    monthly](https://exiftool.org/history.html))
 
 1.  **Robust test coverage**, performed with on [macOS, Linux, and
     Windows](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
@@ -59,7 +56,7 @@ If you're installing on a minimal Linux distribution, like
 ## Upgrading
 
 See the
-[CHANGELOG](https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md)
+[CHANGELOG](https://github.com/photostructure/exiftool-vendored.js/blob/main/CHANGELOG.md)
 for breaking changes since you last updated.
 
 ### Major version bumps
@@ -96,7 +93,7 @@ exiftool
 ```
 
 If the default [ExifTool constructor
-parameters](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html)
+parameters](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html)
 wont' work for you, it's just a class that takes an options hash:
 
 ```js
@@ -110,7 +107,7 @@ Remember to `.end()` whichever singleton you use.
 
 ### General API
 
-`ExifTool.read()` returns a Promise to a [Tags](https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html) instance. Note
+`ExifTool.read()` returns a Promise to a [Tags](https://photostructure.github.io/exiftool-vendored.js/interfaces/Tags.html) instance. Note
 that errors may be returned either by rejecting the promise, or for less
 severe problems, via the `errors` field.
 
@@ -123,9 +120,9 @@ ExifTool knows how to extract _several thousand_ different tag fields.
 
 Unfortunately, TypeScript crashes with `error TS2590: Expression produces a union type that is too complex to represent` if the `Tags` interface was comprehensive.
 
-Instead, we build a corpus of "commonly seen" tags from over 5,000 different
+Instead, we build a corpus of "commonly seen" tags from over 10,000 different
 digital camera makes and models, many from the [ExifTool metadata
-repository](https://exiftool.org/sample_images.html).
+repository](https://exiftool.org/sample_images.html) and <raw.pixls.us>.
 
 Here are some example fields:
 
@@ -156,7 +153,7 @@ Nikon, Canon, Sony, and Apple devices).
 Just because a field is missing from the Tags interface **does not mean the
 field doesn't exist in the returned object**. This library doesn't exclude
 unknown fields, in other words. It's up to you and your code to look for other
-fields you expect, and cast to a more relevant interface.
+fields you expect and cast to a more relevant interface.
 
 ### Errors and Warnings
 
@@ -170,19 +167,14 @@ warnings that don't reject the underlying task, you can provide either a
 [`minorErrorsRegExp`](interfaces/exiftooloptions.html#minorerrorsregexp), or an
 implementation of
 [`rejectTaskOnStderr`](interfaces/exiftooloptions.html#rejecttaskonstderr).
-Either of these parameters are provided to the `ExifTool` constructor.
+Either of these parameters is provided to the `ExifTool` constructor.
 
 ### Logging and events
 
 To enable trace, debug, info, warning, or error logging from this library and
-the underlying `batch-cluster` library,
-use[`setLogger`](globals.html#setlogger). Example
-code can be found
-[here](https://github.com/photostructure/batch-cluster.js/blob/main/src/_chai.spec.ts#L20).
+the underlying `batch-cluster` library, provide a [Logger](https://photostructure.github.io/batch-cluster.js/interfaces/Logger.html) instance to the `ExifTool` constructor options.
 
-ExifTool instances emits events for "startError", "taskError", "endError",
-"beforeEnd", and "end" that you can register listeners for, using
-[on](https://batch-cluster.js.org/classes/batchcluster.html#on).
+ExifTool instances emits [many lifecycle and error events](https://photostructure.github.io/batch-cluster.js/interfaces/BatchClusterEvents.html#beforeEnd) via `batch-cluster`.
 
 ### Reading tags
 
@@ -229,14 +221,14 @@ exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin")
 
 ### Writing tags
 
-Note that only a portion of tags are writable. Refer to [the
-documentation](https://sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html)
+Note that only a portion of tags is writable. Refer to [the
+documentation](https://exiftool.org/TagNames/index.html)
 and look under the "Writable" column.
 
 If you apply malformed values or ask to write to tags that aren't
 supported, the returned `Promise` will be rejected.
 
-Only string and numeric primitive are supported as values to the object.
+Only string and numeric primitives are supported as values to the object.
 
 To write a comment to the given file so it shows up in the Windows Explorer
 Properties panel:
@@ -246,7 +238,7 @@ exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" })
 ```
 
 To change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
-[AllDates](https://sno.phy.queensu.ca/~phil/exiftool/TagNames/Shortcuts.html)
+[AllDates](https://exiftool.org/TagNames/Shortcuts.html)
 shortcut) to 4:56pm UTC on February 6, 2016:
 
 ```js
@@ -268,7 +260,7 @@ To delete a tag, use `null` as the value.
 exiftool.write("path/to/file.jpg", { UserComment: null })
 ```
 
-The above example removes any value associated to the `UserComment` tag.
+The above example removes any value associated with the `UserComment` tag.
 
 ### Always Beware: Timezones
 
@@ -282,11 +274,11 @@ section about [Dates](#dates) below for more information.
 
 ### Rewriting tags
 
-You may find that some of your images have corrupt metadata, and that writing
+You may find that some of your images have corrupt metadata and that writing
 new dates, or editing the rotation information, for example, fails. ExifTool can
 try to repair these images by rewriting all the metadata into a new file, along
 with the original image content. See the
-[documentation](http://owl.phy.queensu.ca/~phil/exiftool/faq.html#Q20) for more
+[documentation](https://exiftool.org/faq.html#Q20) for more
 details about this functionality.
 
 `rewriteAllTags` returns a void Promise that will be rejected if there are any
@@ -301,10 +293,10 @@ exiftool.rewriteAllTags("problematic.jpg", "rewritten.jpg")
 ExifTool has an [extensive user configuration system](http://owl.phy.queensu.ca/~phil/exiftool/config.html). There are several ways to use one:
 
 1. Place your [user configuration
-   file](http://owl.phy.queensu.ca/~phil/exiftool/config.html) in your `HOME`
+   file](https://exiftool.org/config.html) in your `HOME`
    directory
 1. Set the `EXIFTOOL_HOME` environment variable to the fully-qualified path that
-   contains your user config.
+   contains your user configuration.
 1. Specify the in the ExifTool constructor options:
 
 ```js
@@ -316,7 +308,7 @@ new ExifTool({ exiftoolEnv: { EXIFTOOL_HOME: resolve("path", "to", "config", "di
 The default `BatchClusterOptions.cleanupChildProcs` value of `true` means that BatchCluster, which is used to manage child `exiftool` processes, will try to use `ps` to ensure Node's view of process state are correct, and that errant
 processes are cleaned up.
 
-If you run this in a docker image based off Alpine or Debian Slim, **this won't work properly unless you install the `procps` package.**
+If you run this in a docker image based on Alpine or Debian Slim, **this won't work properly unless you install the `procps` package.**
 
 [See `batch-cluster` for details.](https://github.com/photostructure/batch-cluster.js/issues/13)
 
@@ -329,7 +321,7 @@ exiting due to the way Node.js streams
 work](https://github.com/photostructure/exiftool-vendored.js/issues/106).
 
 You must explicitly call `.end()` on any used instance of `ExifTool` for `node`
-to exit gracefully. 
+to exit gracefully.
 
 This call cannot be in a `process.on("exit")` hook, as the `stdio` streams
 attached to the child process cannot be `unref`'ed. (If there's a solution to
@@ -356,9 +348,9 @@ Images and videos rarely specify a time zone in their dates. If all your files
 were captured in your current time zone, defaulting to the local time zone is a
 safe assumption, but if you have files that were captured in different parts of
 the world, **this assumption will not be correct**. Parsing the same file in
-different parts of the world results in a different times for the same file.
+different parts of the world result in different times for the same file.
 
-Prior to version 7, heuristic 1 and 3 was applied.
+Prior to version 7, heuristic 1 and 3 were applied.
 
 As of version 7.0.0, `exiftool-vendored` uses the following heuristics. The
 highest-priority heuristic to return a value will be used as the timezone offset
@@ -366,7 +358,7 @@ for all datetime tags that don't already have a specified timezone.
 
 ### Heuristic 1: explicit metadata
 
-If the [EXIF](https://sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html)
+If the [EXIF](https://exiftool.org/TagNames/EXIF.html)
 `TimeZoneOffset` tag is present it will be applied as per the spec to
 `DateTimeOriginal`, and if there are two values, the `ModifyDate` tag as well.
 `OffsetTime`, `OffsetTimeOriginal`, and `OffsetTimeDigitized` are also
@@ -386,14 +378,14 @@ Deltas of > 14 hours are considered invalid.
 
 ### ExifDate and ExifDateTime
 
-Because datetimes have this optionally-set timezone, and some tags only specify
+Because date-times have this optionally-set timezone, and some tags only specify
 the date, this library returns classes that encode the date, the time of day, or
 both, **with an optional timezone and an optional tzoffset**: `ExifDateTime` and
 `ExifTime`. It's up to you, then, to determine what's correct for your
 situation.
 
 Note also that some smartphones record timestamps with microsecond precision
-(not just millis!), and both `ExifDateTime` and `ExifTime` have floating point
+(not just milliseconds!), and both `ExifDateTime` and `ExifTime` have floating point
 milliseconds.
 
 ## Tags
@@ -410,12 +402,12 @@ camera make and model images, in large part sourced from the ExifTool site.
 that your IDE can autocomplete.
 
 Tags marked with "★★★★", like
-[MIMEType](https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html#mimetype),
+[MIMEType](https://photostructure.github.io/exiftool-vendored.js/interfaces/FileTags.html#MIMEType),
 should be found in most files. Of the several thousand metadata tags, realize
-less than 50 are found generally. You'll need to do your own research to
+less than 50 are found generally. You'll need to do your research to
 determine which tags are valid for your uses.
 
-Note that if parsing fails (for, example, a datetime string), the raw string
+Note that if parsing fails (for, example, a date-time string), the raw string
 will be returned. Consuming code should verify both existence and type as
 reasonable for safety.
 
@@ -439,28 +431,32 @@ const tags2: Tags = parseJSON(str) as Tags
 
 ## Performance
 
-The `npm run mktags` target reads all tags found in a batch of sample images and
-parses the results.
+The default [exiftool]() singleton is intentionally throttled. If full system
+utilization is acceptable:
 
-Using `exiftool-vendored`:
+1. set
+   [`maxProcs`](https://photostructure.github.io/batch-cluster.js/classes/BatchClusterOptions.html#maxProcs)
+   higher
 
-```sh
-Read 2236 unique tags from 3011 files.
-Parsing took 16s (5.4ms / file) # windows 10, core i7, maxProcs 4
-Parsing took 27s (9.0ms / file) # ubuntu 18.04, core i3, maxProcs 1
-Parsing took 13s (4.2ms / file) # ubuntu 18.04, core i3, maxProcs 4
+2. consider setting
+   [`minDelayBetweenSpawnMillis`](https://photostructure.github.io/batch-cluster.js/classes/BatchClusterOptions.html#minDelayBetweenSpawnMillis)
+   to 0
 
-# September 2020 update with > 2x more files and faster CPU:
-Read 3100 unique tags from 8028 files.
-Parsing took 16s (2.0ms / file) # ubuntu 20.04, AMD Ryzen 9 3900X, maxProcs 24
-```
+3. On a performant linux box, a smaller value of `streamFlushMillis` may work as
+   well: if you see [`noTaskData`
+   events](https://photostructure.github.io/batch-cluster.js/interfaces/BatchClusterEvents.html#noTaskData),
+   you need to bump the value up.
 
-Using the `exiftool` npm package takes 7-10x longer, and doesn't work on Windows.
+## Benchmarking
 
-```sh
-Reading 3011 files...
-Parsing took 86s (28.4ms / file) # ubuntu, core i3
-```
+The `yarn mktags ../path/to/examples` target reads all tags found in a directory
+hierarchy of sample images and videos, and parses the results.
+
+`exiftool-vendored` v16.0.0 on a 2019 AMD Ryzen 3900X running Ubuntu 20.04 on an
+SSD can process 20+ files per second, per thread, or 500+ files per second
+utilizing all CPU threads.
+
+It can read, parse,
 
 ### Batch mode
 
