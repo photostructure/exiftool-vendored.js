@@ -9,7 +9,7 @@ import { parseJSON } from "./JSON"
 import { keys } from "./Object"
 import { leftPad } from "./String"
 import { Tags } from "./Tags"
-import { expect, isWin32, testImg } from "./_chai.spec"
+import { expect, isWin32, renderTagsWithISO, testImg } from "./_chai.spec"
 
 function normalize(tagNames: string[]): string[] {
   return tagNames
@@ -267,25 +267,29 @@ describe("ExifTool", function () {
 
       it("reads from a dSLR", async () => {
         const t = await et.read("./test/oly.jpg")
-        expect(t).to.contain({
-          MIMEType: "image/jpeg",
-          Make: "OLYMPUS IMAGING CORP.",
-          Model: "E-M1",
+        expect(renderTagsWithISO(t)).to.contain({
+          Aperture: 5,
+          Artist: "",
+          Copyright: "",
+          CreateDate: "2014-07-19T12:05:19.000-07:00",
+          DateTimeOriginal: "2014-07-19T12:05:19.000-07:00",
+          ExifImageHeight: 2400,
+          ExifImageWidth: 3200,
+          ExposureProgram: "Program AE",
           ExposureTime: "1/320",
           FNumber: 5,
-          ExposureProgram: "Program AE",
           ISO: 200,
-          Aperture: 5,
-          MaxApertureValue: 2.8,
-          ExifImageWidth: 3200,
-          ExifImageHeight: 2400,
           LensInfo: "12-40mm f/2.8",
           LensModel: "OLYMPUS M.12-40mm F2.8",
-          tz: "UTC-07",
+          Make: "OLYMPUS IMAGING CORP.",
+          MaxApertureValue: 2.8,
+          MIMEType: "image/jpeg",
+          Model: "E-M1",
+          ModifyDate: "2014-07-19T12:05:19.000-07:00",
+          Orientation: 1,
+          tz: "UTC-7",
+          tzSource: "offset between DateTimeOriginal and DateTimeUTC",
         })
-        expect(t.DateTimeOriginal?.toString()).to.eql(
-          "2014-07-19T12:05:19.000-07:00"
-        )
       })
 
       it("reads from a smartphone with GPS", async () => {
@@ -317,22 +321,24 @@ describe("ExifTool", function () {
       it("reads from a directory with dots", async () => {
         const dots = await testImg("img.jpg", "2019.05.28")
         const tags = await et.read(dots)
-        expect(tags).to.containSubset({
-          MIMEType: "image/jpeg",
+        expect(renderTagsWithISO(tags)).to.containSubset({
+          DateTimeCreated: "2016-08-12T13:28:50.000+08:00",
+          DateTimeOriginal: "2016-08-12T13:28:50.000+08:00",
+          Description: "Prior Title",
+          FNumber: 1.8,
           GPSLatitudeRef: "North",
           GPSLongitudeRef: "East",
           Make: "Apple",
+          MIMEType: "image/jpeg",
           Model: "iPhone 7 Plus",
-          FNumber: 1.8,
+          Subject: ["Test", "examples", "beach"],
+          SubSecCreateDate: "2016-08-12T13:28:50.728+08:00",
+          SubSecDateTimeOriginal: "2016-08-12T13:28:50.728+08:00",
+          SubSecTimeDigitized: 728,
+          SubSecTimeOriginal: 728,
           tz: "Asia/Hong_Kong",
+          tzSource: "from Lat/Lon",
         })
-        expect(tags.DateTimeCreated).to.eql(
-          ExifDateTime.fromISO(
-            "2016-08-12T13:28:50",
-            "Asia/Hong_Kong",
-            "2016:08:12 13:28:50"
-          )
-        )
       })
 
       it("deleteAllTags() removes all metadata tags", async () => {
@@ -422,7 +428,7 @@ describe("ExifTool", function () {
     it("round-trips", async () => {
       const t = await exiftool.read(img3)
 
-      function assert(ea: Tags) {
+      function validate(ea: Tags) {
         expect((ea.SubSecCreateDate as any).constructor).to.eql(ExifDateTime)
         expect((ea.GPSTimeStamp as any).constructor).to.eql(ExifTime)
         expect((ea.GPSDateStamp as any).constructor).to.eql(ExifDate)
@@ -444,10 +450,10 @@ describe("ExifTool", function () {
         expect(ea.Keywords).to.eql(["red fish", "blue fish"])
       }
 
-      assert(t)
+      validate(t)
 
       const t2 = parseJSON(JSON.stringify(t))
-      assert(t2)
+      validate(t2)
 
       expect(t2.SubSecCreateDate).to.eql(t.SubSecCreateDate)
       expect(t2.GPSDateTime).to.eql(t.GPSDateTime)

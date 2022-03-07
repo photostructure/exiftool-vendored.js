@@ -4,6 +4,7 @@ import * as _fs from "fs"
 import * as _os from "os"
 import * as _path from "path"
 import * as _p from "process"
+import { ApplicationRecordTags } from "./ApplicationRecordTags"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
@@ -11,6 +12,7 @@ import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
+import { ICCProfileTags } from "./ICCProfileTags"
 import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
 import { PreviewTag } from "./PreviewTag"
@@ -19,7 +21,32 @@ import { ReadTask } from "./ReadTask"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { blank, notBlank } from "./String"
 import { Struct } from "./Struct"
-import { Tags } from "./Tags"
+import {
+  APP12Tags,
+  APP14Tags,
+  APP1Tags,
+  APP4Tags,
+  APP5Tags,
+  APP6Tags,
+  CompositeTags,
+  EXIFTags,
+  ExifToolTags,
+  FileTags,
+  FlashPixTags,
+  IPTCTags,
+  JFIFTags,
+  MakerNotesTags,
+  MetaTags,
+  MPFTags,
+  PanasonicRawTags,
+  PhotoshopTags,
+  PrintIMTags,
+  QuickTimeTags,
+  RAFTags,
+  RIFFTags,
+  Tags,
+  XMPTags,
+} from "./Tags"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
 
@@ -34,7 +61,39 @@ export {
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
 } from "./Timezones"
-export type { AdditionalWriteTags, ExpandedDateTags, Maybe, Omit, Struct, Tags }
+export type {
+  AdditionalWriteTags,
+  APP12Tags,
+  APP14Tags,
+  APP1Tags,
+  APP4Tags,
+  APP5Tags,
+  APP6Tags,
+  ApplicationRecordTags,
+  CompositeTags,
+  EXIFTags,
+  ExifToolTags,
+  ExpandedDateTags,
+  FileTags,
+  FlashPixTags,
+  ICCProfileTags,
+  IPTCTags,
+  JFIFTags,
+  MakerNotesTags,
+  Maybe,
+  MetaTags,
+  MPFTags,
+  Omit,
+  PanasonicRawTags,
+  PhotoshopTags,
+  PrintIMTags,
+  QuickTimeTags,
+  RAFTags,
+  RIFFTags,
+  Struct,
+  Tags,
+  XMPTags,
+}
 
 const isWin32 = lazy(() => _os.platform() === "win32")
 
@@ -87,10 +146,6 @@ export interface ShortcutTags {
 
 type AdditionalWriteTags = {
   "Orientation#"?: number
-  /**
-   * Included because it's so rare, it doesn't always make the Tags build:
-   */
-  TimeZoneOffset?: number | string
 }
 
 // exiftool expects numeric tags to be numbers, but everything else is a string:
@@ -104,10 +159,10 @@ type ExpandedDateTags = {
     | string
 }
 
-type NotUndefined<T> = T extends undefined ? never : T
+export type Defined<T> = T extends undefined ? never : T
 
 export type DefinedOrNullValued<T> = {
-  [P in keyof T]: NotUndefined<T[P]> | null
+  [P in keyof T]: Defined<T[P]> | null
 }
 
 export type WriteTags = DefinedOrNullValued<
