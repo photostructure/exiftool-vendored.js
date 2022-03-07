@@ -2,6 +2,25 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "mocha",
+      "cwd": "${workspaceRoot}",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/dist/ReadTask.spec.js"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "protocol": "inspector"
+    },
+    {
       "name": "mktags",
       "program": "${workspaceFolder}/dist/update/mktags.js",
       "args": [
@@ -12,28 +31,6 @@
         "<node_internals>/**"
       ],
       "type": "pwa-node"
-    },
-    {
-      "name": "Test",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
-      "stopOnEntry": false,
-      "args": [
-        "./dist/ExifDateTime.spec.js"
-      ],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": "",
-      "runtimeExecutable": null,
-      "runtimeArgs": [],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "console": "internalConsole",
-      "sourceMaps": true,
-      "outFiles": [
-        "${workspaceRoot}/lib/**/*"
-      ]
     },
     {
       "name": "Attach",

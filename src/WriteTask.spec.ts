@@ -199,6 +199,9 @@ describe("WriteTask", function () {
           const src = await dest()
           const wt: WriteTags = {
             CreateDate: new ExifDateTime(2019, 1, 2, 0, 0, 0, 0),
+            // We have to clear the GPS info to make the OffsetTime be respected:
+            GPSLatitude: null,
+            GPSLongitude: null,
             OffsetTime: "-05:00",
           }
           await exiftool.write(src, wt)
