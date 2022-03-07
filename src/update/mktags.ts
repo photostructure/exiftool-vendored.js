@@ -1,6 +1,6 @@
 require("source-map-support").install()
 
-import { Log, logger, setLogger } from "batch-cluster"
+import { BatchCluster, Log, logger, setLogger } from "batch-cluster"
 import fs from "fs"
 import globule from "globule"
 import os from "os"
@@ -19,98 +19,100 @@ import ProgressBar = require("progress")
 // Avoid error TS2590: Expression produces a union type that is too complex to represent
 const MAX_TAGS = 3000 // TypeScript 4.2 crashes with 3100+
 
-const RequiredTags = [
-  "ApertureValue",
-  "AvgBitrate",
-  "BodySerialNumber",
-  "BurstID", // these seem to be really long, like type 4 UUIDs.
-  "BurstUUID", // these seem to be really long, like type 4 UUIDs.
-  "CameraID",
-  "CameraOrientation",
-  "CameraSerialNumber",
-  "Caption-Abstract",
-  "Compass",
-  "Country",
-  "CountryCode",
-  "CreateDate", // (called DateTimeDigitized by the EXIF spec)
-  "CreationTime",
-  "DateCreated",
-  "DateTime",
-  "DateTimeCreated",
-  "DateTimeDigitized",
-  "DateTimeGenerated",
-  "DateTimeOriginal", // (date/time when original image was taken)
-  "DateTimeUTC",
-  "Description",
-  "Error",
-  "ExifImageHeight",
-  "ExifImageWidth",
-  "ExposureTime",
-  "FileName",
-  "FileSize",
-  "FileType",
-  "FileTypeExtension",
-  "Fnumber",
-  "FNumber",
-  "FocalLength",
-  "GPSAltitude",
-  "GPSDateTime",
-  "GPSLatitude",
-  "GPSLongitude",
-  "ImageDescription",
-  "ImageHeight",
-  "ImageNumber", // these don't seem to ever be > 100000
-  "ImageSize",
-  "ImageWidth",
-  "InternalSerialNumber",
-  "ISO",
-  "ISOSpeed",
-  "Keywords",
-  "LensID",
-  "LensInfo",
-  "LensMake",
-  "LensModel",
-  "LensSerialNumber",
-  "LensSpec",
-  "LensType",
-  "Make",
-  "MaxDataRate",
-  "MediaCreateDate",
-  "Megapixels",
-  "MetadataDate",
-  "MIMEType",
-  "Model",
-  "ModifyDate",
-  "ObjectName",
-  "Orientation",
-  "OriginalCreateDateTime",
-  "Rating",
-  "RegistryID",
-  "Rotation",
-  "RunTimeValue",
-  "SerialNumber",
-  "ShutterCount",
-  "ShutterSpeed",
-  "SonyExposureTime",
-  "SonyFNumber",
-  "SonyISO",
-  "SubSecCreateDate",
-  "SubSecDateTimeOriginal", // (fractional seconds for DateTimeOriginal)
-  "SubSecMediaCreateDate",
-  "SubSecTime", // (fractional seconds for ModifyDate)
-  "SubSecTimeDigitized", // (fractional seconds for CreateDate)
-  "TimeZone", // not frequently seen
-  "Title",
-  "Warning",
-  "XPComment",
-  "XPKeywords",
-  "XPSubject",
-  "XPTitle",
-]
+// ☠☠ HEY! YOU! I SAID STOP SCROLLING! ☠☠
 
-const TypeOverrides: Record<string, string> = {
-  Keywords: "string | string[]",
+const RequiredTags: Record<string, { t: string; grp: string }> = {
+  ApertureValue: { t: "number", grp: "EXIF" },
+  AvgBitrate: { t: "string", grp: "Composite" },
+  BodySerialNumber: { t: "string", grp: "MakerNotes" },
+  BurstID: { t: "string", grp: "XMP" },
+  BurstUUID: { t: "string", grp: "MakerNotes" },
+  CameraID: { t: "string", grp: "MakerNotes" },
+  CameraOrientation: { t: "string", grp: "MakerNotes" },
+  CameraSerialNumber: { t: "number", grp: "APP1" },
+  "Caption-Abstract": { t: "string", grp: "IPTC" },
+  Compass: { t: "string", grp: "APP5" },
+  Copyright: { t: "string", grp: "EXIF" },
+  Country: { t: "string", grp: "XMP" },
+  CountryCode: { t: "string", grp: "XMP" },
+  CreateDate: { t: "ExifDateTime | string", grp: "EXIF" },
+  CreationTime: { t: "ExifDateTime | string", grp: "XMP" },
+  DateCreated: { t: "ExifDateTime | string", grp: "XMP" },
+  DateTime: { t: "ExifDateTime | string", grp: "XMP" },
+  DateTimeCreated: { t: "ExifDateTime | string", grp: "Composite" },
+  DateTimeDigitized: { t: "ExifDateTime | string", grp: "XMP" },
+  DateTimeGenerated: { t: "ExifDateTime | string", grp: "APP1" },
+  DateTimeOriginal: { t: "ExifDateTime | string", grp: "EXIF" },
+  DateTimeUTC: { t: "ExifDateTime | string", grp: "MakerNotes" },
+  Description: { t: "string", grp: "XMP" },
+  Error: { t: "string", grp: "ExifTool" },
+  ExifImageHeight: { t: "number", grp: "EXIF" },
+  ExifImageWidth: { t: "number", grp: "EXIF" },
+  ExposureTime: { t: "string", grp: "EXIF" },
+  FileName: { t: "string", grp: "File" },
+  FileSize: { t: "string", grp: "File" },
+  FileType: { t: "string", grp: "File" },
+  FileTypeExtension: { t: "string", grp: "File" },
+  Fnumber: { t: "string", grp: "APP12" },
+  FNumber: { t: "number", grp: "EXIF" },
+  FocalLength: { t: "string", grp: "EXIF" },
+  GPSAltitude: { t: "number", grp: "EXIF" },
+  GPSDateTime: { t: "ExifDateTime | string", grp: "Composite" },
+  GPSLatitude: { t: "number", grp: "EXIF" },
+  GPSLongitude: { t: "number", grp: "EXIF" },
+  ImageDescription: { t: "string", grp: "EXIF" },
+  ImageHeight: { t: "number", grp: "File" },
+  ImageNumber: { t: "number", grp: "XMP" },
+  ImageSize: { t: "string", grp: "Composite" },
+  ImageWidth: { t: "number", grp: "File" },
+  InternalSerialNumber: { t: "string", grp: "MakerNotes" },
+  ISO: { t: "number", grp: "EXIF" },
+  ISOSpeed: { t: "number", grp: "EXIF" },
+  Keywords: { t: "string | string[]", grp: "IPTC" },
+  LensID: { t: "string", grp: "Composite" },
+  LensInfo: { t: "string", grp: "EXIF" },
+  LensMake: { t: "string", grp: "EXIF" },
+  LensModel: { t: "string", grp: "EXIF" },
+  LensSerialNumber: { t: "string", grp: "EXIF" },
+  LensSpec: { t: "string", grp: "MakerNotes" },
+  LensType: { t: "string", grp: "MakerNotes" },
+  Make: { t: "string", grp: "EXIF" },
+  MaxDataRate: { t: "string", grp: "RIFF" },
+  MediaCreateDate: { t: "ExifDateTime | string", grp: "QuickTime" },
+  Megapixels: { t: "number", grp: "Composite" },
+  MetadataDate: { t: "ExifDateTime | string", grp: "XMP" },
+  MIMEType: { t: "string", grp: "File" },
+  Model: { t: "string", grp: "EXIF" },
+  ModifyDate: { t: "ExifDateTime | string", grp: "EXIF" },
+  ObjectName: { t: "string", grp: "IPTC" },
+  Orientation: { t: "number", grp: "EXIF" },
+  OriginalCreateDateTime: { t: "ExifDateTime | string", grp: "XMP" },
+  Rating: { t: "number", grp: "XMP" },
+  RegistryID: { t: "Struct[]", grp: "XMP" },
+  Rotation: { t: "number", grp: "Composite" },
+  RunTimeValue: { t: "number", grp: "MakerNotes" },
+  SerialNumber: { t: "string", grp: "MakerNotes" },
+  ShutterCount: { t: "number", grp: "MakerNotes" },
+  ShutterSpeed: { t: "string", grp: "Composite" },
+  SonyExposureTime: { t: "string", grp: "MakerNotes" },
+  SonyFNumber: { t: "number", grp: "MakerNotes" },
+  SonyISO: { t: "number", grp: "MakerNotes" },
+  SubSecCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
+  SubSecDateTimeOriginal: { t: "ExifDateTime | string", grp: "Composite" },
+  SubSecMediaCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
+  SubSecTime: { t: "number", grp: "EXIF" },
+  SubSecTimeDigitized: { t: "number", grp: "EXIF" },
+  TimeZone: { t: "string", grp: "MakerNotes" },
+  TimeZoneOffset: { t: "number | string", grp: "EXIF" },
+  Title: { t: "string", grp: "XMP" },
+  Warning: { t: "string", grp: "ExifTool" },
+  XPComment: { t: "string", grp: "EXIF" },
+  XPKeywords: { t: "string", grp: "EXIF" },
+  XPSubject: { t: "string", grp: "EXIF" },
+  XPTitle: { t: "string", grp: "EXIF" },
 }
+
+// ☠☠ NO REALLY THIS IS BAD CODE PLEASE STOP SCROLLING ☠☠
 
 // If we don't do tag pruning, TypeScript fails with
 // error TS2590: Expression produces a union type that is too complex to represent.
@@ -152,12 +154,14 @@ const ExcludedTagRe = new RegExp(
     "PictureWizard",
     "PiP",
     "Planck",
+    "PF\\d",
     "R2[A-Z]",
     "STB\\d",
     "Tag[\\d_]+",
     "TL84",
     "WB[_\\d]",
     "YhiY",
+    "\\w{6,}\\d{1,2}$",
   ].join("|")
 )
 
@@ -179,10 +183,16 @@ function sortBy<T>(
   )
 }
 
+// Benchmark on 3900X: 53s for 10778 files with defaults
+
+// 23s for 10778 files with these overrides:
+
 const exiftool = new ExifTool({
   maxProcs: os.cpus().length,
-  streamFlushMillis: 1,
-  minDelayBetweenSpawnMillis: 10,
+  // if we use straight defaults, we're load-testing those defaults.
+  streamFlushMillis: 2,
+  minDelayBetweenSpawnMillis: 0,
+  // maxTasksPerProcess: 100, // < uncomment to verify proc wearing works
 })
 
 function ellipsize(str: string, max: number) {
@@ -190,7 +200,7 @@ function ellipsize(str: string, max: number) {
   return str.length < max ? str : str.substring(0, max - 1) + "…"
 }
 
-// NO SRSLY STOP SCROLLING IT REALLY IS BAD
+// ☠☠ NO SRSLY STOP SCROLLING IT REALLY IS BAD ☠☠
 
 setLogger(
   Log.withLevels(
@@ -234,14 +244,17 @@ const roots = process.argv.slice(2)
 if (roots.length === 0)
   throw new Error("USAGE: mktags <path to image directory>")
 
-const pattern = "**/*.+(3fr|avi|jpg|mov|mp4|cr2|cr3|nef|orf|raf|arw|rw2)"
+const pattern = "**/*.+(3fr|avi|jpg|mov|mp4|cr2|cr3|nef|orf|raf|arw|rw2|dng)"
 
 const files = roots
   .map((root) => {
-    logger().info("Scanning " + pattern + "...")
-    return globule
-      .find(pattern, { srcBase: root, nocase: true, nodir: true })
-      .map((ea) => path.resolve(root + "/" + ea))
+    logger().info("Scanning " + root + "/" + pattern + "...")
+    return globule.find(pattern, {
+      srcBase: root,
+      nocase: true,
+      nodir: true,
+      absolute: true,
+    })
   })
   .reduce((prev, curr) => prev.concat(curr))
 
@@ -277,14 +290,19 @@ function valueType(value: any): Maybe<string> {
 class CountingMap<T> {
   private size = 0
   private readonly m = new Map<T, number>()
-  add(t: T) {
-    this.size++
-    this.m.set(t, 1 + (this.m.get(t) ?? 0))
+  add(...arr: T[]) {
+    this.size += arr.length
+    for (const ea of arr) {
+      this.m.set(ea, 1 + (this.m.get(ea) ?? 0))
+    }
   }
   byCountDesc(): T[] {
     return Array.from(this.m.keys()).sort((a, b) =>
       cmp(this.m.get(b), this.m.get(a))
     )
+  }
+  topN(n: number) {
+    return this.byCountDesc().slice(0, n)
   }
   /**
    * @param p [0,1]
@@ -350,12 +368,11 @@ class Tag {
   }
 
   get group(): string {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.tag.split(":")[0]!
+    return this.tag.split(":")[0] ?? this.tag
   }
+
   get base(): string {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.tag.split(":")[1]!
+    return this.tag.split(":")[1] ?? this.tag
   }
 
   get valueTypes(): string[] {
@@ -370,7 +387,7 @@ class Tag {
 
   get valueType(): string {
     return (
-      TypeOverrides[this.base] ??
+      RequiredTags[this.base as any]?.t ??
       (this.valueTypes.length === 0 ? "string" : this.valueTypes.join(" | "))
     )
   }
@@ -382,7 +399,7 @@ class Tag {
   }
 
   get required() {
-    return RequiredTags.includes(this.base)
+    return this.base in RequiredTags
   }
 
   vacuumValues() {
@@ -489,12 +506,12 @@ class Tag {
       return exampleToS(["Creative Commons Attribution 4.0 International"])
     if (this.tag.endsWith("OwnerName")) return exampleToS(["Itsa Myowna"])
     if (this.tag.endsWith("Artist")) return exampleToS(["Arturo DeImage"])
-    if (this.tag.endsWith("Author")) return exampleToS(["Maya Picturo"])
-    if (this.tag.endsWith("Contact")) return exampleToS(["Dohncha Ringmanumba"])
+    if (this.tag.endsWith("Author")) return exampleToS(["Nom De Plume"])
+    if (this.tag.endsWith("Contact")) return exampleToS(["Donna Ringmanumba"])
     if (this.tag.endsWith("Software") || this.tag.endsWith("URL"))
       return exampleToS(["https://PhotoStructure.com/"])
     if (this.tag.endsWith("Credit"))
-      return exampleToS(["photo by Jenny McSnapsalot"])
+      return exampleToS(["photo by Jenny Snapsalot"])
     const byValueType = new Map<string, any[]>()
     // Shove boring values to the end:
     this.vacuumValues()
@@ -521,6 +538,12 @@ class TagMap {
   private _finished = false
   groupedTags = new Map<string, Tag[]>()
   readonly tags: Tag[] = []
+  constructor() {
+    // Seed with required tags
+    for (const ea of Object.entries(RequiredTags)) {
+      this.tag(ea[1].grp + ":" + ea[0])
+    }
+  }
 
   tag(tag: string) {
     const prevTag = this.map.get(tag)
@@ -544,9 +567,11 @@ class TagMap {
     if (important) {
       tag.important = true
     }
-    const values = tag.values
-    values.push(value)
-    this.maxValueCount = Math.max(values.length, this.maxValueCount)
+    if (value != null) {
+      const values = tag.values
+      values.push(value)
+      this.maxValueCount = Math.max(values.length, this.maxValueCount)
+    }
   }
   finish() {
     if (this._finished) return
@@ -642,6 +667,10 @@ process.on("unhandledRejection", (reason: any) => {
   )
 })
 
+function escapeKey(s: string): string {
+  return s.match(/[^0-9a-z_]/i) != null ? JSON.stringify(s) : s
+}
+
 Promise.all(files.map((file) => readAndAddToTagMap(file)))
   .then(async () => {
     bar.terminate()
@@ -717,7 +746,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
           tagWriter.write(
             `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
           )
-          tagWriter.write(`  ${tag.base}?: ${tag.valueType}\n`)
+          tagWriter.write(`  ${escapeKey(tag.base)}?: ${tag.valueType}\n`)
           seenTagNames.add(tag.base)
         }
         tagWriter.write(`}\n`)
@@ -752,7 +781,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     // Let's look at tag distributions:
     const tags = tagMap.tags
     const tagsByPctPop = times(
-      100,
+      25,
       (pct) =>
         tags.filter((tag) => tag.values.length / files.length > pct / 100.0)
           .length
@@ -768,10 +797,10 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
           times(Math.floor(cnt * scale), () => "#").join("")
       )
     )
-    console.log(
-      "\nInternal error count: " + exiftool["batchCluster"].internalErrorCount
-    )
-    return exiftool.end()
+    await exiftool.end()
+    const bc: BatchCluster = exiftool["batchCluster"]
+    console.log("Final batch cluster stats", bc.stats())
+    return
   })
   .catch((err) => {
     console.error(err)
