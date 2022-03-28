@@ -25,6 +25,15 @@ vendored versions of ExifTool match the version they vendor.
 
 ## Version history
 
+### v16.1.0
+
+- ✨ Updated dependencies, including batch-cluster
+  [v10.4.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1040)).
+
+  This new version will detect when tasks are rejected (due to parsing issues or
+  any other reason), and in that case, the child `exiftool` process will be
+  verified to be "healthy" before being put back into the service pool.
+
 ### v16.0.0
 
 - 💔/🐞 Timezone extraction has been adjusted: if there is a GPS location, we'll
@@ -64,15 +73,12 @@ vendored versions of ExifTool match the version they vendor.
   As a reminder, the `Tags` interface is only a subset of fields returned, due
   to TypeScript limitations. `readTags` still returns all values that ExifTool
   provides.
-  
+
 - 🐞 Fixed a bunch of broken API links in the README due to `typedoc` changing
   URLs. Harumph.
-  
 - 🐞 Prior versions of `ExifDateTime.parseISO` would accept just time or date
   strings.
-  
 - 🐞/📦 `TimeStamp` tags may now be properly parsed as `ExifDateTime`.
-  
 - 📦 Added performance section to the README.
 
 - 📦 Timezone offset formatting changed slightly: the hour offset is no longer
