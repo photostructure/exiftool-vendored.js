@@ -5,7 +5,7 @@
 Providing the flexibility to reversion the API or UPDATE version slots as
 features or bugfixes arise and using ExifTool's version number is at odds with
 each other, so this library follows [Semver](https://semver.org/), and the
-vendored versions of ExifTool match the version they vendor.
+vendored versions of ExifTool match the version that they vendor.
 
 ### The `MAJOR` or `API` version is incremented for
 
@@ -24,6 +24,21 @@ vendored versions of ExifTool match the version they vendor.
 - 📦 Minor packaging changes
 
 ## Version history
+
+### v16.2.0
+
+- ✨ Added read/write support for
+  [History](https://exiftool.org/TagNames/XMP.html#ResourceEvent) and
+  [Versions](https://exiftool.org/TagNames/XMP.html#Version) structs.
+
+  - These two tags return typed optional struct arrays.
+
+  - Via the new `StructAppendTags` interface, `ExifTool.write()` now accepts
+    plus-suffixed variants of these tags to append to existing records.
+
+- 🌱 ExifTool upgraded to [v12.41](https://exiftool.org/history.html#v12.41).
+
+- 📦 Updated dependencies
 
 ### v16.1.0
 
