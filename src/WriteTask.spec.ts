@@ -3,11 +3,20 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTags } from "./ExifTool"
 import { isFileEmpty } from "./File"
 import { map } from "./Maybe"
+import { ResourceEvent } from "./ResourceEvent"
 import { isSidecarExt } from "./Sidecars"
 import { stripSuffix } from "./String"
 import { Struct } from "./Struct"
 import { Tags } from "./Tags"
-import { expect, testFile, testImg } from "./_chai.spec"
+import { Version } from "./Version"
+import {
+  assertEqlDateish,
+  expect,
+  omit,
+  randomChars,
+  testFile,
+  testImg,
+} from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
@@ -39,7 +48,7 @@ describe("WriteTask", function () {
         cmp?: (actual: any, tags: Tags) => any
       }) {
         const wt: WriteTags = {}
-        wt[tagName] = inputValue as any
+        ;(wt[tagName] as any) = inputValue
         await exiftool.write(dest, wt, args)
         const result = (await exiftool.read(dest)) as any
         const expected = expectedValue ?? inputValue
@@ -369,6 +378,149 @@ describe("WriteTask", function () {
           withTZ: true,
           dest: (ea) => testFile((ea ?? "img") + ".mie"),
         }))
+
+      function mkResourceEvent(o?: Partial<ResourceEvent>): ResourceEvent {
+        return {
+          Action: "test",
+          Changed: "rating",
+          InstanceID: "instance-id-" + randomChars(),
+          Parameters: "value-" + randomChars(),
+          SoftwareAgent: "PhotoStructure",
+          When: ExifDateTime.now(),
+          ...o,
+        }
+      }
+
+      function assertEqlResourceEvents(a: ResourceEvent[], b: ResourceEvent[]) {
+        if (a != null || b != null) {
+          for (let idx = 0; idx < a.length; idx++) {
+            expect(omit(a[idx]!, "When")).to.eql(omit(b[idx]!, "When"))
+            assertEqlDateish(a[idx]!.When, b[idx]!.When)
+          }
+        }
+      }
+
+      async function mkXMP(nativePath: string, t?: WriteTags) {
+        const priorContents = {
+          Copyright: "PhotoStructure, Inc. " + randomChars(),
+          ...t,
+        }
+        await exiftool.write(nativePath, priorContents)
+        expect(await exiftool.read(nativePath)).to.containSubset(
+          omit(priorContents, "History", "Versions")
+        )
+      }
+
+      describe("appends History structs", () => {
+        it("from no XMP", async () => {
+          const f = await testFile("image.xmp")
+          const re = mkResourceEvent()
+          await exiftool.write(f, { "History+": re }) // < NOT AN ARRAY
+
+          // NOTE: This tests ReadTask handles History records properly:
+          const t = (await exiftool.read(f)) as any
+          assertEqlResourceEvents(t.History, [re])
+        })
+        it("from empty XMP", async () => {
+          const f = await testFile("image.xmp")
+          const re = mkResourceEvent()
+          await mkXMP(f)
+          await exiftool.write(f, { "History+": [re] })
+          const t = (await exiftool.read(f)) as any
+          assertEqlResourceEvents(t.History[0], [re])
+        })
+        it("from XMP with existing History", async () => {
+          const f = await testFile("image.xmp")
+          const re1 = mkResourceEvent({ Action: "test-1" })
+          const re2 = mkResourceEvent({ Action: "test-2" })
+          await mkXMP(f, { History: [re1] })
+          await exiftool.write(f, { "History+": [re2] })
+          const t = (await exiftool.read(f)) as any
+          assertEqlResourceEvents(t.History, [re1, re2])
+        })
+      })
+
+      describe("replaces History structs", () => {
+        it("from empty XMP", async () => {
+          const f = await testFile("image.xmp")
+          await mkXMP(f)
+          const re = mkResourceEvent()
+          await exiftool.write(f, { History: [re] })
+          const t = (await exiftool.read(f)) as any
+          assertEqlResourceEvents(t.History, [re])
+        })
+        it("from XMP with existing History", async () => {
+          const f = await testFile("image.xmp")
+          const re1 = mkResourceEvent({ Action: "test-1" })
+          const re2 = mkResourceEvent({ Action: "test-2" })
+          await mkXMP(f, { History: [re1] })
+          await exiftool.write(f, { History: [re2] })
+          const t = (await exiftool.read(f)) as any
+          assertEqlResourceEvents(t.History, [re2])
+        })
+      })
+
+      function mkVersion(v?: Partial<Version>): Version {
+        return {
+          Comments: "comment " + randomChars(),
+          Event: mkResourceEvent(),
+          Modifier: "modifier " + randomChars(),
+          ModifyDate: ExifDateTime.now(),
+          Version: "version " + randomChars(),
+          ...v,
+        }
+      }
+
+      function assertEqlVersions(a: Version[], b: Version[]) {
+        for (let idx = 0; idx < a.length; idx++) {
+          const av = a[idx]!
+          const bv = b[idx]!
+          expect(omit(av, "ModifyDate", "Event")).to.eql(
+            omit(bv, "ModifyDate", "Event")
+          )
+          if (av.Event != null || bv.Event != null)
+            assertEqlResourceEvents([av.Event!], [bv.Event!])
+          assertEqlDateish(a[idx]!.ModifyDate, b[idx]!.ModifyDate)
+        }
+      }
+
+      describe("appends Versions structs", () => {
+        it("from no XMP", async () => {
+          const f = await testFile("image.xmp")
+          const v = mkVersion()
+          await exiftool.write(f, { "Versions+": v }) // < NOT AN ARRAY
+          const t = (await exiftool.read(f)) as any
+          assertEqlVersions(t.Versions, [v])
+        })
+        it("from empty XMP", async () => {
+          const f = await testFile("image.xmp")
+          await mkXMP(f)
+          const v = mkVersion()
+          await exiftool.write(f, { "Versions+": v }) // < NOT AN ARRAY
+          const t = (await exiftool.read(f)) as any
+          assertEqlVersions(t.Versions, [v])
+        })
+        it("from XMP with existing History", async () => {
+          const f = await testFile("image.xmp")
+          const v1 = mkVersion({ Modifier: "event-1" })
+          const v2 = mkVersion({ Modifier: "event-2" })
+          await mkXMP(f, { Versions: [v1] })
+          await exiftool.write(f, { "Versions+": [v2] })
+          const t = (await exiftool.read(f)) as any
+          assertEqlVersions(t.Versions, [v1, v2])
+        })
+      })
+      describe("replaces Versions structs", () => {
+        it("from XMP with existing History", async () => {
+          const f = await testFile("image.xmp")
+          const v1 = mkVersion({ Modifier: "event-1" })
+          const v2 = mkVersion({ Modifier: "event-2" })
+          await mkXMP(f, { Versions: [v1] })
+          await exiftool.write(f, { Versions: v2 }) // < OH SNAP NOT AN ARRAY BUT IT STILL WORKS
+          const t = (await exiftool.read(f)) as any
+          assertEqlVersions(t.Versions, [v2])
+        })
+      })
     })
   }
 })

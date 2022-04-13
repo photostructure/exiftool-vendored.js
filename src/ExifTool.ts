@@ -3,7 +3,7 @@ import * as _cp from "child_process"
 import * as _fs from "fs"
 import * as _os from "os"
 import * as _path from "path"
-import * as _p from "process"
+import process from "process"
 import { ApplicationRecordTags } from "./ApplicationRecordTags"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
@@ -18,6 +18,7 @@ import { Maybe } from "./Maybe"
 import { PreviewTag } from "./PreviewTag"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
+import { ResourceEvent } from "./ResourceEvent"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { blank, notBlank } from "./String"
 import { Struct } from "./Struct"
@@ -47,6 +48,7 @@ import {
   Tags,
   XMPTags,
 } from "./Tags"
+import { Version } from "./Version"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
 
@@ -89,9 +91,11 @@ export type {
   PrintIMTags,
   QuickTimeTags,
   RAFTags,
+  ResourceEvent,
   RIFFTags,
   Struct,
   Tags,
+  Version,
   XMPTags,
 }
 
@@ -165,8 +169,19 @@ export type DefinedOrNullValued<T> = {
   [P in keyof T]: Defined<T[P]> | null
 }
 
+export interface StructAppendTags {
+  /**
+   * Use this to **append** to existing History records.
+   */
+  "History+"?: ResourceEvent | ResourceEvent[]
+  /**
+   * Use this to **append** to existing Version records.
+   */
+  "Versions+"?: Version | Version[]
+}
+
 export type WriteTags = DefinedOrNullValued<
-  ShortcutTags & AdditionalWriteTags & ExpandedDateTags
+  ShortcutTags & AdditionalWriteTags & ExpandedDateTags & StructAppendTags
 >
 
 export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
@@ -325,8 +340,8 @@ export class ExifTool {
     const ignoreShebang = o.ignoreShebang ?? _ignoreShebang()
 
     const env: NodeJS.ProcessEnv = { ...o.exiftoolEnv, LANG: "C" }
-    if (notBlank(_p.env.EXIFTOOL_HOME) && blank(env.EXIFTOOL_HOME)) {
-      env.EXIFTOOL_HOME = _p.env.EXIFTOOL_HOME
+    if (notBlank(process.env.EXIFTOOL_HOME) && blank(env.EXIFTOOL_HOME)) {
+      env.EXIFTOOL_HOME = process.env.EXIFTOOL_HOME
     }
     const spawnOpts: _cp.SpawnOptions = {
       stdio: "pipe",

@@ -41,6 +41,7 @@ function enc(o: any): Maybe<string> {
       ? `${o.map(enc).join(sep)}`
       : `[${o.map(enc).join(",")}]`
   } else if (isStruct(o)) {
+    // See https://exiftool.org/struct.html#Serialize
     return `{${keys(o)
       .map((k) => enc(k) + " = " + enc(o[k]))
       .join(",")}}`

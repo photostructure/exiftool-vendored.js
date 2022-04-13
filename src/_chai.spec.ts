@@ -1,10 +1,14 @@
 import { Deferred, Log, setLogger } from "batch-cluster"
-import crypto from "crypto"
+import { expect } from "chai"
+import crypto, { randomBytes } from "crypto"
 import { copyFile, createReadStream, mkdirp } from "fs-extra"
 import os from "os"
 import path from "path"
 import process from "process"
+import { DateOrTime, toExifString } from "./DateTime"
+import { Maybe } from "./Maybe"
 import { fromEntries } from "./Object"
+import { isString } from "./String"
 import { Tags } from "./Tags"
 
 const chai = require("chai")
@@ -33,11 +37,12 @@ export { expect } from "chai"
 
 export const testDir = path.join(__dirname, "..", "test")
 
+export function randomChars(chars = 8) {
+  return randomBytes(chars / 2).toString("hex")
+}
+
 export function tmpname(prefix = ""): string {
-  return path.join(
-    os.tmpdir(),
-    prefix + Math.floor(Math.random() * 1e9).toString(16)
-  )
+  return path.join(os.tmpdir(), prefix + randomChars())
 }
 
 export function renderTagsWithISO(t: Tags) {
@@ -87,4 +92,29 @@ export function sha1buffer(input: string | Buffer): string {
 
 export function isWin32() {
   return os.platform() === "win32"
+}
+
+export type Unpick<T, U> = { [P in keyof T]: P extends U ? never : T[P] }
+
+export function omit<T extends Record<string, any>, S extends string>(
+  t: T,
+  ...keysToOmit: S[]
+): Unpick<T, S> {
+  if (t == null) return {} as any
+  const result = { ...t }
+  for (const ea of keysToOmit) {
+    delete result[ea]
+  }
+  return result
+}
+
+function dateishToExifString(d: Maybe<DateOrTime | string>): Maybe<string> {
+  return d == null ? undefined : isString(d) ? d : toExifString(d)
+}
+
+export function assertEqlDateish(
+  a: Maybe<string | DateOrTime>,
+  b: Maybe<string | DateOrTime>
+) {
+  return expect(dateishToExifString(a)).to.eql(dateishToExifString(b))
 }

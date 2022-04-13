@@ -17,7 +17,7 @@ import ProgressBar = require("progress")
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
 
 // Avoid error TS2590: Expression produces a union type that is too complex to represent
-const MAX_TAGS = 3000 // TypeScript 4.2 crashes with 3100+
+const MAX_TAGS = 2500 // TypeScript 4.2 crashes with 3100+
 
 // ☠☠ HEY! YOU! I SAID STOP SCROLLING! ☠☠
 
@@ -60,6 +60,7 @@ const RequiredTags: Record<string, { t: string; grp: string }> = {
   GPSDateTime: { t: "ExifDateTime | string", grp: "Composite" },
   GPSLatitude: { t: "number", grp: "EXIF" },
   GPSLongitude: { t: "number", grp: "EXIF" },
+  History: { t: "ResourceEvent[] | ResourceEvent | string", grp: "XMP" },
   ImageDescription: { t: "string", grp: "EXIF" },
   ImageHeight: { t: "number", grp: "File" },
   ImageNumber: { t: "number", grp: "XMP" },
@@ -110,6 +111,7 @@ const RequiredTags: Record<string, { t: string; grp: string }> = {
   TimeZone: { t: "string", grp: "MakerNotes" },
   TimeZoneOffset: { t: "number | string", grp: "EXIF" },
   Title: { t: "string", grp: "XMP" },
+  Versions: { t: "Version[] | Version | string", grp: "XMP" },
   Warning: { t: "string", grp: "ExifTool" },
   XPComment: { t: "string", grp: "EXIF" },
   XPKeywords: { t: "string", grp: "EXIF" },
@@ -701,7 +703,9 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
         'import { ICCProfileTags } from "./ICCProfileTags"',
+        'import { ResourceEvent } from "./ResourceEvent"',
         'import { Struct } from "./Struct"',
+        'import { Version } from "./Version"',
         "",
         "/* eslint-disable @typescript-eslint/no-explicit-any */",
         "",
