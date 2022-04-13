@@ -152,6 +152,11 @@ export class ExifDateTime {
     )
   }
 
+  static now() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.fromDateTime(DateTime.now())!
+  }
+
   constructor(
     readonly year: number,
     readonly month: number,
