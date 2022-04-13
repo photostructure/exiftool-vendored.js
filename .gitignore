@@ -7,3 +7,5 @@ node_modules
 coverage
 yarn.lock
 package-lock.json
+benchmark/yarn.lock
+benchmark/package-lock.json
