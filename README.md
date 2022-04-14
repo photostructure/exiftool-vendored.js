@@ -439,10 +439,8 @@ The `yarn mktags ../path/to/examples` target reads all tags found in a directory
 hierarchy of sample images and videos, and parses the results.
 
 `exiftool-vendored` v16.0.0 on a 2019 AMD Ryzen 3900X running Ubuntu 20.04 on an
-SSD can process 20+ files per second, per thread, or 500+ files per second
+SSD can process 20+ files per second per thread, or 500+ files per second when
 utilizing all CPU threads.
-
-It can read, parse,
 
 ### Batch mode
 
