@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v16.3.0
+
+- ✨ Added `ExifDateTime.fromMillis()`
+
+- 📦 Fixed hanging sentence in README. Rebuild docs.
+
+- 📦 Migrated `omit()` to `Object`.
+
 ### v16.2.0
 
 - ✨ Added read/write support for
