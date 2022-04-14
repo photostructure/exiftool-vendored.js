@@ -31,3 +31,17 @@ export function fromEntries(
   }
   return obj
 }
+
+export type Unpick<T, U> = { [P in keyof T]: P extends U ? never : T[P] }
+
+export function omit<T extends Record<string, any>, S extends string>(
+  t: T,
+  ...keysToOmit: S[]
+): Unpick<T, S> {
+  if (t == null) return {} as any
+  const result = { ...t }
+  for (const ea of keysToOmit) {
+    delete result[ea]
+  }
+  return result
+}

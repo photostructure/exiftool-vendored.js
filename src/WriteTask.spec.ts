@@ -3,6 +3,7 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTags } from "./ExifTool"
 import { isFileEmpty } from "./File"
 import { map } from "./Maybe"
+import { omit } from "./Object"
 import { ResourceEvent } from "./ResourceEvent"
 import { isSidecarExt } from "./Sidecars"
 import { stripSuffix } from "./String"
@@ -12,7 +13,6 @@ import { Version } from "./Version"
 import {
   assertEqlDateish,
   expect,
-  omit,
   randomChars,
   testFile,
   testImg,
