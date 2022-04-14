@@ -1,5 +1,5 @@
 import { ExifDateTime } from "./ExifDateTime"
-import { expect } from "./_chai.spec"
+import { expect, randomChars } from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 describe("ExifDateTime", () => {
@@ -270,5 +270,35 @@ describe("ExifDateTime", () => {
     expect(edt.hasZone).to.eql(true)
     expect(edt.isValid).to.eql(true)
     expect(edt.toISOString()).to.eql("1904-02-03T13:14:15.000+02:02")
+  })
+
+  describe(".fromMillis()", () => {
+    it("round-trips now()", () => {
+      const e = ExifDateTime.now()
+      expect(e.toDate().getTime()).to.be.closeTo(Date.now(), 2_000)
+    })
+    it("round-trips now() and retains raw value", () => {
+      const rawValue = randomChars()
+      const e = ExifDateTime.now({ rawValue })
+      expect(e.toDate().getTime()).to.be.closeTo(Date.now(), 2_000)
+      expect(e.rawValue).to.eql(rawValue)
+    })
+    it("renders pre-epoch timestamp()", () => {
+      const e = ExifDateTime.fromMillis(-27686744322, { zone: "UTC" })
+      expect(e.toISOString()).to.eql("1969-02-14T13:14:15.678Z")
+    })
+    it("renders UTC TWOSday timestamp()", () => {
+      const e = ExifDateTime.fromMillis(1643767342222, { zone: "UTC" })
+      expect(e.toISOString()).to.eql("2022-02-02T02:02:22.222Z")
+    })
+    it("renders PST TWOSday timestamp()", () => {
+      const rawValue = randomChars()
+      const e = ExifDateTime.fromMillis(1643796142345, {
+        zone: "America/Los_Angeles",
+        rawValue,
+      })
+      expect(e.toISOString()).to.eql("2022-02-02T02:02:22.345-08:00")
+      expect(e.rawValue).to.eql(rawValue)
+    })
   })
 })

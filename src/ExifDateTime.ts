@@ -1,6 +1,13 @@
-import { DateTime, ToISOTimeOptions, Zone, ZoneOptions } from "luxon"
+import {
+  DateTime,
+  DateTimeJSOptions,
+  ToISOTimeOptions,
+  Zone,
+  ZoneOptions,
+} from "luxon"
 import { dateTimeToExif } from "./DateTime"
 import { denull, first, firstDefinedThunk, map, Maybe } from "./Maybe"
+import { omit } from "./Object"
 import { blank, notBlank, toS } from "./String"
 import {
   offsetMinutesToZoneName,
@@ -152,9 +159,31 @@ export class ExifDateTime {
     )
   }
 
-  static now() {
+  /**
+   * Create an ExifDateTime from a number of milliseconds since the epoch
+   * (meaning since 1 January 1970 00:00:00 UTC). Uses the default zone.
+   *
+   * @param millis - a number of milliseconds since 1970 UTC
+   *
+   * @param options.rawValue - the original parsed string input
+   * @param options.zone - the zone to place the DateTime into. Defaults to 'local'.
+   * @param options.locale - a locale to set on the resulting DateTime instance
+   * @param options.outputCalendar - the output calendar to set on the resulting DateTime instance
+   * @param options.numberingSystem - the numbering system to set on the resulting DateTime instance
+   */
+  static fromMillis(
+    millis: number,
+    options: DateTimeJSOptions & { rawValue?: string } = {}
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.fromDateTime(DateTime.now())!
+    return this.fromDateTime(
+      DateTime.fromMillis(millis, omit(options, "rawValue")),
+      options.rawValue
+    )!
+  }
+
+  static now(opts: DateTimeJSOptions & { rawValue?: string } = {}) {
+    return this.fromMillis(Date.now(), opts)
   }
 
   constructor(
