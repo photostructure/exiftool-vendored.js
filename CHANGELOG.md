@@ -25,6 +25,20 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v16.4.0
+
+- 🐞 Struct values are now properly encoded when writing. Specifically, prior
+  versions didn't support JSON string values (and now WriteTask knows how to
+  serialize those characters to make ExifTool happy)
+
+- 📦/💔 `String.htmlEncode` was made private: it was a special-purpose function
+  just for `WriteTask`.
+
+- 📦 Added Node 18 to test matrix. Node 12 will be dropped from support in the
+  next version.
+
+- 📦 Updated dependencies
+
 ### v16.3.0
 
 - ✨ Added `ExifDateTime.fromMillis()`
