@@ -30,7 +30,7 @@ describe("WriteTask", function () {
       const exiftool = new ExifTool(opts)
       after(() => exiftool.end())
 
-      type InputValue = string | number | Struct
+      type InputValue = string | number | Struct | ResourceEvent
 
       async function assertRoundTrip({
         dest,
@@ -184,7 +184,12 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest(),
             tagName: multiTagName,
-            inputValue: ["one", "two", "three", "commas, even!"],
+            inputValue: [
+              "one",
+              "two",
+              "three",
+              "commas, and { evil [\t|\r] characters \n }",
+            ],
           })
         })
 
@@ -358,6 +363,39 @@ describe("WriteTask", function () {
           return expect(
             exiftool.write(src, { RandomTag: 123 } as any)
           ).to.be.rejectedWith(/Tag 'RandomTag' is not defined/)
+        })
+
+        it("round-trips a struct tag with a ResourceEvent with primitive values", async () => {
+          const inputValue: ResourceEvent[] = [
+            {
+              Action: "testing",
+              Changed: "🤷🏿‍♀️",
+            },
+          ]
+          return assertRoundTrip({
+            dest: await dest(),
+            tagName: "History",
+            inputValue,
+          })
+        })
+
+        it("round-trips a struct tag with a stringified value", async () => {
+          const inputValue: ResourceEvent[] = [
+            {
+              Action: "testing",
+              Changed: "🤷🏿‍♀️",
+              Parameters: JSON.stringify({
+                numeric: 123,
+                string: "hello",
+                meanString: "\n|\r}\t{][(), ",
+              }),
+            },
+          ]
+          return assertRoundTrip({
+            dest: await dest(),
+            tagName: "History",
+            inputValue,
+          })
         })
       }
 

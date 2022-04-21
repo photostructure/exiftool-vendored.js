@@ -1,3 +1,4 @@
+import { encode } from "he"
 import * as _path from "path"
 import { shallowArrayEql } from "./Array"
 import { isDateOrTime, toExifString } from "./DateTime"
@@ -8,7 +9,7 @@ import { isFileEmpty } from "./File"
 import { Maybe } from "./Maybe"
 import { isNumber } from "./Number"
 import { keys } from "./Object"
-import { htmlEncode, isString } from "./String"
+import { isString } from "./String"
 import { isStruct } from "./Struct"
 import { VersionTask } from "./VersionTask"
 
@@ -26,24 +27,40 @@ const utfCharsetArgs = [
   "-E", // < html encoding https://exiftool.org/faq.html#Q10
 ]
 
-function enc(o: any): Maybe<string> {
+// this is private because it's very special-purpose for just encoding ExifTool
+// WriteTask args:
+export function htmlEncode(s: string): string {
+  return (
+    // allowUnsafeSymbols is true because ExifTool doesn't care about &, <, >, ", ', * and `
+    encode(s, { decimal: true, allowUnsafeSymbols: true })
+      // `he` doesn't encode whitespaces (like newlines), but we need that:
+      .replace(/\s/g, (m) => (m === " " ? " " : `&#${m.charCodeAt(0)};`))
+  )
+}
+
+function enc(o: any, structValue = false): Maybe<string> {
   if (o == null) {
     return ""
   } else if (isNumber(o)) {
     return String(o)
   } else if (isString(o)) {
-    return htmlEncode(String(o))
+    // Structs need their own escaping here.
+    // See https://exiftool.org/struct.html#Serialize
+    return htmlEncode(
+      structValue ? o.replace(/[,[\]{}|]/g, (ea) => "|" + ea) : o
+    )
+    // const s = htmlEncode(String(o))
   } else if (isDateOrTime(o)) {
     return toExifString(o)
   } else if (Array.isArray(o)) {
     const primitiveArray = o.every((ea) => isString(ea) || isNumber(ea))
     return primitiveArray
-      ? `${o.map(enc).join(sep)}`
-      : `[${o.map(enc).join(",")}]`
+      ? `${o.map((ea) => enc(ea)).join(sep)}`
+      : `[${o.map((ea) => enc(ea)).join(",")}]`
   } else if (isStruct(o)) {
     // See https://exiftool.org/struct.html#Serialize
     return `{${keys(o)
-      .map((k) => enc(k) + " = " + enc(o[k]))
+      .map((k) => enc(k, true) + "=" + enc(o[k], true))
       .join(",")}}`
   } else {
     throw new Error("cannot encode " + JSON.stringify(o))

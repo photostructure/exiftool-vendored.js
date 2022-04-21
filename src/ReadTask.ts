@@ -70,6 +70,8 @@ export class ReadTask extends ExifToolTask<Tags> {
     args.push(...numericTags.map((ea) => "-" + ea + "#"))
     // TODO: Do you need -xmp:all, -all, or -all:all?
     args.push("-all", "-charset", "filename=utf8", sourceFile)
+
+    // console.log("new ReadTask()", { sourceFile, args })
     return new ReadTask(sourceFile, args)
   }
 

@@ -1,4 +1,3 @@
-import { encode } from "he"
 import { times } from "./Array"
 import { Maybe } from "./Maybe"
 
@@ -63,12 +62,4 @@ export function stripPrefix(s: string, prefix: string): string {
 export function stripSuffix(s: string, suffix: string): string {
   const str = toS(s)
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str
-}
-
-export function htmlEncode(s: string): string {
-  // `he` doesn't encode whitespaces (like newlines), but we need that:
-  return encode(s, { decimal: true }).replace(/\s/g, (m) =>
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    m[0] === " " ? " " : `&#${m[0]!.charCodeAt(0)};`
-  )
 }
