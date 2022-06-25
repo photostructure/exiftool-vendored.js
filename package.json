@@ -19,36 +19,17 @@
     "prettier": "prettier --write src/*.ts src/**/*.ts",
     "pretest": "run-p lint compile",
     "test": "mocha 'dist/*.spec.js'",
-    "report": "yarn test && nyc report -r html",
     "docs:1": "typedoc --options .typedoc.js",
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
     "docs:5": "yarn serve docs",
-    "docs": "run-s docs:*",
-    "xx.prep:0": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git stash -u) ; done'",
-    "prep:1": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; git pull) ; done'",
-    "prep:2": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; ncu -u) ; done'",
-    "prep:3": "bash -c 'rm -rf ../exiftool-vendored./node_modules ../exiftool-vendored*/yarn.lock'",
-    "prep:4": "bash -c 'for i in ../exiftool-vendored* ; do (cd $i ; yarn install) ; done'",
-    "prep": "run-s prep:*",
-    "update:0": "bash -c '(cd ../exiftool-vendored.pl ; rm -rf node_modules yarn.lock ; ncu -u ; yarn ; ./update.sh)'",
-    "update:1": "bash -c '(cd ../exiftool-vendored.exe ; ./update.sh)'",
-    "update:2": "echo 'now git commit and np, then ncu here.'",
-    "update": "run-s update:*",
-    "preu": "npm i -g npm-check-updates",
-    "u": "ncu -u ; yarn"
+    "docs": "run-s docs:*"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/photostructure/exiftool-vendored.js.git"
   },
   "release-it": {
-    "hooks": {
-      "before:init": [
-        "yarn install",
-        "yarn test"
-      ]
-    },
     "github": {
       "release": true
     }
@@ -110,7 +91,6 @@
     "rimraf": "^3.0.2",
     "serve": "^13.0.2",
     "source-map-support": "^0.5.21",
-    "tar-fs": "^2.1.1",
     "tmp": "^0.2.1",
     "typedoc": "^0.22.18",
     "typescript": "~4.7.4",
