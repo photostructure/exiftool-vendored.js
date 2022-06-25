@@ -25,6 +25,16 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v16.5.0
+
+- 🌱 ExifTool upgraded to [v12.42](https://exiftool.org/history.html#v12.42).
+
+- 📦 Updated dependencies
+
+- 📦 Dropped Node v12 from GitHub Actions CI
+
+- 📦 Added [RELEASE.md](https://github.com/photostructure/exiftool-vendored.js/blob/main/RELEASE.md)
+
 ### v16.4.0
 
 - 🐞 Struct values are now properly encoded when writing. Specifically, prior

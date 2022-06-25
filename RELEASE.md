@@ -27,5 +27,6 @@
    1. `yarn docs`
    1. Verify docs were rebuilt successfully at <http://localhost:3000/index.html>
    1. `yarn test`
+   1. Update the [CHANGELOG.md](https://github.com/photostructure/exiftool-vendored.js/blob/main/CHANGELOG.md)
    1. Verify diffs are reasonable, and `git commit`
    1. `npx release-it`
