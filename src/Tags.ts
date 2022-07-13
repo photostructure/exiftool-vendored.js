@@ -426,7 +426,7 @@ export interface APP12Tags {
   Rgain?: number
   /** ☆☆☆☆   Example: 9 */
   Roff?: number
-  /** ☆☆☆☆ ✔ Example: "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,616061a,…" */
+  /** ☆☆☆☆ ✔ Example: "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7" */
   S0?: string
   /** ☆☆☆☆ ✔ Example: "#00000001" */
   SerialNumber?: string
@@ -510,7 +510,7 @@ export interface EXIFTags {
   CFAPlaneColor?: string
   /** ☆☆☆☆ ✔ Example: "2 2" */
   CFARepeatPatternDim?: string
-  /** ☆☆☆☆ ✔ Example: "22 -128 0 0 0 128 128 256 384 384 512 640 1152 1152 1152 1024 89…" */
+  /** ☆☆☆☆ ✔ Example: "22 -128 0 0 0 128 128 256 384 384 512 640 1152 1152 1152 …0 0 0 0" */
   ChromaticAberrationCorrParams?: string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   ChromaticAberrationCorrection?: string
@@ -1224,11 +1224,11 @@ export interface QuickTimeTags {
 }
 
 export interface RAFTags {
-  /** ☆☆☆☆ ✔ Example: "294.2 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 6.8e-05 0.000124 0.0…" */
+  /** ☆☆☆☆ ✔ Example: "294.2 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 6.8e-05 0.000….001464" */
   ChromaticAberrationParams?: string
   /** ☆☆☆☆ ✔ Example: "12 12 12 12" */
   FujiLayout?: string
-  /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 0 0 0 0 0 0 …" */
+  /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 0 0 0…5 0.488" */
   GeometricDistortionParams?: string
   /** ☆☆☆☆ ✔ Example: -1.7 */
   RawExposureBias?: number
@@ -1242,7 +1242,7 @@ export interface RAFTags {
   RawImageFullSize?: string
   /** ☆☆☆☆ ✔ Example: 5120 */
   RawImageFullWidth?: number
-  /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 100 99.87 99…" */
+  /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 100 9…3 94.11" */
   VignettingParams?: string
   /** ☆☆☆☆ ✔ Example: "GRBGBR BGGRGG RGGBGG GBRGRB RGGBGG BGGRGG" */
   XTransLayout?: string
@@ -1327,7 +1327,7 @@ export interface MakerNotesTags {
   AEMaxAperture?: number
   /** ☆☆☆☆ ✔ Example: "[1], [2]" */
   AEMeteringMode?: string
-  /** ☆☆☆☆ ✔ Example: "9.8 9.4 7.9 8.6 9.2 8.5 9.4 8.9 8.1 8.6 8.0 10.4 8.5 10.6 9.5 9.…" */
+  /** ☆☆☆☆ ✔ Example: "9.8 9.4 7.9 8.6 9.2 8.5 9.4 8.9 8.1 8.6 8.0 10.4 8.5 10.6…9.5 9.5" */
   AEMeteringSegments?: string
   /** ☆☆☆☆ ✔ Example: "Enable; 0; 8; 0" */
   AEMicroadjustment?: string
@@ -1445,8 +1445,6 @@ export interface MakerNotesTags {
   AFPointPosition?: string
   /** ☆☆☆☆ ✔ Example: "Center" */
   AFPointRegistration?: string
-  /** ☆☆☆☆ ✔ Example: "Use Half" */
-  AFPointSel?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   AFPointSelected?: string
   /** ☆☆☆☆ ✔ Example: "H=AF+Main/V=AF+Command" */
@@ -1743,7 +1741,7 @@ export interface MakerNotesTags {
   CPUFirmwareVersion?: string
   /** ☆☆☆☆   Example: "d, 2009:09:04 03:19:07" */
   CPUVersions?: string
-  /** ☆☆☆☆   Example: "Starting calibration file for SD14F13_Rev3; S/N C75_00001212; SD…" */
+  /** ☆☆☆☆   Example: "Starting calibration file for SD14F13_Rev3; S/N C75_00001…8:16:34" */
   Calibration?: string
   /** ☆☆☆☆   Example: "2216/02/28 03:49:48" */
   CameraDateTime?: string
@@ -1849,13 +1847,13 @@ export interface MakerNotesTags {
   ColorHue?: string
   /** ☆☆☆☆ ✔ Example: "600 -236 -108 -52 404 -96 -20 -140 416" */
   ColorMatrix?: string
-  /** ☆☆☆☆   Example: "1.66016 -0.66016 0.00000 -0.20703 1.52734 -0.32031 -0.13281 -0.2…" */
+  /** ☆☆☆☆   Example: "1.66016 -0.66016 0.00000 -0.20703 1.52734 -0.32031 -0.132…1.42969" */
   ColorMatrixA?: string
-  /** ☆☆☆☆   Example: "1.12793 -0.03674 -0.09119 -0.20703 1.52734 -0.32031 -0.13574 -0.…" */
+  /** ☆☆☆☆   Example: "1.12793 -0.03674 -0.09119 -0.20703 1.52734 -0.32031 -0.13…1.35791" */
   ColorMatrixB?: string
   /** ☆☆☆☆ ✔ Example: 4 */
   ColorMatrixNumber?: number
-  /** ☆☆☆☆ ✔ Example: "Min -5; Max 5; Yellow 0; Orange 0; Orange-red 0; Red 0; Magenta …" */
+  /** ☆☆☆☆ ✔ Example: "Min -5; Max 5; Yellow 0; Orange 0; Orange-red 0; Red 0; M…green 0" */
   ColorProfileSettings?: string
   /** ★☆☆☆ ✔ Example: "sRGB" */
   ColorSpace?: string
@@ -2049,7 +2047,7 @@ export interface MakerNotesTags {
   CustomWBRedLevel?: number
   /** ☆☆☆☆ ✔ Example: "Setup" */
   CustomWBSetting?: string
-  /** ☆☆☆☆ ✔ Example: "0 0 1 30 31 0 0 0 0 0 0 2 30 31 0 0 0 0 0 0 5 30 31 0 0 0 0 0 0 …" */
+  /** ☆☆☆☆ ✔ Example: "0 0 1 30 31 0 0 0 0 0 0 2 30 31 0 0 0 0 0 0 5 30 31 0 0 0…1 1 1 0" */
   CustomizeDials?: string
   /** ☆☆☆☆   Example: "Unknown (27471)" */
   DECPosition?: string
@@ -2413,7 +2411,7 @@ export interface MakerNotesTags {
   FlashMetering?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   FlashMeteringMode?: string
-  /** ☆☆☆☆ ✔ Example: "18.0 18.5 20.0 20.0 20.0 20.0 20.0 20.0 20.0 18.6 18.0 18.0 19.0…" */
+  /** ☆☆☆☆ ✔ Example: "18.0 18.5 20.0 20.0 20.0 20.0 20.0 20.0 20.0 18.6 18.0 18….2 19.0" */
   FlashMeteringSegments?: string
   /** ★★☆☆ ✔ Example: "Unknown (c2)" */
   FlashMode?: string
@@ -2483,6 +2481,8 @@ export interface MakerNotesTags {
   FocusContinuous?: string
   /** ☆☆☆☆ ✔ Example: "Enable" */
   FocusDisplayAIServoAndMF?: string
+  /** ☆☆☆☆ ✔ Example: "7.68 - 36.90 m" */
+  FocusDistanceRange?: string
   /** ☆☆☆☆ ✔ Example: "450x359" */
   FocusFrameSize?: string
   /** ☆☆☆☆ ✔ Example: "Focus Hold" */
@@ -3535,7 +3535,7 @@ export interface MakerNotesTags {
   SecondarySlotFunction?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (87)" */
   SelectAFAreaSelectMode?: string
-  /** ☆☆☆☆ ✔ Example: "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], [10], [1…" */
+  /** ☆☆☆☆ ✔ Example: "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], […], [14]" */
   SelectAFAreaSelectionMode?: string
   /** ★★☆☆ ✔ Example: "Self-timer 5 or 10 s" */
   SelfTimer?: string
@@ -3667,7 +3667,7 @@ export interface MakerNotesTags {
   SingleFrameBracketing?: string
   /** ☆☆☆☆   Example: "Off" */
   SkinToneCorrection?: string
-  /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 …" */
+  /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0…0 0 0 0" */
   SlaveFlashMeteringSegments?: string
   /** ★★☆☆ ✔ Example: "n/a" */
   SlowShutter?: string
@@ -3839,7 +3839,7 @@ export interface MakerNotesTags {
   ToneCurveMatching?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
   ToneCurveTable?: string
-  /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7; 7; 0; …" */
+  /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0" */
   ToneLevel?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   ToningEffect?: string
@@ -3911,7 +3911,7 @@ export interface MakerNotesTags {
   ViewfinderDisplay?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   ViewfinderWarning?: string
-  /** ☆☆☆☆ ✔ Example: "Monochrome, WB corrected, One-touch image quality, Noise reducti…" */
+  /** ☆☆☆☆ ✔ Example: "Monochrome, WB corrected, One-touch image quality, Noise …on, HDR" */
   ViewfinderWarnings?: string
   /** ☆☆☆☆ ✔ Example: "ViewFinder" */
   ViewingMode?: string
@@ -4062,7 +4062,7 @@ export interface XMPTags {
   CameraProfileDigest?: string
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
-  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","DepthURI"… */
+  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
   Cameras?: Struct[]
   /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
   CaptureSoftware?: string
@@ -4080,7 +4080,7 @@ export interface XMPTags {
   CentralWavelength?: number[]
   /** ☆☆☆☆ ✔ Example: ["tag,2011-07-26T05:44:01Z,0,c"] */
   Changes?: string[]
-  /** ☆☆☆☆ ✔ Example: [{"CorrectionActive":true,"CorrectionAmount":1,"CorrectionMasks"… */
+  /** ☆☆☆☆ ✔ Example: [{"CorrectionActive":true,"CorrectionAmount":1,"Correctio…tion"}] */
   CircularGradientBasedCorrections?: Struct[]
   /** ☆☆☆☆ ✔ Example: "3 (Superior)" */
   ColorClass?: string
@@ -4094,7 +4094,7 @@ export interface XMPTags {
   ColorNoiseReductionSmoothness?: number
   /** ☆☆☆☆ ✔ Example: "" */
   Colorlabels?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime":"imag… */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
   Container?: Struct
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
@@ -4104,7 +4104,7 @@ export interface XMPTags {
   Creator?: string[]
   /** ☆☆☆☆   Example: "{2d7e7fd6-2942-4d77-9842-389c3f62b14d}" */
   CreatorAppID?: string
-  /** ☆☆☆☆ ✔ Example: {"CiAdrCity":"Amsterdam","CiAdrCtry":"Netherlands","CiAdrExtadr"… */
+  /** ☆☆☆☆ ✔ Example: {"CiAdrCity":"Amsterdam","CiAdrCtry":"Netherlands","CiAdr…73 CH"} */
   CreatorContactInfo?: Struct
   /** ☆☆☆☆   Example: 1 */
   CreatorOpenWithUIOptions?: number
@@ -4220,7 +4220,7 @@ export interface XMPTags {
   HasSettings?: boolean
   /** ☆☆☆☆ ✔ Example: ["点像F11"] */
   HierarchicalSubject?: string[]
-  /** ☆☆☆☆ ✔ Example: [{"Action":"converted","Parameters":"from image/x-canon-cr2 to i… */
+  /** ☆☆☆☆ ✔ Example: [{"Action":"converted","Parameters":"from image/x-canon-c…C+2"}}] */
   History?: ResourceEvent[] | ResourceEvent | string
   /** ☆☆☆☆ ✔ Example: 0 */
   HueAdjustmentAqua?: number
@@ -4272,7 +4272,7 @@ export interface XMPTags {
   LensProfileSetup?: string
   /** ☆☆☆☆   Example: 37087 */
   LocationAreaCode?: number
-  /** ☆☆☆☆ ✔ Example: {"Amount":1,"Group":"Profiles","Name":"Adobe Color","Parameters"… */
+  /** ☆☆☆☆ ✔ Example: {"Amount":1,"Group":"Profiles","Name":"Adobe Color","Para…A7077"} */
   Look?: Struct
   /** ☆☆☆☆ ✔ Example: 0 */
   LuminanceAdjustmentAqua?: number
@@ -4314,7 +4314,7 @@ export interface XMPTags {
   MobileNetworkCode?: number
   /** ☆☆☆☆ ✔ Example: 2015-06-02T09:56:01.000+01:00 */
   ModificationDate?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,3686…" */
+  /** ☆☆☆☆   Example: "36864,40960,40961,37121,37122,40962,40963,37510,40964,368…B0A1251" */
   NativeDigest?: string
   /** ☆☆☆☆   Example:  */
   OriginalCreateDateTime?: ExifDateTime | string
@@ -4386,11 +4386,11 @@ export interface XMPTags {
   RedHue?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   RedSaturation?: number
-  /** ☆☆☆☆ ✔ Example: {"AppliedToDimensions":{"H":3552,"W":2000},"RegionList":[{"Area"… */
+  /** ☆☆☆☆ ✔ Example: {"AppliedToDimensions":{"H":3552,"W":2000},"RegionList":[…ace"}]} */
   RegionInfo?: Struct
   /** ☆☆☆☆ ✔ Example: {"Regions":""} */
   RegionInfoMP?: Struct
-  /** ☆☆☆☆ ✔ Example: [{"RegItemId":"Number1","RegOrgId":"TestName1"},{"RegItemId":"Nu… */
+  /** ☆☆☆☆ ✔ Example: [{"RegItemId":"Number1","RegOrgId":"TestName1"},{"RegItem…ame3"}] */
   RegistryID?: Struct[]
   /** ☆☆☆☆   Example: "+90.80" */
   RelativeAltitude?: string
@@ -4430,7 +4430,7 @@ export interface XMPTags {
   SharpenRadius?: string
   /** ☆☆☆☆ ✔ Example: 2 */
   SourcePhotosCount?: number
-  /** ☆☆☆☆ ✔ Example: ["com.google.android.apps.camera.gallery.specialtype.SpecialType… */
+  /** ☆☆☆☆ ✔ Example: ["com.google.android.apps.camera.gallery.specialtype.Spec…TRAIT"] */
   SpecialTypeID?: string[]
   /** ☆☆☆☆ ✔ Example: 0 */
   SplitToningBalance?: number
@@ -4520,8 +4520,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.42 on Sat Jun 25 2022.
- * 2919 unique tags were found in 9968 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.43 on Wed Jul 13 2022.
+ * 2920 unique tags were found in 9967 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
