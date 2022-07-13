@@ -67,18 +67,18 @@
     "@types/globule": "^1.1.4",
     "@types/he": "^1.1.2",
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.0.3",
     "@types/progress": "^2.0.5",
     "@types/rimraf": "^3.0.2",
     "@types/tar-fs": "^2.0.1",
     "@types/tmp": "^0.2.3",
     "@types/xmldom": "^0.1.31",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
-    "eslint": "^8.18.0",
+    "eslint": "^8.19.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "extract-zip": "^2.0.1",
@@ -89,10 +89,10 @@
     "prettier": "^2.7.1",
     "progress": "^2.0.3",
     "rimraf": "^3.0.2",
-    "serve": "^13.0.2",
+    "serve": "^14.0.0",
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.1",
-    "typedoc": "^0.22.18",
+    "typedoc": "^0.23.7",
     "typescript": "~4.7.4",
     "@xmldom/xmldom": "^0.8.2",
     "xpath": "^0.0.32"
@@ -101,11 +101,11 @@
     "@types/luxon": "^2.3.2",
     "batch-cluster": "^10.4.2",
     "he": "^1.2.0",
-    "luxon": "^2.4.0",
+    "luxon": "^3.0.1",
     "tz-lookup": "^6.1.25"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "12.42.0",
-    "exiftool-vendored.pl": "12.42.0"
+    "exiftool-vendored.exe": "12.43.0",
+    "exiftool-vendored.pl": "12.43.0"
   }
 }
