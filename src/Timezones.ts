@@ -1,4 +1,4 @@
-import { FixedOffsetZone, Info } from "luxon"
+import { Info } from "luxon"
 import { compact } from "./Array"
 import { ExifDateTime } from "./ExifDateTime"
 import { first, firstDefinedThunk, map, Maybe } from "./Maybe"
@@ -9,9 +9,12 @@ import { blank, isString, pad2 } from "./String"
 // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 export const MaxTzOffsetHours = 14
 
-// Not in typings:
 export const UnsetZoneOffsetMinutes = -1
-export const UnsetZone = FixedOffsetZone.instance(UnsetZoneOffsetMinutes)
+/**
+ * This is a placeholder for dates where the zone is unknown/unset, because
+ * Luxon doesn't officially support "unset" zones.
+ */
+export const UnsetZone = Info.normalizeZone(UnsetZoneOffsetMinutes)
 export const UnsetZoneName = UnsetZone.name
 
 export function reasonableTzOffsetMinutes(

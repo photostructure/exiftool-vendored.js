@@ -3,10 +3,16 @@ import {
   extractOffset,
   extractTzOffsetFromTags,
   extractTzOffsetFromUTCOffset,
+  UnsetZone,
 } from "./Timezones"
 import { expect } from "./_chai.spec"
 
 describe("Timezones", () => {
+  describe("UnsetZone", () => {
+    it("isValid", () => {
+      expect(UnsetZone.isValid).to.eql(true)
+    })
+  })
   describe("extractOffsetMinutes", () => {
     function ozn(tz: string) {
       return {
