@@ -13,7 +13,7 @@
 
 3. On Windows, in `../exiftool-vendored.exe`:
 
-   1. `npx ncu -u && yarn install && ./update.sh && yarn test`
+   1. `npx ncu -u --packageFile package.json && yarn install && ./update.sh && yarn test`
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
