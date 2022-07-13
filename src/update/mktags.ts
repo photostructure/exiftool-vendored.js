@@ -204,7 +204,7 @@ const exiftool = new ExifTool({
 
 function ellipsize(str: string, max: number) {
   str = "" + str
-  return str.length < max ? str : str.substring(0, max - 1) + "…"
+  return str.length < max ? str : str.slice(0, max - 8) + "…" + str.slice(-7)
 }
 
 // ☠☠ NO SRSLY STOP SCROLLING IT REALLY IS BAD ☠☠
