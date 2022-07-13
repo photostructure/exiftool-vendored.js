@@ -22,6 +22,7 @@ export function reasonableTzOffsetMinutes(
 ): boolean {
   return (
     isNumber(tzOffsetMinutes) &&
+    tzOffsetMinutes !== UnsetZoneOffsetMinutes &&
     Math.abs(tzOffsetMinutes) < MaxTzOffsetHours * 60
   )
 }
@@ -36,8 +37,9 @@ export function offsetMinutesToZoneName(
     offsetMinutes == null ||
     !isNumber(offsetMinutes) ||
     offsetMinutes === UnsetZoneOffsetMinutes
-  )
+  ) {
     return undefined
+  }
   if (offsetMinutes === 0) return "UTC"
   const sign = offsetMinutes < 0 ? "-" : "+"
   const absMinutes = Math.abs(offsetMinutes)

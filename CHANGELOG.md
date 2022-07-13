@@ -25,6 +25,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v17.0.1
+
+- 🐞 `reasonableTzOffsetMinutes()`, `extractOffset()`, and
+  `offsetMinutesToZoneName()` handle `UnsetZone` properly. This shouldn't normally come into play, as this would require serialization of the unset timezone, but... why not, eh?
+
 ### v17.0.0
 
 - 💔 Luxon has a [breaking change](https://moment.github.io/luxon/#/upgrading?id=_2x-to-30). Please verify that date parsing and zone assignments work as expected.

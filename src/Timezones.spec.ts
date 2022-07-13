@@ -3,7 +3,10 @@ import {
   extractOffset,
   extractTzOffsetFromTags,
   extractTzOffsetFromUTCOffset,
+  offsetMinutesToZoneName,
+  reasonableTzOffsetMinutes,
   UnsetZone,
+  UnsetZoneOffsetMinutes,
 } from "./Timezones"
 import { expect } from "./_chai.spec"
 
@@ -11,6 +14,15 @@ describe("Timezones", () => {
   describe("UnsetZone", () => {
     it("isValid", () => {
       expect(UnsetZone.isValid).to.eql(true)
+    })
+    it("reasonableTzOffsetMinutes() returns undefined for UnsetZone", () => {
+      expect(reasonableTzOffsetMinutes(UnsetZoneOffsetMinutes)).to.eql(false)
+    })
+    it("offsetMinutesToZoneName() returns undefined for UnsetZone", () => {
+      expect(offsetMinutesToZoneName(UnsetZoneOffsetMinutes)).to.eql(undefined)
+    })
+    it("extractOffset() returns undefined for UnsetZone", () => {
+      expect(extractOffset("UTC-00:01")).to.eql(undefined)
     })
   })
   describe("extractOffsetMinutes", () => {
