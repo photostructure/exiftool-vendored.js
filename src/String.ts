@@ -51,7 +51,7 @@ export function pad3(...numbers: number[]): string[] {
 }
 
 /**
- * NOTE: case insensitive
+ * NOT FOR GENERAL USE, as this is latin-case-insensitive
  */
 export function stripPrefix(s: string, prefix: string): string {
   return toS(s).toLowerCase().startsWith(prefix.toLowerCase())
