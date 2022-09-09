@@ -650,6 +650,14 @@ export class ExifTool {
   childEndCounts() {
     return this.batchCluster.childEndCounts
   }
+
+  /**
+   * Shut down any currently-running child processes. New child processes will
+   * be started automatically to handle new tasks.
+   */
+  closeChildProcesses(gracefully = true) {
+    return this.batchCluster.closeChildProcesses(gracefully)
+  }
 }
 
 /**
