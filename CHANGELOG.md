@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v17.0.2
+
+- 📦 Expose `closeChildProcesses` from underlying BatchCluster instance
+
+- 🐞 Pull in [batch-cluster bugfix](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1042)
+
+(Note that this build _does not_ pull in ExifTool v12.44, [due to this bug](https://exiftool.org/forum/index.php?topic=13863.0))
+
 ### v17.0.1
 
 - 🐞 `reasonableTzOffsetMinutes()`, `extractOffset()`, and
