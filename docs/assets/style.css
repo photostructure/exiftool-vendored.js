@@ -942,7 +942,7 @@ a.tsd-index-link {
     margin: 2rem 0;
 }
 .tsd-panel-group.tsd-index-group details {
-    margin: 4rem 0;
+    margin: 2rem 0;
 }
 
 #tsd-search {
@@ -1124,6 +1124,7 @@ ul.tsd-type-parameter-list h5 {
     display: flex;
     justify-content: space-between;
     height: 2.5rem;
+    margin: 0 auto;
 }
 .tsd-page-toolbar .table-cell {
     position: relative;

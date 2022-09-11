@@ -5,6 +5,7 @@
    or
    [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe)
    into a single directory (like `~/src`)
+
 2. On POSIX, in `../exiftool-vendored.pl`:
 
    1. `npx ncu -u && yarn install && ./update.sh && yarn test`
