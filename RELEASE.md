@@ -1,10 +1,10 @@
 # Releasing new versions of `exiftool-vendored`
 
-1. `git clone` this repo, and either
+1. `git clone` this repo, and
    [exiftool-vendored.pl](https://github.com/photostructure/exiftool-vendored.pl)
-   or
+   onto a POSIX machine, and clone
    [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe)
-   into a single directory (like `~/src`)
+   onto a Windows machine.
 
 2. On POSIX, in `../exiftool-vendored.pl`:
 
@@ -18,8 +18,9 @@
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
-4. In `exiftool-vendored.pl`:
+4. Finally, release `exiftool-vendored`:
 
+   1. `cd ../exiftool-vendored.js`
    1. `npx ncu -u`
    1. `yarn install`
    1. `yarn mktags ../test-images` # < assumes ``../test-images`` has the full ExifTool sample image suite
