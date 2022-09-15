@@ -1,6 +1,6 @@
 import { DateTime } from "luxon"
 
-import { validDateTime } from "./DateTime"
+import { HourMs, validDateTime } from "./DateTime"
 import { first, firstDefinedThunk, map, Maybe } from "./Maybe"
 import { blank, pad2, toS } from "./String"
 
@@ -56,6 +56,13 @@ export class ExifDate {
 
   toDate(): Date {
     return new Date(this.year, this.month - 1, this.day)
+  }
+
+  /**
+   * @return the epoch milliseconds for this day in UTC, plus `deltaMs` milliseconds.
+   */
+  toMillis(deltaMs = 12 * HourMs) {
+    return this.toDate().getTime() + deltaMs
   }
 
   toISOString(): string {

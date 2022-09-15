@@ -272,6 +272,13 @@ export class ExifDateTime {
     return this.toISOString()
   }
 
+  /**
+   * @return the epoch milliseconds of this
+   */
+  toMillis() {
+    return this.toDateTime().toMillis()
+  }
+
   get isValid() {
     return this.toDateTime().isValid
   }

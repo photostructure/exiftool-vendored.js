@@ -1,3 +1,4 @@
+import { HourMs } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
 import { expect, randomChars } from "./_chai.spec"
 
@@ -21,6 +22,9 @@ describe("ExifDateTime", () => {
     })
     it("parses ISO year/month/day", () => {
       expect([dtIso.year, dtIso.month, dtIso.day]).to.eql([2016, 8, 12])
+    })
+    it("renders toMillis()", () => {
+      expect(dt.toMillis()).to.be.closeTo(new Date(iso).getTime(), 12 * HourMs)
     })
     it("parses hour/minute/second/millis", () => {
       expect([dt.hour, dt.minute, dt.second]).to.eql([7, 28, 50])

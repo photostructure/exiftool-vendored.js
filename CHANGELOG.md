@@ -27,6 +27,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v17.0.2
 
+- ✨ `ExifDateTime` and `ExifDate` now have a `toMillis()` to render in
+  milliseconds from common epoch
+
 - 📦 Expose `closeChildProcesses` from underlying BatchCluster instance
 
 - 🐞 Pull in [batch-cluster bugfix](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1042)
