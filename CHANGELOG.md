@@ -25,7 +25,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v17.0.2
+### v17.1.0
 
 - ✨ `ExifDateTime` and `ExifDate` now have a `toMillis()` to render in
   milliseconds from common epoch
