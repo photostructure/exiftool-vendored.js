@@ -26,7 +26,11 @@ function parse({
   numericTags?: never[]
   optionalArgs?: never[]
 }): Tags {
-  const tt = ReadTask.for(SourceFile, numericTags, optionalArgs)
+  const tt = ReadTask.for(SourceFile, {
+    numericTags,
+    optionalArgs,
+    defaultVideosToUTC: true,
+  })
   const json = JSON.stringify([{ ...tags, SourceFile }])
   return tt.parse(json, error)
 }
@@ -438,6 +442,22 @@ describe("ReadTask", () => {
           tz: "America/New_York",
           tzSource: "from Lat/Lon",
         })
+      })
+
+      it("assumes UTC if video", () => {
+        const t = parse({
+          tags: {
+            MIMEType: "video/mp4",
+            CreateDate: "2022:08:31 00:32:06",
+            GPSLatitude: 34.15,
+            GPSLongitude: -84.73,
+          },
+        })
+        expect(t).to.containSubset({
+          tz: "UTC",
+          tzSource: "defaultVideosToUTC",
+        })
+        expect(t.CreateDate?.toString()).to.eql("2022-08-31T00:32:06.000Z")
       })
 
       it("normalizes when in EST with only OffsetTime", () => {

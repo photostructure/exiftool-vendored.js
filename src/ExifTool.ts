@@ -267,6 +267,14 @@ export interface ExifToolOptions
   numericTags: string[]
 
   /**
+   * Video file dates are assumed to be in UTC, rather than using timezone
+   * inference used in images. To disable this default, set this to false.
+   *
+   * @see <https://github.com/photostructure/exiftool-vendored.js/issues/113>
+   */
+  defaultVideosToUTC: boolean
+
+  /**
    * `ExifTool` has a shebang line that assumes a valid `perl` is installed at
    * `/usr/bin/perl`.
    *
@@ -315,6 +323,7 @@ export const DefaultExifToolOptions: Omit<
     "GPSPosition",
     "Orientation",
   ],
+  defaultVideosToUTC: true,
 })
 
 /**
@@ -383,7 +392,7 @@ export class ExifTool {
    * Read the tags in `file`.
    *
    * @param {string} file the file to extract metadata tags from
-   * @param {string[]} [args] any additional ExifTool arguments, like "-fast" or
+   * @param {string[]} [optionalArgs] any additional ExifTool arguments, like "-fast" or
    * "-fast2". **Most other arguments will require you to use `readRaw`.**
    * Note that the default is "-fast", so if you want ExifTool to read the
    * entire file for metadata, you should pass an empty array as the second
@@ -395,10 +404,14 @@ export class ExifTool {
    */
   read<T extends Tags = Tags>(
     file: string,
-    args: string[] = ["-fast"]
+    optionalArgs: string[] = ["-fast"]
   ): Promise<T> {
     return this.enqueueTask(() =>
-      ReadTask.for(file, this.options.numericTags, args)
+      ReadTask.for(file, {
+        optionalArgs,
+        numericTags: this.options.numericTags,
+        defaultVideosToUTC: this.options.defaultVideosToUTC,
+      })
     ) as any // < no way to know at compile time if we're going to get back a T!
   }
 

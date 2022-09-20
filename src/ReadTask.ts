@@ -3,6 +3,7 @@ import * as _path from "path"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
+import { ExifToolOptions } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
 import { firstDefinedThunk, map, Maybe } from "./Maybe"
 import { toF } from "./Number"
@@ -25,11 +26,16 @@ const PassthroughTags = [
   "DateDisplayFormat",
 ]
 
-const nullishes = ["undef", "null", "undefined"]
+const NullIsh = ["undef", "null", "undefined"]
 
 export function nullish(s: string | undefined): s is undefined {
-  return s == null || (isString(s) && nullishes.includes(s.trim()))
+  return s == null || (isString(s) && NullIsh.includes(s.trim()))
 }
+
+export type ReadTaskOptions = { optionalArgs: string[] } & Pick<
+  ExifToolOptions,
+  "numericTags" | "defaultVideosToUTC"
+>
 
 export class ReadTask extends ExifToolTask<Tags> {
   private readonly degroup: boolean
@@ -46,7 +52,8 @@ export class ReadTask extends ExifToolTask<Tags> {
 
   private constructor(
     readonly sourceFile: string,
-    override readonly args: string[]
+    override readonly args: string[],
+    readonly options: ReadTaskOptions
   ) {
     super(args)
     this.degroup = this.args.indexOf("-G") !== -1
@@ -54,25 +61,21 @@ export class ReadTask extends ExifToolTask<Tags> {
     this.tags.errors = this.errors
   }
 
-  static for(
-    filename: string,
-    numericTags: string[],
-    optionalArgs: string[] = []
-  ): ReadTask {
+  static for(filename: string, options: ReadTaskOptions): ReadTask {
     const sourceFile = _path.resolve(filename)
     const args = [
       "-json",
       "-struct", // Return struct tags https://exiftool.org/struct.html
-      ...optionalArgs,
+      ...(options.optionalArgs ?? []),
     ]
     // IMPORTANT: "-all" must be after numeric tag references (first reference
     // in wins)
-    args.push(...numericTags.map((ea) => "-" + ea + "#"))
+    args.push(...(options.numericTags ?? []).map((ea) => "-" + ea + "#"))
     // TODO: Do you need -xmp:all, -all, or -all:all?
     args.push("-all", "-charset", "filename=utf8", sourceFile)
 
     // console.log("new ReadTask()", { sourceFile, args })
-    return new ReadTask(sourceFile, args)
+    return new ReadTask(sourceFile, args, options)
   }
 
   override toString(): string {
@@ -164,10 +167,27 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   #extractTzOffset() {
-    // tzlookup will be the "best" tz, as it will be a proper Zone name (like
-    // "America/New_York"), rather than just an hour offset.
     map(
       firstDefinedThunk([
+        // See https://github.com/photostructure/exiftool-vendored.js/issues/113
+        () => {
+          if (
+            this._tags?.MIMEType?.startsWith("video/") &&
+            this.options.defaultVideosToUTC === true
+          ) {
+            return (
+              // If there is a TimeZone tag, defer to that before defaulting to UTC:
+              extractTzOffsetFromTags(this._tags) ?? {
+                tz: "UTC",
+                src: "defaultVideosToUTC",
+              }
+            )
+          }
+          return
+        },
+
+        // If lat/lon is valid, use the tzlookup library, as it will be a proper
+        // Zone name (like "America/New_York"), rather than just an hour offset.
         () => {
           if (!this.invalidLatLon && this.lat != null && this.lon != null) {
             try {
@@ -181,7 +201,9 @@ export class ReadTask extends ExifToolTask<Tags> {
           }
           return
         },
+
         () => extractTzOffsetFromTags(this._tags),
+
         () => extractTzOffsetFromUTCOffset(this._tags),
       ]),
       (ea) => ({ tz: this.tz, src: this.tzSource } = ea)
