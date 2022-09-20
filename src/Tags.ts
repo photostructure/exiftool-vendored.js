@@ -130,7 +130,7 @@ export interface CompositeTags {
   LensID?: string
   /** ☆☆☆☆ ✔ Example: "85mm f/1.8 G" */
   LensSpec?: string
-  /** ☆☆☆☆   Example: "Olympus Zuiko Digital ED 50mm F2.0 Macro" */
+  /** ☆☆☆☆ ✔ Example: "Olympus Zuiko Digital ED 50mm F2.0 Macro" */
   LensType?: string
   /** ★★★★ ✔ Example: 9.9 */
   LightValue?: number
@@ -162,13 +162,13 @@ export interface CompositeTags {
   ShutterCurtainHack?: string
   /** ★★★★ ✔ Example: "inf" */
   ShutterSpeed?: string
-  /** ★☆☆☆ ✔ Example: 2022-01-14T10:56:21.580Z */
+  /** ★☆☆☆ ✔ Example: 2022-02-14T12:41:41.996-05:00 */
   SubSecCreateDate?: ExifDateTime | string
-  /** ★☆☆☆ ✔ Example: 2022-01-14T10:56:21.580Z */
+  /** ★☆☆☆ ✔ Example: 2022-02-14T12:41:41.996-05:00 */
   SubSecDateTimeOriginal?: ExifDateTime | string
   /** ☆☆☆☆   Example:  */
   SubSecMediaCreateDate?: ExifDateTime | string
-  /** ★☆☆☆ ✔ Example: 2022-01-14T10:56:21.580Z */
+  /** ★☆☆☆ ✔ Example: 2022-02-14T12:41:41.996-05:00 */
   SubSecModifyDate?: ExifDateTime | string
 }
 
@@ -788,9 +788,9 @@ export interface EXIFTags {
   StripByteCounts?: number
   /** ☆☆☆☆ ✔ Example: 986 */
   StripOffsets?: number
-  /** ★☆☆☆ ✔ Example: 988 */
+  /** ★☆☆☆ ✔ Example: 996 */
   SubSecTime?: number
-  /** ★☆☆☆ ✔ Example: 98 */
+  /** ★☆☆☆ ✔ Example: 996 */
   SubSecTimeDigitized?: number
   /** ★☆☆☆ ✔ Example: 999 */
   SubSecTimeOriginal?: number
@@ -1095,15 +1095,17 @@ export interface QuickTimeTags {
   ChapterListTrackID?: number
   /** ☆☆☆☆ ✔ Example: "3840x2160" */
   CleanApertureDimensions?: string
-  /** ☆☆☆☆ ✔ Example: "nclx 9 1 9" */
-  ColorRepresentation?: string
+  /** ☆☆☆☆ ✔ Example: "BT.709" */
+  ColorPrimaries?: string
+  /** ☆☆☆☆ ✔ Example: "nclx" */
+  ColorProfiles?: string
   /** ☆☆☆☆ ✔ Example: ["qt  "] */
   CompatibleBrands?: string[]
   /** ☆☆☆☆ ✔ Example: "jpeg" */
   CompressorID?: string
   /** ☆☆☆☆ ✔ Example: "Track 1" */
   ContentDescribes?: string
-  /** ☆☆☆☆ ✔ Example: 2022-02-12T14:31:16.000-08:00 */
+  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:16.000Z */
   CreationDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "0 s" */
   CurrentTime?: string
@@ -1135,9 +1137,11 @@ export interface QuickTimeTags {
   LocationAccuracyHorizontal?: number
   /** ☆☆☆☆ ✔ Example: "MP4 v2 [ISO 14496-14]" */
   MajorBrand?: string
+  /** ☆☆☆☆ ✔ Example: "BT.709" */
+  MatrixCoefficients?: string
   /** ☆☆☆☆ ✔ Example: "1 0 0 0 1 0 0 0 1" */
   MatrixStructure?: string
-  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:16.000-08:00 */
+  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:16.000Z */
   MediaCreateDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: 98304 */
   MediaDataOffset?: number
@@ -1149,7 +1153,7 @@ export interface QuickTimeTags {
   MediaHeaderVersion?: number
   /** ☆☆☆☆ ✔ Example: "und" */
   MediaLanguageCode?: string
-  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:25.000-08:00 */
+  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:25.000Z */
   MediaModifyDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: 8000 */
   MediaTimeScale?: number
@@ -1203,7 +1207,7 @@ export interface QuickTimeTags {
   TimeCode?: number
   /** ☆☆☆☆ ✔ Example: 90000 */
   TimeScale?: number
-  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:16.000-08:00 */
+  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:16.000Z */
   TrackCreateDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: 9.5095 */
   TrackDuration?: number
@@ -1213,10 +1217,12 @@ export interface QuickTimeTags {
   TrackID?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   TrackLayer?: number
-  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:25.000-08:00 */
+  /** ☆☆☆☆ ✔ Example: 2022-02-12T22:31:25.000Z */
   TrackModifyDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "0.00%" */
   TrackVolume?: string
+  /** ☆☆☆☆ ✔ Example: "BT.709" */
+  TransferCharacteristics?: string
   /** ☆☆☆☆ ✔ Example: "Panasonic" */
   VendorID?: string
   /** ☆☆☆☆ ✔ Example: 60 */
@@ -1445,6 +1451,8 @@ export interface MakerNotesTags {
   AFPointPosition?: string
   /** ☆☆☆☆ ✔ Example: "Center" */
   AFPointRegistration?: string
+  /** ☆☆☆☆ ✔ Example: "Use Half" */
+  AFPointSel?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   AFPointSelected?: string
   /** ☆☆☆☆ ✔ Example: "H=AF+Main/V=AF+Command" */
@@ -1499,12 +1507,6 @@ export interface MakerNotesTags {
   AccelerationVector?: string
   /** ☆☆☆☆   Example: "358.3 11.2" */
   Accelerometer?: string
-  /** ☆☆☆☆ ✔ Example: 9 */
-  AccelerometerX?: number
-  /** ☆☆☆☆ ✔ Example: 80 */
-  AccelerometerY?: number
-  /** ☆☆☆☆ ✔ Example: 31 */
-  AccelerometerZ?: number
   /** ☆☆☆☆ ✔ Example: "00:00" */
   AccessorySerialNumber?: string
   /** ☆☆☆☆ ✔ Example: "NO-ACCESSORY" */
@@ -2747,8 +2749,6 @@ export interface MakerNotesTags {
   InternalFlashStrength?: number
   /** ☆☆☆☆ ✔ Example: 95 */
   InternalFlashTable?: number
-  /** ☆☆☆☆ ✔ Example: 0 */
-  InternalNDFilter?: number
   /** ★★☆☆ ✔ Example: "fdfec409" */
   InternalSerialNumber?: string
   /** ☆☆☆☆   Example: 65542 */
@@ -2835,9 +2835,9 @@ export interface MakerNotesTags {
   LensType2?: string
   /** ☆☆☆☆   Example:  */
   LensType3?: string
-  /** ☆☆☆☆   Example: 2 */
+  /** ☆☆☆☆ ✔ Example: 2 */
   LensTypeMake?: number
-  /** ☆☆☆☆   Example: "30 10" */
+  /** ☆☆☆☆ ✔ Example: "30 10" */
   LensTypeModel?: string
   /** ☆☆☆☆ ✔ Example: "98%" */
   LensZoomPosition?: string
@@ -2891,7 +2891,7 @@ export interface MakerNotesTags {
   LocationName?: string
   /** ☆☆☆☆ ✔ Example: "Protect (hold:record memo); 31" */
   LockMicrophoneButton?: string
-  /** ☆☆☆☆   Example: "Yes" */
+  /** ☆☆☆☆ ✔ Example: "Yes" */
   LongExposureNRUsed?: string
   /** ★☆☆☆ ✔ Example: "n/a" */
   LongExposureNoiseReduction?: string
@@ -3045,7 +3045,7 @@ export interface MakerNotesTags {
   MonitorOffTime?: string
   /** ☆☆☆☆ ✔ Example: "(none)" */
   MonochromeColor?: string
-  /** ☆☆☆☆   Example: "Off" */
+  /** ☆☆☆☆ ✔ Example: "Off" */
   MonochromeGrainEffect?: string
   /** ☆☆☆☆ ✔ Example: "No Filter; 0; 8; Strength 2; 0; 3" */
   MonochromeProfileSettings?: string
@@ -3141,7 +3141,7 @@ export interface MakerNotesTags {
   NoiseFilter?: string
   /** ★★☆☆ ✔ Example: "[4]" */
   NoiseReduction?: string
-  /** ☆☆☆☆   Example: 0 */
+  /** ☆☆☆☆ ✔ Example: 0 */
   NoiseReductionStrength?: number
   /** ☆☆☆☆ ✔ Example: 5.7 */
   NominalMaxAperture?: number
@@ -3191,7 +3191,7 @@ export interface MakerNotesTags {
   POILevel?: number
   /** ☆☆☆☆ ✔ Example: 2019-11-26T11:22:36.720+01:00 */
   PanasonicDateTime?: ExifDateTime | string
-  /** ☆☆☆☆ ✔ Example: "0416" */
+  /** ☆☆☆☆ ✔ Example: "0417" */
   PanasonicExifVersion?: string
   /** ☆☆☆☆ ✔ Example: 5584 */
   PanasonicImageHeight?: number
@@ -3299,7 +3299,7 @@ export interface MakerNotesTags {
   PopupFlash?: string
   /** ☆☆☆☆   Example: "Off" */
   PortraitRefiner?: string
-  /** ☆☆☆☆   Example: "Post Focus Auto Merging or None" */
+  /** ☆☆☆☆ ✔ Example: "Post Focus Auto Merging or None" */
   PostFocusMerging?: string
   /** ☆☆☆☆ ✔ Example: "External Power Supply" */
   PowerSource?: string
@@ -3571,7 +3571,7 @@ export interface MakerNotesTags {
   SensorSize?: string
   /** ☆☆☆☆ ✔ Example: "80.9 C" */
   SensorTemperature?: string
-  /** ☆☆☆☆   Example: "Standard" */
+  /** ☆☆☆☆ ✔ Example: "Standard" */
   SensorType?: string
   /** ☆☆☆☆   Example: "5 of 5" */
   Sequence?: string
@@ -3813,7 +3813,7 @@ export interface MakerNotesTags {
   TimeLapseShotNumber?: number
   /** ☆☆☆☆ ✔ Example: 01:48:53.630 */
   TimeSincePowerOn?: ExifTime | string
-  /** ☆☆☆☆ ✔ Example: 2021-02-22T12:45:11.000Z */
+  /** ☆☆☆☆ ✔ Example: 2022-02-14T17:41:41.000-05:00 */
   TimeStamp?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "-09:00" */
   TimeZone?: string
@@ -3903,7 +3903,7 @@ export interface MakerNotesTags {
   VideoBurstMode?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
   VideoBurstResolution?: string
-  /** ☆☆☆☆   Example: "No" */
+  /** ☆☆☆☆ ✔ Example: "No" */
   VideoPreburst?: string
   /** ☆☆☆☆ ✔ Example: "Disable" */
   ViewInfoDuringExposure?: string
@@ -4062,7 +4062,7 @@ export interface XMPTags {
   CameraProfileDigest?: string
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
-  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
   Cameras?: Struct[]
   /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
   CaptureSoftware?: string
@@ -4094,7 +4094,7 @@ export interface XMPTags {
   ColorNoiseReductionSmoothness?: number
   /** ☆☆☆☆ ✔ Example: "" */
   Colorlabels?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
   Container?: Struct
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
@@ -4376,7 +4376,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
   Profiles?: Struct[]
   /** ☆☆☆☆ ✔ Example: "equirectangular" */
   ProjectionType?: string
@@ -4520,8 +4520,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.43 on Wed Jul 13 2022.
- * 2920 unique tags were found in 9967 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.45 on Tue Sep 20 2022.
+ * 2923 unique tags were found in 9968 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
