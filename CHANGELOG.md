@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.0.0
+
+- 💔 `ReadTask.for()` now takes an options hash, which includes the new `defaultVideosToUTC` option.
+
+- 🐞 Videos now default to UTC, unless there is a `TimeZone`, `OffsetTime`, `OffsetTimeOriginal`, `OffsetTimeDigitized`, or `TimeZoneOffset` tag value. Thanks for the [bug report](https://github.com/photostructure/exiftool-vendored.js/issues/113), @mrbrahman!
+
+- 🌱 ExifTool upgraded to [v12.45](https://exiftool.org/history.html#v12.45).
+
 ### v17.1.0
 
 - ✨ `ExifDateTime` and `ExifDate` now have a `toMillis()` to render in
