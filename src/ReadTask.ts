@@ -1,3 +1,4 @@
+import tz_lookup from "@photostructure/tz-lookup"
 import { logger } from "batch-cluster"
 import * as _path from "path"
 import { ExifDate } from "./ExifDate"
@@ -13,7 +14,6 @@ import {
   extractTzOffsetFromTags,
   extractTzOffsetFromUTCOffset,
 } from "./Timezones"
-const tzlookup = require("tz-lookup")
 
 /**
  * tag names we don't need to muck with:
@@ -191,7 +191,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         () => {
           if (!this.invalidLatLon && this.lat != null && this.lon != null) {
             try {
-              return map(tzlookup(this.lat, this.lon), (tz) => ({
+              return map(tz_lookup(this.lat, this.lon), (tz) => ({
                 tz,
                 src: "from Lat/Lon",
               }))

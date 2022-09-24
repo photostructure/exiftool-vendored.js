@@ -67,7 +67,7 @@
     "@types/globule": "^1.1.4",
     "@types/he": "^1.1.2",
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.7.18",
+    "@types/node": "^18.7.20",
     "@types/progress": "^2.0.5",
     "@types/rimraf": "^3.0.2",
     "@types/tar-fs": "^2.0.1",
@@ -79,7 +79,7 @@
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
-    "eslint": "^8.23.1",
+    "eslint": "^8.24.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "extract-zip": "^2.0.1",
@@ -102,7 +102,7 @@
     "batch-cluster": "^11.0.0",
     "he": "^1.2.0",
     "luxon": "^3.0.3",
-    "tz-lookup": "^6.1.25"
+    "@photostructure/tz-lookup": "^7.0.0"
   },
   "optionalDependencies": {
     "exiftool-vendored.exe": "12.45.0",
