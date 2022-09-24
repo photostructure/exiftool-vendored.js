@@ -97,6 +97,9 @@
     "typescript": "~4.8.3",
     "xpath": "^0.0.32"
   },
+  "dependencies-note": {
+    "_": "@types/luxon is _actually_ a dependency (not a devDependency). See <https://github.com/photostructure/exiftool-vendored.js/pull/108>",
+  },
   "dependencies": {
     "@types/luxon": "^3.0.1",
     "batch-cluster": "^11.0.0",
