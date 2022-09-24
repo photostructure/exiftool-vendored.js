@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.1.0
+
+- 📦 Switch from the abandoned `tz-lookup` package to `@photostructure/tz-lookup`. Note that this uses an updated time zone geo database, so some time zone names and geo shapes have changed.
+
+- 🐞 The `GPSPosition` tag is no longer included in the default set of numeric tags, as this results in ExifTool returning two floats, whitespace-separated. Use `GPSLatitude` and `GPSLongitude` instead. 
+
 ### v18.0.0
 
 - 💔 `ReadTask.for()` now takes an options hash, which includes the new `defaultVideosToUTC` option.

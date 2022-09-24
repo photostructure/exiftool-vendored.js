@@ -98,7 +98,7 @@
     "xpath": "^0.0.32"
   },
   "dependencies-note": {
-    "_": "@types/luxon is _actually_ a dependency (not a devDependency). See <https://github.com/photostructure/exiftool-vendored.js/pull/108>",
+    "_": "@types/luxon is _actually_ a dependency (not a devDependency). See <https://github.com/photostructure/exiftool-vendored.js/pull/108>"
   },
   "dependencies": {
     "@types/luxon": "^3.0.1",
