@@ -320,7 +320,6 @@ export const DefaultExifToolOptions: Omit<
     "GPSAltitude",
     "GPSLatitude",
     "GPSLongitude",
-    "GPSPosition",
     "Orientation",
   ],
   defaultVideosToUTC: true,
