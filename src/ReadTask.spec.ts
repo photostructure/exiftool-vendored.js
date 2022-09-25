@@ -2,7 +2,7 @@ import * as fse from "fs-extra"
 import os from "os"
 import path, { join } from "path"
 import { ExifDateTime } from "./ExifDateTime"
-import { exiftool, ExifTool } from "./ExifTool"
+import { defaultVideosToUTC, exiftool, ExifTool } from "./ExifTool"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
 import {
@@ -455,7 +455,7 @@ describe("ReadTask", () => {
         })
         expect(t).to.containSubset({
           tz: "UTC",
-          tzSource: "defaultVideosToUTC",
+          tzSource: defaultVideosToUTC,
         })
         expect(t.CreateDate?.toString()).to.eql("2022-08-31T00:32:06.000Z")
       })

@@ -9,13 +9,28 @@ import { blank, isString, pad2 } from "./String"
 // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 export const MaxTzOffsetHours = 14
 
+/**
+ * Zone instances with this offset are a placeholder for being "unset".
+ */
 export const UnsetZoneOffsetMinutes = -1
+
 /**
  * This is a placeholder for dates where the zone is unknown/unset, because
  * Luxon doesn't officially support "unset" zones.
  */
 export const UnsetZone = Info.normalizeZone(UnsetZoneOffsetMinutes)
+
+/**
+ * Zone instances with this name are a placeholder for being "unset".
+ */
 export const UnsetZoneName = UnsetZone.name
+
+/**
+ * If `tzSource` matches this value, the tags are from a video, and we had to
+ * resort to assuming time fields are in UTC.
+ * @see https://github.com/photostructure/exiftool-vendored.js/issues/113
+ */
+export const defaultVideosToUTC = "defaultVideosToUTC"
 
 export function reasonableTzOffsetMinutes(
   tzOffsetMinutes: Maybe<number>
