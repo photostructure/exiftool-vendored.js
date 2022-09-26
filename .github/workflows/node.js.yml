@@ -7,6 +7,17 @@ on:
     branches: [ main ]
 
 jobs:
+  lint:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - run: npm i -g yarn
+      - run: yarn install
+      - run: yarn lint
+
   build:
     runs-on: ${{ matrix.os }}
 
