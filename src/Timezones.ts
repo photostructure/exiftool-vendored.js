@@ -1,5 +1,6 @@
-import { Info } from "luxon"
+import { Info, Zone } from "luxon"
 import { compact } from "./Array"
+import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { ExifDateTime } from "./ExifDateTime"
 import { first, firstDefinedThunk, map, Maybe } from "./Maybe"
 import { isNumber } from "./Number"
@@ -31,6 +32,16 @@ export const UnsetZoneName = UnsetZone.name
  * @see https://github.com/photostructure/exiftool-vendored.js/issues/113
  */
 export const defaultVideosToUTC = "defaultVideosToUTC"
+
+export function normalizeZone(z: Maybe<string | number | Zone>): Maybe<Zone> {
+  try {
+    if (z == null || blank(String(z))) return
+    const zone = Info.normalizeZone(z)
+    return zone?.isValid === true ? zone : undefined
+  } catch {
+    return
+  }
+}
 
 export function reasonableTzOffsetMinutes(
   tzOffsetMinutes: Maybe<number>
@@ -187,29 +198,17 @@ export function extractTzOffsetFromUTCOffset(t: {
 
   // If we can find any of these without a zone, the timezone should be the
   // offset between this time and the GPS time.
-  const dt = first(
-    [
-      "SubSecDateTimeOriginal",
-      "DateTimeOriginal",
-      "SubSecCreateDate",
-      "CreateDate",
-      "SubSecMediaCreateDate",
-      "MediaCreateDate",
-      "DateTimeCreated",
-    ],
-    (tagName) => {
-      const edt = ExifDateTime.fromExifStrict((t as any)[tagName])
-      return edt != null && edt.zone == null
-        ? {
-            tagName,
-            s: edt.setZone("UTC", { keepLocalTime: true }).toEpochSeconds(),
-          }
-        : undefined
-    }
-  )
+  const dt = first(CapturedAtTagNames, (tagName) => {
+    const edt = ExifDateTime.fromExifStrict((t as any)[tagName])
+    return edt != null && edt.zone == null
+      ? {
+          tagName,
+          s: edt.setZone("UTC", { keepLocalTime: true }).toEpochSeconds(),
+        }
+      : undefined
+  })
 
   if (dt == null) return
-  // By flooring
   const diffSeconds = dt.s - utc.s
   const offsetMinutes = inferLikelyOffsetMinutes(diffSeconds / 60)
   return map(offsetMinutesToZoneName(offsetMinutes), (tz) => ({
