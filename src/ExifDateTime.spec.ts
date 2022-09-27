@@ -259,6 +259,13 @@ describe("ExifDateTime", () => {
     })
   })
 
+  it("parses timestamps that end in DST", () => {
+    const raw = "2014:07:17 08:46:27-07:00 DST"
+    const dt = ExifDateTime.fromEXIF(raw)!
+    expect(dt.toISOString()).to.eql("2014-07-17T08:46:27.000-07:00")
+    expect(dt.zone).to.eql("UTC-7")
+  })
+
   it("try to repro issue #46", () => {
     const edt = new ExifDateTime(2019, 3, 8, 14, 24, 54, 0, -480)
     const dt = edt.toDateTime()
