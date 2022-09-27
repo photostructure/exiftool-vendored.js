@@ -25,11 +25,29 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.2.0
+
+- ✨ Add support for alternative gps timezone lookup libraries. If you want to use `geo-tz` instead, use something like this:
+
+```js
+const geoTz = require("geo-tz")
+const { ExifTool } = require("exiftool-vendored")
+const exiftool = new ExifTool({ geoToTz: (lat, lon) => geoTz.find(lat, lon)[0] })
+```
+
+- ✨ If a timezone offset tag is present, _and_ GPS metadata can infer a timezone, _and_ they result in the same offset, `Tags.tz` will use the GPS zone name (like `America/Los_Angeles`).
+
+- 🐞 We now only apply timezone offset defaults to tag values that are lacking in explicit offsets and are not always encoded in UTC.
+
+- 📦 Timezone "normalization" to a single timezone is no longer applied--if a datetime tag has an offset, the ExifDateTime value should retain that offset value now. Use `ExifDateTime.setZone` if you want to normalize any instance.
+
+- 📦 Restore `GPSPosition` to the default `numericTags` so all GPS lat/lon values are consistent.
+
 ### v18.1.0
 
 - 📦 Switch from the abandoned `tz-lookup` package to [`@photostructure/tz-lookup`](https://github.com/photostructure/tz-lookup). Note that this uses an updated time zone geo database, so some time zone names and geo shapes have changed.
 
-- 🐞 The `GPSPosition` tag is no longer included in the default set of numeric tags, as this results in ExifTool returning two floats, whitespace-separated. Use `GPSLatitude` and `GPSLongitude` instead. 
+- 📦 The `GPSPosition` tag is no longer included in the default set of numeric tags, as this results in ExifTool returning two floats, whitespace-separated. Use `GPSLatitude` and `GPSLongitude` instead. 
 
 ### v18.0.0
 
