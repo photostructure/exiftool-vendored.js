@@ -12,6 +12,7 @@ import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
+import { geoTz } from "./GeoTz"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
@@ -58,11 +59,11 @@ export { ExifTime } from "./ExifTime"
 export { ExifToolTask } from "./ExifToolTask"
 export { parseJSON } from "./JSON"
 export {
+  defaultVideosToUTC,
   offsetMinutesToZoneName,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
-  defaultVideosToUTC
 } from "./Timezones"
 export type {
   AdditionalWriteTags,
@@ -287,6 +288,25 @@ export interface ExifToolOptions
    * situations. Note also that `perl` will be spawned in a sub-shell.
    */
   ignoreShebang: boolean
+
+  /**
+   * Override the default geo-to-timezone lookup service.
+   *
+   * This defaults to `@photostructure/tz-lookup`, but if you have the
+   * resources, consider using `geo-tz` for more accurate results.
+   * 
+   * Here's a snippet of how to use `geo-tz` instead of `tz-lookup`:
+   * 
+```js
+const geotz = require("geo-tz")
+const { ExifTool } = require("exiftool-vendored")
+const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
+```
+   *
+   * @see https://github.com/photostructure/tz-lookup
+   * @see https://github.com/evansiroky/node-geo-tz/
+   */
+  geoTz: typeof geoTz
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
@@ -321,9 +341,11 @@ export const DefaultExifToolOptions: Omit<
     "GPSAltitude",
     "GPSLatitude",
     "GPSLongitude",
+    "GPSPosition",
     "Orientation",
   ],
   defaultVideosToUTC: true,
+  geoTz,
 })
 
 /**
@@ -411,6 +433,7 @@ export class ExifTool {
         optionalArgs,
         numericTags: this.options.numericTags,
         defaultVideosToUTC: this.options.defaultVideosToUTC,
+        geoTz: this.options.geoTz,
       })
     ) as any // < no way to know at compile time if we're going to get back a T!
   }
