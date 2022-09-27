@@ -3,6 +3,7 @@ import os from "os"
 import path, { join } from "path"
 import { ExifDateTime } from "./ExifDateTime"
 import { defaultVideosToUTC, exiftool, ExifTool } from "./ExifTool"
+import { geoTz as _geoTz } from "./GeoTz"
 import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
 import {
@@ -13,26 +14,39 @@ import {
   testDir,
 } from "./_chai.spec"
 
+const gt = require("geo-tz")
+
 function parse({
   tags,
   error,
   SourceFile = "/tmp/example.jpg",
   numericTags = [],
   optionalArgs = [],
+  geoTz = _geoTz,
 }: {
   tags: any
   error?: Error
   SourceFile?: string
   numericTags?: never[]
   optionalArgs?: never[]
+  geoTz?: typeof _geoTz
 }): Tags {
   const tt = ReadTask.for(SourceFile, {
     numericTags,
     optionalArgs,
     defaultVideosToUTC: true,
+    geoTz,
   })
   const json = JSON.stringify([{ ...tags, SourceFile }])
   return tt.parse(json, error)
+}
+
+function geo_tz(lat: number, lon: number): string | undefined {
+  try {
+    return gt.find(lat, lon)[0]
+  } catch {
+    return
+  }
 }
 
 after(() => exiftool.end())
@@ -329,47 +343,84 @@ describe("ReadTask", () => {
       expect(t.tzSource).to.eql(undefined)
     })
 
-    describe("timezone normalization", () => {
-      it("normalizes to GMT timezone", () => {
+    // https://github.com/photostructure/exiftool-vendored.js/issues/113
+    describe("timezone parsing", () => {
+      for (const MIMEType of ["image/jpeg", "video/mp4"]) {
+        describe(JSON.stringify({ MIMEType }), () => {
+          it("handles explicit GMT with explicit offset", () => {
+            const t = parse({
+              tags: {
+                MIMEType,
+                TimeZone: "+00:00",
+                CreateDate: "2020:08:03 08:00:19-07:00",
+                SubSecCreateDate: "2020:08:03 15:00:19.01+00:00",
+                DateTimeOriginal: "2020:08:03 15:00:19",
+                TimeStamp: "2020:08:03 15:00:19.01",
+              },
+            })
+            expect(renderTagsWithISO(t)).to.eql({
+              MIMEType,
+              CreateDate: "2020-08-03T08:00:19.000-07:00",
+              SubSecCreateDate: "2020-08-03T15:00:19.010Z",
+              DateTimeOriginal: "2020-08-03T15:00:19.000Z",
+              TimeStamp: "2020-08-03T15:00:19.010Z",
+
+              tz: "UTC",
+              tzSource: "offsetMinutesToZoneName from TimeZone",
+              TimeZone: "+00:00",
+
+              errors: [],
+            })
+          })
+        })
+      }
+      it("defaults video without offset to UTC", () => {
         const t = parse({
           tags: {
-            TimeZone: "+00:00",
-            CreateDate: "2020:08:03 08:00:19-07:00",
-            SubSecCreateDate: "2020:08:03 15:00:19.01+00:00",
-            DateTimeOriginal: "2020:08:03 15:00:19",
-            TimeStamp: "2020:08:03 15:00:19.01",
+            MIMEType: "video/mp4",
+            CreateDate: "2014:07:17 08:46:27",
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
           // ALL DATES ARE IN ZULU!
-          CreateDate: "2020-08-03T15:00:19.000Z",
-          SubSecCreateDate: "2020-08-03T15:00:19.010Z",
-          DateTimeOriginal: "2020-08-03T15:00:19.000Z",
-          TimeStamp: "2020-08-03T15:00:19.010Z",
-
+          MIMEType: "video/mp4",
+          CreateDate: "2014-07-17T08:46:27.000Z",
           tz: "UTC",
-          tzSource: "offsetMinutesToZoneName from TimeZone",
-          TimeZone: "+00:00",
-
+          tzSource: defaultVideosToUTC,
           errors: [],
         })
       })
-      it("normalizes to CET timezone", () => {
+      it("retains tzoffset in video timestamps", () => {
+        const t = parse({
+          tags: {
+            MIMEType: "video/mp4",
+            CreateDate: "2014:07:17 08:46:27-05:00 DST",
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          // ALL DATES ARE IN ZULU!
+          MIMEType: "video/mp4",
+          CreateDate: "2014-07-17T08:46:27.000-05:00",
+          tz: "UTC",
+          tzSource: defaultVideosToUTC,
+          errors: [],
+        })
+      })
+      it("handles CET timezone for images", () => {
         const t = parse({
           tags: {
             TimeZone: "+01:00",
             TimeZoneCity: "Rome",
-            CreateDate: "2020:08:03 08:00:19-07:00", // < different (local system) zone!
-            SubSecCreateDate: "2020:08:03 16:00:19.01+01:00",
+            CreateDate: "2020:08:03 16:00:19", // < different (local system) zone!
+            SubSecCreateDate: "2020:08:03 16:00:19.123+01:00",
             DateTimeOriginal: "2020:08:03 16:00:19", // < missing zone!
             TimeStamp: "2020:08:03 16:00:19.01", // < missing zone!
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
-          // NEAT THEY ARE ALL +01:00 NOW YAY
           CreateDate: "2020-08-03T16:00:19.000+01:00",
           DateTimeOriginal: "2020-08-03T16:00:19.000+01:00",
-          SubSecCreateDate: "2020-08-03T16:00:19.010+01:00",
+          SubSecCreateDate: "2020-08-03T16:00:19.123+01:00",
           TimeStamp: "2020-08-03T16:00:19.010+01:00",
 
           TimeZone: "+01:00",
@@ -379,7 +430,57 @@ describe("ReadTask", () => {
           errors: [],
         })
       })
-      it("doesn't normalize if timezone is missing", () => {
+      it("handles CET timezone for video with TimeZone tag", () => {
+        const t = parse({
+          tags: {
+            MIMEType: "video/mp4",
+            TimeZone: "+01:00",
+            TimeZoneCity: "Rome",
+            CreateDate: "2020:08:03 16:00:19", // < different (local system) zone!
+            DateTimeOriginal: "2020:08:03 16:00:19", // < missing zone!
+            SubSecCreateDate: "2020:08:03 16:00:19.123+01:00",
+            TimeStamp: "2020:08:03 16:00:19.01", // < missing zone!
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          MIMEType: "video/mp4",
+
+          CreateDate: "2020-08-03T16:00:19.000+01:00",
+          DateTimeOriginal: "2020-08-03T16:00:19.000+01:00",
+          SubSecCreateDate: "2020-08-03T16:00:19.123+01:00",
+          TimeStamp: "2020-08-03T16:00:19.010+01:00",
+
+          TimeZone: "+01:00",
+          TimeZoneCity: "Rome",
+          tz: "UTC+1",
+          tzSource: "offsetMinutesToZoneName from TimeZone",
+          errors: [],
+        })
+      })
+      it("handles CET timezone for video without TimeZone tag", () => {
+        const t = parse({
+          tags: {
+            MIMEType: "video/mp4",
+            CreateDate: "2020:08:03 15:00:19", // < naughty video in UTC
+            SubSecCreateDate: "2020:08:03 16:00:19.123+01:00",
+            DateTimeOriginal: "2020:08:03 15:00:19", // < missing zone!
+            TimeStamp: "2020:08:03 15:00:19.01", // < missing zone!
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          MIMEType: "video/mp4",
+
+          CreateDate: "2020-08-03T15:00:19.000Z",
+          SubSecCreateDate: "2020-08-03T16:00:19.123+01:00",
+          DateTimeOriginal: "2020-08-03T15:00:19.000Z",
+          TimeStamp: "2020-08-03T15:00:19.010Z",
+
+          tz: "UTC",
+          tzSource: defaultVideosToUTC,
+          errors: [],
+        })
+      })
+      it("doesn't apply missing timezone", () => {
         const t = parse({
           tags: {
             CreateDate: "2020:08:03 08:00:19-07:00",
@@ -400,7 +501,7 @@ describe("ReadTask", () => {
         expect(t.tzSource).to.eql(undefined)
       })
 
-      it("normalizes when in EST", () => {
+      it("handles EST", () => {
         const t = parse({
           tags: {
             CreateDate: "2020:12:29 14:24:45",
@@ -421,7 +522,6 @@ describe("ReadTask", () => {
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
-          // Everything normalized to PST:
           CreateDate: "2020-12-29T14:24:45.000-05:00",
           DateTimeOriginal: "2020-12-29T14:24:45.000-05:00",
           SubSecCreateDate: "2020-12-29T14:24:45.700-05:00",
@@ -440,24 +540,73 @@ describe("ReadTask", () => {
           SubSecTimeOriginal: 700,
           errors: [],
           tz: "America/New_York",
-          tzSource: "from Lat/Lon",
+          tzSource: "offsetMinutesToZoneName from OffsetTime & Lat/Lon",
         })
       })
 
-      it("assumes UTC if video", () => {
+      it("handles EST with only GPS and geo-tz", () => {
         const t = parse({
+          geoTz: geo_tz,
           tags: {
-            MIMEType: "video/mp4",
-            CreateDate: "2022:08:31 00:32:06",
+            CreateDate: "2020:12:29 14:24:45",
             GPSLatitude: 34.15,
             GPSLongitude: -84.73,
           },
         })
-        expect(t).to.containSubset({
+        expect(renderTagsWithISO(t)).to.eql({
+          CreateDate: "2020-12-29T14:24:45.000-05:00",
+          GPSLatitude: 34.15,
+          GPSLongitude: -84.73,
+          errors: [],
+          tz: "America/New_York",
+          tzSource: "from Lat/Lon",
+        })
+      })
+
+      it("assumes UTC if video (even if GPS infers EST)", () => {
+        const t = parse({
+          tags: {
+            MIMEType: "video/mp4",
+            CreateDate: "2022:08:31 00:32:06",
+            // Smartphone videos seem to always encode timestamps in UTC, even
+            // if there is GPS metadata
+            GPSLatitude: 34.15,
+            GPSLongitude: -84.73,
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          MIMEType: "video/mp4",
+          CreateDate: "2022-08-31T00:32:06.000Z",
+          // Smartphone videos seem to always encode timestamps in UTC, even
+          // if there is GPS metadata
+          GPSLatitude: 34.15,
+          GPSLongitude: -84.73,
+          errors: [],
           tz: "UTC",
           tzSource: defaultVideosToUTC,
         })
-        expect(t.CreateDate?.toString()).to.eql("2022-08-31T00:32:06.000Z")
+      })
+
+      it("infers GPS tz (EDT) if not video", () => {
+        const t = parse({
+          tags: {
+            CreateDate: "2022:08:31 00:32:06",
+            // Smartphone videos seem to always encode timestamps in UTC, even
+            // if there is GPS metadata
+            GPSLatitude: 34.15,
+            GPSLongitude: -84.73,
+          },
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          CreateDate: "2022-08-31T00:32:06.000-04:00",
+          // Smartphone videos seem to always encode timestamps in UTC, even
+          // if there is GPS metadata
+          GPSLatitude: 34.15,
+          GPSLongitude: -84.73,
+          errors: [],
+          tz: "America/New_York",
+          tzSource: "from Lat/Lon",
+        })
       })
 
       it("normalizes when in EST with only OffsetTime", () => {

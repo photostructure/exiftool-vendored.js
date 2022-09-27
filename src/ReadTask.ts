@@ -1,4 +1,3 @@
-import tz_lookup from "@photostructure/tz-lookup"
 import { logger } from "batch-cluster"
 import * as _path from "path"
 import { ExifDate } from "./ExifDate"
@@ -6,13 +5,16 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolOptions } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
-import { firstDefinedThunk, map, Maybe } from "./Maybe"
+import { firstDateTime } from "./FirstDateTime"
+import { lazy } from "./Lazy"
+import { firstDefinedThunk, map } from "./Maybe"
 import { toF } from "./Number"
 import { blank, isString, toS } from "./String"
 import { Tags } from "./Tags"
 import {
   extractTzOffsetFromTags,
   extractTzOffsetFromUTCOffset,
+  normalizeZone,
 } from "./Timezones"
 
 /**
@@ -34,7 +36,7 @@ export function nullish(s: string | undefined): s is undefined {
 
 export type ReadTaskOptions = { optionalArgs: string[] } & Pick<
   ExifToolOptions,
-  "numericTags" | "defaultVideosToUTC"
+  "numericTags" | "defaultVideosToUTC" | "geoTz"
 >
 
 export class ReadTask extends ExifToolTask<Tags> {
@@ -131,13 +133,13 @@ export class ReadTask extends ExifToolTask<Tags> {
     return this.tags as Tags
   }
 
-  #extractLatLon() {
+  #extractLatLon = lazy(() => {
     this.lat ??= this.#latlon("GPSLatitude", "S", 90)
     this.lon ??= this.#latlon("GPSLongitude", "W", 180)
     if (this.invalidLatLon) {
       this.lat = this.lon = undefined
     }
-  }
+  })
 
   #latlon(
     tagName: "GPSLatitude" | "GPSLongitude",
@@ -166,61 +168,75 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
   }
 
+  #geoTz = lazy(() => {
+    this.#extractLatLon()
+    if (this.invalidLatLon || this.lat == null || this.lon == null) return
+    try {
+      const geoTz = this.options.geoTz(this.lat, this.lon)
+      return normalizeZone(geoTz)
+    } catch {
+      this.invalidLatLon = true
+      return
+    }
+  })
+
   #extractTzOffset() {
     map(
       firstDefinedThunk([
-        // See https://github.com/photostructure/exiftool-vendored.js/issues/113
+        // If there is an explicit TimeZone tag (which is rare), defer to that
+        // before defaulting to UTC for videos:
         () => {
-          if (
-            this._tags?.MIMEType?.startsWith("video/") &&
-            this.options.defaultVideosToUTC === true
-          ) {
-            return (
-              // If there is a TimeZone tag, defer to that before defaulting to UTC:
+          const tz = extractTzOffsetFromTags(this._tags)
+          // If this tz offset matches the GPS zone, use the GPS zone name (like "America/Los_Angeles") instead of the offset.
+          const z = normalizeZone(tz?.tz)
+          if (tz != null && z != null) {
+            const geoTz = this.#geoTz()
+            if (geoTz != null) {
+              const edt = firstDateTime(this._raw)
+              if (edt != null) {
+                const ts = edt.toMillis()
+                const zOffset = z.offset(ts)
+                const geoTzOffset = geoTz.offset(ts)
+                if (zOffset === geoTzOffset) {
+                  return {
+                    tz: geoTz.name,
+                    src: tz.src + " & Lat/Lon",
+                  }
+                }
+              }
+            }
+          }
+          return tz
+        },
+
+        // See https://github.com/photostructure/exiftool-vendored.js/issues/113
+
+        // Videos are frequently encoded in UTC, but don't include the timezone offset in their datetime stamps.
+
+        // This must be before the tz_lookup/geoTz strategy, as smartphone videos
+        // will contain GPS, but still encode timestamps in UTC without an
+        // explicit offset. HURRAY
+        () =>
+          this._tags?.MIMEType?.startsWith("video/") &&
+          this.options.defaultVideosToUTC === true
+            ? // If there is a TimeZone tag, defer to that before defaulting to UTC:
               extractTzOffsetFromTags(this._tags) ?? {
                 tz: "UTC",
                 src: "defaultVideosToUTC",
               }
-            )
-          }
-          return
-        },
+            : // not applicable:
+              undefined,
 
         // If lat/lon is valid, use the tzlookup library, as it will be a proper
         // Zone name (like "America/New_York"), rather than just an hour offset.
-        () => {
-          if (!this.invalidLatLon && this.lat != null && this.lon != null) {
-            try {
-              return map(tz_lookup(this.lat, this.lon), (tz) => ({
-                tz,
-                src: "from Lat/Lon",
-              }))
-            } catch (err) {
-              /* */
-            }
-          }
-          return
-        },
+        () =>
+          map(this.#geoTz(), (ea) => ({ tz: ea.name, src: "from Lat/Lon" })),
 
-        () => extractTzOffsetFromTags(this._tags),
-
+        // This is a last-ditch estimation heuristic:
         () => extractTzOffsetFromUTCOffset(this._tags),
       ]),
       (ea) => ({ tz: this.tz, src: this.tzSource } = ea)
     )
-  }
-
-  #normalizeDateTime(tagName: string, value: Maybe<ExifDateTime | ExifDate>) {
-    if (
-      tagName.startsWith("File") ||
-      !(value instanceof ExifDateTime) ||
-      utcTagName(tagName) ||
-      this.tz == null
-    ) {
-      return value
-    }
-    // ExifTool may have put this in the current system time, instead of the timezone of the file.
-    return value.zone !== this.tz ? value.setZone(this.tz) : value
   }
 
   #parseTag(tagName: string, value: any): any {
@@ -248,7 +264,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       }
 
       if (typeof value === "string") {
-        const tz = utcTagName(tagName) ? "UTC" : undefined
+        const tz = isUtcTagName(tagName) ? "UTC" : this.tz
         if (
           tagName === "When" ||
           tagName.includes("DateTime") ||
@@ -257,7 +273,7 @@ export class ReadTask extends ExifToolTask<Tags> {
           const d =
             ExifDateTime.fromExifStrict(value, tz) ??
             ExifDateTime.fromISO(value, tz)
-          if (d != null) return this.#normalizeDateTime(tagName, d)
+          if (d != null) return d
         }
         if (tagName === "When" || tagName.includes("Date")) {
           const d =
@@ -269,7 +285,7 @@ export class ReadTask extends ExifToolTask<Tags> {
             ExifDate.fromExifLoose(value)
 
           if (d != null) {
-            return this.#normalizeDateTime(tagName, d)
+            return d
           }
         }
         if (tagName.includes("Time")) {
@@ -288,6 +304,6 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 }
 
-function utcTagName(tagName: string): boolean {
+function isUtcTagName(tagName: string): boolean {
   return tagName.includes("UTC") || tagName.startsWith("GPS")
 }
