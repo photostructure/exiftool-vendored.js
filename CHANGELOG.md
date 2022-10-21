@@ -25,6 +25,16 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.4.0
+
+- ✨ Binary fields are now parsed to a new `BinaryField` object which parses
+  out the length of the binary field
+
+- 🐞/📦 Added more required tag fields to `mktags`, including
+  `SubSecModifyDate` (which fell off of the Tags.ts API in v18.3.0, oops!)
+
+- 📦 `ExifTime` now retains the raw value to be consistent with `ExifDate` and `ExifDateTime`
+
 ### v18.3.0
 
 - 🌱 ExifTool upgraded to [v12.49](https://exiftool.org/history.html#v12.49), which adds write support to WEBP and a bunch of other goodness
@@ -40,7 +50,9 @@ vendored versions of ExifTool match the version that they vendor.
 ```js
 const geoTz = require("geo-tz")
 const { ExifTool } = require("exiftool-vendored")
-const exiftool = new ExifTool({ geoToTz: (lat, lon) => geoTz.find(lat, lon)[0] })
+const exiftool = new ExifTool({
+  geoToTz: (lat, lon) => geoTz.find(lat, lon)[0],
+})
 ```
 
 - ✨ If a timezone offset tag is present, _and_ GPS metadata can infer a timezone, _and_ they result in the same offset, `Tags.tz` will use the GPS zone name (like `America/Los_Angeles`).
@@ -55,7 +67,7 @@ const exiftool = new ExifTool({ geoToTz: (lat, lon) => geoTz.find(lat, lon)[0] }
 
 - 📦 Switch from the abandoned `tz-lookup` package to [`@photostructure/tz-lookup`](https://github.com/photostructure/tz-lookup). Note that this uses an updated time zone geo database, so some time zone names and geo shapes have changed.
 
-- 📦 The `GPSPosition` tag is no longer included in the default set of numeric tags, as this results in ExifTool returning two floats, whitespace-separated. Use `GPSLatitude` and `GPSLongitude` instead. 
+- 📦 The `GPSPosition` tag is no longer included in the default set of numeric tags, as this results in ExifTool returning two floats, whitespace-separated. Use `GPSLatitude` and `GPSLongitude` instead.
 
 ### v18.0.0
 
