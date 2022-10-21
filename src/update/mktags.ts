@@ -22,6 +22,7 @@ const MAX_TAGS = 2500 // TypeScript 4.2 crashes with 3100+
 // ☠☠ HEY! YOU! I SAID STOP SCROLLING! ☠☠
 
 const RequiredTags: Record<string, { t: string; grp: string }> = {
+  Aperture: { t: "number", grp: "Composite" },
   ApertureValue: { t: "number", grp: "EXIF" },
   AvgBitrate: { t: "string", grp: "Composite" },
   BodySerialNumber: { t: "string", grp: "MakerNotes" },
@@ -39,12 +40,13 @@ const RequiredTags: Record<string, { t: string; grp: string }> = {
   CreationTime: { t: "ExifDateTime | string", grp: "XMP" },
   DateCreated: { t: "ExifDateTime | string", grp: "XMP" },
   DateTime: { t: "ExifDateTime | string", grp: "XMP" },
-  DateTimeCreated: { t: "ExifDateTime | string", grp: "Composite" },
+  DateTimeCreated: { t: "ExifDateTime | string", grp: "IPTC" },
   DateTimeDigitized: { t: "ExifDateTime | string", grp: "XMP" },
   DateTimeGenerated: { t: "ExifDateTime | string", grp: "APP1" },
   DateTimeOriginal: { t: "ExifDateTime | string", grp: "EXIF" },
   DateTimeUTC: { t: "ExifDateTime | string", grp: "MakerNotes" },
   Description: { t: "string", grp: "XMP" },
+  DOF: { t: "string", grp: "Composite" },
   Error: { t: "string", grp: "ExifTool" },
   ExifImageHeight: { t: "number", grp: "EXIF" },
   ExifImageWidth: { t: "number", grp: "EXIF" },
@@ -69,6 +71,7 @@ const RequiredTags: Record<string, { t: string; grp: string }> = {
   InternalSerialNumber: { t: "string", grp: "MakerNotes" },
   ISO: { t: "number", grp: "EXIF" },
   ISOSpeed: { t: "number", grp: "EXIF" },
+  JpgFromRaw: { t: "BinaryField", grp: "EXIF" },
   Keywords: { t: "string | string[]", grp: "IPTC" },
   Lens: { t: "string", grp: "Composite" },
   LensID: { t: "string", grp: "Composite" },
@@ -91,6 +94,7 @@ const RequiredTags: Record<string, { t: string; grp: string }> = {
   ObjectName: { t: "string", grp: "IPTC" },
   Orientation: { t: "number", grp: "EXIF" },
   OriginalCreateDateTime: { t: "ExifDateTime | string", grp: "XMP" },
+  PreviewImage: { t: "BinaryField", grp: "Composite" },
   Rating: { t: "number", grp: "XMP" },
   RegistryID: { t: "Struct[]", grp: "XMP" },
   Rotation: { t: "number", grp: "Composite" },
@@ -106,8 +110,11 @@ const RequiredTags: Record<string, { t: string; grp: string }> = {
   SubSecCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
   SubSecDateTimeOriginal: { t: "ExifDateTime | string", grp: "Composite" },
   SubSecMediaCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
+  SubSecModifyDate: { t: "ExifDateTime | string", grp: "Composite" },
   SubSecTime: { t: "number", grp: "EXIF" },
   SubSecTimeDigitized: { t: "number", grp: "EXIF" },
+  ThumbnailImage: { t: "BinaryField", grp: "EXIF" },
+  ThumbnailTIFF: { t: "BinaryField", grp: "EXIF" },
   TimeZone: { t: "string", grp: "MakerNotes" },
   TimeZoneOffset: { t: "number | string", grp: "EXIF" },
   Title: { t: "string", grp: "XMP" },
@@ -283,7 +290,11 @@ function valueType(value: any): Maybe<string> {
     if (ctor === "Object") {
       return "Struct"
     }
-    if (ctor.startsWith("ExifDate") || ctor.startsWith("ExifTime")) {
+    if (
+      ctor.startsWith("ExifDate") ||
+      ctor.startsWith("ExifTime") ||
+      ctor.endsWith("Field")
+    ) {
       return ctor + " | string"
     }
     return ctor
@@ -332,9 +343,9 @@ function sigFigs(i: number, digits: number): number {
 
 function toStr(o: any): any {
   if (o == null) return ""
-  if (isString(o)) return `"${ellipsize(o, 65)}"`
-  else if (o["toISOString"] != null) return o.toISOString()
   else if (isNumber(o)) return sigFigs(o, 8)
+  else if (isString(o)) return `"${ellipsize(o, 65)}"`
+  else if (isString(o.rawValue)) return `"${ellipsize(o.rawValue, 65)}"`
   else return ellipsize(JSON.stringify(o), 65)
 }
 
@@ -412,6 +423,7 @@ class Tag {
   vacuumValues() {
     return filterInPlace(this.values, (ea) => !nullish(ea))
   }
+
   keep(minValues: number): boolean {
     this.vacuumValues()
     // If it's a tag from an "important" camera, always include the tag.
@@ -422,12 +434,13 @@ class Tag {
         (this.important || this.values.length >= minValues))
     )
   }
+
   popIcon(totalValues: number): string {
     const f = this.values.length / totalValues
 
     // kid: dad srsly stop with the emojicode no one likes it
 
-    // dad: ur not the boss of me
+    // dad: ur not the boss of me 💩
 
     // As of 20180814, 4300 unique tags, 2713 of which were found in at least 2
     // cameras, and only 700 were found in at least 1% of cameras, so this looks
@@ -515,6 +528,8 @@ class Tag {
     if (this.tag.endsWith("Artist")) return exampleToS(["Arturo DeImage"])
     if (this.tag.endsWith("Author")) return exampleToS(["Nom De Plume"])
     if (this.tag.endsWith("Contact")) return exampleToS(["Donna Ringmanumba"])
+    if (this.tag.endsWith("Rights"))
+      return exampleToS(["Kawp E. Reite Houldre"])
     if (this.tag.endsWith("Software") || this.tag.endsWith("URL"))
       return exampleToS(["https://PhotoStructure.com/"])
     if (this.tag.endsWith("Credit"))
@@ -699,6 +714,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     tagWriter.write(
       [
         'import { ApplicationRecordTags } from "./ApplicationRecordTags"',
+        'import { BinaryField } from "./BinaryField"',
         'import { ExifDate } from "./ExifDate"',
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
