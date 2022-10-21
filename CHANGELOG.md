@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.3.0
+
+- 🌱 ExifTool upgraded to [v12.49](https://exiftool.org/history.html#v12.49), which adds write support to WEBP and a bunch of other goodness
+
+- 📦 Added new cameras to test image corpus, rebuilt tags and docs
+
+- 📦 Updated dependencies
+
 ### v18.2.0
 
 - ✨ Add support for alternative gps timezone lookup libraries. If you want to use `geo-tz` instead, use something like this:
