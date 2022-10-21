@@ -1,12 +1,13 @@
 import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
 import { times } from "./Array"
+import { BinaryField } from "./BinaryField"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { DefaultMaxProcs, ExifTool, exiftool, WriteTags } from "./ExifTool"
 import { parseJSON } from "./JSON"
-import { keys } from "./Object"
+import { fromEntries, keys } from "./Object"
 import { leftPad } from "./String"
 import { Tags } from "./Tags"
 import { expect, isWin32, renderTagsWithISO, testImg } from "./_chai.spec"
@@ -132,6 +133,42 @@ describe("ExifTool", function () {
           ImageWidth: 8,
           OriginalImageHeight: undefined,
           OriginalImageWidth: undefined,
+        })
+      })
+
+      async function readBinaryFieldSizes(
+        filename: string
+      ): Promise<Record<string, number>> {
+        return fromEntries(
+          Object.entries(await et.read(filename))
+            .filter(([, v]) => v instanceof BinaryField)
+            .map(([k, v]) => [k, v.bytes])
+        )
+      }
+
+      it("parses expected binary fields from " + img2, async () => {
+        // Validate with `exiftool -j -struct test/ExifTool.jpg | grep Binary | sort`
+        expect(await readBinaryFieldSizes(img2)).to.eql({
+          BlueTRC: 14,
+          FreeBytes: 12,
+          GreenTRC: 14,
+          PreviewImage: 1039273,
+          RatioImage: 19,
+          RedTRC: 14,
+          SBAExposureRecord: 368,
+          ScreenNail: 5917,
+          ThumbnailImage: 1558,
+          UserAdjSBA_RGBShifts: 5,
+        })
+      })
+
+      it("parses expected binary fields from " + img3, async () => {
+        // Validate with `exiftool -j -struct test/ExifTool.jpg | grep Binary | sort`
+        expect(await readBinaryFieldSizes(img3)).to.eql({
+          BlueTRC: 32,
+          GreenTRC: 32,
+          RedTRC: 32,
+          ThumbnailImage: 5133,
         })
       })
 
@@ -432,15 +469,18 @@ describe("ExifTool", function () {
         expect((ea.SubSecCreateDate as any).constructor).to.eql(ExifDateTime)
         expect((ea.GPSTimeStamp as any).constructor).to.eql(ExifTime)
         expect((ea.GPSDateStamp as any).constructor).to.eql(ExifDate)
+        expect((ea.ThumbnailImage as any).constructor).to.eql(BinaryField)
 
         expect({
           datetime: ea.SubSecCreateDate?.toString(),
           time: ea.GPSTimeStamp?.toString(),
           date: ea.GPSDateStamp?.toString(),
+          thumbBytes: ea.ThumbnailImage?.bytes,
         }).to.eql({
           datetime: "2017-12-22T17:08:35.363-08:00",
           time: "01:08:22",
           date: "2017-12-23",
+          thumbBytes: 5133,
         })
 
         // Verify that all primitive types are as expected:
@@ -458,6 +498,7 @@ describe("ExifTool", function () {
       expect(t2.SubSecCreateDate).to.eql(t.SubSecCreateDate)
       expect(t2.GPSDateTime).to.eql(t.GPSDateTime)
       expect(t2.GPSDateStamp).to.eql(t.GPSDateStamp)
+      expect(t2.ThumbnailImage).to.eql(t.ThumbnailImage)
     })
   })
 })

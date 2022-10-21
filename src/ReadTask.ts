@@ -1,5 +1,6 @@
 import { logger } from "batch-cluster"
 import * as _path from "path"
+import { BinaryField } from "./BinaryField"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
@@ -8,7 +9,7 @@ import { ExifToolTask } from "./ExifToolTask"
 import { firstDateTime } from "./FirstDateTime"
 import { lazy } from "./Lazy"
 import { firstDefinedThunk, map } from "./Maybe"
-import { toF } from "./Number"
+import { toFloat } from "./Number"
 import { blank, isString, toS } from "./String"
 import { Tags } from "./Tags"
 import {
@@ -148,7 +149,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   ): number | undefined {
     const tagValue = this._tags[tagName]
     const ref = this._tags[tagName + "Ref"]
-    const result = toF(tagValue)
+    const result = toFloat(tagValue)
     if (result == null) {
       return
     } else if (Math.abs(result) > maxValid) {
@@ -264,6 +265,9 @@ export class ReadTask extends ExifToolTask<Tags> {
       }
 
       if (typeof value === "string") {
+        const b = BinaryField.fromRawValue(value)
+        if (b != null) return b
+
         const tz = isUtcTagName(tagName) ? "UTC" : this.tz
         if (
           tagName === "When" ||

@@ -53,6 +53,7 @@ import { Version } from "./Version"
 import { VersionTask } from "./VersionTask"
 import { WriteTask } from "./WriteTask"
 
+export { BinaryField as BinaryDataField } from "./BinaryField"
 export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"

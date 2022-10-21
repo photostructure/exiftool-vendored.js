@@ -1,5 +1,5 @@
 import { expect } from "./_chai.spec"
-import { isNumber, toF, toI } from "./Number"
+import { isNumber, toFloat, toInt } from "./Number"
 
 describe("Number", () => {
   const examples = [
@@ -22,9 +22,15 @@ describe("Number", () => {
       f: 1,
     },
     {
+      n: 1.3,
+      isNum: true,
+      i: 1,
+      f: 1.3,
+    },
+    {
       n: 1.5,
       isNum: true,
-      i: 2,
+      i: 1,
       f: 1.5,
     },
     {
@@ -36,13 +42,13 @@ describe("Number", () => {
     {
       n: "123.5",
       isNum: false,
-      i: 124,
+      i: 123,
       f: 123.5,
     },
     {
       n: " 567.890 W 21431",
       isNum: false,
-      i: 568,
+      i: 567,
       f: 567.89,
     },
   ]
@@ -53,14 +59,14 @@ describe("Number", () => {
       )
     })
   })
-  describe("toI()", () => {
+  describe("toInt()", () => {
     examples.forEach(({ n, i }) => {
-      it(JSON.stringify(n) + " => " + i, () => expect(toI(n)).to.eql(i))
+      it(JSON.stringify(n) + " => " + i, () => expect(toInt(n)).to.eql(i))
     })
   })
-  describe("toF()", () => {
+  describe("toFloat()", () => {
     examples.forEach(({ n, f }) => {
-      it(JSON.stringify(n) + " => " + f, () => expect(toF(n)).to.eql(f))
+      it(JSON.stringify(n) + " => " + f, () => expect(toFloat(n)).to.eql(f))
     })
   })
 })
