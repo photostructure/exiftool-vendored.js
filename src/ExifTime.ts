@@ -12,21 +12,22 @@ export class ExifTime {
     return first(
       ["HH:mm:ss.uZZ", "HH:mm:ssZZ", "HH:mm:ss.u", "HH:mm:ss"],
       (fmt) =>
-        map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt))
+        map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt, text))
     )
   }
 
-  static fromDateTime(dt: DateTime): Maybe<ExifTime> {
+  static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifTime> {
     return dt == null || !dt.isValid
       ? undefined
-      : new ExifTime(dt.hour, dt.minute, dt.second, dt.millisecond)
+      : new ExifTime(dt.hour, dt.minute, dt.second, dt.millisecond, rawValue)
   }
 
   constructor(
     readonly hour: number,
     readonly minute: number,
     readonly second: number,
-    readonly millisecond?: number
+    readonly millisecond?: number,
+    readonly rawValue?: string
   ) {}
 
   get millis() {
@@ -58,10 +59,17 @@ export class ExifTime {
       minute: this.minute,
       second: this.second,
       millisecond: this.millisecond,
+      rawValue: this.rawValue,
     }
   }
 
   static fromJSON(json: ReturnType<ExifTime["toJSON"]>): ExifTime {
-    return new ExifTime(json.hour, json.minute, json.second, json.millisecond)
+    return new ExifTime(
+      json.hour,
+      json.minute,
+      json.second,
+      json.millisecond,
+      json.rawValue
+    )
   }
 }
