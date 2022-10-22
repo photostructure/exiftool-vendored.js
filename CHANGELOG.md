@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.4.1
+
+- 🐞 The public export for `BinaryField` mistakenly exposed it being named
+  `BinaryDataField`. The name of the export and the class are now both
+  `BinaryField`.
+
 ### v18.4.0
 
 - ✨ Binary fields are now parsed to a new `BinaryField` object which parses
