@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.4.2
+
+- 🐞 Date-time tags with exactly Common Epoch (`1970-01-01T00:00:00Z`) are no longer filtered as invalid. See [#118](https://github.com/photostructure/exiftool-vendored.js/issues/118) for details.
+
+- 📦 Updated dependencies, rebuild tags and docs
+
 ### v18.4.1
 
 - 🐞 The public export for `BinaryField` mistakenly exposed it being named
