@@ -186,10 +186,14 @@ export function extractTzOffsetFromUTCOffset(t: {
     ["GPSDateTime", "DateTimeUTC", "GPSDateTimeStamp"],
     (tagName) => {
       const edt = ExifDateTime.fromExifStrict((t as any)[tagName])
-      return edt != null && (edt.zone == null || edt.zone === "UTC")
+      const s =
+        edt != null && (edt.zone == null || edt.zone === "UTC")
+          ? edt.setZone("UTC", { keepLocalTime: true })?.toEpochSeconds()
+          : undefined
+      return s != null
         ? {
             tagName,
-            s: edt.setZone("UTC", { keepLocalTime: true }).toEpochSeconds(),
+            s,
           }
         : undefined
     }
@@ -200,10 +204,14 @@ export function extractTzOffsetFromUTCOffset(t: {
   // offset between this time and the GPS time.
   const dt = first(CapturedAtTagNames, (tagName) => {
     const edt = ExifDateTime.fromExifStrict((t as any)[tagName])
-    return edt != null && edt.zone == null
+    const s =
+      edt != null && edt.zone == null
+        ? edt.setZone("UTC", { keepLocalTime: true })?.toEpochSeconds()
+        : undefined
+    return s != null
       ? {
           tagName,
-          s: edt.setZone("UTC", { keepLocalTime: true }).toEpochSeconds(),
+          s,
         }
       : undefined
   })
