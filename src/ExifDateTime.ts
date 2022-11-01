@@ -6,7 +6,7 @@ import {
   ZoneOptions,
 } from "luxon"
 import { dateTimeToExif } from "./DateTime"
-import { denull, first, firstDefinedThunk, map, Maybe } from "./Maybe"
+import { denull, firstDefinedThunk, Maybe } from "./Maybe"
 import { omit } from "./Object"
 import { blank, notBlank, toS } from "./String"
 import {
@@ -79,18 +79,18 @@ export class ExifDateTime {
       const noTza = s.replace(/ [a-z]{2,5}$/i, "")
       if (noTza !== s) inputs.push(noTza)
     }
-
-    return first(inputs, (input) =>
-      first(fmts, ({ fmt, zone }) =>
-        map(
-          DateTime.fromFormat(input, fmt, {
-            setZone: true,
-            zone: zone ?? UnsetZone,
-          }),
-          (dt) => this.fromDateTime(dt, s)
-        )
-      )
-    )
+    // PERF: unroll first() to avoid creating closures
+    for (const input of inputs) {
+      for (const { fmt, zone } of fmts) {
+        const dt = DateTime.fromFormat(input, fmt, {
+          setZone: true,
+          zone: zone ?? UnsetZone,
+        })
+        const edt = ExifDateTime.fromDateTime(dt, s)
+        if (edt != null) return edt
+      }
+    }
+    return
   }
 
   static fromExifStrict(
@@ -136,13 +136,7 @@ export class ExifDateTime {
   }
 
   static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifDateTime> {
-    if (
-      dt == null ||
-      !dt.isValid ||
-      dt.toMillis() === 0 ||
-      dt.year === 0 ||
-      dt.year === 1
-    ) {
+    if (dt == null || !dt.isValid || dt.year === 0 || dt.year === 1) {
       return undefined
     }
     return new ExifDateTime(
@@ -211,7 +205,7 @@ export class ExifDateTime {
     return this.zoneName ?? offsetMinutesToZoneName(this.tzoffsetMinutes)
   }
 
-  setZone(zone?: string | Zone, opts?: ZoneOptions): ExifDateTime {
+  setZone(zone?: string | Zone, opts?: ZoneOptions): Maybe<ExifDateTime> {
     // This is a bit tricky... We want to keep the local time and just _say_ it was in the zone of the image **if we don't already have a zone.**
 
     // If we _do_ have a zone, assume it was already converted by ExifTool into (probably the system) timezone, which means _don't_ keepLocalTime.
@@ -226,7 +220,7 @@ export class ExifDateTime {
     // We know this will be defined: this is valid, so changing the zone will
     // also be valid.
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return result!
+    return result
   }
 
   toDateTime() {

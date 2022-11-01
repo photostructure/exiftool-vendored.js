@@ -272,6 +272,11 @@ describe("ExifDateTime", () => {
     expect(dt.toISO()).to.eql("2019-03-08T14:24:54.000-08:00")
   })
 
+  it("try to repro issue #118", () => {
+    const edt = ExifDateTime.fromExifStrict("1970:01:01 00:00:00Z")
+    expect(edt!.toMillis()).to.eql(0)
+  })
+
   it("parses non-standard timezone offset", () => {
     // 1900-1923, Kyiv had an offset of UTC +2:02:04
     const edt = ExifDateTime.fromExifStrict(

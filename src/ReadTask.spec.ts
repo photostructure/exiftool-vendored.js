@@ -343,6 +343,24 @@ describe("ReadTask", () => {
       expect(t.tzSource).to.eql(undefined)
     })
 
+    describe("try to reproduce issue #118", () => {
+      it("invalid GPSTimeStamp doesn't throw", async () => {
+        const t = parse({
+          tags: {
+            GPSTimeStamp: "1970:01:01 00:00:00Z", // < INVALID, this field is always a timestamp without a date
+          },
+        })
+        expect((t.GPSTimeStamp as any).toISOString()).to.eql(
+          "1970-01-01T00:00:00.000Z"
+        )
+      })
+
+      it("reads file with GPS tags set to common epoch", async () => {
+        const t = await exiftool.read(join(testDir, "0epoch.jpg"))
+        expect((t.GPSDateTime as ExifDateTime).toMillis()).to.eql(0)
+      })
+    })
+
     // https://github.com/photostructure/exiftool-vendored.js/issues/113
     describe("timezone parsing", () => {
       for (const MIMEType of ["image/jpeg", "video/mp4"]) {
