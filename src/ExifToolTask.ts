@@ -1,7 +1,11 @@
 import * as bc from "batch-cluster"
-import { notBlank, stripPrefix } from "./String"
+import { isIgnorableWarning } from "./IgnorableError"
+import { Maybe } from "./Maybe"
+import { notBlank } from "./String"
 
 export abstract class ExifToolTask<T> extends bc.Task<T> {
+  isIgnorableError = isIgnorableWarning
+
   static renderCommand(args: string[]): string {
     return [...args, "-ignoreMinorErrors", "-execute", ""].join("\n")
   }
@@ -10,12 +14,15 @@ export abstract class ExifToolTask<T> extends bc.Task<T> {
 
   constructor(readonly args: string[]) {
     super(ExifToolTask.renderCommand(args), (stdout, stderr, passed) => {
-      let err
+      let error: Maybe<Error>
       if (notBlank(stderr) || !passed) {
-        this.errors.push(stderr ?? "failed")
-        err = new Error(stripPrefix((stderr ?? stdout).trim(), "error: "))
+        const errMsg = (stderr ?? stdout).trim().replace(/error(:\s*|\b)/i, "")
+        if (!this.isIgnorableError(errMsg)) {
+          this.errors.push(errMsg)
+          error = new Error(errMsg)
+        }
       }
-      return this.parse(stdout, err)
+      return this.parse(stdout, error)
     })
   }
 

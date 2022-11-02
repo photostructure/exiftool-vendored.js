@@ -14,6 +14,7 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolTask } from "./ExifToolTask"
 import { geoTz } from "./GeoTz"
 import { ICCProfileTags } from "./ICCProfileTags"
+import { IgnorableError, isIgnorableWarning } from "./IgnorableError"
 import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
 import { PreviewTag } from "./PreviewTag"
@@ -58,6 +59,7 @@ export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"
 export { ExifToolTask } from "./ExifToolTask"
+export { isIgnorableWarning } from "./IgnorableError"
 export { parseJSON } from "./JSON"
 export {
   defaultVideosToUTC,
@@ -82,6 +84,7 @@ export type {
   FileTags,
   FlashPixTags,
   ICCProfileTags,
+  IgnorableError,
   IPTCTags,
   JFIFTags,
   MakerNotesTags,
@@ -308,6 +311,17 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * @see https://github.com/evansiroky/node-geo-tz/
    */
   geoTz: typeof geoTz
+
+  /**
+   * Predicate for error handling.
+   *
+   * ExifTool will emit error and warning messages for a variety of reasons.
+   *
+   * The default implementation ignores all errors that begin with "Warning:"
+   *
+   * @return true if the error should be ignored
+   */
+  isIgnorableError: IgnorableError
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
@@ -347,6 +361,7 @@ export const DefaultExifToolOptions: Omit<
   ],
   defaultVideosToUTC: true,
   geoTz,
+  isIgnorableError: isIgnorableWarning,
 })
 
 /**
@@ -486,7 +501,8 @@ export class ExifTool {
     tags: T,
     args?: string[]
   ): Promise<void> {
-    return this.enqueueTask(() => WriteTask.for(file, tags, args))
+    const retriable = false
+    return this.enqueueTask(() => WriteTask.for(file, tags, args), retriable)
   }
 
   /**
@@ -642,12 +658,16 @@ export class ExifTool {
    * @see BinaryExtractionTask for an example task implementation
    */
   enqueueTask<T>(
-    task: () => ExifToolTask<T> | Promise<ExifToolTask<T>>
+    task: () => ExifToolTask<T> | Promise<ExifToolTask<T>>,
+    retriable = true
   ): Promise<T> {
-    return retryOnReject(
-      async () => this.batchCluster.enqueueTask(await task()),
-      this.options.taskRetries
-    )
+    const f = async () => {
+      const t = await task()
+      // if we have to add more options for every task, rethink this approach:
+      t.isIgnorableError = this.options.isIgnorableError
+      return this.batchCluster.enqueueTask(t)
+    }
+    return retriable ? retryOnReject(f, this.options.taskRetries) : f()
   }
 
   /**

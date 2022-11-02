@@ -295,11 +295,19 @@ describe("ExifTool", function () {
         return
       })
 
+      it("images with warnings can still be written to", async function () {
+        const img = await testImg("bad-exif-ifd.jpg")
+        const s = "2022-11-01T19:56:34.875"
+        await et.write(img, { AllDates: s })
+        const t = await et.read(img)
+        expect(t.SubSecCreateDate?.toString()).to.eql(s)
+      })
+
       it("invalid images throw errors on write", async function () {
-        const badImg = await testImg("bad-exif-ifd.jpg")
+        const badImg = await testImg("truncated.jpg")
         return expect(
           et.write(badImg, { AllDates: new Date().toISOString() })
-        ).to.be.rejectedWith(/Duplicate MakerNoteUnknown/)
+        ).to.be.rejectedWith(/Corrupted JPEG image/)
       })
 
       it("reads from a dSLR", async () => {
@@ -378,10 +386,8 @@ describe("ExifTool", function () {
         })
       })
 
-      it("deleteAllTags() removes all metadata tags", async () => {
-        const f = await testImg()
-        const before = await et.read(f)
-        // This is just a sample of additional tags that are expected to be removed:
+      describe("deleteAllTags", () => {
+        // These tags should be removed:
         const expectedBeforeTags = [
           "ApertureValue",
           "DateCreated",
@@ -422,17 +428,35 @@ describe("ExifTool", function () {
           "SourceFile",
           "YCbCrSubSampling",
         ]
-        {
-          const beforeKeys = keys(before)
-          ;[...expectedBeforeTags, ...expectedAfterTags].forEach((ea) =>
-            expect(beforeKeys).to.include(ea)
+
+        function assertMetadataWipe(after: Tags) {
+          const afterKeys = keys(after).sort()
+          expectedBeforeTags.forEach((ea) =>
+            expect(afterKeys).to.not.include(ea)
           )
+          expectedAfterTags.forEach((ea) => expect(afterKeys).to.include(ea))
         }
-        await et.deleteAllTags(f)
-        const after = await et.read(f)
-        const afterKeys = keys(after).sort()
-        expectedBeforeTags.forEach((ea) => expect(afterKeys).to.not.include(ea))
-        expectedAfterTags.forEach((ea) => expect(afterKeys).to.include(ea))
+
+        it("removes all metadata tags", async () => {
+          const f = await testImg()
+          const before = await et.read(f)
+          // This is just a sample of additional tags that are expected to be removed:
+
+          {
+            const beforeKeys = keys(before)
+            ;[...expectedBeforeTags, ...expectedAfterTags].forEach((ea) =>
+              expect(beforeKeys).to.include(ea)
+            )
+          }
+          await et.deleteAllTags(f)
+          assertMetadataWipe(await et.read(f))
+        })
+
+        it("issue #119", async () => {
+          const f = await testImg("delete-test.jpg")
+          await et.deleteAllTags(f)
+          assertMetadataWipe(await et.read(f))
+        })
       })
 
       it("supports unknown tags via generics", async () => {
