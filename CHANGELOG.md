@@ -25,6 +25,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v18.5.0
+
+- ✨ `ExifToolOptions` now supports an `ignorableError` predicate, used for characterizing errors as "ignorable". Defaults to ignoring the following styles of warnings:
+
+  - `Warning: Duplicate MakerNoteUnknown tag in ExifIFD`
+  - `Warning: ICC_Profile deleted. Image colors may be affected`
+
+- 🐞 Only read operations are now retried. See [#119](https://github.com/photostructure/exiftool-vendored.js/issues/119#issuecomment-1299423164)
+
 ### v18.4.2
 
 - 🐞 Date-time tags with exactly Common Epoch (`1970-01-01T00:00:00Z`) are no longer filtered as invalid. See [#118](https://github.com/photostructure/exiftool-vendored.js/issues/118) for details.
