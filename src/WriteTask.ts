@@ -13,7 +13,7 @@ import { isString } from "./String"
 import { isStruct } from "./Struct"
 import { VersionTask } from "./VersionTask"
 
-const successRE = /1 image files? (?:created|updated)/
+const successRE = /1 image files? (?:created|updated)/i
 const sep = String.fromCharCode(31) // unit separator
 
 // See https://exiftool.org/faq.html#Q10
