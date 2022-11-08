@@ -13,7 +13,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 12.49 */
+  /** ★★★★ ✔ Example: 12.5 */
   ExifToolVersion?: number
   /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */
   Warning?: string
@@ -32,9 +32,9 @@ export interface FileTags {
   CurrentIPTCDigest?: string
   /** ★★★★ ✔ Example: "/home/username/pictures" */
   Directory?: string
-  /** ★★★★ ✔ Example: "2022:11:01 13:28:22-07:00" */
+  /** ★★★★ ✔ Example: "2022:11:08 11:59:11-08:00" */
   FileAccessDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2022:11:01 12:32:16-07:00" */
+  /** ★★★★ ✔ Example: "2022:11:08 11:17:59-08:00" */
   FileInodeChangeDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2022:10:13 13:19:48-07:00" */
   FileModifyDate?: ExifDateTime | string
@@ -823,7 +823,7 @@ export interface EXIFTags {
   SubjectDistance?: string
   /** ★★★☆ ✔ Example: "Unknown (4400)" */
   SubjectDistanceRange?: string
-  /** ★★★★ ✔ Example: "(Binary data 12652 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 10202 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ☆☆☆☆ ✔ Example: "(Binary data 47952 bytes, use -b option to extract)" */
   ThumbnailTIFF?: BinaryField
@@ -831,7 +831,7 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
@@ -976,7 +976,7 @@ export interface IPTCTags {
   SpecialInstructions?: string
   /** ☆☆☆☆ ✔ Example: "" */
   SupplementalCategories?: string
-  /** ☆☆☆☆ ✔ Example: "15:46:26+09:00" */
+  /** ☆☆☆☆ ✔ Example: "16:47:00+09:00" */
   TimeCreated?: ExifTime | string
   /** ☆☆☆☆ ✔ Example: "" */
   TimeSent?: string
@@ -1070,7 +1070,7 @@ export interface PhotoshopTags {
   PhotoshopFormat?: string
   /** ☆☆☆☆ ✔ Example: 9 */
   PhotoshopQuality?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 5768 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 4291 bytes, use -b option to extract)" */
   PhotoshopThumbnail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   PixelAspectRatio?: number
@@ -1490,7 +1490,7 @@ export interface MakerNotesTags {
   AFPointsInFocus5D?: string
   /** ☆☆☆☆ ✔ Example: 9 */
   AFPointsSelected?: number
-  /** ☆☆☆☆ ✔ Example: "Unknown (03 00 06 00 30 00 00)" */
+  /** ☆☆☆☆ ✔ Example: "Top" */
   AFPointsUsed?: string
   /** ☆☆☆☆ ✔ Example: 903 */
   AFPredictor?: number
@@ -2050,7 +2050,7 @@ export interface MakerNotesTags {
   DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 494 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -2250,7 +2250,7 @@ export interface MakerNotesTags {
   FEMicroadjustment?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (II*)" */
   FaceDetect?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 383 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 191 bytes, use -b option to extract)" */
   FaceDetectArea?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "0 26 640 428 0 26 640 428 0 0 0 0" */
   FaceDetectFrameCrop?: string
@@ -2734,10 +2734,6 @@ export interface MakerNotesTags {
   IntelligentResolution?: string
   /** ☆☆☆☆ ✔ Example: "TTL" */
   InternalFlash?: string
-  /** ☆☆☆☆ ✔ Example: "Did not fire, Red-eye reduction" */
-  InternalFlashMode?: string
-  /** ☆☆☆☆ ✔ Example: 63 */
-  InternalFlashStrength?: number
   /** ☆☆☆☆ ✔ Example: 95 */
   InternalFlashTable?: number
   /** ★★☆☆ ✔ Example: "fdfec409" */
@@ -3108,9 +3104,11 @@ export interface MakerNotesTags {
   MultiExposureControl?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   MultiExposureMode?: string
+  /** ☆☆☆☆ ✔ Example: "Add" */
+  MultiExposureOverlayMode?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   MultiExposureShots?: number
-  /** ☆☆☆☆ ✔ Example: "0101" */
+  /** ☆☆☆☆ ✔ Example: "0102" */
   MultiExposureVersion?: string
   /** ☆☆☆☆ ✔ Example: "Normal" */
   MultiFrameNREffect?: string
@@ -3870,6 +3868,8 @@ export interface MakerNotesTags {
   VRInfoVersion?: string
   /** ☆☆☆☆ ✔ Example: "Sport" */
   VRMode?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
+  VRType?: string
   /** ☆☆☆☆ ✔ Example: "12 0" */
   ValidBits?: string
   /** ☆☆☆☆ ✔ Example: "Scene Auto" */
@@ -4049,7 +4049,7 @@ export interface XMPTags {
   CameraProfileDigest?: string
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
-  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
   Cameras?: Struct[]
   /** ☆☆☆☆ ✔ Example: "Photo" */
   CaptureMode?: string
@@ -4085,7 +4085,7 @@ export interface XMPTags {
   ColorSpace?: string
   /** ☆☆☆☆ ✔ Example: "" */
   Colorlabels?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
   Container?: Struct
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
@@ -4375,7 +4375,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
   Profiles?: Struct[]
   /** ☆☆☆☆ ✔ Example: "P2030414.jpg" */
   RawFileName?: string
@@ -4517,8 +4517,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.49 on Tue Nov 01 2022.
- * 2977 unique tags were found in 10022 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.50 on Tue Nov 08 2022.
+ * 2979 unique tags were found in 10022 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
