@@ -299,16 +299,17 @@ If you run this in a docker image based on Alpine or Debian Slim, **this won't w
 
 ## Resource hygiene
 
-**Always remember to call `.end()`.**
+**Call `ExifTool.end()` when you're done**
+
+You must explicitly call
+[`.end()`](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#end)
+on any used instance of `ExifTool` to allow `node` to exit gracefully.
 
 ExifTool child processes consume system resources, and [prevents `node` from
 exiting due to the way Node.js streams
 work](https://github.com/photostructure/exiftool-vendored.js/issues/106).
 
-You must explicitly call `.end()` on any used instance of `ExifTool` for `node`
-to exit gracefully.
-
-This call cannot be in a `process.on("exit")` hook, as the `stdio` streams
+Note that you can't call cannot be in a `process.on("exit")` hook, as the `stdio` streams
 attached to the child process cannot be `unref`'ed. (If there's a solution to
 this, please post to the above issue!)
 
