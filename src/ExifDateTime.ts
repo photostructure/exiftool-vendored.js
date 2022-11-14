@@ -6,7 +6,7 @@ import {
   ZoneOptions,
 } from "luxon"
 import { dateTimeToExif } from "./DateTime"
-import { denull, firstDefinedThunk, Maybe } from "./Maybe"
+import { denull, Maybe } from "./Maybe"
 import { omit } from "./Object"
 import { blank, notBlank, toS } from "./String"
 import {
@@ -41,11 +41,12 @@ export class ExifDateTime {
   }
 
   /**
-   * Try to parse a date-time string from EXIF. If there is not both a date and
-   * a time component, returns `undefined`.
+   * Try to parse a date-time string from EXIF. If there is not both a date
+   * and a time component, returns `undefined`.
    *
    * @param text from EXIF metadata
-   * @param defaultZone a "zone name" which may be IANA, like
+   * @param defaultZone a "zone name" to use as a backstop, or default, if
+   * `text` doesn't specify a zone. This may be IANA-formatted, like
    * "America/Los_Angeles", or an offset, like "UTC-3". See
    * `offsetMinutesToZoneName`.
    */
@@ -54,11 +55,11 @@ export class ExifDateTime {
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
-    return firstDefinedThunk([
-      () => this.fromExifStrict(text, defaultZone),
-      () => this.fromISO(text, defaultZone),
-      () => this.fromExifLoose(text, defaultZone),
-    ])
+    return (
+      // .fromExifStrict() uses .fromISO() as a backstop
+      this.fromExifStrict(text, defaultZone) ??
+      this.fromExifLoose(text, defaultZone)
+    )
   }
 
   private static fromPatterns(
@@ -93,9 +94,20 @@ export class ExifDateTime {
     return
   }
 
+  /**
+   * Parse the given date-time string, EXIF-formatted.
+   *
+   * @param text from EXIF metadata, in `y:M:d H:m:s` format (with optional
+   * sub-seconds and/or timezone)
+
+   * @param defaultZone a "zone name" to use as a backstop, or default, if
+   * `text` doesn't specify a zone. This may be IANA-formatted, like
+   * "America/Los_Angeles", or an offset, like "UTC-3". See
+   * `offsetMinutesToZoneName`.
+   */
   static fromExifStrict(
     text: Maybe<string>,
-    zone?: Maybe<string>
+    defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
     return (
@@ -109,11 +121,12 @@ export class ExifDateTime {
         { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
 
         // Otherwise use the default zone:
-        { fmt: "y:M:d H:m:s.u", zone },
-        { fmt: "y:M:d H:m:s", zone },
+        { fmt: "y:M:d H:m:s.u", zone: defaultZone },
+        { fmt: "y:M:d H:m:s", zone: defaultZone },
 
-        // Not found yet? Maybe it's in ISO format? See https://github.com/photostructure/exiftool-vendored.js/issues/71
-      ]) ?? this.fromISO(text, zone)
+        // Not found yet? Maybe it's in ISO format? See
+        // https://github.com/photostructure/exiftool-vendored.js/issues/71
+      ]) ?? this.fromISO(text, defaultZone)
     )
   }
 
