@@ -252,13 +252,14 @@ processes are cleaned up.</p>
 <a href="#resource-hygiene" id="resource-hygiene" style="color: inherit; text-decoration: none;">
   <h2>Resource hygiene</h2>
 </a>
-<p><strong>Always remember to call <code>.end()</code>.</strong></p>
+<p><strong>Call <code>ExifTool.end()</code> when you&#39;re done</strong></p>
+<p>You must explicitly call
+<a href="https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#end"><code>.end()</code></a>
+on any used instance of <code>ExifTool</code> to allow <code>node</code> to exit gracefully.</p>
 <p>ExifTool child processes consume system resources, and <a href="https://github.com/photostructure/exiftool-vendored.js/issues/106">prevents <code>node</code> from
 exiting due to the way Node.js streams
 work</a>.</p>
-<p>You must explicitly call <code>.end()</code> on any used instance of <code>ExifTool</code> for <code>node</code>
-to exit gracefully.</p>
-<p>This call cannot be in a <code>process.on(&quot;exit&quot;)</code> hook, as the <code>stdio</code> streams
+<p>Note that you can&#39;t call cannot be in a <code>process.on(&quot;exit&quot;)</code> hook, as the <code>stdio</code> streams
 attached to the child process cannot be <code>unref</code>&#39;ed. (If there&#39;s a solution to
 this, please post to the above issue!)</p>
 
