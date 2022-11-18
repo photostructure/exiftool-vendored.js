@@ -30,6 +30,10 @@
     "url": "https://github.com/photostructure/exiftool-vendored.js.git"
   },
   "release-it": {
+    "src": {
+      "tagName": "v%s",
+      "commitArgs": "-S"
+    },
     "github": {
       "release": true
     }
