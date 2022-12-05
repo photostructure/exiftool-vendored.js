@@ -272,6 +272,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         if (
           tagName === "When" ||
           tagName.includes("DateTime") ||
+          tagName.includes("SubSec") ||
           tagName.toLowerCase().includes("timestamp")
         ) {
           const d =
@@ -281,6 +282,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         }
         if (tagName === "When" || tagName.includes("Date")) {
           const d =
+            // Some tags, like CreationDate, actually include time resolution.
             ExifDateTime.fromExifStrict(value, tz) ??
             ExifDateTime.fromISO(value, tz) ??
             ExifDateTime.fromExifLoose(value, tz) ??
