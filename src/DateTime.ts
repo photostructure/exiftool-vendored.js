@@ -25,7 +25,7 @@ export function isDateOrTime(o: any): o is DateOrTime {
 }
 
 export function dateTimeToExif(d: DateTime): string {
-  return d.toFormat("y:LL:dd HH:mm:ss.u")
+  return d.toFormat("y:MM:dd HH:mm:ss.u")
 }
 
 export function toExifString(d: DateOrTime): Maybe<string> {
