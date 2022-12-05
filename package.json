@@ -100,7 +100,7 @@
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.1",
     "typedoc": "^0.23.20",
-    "typescript": "~4.8.4",
+    "typescript": "~4.9.3",
     "xpath": "^0.0.32"
   },
   "dependencies-note": "@types/luxon is not a devDependency, as our exported TypeScript typings reference luxon types. See <https://github.com/photostructure/exiftool-vendored.js/pull/108>",
