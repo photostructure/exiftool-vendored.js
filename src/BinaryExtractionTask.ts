@@ -20,6 +20,8 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     imgDest: string
   ): BinaryExtractionTask {
     const args = [
+      "-charset",
+      "filename=utf8",
       "-b",
       "-" + tagname,
       path.resolve(imgSrc),
