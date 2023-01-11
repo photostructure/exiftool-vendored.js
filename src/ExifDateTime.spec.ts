@@ -50,8 +50,9 @@ describe("ExifDateTime", () => {
       expect(dt.toISOString()).to.eql(iso)
     })
     it("Renders a Date assuming the current timezone offset", () => {
-      expect(dt.toDate().toLocaleString("en-US")).to.eql(
-        "8/12/2016, 7:28:50 AM"
+      // Node 19 renders 8/12/2016, 7:28:50\u202fAM UGH
+      expect(dt.toDate().toLocaleString("en-US")).to.match(
+        /8\/12\/2016, 7:28:50\sAM/
       )
     })
     it("Round-trips from ISO", () => {
