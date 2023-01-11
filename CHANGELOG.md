@@ -25,6 +25,18 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v19.0.0
+
+- 💔/🐞 [Fix #124](https://github.com/photostructure/exiftool-vendored.js/issues/124): Improved support for filenames with non-latin (a-z0-9) characters on Windows machines that weren't set to UTF-8. Thanks for the bug report and PR, [Jürg Rast](https://github.com/jrast)!
+
+- 💔/🐞 ExifTool v12.54 has several new tags (see the diff) and now renders `GPSAltitude` with negative values when the altitude is below sea level.
+
+- 🌱 ExifTool upgraded to [v12.54](https://exiftool.org/history.html#v12.54)
+
+- 📦 Updated dependencies, re-ran prettier, rebuilt tags, rebuilt docs
+
+- 📦 Node v19 added to the CI test matrix
+
 ### v18.6.0
 
 - 🌱 ExifTool upgraded to [v12.50](https://exiftool.org/history.html#v12.50)
