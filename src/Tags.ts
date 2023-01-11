@@ -13,7 +13,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 12.5 */
+  /** ★★★★ ✔ Example: 12.54 */
   ExifToolVersion?: number
   /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */
   Warning?: string
@@ -32,9 +32,9 @@ export interface FileTags {
   CurrentIPTCDigest?: string
   /** ★★★★ ✔ Example: "/home/username/pictures" */
   Directory?: string
-  /** ★★★★ ✔ Example: "2022:12:05 13:37:20-08:00" */
+  /** ★★★★ ✔ Example: "2023:01:11 12:58:38-08:00" */
   FileAccessDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2022:12:05 11:28:11-08:00" */
+  /** ★★★★ ✔ Example: "2022:12:31 11:20:47-08:00" */
   FileInodeChangeDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2022:10:13 13:19:48-07:00" */
   FileModifyDate?: ExifDateTime | string
@@ -208,7 +208,7 @@ export interface APP1Tags {
   CreatorSoftware?: string
   /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
   DateTimeGenerated?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "(Binary data 1998654 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
   EmbeddedImage?: BinaryField | string
   /** ☆☆☆☆   Example: 960 */
   EmbeddedImageHeight?: number
@@ -831,7 +831,7 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
@@ -1074,12 +1074,6 @@ export interface PhotoshopTags {
   PhotoshopThumbnail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   PixelAspectRatio?: number
-  /** ☆☆☆☆ ✔ Example: "0 0" */
-  PrintPosition?: string
-  /** ☆☆☆☆ ✔ Example: 1 */
-  PrintScale?: number
-  /** ☆☆☆☆ ✔ Example: "Centered" */
-  PrintStyle?: string
   /** ☆☆☆☆ ✔ Example: 72 */
   XResolution?: number
   /** ☆☆☆☆ ✔ Example: 72 */
@@ -1158,7 +1152,7 @@ export interface QuickTimeTags {
   MediaDataOffset?: number
   /** ☆☆☆☆ ✔ Example: 9790496 */
   MediaDataSize?: number
-  /** ☆☆☆☆ ✔ Example: 9.5095 */
+  /** ☆☆☆☆ ✔ Example: 9.52 */
   MediaDuration?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   MediaHeaderVersion?: number
@@ -1312,6 +1306,8 @@ export interface MakerNotesTags {
   AEAperture?: number
   /** ☆☆☆☆ ✔ Example: 8 */
   AEApertureSteps?: number
+  /** ☆☆☆☆ ✔ Example: 51 */
+  AEAverage?: number
   /** ☆☆☆☆ ✔ Example: "On" */
   AEBAutoCancel?: string
   /** ★★☆☆ ✔ Example: 0 */
@@ -1364,6 +1360,10 @@ export interface MakerNotesTags {
   AEMinExposureTime?: string
   /** ☆☆☆☆ ✔ Example: "Sv or Green Mode" */
   AEProgramMode?: string
+  /** ☆☆☆☆ ✔ Example: "Yes" */
+  AEStable?: string
+  /** ☆☆☆☆ ✔ Example: 243 */
+  AETarget?: number
   /** ☆☆☆☆   Example: "Daylight Fluorescent" */
   AEWhiteBalance?: string
   /** ☆☆☆☆ ✔ Example: 0.5 */
@@ -2152,8 +2152,6 @@ export interface MakerNotesTags {
   EffectiveMaxAperture?: number
   /** ☆☆☆☆ ✔ Example: "On" */
   ElectronicFrontCurtainShutter?: string
-  /** ☆☆☆☆ ✔ Example: "On" */
-  EnergySavingMode?: string
   /** ☆☆☆☆   Example: "Off" */
   Enhancement?: string
   /** ☆☆☆☆ ✔ Example: 960 */
@@ -2250,7 +2248,7 @@ export interface MakerNotesTags {
   FEMicroadjustment?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (II*)" */
   FaceDetect?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 383 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 191 bytes, use -b option to extract)" */
   FaceDetectArea?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "0 26 640 428 0 26 640 428 0 0 0 0" */
   FaceDetectFrameCrop?: string
@@ -2336,8 +2334,6 @@ export interface MakerNotesTags {
   FlashButtonFunction?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   FlashChargeLevel?: number
-  /** ☆☆☆☆ ✔ Example: "None" */
-  FlashColorFilter?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   FlashCommanderMode?: string
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -2524,6 +2520,8 @@ export interface MakerNotesTags {
   FramingGridDisplay?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 12 bytes, use -b option to extract)" */
   FreeBytes?: BinaryField | string
+  /** ☆☆☆☆ ✔ Example: "Yes" */
+  FrontFacingCamera?: string
   /** ☆☆☆☆ ✔ Example: "X100V_0100" */
   FujiModel?: string
   /** ☆☆☆☆ ✔ Example: "9504x6336" */
@@ -2578,6 +2576,8 @@ export interface MakerNotesTags {
   HDMIOutputResolution?: string
   /** ☆☆☆☆ ✔ Example: "Natural" */
   HDREffect?: string
+  /** ☆☆☆☆ ✔ Example: 1.447432 */
+  HDRHeadroom?: number
   /** ☆☆☆☆ ✔ Example: "0200" */
   HDRInfoVersion?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
@@ -2890,6 +2890,8 @@ export interface MakerNotesTags {
   LongExposureNoiseReduction?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   LowLightAF?: string
+  /** ☆☆☆☆ ✔ Example: 0.010031249 */
+  LuminanceNoiseAmplitude?: number
   /** ☆☆☆☆   Example: "+0.500" */
   LuminanceNoiseReduction?: string
   /** ☆☆☆☆   Example: 0 */
@@ -3146,8 +3148,6 @@ export interface MakerNotesTags {
   NoiseFilter?: string
   /** ★★☆☆ ✔ Example: "[4]" */
   NoiseReduction?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  NoiseReductionStrength?: number
   /** ☆☆☆☆ ✔ Example: 5.7 */
   NominalMaxAperture?: number
   /** ☆☆☆☆ ✔ Example: 7 */
@@ -3160,6 +3160,8 @@ export interface MakerNotesTags {
   NumFacePositions?: number
   /** ☆☆☆☆ ✔ Example: 32 */
   NumberOffsets?: number
+  /** ☆☆☆☆ ✔ Example: 5 */
+  OISMode?: number
   /** ☆☆☆☆ ✔ Example: "Select Center Focus Point" */
   OKButton?: string
   /** ☆☆☆☆ ✔ Example: 960 */
@@ -3168,8 +3170,6 @@ export interface MakerNotesTags {
   OlympusImageWidth?: number
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
   OneTouchWB?: string
-  /** ☆☆☆☆ ✔ Example: "On" */
-  OpticalVR?: string
   /** ☆☆☆☆   Example: 3 */
   OpticalZoom?: number
   /** ★★☆☆ ✔ Example: 94 */
@@ -3322,8 +3322,6 @@ export interface MakerNotesTags {
   PreviewImageBorders?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   PreviewImageValid?: string
-  /** ☆☆☆☆ ✔ Example: "XQD Card" */
-  PrimarySlot?: string
   /** ☆☆☆☆ ✔ Example: "AF" */
   PrioritySetupShutterRelease?: string
   /** ☆☆☆☆ ✔ Example: 9.987 */
@@ -3546,6 +3544,12 @@ export interface MakerNotesTags {
   SelfTimerShotInterval?: string
   /** ☆☆☆☆ ✔ Example: "2 s" */
   SelfTimerTime?: string
+  /** ☆☆☆☆ ✔ Example: {"0":1,"1":0,"2":0,"3":0} */
+  SemanticStyle?: Struct
+  /** ☆☆☆☆ ✔ Example: true */
+  SemanticStylePreset?: boolean
+  /** ☆☆☆☆ ✔ Example: true */
+  SemanticStyleRenderingVer?: boolean
   /** ☆☆☆☆ ✔ Example: 0 */
   SensitivityAdjust?: number
   /** ☆☆☆☆ ✔ Example: "As EV Steps" */
@@ -3662,6 +3666,8 @@ export interface MakerNotesTags {
   ShutterSpeedSetting?: string
   /** ☆☆☆☆ ✔ Example: "Normal" */
   ShutterType?: string
+  /** ☆☆☆☆ ✔ Example: 58.592815 */
+  SignalToNoiseRatio?: number
   /** ☆☆☆☆ ✔ Example: "Low" */
   SingleFrameBracketing?: string
   /** ☆☆☆☆   Example: "Off" */
@@ -3826,7 +3832,7 @@ export interface MakerNotesTags {
   ToneCurve?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
   ToneCurveMatching?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1505 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
   ToneCurveTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   ToningEffect?: string
@@ -3846,8 +3852,6 @@ export interface MakerNotesTags {
   TriggerMode?: string
   /** ☆☆☆☆ ✔ Example: "1/64" */
   TvExposureTimeSetting?: string
-  /** ☆☆☆☆ ✔ Example: "Enable" */
-  USBPowerDelivery?: string
   /** ☆☆☆☆ ✔ Example: "Turns on after one-shot AF" */
   USMLensElectronicMF?: string
   /** ☆☆☆☆ ✔ Example: "7860345b882000641403450101000000170d0f1d0f11827ca3111430d3000000" */
@@ -3952,7 +3956,7 @@ export interface MakerNotesTags {
   WhiteBalanceSet?: string
   /** ☆☆☆☆ ✔ Example: "Custom 1" */
   WhiteBalanceSetting?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2201 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
   WhiteBalanceTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceTemperature?: string
@@ -4037,8 +4041,6 @@ export interface XMPTags {
   BurstID?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   BurstPrimary?: number
-  /** ☆☆☆☆   Example: 0 */
-  CamReverse?: number
   /** ☆☆☆☆ ✔ Example: "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89" */
   CameraBurstID?: string
   /** ☆☆☆☆   Example: "Front" */
@@ -4049,7 +4051,7 @@ export interface XMPTags {
   CameraProfileDigest?: string
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
-  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
   Cameras?: Struct[]
   /** ☆☆☆☆ ✔ Example: "Photo" */
   CaptureMode?: string
@@ -4085,7 +4087,7 @@ export interface XMPTags {
   ColorSpace?: string
   /** ☆☆☆☆ ✔ Example: "" */
   Colorlabels?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
   Container?: Struct
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
@@ -4185,8 +4187,6 @@ export interface XMPTags {
   Format?: string
   /** ☆☆☆☆   Example: -90 */
   GimbalPitchDegree?: number
-  /** ☆☆☆☆   Example: 0 */
-  GimbalReverse?: number
   /** ☆☆☆☆   Example: "+0.00" */
   GimbalRollDegree?: string
   /** ☆☆☆☆   Example:  */
@@ -4375,7 +4375,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
   Profiles?: Struct[]
   /** ☆☆☆☆ ✔ Example: "P2030414.jpg" */
   RawFileName?: string
@@ -4517,8 +4517,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.50 on Mon Dec 05 2022.
- * 2979 unique tags were found in 10022 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.54 on Wed Jan 11 2023.
+ * 2997 unique tags were found in 10022 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
