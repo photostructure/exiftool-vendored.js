@@ -356,7 +356,7 @@ describe("ExifTool", function () {
           GPSLongitude: -122.452094444444,
           GPSLatitudeRef: "North",
           GPSLongitudeRef: "West",
-          GPSAltitude: 47,
+          GPSAltitude: -47,
           tz: "America/Los_Angeles",
         })
         expect(t.SubSecDateTimeOriginal?.toString()).to.eql(
