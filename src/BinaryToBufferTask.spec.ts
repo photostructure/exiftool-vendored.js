@@ -1,15 +1,20 @@
 import assert from "assert"
 import crypto from "crypto"
+import { copyFile, mkdirp } from "fs-extra"
 import path from "path"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
-import { ExifTool } from "./ExifTool"
-import { expect, sha1buffer } from "./_chai.spec"
+import { exiftool } from "./ExifTool"
+import {
+  expect,
+  NonAlphaStrings,
+  sha1buffer,
+  testDir,
+  tmpdir,
+} from "./_chai.spec"
 
-const testDir = path.join(__dirname, "..", "test")
+after(() => exiftool.end())
+
 describe("BinaryToBufferTask", () => {
-  const exiftool = new ExifTool({ maxProcs: 1 })
-  after(() => exiftool.end())
-
   describe("parser", () => {
     const sut = BinaryToBufferTask.for("ThumbnailImage", "")
     it("returns success (undefined, no error) from expected input", () => {
@@ -32,13 +37,28 @@ describe("BinaryToBufferTask", () => {
     })
   })
 
+  async function assertExtractThumbnail(str: string) {
+    // Make sure the str (which may have non-latin characters) shows up in the
+    // directory path and filename:
+    const srcDir = path.join(tmpdir(), "src-" + str)
+    await mkdirp(srcDir)
+    const src = path.join(srcDir, str + ".jpg")
+    await copyFile(path.join(testDir, "with_thumb.jpg"), src)
+    const buf = await exiftool.extractBinaryTagToBuffer("ThumbnailImage", src)
+    // exiftool test/with_thumb.jpg -b -ThumbnailImage | sha1sum
+    expect(sha1buffer(buf)).to.eql("57885e5e16b16599ccf208981a87fe198612d9fb")
+  }
+
   it("extracts expected thumb", async function () {
     this.slow(500)
-    const src = path.join(testDir, "with_thumb.jpg")
-    const buf = await exiftool.extractBinaryTagToBuffer("ThumbnailImage", src)
-    // exiftool with_thumb.jpg -b -ThumbnailImage | sha1sum
-    expect(sha1buffer(buf)).to.eql("57885e5e16b16599ccf208981a87fe198612d9fb")
+    await assertExtractThumbnail("image")
   })
+
+  for (const { str, desc } of NonAlphaStrings) {
+    it("extracts expected thumb with " + desc + " characters", () =>
+      assertExtractThumbnail(str)
+    )
+  }
 
   it("throws for missing src", async function () {
     this.slow(500)

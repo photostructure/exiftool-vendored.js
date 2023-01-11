@@ -6,6 +6,7 @@ import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
 import { isFileEmpty } from "./File"
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
 import { isNumber } from "./Number"
 import { keys } from "./Object"
@@ -14,18 +15,7 @@ import { isStruct } from "./Struct"
 import { VersionTask } from "./VersionTask"
 
 const successRE = /1 image files? (?:created|updated)/i
-const sep = String.fromCharCode(31) // unit separator
-
-// See https://exiftool.org/faq.html#Q10
-// (`-charset utf8` is set by default)
-const utfCharsetArgs = [
-  "-charset",
-  "filename=utf8",
-  "-codedcharacterset=utf8",
-  `-sep`,
-  `${sep}`,
-  "-E", // < html encoding https://exiftool.org/faq.html#Q10
-]
+const sep = String.fromCharCode(31) // < unit separator
 
 // this is private because it's very special-purpose for just encoding ExifTool
 // WriteTask args:
@@ -78,18 +68,23 @@ export class WriteTask extends ExifToolTask<void> {
   static async for(
     filename: string,
     tags: WriteTags,
-    optionalArgs: string[] = []
+    extraArgs: string[] = []
   ): Promise<WriteTask | ExifToolTask<void>> {
     const sourceFile = _path.resolve(filename)
 
-    const args: string[] = [...utfCharsetArgs]
+    const args: string[] = [
+      ...Utf8FilenameCharsetArgs,
+      `-sep`,
+      `${sep}`,
+      "-E", // < html encoding https://exiftool.org/faq.html#Q10
+    ]
 
     // ExifTool complains "Nothing to write" if the task will only remove values
     // and the file is missing.
 
     if (
-      (optionalArgs.length === 0 ||
-        shallowArrayEql(optionalArgs, DeleteAllTagsArgs)) &&
+      (extraArgs.length === 0 ||
+        shallowArrayEql(extraArgs, DeleteAllTagsArgs)) &&
       Object.values(tags).every((ea) => ea == null) &&
       (await isFileEmpty(filename))
     ) {
@@ -102,9 +97,9 @@ export class WriteTask extends ExifToolTask<void> {
       args.push(`-${key}=${enc(val)}`)
     }
 
-    optionalArgs.forEach((ea) => args.push(ea))
+    args.push(...extraArgs)
     args.push(sourceFile)
-    // console.log("new WriteTask()", { sourceFile, args, tags, optionalArgs })
+    // console.log("new WriteTask()", { sourceFile, args, tags })
     return new WriteTask(sourceFile, args)
   }
 

@@ -1,6 +1,7 @@
 import * as _path from "path"
 import { compact } from "./Array"
 import { ExifToolTask } from "./ExifToolTask"
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 
 export class RewriteAllTagsTask extends ExifToolTask<void> {
   private constructor(args: string[]) {
@@ -15,6 +16,7 @@ export class RewriteAllTagsTask extends ExifToolTask<void> {
     // -all= -tagsfromfile @ -all:all -unsafe -icc_profile bad.jpg
 
     const args = compact([
+      ...Utf8FilenameCharsetArgs,
       "-all=",
       "-tagsfromfile",
       "@",
@@ -22,9 +24,9 @@ export class RewriteAllTagsTask extends ExifToolTask<void> {
       "-unsafe",
       "-icc_profile",
       allowMakerNoteRepair ? "-F" : undefined,
-      _path.resolve(imgSrc),
       "-out",
       _path.resolve(imgDest),
+      _path.resolve(imgSrc),
     ])
     return new RewriteAllTagsTask(args)
   }

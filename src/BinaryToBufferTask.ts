@@ -1,5 +1,6 @@
 import path from "path"
 import { ExifToolTask } from "./ExifToolTask"
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
 import { notBlank } from "./String"
 
@@ -15,7 +16,13 @@ export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
   static for(tagname: string, imgSrc: string): BinaryToBufferTask {
     // NOTE TO FUTURE ME: we don't need to escape these arguments, because
     // ExifTool separates them via newlines.
-    const args = ["-json", "-b", "-" + tagname, path.resolve(imgSrc)]
+    const args = [
+      ...Utf8FilenameCharsetArgs,
+      "-json",
+      "-b",
+      "-" + tagname,
+      path.resolve(imgSrc),
+    ]
     return new BinaryToBufferTask(tagname, args)
   }
 

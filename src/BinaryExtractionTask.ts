@@ -2,6 +2,7 @@ import path from "path"
 import { ExifToolTask } from "./ExifToolTask"
 import { Maybe } from "./Maybe"
 import { toS } from "./String"
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 
 const StdoutRe = /\b(\d+) output files? created/i
 
@@ -20,13 +21,14 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     imgDest: string
   ): BinaryExtractionTask {
     const args = [
+      ...Utf8FilenameCharsetArgs,
       "-b",
       "-" + tagname,
-      path.resolve(imgSrc),
       "-w",
       // The %0f prevents shell escaping. See
       // https://exiftool.org/exiftool_pod.html#w-EXT-or-FMT--textOut
       "%0f" + path.resolve(imgDest),
+      path.resolve(imgSrc),
     ]
     return new BinaryExtractionTask(args)
   }

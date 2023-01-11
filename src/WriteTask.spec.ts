@@ -2,7 +2,6 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTags } from "./ExifTool"
 import { isFileEmpty } from "./File"
-import { map } from "./Maybe"
 import { omit } from "./Object"
 import { ResourceEvent } from "./ResourceEvent"
 import { isSidecarExt } from "./Sidecars"
@@ -16,6 +15,7 @@ import {
   randomChars,
   testFile,
   testImg,
+  UnicodeTestMessage,
 } from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -113,7 +113,7 @@ describe("WriteTask", function () {
 
         it("round-trips a comment with non-latin filename", async () => {
           return assertRoundTrip({
-            dest: await dest("中文"),
+            dest: await dest("中文.jpg"),
             tagName: textTagName,
             inputValue: "new comment from " + new Date(),
           })
@@ -121,7 +121,7 @@ describe("WriteTask", function () {
 
         it("round-trips a non-latin comment with non-latin filename", async () => {
           return assertRoundTrip({
-            dest: await dest("中文"),
+            dest: await dest("中文.jpg"),
             tagName: textTagName,
             inputValue: "早安晨之美" + new Date(),
           })
@@ -301,6 +301,7 @@ describe("WriteTask", function () {
           ].join(",")
 
           await exiftool.write(src, {
+            Title: UnicodeTestMessage,
             "Orientation#": 3,
             ExposureTime,
             UserComment,
@@ -323,6 +324,7 @@ describe("WriteTask", function () {
             const t = await exiftool.read(src)
             expect(t.Orientation).to.eql(undefined)
             expect(t).to.containSubset({
+              Title: UnicodeTestMessage,
               ExposureTime,
               UserComment,
             })
@@ -336,6 +338,7 @@ describe("WriteTask", function () {
             expect(t.Orientation).to.eql(undefined)
             expect(t.ExposureTime).to.eql(undefined)
             expect(t.UserComment).to.eql(undefined)
+            expect(t.Title).to.eql(UnicodeTestMessage)
           }
         })
 
@@ -402,19 +405,19 @@ describe("WriteTask", function () {
       describe("round-trip with an image", () =>
         runRoundTripTests({
           withTZ: true,
-          dest: (name) => testImg(map(name, (ea) => ea + ".jpg")),
+          dest: (name) => testImg(name, undefined, "ïmägë.jpg"),
         }))
 
       describe("round-trip with an XMP sidecar", () =>
         runRoundTripTests({
-          withTZ: false, // BOO XMP
-          dest: (ea) => testFile((ea ?? "img") + ".xmp"),
+          withTZ: false, // BOO XMP DOESN'T LIKE TIMEZONES WTH
+          dest: (ea) => testFile((ea ?? "ïmg") + ".xmp"),
         }))
 
       describe("round-trip with an MIE sidecar", () =>
         runRoundTripTests({
           withTZ: true,
-          dest: (ea) => testFile((ea ?? "img") + ".mie"),
+          dest: (ea) => testFile((ea ?? "ïmg") + ".mie"),
         }))
 
       function mkResourceEvent(o?: Partial<ResourceEvent>): ResourceEvent {

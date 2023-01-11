@@ -1,15 +1,20 @@
 import assert from "assert"
+import { copyFile, mkdirp } from "fs-extra"
 import path from "path"
-
-import { expect, sha1, tmpname } from "./_chai.spec"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
-import { ExifTool } from "./ExifTool"
+import { exiftool } from "./ExifTool"
+import {
+  expect,
+  NonAlphaStrings,
+  sha1,
+  testDir,
+  tmpdir,
+  tmpname,
+} from "./_chai.spec"
 
-const testDir = path.join(__dirname, "..", "test")
+after(() => exiftool.end())
+
 describe("BinaryExtractionTask", () => {
-  const exiftool = new ExifTool({ maxProcs: 1 })
-  after(() => exiftool.end())
-
   describe("parser", () => {
     const sut = BinaryExtractionTask.for("ThumbnailImage", "", "")
     it("returns success (undefined, no error) from expected input", () => {
@@ -34,14 +39,29 @@ describe("BinaryExtractionTask", () => {
     })
   })
 
-  it("extracts expected thumb", async function () {
-    this.slow(500)
-    const src = path.join(testDir, "with_thumb.jpg")
-    const dest = await tmpname()
+  async function assertExtractThumbnail(str: string) {
+    // Make sure the str (which may have non-latin characters) shows up in the
+    // directory path and filename:
+    const srcDir = path.join(tmpdir(), "src-" + str)
+    await mkdirp(srcDir)
+    const src = path.join(srcDir, str + ".jpg")
+    await copyFile(path.join(testDir, "with_thumb.jpg"), src)
+    const dest = path.join(tmpdir(), "dest-" + str, str + ".jpg")
     await exiftool.extractThumbnail(src, dest)
     // exiftool test/with_thumb.jpg -b -ThumbnailImage | sha1sum
     expect(await sha1(dest)).to.eql("57885e5e16b16599ccf208981a87fe198612d9fb")
+  }
+
+  it("extracts expected thumb", async function () {
+    this.slow(500)
+    await assertExtractThumbnail("image")
   })
+
+  for (const { str, desc } of NonAlphaStrings) {
+    it("extracts expected thumb with " + desc + " characters", () =>
+      assertExtractThumbnail(str)
+    )
+  }
 
   it("throws for missing src", async function () {
     this.slow(500)
@@ -58,7 +78,7 @@ describe("BinaryExtractionTask", () => {
   it("throws for missing thumb", async function () {
     this.slow(500)
     const src = path.join(testDir, "with_thumb.jpg")
-    const dest = await tmpname()
+    const dest = tmpname()
     try {
       await exiftool.extractJpgFromRaw(src, dest)
       assert.fail("expected error to be thrown")

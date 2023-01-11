@@ -6,11 +6,12 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { DefaultMaxProcs, ExifTool, exiftool, WriteTags } from "./ExifTool"
+import { isWin32 } from "./IsWin32"
 import { parseJSON } from "./JSON"
 import { fromEntries, keys } from "./Object"
 import { leftPad } from "./String"
 import { Tags } from "./Tags"
-import { expect, isWin32, renderTagsWithISO, testImg } from "./_chai.spec"
+import { expect, renderTagsWithISO, testImg } from "./_chai.spec"
 
 function normalize(tagNames: string[]): string[] {
   return tagNames

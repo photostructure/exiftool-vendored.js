@@ -14,5 +14,5 @@
 */
 !dist/
 
-# but ignore dist/update, that's for internal use only:
+# this directory is for internal use only:
 dist/update/

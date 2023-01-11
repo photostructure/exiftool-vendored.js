@@ -4,7 +4,7 @@ import { BinaryField } from "./BinaryField"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
-import { ExifToolOptions } from "./ExifTool"
+import { ExifToolOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { firstDateTime } from "./FirstDateTime"
 import { lazy } from "./Lazy"
@@ -17,6 +17,7 @@ import {
   extractTzOffsetFromUTCOffset,
   normalizeZone,
 } from "./Timezones"
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 
 /**
  * tag names we don't need to muck with:
@@ -67,6 +68,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   static for(filename: string, options: ReadTaskOptions): ReadTask {
     const sourceFile = _path.resolve(filename)
     const args = [
+      ...Utf8FilenameCharsetArgs,
       "-json",
       "-struct", // Return struct tags https://exiftool.org/struct.html
       ...(options.optionalArgs ?? []),
@@ -75,7 +77,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     // in wins)
     args.push(...(options.numericTags ?? []).map((ea) => "-" + ea + "#"))
     // TODO: Do you need -xmp:all, -all, or -all:all?
-    args.push("-all", "-charset", "filename=utf8", sourceFile)
+    args.push("-all", sourceFile)
 
     // console.log("new ReadTask()", { sourceFile, args })
     return new ReadTask(sourceFile, args, options)

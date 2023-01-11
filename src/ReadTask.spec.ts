@@ -1,5 +1,4 @@
 import * as fse from "fs-extra"
-import os from "os"
 import path, { join } from "path"
 import { ExifDateTime } from "./ExifDateTime"
 import { defaultVideosToUTC, exiftool, ExifTool } from "./ExifTool"
@@ -8,10 +7,12 @@ import { ReadTask } from "./ReadTask"
 import { Tags } from "./Tags"
 import {
   expect,
-  isWin32,
+  NonAlphaStrings,
   renderTagsWithISO,
   renderTagsWithRawValues,
   testDir,
+  tmpdir,
+  UnicodeTestMessage,
 } from "./_chai.spec"
 
 const gt = require("geo-tz")
@@ -706,20 +707,25 @@ describe("ReadTask", () => {
     })
   })
 
-  describe("quotes in filenames", () => {
-    const base = isWin32() ? `it's a file.jpg` : `it's a "file".jpg`
-    it("reads from " + base, async () => {
-      const tmp = path.join(os.tmpdir(), base)
-      await fse.mkdirp(os.tmpdir())
-      await fse.copyFile("./test/quotes.jpg", tmp)
-      const t = await exiftool.read(tmp)
-      expect(t.FileName).to.eql(base)
-      expect(t.MIMEType).to.eql("image/jpeg")
-      expect(t.ImageDescription).to.eql("image description for quotes test")
-      expect(t.Keywords).to.eql("quotes")
-      expect(t.DateTimeOriginal?.toString()?.split(/000/)[0]).to.eql(
-        "2016-08-12T13:28:50."
-      )
-    })
+  describe("non-alphanumeric filenames", () => {
+    for (const { str, desc } of NonAlphaStrings) {
+      it("reads with " + desc, async () => {
+        const FileName = str + ".jpg"
+        const dest = path.join(tmpdir(), FileName)
+        await fse.mkdirp(tmpdir())
+        await fse.copyFile(path.join(testDir, "quotes.jpg"), dest)
+        const t = await exiftool.read(dest)
+        expect(t).to.containSubset({
+          MIMEType: "image/jpeg",
+          FileName,
+          Make: "Apple",
+          Model: "iPhone 7 Plus",
+          ImageDescription: "image description for quotes test",
+          LastKeywordXMP: ["Test", "examples", "beach"],
+          Title: UnicodeTestMessage,
+        })
+        expect(t.DateTimeOriginal?.toString()).to.match(/^2016-08-12T13:28:50/)
+      })
+    }
   })
 })

@@ -1,5 +1,4 @@
 import { DateTime } from "luxon"
-
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
