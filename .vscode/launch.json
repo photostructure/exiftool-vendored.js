@@ -11,7 +11,7 @@
         "--timeout",
         "999999",
         "--colors",
-        "${workspaceFolder}/dist/ExifDateTime.spec.js"
+        "${workspaceFolder}/dist/ExifTool.spec.js"
       ],
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
