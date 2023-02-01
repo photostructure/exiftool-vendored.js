@@ -359,11 +359,7 @@ export class ExifTool {
    * there are errors or warnings.
    * @memberof ExifTool
    */
-  write<T extends WriteTags = WriteTags>(
-    file: string,
-    tags: T,
-    args?: string[]
-  ): Promise<void> {
+  write(file: string, tags: WriteTags, args?: string[]): Promise<void> {
     const retriable = false
     return this.enqueueTask(() => WriteTask.for(file, tags, args), retriable)
   }

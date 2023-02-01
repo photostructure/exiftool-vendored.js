@@ -5,7 +5,7 @@ import { BinaryField } from "./BinaryField"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
-import { DefaultMaxProcs, ExifTool, exiftool, WriteTags } from "./ExifTool"
+import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
 import { isWin32 } from "./IsWin32"
 import { parseJSON } from "./JSON"
 import { fromEntries, keys } from "./Object"
@@ -458,30 +458,6 @@ describe("ExifTool", function () {
           await et.deleteAllTags(f)
           assertMetadataWipe(await et.read(f))
         })
-      })
-
-      it("supports unknown tags via generics", async () => {
-        const dest = await testImg()
-
-        interface A {
-          // I couldn't find any writable tags that we're in Tags, so this is
-          // just incorrectly cased:
-          rating: number
-        }
-
-        type CustomWriteTags = WriteTags & A
-
-        await et.write<CustomWriteTags>(dest, { rating: 3 }, [
-          "-overwrite_original",
-        ])
-
-        type CustomTags = Tags & A
-
-        const t = await et.read<CustomTags>(dest)
-        // this should compile...
-        expect(t.rating).to.eql(undefined)
-        // but ExifTool will have done the conversion to "Rating":
-        expect(t.Rating).to.eql(3)
       })
     })
   }

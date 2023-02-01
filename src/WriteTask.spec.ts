@@ -265,9 +265,28 @@ describe("WriteTask", function () {
           ).to.be.rejectedWith(/Value below int16u minimum/i)
         })
 
+        it("tags case-insensitively", async () => {
+          const src = await dest()
+          await exiftool.write(src, { rating: 12 } as any, [
+            "-overwrite_original",
+          ])
+          const t = (await exiftool.read(src)) as any
+          // this should compile...
+          expect(t.rating).to.eql(undefined)
+          // but ExifTool will have done the conversion to "Rating":
+          expect(t.Rating).to.eql(12)
+        })
+
+        it("rejects un-writable tags", async () => {
+          const src = await dest()
+          await expect(
+            exiftool.write(src, { ImageOffset: 12345 } as any)
+          ).to.be.rejectedWith(/ImageOffset is not writable/)
+        })
+
         it("rejects an invalid string Orientation", async () => {
           const src = await dest()
-          return expect(
+          await expect(
             exiftool.write(src, {
               Orientation: "this isn't a valid orientation" as any,
             })
