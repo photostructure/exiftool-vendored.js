@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v20.0.0 (not yet released)
+
+- 💔 `ExifTool.write` took a generic that defaulted to `WriteTags`, but the type wasn't used for anything. I removed the generic typing, which may require consumers to change their code.
+
+- 📦 Updated dependencies. `yarn prettier` now re-organizes imports. Re-ran prettier, rebuilt tags, and rebuilt docs.
+
+- 🌱 ExifTool upgraded to [v12.55](https://exiftool.org/history.html#v12.55)
+
 ### v19.0.0
 
 - 💔/🐞 [Fix #124](https://github.com/photostructure/exiftool-vendored.js/issues/124): Improved support for filenames with non-latin (a-z0-9) characters on Windows machines that weren't set to UTF-8. Thanks for the bug report and PR, [Jürg Rast](https://github.com/jrast)!
