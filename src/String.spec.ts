@@ -1,5 +1,5 @@
-import { expect } from "./_chai.spec"
 import { pad2, pad3 } from "./String"
+import { expect } from "./_chai.spec"
 
 describe("String", () => {
   const examples = [

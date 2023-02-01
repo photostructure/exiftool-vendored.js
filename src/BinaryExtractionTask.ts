@@ -1,8 +1,8 @@
 import path from "path"
 import { ExifToolTask } from "./ExifToolTask"
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
 import { toS } from "./String"
-import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 
 const StdoutRe = /\b(\d+) output files? created/i
 

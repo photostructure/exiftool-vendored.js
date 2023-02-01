@@ -6,6 +6,7 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { firstDateTime } from "./FirstDateTime"
 import { lazy } from "./Lazy"
 import { firstDefinedThunk, map } from "./Maybe"
@@ -17,7 +18,6 @@ import {
   extractTzOffsetFromUTCOffset,
   normalizeZone,
 } from "./Timezones"
-import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 
 /**
  * tag names we don't need to muck with:

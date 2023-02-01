@@ -1,5 +1,5 @@
-import { expect } from "./_chai.spec"
 import { isNumber, toFloat, toInt } from "./Number"
+import { expect } from "./_chai.spec"
 
 describe("Number", () => {
   const examples = [

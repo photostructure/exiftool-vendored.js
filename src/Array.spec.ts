@@ -1,5 +1,5 @@
-import { expect } from "./_chai.spec"
 import { compact, filterInPlace, shallowArrayEql, times, uniq } from "./Array"
+import { expect } from "./_chai.spec"
 
 describe("Array", () => {
   describe("compact()", () => {
