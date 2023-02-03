@@ -111,12 +111,12 @@
   "dependencies": {
     "@photostructure/tz-lookup": "^7.0.0",
     "@types/luxon": "^3.2.0",
-    "batch-cluster": "^11.0.0",
+    "batch-cluster": "^12.0.0",
     "he": "^1.2.0",
     "luxon": "^3.2.1"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "12.54.0",
-    "exiftool-vendored.pl": "12.54.0"
+    "exiftool-vendored.exe": "12.55.0",
+    "exiftool-vendored.pl": "12.55.0"
   }
 }
