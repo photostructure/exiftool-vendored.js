@@ -25,13 +25,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v20.0.0 (not yet released)
+### v20.0.0
 
 - 💔 `ExifTool.write` took a generic that defaulted to `WriteTags`, but the type wasn't used for anything. I removed the generic typing, which may require consumers to change their code.
 
-- 📦 Updated dependencies. `yarn prettier` now re-organizes imports. Re-ran prettier, rebuilt tags, and rebuilt docs.
-
 - 🌱 ExifTool upgraded to [v12.55](https://exiftool.org/history.html#v12.55)
+
+- 📦 `yarn prettier` now re-organizes imports
+
+- 📦 Updated dependencies, re-ran prettier, rebuilt tags, rebuilt docs
 
 ### v19.0.0
 
