@@ -173,9 +173,7 @@ describe("WriteTask", function () {
             tagName: "DateTimeOriginal",
             inputValue: "2017-11-15T12:34:56" + tzo,
             cmp: (actual: ExifDateTime) => {
-              expect(actual.toISOString()).to.eql(
-                `2017-11-15T12:34:56.000${tzo}`
-              )
+              expect(actual.toISOString()).to.eql(`2017-11-15T12:34:56${tzo}`)
             },
           })
         })
@@ -212,7 +210,7 @@ describe("WriteTask", function () {
         it("updates CreateDate to a time with zeroes and OffsetTime", async () => {
           const src = await dest()
           const wt: WriteTags = {
-            CreateDate: new ExifDateTime(2019, 1, 2, 0, 0, 0, 0),
+            CreateDate: new ExifDateTime(2019, 1, 2, 0, 0, 0),
             // We have to clear the GPS info to make the OffsetTime be respected:
             GPSLatitude: null,
             GPSLongitude: null,
@@ -221,7 +219,7 @@ describe("WriteTask", function () {
           await exiftool.write(src, wt)
           const t = await exiftool.read(src)
           expect(t.CreateDate?.toString()).to.eql(
-            "2019-01-02T00:00:00.000" + (withTZ ? "-05:00" : "")
+            "2019-01-02T00:00:00" + (withTZ ? "-05:00" : "")
           )
           return
         })
@@ -362,7 +360,8 @@ describe("WriteTask", function () {
         })
 
         it("Accepts a shortcut tag", async () => {
-          const date = "2018-04-17T12:34:56.000+08:00"
+          // AllDates doesn't accept millisecond precision:
+          const date = "2018-04-17T12:34:56+08:00"
           const src = await dest()
           await exiftool.write(src, { AllDates: date })
           const tags = await exiftool.read(src)

@@ -15,29 +15,42 @@ import {
   UnsetZoneOffsetMinutes,
 } from "./Timezones"
 
+const TimeFmts = [
+  { fmt: "HH:mm:ss.u", unsetMilliseconds: false },
+  { fmt: "HH:mm:ss", unsetMilliseconds: true },
+  { fmt: "HH:mm", unsetMilliseconds: true },
+] as const
+
 /**
  * Encodes an ExifDateTime with an optional tz offset in minutes.
  */
 export class ExifDateTime {
   #dt?: DateTime
 
-  static fromISO(iso: string, zone?: Maybe<string>): Maybe<ExifDateTime> {
+  static fromISO(
+    iso: string,
+    defaultZone?: Maybe<string>
+  ): Maybe<ExifDateTime> {
     if (blank(iso) || null != iso.match(/^\d+$/)) return undefined
     // Unfortunately, DateTime.fromISO() is happy to parse a date with no time,
     // so we have to do this ourselves:
-    return this.fromPatterns(iso, [
-      // if it specifies a zone, use it:
-      { fmt: "y-M-d'T'H:m:s.uZZ" },
-      { fmt: "y-M-d'T'H:m:sZZ" },
-
-      // if it specifies UTC, use it:
-      { fmt: "y-M-d'T'H:m:s.u'Z'", zone: "utc" },
-      { fmt: "y-M-d'T'H:m:s'Z'", zone: "utc" },
-
-      // Otherwise use the default zone:
-      { fmt: "y-M-d'T'H:m:s.u", zone },
-      { fmt: "y-M-d'T'H:m:s", zone },
-    ])
+    const patterns = []
+    for (const z of [
+      { fmt: "ZZ", zone: undefined },
+      { fmt: "'Z'", zone: "UTC" },
+      { fmt: "", zone: defaultZone },
+    ]) {
+      for (const sep of ["'T'", " "]) {
+        for (const timeFmt of TimeFmts) {
+          patterns.push({
+            fmt: `y-M-d${sep}${timeFmt.fmt}${z.fmt}`,
+            zone: z.zone,
+            unsetMilliseconds: timeFmt.unsetMilliseconds,
+          })
+        }
+      }
+    }
+    return this.fromPatterns(iso, patterns)
   }
 
   /**
@@ -64,7 +77,11 @@ export class ExifDateTime {
 
   private static fromPatterns(
     text: string,
-    fmts: { fmt: string; zone?: string | Zone | undefined }[]
+    fmts: {
+      fmt: string
+      zone?: string | Zone | undefined
+      unsetMilliseconds?: boolean
+    }[]
   ): Maybe<ExifDateTime> {
     const s = toS(text).trim()
     const inputs = [s]
@@ -76,19 +93,24 @@ export class ExifDateTime {
     // Unfortunately, luxon doesn't support regex.
 
     // We only want to strip off the TZA if it isn't "UTC" or "Z"
-    if (null == s.match(/[.\d\s](utc|z)$/i)) {
+    if (null == s.match(/[.\d\s](UTC|Z)$/)) {
       const noTza = s.replace(/ [a-z]{2,5}$/i, "")
       if (noTza !== s) inputs.push(noTza)
     }
     // PERF: unroll first() to avoid creating closures
     for (const input of inputs) {
-      for (const { fmt, zone } of fmts) {
+      for (const { fmt, zone, unsetMilliseconds } of fmts) {
         const dt = DateTime.fromFormat(input, fmt, {
           setZone: true,
           zone: zone ?? UnsetZone,
         })
-        const edt = ExifDateTime.fromDateTime(dt, s)
-        if (edt != null) return edt
+        if (dt.isValid) {
+          const edt = ExifDateTime.fromDateTime(dt, {
+            rawValue: s,
+            unsetMilliseconds: unsetMilliseconds ?? false,
+          })
+          if (edt != null) return edt
+        }
       }
     }
     return
@@ -110,23 +132,27 @@ export class ExifDateTime {
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
+    const patterns = []
+
+    for (const z of [
+      { fmt: "ZZ", zone: undefined },
+      { fmt: "'Z'", zone: "UTC" },
+      { fmt: "", zone: defaultZone },
+    ]) {
+      for (const timeFmt of TimeFmts) {
+        patterns.push({
+          fmt: `y:M:d ${timeFmt.fmt}${z.fmt}`,
+          zone: z.zone,
+          unsetMilliseconds: timeFmt.unsetMilliseconds,
+        })
+      }
+    }
+
     return (
-      this.fromPatterns(text, [
-        // if it specifies a zone, use it:
-        { fmt: "y:M:d H:m:s.uZZ" },
-        { fmt: "y:M:d H:m:sZZ" },
-
-        // if it specifies UTC, use it:
-        { fmt: "y:M:d H:m:s.u'Z'", zone: "utc" },
-        { fmt: "y:M:d H:m:s'Z'", zone: "utc" },
-
-        // Otherwise use the default zone:
-        { fmt: "y:M:d H:m:s.u", zone: defaultZone },
-        { fmt: "y:M:d H:m:s", zone: defaultZone },
-
-        // Not found yet? Maybe it's in ISO format? See
-        // https://github.com/photostructure/exiftool-vendored.js/issues/71
-      ]) ?? this.fromISO(text, defaultZone)
+      this.fromPatterns(text, patterns) ??
+      // Not found yet? Maybe it's in ISO format? See
+      // https://github.com/photostructure/exiftool-vendored.js/issues/71
+      this.fromISO(text, defaultZone)
     )
   }
 
@@ -136,19 +162,24 @@ export class ExifDateTime {
   ): Maybe<ExifDateTime> {
     if (blank(text)) return undefined
     const zone = notBlank(defaultZone) ? defaultZone : UnsetZone
-    return this.fromPatterns(text, [
-      // FWIW, the following are from actual datestamps seen in the wild:
-      { fmt: "MMM d y H:m:sZZZ" },
-      { fmt: "MMM d y H:m:s", zone },
-      { fmt: "MMM d y, H:m:sZZZ" },
-      { fmt: "MMM d y, H:m:s", zone },
+    // The following are from actual datestamps seen in the wild:
+    const formats = [
+      "MMM d y H:m:s",
+      "MMM d y, H:m:s",
       // Thu Oct 13 00:12:27 2016:
-      { fmt: "ccc MMM d H:m:s yZZ" },
-      { fmt: "ccc MMM d H:m:s y", zone },
+      "ccc MMM d H:m:s y",
+    ]
+    return this.fromPatterns(text, [
+      ...formats.map((fmt) => ({ fmt: fmt + "ZZ" })),
+      // And the same formats, without offsets with default zone:
+      ...formats.map((fmt) => ({ fmt, zone })),
     ])
   }
 
-  static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifDateTime> {
+  static fromDateTime(
+    dt: DateTime,
+    opts?: { rawValue?: Maybe<string>; unsetMilliseconds?: boolean }
+  ): Maybe<ExifDateTime> {
     if (dt == null || !dt.isValid || dt.year === 0 || dt.year === 1) {
       return undefined
     }
@@ -159,9 +190,11 @@ export class ExifDateTime {
       dt.hour,
       dt.minute,
       dt.second,
-      dt.millisecond,
+      dt.millisecond === 0 && true === opts?.unsetMilliseconds
+        ? undefined
+        : dt.millisecond,
       dt.offset === UnsetZoneOffsetMinutes ? undefined : dt.offset,
-      rawValue,
+      opts?.rawValue,
       dt.zone?.name === UnsetZone.name ? undefined : dt.zoneName
     )
   }
@@ -185,7 +218,7 @@ export class ExifDateTime {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.fromDateTime(
       DateTime.fromMillis(millis, omit(options, "rawValue")),
-      options.rawValue
+      { rawValue: options.rawValue }
     )!
   }
 
@@ -210,11 +243,11 @@ export class ExifDateTime {
     return this.millisecond
   }
 
-  get hasZone() {
+  get hasZone(): boolean {
     return notBlank(this.zone)
   }
 
-  get zone() {
+  get zone(): Maybe<string> {
     return this.zoneName ?? offsetMinutesToZoneName(this.tzoffsetMinutes)
   }
 
@@ -227,7 +260,7 @@ export class ExifDateTime {
         keepLocalTime: !this.hasZone,
         ...opts,
       }),
-      this.rawValue
+      { rawValue: this.rawValue, unsetMilliseconds: this.millisecond == null }
     )
 
     // We know this will be defined: this is valid, so changing the zone will
@@ -236,7 +269,11 @@ export class ExifDateTime {
     return result
   }
 
-  toDateTime() {
+  /**
+   * CAUTION: This instance will inherit the system timezone if this instance
+   * has an unset zone
+   */
+  toDateTime(): DateTime {
     return (this.#dt ??= DateTime.fromObject(
       {
         year: this.year,
@@ -272,7 +309,10 @@ export class ExifDateTime {
   }
 
   toExifString() {
-    return dateTimeToExif(this.toDateTime())
+    return dateTimeToExif(this.toDateTime(), {
+      includeOffset: this.hasZone,
+      includeMilliseconds: this.millisecond != null,
+    })
   }
 
   toString() {

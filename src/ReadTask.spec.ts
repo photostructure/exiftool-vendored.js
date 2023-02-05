@@ -112,7 +112,7 @@ describe("ReadTask", () => {
       })
 
       const gpsdt = t.GPSDateTime as any as ExifDateTime
-      expect(gpsdt.toString()).to.eql("2016-07-19T10:00:24.000Z")
+      expect(gpsdt.toString()).to.eql("2016-07-19T10:00:24Z")
       expect(gpsdt.rawValue).to.eql("2016:07:19 10:00:24Z")
       expect(gpsdt.zoneName).to.eql("UTC")
     })
@@ -308,7 +308,7 @@ describe("ReadTask", () => {
       const t = parse({ tags: input })
       expect(renderTagsWithRawValues(t)).to.eql(input)
       expect(renderTagsWithISO(t)).to.eql({
-        DateTimeOriginal: "2016-12-13T09:05:27.000",
+        DateTimeOriginal: "2016-12-13T09:05:27",
         SubSecDateTimeOriginal: "2016-12-13T09:05:27.120",
         errors: [],
       })
@@ -323,8 +323,8 @@ describe("ReadTask", () => {
       const t = parse({ tags: input })
       expect(renderTagsWithRawValues(t)).to.eql(input)
       expect(renderTagsWithISO(t)).to.eql({
-        DateTimeOriginal: "2016-12-13T09:05:27.000-08:00",
-        GPSDateTime: "2016-12-13T17:05:25.000Z",
+        DateTimeOriginal: "2016-12-13T09:05:27-08:00",
+        GPSDateTime: "2016-12-13T17:05:25Z",
         SubSecDateTimeOriginal: "2016-12-13T09:05:27.120-08:00",
         errors: [],
         tz: "UTC-8",
@@ -352,7 +352,7 @@ describe("ReadTask", () => {
           },
         })
         expect((t.GPSTimeStamp as any).toISOString()).to.eql(
-          "1970-01-01T00:00:00.000Z"
+          "1970-01-01T00:00:00Z"
         )
       })
 
@@ -379,9 +379,9 @@ describe("ReadTask", () => {
             })
             expect(renderTagsWithISO(t)).to.eql({
               MIMEType,
-              CreateDate: "2020-08-03T08:00:19.000-07:00",
+              CreateDate: "2020-08-03T08:00:19-07:00",
               SubSecCreateDate: "2020-08-03T15:00:19.010Z",
-              DateTimeOriginal: "2020-08-03T15:00:19.000Z",
+              DateTimeOriginal: "2020-08-03T15:00:19Z",
               TimeStamp: "2020-08-03T15:00:19.010Z",
 
               tz: "UTC",
@@ -403,7 +403,7 @@ describe("ReadTask", () => {
         expect(renderTagsWithISO(t)).to.eql({
           // ALL DATES ARE IN ZULU!
           MIMEType: "video/mp4",
-          CreateDate: "2014-07-17T08:46:27.000Z",
+          CreateDate: "2014-07-17T08:46:27Z",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
           errors: [],
@@ -419,7 +419,7 @@ describe("ReadTask", () => {
         expect(renderTagsWithISO(t)).to.eql({
           // ALL DATES ARE IN ZULU!
           MIMEType: "video/mp4",
-          CreateDate: "2014-07-17T08:46:27.000-05:00",
+          CreateDate: "2014-07-17T08:46:27-05:00",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
           errors: [],
@@ -437,8 +437,8 @@ describe("ReadTask", () => {
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
-          CreateDate: "2020-08-03T16:00:19.000+01:00",
-          DateTimeOriginal: "2020-08-03T16:00:19.000+01:00",
+          CreateDate: "2020-08-03T16:00:19+01:00",
+          DateTimeOriginal: "2020-08-03T16:00:19+01:00",
           SubSecCreateDate: "2020-08-03T16:00:19.123+01:00",
           TimeStamp: "2020-08-03T16:00:19.010+01:00",
 
@@ -464,8 +464,8 @@ describe("ReadTask", () => {
         expect(renderTagsWithISO(t)).to.eql({
           MIMEType: "video/mp4",
 
-          CreateDate: "2020-08-03T16:00:19.000+01:00",
-          DateTimeOriginal: "2020-08-03T16:00:19.000+01:00",
+          CreateDate: "2020-08-03T16:00:19+01:00",
+          DateTimeOriginal: "2020-08-03T16:00:19+01:00",
           SubSecCreateDate: "2020-08-03T16:00:19.123+01:00",
           TimeStamp: "2020-08-03T16:00:19.010+01:00",
 
@@ -489,9 +489,9 @@ describe("ReadTask", () => {
         expect(renderTagsWithISO(t)).to.eql({
           MIMEType: "video/mp4",
 
-          CreateDate: "2020-08-03T15:00:19.000Z",
+          CreateDate: "2020-08-03T15:00:19Z",
           SubSecCreateDate: "2020-08-03T16:00:19.123+01:00",
-          DateTimeOriginal: "2020-08-03T15:00:19.000Z",
+          DateTimeOriginal: "2020-08-03T15:00:19Z",
           TimeStamp: "2020-08-03T15:00:19.010Z",
 
           tz: "UTC",
@@ -510,8 +510,8 @@ describe("ReadTask", () => {
         })
         expect(renderTagsWithISO(t)).to.eql({
           // No timezone found, so no normalization:
-          CreateDate: "2020-08-03T08:00:19.000-07:00",
-          DateTimeOriginal: "2020-08-03T15:00:19.000", // < no zone!
+          CreateDate: "2020-08-03T08:00:19-07:00",
+          DateTimeOriginal: "2020-08-03T15:00:19", // < no zone!
           SubSecCreateDate: "2020-08-03T15:00:19.010Z",
           TimeStamp: "2020-08-03T15:00:19.010", // < no zone!
           errors: [],
@@ -535,18 +535,18 @@ describe("ReadTask", () => {
             OffsetTimeOriginal: "-05:00",
             SubSecCreateDate: "2020:12:29 14:24:45.700-05:00",
             SubSecDateTimeOriginal: "2020:12:29 14:24:45.700-05:00",
-            SubSecModifyDate: "2020:12:29 14:24:45-05:00",
+            SubSecModifyDate: "2020:12:29 14:24:45.789-05:00",
             SubSecTimeDigitized: 700,
             SubSecTimeOriginal: 700,
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
-          CreateDate: "2020-12-29T14:24:45.000-05:00",
-          DateTimeOriginal: "2020-12-29T14:24:45.000-05:00",
+          CreateDate: "2020-12-29T14:24:45-05:00",
+          DateTimeOriginal: "2020-12-29T14:24:45-05:00",
           SubSecCreateDate: "2020-12-29T14:24:45.700-05:00",
           SubSecDateTimeOriginal: "2020-12-29T14:24:45.700-05:00",
-          SubSecModifyDate: "2020-12-29T14:24:45.000-05:00",
-          ModifyDate: "2020-12-29T14:24:45.000-05:00",
+          SubSecModifyDate: "2020-12-29T14:24:45.789-05:00",
+          ModifyDate: "2020-12-29T14:24:45-05:00",
 
           GPSAltitude: 259.016,
           GPSDateStamp: "2020-12-29",
@@ -573,7 +573,7 @@ describe("ReadTask", () => {
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
-          CreateDate: "2020-12-29T14:24:45.000-05:00",
+          CreateDate: "2020-12-29T14:24:45-05:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
           errors: [],
@@ -595,7 +595,7 @@ describe("ReadTask", () => {
         })
         expect(renderTagsWithISO(t)).to.eql({
           MIMEType: "video/mp4",
-          CreateDate: "2022-08-31T00:32:06.000Z",
+          CreateDate: "2022-08-31T00:32:06Z",
           // Smartphone videos seem to always encode timestamps in UTC, even
           // if there is GPS metadata
           GPSLatitude: 34.15,
@@ -617,7 +617,7 @@ describe("ReadTask", () => {
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
-          CreateDate: "2022-08-31T00:32:06.000-04:00",
+          CreateDate: "2022-08-31T00:32:06-04:00",
           // Smartphone videos seem to always encode timestamps in UTC, even
           // if there is GPS metadata
           GPSLatitude: 34.15,
@@ -639,19 +639,19 @@ describe("ReadTask", () => {
             OffsetTimeOriginal: "-05:00",
             SubSecCreateDate: "2020:12:29 14:24:45.700-05:00",
             SubSecDateTimeOriginal: "2020:12:29 14:24:45.700-05:00",
-            SubSecModifyDate: "2020:12:29 14:24:45-05:00",
+            SubSecModifyDate: "2020:12:29 14:24:45.789-05:00",
             SubSecTimeDigitized: 700,
             SubSecTimeOriginal: 700,
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
           // Everything normalized to PST:
-          CreateDate: "2020-12-29T14:24:45.000-05:00",
-          DateTimeOriginal: "2020-12-29T14:24:45.000-05:00",
-          ModifyDate: "2020-12-29T14:24:45.000-05:00",
+          CreateDate: "2020-12-29T14:24:45-05:00",
+          DateTimeOriginal: "2020-12-29T14:24:45-05:00",
+          ModifyDate: "2020-12-29T14:24:45-05:00",
           SubSecCreateDate: "2020-12-29T14:24:45.700-05:00",
           SubSecDateTimeOriginal: "2020-12-29T14:24:45.700-05:00",
-          SubSecModifyDate: "2020-12-29T14:24:45.000-05:00",
+          SubSecModifyDate: "2020-12-29T14:24:45.789-05:00",
 
           OffsetTime: "-05:00",
           OffsetTimeDigitized: "-05:00",

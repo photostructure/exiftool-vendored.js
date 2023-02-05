@@ -1,240 +1,182 @@
-import { HourMs } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
 import { expect, randomChars } from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 describe("ExifDateTime", () => {
-  describe("example with no tzoffset or zulu suffix", () => {
-    const raw = "2016:08:12 07:28:50.768120"
-    const iso = "2016-08-12T07:28:50.768"
-    const dt = ExifDateTime.fromEXIF(raw)!
-    const dtIso = ExifDateTime.fromISO(iso)!
-    it("doesn't set the zone from EXIF", () => {
-      expect(dt.hasZone).to.eql(false)
-      expect(dt.zone).to.eql(undefined)
+  for (const ea of [
+    {
+      desc: "no tzoffset or UTC suffix",
+      exif: "2016:09:12 07:28:50.768120",
+      exifExp: "2016:09:12 07:28:50.768",
+      iso: "2016-09-12T07:28:50.768",
+      d: {
+        hasZone: false,
+        zone: undefined,
+        year: 2016,
+        month: 9,
+        day: 12,
+        hour: 7,
+        minute: 28,
+        second: 50,
+        millisecond: 768,
+      },
+    },
+    {
+      desc: "with UTC suffix",
+      exif: "1999:01:02 03:04:05.67890Z",
+      exifExp: "1999:01:02 03:04:05.678+00:00",
+      iso: "1999-01-02T03:04:05.678Z",
+      d: {
+        hasZone: true,
+        zone: "UTC",
+        year: 1999,
+        month: 1,
+        day: 2,
+        hour: 3,
+        minute: 4,
+        second: 5,
+        millisecond: 678,
+      },
+    },
+    {
+      desc: "with timezone offset",
+      exif: "2002:10:11 13:14:15.789-03:00",
+      iso: "2002-10-11 13:14:15.789-03:00",
+      isoExp: "2002-10-11T13:14:15.789-03:00",
+      d: {
+        hasZone: true,
+        zoneName: "UTC-3",
+        year: 2002,
+        month: 10,
+        day: 11,
+        hour: 13,
+        minute: 14,
+        second: 15,
+        millisecond: 789,
+      },
+    },
+    {
+      desc: "with no tzoffset and UTC default",
+      exif: ExifDateTime.fromEXIF(
+        "2011:01:23 18:19:20",
+        "UTC"
+      )!.toExifString()!,
+      iso: ExifDateTime.fromISO("2011-01-23T18:19:20", "UTC")!.toISOString()!,
+      d: {
+        hasZone: true,
+        zoneName: "UTC",
+        year: 2011,
+        month: 1,
+        day: 23,
+        hour: 18,
+        minute: 19,
+        second: 20,
+        millisecond: undefined,
+      },
+    },
+    {
+      desc: "EXIF with ISO formatting and no tzoffset",
+      exif: "2016:08:12 07:28:50.768120",
+      exifExp: "2016:08:12 07:28:50.768",
+      iso: "2016-08-12T07:28:50.768",
+      d: {
+        hasZone: false,
+        zone: undefined,
+        year: 2016,
+        month: 8,
+        day: 12,
+        hour: 7,
+        minute: 28,
+        second: 50,
+        millisecond: 768,
+      },
+    },
+    {
+      desc: "with tzoffset and spurious timezone",
+      exif: "2015:07:17 08:46:27.123-09:00 DST",
+      exifExp: "2015:07:17 08:46:27.123-09:00",
+      iso: "2015-07-17T08:46:27.123-09:00",
+      isoExp: "2015-07-17T08:46:27.123-09:00",
+      d: {
+        hasZone: true,
+        zoneName: "UTC-9",
+        year: 2015,
+        month: 7,
+        day: 17,
+        hour: 8,
+        minute: 46,
+        second: 27,
+        millisecond: 123,
+      },
+    },
+    {
+      desc: "with tzoffset, no millis, and spurious timezone",
+      exif: "2014:07:17 08:46:27-07:00 DST",
+      exifExp: "2014:07:17 08:46:27-07:00",
+      iso: "2014-07-17T08:46:27-07:00",
+      isoExp: "2014-07-17T08:46:27-07:00",
+      d: {
+        hasZone: true,
+        zoneName: "UTC-7",
+        year: 2014,
+        month: 7,
+        day: 17,
+        hour: 8,
+        minute: 46,
+        second: 27,
+        millisecond: undefined,
+      },
+    },
+    {
+      desc: "with tzoffset, no millis or seconds",
+      exif: "2014:07:17 08:46-07:00",
+      exifExp: "2014:07:17 08:46:00-07:00",
+      iso: "2014-07-17T08:46-07:00",
+      isoExp: "2014-07-17T08:46:00-07:00",
+      d: {
+        hasZone: true,
+        zoneName: "UTC-7",
+        year: 2014,
+        month: 7,
+        day: 17,
+        hour: 8,
+        minute: 46,
+        second: 0,
+        millisecond: undefined,
+      },
+    },
+  ]) {
+    describe(ea.desc + " (iso: " + ea.iso + ")", () => {
+      const fromExif = ExifDateTime.fromEXIF(ea.exif)
+      it("parses from EXIF", () => {
+        expect(fromExif).to.containSubset(ea.d)
+      })
+      const fromISO = ExifDateTime.fromISO(ea.iso)
+      it("parses from ISO", () => {
+        expect(fromISO).to.containSubset(ea.d)
+      })
+      const jsDate = new Date(ea.iso)
+      it("renders correct epoch millis", () => {
+        const exp = jsDate.getTime()
+        expect(fromExif?.toMillis()).to.eql(exp)
+        expect(fromISO?.toMillis()).to.eql(exp)
+      })
+      it("renders correct JS Date", () => {
+        expect(fromExif?.toDate()).to.eql(jsDate)
+        expect(fromISO?.toDate()).to.eql(jsDate)
+      })
+      it("renders correct ISO string", () => {
+        const exp = ea.isoExp ?? ea.iso
+        expect(fromExif?.toISOString()).to.eql(exp)
+        expect(fromISO?.toISOString()).to.eql(exp)
+      })
+      it("renders correct EXIF string", () => {
+        const exp = ea.exifExp ?? ea.exif
+        expect(fromExif?.toExifString()).to.eql(exp)
+        expect(fromISO?.toExifString()).to.eql(exp)
+      })
     })
-    it("doesn't set the zone from ISO", () => {
-      expect(dtIso.hasZone).to.eql(false)
-      expect(dtIso.zone).to.eql(undefined)
-    })
-    it("parses year/month/day", () => {
-      expect([dt.year, dt.month, dt.day]).to.eql([2016, 8, 12])
-    })
-    it("parses ISO year/month/day", () => {
-      expect([dtIso.year, dtIso.month, dtIso.day]).to.eql([2016, 8, 12])
-    })
-    it("renders toMillis()", () => {
-      expect(dt.toMillis()).to.be.closeTo(new Date(iso).getTime(), 12 * HourMs)
-    })
-    it("parses hour/minute/second/millis", () => {
-      expect([dt.hour, dt.minute, dt.second]).to.eql([7, 28, 50])
-      expect(dt.millisecond).to.eql(768)
-    })
-    it("includes the raw value", () => {
-      expect(dt.rawValue).to.eql(raw)
-    })
-    it(".toDate() renders a valid Date", () => {
-      const d = dt.toDate()
-      expect(d.getFullYear()).to.eql(2016)
-      expect(d.getMonth()).to.eql(8 - 1)
-      expect(d.getDate()).to.eql(12)
-      expect(d.getHours()).to.eql(7)
-      expect(d.getMinutes()).to.eql(28)
-      expect(d.getSeconds()).to.eql(50)
-      expect(d.getMilliseconds()).to.eql(768)
-    })
-    it("ISO .toString()s", () => {
-      expect(dt.toString()).to.eql(iso)
-    })
-    it(".toISOString() matches .toString()", () => {
-      expect(dt.toISOString()).to.eql(iso)
-    })
-    it("Renders a Date assuming the current timezone offset", () => {
-      // Node 19 renders 8/12/2016, 7:28:50\u202fAM UGH
-      expect(dt.toDate().toLocaleString("en-US")).to.match(
-        /8\/12\/2016, 7:28:50\sAM/
-      )
-    })
-    it("Round-trips from ISO", () => {
-      const zone = undefined
-      const actual = ExifDateTime.fromISO(iso, zone)!
-      expect(actual.toISOString()).to.eql(dt.toISOString())
-    })
-  })
-
-  describe("example with no tzoffset and UTC default", () => {
-    const raw = "2011:01:23 18:19:20"
-    const dt = ExifDateTime.fromEXIF(raw, "utc")!
-    it("parses year/month/day", () => {
-      expect([dt.year, dt.month, dt.day]).to.eql([2011, 1, 23])
-    })
-    it("parses hour/minute/second", () => {
-      expect([dt.hour, dt.minute, dt.second]).to.eql([18, 19, 20])
-    })
-    it("parses tzoffset", () => {
-      expect(dt.tzoffsetMinutes).to.eql(0)
-    })
-    it("includes the raw value", () => {
-      expect(dt.rawValue).to.eql(raw)
-    })
-    it(".toISOString", () => {
-      expect(dt.toISOString()).to.eql("2011-01-23T18:19:20.000Z")
-    })
-    it(".toISOString() matches .toString()", () => {
-      expect(dt.toISOString()).to.eql(dt.toString())
-    })
-    it("Renders a Date assuming the current timezone offset", () => {
-      const d = dt.toDate()
-      const actual = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]
-      expect(actual).to.eql([2011, 1, 23])
-      expect([
-        d.getUTCHours(),
-        d.getUTCMinutes(),
-        d.getUTCSeconds(),
-        d.getUTCMilliseconds(),
-      ]).to.eql([18, 19, 20, 0])
-    })
-    it("Renders a UTC Date assuming the current timezone offset", () => {
-      expect(dt.toDate().toISOString()).to.eql("2011-01-23T18:19:20.000Z")
-    })
-  })
-
-  describe("example with ISO formatting and no tzoffset", () => {
-    const raw = "2015-11-14T14:20:36"
-    const dt = ExifDateTime.fromExifStrict(raw, "utc")!
-    it("parses year/month/day", () => {
-      expect([dt.year, dt.month, dt.day]).to.eql([2015, 11, 14])
-    })
-    it("parses hour/minute/second", () => {
-      expect([dt.hour, dt.minute, dt.second]).to.eql([14, 20, 36])
-    })
-    it("parses tzoffset", () => {
-      expect(dt.tzoffsetMinutes).to.eql(0)
-    })
-    it("includes the raw value", () => {
-      expect(dt.rawValue).to.eql(raw)
-    })
-    it(".toISOString", () => {
-      expect(dt.toISOString()).to.eql("2015-11-14T14:20:36.000Z")
-    })
-    it(".toISOString() matches .toString()", () => {
-      expect(dt.toISOString()).to.eql(dt.toString())
-    })
-    it("Renders a Date assuming the current timezone offset", () => {
-      const d = dt.toDate()
-      const actual = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]
-      expect(actual).to.eql([2015, 11, 14])
-      expect([
-        d.getUTCHours(),
-        d.getUTCMinutes(),
-        d.getUTCSeconds(),
-        d.getUTCMilliseconds(),
-      ]).to.eql([14, 20, 36, 0])
-    })
-    it("Renders a UTC Date assuming the current timezone offset", () => {
-      expect(dt.toDate().toISOString()).to.eql("2015-11-14T14:20:36.000Z")
-    })
-  })
-
-  describe("example with tzoffset and spurious timezone", () => {
-    const raw = "2014:07:17 08:46:27-07:00 DST"
-    const dt = ExifDateTime.fromEXIF(raw)!
-    it("parses year/month/day", () => {
-      expect([dt.year, dt.month, dt.day]).to.eql([2014, 7, 17])
-    })
-    it("parses hour/minute/second", () => {
-      expect([dt.hour, dt.minute, dt.second]).to.eql([8, 46, 27])
-    })
-    it("parses tzoffset", () => {
-      expect(dt.tzoffsetMinutes).to.eql(-60 * 7)
-    })
-    it("includes the raw value", () => {
-      expect(dt.rawValue).to.eql(raw)
-    })
-    it(".toISOString", () => {
-      expect(dt.toISOString()).to.eql("2014-07-17T08:46:27.000-07:00")
-    })
-    it(".toISOString() matches .toString()", () => {
-      expect(dt.toISOString()).to.eql(dt.toString())
-    })
-  })
-
-  describe("example with tzoffset and no millis", () => {
-    const raw = "2013:12:30 11:04:15-05:00"
-    const dt = ExifDateTime.fromEXIF(raw)!
-    it("parses year/month/day", () => {
-      expect([dt.year, dt.month, dt.day]).to.eql([2013, 12, 30])
-    })
-    it("parses hour/minute/second", () => {
-      expect([dt.hour, dt.minute, dt.second]).to.eql([11, 4, 15])
-    })
-    it("parses tzoffset", () => {
-      expect(dt.tzoffsetMinutes).to.eql(-60 * 5)
-    })
-    it("includes the raw value", () => {
-      expect(dt.rawValue).to.eql(raw)
-    })
-    it(".toISOString", () => {
-      expect(dt.toISOString()).to.eql("2013-12-30T11:04:15.000-05:00")
-    })
-    it(".toISOString() matches .toString()", () => {
-      expect(dt.toISOString()).to.eql(dt.toString())
-    })
-    it("Renders a Date assuming the forced timezone offset", () => {
-      const d = dt.toDate()
-      const actual = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]
-      expect(actual).to.eql([2013, 12, 30])
-      expect([
-        d.getUTCHours(),
-        d.getUTCMinutes(),
-        d.getUTCSeconds(),
-        d.getUTCMilliseconds(),
-      ]).to.eql([11 + 5, 4, 15, 0])
-    })
-    it("Renders a UTC Date assuming the current timezone offset", () => {
-      expect(dt.toDate().toISOString()).to.eql("2013-12-30T16:04:15.000Z")
-    })
-  })
-
-  describe("example with tzoffset and millis", () => {
-    const raw = "2013:12:30 03:04:15.079321-05:00"
-    const edt = ExifDateTime.fromEXIF(raw)!
-    it("parses year/month/day", () => {
-      expect([edt.year, edt.month, edt.day]).to.eql([2013, 12, 30])
-    })
-    it("parses hour/minute/second/millis", () => {
-      expect([edt.hour, edt.minute, edt.second]).to.eql([3, 4, 15])
-      expect(edt.millisecond).to.be.eql(79)
-    })
-    it("parses tzoffset", () => {
-      expect(edt.tzoffsetMinutes).to.eql(-60 * 5)
-    })
-    it("includes the raw value", () => {
-      expect(edt.rawValue).to.eql(raw)
-    })
-    it(".toISOString", () => {
-      expect(edt.toISOString()).to.eql("2013-12-30T03:04:15.079-05:00")
-    })
-    it(".toISOString() matches .toString()", () => {
-      expect(edt.toISOString()).to.eql(edt.toString())
-    })
-    it("Renders a Date assuming the forced timezone offset", () => {
-      const d = edt.toDate()
-      expect([d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()]).to.eql([
-        2013, 12, 30,
-      ])
-      expect([
-        d.getUTCHours(),
-        d.getUTCMinutes(),
-        d.getUTCSeconds(),
-        d.getUTCMilliseconds(),
-      ]).to.eql([3 + 5, 4, 15, 79])
-    })
-    it("Renders a UTC Date assuming the current timezone offset", () => {
-      // javascript doesn't maintain fractional millis precision:
-      expect(edt.toDate().toISOString()).to.eql("2013-12-30T08:04:15.079Z")
-    })
-  })
+  }
 
   describe("parsing empty/invalid input", () => {
     const examples = [
@@ -263,7 +205,7 @@ describe("ExifDateTime", () => {
   it("parses timestamps that end in DST", () => {
     const raw = "2014:07:17 08:46:27-07:00 DST"
     const dt = ExifDateTime.fromEXIF(raw)!
-    expect(dt.toISOString()).to.eql("2014-07-17T08:46:27.000-07:00")
+    expect(dt.toISOString()).to.eql("2014-07-17T08:46:27-07:00")
     expect(dt.zone).to.eql("UTC-7")
   })
 
@@ -286,7 +228,7 @@ describe("ExifDateTime", () => {
     )!
     expect(edt.hasZone).to.eql(true)
     expect(edt.isValid).to.eql(true)
-    expect(edt.toISOString()).to.eql("1904-02-03T13:14:15.000+02:02")
+    expect(edt.toISOString()).to.eql("1904-02-03T13:14:15+02:02")
   })
 
   describe(".fromMillis()", () => {

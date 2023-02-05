@@ -317,8 +317,8 @@ describe("ExifTool", function () {
           Aperture: 5,
           Artist: "",
           Copyright: "",
-          CreateDate: "2014-07-19T12:05:19.000-07:00",
-          DateTimeOriginal: "2014-07-19T12:05:19.000-07:00",
+          CreateDate: "2014-07-19T12:05:19-07:00",
+          DateTimeOriginal: "2014-07-19T12:05:19-07:00",
           ExifImageHeight: 2400,
           ExifImageWidth: 3200,
           ExposureProgram: "Program AE",
@@ -331,7 +331,7 @@ describe("ExifTool", function () {
           MaxApertureValue: 2.8,
           MIMEType: "image/jpeg",
           Model: "E-M1",
-          ModifyDate: "2014-07-19T12:05:19.000-07:00",
+          ModifyDate: "2014-07-19T12:05:19-07:00",
           Orientation: 1,
           tz: "UTC-7",
           tzSource: "offset between DateTimeOriginal and DateTimeUTC",
@@ -368,8 +368,8 @@ describe("ExifTool", function () {
         const dots = await testImg("img.jpg", "2019.05.28")
         const tags = await et.read(dots)
         expect(renderTagsWithISO(tags)).to.containSubset({
-          DateTimeCreated: "2016-08-12T13:28:50.000+08:00",
-          DateTimeOriginal: "2016-08-12T13:28:50.000+08:00",
+          DateTimeCreated: "2016-08-12T13:28:50+08:00",
+          DateTimeOriginal: "2016-08-12T13:28:50+08:00",
           Description: "Prior Title",
           FNumber: 1.8,
           GPSLatitudeRef: "North",
