@@ -25,6 +25,17 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v21.0.0
+
+- 💔 `ExifDateTime.fromDateTime()` now takes an option hash as the second
+  argument (instead of the second argument being `rawValue`)
+
+- 🐞 `ExifDateTime.milliseconds` will now be `undefined` if the EXIF or ISO
+  date string did not specify milliseconds, and will no longer render
+  milliseconds if the `rawValue` did not include millisecond precision.
+
+- 📦 EXIF and ISO dates without specified seconds or milliseconds are now allowed
+
 ### v20.0.0
 
 - 💔 `ExifTool.write` took a generic that defaulted to `WriteTags`, but the type wasn't used for anything. I removed the generic typing, which may require consumers to change their code.
