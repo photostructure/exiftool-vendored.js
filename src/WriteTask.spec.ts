@@ -235,6 +235,36 @@ describe("WriteTask", function () {
           return
         })
 
+        function randomFloat(min: number, max: number) {
+          return Math.random() * (max - min) + min
+        }
+
+        describe("round-trips GPS values (attempt to reproduce #131)", () => {
+          // Verify there's no shenanigans with negative, zero, or positive
+          // lat/lon combinations:
+          for (const GPSLatitude of [
+            randomFloat(-89, 1),
+            0,
+            39.1132577,
+            randomFloat(1, 89),
+          ]) {
+            for (const GPSLongitude of [
+              randomFloat(-179, 1),
+              -84.6907715,
+              0,
+              randomFloat(1, 179),
+            ]) {
+              it(JSON.stringify({ GPSLatitude, GPSLongitude }), async () => {
+                const f = await dest()
+                await exiftool.write(f, { GPSLatitude, GPSLongitude })
+                const tags = await exiftool.read(f)
+                expect(tags.GPSLatitude).to.be.closeTo(GPSLatitude, 0.001)
+                expect(tags.GPSLongitude).to.be.closeTo(GPSLongitude, 0.001)
+              })
+            }
+          }
+        })
+
         it("round-trips a struct tag", async () => {
           const struct: Struct[] = [
             { RegItemId: "item 1", RegOrgId: "org 1" },
