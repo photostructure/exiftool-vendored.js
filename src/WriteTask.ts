@@ -92,6 +92,17 @@ export class WriteTask extends ExifToolTask<void> {
       return new VersionTask() as any
     }
 
+    // Special handling for GPSLatitude and GPSLongitude (due to differences
+    // in EXIF, XMP, and MIE encodings). See
+    // https://exiftool.org/forum/index.php?topic=14488.0 and
+    // https://github.com/photostructure/exiftool-vendored.js/issues/131
+    if (isNumber(tags.GPSLatitude)) {
+      tags.GPSLatitudeRef ??= tags.GPSLatitude >= 0 ? "N" : "S"
+    }
+    if (isNumber(tags.GPSLongitude)) {
+      tags.GPSLongitudeRef ??= tags.GPSLongitude >= 0 ? "E" : "W"
+    }
+
     for (const key of keys(tags)) {
       const val = tags[key]
       args.push(`-${key}=${enc(val)}`)
