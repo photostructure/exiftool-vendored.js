@@ -115,6 +115,6 @@
   },
   "optionalDependencies": {
     "exiftool-vendored.exe": "12.55.0",
-    "exiftool-vendored.pl": "12.55.0"
+    "exiftool-vendored.pl": "12.56.0"
   }
 }
