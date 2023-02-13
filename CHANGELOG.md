@@ -25,6 +25,17 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v21.1.0
+
+- 🐞 Negative GPSLatitude and GPSLongitude values are now supported for EXIF
+  (like `.JPEG`), `.XMP`, and `.MIE` files. Thanks for the [bug
+  report](https://github.com/photostructure/exiftool-vendored.js/issues/131),
+  [Jason](https://github.com/contd), and the
+  [solution](https://exiftool.org/forum/index.php?topic=14488.msg78082#msg78082),
+  [Phil](https://exiftool.org/)!
+
+- 🌱 ExifTool upgraded to [v12.56](https://exiftool.org/history.html#v12.56)
+
 ### v21.0.0
 
 - 💔 `ExifDateTime.fromDateTime()` now takes an option hash as the second
