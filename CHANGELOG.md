@@ -25,9 +25,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v21.2.0 (unreleased)
+### v21.2.0
 
-- ✨ Implemented `ExifDateTime.plus()`
+- ✨ Implemented `ExifDateTime.plus()`. Added tests.
 
 ### v21.1.0
 

@@ -13,6 +13,7 @@ import { blank, notBlank, toS } from "./String"
 import {
   offsetMinutesToZoneName,
   UnsetZone,
+  UnsetZoneName,
   UnsetZoneOffsetMinutes,
 } from "./Timezones"
 
@@ -214,6 +215,12 @@ export class ExifDateTime {
     millis: number,
     options: DateTimeJSOptions & { rawValue?: string } = {}
   ) {
+    if (
+      options.zone == null ||
+      [UnsetZoneName, UnsetZone].includes(options.zone)
+    ) {
+      delete options.zone
+    }
     let dt = DateTime.fromMillis(millis, {
       ...omit(options, "rawValue"),
     })
