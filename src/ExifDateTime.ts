@@ -1,6 +1,7 @@
 import {
   DateTime,
   DateTimeJSOptions,
+  DurationLike,
   ToISOTimeOptions,
   Zone,
   ZoneOptions,
@@ -104,13 +105,11 @@ export class ExifDateTime {
           setZone: true,
           zone: zone ?? UnsetZone,
         })
-        if (dt.isValid) {
-          const edt = ExifDateTime.fromDateTime(dt, {
-            rawValue: s,
-            unsetMilliseconds: unsetMilliseconds ?? false,
-          })
-          if (edt != null) return edt
-        }
+        const edt = ExifDateTime.fromDateTime(dt, {
+          rawValue: s,
+          unsetMilliseconds: unsetMilliseconds ?? false,
+        })
+        if (edt != null) return edt
       }
     }
     return
@@ -177,7 +176,7 @@ export class ExifDateTime {
   }
 
   static fromDateTime(
-    dt: DateTime,
+    dt: Maybe<DateTime>,
     opts?: { rawValue?: Maybe<string>; unsetMilliseconds?: boolean }
   ): Maybe<ExifDateTime> {
     if (dt == null || !dt.isValid || dt.year === 0 || dt.year === 1) {
@@ -215,14 +214,20 @@ export class ExifDateTime {
     millis: number,
     options: DateTimeJSOptions & { rawValue?: string } = {}
   ) {
+    let dt = DateTime.fromMillis(millis, {
+      ...omit(options, "rawValue"),
+    })
+    if (options.zone == null) {
+      dt = dt.setZone(UnsetZone, { keepLocalTime: true })
+    }
+    // TODO: is there a way to provide an invalid millisecond value?
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.fromDateTime(
-      DateTime.fromMillis(millis, omit(options, "rawValue")),
-      { rawValue: options.rawValue }
-    )!
+    return this.fromDateTime(dt, { rawValue: options.rawValue })!
   }
 
-  static now(opts: DateTimeJSOptions & { rawValue?: string } = {}) {
+  static now(
+    opts: DateTimeJSOptions & { rawValue?: string } = {}
+  ): ExifDateTime {
     return this.fromMillis(Date.now(), opts)
   }
 
@@ -255,13 +260,14 @@ export class ExifDateTime {
     // This is a bit tricky... We want to keep the local time and just _say_ it was in the zone of the image **if we don't already have a zone.**
 
     // If we _do_ have a zone, assume it was already converted by ExifTool into (probably the system) timezone, which means _don't_ keepLocalTime.
-    const result = ExifDateTime.fromDateTime(
-      this.toDateTime().setZone(zone, {
-        keepLocalTime: !this.hasZone,
-        ...opts,
-      }),
-      { rawValue: this.rawValue, unsetMilliseconds: this.millisecond == null }
-    )
+    const dt = this.toDateTime().setZone(zone, {
+      keepLocalTime: !this.hasZone,
+      ...opts,
+    })
+    const result = ExifDateTime.fromDateTime(dt, {
+      rawValue: this.rawValue,
+      unsetMilliseconds: this.millisecond == null,
+    })
 
     // We know this will be defined: this is valid, so changing the zone will
     // also be valid.
@@ -346,7 +352,12 @@ export class ExifDateTime {
     }
   }
 
-  static fromJSON(json: ReturnType<ExifDateTime["toJSON"]>): ExifDateTime {
+  /**
+   * @return a new ExifDateTime from the given JSON. Note that this instance **may not be valid**.
+   */
+  static fromJSON(
+    json: Omit<ReturnType<ExifDateTime["toJSON"]>, "_ctor">
+  ): ExifDateTime {
     return new ExifDateTime(
       json.year,
       json.month,
@@ -359,5 +370,13 @@ export class ExifDateTime {
       json.rawValue,
       json.zoneName
     )
+  }
+
+  plus(duration: DurationLike) {
+    let dt = this.toDateTime().plus(duration)
+    if (!this.hasZone) {
+      dt = dt.setZone(UnsetZone, { keepLocalTime: true })
+    }
+    return ExifDateTime.fromDateTime(dt)
   }
 }

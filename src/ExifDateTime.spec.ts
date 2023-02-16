@@ -1,4 +1,7 @@
+import { randomInt } from "crypto"
+import { MinuteMs } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
+import { omit } from "./Object"
 import { expect, randomChars } from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -258,6 +261,37 @@ describe("ExifDateTime", () => {
       })
       expect(e.toISOString()).to.eql("2022-02-02T02:02:22.345-08:00")
       expect(e.rawValue).to.eql(rawValue)
+    })
+  })
+
+  describe(".plus()", () => {
+    const ts = Math.floor(randomInt(0, Date.now()) / MinuteMs) * MinuteMs
+
+    it("retains values with no zone", () => {
+      console.dir({ timestamp: ts })
+      // we want a timestamp where adding a second won't change the minute:
+      const e = ExifDateTime.fromMillis(ts)!
+      expect(e.hasZone).to.eql(false)
+      const json = e.toJSON()
+      const e2 = e.plus({ seconds: 1 })!
+      expect(e2.hasZone).to.eql(false)
+      expect(e2.toJSON()).to.containSubset(
+        omit(json, "second", "millisecond", "rawValue")
+      )
+    })
+
+    it("retains values with zone", () => {
+      const zoneStr = "UTC+6"
+      // we want a timestamp where adding a second won't change the minute:
+      const e = ExifDateTime.fromMillis(ts)!.setZone(zoneStr)!
+      expect(e.hasZone).to.eql(true)
+      const json = e.toJSON()
+      const e2 = e.plus({ seconds: 1 })!
+      expect(e2.hasZone).to.eql(true)
+      expect(e2.zone).to.eql(zoneStr)
+      expect(e2.toJSON()).to.containSubset(
+        omit(json, "second", "millisecond", "rawValue")
+      )
     })
   })
 })

@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v21.2.0 (unreleased)
+
+- ✨ Implemented `ExifDateTime.plus()`
+
 ### v21.1.0
 
 - 🐞 Negative GPSLatitude and GPSLongitude values are now supported for EXIF
