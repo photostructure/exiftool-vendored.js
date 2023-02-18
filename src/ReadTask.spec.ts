@@ -108,7 +108,7 @@ describe("ReadTask", () => {
         ImageWidth: 16,
         ImageHeight: 16,
         tz: "Europe/Zurich",
-        tzSource: "from Lat/Lon",
+        tzSource: "GPSLatitude/GPSLongitude",
       })
 
       const gpsdt = t.GPSDateTime as any as ExifDateTime
@@ -239,7 +239,7 @@ describe("ReadTask", () => {
       })
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-6 * 60)
       expect(t.tz).to.eql("America/Denver")
-      expect(t.tzSource).to.eql("from Lat/Lon")
+      expect(t.tzSource).to.eql("GPSLatitude/GPSLongitude")
     })
 
     it("uses GPSDateTime and DateTimeOriginal and sets accordingly for -7", () => {
@@ -559,7 +559,8 @@ describe("ReadTask", () => {
           SubSecTimeOriginal: 700,
           errors: [],
           tz: "America/New_York",
-          tzSource: "offsetMinutesToZoneName from OffsetTime & Lat/Lon",
+          tzSource:
+            "offsetMinutesToZoneName from OffsetTime & GPSLatitude/GPSLongitude",
         })
       })
 
@@ -578,7 +579,7 @@ describe("ReadTask", () => {
           GPSLongitude: -84.73,
           errors: [],
           tz: "America/New_York",
-          tzSource: "from Lat/Lon",
+          tzSource: "GPSLatitude/GPSLongitude",
         })
       })
 
@@ -624,7 +625,7 @@ describe("ReadTask", () => {
           GPSLongitude: -84.73,
           errors: [],
           tz: "America/New_York",
-          tzSource: "from Lat/Lon",
+          tzSource: "GPSLatitude/GPSLongitude",
         })
       })
 

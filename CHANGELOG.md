@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v21.2.1 (to be released)
+
+- 📦 Replaced `Tags.tzSource` message `"from lat/lon"` to
+  `"GPSLatitude/GPSLongitude"` to be more consistent with other timezone
+  source messages.
+
 ### v21.2.0
 
 - ✨ Implemented `ExifDateTime.plus()`. Added tests.

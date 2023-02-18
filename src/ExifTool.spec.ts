@@ -383,7 +383,7 @@ describe("ExifTool", function () {
           SubSecTimeDigitized: 728,
           SubSecTimeOriginal: 728,
           tz: "Asia/Hong_Kong",
-          tzSource: "from Lat/Lon",
+          tzSource: "GPSLatitude/GPSLongitude",
         })
       })
 

@@ -203,7 +203,7 @@ export class ReadTask extends ExifToolTask<Tags> {
                 if (zOffset === geoTzOffset) {
                   return {
                     tz: geoTz.name,
-                    src: tz.src + " & Lat/Lon",
+                    src: tz.src + " & GPSLatitude/GPSLongitude",
                   }
                 }
               }
@@ -233,7 +233,10 @@ export class ReadTask extends ExifToolTask<Tags> {
         // If lat/lon is valid, use the tzlookup library, as it will be a proper
         // Zone name (like "America/New_York"), rather than just an hour offset.
         () =>
-          map(this.#geoTz(), (ea) => ({ tz: ea.name, src: "from Lat/Lon" })),
+          map(this.#geoTz(), (ea) => ({
+            tz: ea.name,
+            src: "GPSLatitude/GPSLongitude",
+          })),
 
         // This is a last-ditch estimation heuristic:
         () => extractTzOffsetFromUTCOffset(this._tags),
