@@ -25,7 +25,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v21.3.0 (to be released)
+### v21.4.0
+
+- 🐞 Improved types from `ExifTool.readRaw()`. Thanks for the suggestion, [Silvio Brändle](https://github.com/photostructure/exiftool-vendored.js/issues/138)!
+
+### v21.3.0
 
 - 🌱 ExifTool upgraded to [v12.60](https://exiftool.org/history.html#v12.60)
 
