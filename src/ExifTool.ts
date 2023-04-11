@@ -21,6 +21,7 @@ import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
 import { Omit } from "./Omit"
 import { PreviewTag } from "./PreviewTag"
+import { RawTags } from "./RawTags"
 import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask } from "./ReadTask"
 import { ResourceEvent } from "./ResourceEvent"
@@ -41,9 +42,9 @@ import {
   FlashPixTags,
   IPTCTags,
   JFIFTags,
+  MPFTags,
   MakerNotesTags,
   MetaTags,
-  MPFTags,
   PanasonicRawTags,
   PhotoshopTags,
   PrintIMTags,
@@ -65,11 +66,11 @@ export { ExifToolTask } from "./ExifToolTask"
 export { isIgnorableWarning } from "./IgnorableError"
 export { parseJSON } from "./JSON"
 export {
-  defaultVideosToUTC,
-  offsetMinutesToZoneName,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
+  defaultVideosToUTC,
+  offsetMinutesToZoneName,
 } from "./Timezones"
 export type {
   AdditionalWriteTags,
@@ -82,8 +83,8 @@ export type {
   ApplicationRecordTags,
   CompositeTags,
   EXIFTags,
-  ExifToolTags,
   ExifToolOptions,
+  ExifToolTags,
   ExpandedDateTags,
   FileTags,
   FlashPixTags,
@@ -101,6 +102,7 @@ export type {
   PrintIMTags,
   QuickTimeTags,
   RAFTags,
+  RawTags,
   ResourceEvent,
   RIFFTags,
   Struct,
@@ -343,7 +345,7 @@ export class ExifTool {
    *
    * @see https://github.com/photostructure/exiftool-vendored.js/issues/44
    */
-  readRaw(file: string, args: string[] = []) {
+  readRaw(file: string, args: string[] = []): Promise<RawTags> {
     return this.enqueueTask(() => ReadRawTask.for(file, args))
   }
 

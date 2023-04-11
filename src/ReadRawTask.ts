@@ -2,9 +2,9 @@ import { logger } from "batch-cluster"
 import * as _path from "path"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
-import { Tags } from "./Tags"
+import { RawTags } from "./RawTags"
 
-export class ReadRawTask extends ExifToolTask<Tags> {
+export class ReadRawTask extends ExifToolTask<RawTags> {
   static for(filename: string, exiftoolArgs: string[] = []): ReadRawTask {
     const args: string[] = [...Utf8FilenameCharsetArgs, ...exiftoolArgs]
     if (!args.includes("-json")) args.push("-json")
@@ -24,7 +24,7 @@ export class ReadRawTask extends ExifToolTask<Tags> {
     return "ReadRawTask" + this.sourceFile + ")"
   }
 
-  protected parse(data: string, err?: Error): Tags {
+  protected parse(data: string, err?: Error): RawTags {
     try {
       return JSON.parse(data)[0]
     } catch (jsonError) {
