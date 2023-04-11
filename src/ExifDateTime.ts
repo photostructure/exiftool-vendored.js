@@ -7,14 +7,14 @@ import {
   ZoneOptions,
 } from "luxon"
 import { dateTimeToExif } from "./DateTime"
-import { denull, Maybe } from "./Maybe"
+import { Maybe, denull } from "./Maybe"
 import { omit } from "./Object"
 import { blank, notBlank, toS } from "./String"
 import {
-  offsetMinutesToZoneName,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
+  offsetMinutesToZoneName,
 } from "./Timezones"
 
 const TimeFmts = [
@@ -195,7 +195,9 @@ export class ExifDateTime {
         : dt.millisecond,
       dt.offset === UnsetZoneOffsetMinutes ? undefined : dt.offset,
       opts?.rawValue,
-      dt.zone?.name === UnsetZone.name ? undefined : dt.zoneName
+      dt.zoneName == null || dt.zone?.name === UnsetZone.name
+        ? undefined
+        : dt.zoneName
     )
   }
 
