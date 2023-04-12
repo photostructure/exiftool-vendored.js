@@ -32,7 +32,7 @@ export interface FileTags {
   CurrentIPTCDigest?: string
   /** ★★★★ ✔ Example: "/home/username/pictures" */
   Directory?: string
-  /** ★★★★ ✔ Example: "2023:04:11 09:41:22-07:00" */
+  /** ★★★★ ✔ Example: "2023:04:12 11:10:21-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2023:01:30 11:33:43-08:00" */
   FileInodeChangeDate?: ExifDateTime | string
@@ -48,6 +48,8 @@ export interface FileTags {
   FileType?: string
   /** ★★★★ ✔ Example: "rw2" */
   FileTypeExtension?: string
+  /** ☆☆☆☆   Example:  */
+  ImageDataMD5?: string
   /** ★★★★ ✔ Example: 8 */
   ImageHeight?: number
   /** ☆☆☆☆ ✔ Example: 230400 */
@@ -208,7 +210,7 @@ export interface APP1Tags {
   CreatorSoftware?: string
   /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
   DateTimeGenerated?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "(Binary data 275008 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
   EmbeddedImage?: BinaryField | string
   /** ☆☆☆☆   Example: 960 */
   EmbeddedImageHeight?: number
@@ -821,7 +823,7 @@ export interface EXIFTags {
   SubjectDistance?: string
   /** ★★★☆ ✔ Example: "Unknown (4400)" */
   SubjectDistanceRange?: string
-  /** ★★★★ ✔ Example: "(Binary data 12652 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 10202 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ☆☆☆☆ ✔ Example: "(Binary data 57816 bytes, use -b option to extract)" */
   ThumbnailTIFF?: BinaryField
@@ -829,7 +831,7 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
@@ -855,7 +857,7 @@ export interface EXIFTags {
   WaterDepth?: number
   /** ☆☆☆☆ ✔ Example: "0.4234 0.399" */
   WhitePoint?: string
-  /** ☆☆☆☆ ✔ Example: "Nom De Plume" */
+  /** ☆☆☆☆ ✔ Example: "Norm De Plume" */
   XPAuthor?: string
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
   XPComment?: string
@@ -899,7 +901,7 @@ export interface APP6Tags {
 }
 
 export interface FlashPixTags {
-  /** ☆☆☆☆   Example: "(Binary data 18 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 20796 bytes, use -b option to extract)" */
   AudioStream?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Unicode UTF-16, little endian" */
   CodePage?: string
@@ -917,7 +919,7 @@ export interface FlashPixTags {
   ExtensionName?: string
   /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
   ExtensionPersistence?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 57881 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 46285 bytes, use -b option to extract)" */
   ScreenNail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   UsedExtensionNumbers?: number
@@ -1068,7 +1070,7 @@ export interface PhotoshopTags {
   PhotoshopFormat?: string
   /** ☆☆☆☆ ✔ Example: 9 */
   PhotoshopQuality?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 4291 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 5768 bytes, use -b option to extract)" */
   PhotoshopThumbnail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   PixelAspectRatio?: number
@@ -1100,7 +1102,7 @@ export interface QuickTimeTags {
   AudioSampleRate?: number
   /** ☆☆☆☆ ✔ Example: "Panasonic" */
   AudioVendorID?: string
-  /** ☆☆☆☆ ✔ Example: "Nom De Plume" */
+  /** ☆☆☆☆ ✔ Example: "Norm De Plume" */
   Author?: string
   /** ☆☆☆☆ ✔ Example: "65535 65535 65535" */
   BackgroundColor?: string
@@ -2020,7 +2022,7 @@ export interface MakerNotesTags {
   DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -2566,8 +2568,6 @@ export interface MakerNotesTags {
   HDRShot?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   HDRSmoothing?: string
-  /** ★☆☆☆ ✔ Example: "n/a" */
-  HighISONoiseReduction?: string
   /** ☆☆☆☆   Example: 4 */
   HighLowKeyAdj?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -3132,7 +3132,7 @@ export interface MakerNotesTags {
   NDFilter?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (0 2)" */
   NeutralDensityFilter?: string
@@ -4523,8 +4523,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.60 on Tue Apr 11 2023.
- * 3053 unique tags were found in 10079 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.60 on Wed Apr 12 2023.
+ * 3054 unique tags were found in 10079 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
