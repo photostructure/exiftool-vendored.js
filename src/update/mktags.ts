@@ -63,6 +63,7 @@ const RequiredTags: Record<string, { t: string; grp: string }> = {
   GPSLatitude: { t: "number", grp: "EXIF" },
   GPSLongitude: { t: "number", grp: "EXIF" },
   History: { t: "ResourceEvent[] | ResourceEvent | string", grp: "XMP" },
+  ImageDataMD5: { t: "string", grp: "File" },
   ImageDescription: { t: "string", grp: "EXIF" },
   ImageHeight: { t: "number", grp: "File" },
   ImageNumber: { t: "number", grp: "XMP" },
@@ -206,6 +207,7 @@ const exiftool = new ExifTool({
   // if we use straight defaults, we're load-testing those defaults.
   streamFlushMillis: 2,
   minDelayBetweenSpawnMillis: 0,
+  includeImageDataMD5: true,
   // maxTasksPerProcess: 100, // < uncomment to verify proc wearing works
 })
 
@@ -526,7 +528,7 @@ class Tag {
       return exampleToS(["Creative Commons Attribution 4.0 International"])
     if (this.tag.endsWith("OwnerName")) return exampleToS(["Itsa Myowna"])
     if (this.tag.endsWith("Artist")) return exampleToS(["Arturo DeImage"])
-    if (this.tag.endsWith("Author")) return exampleToS(["Nom De Plume"])
+    if (this.tag.endsWith("Author")) return exampleToS(["Norm De Plume"])
     if (this.tag.endsWith("Contact")) return exampleToS(["Donna Ringmanumba"])
     if (this.tag.endsWith("Rights"))
       return exampleToS(["Kawp E. Reite Houldre"])
@@ -703,11 +705,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     const missingFiles = files.filter((ea) => seenFiles.indexOf(ea) === -1)
     console.log("missing files: " + missingFiles.join("\n"))
     const elapsedMs = Date.now() - start
-    console.log(
-      `Parsing took ${elapsedMs}ms (${(elapsedMs / files.length).toFixed(
-        1
-      )}ms / file)`
-    )
+    console.log(`Parsing took ${elapsedMs}ms`)
     const version = await exiftool.version()
     const destFile = path.resolve(__dirname, "../../src/Tags.ts")
     const tagWriter = fs.createWriteStream(destFile)
