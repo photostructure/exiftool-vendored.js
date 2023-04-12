@@ -25,6 +25,20 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v21.5.0
+
+- ✨ Added support for ExifTool's [MWG Composite
+  Tags](https://exiftool.org/TagNames/MWG.html). Set the new
+  [`ExifToolOptions.useMWG`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#useMWG)
+  option to `true` to enable.
+
+- ✨ Added support for ExifTool's new `ImageDataMD5` feature. Set the new
+  [`ExifToolOptions.includeImageDataMD5`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#includeImageDataMD5)
+  option to `true` to enable.
+
+- 📦 Extracted options-related code into modules to remove a couple circular
+  dependencies. Exports should make this transparent to external clients.
+
 ### v21.4.0
 
 - 🐞 Improved types from `ExifTool.readRaw()`. Thanks for the suggestion, [Silvio Brändle](https://github.com/photostructure/exiftool-vendored.js/issues/138)!
