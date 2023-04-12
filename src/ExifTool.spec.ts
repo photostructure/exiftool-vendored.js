@@ -2,10 +2,11 @@ import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
 import { times } from "./Array"
 import { BinaryField } from "./BinaryField"
+import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
-import { DefaultMaxProcs, ExifTool, exiftool } from "./ExifTool"
+import { ExifTool, exiftool } from "./ExifTool"
 import { isWin32 } from "./IsWin32"
 import { parseJSON } from "./JSON"
 import { fromEntries, keys } from "./Object"
@@ -313,10 +314,8 @@ describe("ExifTool", function () {
 
       it("reads from a dSLR", async () => {
         const t = await et.read("./test/oly.jpg")
-        expect(renderTagsWithISO(t)).to.contain({
+        expect(renderTagsWithISO(t)).to.containSubset({
           Aperture: 5,
-          Artist: "",
-          Copyright: "",
           CreateDate: "2014-07-19T12:05:19-07:00",
           DateTimeOriginal: "2014-07-19T12:05:19-07:00",
           ExifImageHeight: 2400,
@@ -333,6 +332,7 @@ describe("ExifTool", function () {
           Model: "E-M1",
           ModifyDate: "2014-07-19T12:05:19-07:00",
           Orientation: 1,
+          SensorTemperature: "80.3 C",
           tz: "UTC-7",
           tzSource: "offset between DateTimeOriginal and DateTimeUTC",
         })

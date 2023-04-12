@@ -1,6 +1,6 @@
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
-import { ExifTool, WriteTags } from "./ExifTool"
+import { ExifTool } from "./ExifTool"
 import { isFileEmpty } from "./File"
 import { omit } from "./Object"
 import { ResourceEvent } from "./ResourceEvent"
@@ -9,6 +9,7 @@ import { stripSuffix } from "./String"
 import { Struct } from "./Struct"
 import { Tags } from "./Tags"
 import { Version } from "./Version"
+import { WriteTags } from "./WriteTags"
 import {
   assertEqlDateish,
   expect,
@@ -23,12 +24,53 @@ import {
 describe("WriteTask", function () {
   this.slow(1) // always show timings
   for (const opts of [
-    { maxProcs: 1, maxRetries: 0 },
-    { maxProcs: 3, maxRetries: 3 },
+    { maxProcs: 1, maxRetries: 0, useMWG: true },
+    { maxProcs: 3, maxRetries: 3, useMWG: false },
   ]) {
     describe(`new ExifTool(${JSON.stringify(opts)})`, () => {
       const exiftool = new ExifTool(opts)
       after(() => exiftool.end())
+
+      describe("MWG composite tags", () => {
+        it("round-trips Creator", async () => {
+          const f = await testImg()
+          const Creator = "Ms " + randomChars(5) + " " + randomChars(5)
+          await exiftool.write(f, { Creator })
+          const t = await exiftool.read(f)
+          if (opts.useMWG) {
+            expect(t.Creator).to.eql(Creator, ".Creator")
+            expect(t.Artist).to.eql(Creator, ".Artist")
+          } else {
+            expect(t.Creator).to.eql([Creator], ".Creator")
+            expect(t.Artist).to.eql(undefined, ".Artist")
+          }
+        })
+
+        it("round-trips Description", async () => {
+          const f = await testImg()
+          const Description = "new description " + randomChars(8)
+          await exiftool.write(f, { Description })
+          const t = await exiftool.read(f)
+          if (opts.useMWG) {
+            expect(t.Description).to.eql(Description, ".Description")
+            expect(t.ImageDescription).to.eql(Description, ".ImageDescription")
+            expect(t["Caption-Abstract"]).to.eql(
+              Description,
+              ".Caption-Abstract"
+            )
+          } else {
+            expect(t.Description).to.eql(Description, ".Description")
+            expect(t.ImageDescription).to.eql(
+              "Prior Title",
+              ".ImageDescription"
+            )
+            expect(t["Caption-Abstract"]).to.eql(
+              "Prior Title",
+              ".Caption-Abstract"
+            )
+          }
+        })
+      })
 
       type InputValue = string | number | Struct | ResourceEvent
 

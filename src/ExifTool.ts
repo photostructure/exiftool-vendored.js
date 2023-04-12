@@ -1,29 +1,30 @@
 import * as bc from "batch-cluster"
 import * as _cp from "child_process"
 import * as _fs from "fs"
-import * as _os from "os"
-import * as _path from "path"
 import process from "process"
 import { ApplicationRecordTags } from "./ApplicationRecordTags"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
+import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
+import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
+import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
-import { geoTz } from "./GeoTz"
 import { ICCProfileTags } from "./ICCProfileTags"
-import { IgnorableError, isIgnorableWarning } from "./IgnorableError"
+import { IgnorableError } from "./IgnorableError"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
 import { Omit } from "./Omit"
+import { pick } from "./Pick"
 import { PreviewTag } from "./PreviewTag"
-import { RawTags } from "./RawTags"
+import { Json, Literal, RawTags } from "./RawTags"
 import { ReadRawTask } from "./ReadRawTask"
-import { ReadTask } from "./ReadTask"
+import { DefaultReadTaskOptions, ReadTask, ReadTaskOptions } from "./ReadTask"
 import { ResourceEvent } from "./ResourceEvent"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { blank, notBlank } from "./String"
@@ -42,9 +43,9 @@ import {
   FlashPixTags,
   IPTCTags,
   JFIFTags,
-  MPFTags,
   MakerNotesTags,
   MetaTags,
+  MPFTags,
   PanasonicRawTags,
   PhotoshopTags,
   PrintIMTags,
@@ -56,7 +57,12 @@ import {
 } from "./Tags"
 import { Version } from "./Version"
 import { VersionTask } from "./VersionTask"
-import { WriteTask } from "./WriteTask"
+import { WriteTags } from "./WriteTags"
+import {
+  DefaultWriteTaskOptions,
+  WriteTask,
+  WriteTaskOptions,
+} from "./WriteTask"
 
 export { BinaryField } from "./BinaryField"
 export { ExifDate } from "./ExifDate"
@@ -66,11 +72,11 @@ export { ExifToolTask } from "./ExifToolTask"
 export { isIgnorableWarning } from "./IgnorableError"
 export { parseJSON } from "./JSON"
 export {
+  defaultVideosToUTC,
+  offsetMinutesToZoneName,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
-  defaultVideosToUTC,
-  offsetMinutesToZoneName,
 } from "./Timezones"
 export type {
   AdditionalWriteTags,
@@ -82,6 +88,11 @@ export type {
   APP6Tags,
   ApplicationRecordTags,
   CompositeTags,
+  DefaultExiftoolArgs,
+  DefaultExifToolOptions,
+  DefaultMaxProcs,
+  DefaultReadTaskOptions,
+  DefaultWriteTaskOptions,
   EXIFTags,
   ExifToolOptions,
   ExifToolTags,
@@ -92,6 +103,8 @@ export type {
   IgnorableError,
   IPTCTags,
   JFIFTags,
+  Json,
+  Literal,
   MakerNotesTags,
   Maybe,
   MetaTags,
@@ -103,43 +116,16 @@ export type {
   QuickTimeTags,
   RAFTags,
   RawTags,
+  ReadTaskOptions,
   ResourceEvent,
   RIFFTags,
   Struct,
   Tags,
   Version,
+  WriteTags,
+  WriteTaskOptions,
   XMPTags,
 }
-
-function findExiftool(): string {
-  const path: string = require(`exiftool-vendored.${isWin32() ? "exe" : "pl"}`)
-  // This s/app.asar/app.asar.unpacked/ path switch adds support for Electron
-  // apps that are ASAR-packed.
-
-  // Note that we can't check for electron because child processes that are
-  // spawned by the main process will most likely need the ELECTRON_RUN_AS_NODE
-  // environment variable set, which will unset the process.versions.electron
-  // field.
-  const fixedPath = path
-    .split(_path.sep)
-    .map((ea) => (ea === "app.asar" ? "app.asar.unpacked" : ea))
-    .join(_path.sep)
-
-  // Note also, that we must check for the fixedPath first, because Electron's
-  // ASAR shenanigans will make existsSync return true even for asar-packed
-  // resources.
-  if (_fs.existsSync(fixedPath)) {
-    return fixedPath
-  }
-  if (_fs.existsSync(path)) {
-    return path
-  }
-  throw new Error(`Vendored ExifTool does not exist at ${path}`)
-}
-
-export const DefaultExifToolPath = findExiftool()
-
-export const DefaultExiftoolArgs = ["-stay_open", "True", "-@", "-"]
 
 const _ignoreShebang = lazy(
   () => !isWin32() && !_fs.existsSync("/usr/bin/perl")
@@ -189,50 +175,6 @@ export interface StructAppendTags {
    */
   "Versions+"?: Version | Version[]
 }
-
-export type WriteTags = DefinedOrNullValued<
-  ShortcutTags & AdditionalWriteTags & ExpandedDateTags & StructAppendTags
->
-
-export const DefaultMaxProcs = Math.max(1, Math.floor(_os.cpus().length / 4))
-
-/**
- * Default values for `ExifToolOptions`, except for `processFactory` (which is
- * created by the ExifTool constructor)
- */
-export const DefaultExifToolOptions: Omit<
-  ExifToolOptions,
-  "processFactory" | "ignoreShebang"
-> = Object.freeze({
-  ...new bc.BatchClusterOptions(),
-  maxProcs: DefaultMaxProcs,
-  maxTasksPerProcess: 500,
-  spawnTimeoutMillis: 30_000,
-  // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
-  taskTimeoutMillis: 20_000,
-  onIdleIntervalMillis: 2_000,
-  taskRetries: 1,
-  exiftoolPath: DefaultExifToolPath,
-  exiftoolArgs: DefaultExiftoolArgs,
-  exiftoolEnv: {},
-  pass: "{ready}",
-  fail: "{ready}", // < not used
-  exitCommand: "-stay_open\nFalse\n",
-  versionCommand: new VersionTask().command,
-  healthCheckIntervalMillis: 30_000,
-  healthCheckCommand: "-ver\n-execute\n",
-  numericTags: [
-    "*Duration*",
-    "GPSAltitude",
-    "GPSLatitude",
-    "GPSLongitude",
-    "GPSPosition",
-    "Orientation",
-  ],
-  defaultVideosToUTC: true,
-  geoTz: geoTz,
-  isIgnorableError: isIgnorableWarning,
-})
 
 /**
  * Manages delegating calls to a vendored running instance of ExifTool.
@@ -300,50 +242,63 @@ export class ExifTool {
    * Read the tags in `file`.
    *
    * @param {string} file the file to extract metadata tags from
-   * @param {string[]} [optionalArgs] any additional ExifTool arguments, like "-fast" or
-   * "-fast2". **Most other arguments will require you to use `readRaw`.**
-   * Note that the default is "-fast", so if you want ExifTool to read the
-   * entire file for metadata, you should pass an empty array as the second
-   * parameter. See https://exiftool.org/#performance for
-   * more information about `-fast` and `-fast2`.
+   *
+   * @param {string[]} [optionalArgs] any additional ExifTool arguments, like
+   * "-fast" or "-fast2". **Most other arguments will require you to use
+   * `readRaw`.** Note that the default is "-fast", so if you want ExifTool to
+   * read the entire file for metadata, you should pass an empty array as the
+   * second parameter. See https://exiftool.org/#performance for more
+   * information about `-fast` and `-fast2`.
+   *
    * @returns {Promise<Tags>} A resolved Tags promise. If there are errors
    * during reading, the `.errors` field will be present.
-   * @memberof ExifTool
    */
   read<T extends Tags = Tags>(
     file: string,
-    optionalArgs: string[] = ["-fast"]
+    optionalArgs: string[] = ["-fast"],
+    options?: ReadTaskOptions
   ): Promise<T> {
     return this.enqueueTask(() =>
       ReadTask.for(file, {
         optionalArgs,
-        numericTags: this.options.numericTags,
-        defaultVideosToUTC: this.options.defaultVideosToUTC,
-        geoTz: this.options.geoTz,
+        ...pick(
+          this.options,
+          "numericTags",
+          "useMWG",
+          "includeImageDataMD5",
+          "defaultVideosToUTC",
+          "geoTz"
+        ),
+        ...options,
       })
     ) as any // < no way to know at compile time if we're going to get back a T!
   }
 
   /**
-   * Read the tags from `file`, without any post-processing of ExifTool values.
+   * Read the tags from `file`, without any post-processing of ExifTool
+   * values.
    *
-   * **You probably want `read`, not this method. READ THE REST OF THIS COMMENT
-   * CAREFULLY.**
+   * **You probably want `read`, not this method. READ THE REST OF THIS
+   * COMMENT CAREFULLY.**
    *
-   * If you want to extract specific tag values from a file, you may want to use
-   * this, but all data validation and inference heuristics provided by `read`
-   * will be skipped.
+   * If you want to extract specific tag values from a file, you may want to
+   * use this, but all data validation and inference heuristics provided by
+   * `read` will be skipped.
    *
-   * Note that performance will be very similar to `read`, and will actually be
-   * worse if you don't include `-fast` or `-fast2` (as the most expensive bit
-   * is the perl interpreter and scanning the file on disk).
+   * Note that performance will be very similar to `read`, and will actually
+   * be worse if you don't include `-fast` or `-fast2` (as the most expensive
+   * bit is the perl interpreter and scanning the file on disk).
    *
-   * @param args any additional arguments other than the file path. Note that "-json", and the Windows unicode filename handler flags, "-charset filename=utf8", will be added automatically.
+   * @param args any additional arguments other than the file path. Note that
+   * "-json", and the Windows unicode filename handler flags, "-charset
+   * filename=utf8", will be added automatically.
    *
    * @return Note that the return value will be similar to `Tags`, but with no
-   * date, time, or other rich type parsing that you get from `.read()`. The field values will be `string | number | string[]`.
+   * date, time, or other rich type parsing that you get from `.read()`. The
+   * field values will be `string | number | string[]`.
    *
-   * @see https://github.com/photostructure/exiftool-vendored.js/issues/44
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/44 for
+   * typing details.
    */
   readRaw(file: string, args: string[] = []): Promise<RawTags> {
     return this.enqueueTask(() => ReadRawTask.for(file, args))
@@ -361,9 +316,21 @@ export class ExifTool {
    * there are errors or warnings.
    * @memberof ExifTool
    */
-  write(file: string, tags: WriteTags, args?: string[]): Promise<void> {
+  write(
+    file: string,
+    tags: WriteTags,
+    args?: string[],
+    options?: WriteTaskOptions
+  ): Promise<void> {
     const retriable = false
-    return this.enqueueTask(() => WriteTask.for(file, tags, args), retriable)
+    return this.enqueueTask(
+      () =>
+        WriteTask.for(file, tags, args, {
+          ...pick(this.options, "useMWG"),
+          ...options,
+        }),
+      retriable
+    )
   }
 
   /**

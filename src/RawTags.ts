@@ -1,6 +1,5 @@
-type Literal = string | number | boolean
-
-type Json = Literal | { [key: string]: Json } | Json[]
+export type Literal = string | number | boolean
+export type Json = Literal | { [key: string]: Json } | Json[]
 
 /**
  * Loosely typed raw result from ExifTool

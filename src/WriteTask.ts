@@ -2,17 +2,19 @@ import { encode } from "he"
 import * as _path from "path"
 import { shallowArrayEql } from "./Array"
 import { isDateOrTime, toExifString } from "./DateTime"
+import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
-import { WriteTags } from "./ExifTool"
 import { ExifToolTask } from "./ExifToolTask"
 import { isFileEmpty } from "./File"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
 import { isNumber } from "./Number"
 import { keys } from "./Object"
+import { pick } from "./Pick"
 import { isString } from "./String"
 import { isStruct } from "./Struct"
 import { VersionTask } from "./VersionTask"
+import { WriteTags } from "./WriteTags"
 
 const successRE = /1 image files? (?:created|updated)/i
 const sep = String.fromCharCode(31) // < unit separator
@@ -57,6 +59,12 @@ function enc(o: any, structValue = false): Maybe<string> {
   }
 }
 
+export const DefaultWriteTaskOptions = {
+  ...pick(DefaultExifToolOptions, "useMWG"),
+} as const
+
+export type WriteTaskOptions = typeof DefaultWriteTaskOptions
+
 export class WriteTask extends ExifToolTask<void> {
   private constructor(
     readonly sourceFile: string,
@@ -68,7 +76,8 @@ export class WriteTask extends ExifToolTask<void> {
   static async for(
     filename: string,
     tags: WriteTags,
-    extraArgs: string[] = []
+    extraArgs: string[] = [],
+    options?: Partial<WriteTaskOptions>
   ): Promise<WriteTask | ExifToolTask<void>> {
     const sourceFile = _path.resolve(filename)
 
@@ -78,6 +87,10 @@ export class WriteTask extends ExifToolTask<void> {
       `${sep}`,
       "-E", // < html encoding https://exiftool.org/faq.html#Q10
     ]
+
+    if (options?.useMWG ?? DefaultWriteTaskOptions.useMWG) {
+      args.push("-use", "MWG")
+    }
 
     // ExifTool complains "Nothing to write" if the task will only remove values
     // and the file is missing.

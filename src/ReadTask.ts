@@ -1,16 +1,17 @@
 import { logger } from "batch-cluster"
 import * as _path from "path"
 import { BinaryField } from "./BinaryField"
+import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
-import { ExifToolOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { firstDateTime } from "./FirstDateTime"
 import { lazy } from "./Lazy"
 import { firstDefinedThunk, map } from "./Maybe"
 import { toFloat } from "./Number"
+import { pick } from "./Pick"
 import { blank, isString, toS } from "./String"
 import { Tags } from "./Tags"
 import {
@@ -36,10 +37,19 @@ export function nullish(s: string | undefined): s is undefined {
   return s == null || (isString(s) && NullIsh.includes(s.trim()))
 }
 
-export type ReadTaskOptions = { optionalArgs: string[] } & Pick<
-  ExifToolOptions,
-  "numericTags" | "defaultVideosToUTC" | "geoTz"
->
+export const DefaultReadTaskOptions = {
+  optionalArgs: [] as string[],
+  ...pick(
+    DefaultExifToolOptions,
+    "numericTags",
+    "useMWG",
+    "includeImageDataMD5",
+    "defaultVideosToUTC",
+    "geoTz"
+  ),
+} as const
+
+export type ReadTaskOptions = typeof DefaultReadTaskOptions
 
 export class ReadTask extends ExifToolTask<Tags> {
   private readonly degroup: boolean
@@ -65,22 +75,28 @@ export class ReadTask extends ExifToolTask<Tags> {
     this.tags.errors = this.errors
   }
 
-  static for(filename: string, options: ReadTaskOptions): ReadTask {
+  static for(filename: string, options: Partial<ReadTaskOptions>): ReadTask {
+    const opts = { ...DefaultReadTaskOptions, ...options }
     const sourceFile = _path.resolve(filename)
     const args = [
       ...Utf8FilenameCharsetArgs,
       "-json",
       "-struct", // Return struct tags https://exiftool.org/struct.html
-      ...(options.optionalArgs ?? []),
+      ...opts.optionalArgs,
     ]
+    if (opts.useMWG) {
+      args.push("-use", "MWG")
+    }
+    if (opts.includeImageDataMD5) {
+      args.push("-imagedatamd5")
+    }
     // IMPORTANT: "-all" must be after numeric tag references (first reference
     // in wins)
-    args.push(...(options.numericTags ?? []).map((ea) => "-" + ea + "#"))
-    // TODO: Do you need -xmp:all, -all, or -all:all?
+    args.push(...opts.numericTags.map((ea) => "-" + ea + "#"))
+    // TODO: Do you need -xmp:all, -all, or -all:all? Is -* better?
     args.push("-all", sourceFile)
 
-    // console.log("new ReadTask()", { sourceFile, args })
-    return new ReadTask(sourceFile, args, options)
+    return new ReadTask(sourceFile, args, opts)
   }
 
   override toString(): string {
@@ -128,12 +144,12 @@ export class ReadTask extends ExifToolTask<Tags> {
     this.#extractTzOffset()
     map(this.tz, (ea) => (this.tags.tz = ea))
     map(this.tzSource, (ea) => (this.tags.tzSource = ea))
-    const t: any = this.tags // tsc hack :(
     for (const key of Object.keys(this._raw)) {
-      t[key] = this.#parseTag(this.#tagName(key), this._raw[key])
+      const val = this.#parseTag(this.#tagName(key), this._raw[key])
+      ;(this.tags as any)[key] = val
     }
     if (this.errors.length > 0) this.tags.errors = this.errors
-    return this.tags as Tags
+    return this.tags
   }
 
   #extractLatLon = lazy(() => {

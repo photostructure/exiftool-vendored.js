@@ -73,14 +73,42 @@ export interface ExifToolOptions
   exiftoolEnv: NodeJS.ProcessEnv
 
   /**
-   * Tag names (which can have '*' glob matchers) which you want numeric values,
-   * rather than ExifTool's "Print Conversion."
+   * Should ExifTool use MWG (Metadata Working Group) composite tags for
+   * reading and writing tags?
    *
-   * If the tag value is only for human consumption, you may want to leave this
-   * blank. The default is `["*Duration*"]`, but you may want to include
-   * "Orientation" as well.
+   * ExifTool recommends this to be set to true.
+   *
+   * Note that this can result in many tag value differences from
+   * `ExifTool.read`, and makes `ExifTool.write` write to "synonymous" MWG
+   * tags automatically.
+   *
+   * @see https://exiftool.org/TagNames/MWG.html for details
+   */
+  useMWG: boolean
+
+  /**
+   * Tag names (which can have '*' glob matchers) which you want numeric
+   * values, rather than ExifTool's "Print Conversion."
+   *
+   * If you're using tag values only for human consumption, you may want to
+   * leave this blank.
+   *
+   * The default includes "*Duration*", "GPSAltitude", "GPSLatitude",
+   * "GPSLongitude", "GPSPosition", and "Orientation".
    */
   numericTags: string[]
+
+  /**
+   * If set to true, ExifTool will attempt to calculate an "ImageDataMD5" tag
+   * value with the MD5 checksum of image data.
+   *
+   * Note that as of 2022-04-12, ExifTool supports JPEG, PNG, and many raw
+   * image formats, like CR2 and NEF. It doesn't yet support HEIC/HEIF, ORF,
+   * GIF, and many video formats, like MP4 and MTS.
+   *
+   * This defaults to false, as it adds ~20ms of overhead to every read
+   */
+  includeImageDataMD5: boolean
 
   /**
    * Video file dates are assumed to be in UTC, rather than using timezone
