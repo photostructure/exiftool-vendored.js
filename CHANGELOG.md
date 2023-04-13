@@ -25,16 +25,17 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v21.5.1
+
+- 📦 Avoid double-rendering of ImageDataMD5 (Thanks, Phil! See [forum post for details](https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218))
+ 
+- 📦 Pull down new camera test images, rebuild Tags and docs 
+
 ### v21.5.0
 
-- ✨ Added support for ExifTool's [MWG Composite
-  Tags](https://exiftool.org/TagNames/MWG.html). Set the new
-  [`ExifToolOptions.useMWG`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#useMWG)
-  option to `true` to enable.
+- ✨ Added support for ExifTool's [MWG Composite Tags](https://exiftool.org/TagNames/MWG.html). Set the new [`ExifToolOptions.useMWG`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#useMWG) option to `true` to enable.
 
-- ✨ Added support for ExifTool's new `ImageDataMD5` feature. Set the new
-  [`ExifToolOptions.includeImageDataMD5`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#includeImageDataMD5)
-  option to `true` to enable.
+- ✨ Added support for ExifTool's new `ImageDataMD5` feature. Set the new [`ExifToolOptions.includeImageDataMD5`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#includeImageDataMD5) option to `true` to enable.
 
 - 📦 Extracted options-related code into modules to remove a couple circular
   dependencies. Exports should make this transparent to external clients.
