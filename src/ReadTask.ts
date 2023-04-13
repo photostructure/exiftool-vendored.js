@@ -88,7 +88,8 @@ export class ReadTask extends ExifToolTask<Tags> {
       args.push("-use", "MWG")
     }
     if (opts.includeImageDataMD5) {
-      args.push("-imagedatamd5")
+      // See https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218
+      args.push("-api", "requesttags=imagedatamd5")
     }
     // IMPORTANT: "-all" must be after numeric tag references (first reference
     // in wins)
