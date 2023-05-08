@@ -75,7 +75,7 @@
     "@types/globule": "^1.1.6",
     "@types/he": "^1.2.0",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^18.15.11",
+    "@types/node": "^20.1.0",
     "@types/progress": "^2.0.5",
     "@types/tmp": "^0.2.3",
     "@types/xmldom": "^0.1.31",
