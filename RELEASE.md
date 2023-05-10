@@ -1,24 +1,30 @@
 # Releasing new versions of `exiftool-vendored`
 
-1. `git clone` this repo, and
+1. `git clone` this repo into `~/src`
+
+2. On a POSIX machine, clone
    [exiftool-vendored.pl](https://github.com/photostructure/exiftool-vendored.pl)
-   onto a POSIX machine, and clone
+   into `~/src` (or another common subdirectory)
+
+3. On a Windows machine, clone
    [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe)
-   onto a Windows machine.
+   
 
 2. On POSIX, in `../exiftool-vendored.pl`:
 
-   1. `npx ncu -u && yarn install && ./update.sh && yarn test`
+   1. `git stash -u ; git fetch ; git checkout main ; npx ncu -u && yarn install && ./update.sh && yarn test`
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
-3. On Windows, in `../exiftool-vendored.exe`:
+3. On Windows, in `...\exiftool-vendored.exe\`:
 
-   1. `npx ncu -u --packageFile package.json && yarn install && ./update.sh && yarn test`
+(The terminal built into vscode plays with `ncu` and `release-it` a bit nicer than CMD or Windows for Git's terminal)
+
+   1. `git stash -u ; git fetch ; git checkout main ; npx ncu -u --packageFile package.json && yarn install && ./update.sh && yarn test`
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
-4. Finally, release `exiftool-vendored`:
+4. Finally, back on the POSIX box, release `exiftool-vendored`:
 
    1. `cd ../exiftool-vendored.js`
    1. `npx ncu -u`
