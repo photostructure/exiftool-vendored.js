@@ -11,6 +11,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 💔 Non-backward-compatible API changes
 - 🌲 New releases of ExifTool that have externally visible changes
+- 🏚️ [EOL](https://github.com/nodejs/release#release-schedule) versions of Node.js are dropped from support
 
 ### The `MINOR` or `UPDATE` version is incremented for
 
@@ -27,7 +28,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v22.0.0
 
-- 💔 Drop support for Node 14, which EOL'ed 2023-04-30
+- 🏚️ Drop support for Node 14, which EOL'ed 2023-04-30
 
 - 🌱 ExifTool upgraded to [v12.62](https://exiftool.org/history.html#v12.62)
 
