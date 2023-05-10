@@ -25,7 +25,7 @@ instance of this class, <code>exiftool</code>.</p>
 <ul class="tsd-hierarchy">
 <li><span class="target">ExifTool</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L185">src/ExifTool.ts:185</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L179">src/ExifTool.ts:179</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -80,7 +80,7 @@ instance of this class, <code>exiftool</code>.</p>
 <h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ExifToolOptions.html" class="tsd-signature-type tsd-kind-interface">ExifToolOptions</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ExifTool.html" class="tsd-signature-type tsd-kind-class">ExifTool</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L189">src/ExifTool.ts:189</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L183">src/ExifTool.ts:183</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member"><a id="on" class="tsd-anchor"></a>
@@ -95,9 +95,9 @@ instance of this class, <code>exiftool</code>.</p>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Register life cycle event listeners. Delegates to BatchProcess.</p>
 </div>
-<section class="tsd-panel tsd-type-parameters">
+<section class="tsd-panel">
 <h4>Type Parameters</h4>
-<ul class="tsd-type-parameters">
+<ul class="tsd-type-parameter-list">
 <li>
 <h4><span class="tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type ">BatchClusterEvents</span></h4></li></ul></section>
 <div class="tsd-parameters">
@@ -120,12 +120,12 @@ instance of this class, <code>exiftool</code>.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">BatchClusterEmitter</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L231">src/ExifTool.ts:231</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L225">src/ExifTool.ts:225</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="options" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>options</span><a href="#options" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">options</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/ExifToolOptions.html" class="tsd-signature-type tsd-kind-interface">ExifToolOptions</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L186">src/ExifTool.ts:186</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L180">src/ExifTool.ts:180</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member"><a id="busyProcs" class="tsd-anchor"></a>
@@ -133,59 +133,54 @@ instance of this class, <code>exiftool</code>.</p>
 <ul class="tsd-signatures">
 <li class="tsd-signature" id="busyProcs.busyProcs-1"><span class="tsd-signature-symbol">get</span> busyProcs<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>the current number of child processes currently servicing tasks</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the current number of child processes currently servicing tasks</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L528">src/ExifTool.ts:528</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L522">src/ExifTool.ts:522</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="ended" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>ended</span><a href="#ended" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature" id="ended.ended-1"><span class="tsd-signature-symbol">get</span> ended<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>true if <code>.end()</code> has been invoked</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>true if <code>.end()</code> has been invoked</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L478">src/ExifTool.ts:478</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L472">src/ExifTool.ts:472</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="pendingTasks" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pending<wbr/>Tasks</span><a href="#pendingTasks" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature" id="pendingTasks.pendingTasks-1"><span class="tsd-signature-symbol">get</span> pendingTasks<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>the number of pending (not currently worked on) tasks</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the number of pending (not currently worked on) tasks</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L514">src/ExifTool.ts:514</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L508">src/ExifTool.ts:508</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="pids" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pids</span><a href="#pids" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature" id="pids.pids-1"><span class="tsd-signature-symbol">get</span> pids<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>the currently running ExifTool processes. Note that on Windows,
+<div class="tsd-comment tsd-typography"></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><p>the currently running ExifTool processes. Note that on Windows,
 these are only the process IDs of the directly-spawned ExifTool wrapper,
 and not the actual perl vm. This should only really be relevant for
 integration tests that verify processes are cleaned up properly.</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L507">src/ExifTool.ts:507</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L501">src/ExifTool.ts:501</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="spawnedProcs" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>spawned<wbr/>Procs</span><a href="#spawnedProcs" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature" id="spawnedProcs.spawnedProcs-1"><span class="tsd-signature-symbol">get</span> spawnedProcs<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>the total number of child processes created by this instance</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the total number of child processes created by this instance</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L521">src/ExifTool.ts:521</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L515">src/ExifTool.ts:515</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="childEndCounts" class="tsd-anchor"></a>
@@ -193,10 +188,9 @@ integration tests that verify processes are cleaned up properly.</p>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="childEndCounts.childEndCounts-1"><span class="tsd-kind-call-signature">child<wbr/>End<wbr/>Counts</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">broken</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">closed</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">ended</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">ending</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">idle</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">old</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.close</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.disconnect</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.exit</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">startError</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stderr</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stderr.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stdin.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stdout.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">timeout</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tooMany</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">unhealthy</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">worn</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><a href="#childEndCounts.childEndCounts-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>report why child processes were recycled</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">broken</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">closed</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">ended</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">ending</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">idle</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">old</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.close</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.disconnect</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.exit</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">startError</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stderr</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stderr.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stdin.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stdout.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">timeout</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tooMany</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">unhealthy</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">worn</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h4>
+<div class="tsd-comment tsd-typography"></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">broken</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">closed</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">ended</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">ending</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">idle</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">old</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.close</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.disconnect</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">proc.exit</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">startError</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stderr</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stderr.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stdin.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">stdout.error</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">timeout</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tooMany</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">unhealthy</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">worn</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h4><p>report why child processes were recycled</p>
+
 <ul class="tsd-parameters">
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">broken</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li>
@@ -237,7 +231,7 @@ integration tests that verify processes are cleaned up properly.</p>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">worn</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L535">src/ExifTool.ts:535</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L529">src/ExifTool.ts:529</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="closeChildProcesses" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>close<wbr/>Child<wbr/>Processes</span><a href="#closeChildProcesses" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -253,7 +247,7 @@ be started automatically to handle new tasks.</p>
 <h5><span class="tsd-kind-parameter">gracefully</span>: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L543">src/ExifTool.ts:543</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L537">src/ExifTool.ts:537</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="deleteAllTags" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete<wbr/>All<wbr/>Tags</span><a href="#deleteAllTags" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -271,7 +265,7 @@ continue to exist if you re-<code>read</code> the file.</p>
 <h5><span class="tsd-kind-parameter">file</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L342">src/ExifTool.ts:342</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L336">src/ExifTool.ts:336</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="end" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>end</span><a href="#end" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -289,7 +283,7 @@ scripts for them to exit cleanly.</p>
 <h5><span class="tsd-kind-parameter">gracefully</span>: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L471">src/ExifTool.ts:471</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L465">src/ExifTool.ts:465</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="enqueueTask" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>enqueue<wbr/>Task</span><a href="#enqueueTask" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -300,9 +294,9 @@ supports submitting custom <code>BatchCluster</code> tasks.</p>
 
 <h3>See</h3><p>BinaryExtractionTask for an example task implementation</p>
 </div>
-<section class="tsd-panel tsd-type-parameters">
+<section class="tsd-panel">
 <h4>Type Parameters</h4>
-<ul class="tsd-type-parameters">
+<ul class="tsd-type-parameter-list">
 <li>
 <h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section>
 <div class="tsd-parameters">
@@ -320,7 +314,7 @@ supports submitting custom <code>BatchCluster</code> tasks.</p>
 <h5><span class="tsd-kind-parameter">retriable</span>: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L488">src/ExifTool.ts:488</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L482">src/ExifTool.ts:482</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="extractBinaryTag" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>extract<wbr/>Binary<wbr/>Tag</span><a href="#extractBinaryTag" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -329,9 +323,6 @@ supports submitting custom <code>BatchCluster</code> tasks.</p>
 <div class="tsd-comment tsd-typography"><p>Extract a given binary value from &quot;tagname&quot; tag associated to
 <code>path/to/image.jpg</code> and write it to <code>dest</code> (which cannot exist and whose
 directory must already exist).</p>
-
-<h3>Returns</h3><p>a <code>Promise&lt;void&gt;</code>. The promise will be rejected if the binary
-output not be written to <code>dest</code>.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -342,9 +333,11 @@ output not be written to <code>dest</code>.</p>
 <h5><span class="tsd-kind-parameter">src</span>: <span class="tsd-signature-type">string</span></h5></li>
 <li>
 <h5><span class="tsd-kind-parameter">dest</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a <code>Promise&lt;void&gt;</code>. The promise will be rejected if the binary
+output not be written to <code>dest</code>.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L395">src/ExifTool.ts:395</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L389">src/ExifTool.ts:389</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="extractBinaryTagToBuffer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>extract<wbr/>Binary<wbr/>Tag<wbr/>To<wbr/>Buffer</span><a href="#extractBinaryTagToBuffer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -354,9 +347,6 @@ output not be written to <code>dest</code>.</p>
 <code>path/to/image.jpg</code> as a <code>Buffer</code>. This has the advantage of not writing to
 a file, but if the payload associated to <code>tagname</code> is large, this can cause
 out-of-memory errors.</p>
-
-<h3>Returns</h3><p>a <code>Promise&lt;Buffer&gt;</code>. The promise will be rejected if the file or
-tag is missing.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -365,9 +355,11 @@ tag is missing.</p>
 <h5><span class="tsd-kind-parameter">tagname</span>: <span class="tsd-signature-type">string</span></h5></li>
 <li>
 <h5><span class="tsd-kind-parameter">imageFile</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type ">Buffer</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type ">Buffer</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a <code>Promise&lt;Buffer&gt;</code>. The promise will be rejected if the file or
+tag is missing.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L419">src/ExifTool.ts:419</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L413">src/ExifTool.ts:413</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="extractJpgFromRaw" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>extract<wbr/>Jpg<wbr/>From<wbr/>Raw</span><a href="#extractJpgFromRaw" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -377,9 +369,6 @@ tag is missing.</p>
 <code>path/to/fromRaw.jpg</code>.</p>
 <p>This size of these images varies widely, and is not present in all RAW
 images. Nikon and Panasonic use this tag.</p>
-
-<h3>Returns</h3><p>a <code>Promise&lt;void&gt;</code>. The promise will be rejected if the file could
-not be read or the output not written.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -388,9 +377,11 @@ not be read or the output not written.</p>
 <h5><span class="tsd-kind-parameter">imageFile</span>: <span class="tsd-signature-type">string</span></h5></li>
 <li>
 <h5><span class="tsd-kind-parameter">outputFile</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a <code>Promise&lt;void&gt;</code>. The promise will be rejected if the file could
+not be read or the output not written.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L383">src/ExifTool.ts:383</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L377">src/ExifTool.ts:377</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="extractPreview" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>extract<wbr/>Preview</span><a href="#extractPreview" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -400,9 +391,6 @@ not be read or the output not written.</p>
 and write it to <code>path/to/preview.jpg</code>.</p>
 <p>The size of these images varies widely, and is present in dSLR images.
 Canon, Fuji, Olympus, and Sony use this tag.</p>
-
-<h3>Returns</h3><p>a <code>Promise&lt;void&gt;</code>. An <code>Error</code> is raised if
-the file could not be read or the output not written.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -411,9 +399,11 @@ the file could not be read or the output not written.</p>
 <h5><span class="tsd-kind-parameter">imageFile</span>: <span class="tsd-signature-type">string</span></h5></li>
 <li>
 <h5><span class="tsd-kind-parameter">previewFile</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a <code>Promise&lt;void&gt;</code>. An <code>Error</code> is raised if
+the file could not be read or the output not written.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L369">src/ExifTool.ts:369</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L363">src/ExifTool.ts:363</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="extractThumbnail" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>extract<wbr/>Thumbnail</span><a href="#extractThumbnail" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -422,9 +412,6 @@ the file could not be read or the output not written.</p>
 <div class="tsd-comment tsd-typography"><p>Extract the low-resolution thumbnail in <code>path/to/image.jpg</code>
 and write it to <code>path/to/thumbnail.jpg</code>.</p>
 <p>Note that these images can be less than .1 megapixels in size.</p>
-
-<h3>Returns</h3><p>a <code>Promise&lt;void&gt;</code>. An <code>Error</code> is raised if
-the file could not be read or the output not written.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -433,22 +420,21 @@ the file could not be read or the output not written.</p>
 <h5><span class="tsd-kind-parameter">imageFile</span>: <span class="tsd-signature-type">string</span></h5></li>
 <li>
 <h5><span class="tsd-kind-parameter">thumbnailFile</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a <code>Promise&lt;void&gt;</code>. An <code>Error</code> is raised if
+the file could not be read or the output not written.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L355">src/ExifTool.ts:355</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L349">src/ExifTool.ts:349</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="read" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>read</span><a href="#read" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="read.read-1"><span class="tsd-kind-call-signature">read</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">file</span>, <span class="tsd-kind-parameter">optionalArgs</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#read.read-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Read the tags in <code>file</code>.</p>
-
-<h3>Returns</h3><p>A resolved Tags promise. If there are errors
-during reading, the <code>.errors</code> field will be present.</p>
 </div>
-<section class="tsd-panel tsd-type-parameters">
+<section class="tsd-panel">
 <h4>Type Parameters</h4>
-<ul class="tsd-type-parameters">
+<ul class="tsd-type-parameter-list">
 <li>
 <h4><span class="tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol"> extends </span><a href="../interfaces/Tags.html" class="tsd-signature-type tsd-kind-interface">Tags</a> = <a href="../interfaces/Tags.html" class="tsd-signature-type tsd-kind-interface">Tags</a></h4></li></ul></section>
 <div class="tsd-parameters">
@@ -489,7 +475,7 @@ inference used in images. To disable this default, set this to false.</p>
 resources, consider using <code>geo-tz</code> for more accurate results.</p>
 <p>Here&#39;s a snippet of how to use <code>geo-tz</code> instead of <code>tz-lookup</code>:</p>
 <pre><code class="language-js"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-4">geotz</span><span class="hl-0"> = </span><span class="hl-5">require</span><span class="hl-0">(</span><span class="hl-6">&quot;geo-tz&quot;</span><span class="hl-0">)</span><br/><span class="hl-3">const</span><span class="hl-0"> { </span><span class="hl-4">ExifTool</span><span class="hl-0"> } = </span><span class="hl-5">require</span><span class="hl-0">(</span><span class="hl-6">&quot;exiftool-vendored&quot;</span><span class="hl-0">)</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-4">exiftool</span><span class="hl-0"> = </span><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-5">ExifTool</span><span class="hl-0">({ </span><span class="hl-5">geoTz</span><span class="hl-1">:</span><span class="hl-0"> (</span><span class="hl-1">lat</span><span class="hl-0">, </span><span class="hl-1">lon</span><span class="hl-0">) </span><span class="hl-3">=&gt;</span><span class="hl-0"> </span><span class="hl-1">geotz</span><span class="hl-0">.</span><span class="hl-5">find</span><span class="hl-0">(</span><span class="hl-1">lat</span><span class="hl-0">, </span><span class="hl-1">lon</span><span class="hl-0">)[</span><span class="hl-7">0</span><span class="hl-0">] })</span>
-</code></pre>
+</code><button>Copy</button></pre>
 
 <h3>See</h3><ul>
 <li><a href="https://github.com/photostructure/tz-lookup">https://github.com/photostructure/tz-lookup</a></li>
@@ -535,9 +521,11 @@ tags automatically.</p>
 
 <h3>See</h3><p><a href="https://exiftool.org/TagNames/MWG.html">https://exiftool.org/TagNames/MWG.html</a> for details</p>
 </div></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>A resolved Tags promise. If there are errors
+during reading, the <code>.errors</code> field will be present.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L256">src/ExifTool.ts:256</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L250">src/ExifTool.ts:250</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="readRaw" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>read<wbr/>Raw</span><a href="#readRaw" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -554,10 +542,6 @@ use this, but all data validation and inference heuristics provided by
 be worse if you don&#39;t include <code>-fast</code> or <code>-fast2</code> (as the most expensive
 bit is the perl interpreter and scanning the file on disk).</p>
 
-<h3>Returns</h3><p>Note that the return value will be similar to <code>Tags</code>, but with no
-date, time, or other rich type parsing that you get from <code>.read()</code>. The
-field values will be <code>string | number | string[]</code>.</p>
-
 <h3>See</h3><p><a href="https://github.com/photostructure/exiftool-vendored.js/issues/44">https://github.com/photostructure/exiftool-vendored.js/issues/44</a> for
 typing details.</p>
 </div>
@@ -572,9 +556,12 @@ typing details.</p>
 &quot;-json&quot;, and the Windows unicode filename handler flags, &quot;-charset
 filename=utf8&quot;, will be added automatically.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/RawTags.html" class="tsd-signature-type tsd-kind-type-alias">RawTags</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/RawTags.html" class="tsd-signature-type tsd-kind-type-alias">RawTags</a><span class="tsd-signature-symbol">&gt;</span></h4><p>Note that the return value will be similar to <code>Tags</code>, but with no
+date, time, or other rich type parsing that you get from <code>.read()</code>. The
+field values will be <code>string | number | string[]</code>.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L303">src/ExifTool.ts:303</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L297">src/ExifTool.ts:297</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="rewriteAllTags" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>rewrite<wbr/>All<wbr/>Tags</span><a href="#rewriteAllTags" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -588,8 +575,6 @@ be lost in the process.</p>
 not readable via <a href="../modules.html" class="tsd-kind-project">.read()</a>.</p>
 
 <h3>See</h3><p><a href="https://exiftool.org/faq.html#Q20">https://exiftool.org/faq.html#Q20</a></p>
-
-<h3>Returns</h3><p>resolved when outputFile has been written.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -608,30 +593,26 @@ not readable via <a href="../modules.html" class="tsd-kind-project">.read()</a>.
 tags, allow ExifTool to apply heuristics to recover corrupt tags. See
 exiftool&#39;s <code>-F</code> flag.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><p>resolved when outputFile has been written.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L454">src/ExifTool.ts:454</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L448">src/ExifTool.ts:448</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="version" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>version</span><a href="#version" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="version.version-1"><span class="tsd-kind-call-signature">version</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><a href="#version.version-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>a promise holding the version number of the vendored ExifTool</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a promise holding the version number of the vendored ExifTool</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L237">src/ExifTool.ts:237</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L231">src/ExifTool.ts:231</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="write" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>write</span><a href="#write" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="write.write-1"><span class="tsd-kind-call-signature">write</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">file</span>, <span class="tsd-kind-parameter">tags</span>, <span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#write.write-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Write the given <code>tags</code> to <code>file</code>.</p>
-
-<h3>Returns</h3><p>Either the promise will be resolved if the
-tags are written to successfully, or the promise will be rejected if
-there are errors or warnings.</p>
 
 <h3>Memberof</h3><p>ExifTool</p>
 </div>
@@ -665,9 +646,12 @@ tags automatically.</p>
 
 <h3>See</h3><p><a href="https://exiftool.org/TagNames/MWG.html">https://exiftool.org/TagNames/MWG.html</a> for details</p>
 </div></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><p>Either the promise will be resolved if the
+tags are written to successfully, or the promise will be rejected if
+there are errors or warnings.</p>
+<aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L319">src/ExifTool.ts:319</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L313">src/ExifTool.ts:313</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
