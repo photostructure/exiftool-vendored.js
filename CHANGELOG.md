@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v22.0.0
+
+- 💔 Drop support for Node 14, which EOL'ed 2023-04-30
+
+- 🌱 ExifTool upgraded to [v12.62](https://exiftool.org/history.html#v12.62)
+
+- 🐞 Fix exports for DefaultExifToolOptions and several other non-type values. Thanks for the [bug report, renambot!](https://github.com/photostructure/exiftool-vendored.js/issues/144)
+ 
 ### v21.5.1
 
 - 📦 Avoid double-rendering of ImageDataMD5 (Thanks, Phil! See [forum post for details](https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218))
