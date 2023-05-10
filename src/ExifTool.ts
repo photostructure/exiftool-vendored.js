@@ -6,9 +6,7 @@ import { ApplicationRecordTags } from "./ApplicationRecordTags"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
-import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
-import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
@@ -24,7 +22,7 @@ import { pick } from "./Pick"
 import { PreviewTag } from "./PreviewTag"
 import { Json, Literal, RawTags } from "./RawTags"
 import { ReadRawTask } from "./ReadRawTask"
-import { DefaultReadTaskOptions, ReadTask, ReadTaskOptions } from "./ReadTask"
+import { ReadTask, ReadTaskOptions } from "./ReadTask"
 import { ResourceEvent } from "./ResourceEvent"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { blank, notBlank } from "./String"
@@ -58,19 +56,19 @@ import {
 import { Version } from "./Version"
 import { VersionTask } from "./VersionTask"
 import { WriteTags } from "./WriteTags"
-import {
-  DefaultWriteTaskOptions,
-  WriteTask,
-  WriteTaskOptions,
-} from "./WriteTask"
+import { WriteTask, WriteTaskOptions } from "./WriteTask"
 
 export { BinaryField } from "./BinaryField"
+export { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
+export { DefaultExifToolOptions } from "./DefaultExifToolOptions"
+export { DefaultMaxProcs } from "./DefaultMaxProcs"
 export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"
 export { ExifToolTask } from "./ExifToolTask"
 export { isIgnorableWarning } from "./IgnorableError"
 export { parseJSON } from "./JSON"
+export { DefaultReadTaskOptions } from "./ReadTask"
 export {
   defaultVideosToUTC,
   offsetMinutesToZoneName,
@@ -78,6 +76,7 @@ export {
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
 } from "./Timezones"
+export { DefaultWriteTaskOptions } from "./WriteTask"
 export type {
   AdditionalWriteTags,
   APP12Tags,
@@ -88,11 +87,6 @@ export type {
   APP6Tags,
   ApplicationRecordTags,
   CompositeTags,
-  DefaultExiftoolArgs,
-  DefaultExifToolOptions,
-  DefaultMaxProcs,
-  DefaultReadTaskOptions,
-  DefaultWriteTaskOptions,
   EXIFTags,
   ExifToolOptions,
   ExifToolTags,
