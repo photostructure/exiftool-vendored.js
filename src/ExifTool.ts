@@ -303,12 +303,13 @@ export class ExifTool {
    *
    * @param {string} file an existing file to write `tags` to.
    * @param {Tags} tags the tags to write to `file`.
-   * @param {string[]} [args] any additional ExifTool arguments, like "-n".
-   * Most consumers won't probably need this.
-   * @returns {Promise<void>} Either the promise will be resolved if the
-   * tags are written to successfully, or the promise will be rejected if
-   * there are errors or warnings.
+   * @param {string[]} [args] any additional ExifTool arguments, like `-n`, or
+   * `-overwrite_original`.
+   * @returns {Promise<void>} Either the promise will be resolved if the tags
+   * are written to successfully, or the promise will be rejected if there are
+   * errors or warnings.
    * @memberof ExifTool
+   * @see https://exiftool.org/exiftool_pod.html#overwrite_original
    */
   write(
     file: string,
