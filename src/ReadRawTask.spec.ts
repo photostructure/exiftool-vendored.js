@@ -1,6 +1,5 @@
 import * as fse from "fs-extra"
 import path from "path"
-import { exiftool } from "./ExifTool"
 import {
   expect,
   NonAlphaStrings,
@@ -8,6 +7,7 @@ import {
   tmpdir,
   UnicodeTestMessage,
 } from "./_chai.spec"
+import { exiftool } from "./ExifTool"
 
 after(() => exiftool.end())
 

@@ -11,12 +11,12 @@ import { Tags } from "./Tags"
 import { Version } from "./Version"
 import { WriteTags } from "./WriteTags"
 import {
+  UnicodeTestMessage,
   assertEqlDateish,
   expect,
   randomChars,
   testFile,
   testImg,
-  UnicodeTestMessage,
 } from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */

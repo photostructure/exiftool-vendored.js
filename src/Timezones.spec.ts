@@ -1,4 +1,5 @@
 import { Info } from "luxon"
+import { expect } from "./_chai.spec"
 import {
   extractOffset,
   extractTzOffsetFromTags,
@@ -8,7 +9,6 @@ import {
   UnsetZone,
   UnsetZoneOffsetMinutes,
 } from "./Timezones"
-import { expect } from "./_chai.spec"
 
 describe("Timezones", () => {
   describe("UnsetZone", () => {

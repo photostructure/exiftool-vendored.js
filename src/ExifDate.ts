@@ -1,7 +1,7 @@
 import { DateTime } from "luxon"
 
 import { HourMs, validDateTime } from "./DateTime"
-import { first, firstDefinedThunk, map, Maybe } from "./Maybe"
+import { Maybe, first, firstDefinedThunk, map } from "./Maybe"
 import { blank, pad2, toS } from "./String"
 
 /**

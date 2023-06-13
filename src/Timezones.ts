@@ -2,7 +2,7 @@ import { Info, Zone } from "luxon"
 import { compact } from "./Array"
 import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { ExifDateTime } from "./ExifDateTime"
-import { first, firstDefinedThunk, map, Maybe } from "./Maybe"
+import { Maybe, first, firstDefinedThunk, map } from "./Maybe"
 import { isNumber } from "./Number"
 import { blank, isString, pad2 } from "./String"
 

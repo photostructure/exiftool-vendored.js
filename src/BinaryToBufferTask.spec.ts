@@ -5,8 +5,8 @@ import path from "path"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
 import { exiftool } from "./ExifTool"
 import {
-  expect,
   NonAlphaStrings,
+  expect,
   sha1buffer,
   testDir,
   tmpdir,

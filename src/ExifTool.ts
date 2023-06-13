@@ -41,9 +41,9 @@ import {
   FlashPixTags,
   IPTCTags,
   JFIFTags,
+  MPFTags,
   MakerNotesTags,
   MetaTags,
-  MPFTags,
   PanasonicRawTags,
   PhotoshopTags,
   PrintIMTags,
@@ -59,8 +59,8 @@ import { WriteTags } from "./WriteTags"
 import { WriteTask, WriteTaskOptions } from "./WriteTask"
 
 export { BinaryField } from "./BinaryField"
-export { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 export { DefaultExifToolOptions } from "./DefaultExifToolOptions"
+export { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 export { DefaultMaxProcs } from "./DefaultMaxProcs"
 export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
@@ -70,21 +70,21 @@ export { isIgnorableWarning } from "./IgnorableError"
 export { parseJSON } from "./JSON"
 export { DefaultReadTaskOptions } from "./ReadTask"
 export {
-  defaultVideosToUTC,
-  offsetMinutesToZoneName,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
+  defaultVideosToUTC,
+  offsetMinutesToZoneName,
 } from "./Timezones"
 export { DefaultWriteTaskOptions } from "./WriteTask"
 export type {
-  AdditionalWriteTags,
   APP12Tags,
   APP14Tags,
   APP1Tags,
   APP4Tags,
   APP5Tags,
   APP6Tags,
+  AdditionalWriteTags,
   ApplicationRecordTags,
   CompositeTags,
   EXIFTags,
@@ -94,25 +94,25 @@ export type {
   FileTags,
   FlashPixTags,
   ICCProfileTags,
-  IgnorableError,
   IPTCTags,
+  IgnorableError,
   JFIFTags,
   Json,
   Literal,
+  MPFTags,
   MakerNotesTags,
   Maybe,
   MetaTags,
-  MPFTags,
   Omit,
   PanasonicRawTags,
   PhotoshopTags,
   PrintIMTags,
   QuickTimeTags,
   RAFTags,
+  RIFFTags,
   RawTags,
   ReadTaskOptions,
   ResourceEvent,
-  RIFFTags,
   Struct,
   Tags,
   Version,

@@ -1,10 +1,5 @@
 import * as fse from "fs-extra"
 import path, { join } from "path"
-import { ExifDateTime } from "./ExifDateTime"
-import { defaultVideosToUTC, ExifTool } from "./ExifTool"
-import { geoTz as _geoTz } from "./GeoTz"
-import { ReadTask } from "./ReadTask"
-import { Tags } from "./Tags"
 import {
   expect,
   NonAlphaStrings,
@@ -14,6 +9,11 @@ import {
   tmpdir,
   UnicodeTestMessage,
 } from "./_chai.spec"
+import { ExifDateTime } from "./ExifDateTime"
+import { defaultVideosToUTC, ExifTool } from "./ExifTool"
+import { geoTz as _geoTz } from "./GeoTz"
+import { ReadTask } from "./ReadTask"
+import { Tags } from "./Tags"
 
 const gt = require("geo-tz")
 

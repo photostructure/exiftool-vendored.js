@@ -4,8 +4,8 @@ import path from "path"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { exiftool } from "./ExifTool"
 import {
-  expect,
   NonAlphaStrings,
+  expect,
   sha1,
   testDir,
   tmpdir,
