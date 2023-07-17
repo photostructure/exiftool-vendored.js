@@ -77,7 +77,7 @@
     "@types/progress": "^2.0.5",
     "@types/tmp": "^0.2.3",
     "@types/xmldom": "^0.1.31",
-    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^5.59.9",
     "@xmldom/xmldom": "^0.8.8",
     "chai": "^4.3.7",
