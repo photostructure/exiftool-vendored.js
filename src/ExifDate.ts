@@ -8,6 +8,14 @@ import { blank, pad2, toS } from "./String"
  * Encodes an ExifDate
  */
 export class ExifDate {
+  static from(exifOrIso: string): Maybe<ExifDate> {
+    return (
+      // in order of strictness:
+      this.fromExifStrict(exifOrIso) ??
+      this.fromISO(exifOrIso) ??
+      this.fromExifLoose(exifOrIso)
+    )
+  }
   static fromISO(text: string): Maybe<ExifDate> {
     return this.fromDateTime(DateTime.fromISO(text), text)
   }

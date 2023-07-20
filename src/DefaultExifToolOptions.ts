@@ -45,6 +45,8 @@ export const DefaultExifToolOptions: Omit<
   ],
   includeImageDataMD5: false,
   defaultVideosToUTC: true,
+  backfillTimezones: false, // to retain prior behavior
+  inferTimezoneFromDatestamps: false, // to retain prior behavior
   geoTz: geoTz,
   isIgnorableError: isIgnorableWarning,
 })

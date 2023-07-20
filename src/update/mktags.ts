@@ -15,12 +15,26 @@ import { blank, isString, leftPad } from "../String"
 import { times } from "../Times"
 import ProgressBar = require("progress")
 
-// ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
+// ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
+// ☠☠                            AHOY                              ☠☠
+// ☠☠                                                              ☠☠
+// ☠☠        LEST YOU BE STRAYIN' INTO THINGS YE SHOULDN'T         ☠☠
+// ☠☠                                                              ☠☠
+// ☠☠    THIS BILGE SUCKING FILE BE CURSED BY HACKS AND SQUALOR    ☠☠
+// ☠☠                                                              ☠☠
+// ☠☠           SCROLL TO YOUR OWN REGRET, ME HEARTIES             ☠☠
+// ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
+
+//
+
+// no srsly. this code. it's real bad. but I wanted a Tags interface, more
+// than I felt shame in writing this, so it's here. I'm sorry. Everything
+// _else_ has tests, honest.
+
+//
 
 // Avoid error TS2590: Expression produces a union type that is too complex to represent
 const MAX_TAGS = 2500 // TypeScript 4.2 crashes with 3100+
-
-// ☠☠ HEY! YOU! I SAID STOP SCROLLING! ☠☠
 
 const RequiredTags: Record<string, { t: string; grp: string }> = {
   Aperture: { t: "number", grp: "Composite" },
@@ -660,11 +674,11 @@ async function readAndAddToTagMap(file: string) {
     const tags: any = await exiftool.read(file, ["-G"])
     seenFiles.push(file)
     const importantFile = file.toString().toLowerCase().includes("important")
-    Object.keys(tags).forEach((key) => {
-      if (null != saneTagRe.exec(key)) {
-        tagMap.add(key, tags[key], importantFile)
+    for (const [k, v] of Object.entries(tags)) {
+      if (null != saneTagRe.exec(k)) {
+        tagMap.add(k, v, importantFile)
       }
-    })
+    }
     if (tags.errors?.length > 0) {
       bar.interrupt(`Error from ${file}: ${tags.errors}`)
     }

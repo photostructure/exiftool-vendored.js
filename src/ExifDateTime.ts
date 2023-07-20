@@ -6,7 +6,7 @@ import {
   Zone,
   ZoneOptions,
 } from "luxon"
-import { dateTimeToExif } from "./DateTime"
+import { MinuteMs, dateTimeToExif } from "./DateTime"
 import { Maybe, denull } from "./Maybe"
 import { omit } from "./Object"
 import { blank, notBlank, toS } from "./String"
@@ -28,6 +28,18 @@ const TimeFmts = [
  */
 export class ExifDateTime {
   #dt?: DateTime
+
+  static from(
+    exifOrIso: string,
+    defaultZone?: Maybe<string>
+  ): Maybe<ExifDateTime> {
+    return (
+      // in order of strictness:
+      this.fromExifStrict(exifOrIso, defaultZone) ??
+      this.fromISO(exifOrIso, defaultZone) ??
+      this.fromExifLoose(exifOrIso, defaultZone)
+    )
+  }
 
   static fromISO(
     iso: string,
@@ -379,6 +391,33 @@ export class ExifDateTime {
       json.rawValue,
       json.zoneName
     )
+  }
+
+  maybeMatchZone(
+    target: ExifDateTime,
+    maxDeltaMs = 14 * MinuteMs
+  ): Maybe<ExifDateTime> {
+    if (!target.hasZone) return
+    return (
+      this.setZone(target.zone, { keepLocalTime: false })?.ifClose(
+        target,
+        maxDeltaMs
+      ) ??
+      this.setZone(target.zone, { keepLocalTime: true })?.ifClose(
+        target,
+        maxDeltaMs
+      ) ??
+      this.setZone("UTC", { keepLocalTime: true })?.ifClose(target, maxDeltaMs)
+    )
+  }
+
+  private ifClose(
+    target: ExifDateTime,
+    maxDeltaMs = 14 * MinuteMs
+  ): Maybe<ExifDateTime> {
+    const ts = this.toMillis()
+    const targetTs = target.toMillis()
+    return Math.abs(ts - targetTs) <= maxDeltaMs ? this : undefined
   }
 
   plus(duration: DurationLike) {

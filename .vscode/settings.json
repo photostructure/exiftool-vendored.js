@@ -1,7 +1,10 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
   "cSpell.words": [
+    "creat",
+    "Degrouped",
     "exiftool's",
+    "modif",
     "noexif"
   ],
   "cSpell.ignoreWords": [

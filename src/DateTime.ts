@@ -41,3 +41,12 @@ export function toExifString(d: DateOrTime): Maybe<string> {
     return d?.toExifString?.()
   }
 }
+
+export function hms(
+  d: DateTime,
+  opts?: { includeMilliseconds?: boolean }
+): string {
+  return d.toFormat(
+    "HH:mm:ss" + (opts?.includeMilliseconds === true ? ".SSS" : "")
+  )
+}

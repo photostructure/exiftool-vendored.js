@@ -114,9 +114,30 @@ export interface ExifToolOptions
    * Video file dates are assumed to be in UTC, rather than using timezone
    * inference used in images. To disable this default, set this to false.
    *
-   * @see <https://github.com/photostructure/exiftool-vendored.js/issues/113>
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/113
    */
   defaultVideosToUTC: boolean
+
+  /**
+   * Should we try to backfill timezones for date-times that don't have them?
+   * If set to `true`, and `defaultVideosToUTC` is also `true`, we'll try
+   * backfilling timezones for date-times that are UTC, as well.
+   *
+   * This defaults to false to retain prior versions' behavior.
+   */
+  backfillTimezones: boolean
+
+  /**
+   * We always look at TimeZone, OffsetTime, TimeZoneOffset, and GPS metadata
+   * to infer the timezone.
+   *
+   * If these strategies fail, can we infer a timezone from any non-UTC
+   * datestamp whose tag starts with "Creat" and includes an offset? (This
+   * means CreateDateSubSec, CreateDate, and CreationDate will be considered).
+   *
+   * This defaults to false to retain prior versions' behavior.
+   */
+  inferTimezoneFromDatestamps: boolean
 
   /**
    * `ExifTool` has a shebang line that assumes a valid `perl` is installed at

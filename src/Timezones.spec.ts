@@ -75,19 +75,19 @@ describe("Timezones", () => {
         it(`({ TimeZone: ${tzo}}) => ${exp}`, () => {
           expect(extractTzOffsetFromTags({ TimeZone: tzo })).to.eql({
             tz: exp,
-            src: "offsetMinutesToZoneName from TimeZone",
+            src: "TimeZone",
           })
         })
         it(`({ OffsetTime: ${tzo}}) => ${exp}`, () => {
           expect(extractTzOffsetFromTags({ OffsetTime: tzo })).to.eql({
             tz: exp,
-            src: "offsetMinutesToZoneName from OffsetTime",
+            src: "OffsetTime",
           })
         })
         it(`({ TimeZoneOffset: ${tzo}}) => ${exp}`, () => {
           expect(extractTzOffsetFromTags({ TimeZoneOffset: tzo })).to.eql({
             tz: exp,
-            src: "offsetMinutesToZoneName from TimeZoneOffset",
+            src: "TimeZoneOffset",
           })
         })
         it(`${exp} normalizes to the same value`, () => {
