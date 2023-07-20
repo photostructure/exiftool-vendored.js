@@ -467,78 +467,7 @@ information about <code>-fast</code> and <code>-fast2</code>.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">defaultVideosToUTC</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">geoTz</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">lat</span>, <span class="tsd-kind-parameter">lon</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">includeImageDataMD5</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">numericTags</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">optionalArgs</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">useMWG</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h5>
-<ul class="tsd-parameters">
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagReadonly">Readonly</code> <span class="tsd-kind-property">default<wbr/>Videos<wbr/>ToUTC</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p>Video file dates are assumed to be in UTC, rather than using timezone
-inference used in images. To disable this default, set this to false.</p>
-</div>
-<div class="tsd-comment tsd-typography">
-<h4>See</h4><p><a href="https://github.com/photostructure/exiftool-vendored.js/issues/113">https://github.com/photostructure/exiftool-vendored.js/issues/113</a></p>
-</div></li>
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagReadonly">Readonly</code> <span class="tsd-kind-property">geo<wbr/>Tz</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">lat</span>, <span class="tsd-kind-parameter">lon</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
-<ul class="tsd-parameters">
-<li class="tsd-parameter-signature">
-<ul class="tsd-signatures">
-<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">lat</span>, <span class="tsd-kind-parameter">lon</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Override the default geo-to-timezone lookup service.</p>
-<p>This defaults to <code>@photostructure/tz-lookup</code>, but if you have the
-resources, consider using <code>geo-tz</code> for more accurate results.</p>
-<p>Here&#39;s a snippet of how to use <code>geo-tz</code> instead of <code>tz-lookup</code>:</p>
-<pre><code class="language-js"><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-4">geotz</span><span class="hl-0"> = </span><span class="hl-5">require</span><span class="hl-0">(</span><span class="hl-6">&quot;geo-tz&quot;</span><span class="hl-0">)</span><br/><span class="hl-3">const</span><span class="hl-0"> { </span><span class="hl-4">ExifTool</span><span class="hl-0"> } = </span><span class="hl-5">require</span><span class="hl-0">(</span><span class="hl-6">&quot;exiftool-vendored&quot;</span><span class="hl-0">)</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-4">exiftool</span><span class="hl-0"> = </span><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-5">ExifTool</span><span class="hl-0">({ </span><span class="hl-5">geoTz</span><span class="hl-1">:</span><span class="hl-0"> (</span><span class="hl-1">lat</span><span class="hl-0">, </span><span class="hl-1">lon</span><span class="hl-0">) </span><span class="hl-3">=&gt;</span><span class="hl-0"> </span><span class="hl-1">geotz</span><span class="hl-0">.</span><span class="hl-5">find</span><span class="hl-0">(</span><span class="hl-1">lat</span><span class="hl-0">, </span><span class="hl-1">lon</span><span class="hl-0">)[</span><span class="hl-7">0</span><span class="hl-0">] })</span>
-</code><button>Copy</button></pre>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5><span class="tsd-kind-parameter">lat</span>: <span class="tsd-signature-type">number</span></h5></li>
-<li>
-<h5><span class="tsd-kind-parameter">lon</span>: <span class="tsd-signature-type">number</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-<div class="tsd-comment tsd-typography">
-<h4>See</h4><ul>
-<li><a href="https://github.com/photostructure/tz-lookup">https://github.com/photostructure/tz-lookup</a></li>
-<li><a href="https://github.com/evansiroky/node-geo-tz/">https://github.com/evansiroky/node-geo-tz/</a></li>
-</ul>
-</div></li></ul></li></ul></li>
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagReadonly">Readonly</code> <span class="tsd-kind-property">include<wbr/>Image<wbr/>DataMD5</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p>If set to true, ExifTool will attempt to calculate an &quot;ImageDataMD5&quot; tag
-value with the MD5 checksum of image data.</p>
-<p>Note that as of 2022-04-12, ExifTool supports JPEG, PNG, and many raw
-image formats, like CR2 and NEF. It doesn&#39;t yet support HEIC/HEIF, ORF,
-GIF, and many video formats, like MP4 and MTS.</p>
-<p>This defaults to false, as it adds ~20ms of overhead to every read</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagReadonly">Readonly</code> <span class="tsd-kind-property">numeric<wbr/>Tags</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-<div class="tsd-comment tsd-typography"><p>Tag names (which can have &#39;*&#39; glob matchers) which you want numeric
-values, rather than ExifTool&#39;s &quot;Print Conversion.&quot;</p>
-<p>If you&#39;re using tag values only for human consumption, you may want to
-leave this blank.</p>
-<p>The default includes &quot;<em>Duration</em>&quot;, &quot;GPSAltitude&quot;, &quot;GPSLatitude&quot;,
-&quot;GPSLongitude&quot;, &quot;GPSPosition&quot;, and &quot;Orientation&quot;.</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagReadonly">Readonly</code> <span class="tsd-kind-property">optional<wbr/>Args</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5></li>
-<li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagReadonly">Readonly</code> <span class="tsd-kind-property">useMWG</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p>Should ExifTool use MWG (Metadata Working Group) composite tags for
-reading and writing tags?</p>
-<p>ExifTool recommends this to be set to true.</p>
-<p>Note that this can result in many tag value differences from
-<code>ExifTool.read</code>, and makes <code>ExifTool.write</code> write to &quot;synonymous&quot; MWG
-tags automatically.</p>
-</div>
-<div class="tsd-comment tsd-typography">
-<h4>See</h4><p><a href="https://exiftool.org/TagNames/MWG.html">https://exiftool.org/TagNames/MWG.html</a> for details</p>
-</div></li></ul></li></ul></div>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">backfillTimezones</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">defaultVideosToUTC</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">geoTz</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">lat</span>, <span class="tsd-kind-parameter">lon</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">includeImageDataMD5</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">inferTimezoneFromDatestamps</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">numericTags</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">optionalArgs</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">useMWG</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>A resolved Tags promise. If there are errors
 during reading, the <code>.errors</code> field will be present.</p>
 
