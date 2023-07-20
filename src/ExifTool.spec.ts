@@ -1,6 +1,5 @@
 import { BatchCluster } from "batch-cluster"
 import * as _path from "path"
-import { times } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { ExifDate } from "./ExifDate"
@@ -12,6 +11,7 @@ import { parseJSON } from "./JSON"
 import { fromEntries, keys } from "./Object"
 import { leftPad } from "./String"
 import { Tags } from "./Tags"
+import { times } from "./Times"
 import { expect, renderTagsWithISO, testImg } from "./_chai.spec"
 
 function normalize(tagNames: string[]): string[] {
@@ -43,8 +43,8 @@ describe("ExifTool", function () {
     const vendorVersion: string =
       packageJson.optionalDependencies["exiftool-vendored." + flavor]
     // Everyone's a monster here:
-    // * semver is pissy about 0-padded version numbers (srsly, it's ok)
-    // * exiftool bumps the major version because minor hit 99</rant>
+    // * semver is unhappy about 0-padded version numbers
+    // * exiftool bumps the major version only when minor hits 99 (!!)
 
     // vendorVersion might have a ^ or ~ or something else as a prefix, so get
     // rid of that:

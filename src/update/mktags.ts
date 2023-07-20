@@ -6,12 +6,13 @@ import globule from "globule"
 import os from "os"
 import path from "path"
 import process from "process"
-import { compact, filterInPlace, times, uniq } from "../Array"
+import { compact, filterInPlace, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
 import { Maybe, map } from "../Maybe"
 import { isNumber } from "../Number"
 import { nullish } from "../ReadTask"
 import { blank, isString, leftPad } from "../String"
+import { times } from "../Times"
 import ProgressBar = require("progress")
 
 // ☠☠ THIS IS GRISLY, NASTY CODE. SCROLL DOWN AT YOUR OWN PERIL ☠☠
