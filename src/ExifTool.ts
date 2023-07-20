@@ -250,7 +250,7 @@ export class ExifTool {
   read<T extends Tags = Tags>(
     file: string,
     optionalArgs: string[] = ["-fast"],
-    options?: ReadTaskOptions
+    options?: Partial<ReadTaskOptions>
   ): Promise<T> {
     return this.enqueueTask(() =>
       ReadTask.for(file, {
