@@ -1,8 +1,9 @@
-import * as fse from "fs-extra"
+import { copyFile } from "fs/promises"
 import { DateTime } from "luxon"
 import path, { join } from "path"
 import {
   expect,
+  mkdirp,
   NonAlphaStrings,
   renderTagsWithISO,
   renderTagsWithRawValues,
@@ -900,8 +901,8 @@ describe("ReadTask", () => {
       it("reads with " + desc, async () => {
         const FileName = str + ".jpg"
         const dest = path.join(tmpdir(), FileName)
-        await fse.mkdirp(tmpdir())
-        await fse.copyFile(path.join(testDir, "quotes.jpg"), dest)
+        await mkdirp(tmpdir())
+        await copyFile(path.join(testDir, "quotes.jpg"), dest)
         const t = await exiftool.read(dest)
         expect(t).to.containSubset({
           MIMEType: "image/jpeg",

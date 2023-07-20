@@ -1,12 +1,13 @@
 import assert from "assert"
 import crypto from "crypto"
-import { copyFile, mkdirp } from "fs-extra"
+import { copyFile } from "fs/promises"
 import path from "path"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
 import { exiftool } from "./ExifTool"
 import {
   NonAlphaStrings,
   expect,
+  mkdirp,
   sha1buffer,
   testDir,
   tmpdir,

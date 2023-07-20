@@ -1,13 +1,14 @@
-import * as fse from "fs-extra"
+import { copyFile } from "fs/promises"
 import path from "path"
+import { exiftool } from "./ExifTool"
 import {
-  expect,
   NonAlphaStrings,
+  UnicodeTestMessage,
+  expect,
+  mkdirp,
   testDir,
   tmpdir,
-  UnicodeTestMessage,
 } from "./_chai.spec"
-import { exiftool } from "./ExifTool"
 
 after(() => exiftool.end())
 
@@ -17,8 +18,8 @@ describe("ReadRawTask", () => {
       it("reads with " + desc, async () => {
         const FileName = str + ".jpg"
         const dest = path.join(tmpdir(), FileName)
-        await fse.mkdirp(tmpdir())
-        await fse.copyFile(path.join(testDir, "quotes.jpg"), dest)
+        await mkdirp(tmpdir())
+        await copyFile(path.join(testDir, "quotes.jpg"), dest)
         const t = await exiftool.readRaw(dest)
         expect(t).to.containSubset({
           MIMEType: "image/jpeg",

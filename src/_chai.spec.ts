@@ -1,7 +1,8 @@
 import { Deferred, Log, setLogger } from "batch-cluster"
 import { expect } from "chai"
 import crypto, { randomBytes } from "crypto"
-import { copyFile, createReadStream, mkdirp } from "fs-extra"
+import { createReadStream } from "fs"
+import { copyFile, mkdir } from "fs/promises"
 import path from "path"
 import process from "process"
 import tmp from "tmp"
@@ -17,6 +18,10 @@ import { Tags } from "./Tags"
 const chai = require("chai")
 chai.use(require("chai-as-promised"))
 chai.use(require("chai-subset"))
+
+export function mkdirp(dir: string) {
+  return mkdir(dir, { recursive: true })
+}
 
 // Tests should be quiet unless LOG is set
 setLogger(
