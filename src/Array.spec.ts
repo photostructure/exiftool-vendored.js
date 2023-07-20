@@ -1,4 +1,4 @@
-import { compact, filterInPlace, shallowArrayEql, uniq } from "./Array"
+import { compact, filterInPlace, shallowArrayEql, sortBy, uniq } from "./Array"
 import { times } from "./Times"
 import { expect } from "./_chai.spec"
 
@@ -11,11 +11,6 @@ describe("Array", () => {
         false,
         "",
       ])
-    })
-  })
-  describe("times()", () => {
-    it("returns the mapped result", () => {
-      expect(times(5, String)).to.eql(["0", "1", "2", "3", "4"])
     })
   })
 
@@ -62,5 +57,30 @@ describe("Array", () => {
         expect(shallowArrayEql(a as any, b as any)).to.eql(exp)
       })
     }
+  })
+
+  describe("sortBy", () => {
+    const arr = Object.freeze([
+      { s: "a", i: 0 },
+      { s: "b", i: 1 },
+      { s: "c", i: 2 },
+      { s: "d", i: 0 },
+      { s: "e", i: 1 },
+      { s: "f", i: 2 },
+      { s: "g", i: 0 },
+      { s: "h", i: 1 },
+      { s: "i", i: 2 },
+    ])
+
+    it("maintains sort order", () => {
+      // This will error if it tries to mutate, as it's frozen:
+      const result = sortBy(arr, (ea) => ea.i)
+      expect(arr.map((ea) => ea.s).join("")).to.eql("abcdefghi")
+      expect(result.map((ea) => ea.s).join("")).to.eql("adgbehcfi")
+    })
+    it("sorts case as expected", () => {
+      const result = sortBy(["a", "b", "Aa", "Bb", "aa", "bb"], (ea) => ea)
+      expect(result).to.eql(["a", "aa", "Aa", "b", "bb", "Bb"])
+    })
   })
 })
