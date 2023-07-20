@@ -1,7 +1,8 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
   "cSpell.words": [
-    "exiftool's"
+    "exiftool's",
+    "noexif"
   ],
   "cSpell.ignoreWords": [
     "automagick",

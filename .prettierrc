@@ -1,4 +1,8 @@
 {
   "semi": false,
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "trailingComma": "es5",
+  "plugins": [
+    "prettier-plugin-organize-imports"
+  ]
 }
