@@ -24,6 +24,10 @@ export interface FileTags {
   BMPVersion?: string
   /** ☆☆☆☆ ✔ Example: 24 */
   BitDepth?: number
+  /** ★★★★ ✔ Example: 8 */
+  BitsPerSample?: number
+  /** ★★★★ ✔ Example: 3 */
+  ColorComponents?: number
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
   Comment?: string
   /** ☆☆☆☆ ✔ Example: "MJPG" */
@@ -32,11 +36,13 @@ export interface FileTags {
   CurrentIPTCDigest?: string
   /** ★★★★ ✔ Example: "/home/username/pictures" */
   Directory?: string
-  /** ★★★★ ✔ Example: "2023:05:10 10:11:03-07:00" */
+  /** ★★★★ ✔ Example: "Progressive DCT, Huffman coding" */
+  EncodingProcess?: string
+  /** ★★★★ ✔ Example: "2023:07:20 11:21:09-07:00" */
   FileAccessDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2023:04:13 09:42:48-07:00" */
+  /** ★★★★ ✔ Example: "2023:07:19 21:21:02-07:00" */
   FileInodeChangeDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2023:03:31 04:43:29-07:00" */
+  /** ★★★★ ✔ Example: "2023:07:19 21:21:02-07:00" */
   FileModifyDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "utc+8_oly.jpg" */
   FileName?: string
@@ -70,6 +76,8 @@ export interface FileTags {
   Planes?: number
   /** ☆☆☆☆ ✔ Example: "(Binary data 315546 bytes, use -b option to extract)" */
   PreviewImage?: BinaryField
+  /** ★★★★ ✔ Example: "YCbCr4:4:4 (1 1)" */
+  YCbCrSubSampling?: string
 }
 
 export interface CompositeTags {
@@ -206,7 +214,7 @@ export interface APP1Tags {
   CreatorSoftware?: string
   /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
   DateTimeGenerated?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 275008 bytes, use -b option to extract)" */
   EmbeddedImage?: BinaryField | string
   /** ☆☆☆☆   Example: 960 */
   EmbeddedImageHeight?: number
@@ -531,8 +539,6 @@ export interface EXIFTags {
   BaselineExposure?: number
   /** ☆☆☆☆ ✔ Example: 1.5 */
   BaselineSharpness?: number
-  /** ☆☆☆☆ ✔ Example: "8 8 8" */
-  BitsPerSample?: string
   /** ☆☆☆☆ ✔ Example: 528 */
   BlackLevel?: number
   /** ☆☆☆☆ ✔ Example: 130 */
@@ -563,8 +569,6 @@ export interface EXIFTags {
   Copyright?: string
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
   CreateDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "Unknown (5840)" */
-  CustomRendered?: string
   /** ☆☆☆☆ ✔ Example: "1.3.0.0" */
   DNGBackwardVersion?: string
   /** ☆☆☆☆ ✔ Example: "1.6.0.0" */
@@ -589,8 +593,6 @@ export interface EXIFTags {
   ExifImageHeight?: number
   /** ★★★★ ✔ Example: 999 */
   ExifImageWidth?: number
-  /** ★☆☆☆ ✔ Example: 83 */
-  ExposureIndex?: number
   /** ★★★★ ✔ Example: "Unknown (DSC)" */
   FileSource?: string
   /** ☆☆☆☆ ✔ Example: 54 */
@@ -649,7 +651,7 @@ export interface EXIFTags {
   ImageNumber?: number
   /** ☆☆☆☆ ✔ Example: "fa5fdfee65f3a6e05fe7d4692b9112a7" */
   ImageUniqueID?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 571392 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -861,8 +863,6 @@ export interface EXIFTags {
   XPTitle?: string
   /** ☆☆☆☆ ✔ Example: "0.299 0.587 0.114" */
   YCbCrCoefficients?: string
-  /** ☆☆☆☆ ✔ Example: "YCbCr4:2:2 (2 1)" */
-  YCbCrSubSampling?: string
 }
 
 export interface APP6Tags {
@@ -1086,7 +1086,7 @@ export interface QuickTimeTags {
   AndroidVideoTemporalLayersCount?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8 */
   AudioBitsPerSample?: number
-  /** ☆☆☆☆ ✔ Example: 2 */
+  /** ☆☆☆☆ ✔ Example: 3 */
   AudioChannels?: number
   /** ☆☆☆☆ ✔ Example: "sowt" */
   AudioFormat?: string
@@ -1110,9 +1110,11 @@ export interface QuickTimeTags {
   CompatibleBrands?: string[]
   /** ☆☆☆☆ ✔ Example: "jpeg" */
   CompressorID?: string
+  /** ☆☆☆☆ ✔ Example: "Photo - JPEG" */
+  CompressorName?: string
   /** ☆☆☆☆ ✔ Example: "Track 1" */
   ContentDescribes?: string
-  /** ☆☆☆☆ ✔ Example: "2022:02:12 14:31:16-08:00" */
+  /** ☆☆☆☆ ✔ Example: "2023:06:11 14:30:35+01:00" */
   CreationDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "0 s" */
   CurrentTime?: string
@@ -1120,6 +1122,8 @@ export interface QuickTimeTags {
   EncodedPixelsDimensions?: string
   /** ☆☆☆☆ ✔ Example: "Helvetica" */
   FontName?: string
+  /** ☆☆☆☆ ✔ Example: "51 deg 6' 13.32" N, 0 deg 52' 23.52" W, 99.22 m Above Sea Level" */
+  GPSCoordinates?: string
   /** ☆☆☆☆ ✔ Example: "srcCopy" */
   GraphicsMode?: string
   /** ☆☆☆☆ ✔ Example: "Data Handler" */
@@ -1128,8 +1132,6 @@ export interface QuickTimeTags {
   HandlerDescription?: string
   /** ☆☆☆☆ ✔ Example: "Metadata Tags" */
   HandlerType?: string
-  /** ☆☆☆☆ ✔ Example: "Panasonic" */
-  HandlerVendorID?: string
   /** ☆☆☆☆ ✔ Example: 4.798027 */
   LocationAccuracyHorizontal?: number
   /** ☆☆☆☆ ✔ Example: "MP4 v2 [ISO 14496-14]" */
@@ -1138,7 +1140,7 @@ export interface QuickTimeTags {
   MatrixCoefficients?: string
   /** ☆☆☆☆ ✔ Example: "1 0 0 0 1 0 0 0 1" */
   MatrixStructure?: string
-  /** ☆☆☆☆ ✔ Example: "2022:02:12 22:31:16" */
+  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:35" */
   MediaCreateDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: 98304 */
   MediaDataOffset?: number
@@ -1148,7 +1150,7 @@ export interface QuickTimeTags {
   MediaDuration?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   MediaHeaderVersion?: number
-  /** ☆☆☆☆ ✔ Example: "2022:02:12 22:31:25" */
+  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:46" */
   MediaModifyDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: 8000 */
   MediaTimeScale?: number
@@ -1204,7 +1206,7 @@ export interface QuickTimeTags {
   TimeCode?: number
   /** ☆☆☆☆ ✔ Example: 90000 */
   TimeScale?: number
-  /** ☆☆☆☆ ✔ Example: "2022:02:12 22:31:16" */
+  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:35" */
   TrackCreateDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: 9.5095 */
   TrackDuration?: number
@@ -1214,7 +1216,7 @@ export interface QuickTimeTags {
   TrackID?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   TrackLayer?: number
-  /** ☆☆☆☆ ✔ Example: "2022:02:12 22:31:25" */
+  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:46" */
   TrackModifyDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "0.00%" */
   TrackVolume?: string
@@ -1506,8 +1508,6 @@ export interface MakerNotesTags {
   AddAspectRatioInfo?: string
   /** ☆☆☆☆ ✔ Example: "Disable" */
   AddIPTCInformation?: string
-  /** ☆☆☆☆ ✔ Example: "On" */
-  AddOriginalDecisionData?: string
   /** ☆☆☆☆   Example: "X3F Setting Mode" */
   AdjustmentMode?: string
   /** ☆☆☆☆ ✔ Example: 9 */
@@ -1988,6 +1988,8 @@ export interface MakerNotesTags {
   CrossProcess?: string
   /** ☆☆☆☆ ✔ Example: "P-STUDIO" */
   CustomPictureStyleFileName?: string
+  /** ☆☆☆☆   Example: "Scene: NORMAL" */
+  CustomRendered?: string
   /** ☆☆☆☆ ✔ Example: "CS3 (min CS0, max CS4)" */
   CustomSaturation?: string
   /** ☆☆☆☆ ✔ Example: "No" */
@@ -2010,7 +2012,7 @@ export interface MakerNotesTags {
   DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -2082,8 +2084,6 @@ export interface MakerNotesTags {
   DynamicRange?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   DynamicRangeBoost?: string
-  /** ☆☆☆☆ ✔ Example: "On; Enabled; 0; 0" */
-  DynamicRangeExpansion?: string
   /** ☆☆☆☆ ✔ Example: "Standard" */
   DynamicRangeOptimizer?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -2654,7 +2654,7 @@ export interface MakerNotesTags {
   ImageGeneration?: string
   /** ☆☆☆☆   Example: 912 */
   ImageIDNumber?: number
-  /** ☆☆☆☆ ✔ Example: "Vivid" */
+  /** ☆☆☆☆ ✔ Example: "Normal" */
   ImageOptimization?: string
   /** ☆☆☆☆ ✔ Example: "Red Eye Ruduction ;" */
   ImageProcessing?: string
@@ -2738,6 +2738,10 @@ export interface MakerNotesTags {
   JpgRecordedPixels?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   KeystoneCompensation?: string
+  /** ☆☆☆☆ ✔ Example: "Vertical" */
+  KeystoneDirection?: string
+  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  KeystoneValue?: string
   /** ☆☆☆☆   Example: "SKodakCommonInfo Jaguar7" */
   KodakInfoType?: string
   /** ☆☆☆☆   Example: "Kodak                           " */
@@ -2876,8 +2880,6 @@ export interface MakerNotesTags {
   LockMicrophoneButton?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   LongExposureNRUsed?: string
-  /** ★☆☆☆ ✔ Example: "n/a" */
-  LongExposureNoiseReduction?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   LowLightAF?: string
   /** ☆☆☆☆ ✔ Example: 0.010031249 */
@@ -2886,6 +2888,8 @@ export interface MakerNotesTags {
   LuminanceNoiseReduction?: string
   /** ☆☆☆☆   Example: 0 */
   M16CVersion?: number
+  /** ☆☆☆☆ ✔ Example: "Bulgaria" */
+  MCCData?: string
   /** ☆☆☆☆ ✔ Example: 99 */
   MCUVersion?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -3052,8 +3056,8 @@ export interface MakerNotesTags {
   MonochromeToning?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   MonochromeVignetting?: number
-  /** ☆☆☆☆   Example: "12:19" */
-  MonthDayCreated?: string
+  /** ☆☆☆☆   Example: "11:13" */
+  MonthDayCreated?: ExifDate | string
   /** ☆☆☆☆   Example: "Old Crescent" */
   MoonPhase?: string
   /** ☆☆☆☆   Example: 100 */
@@ -3132,7 +3136,7 @@ export interface MakerNotesTags {
   NDFilter?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (0 2)" */
   NeutralDensityFilter?: string
@@ -3319,7 +3323,7 @@ export interface MakerNotesTags {
   /** ☆☆☆☆ ✔ Example: "External Power Supply" */
   PowerSource?: string
   /** ☆☆☆☆ ✔ Example: "2021:11:29 16:08:27" */
-  PowerUpTime?: string
+  PowerUpTime?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "On" */
   PreAF?: string
   /** ☆☆☆☆ ✔ Example: 3.2996109 */
@@ -3488,12 +3492,6 @@ export interface MakerNotesTags {
   Roll?: number
   /** ☆☆☆☆ ✔ Example: 90 */
   RollAngle?: number
-  /** ☆☆☆☆ ✔ Example: 0 */
-  RunTimeEpoch?: number
-  /** ☆☆☆☆ ✔ Example: "Valid" */
-  RunTimeFlags?: string
-  /** ☆☆☆☆ ✔ Example: 1000000000 */
-  RunTimeScale?: number
   /** ☆☆☆☆ ✔ Example: 987823130000000 */
   RunTimeValue?: number
   /** ☆☆☆☆ ✔ Example: "sRAW2 (sRAW)" */
@@ -3842,7 +3840,7 @@ export interface MakerNotesTags {
   ToneCurve?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
   ToneCurveMatching?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1505 bytes, use -b option to extract)" */
   ToneCurveTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   ToningEffect?: string
@@ -3962,7 +3960,7 @@ export interface MakerNotesTags {
   WhiteBalanceSet?: string
   /** ☆☆☆☆ ✔ Example: "Custom 1" */
   WhiteBalanceSetting?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 2201 bytes, use -b option to extract)" */
   WhiteBalanceTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceTemperature?: string
@@ -4531,8 +4529,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.62 on Wed May 10 2023.
- * 3076 unique tags were found in 10085 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.62 on Thu Jul 20 2023.
+ * 3077 unique tags were found in 10090 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
