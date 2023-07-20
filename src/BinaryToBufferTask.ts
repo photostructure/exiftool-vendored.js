@@ -9,7 +9,10 @@ import { notBlank } from "./String"
  * everything seems to have worked.
  */
 export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
-  private constructor(readonly tagname: string, args: string[]) {
+  private constructor(
+    readonly tagname: string,
+    args: string[]
+  ) {
     super(args)
   }
 

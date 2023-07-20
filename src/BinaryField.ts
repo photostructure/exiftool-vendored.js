@@ -7,7 +7,10 @@ const BinaryFieldRE =
   /Binary.*? (\d+) bytes/i
 
 export class BinaryField {
-  constructor(readonly bytes: number, readonly rawValue: string) {}
+  constructor(
+    readonly bytes: number,
+    readonly rawValue: string
+  ) {}
 
   toJSON() {
     return {
