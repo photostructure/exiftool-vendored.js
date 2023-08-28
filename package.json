@@ -97,7 +97,7 @@
     "serve": "^14.2.0",
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.1",
-    "typedoc": "^0.24.8",
+    "typedoc": "^0.25.0",
     "typescript": "^5.1.6",
     "xpath": "^0.0.33"
   },
