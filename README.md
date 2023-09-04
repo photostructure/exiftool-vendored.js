@@ -288,15 +288,6 @@ ExifTool has an [extensive user configuration system](http://owl.phy.queensu.ca/
 new ExifTool({ exiftoolEnv: { EXIFTOOL_HOME: resolve("path", "to", "config", "dir") }
 ```
 
-## This package requires `procps`.
-
-The default `BatchClusterOptions.cleanupChildProcs` value of `true` means that BatchCluster, which is used to manage child `exiftool` processes, will try to use `ps` to ensure Node's view of process state are correct, and that errant
-processes are cleaned up.
-
-If you run this in a docker image based on Alpine or Debian Slim, **this won't work properly unless you install the `procps` package.**
-
-[See `batch-cluster` for details.](https://github.com/photostructure/batch-cluster.js/issues/13)
-
 ## Resource hygiene
 
 **Call `ExifTool.end()` when you're done**
