@@ -153,6 +153,13 @@ export interface ExifToolOptions
   ignoreShebang: boolean
 
   /**
+   * Should we check for a readable and executable `perl` file in $PATH? This
+   * defaults to false on Windows, and true everywhere else. Set this to false
+   * if you know perl is installed.
+   */
+  checkPerl: boolean
+
+  /**
    * Override the default geo-to-timezone lookup service.
    *
    * This defaults to `@photostructure/tz-lookup`, but if you have the

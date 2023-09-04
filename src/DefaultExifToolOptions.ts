@@ -5,6 +5,7 @@ import { ExifToolOptions } from "./ExifToolOptions"
 import { DefaultExifToolPath } from "./FindExiftool"
 import { geoTz } from "./GeoTz"
 import { isIgnorableWarning } from "./IgnorableError"
+import { isWin32 } from "./IsWin32"
 import { Omit } from "./Omit"
 import { VersionTask } from "./VersionTask"
 
@@ -28,6 +29,7 @@ export const DefaultExifToolOptions: Omit<
   exiftoolPath: DefaultExifToolPath,
   exiftoolArgs: DefaultExiftoolArgs,
   exiftoolEnv: {},
+  checkPerl: !isWin32(),
   pass: "{ready}",
   fail: "{ready}",
   exitCommand: "-stay_open\nFalse\n",

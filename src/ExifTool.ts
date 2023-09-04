@@ -55,6 +55,7 @@ import {
 } from "./Tags"
 import { Version } from "./Version"
 import { VersionTask } from "./VersionTask"
+import { which } from "./Which"
 import { WriteTags } from "./WriteTags"
 import { WriteTask, WriteTaskOptions } from "./WriteTask"
 
@@ -474,6 +475,17 @@ export class ExifTool {
     return this.batchCluster.ended
   }
 
+  readonly #checkForPerl = lazy(async () => {
+    if (this.options.checkPerl) {
+      const perl = await which("perl")
+      if (perl == null) {
+        throw new Error(
+          "ExifTool requires perl. Please install perl and try again."
+        )
+      }
+    }
+  })
+
   /**
    * Most users will not need to use `enqueueTask` directly. This method
    * supports submitting custom `BatchCluster` tasks.
@@ -485,6 +497,7 @@ export class ExifTool {
     retriable = true
   ): Promise<T> {
     const f = async () => {
+      await this.#checkForPerl()
       const t = await task()
       // if we have to add more options for every task, rethink this approach:
       t.isIgnorableError = this.options.isIgnorableError
