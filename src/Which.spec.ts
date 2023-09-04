@@ -6,7 +6,7 @@ if (!isWin32()) {
   describe("Which", () => {
     it("finds perl", async () => {
       const act = await which("perl")
-      expect(act).to.match(/^(\/usr)?\/bin\/perl$/)
+      expect(act).to.match(/^(\/usr(\/local)?)?\/bin\/perl$/)
     })
     it("finds node", async () => {
       const act = await which("node")
