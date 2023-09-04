@@ -26,6 +26,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v22.2.0
+
+- ✨ Add support for zone extraction from `ExifDateTime`, `ExifTime`, `number[]`, and `number` fields.
+
+- 📦 Improve type signature of `extractTzOffsetFromTags`.
+
 ### v22.1.0
 
 - 🌱 ExifTool upgraded to [v12.65](https://exiftool.org/history.html#v12.65)
@@ -41,12 +47,12 @@ vendored versions of ExifTool match the version that they vendor.
 - 🌱 ExifTool upgraded to [v12.62](https://exiftool.org/history.html#v12.62)
 
 - 🐞 Fix exports for DefaultExifToolOptions and several other non-type values. Thanks for the [bug report, renambot!](https://github.com/photostructure/exiftool-vendored.js/issues/144)
- 
+
 ### v21.5.1
 
 - 📦 Avoid double-rendering of ImageDataMD5 (Thanks, Phil! See [forum post for details](https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218))
- 
-- 📦 Pull down new camera test images, rebuild Tags and docs 
+
+- 📦 Pull down new camera test images, rebuild Tags and docs
 
 ### v21.5.0
 
