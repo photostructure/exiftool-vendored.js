@@ -26,6 +26,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v22.1.0
+
+- 🌱 ExifTool upgraded to [v12.65](https://exiftool.org/history.html#v12.65)
+
+- ✨ Add support for new `ImageDataHash` tag: [See the docs for details](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#imageHashType).
+
+- 🐞 `perl` is checked for on non-windows machines at startup. This resolves [#152](https://github.com/photostructure/exiftool-vendored.js/issues/152). You can disable this with the [new `checkPerl` option](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#checkPerl).
+
 ### v22.0.0
 
 - 🏚️ Drop support for Node 14, which EOL'ed 2023-04-30
