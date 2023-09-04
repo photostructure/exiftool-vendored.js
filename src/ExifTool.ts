@@ -10,7 +10,7 @@ import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
-import { ExifToolOptions } from "./ExifToolOptions"
+import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { IgnorableError } from "./IgnorableError"
@@ -187,10 +187,11 @@ export class ExifTool {
         "Please update caller to the new ExifTool constructor API"
       )
     }
-    const o = {
+    const o = handleDeprecatedOptions({
       ...DefaultExifToolOptions,
       ...options,
-    }
+    })
+
     const ignoreShebang = o.ignoreShebang ?? _ignoreShebang()
 
     const env: NodeJS.ProcessEnv = { ...o.exiftoolEnv, LANG: "C" }
@@ -260,7 +261,7 @@ export class ExifTool {
           this.options,
           "numericTags",
           "useMWG",
-          "includeImageDataMD5",
+          "imageHashType",
           "defaultVideosToUTC",
           "geoTz"
         ),

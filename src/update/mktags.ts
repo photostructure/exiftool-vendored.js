@@ -222,7 +222,6 @@ const exiftool = new ExifTool({
   // if we use straight defaults, we're load-testing those defaults.
   streamFlushMillis: 2,
   minDelayBetweenSpawnMillis: 0,
-  includeImageDataMD5: true,
   // maxTasksPerProcess: 100, // < uncomment to verify proc wearing works
 })
 
@@ -732,6 +731,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
         'import { ICCProfileTags } from "./ICCProfileTags"',
+        'import { ImageDataHashTag } from "./ImageDataHashTag"',
         'import { ResourceEvent } from "./ResourceEvent"',
         'import { Struct } from "./Struct"',
         'import { Version } from "./Version"',
@@ -783,6 +783,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     const interfaceNames = [
       ...tagGroups.map((s) => s + "Tags"),
       "ApplicationRecordTags",
+      "ImageDataHashTag",
       "ICCProfileTags",
     ].sort()
     tagWriter.write(

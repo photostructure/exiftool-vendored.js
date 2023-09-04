@@ -6,6 +6,7 @@ import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
+import { handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { firstDateTime } from "./FirstDateTime"
@@ -45,6 +46,7 @@ export const DefaultReadTaskOptions = {
     "numericTags",
     "useMWG",
     "includeImageDataMD5",
+    "imageHashType",
     "defaultVideosToUTC",
     "backfillTimezones",
     "inferTimezoneFromDatestamps",
@@ -81,7 +83,10 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   static for(filename: string, options: Partial<ReadTaskOptions>): ReadTask {
-    const opts: ReadTaskOptions = { ...DefaultReadTaskOptions, ...options }
+    const opts: ReadTaskOptions = handleDeprecatedOptions({
+      ...DefaultReadTaskOptions,
+      ...options,
+    })
     const sourceFile = _path.resolve(filename)
     const args = [
       ...Utf8FilenameCharsetArgs,
@@ -92,9 +97,10 @@ export class ReadTask extends ExifToolTask<Tags> {
     if (opts.useMWG) {
       args.push("-use", "MWG")
     }
-    if (opts.includeImageDataMD5) {
+    if (opts.imageHashType != null && opts.imageHashType !== false) {
       // See https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218
-      args.push("-api", "requesttags=imagedatamd5")
+      args.push("-api", "requesttags=imagedatahash")
+      args.push("-api", "imagehashtype=" + opts.imageHashType)
     }
     // IMPORTANT: "-all" must be after numeric tag references, as the first
     // reference in wins

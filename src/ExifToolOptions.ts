@@ -99,16 +99,21 @@ export interface ExifToolOptions
   numericTags: string[]
 
   /**
-   * If set to true, ExifTool will attempt to calculate an "ImageDataMD5" tag
-   * value with the MD5 checksum of image data.
+   * If defined, ExifTool will attempt to calculate an "ImageDataHash" tag
+   * value with a checksum of image data.
    *
-   * Note that as of 2022-04-12, ExifTool supports JPEG, PNG, and many raw
-   * image formats, like CR2 and NEF. It doesn't yet support HEIC/HEIF, ORF,
-   * GIF, and many video formats, like MP4 and MTS.
+   * Note that as of 2022-04-12, ExifTool supports JPEG, TIFF, PNG, CRW, CR3,
+   * MRW, RAF, X3F, IIQ, JP2, JXL, HEIC and AVIF images, MOV/MP4 videos, and
+   * some RIFF-based files such as AVI, WAV and WEBP.
    *
-   * This defaults to false, as it adds ~20ms of overhead to every read
+   * This defaults to undefined, as it adds ~20ms of overhead to every read
    */
-  includeImageDataMD5: boolean
+  imageHashType: false | "MD5" | "SHA256" | "SHA512"
+
+  /**
+   * @deprecated Use `imageHashType` instead.
+   */
+  includeImageDataMD5: boolean | undefined
 
   /**
    * Video file dates are assumed to be in UTC, rather than using timezone
@@ -188,4 +193,13 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * @return true if the error should be ignored
    */
   isIgnorableError: IgnorableError
+}
+
+export function handleDeprecatedOptions<
+  T extends Pick<ExifToolOptions, "includeImageDataMD5" | "imageHashType">,
+>(options: T): T {
+  if (options.imageHashType == null && options.includeImageDataMD5 != null) {
+    options.imageHashType = options.includeImageDataMD5 ? "MD5" : false
+  }
+  return options
 }

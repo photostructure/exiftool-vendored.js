@@ -45,7 +45,8 @@ export const DefaultExifToolOptions: Omit<
     "GPSPosition",
     "Orientation",
   ],
-  includeImageDataMD5: false,
+  includeImageDataMD5: undefined,
+  imageHashType: false,
   defaultVideosToUTC: true,
   backfillTimezones: false, // to retain prior behavior
   inferTimezoneFromDatestamps: false, // to retain prior behavior

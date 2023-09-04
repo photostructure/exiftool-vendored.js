@@ -116,25 +116,6 @@ describe("ReadTask", () => {
       expect(gpsdt.zoneName).to.eql("UTC")
     })
 
-    describe("includeImageDataMD5", () => {
-      const file = join(testDir, "with_thumb.jpg")
-      it("true", async () => {
-        const t = await exiftool.read(file, undefined, {
-          includeImageDataMD5: true,
-        })
-        expect(t).to.haveOwnProperty(
-          "ImageDataMD5",
-          "5617def2642dbd90ab6a2d4f185d7850"
-        )
-      })
-      it("false", async () => {
-        const t = await exiftool.read(file, undefined, {
-          includeImageDataMD5: false,
-        })
-        expect(t).to.not.haveOwnProperty("ImageDataMD5")
-      })
-    })
-
     describe("without *Ref fields", () => {
       for (const latSign of [1, -1]) {
         for (const lonSign of [1, -1]) {
@@ -148,6 +129,33 @@ describe("ReadTask", () => {
         }
       }
     })
+  })
+
+  describe("imageHashType", () => {
+    const file = join(testDir, "with_thumb.jpg")
+    for (const { imageHashType, hash } of [
+      { imageHashType: false, hash: undefined },
+      { imageHashType: "MD5", hash: "5617def2642dbd90ab6a2d4f185d7850" },
+      {
+        imageHashType: "SHA256",
+        hash: "5e91b8878501fb77075df22d4056f27e74c4aad8869bcdd2c1cce673b5f23a8d",
+      },
+      {
+        imageHashType: "SHA512",
+        hash: "12c4205a228bfba8a77e0da0c4b02dcd381eb15eb06f460781999fd7bc3db2f07f16b0e3a145dfbe68868ee2086e7c47e5b3315bab5146b3f49e7db3d65e1178",
+      },
+    ] as const) {
+      it(JSON.stringify({ imageHashType }), async () => {
+        const t = await exiftool.read(file, undefined, {
+          imageHashType,
+        })
+        if (hash == null) {
+          expect(t).to.not.haveOwnProperty("ImageDataHash")
+        } else {
+          expect(t).to.haveOwnProperty("ImageDataHash", hash)
+        }
+      })
+    }
   })
 
   describe("date and time parsing", () => {

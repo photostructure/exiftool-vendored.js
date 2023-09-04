@@ -4,6 +4,7 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ICCProfileTags } from "./ICCProfileTags"
+import { ImageDataHashTag } from "./ImageDataHashTag"
 import { ResourceEvent } from "./ResourceEvent"
 import { Struct } from "./Struct"
 import { Version } from "./Version"
@@ -13,7 +14,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 12.62 */
+  /** ★★★★ ✔ Example: 12.65 */
   ExifToolVersion?: number
   /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */
   Warning?: string
@@ -38,7 +39,7 @@ export interface FileTags {
   Directory?: string
   /** ★★★★ ✔ Example: "Progressive DCT, Huffman coding" */
   EncodingProcess?: string
-  /** ★★★★ ✔ Example: "2023:07:20 11:21:09-07:00" */
+  /** ★★★★ ✔ Example: "2023:09:03 21:51:50-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2023:07:19 21:21:02-07:00" */
   FileInodeChangeDate?: ExifDateTime | string
@@ -214,7 +215,7 @@ export interface APP1Tags {
   CreatorSoftware?: string
   /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
   DateTimeGenerated?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "(Binary data 275008 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
   EmbeddedImage?: BinaryField | string
   /** ☆☆☆☆   Example: 960 */
   EmbeddedImageHeight?: number
@@ -593,8 +594,6 @@ export interface EXIFTags {
   ExifImageHeight?: number
   /** ★★★★ ✔ Example: 999 */
   ExifImageWidth?: number
-  /** ★★★★ ✔ Example: "Unknown (DSC)" */
-  FileSource?: string
   /** ☆☆☆☆ ✔ Example: 54 */
   FlashEnergy?: number
   /** ★★★★ ✔ Example: "99.7 mm" */
@@ -651,7 +650,7 @@ export interface EXIFTags {
   ImageNumber?: number
   /** ☆☆☆☆ ✔ Example: "fa5fdfee65f3a6e05fe7d4692b9112a7" */
   ImageUniqueID?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 453632 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -717,6 +716,8 @@ export interface EXIFTags {
   PageName?: string
   /** ☆☆☆☆ ✔ Example: "0350" */
   PanasonicRawVersion?: string
+  /** ☆☆☆☆   Example: 0 */
+  Photographer?: number
   /** ☆☆☆☆ ✔ Example: "YCbCr" */
   PhotometricInterpretation?: string
   /** ☆☆☆☆ ✔ Example: "Chunky" */
@@ -825,12 +826,14 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
   /** ☆☆☆☆ ✔ Example: 1 */
   TimeZoneOffset?: number | string
+  /** ☆☆☆☆   Example: 0 */
+  Title?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 3636 bytes, use -b option to extract)" */
   TransferFunction?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "motorola XT1254" */
@@ -911,7 +914,7 @@ export interface FlashPixTags {
   ExtensionName?: string
   /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
   ExtensionPersistence?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46285 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 57881 bytes, use -b option to extract)" */
   ScreenNail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   UsedExtensionNumbers?: number
@@ -1356,6 +1359,8 @@ export interface MakerNotesTags {
   AFAreaIllumination?: string
   /** ★★★☆ ✔ Example: "Zone AF" */
   AFAreaMode?: string
+  /** ☆☆☆☆ ✔ Example: "Wide" */
+  AFAreaModeSetting?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   AFAreaPointSize?: string
   /** ☆☆☆☆ ✔ Example: "AF area selection button" */
@@ -1904,6 +1909,8 @@ export interface MakerNotesTags {
   CompressionFactor?: number
   /** ☆☆☆☆ ✔ Example: 8 */
   CompressionRatio?: number
+  /** ☆☆☆☆ ✔ Example: "FFCBAC24-E547-4BBC-AF47-38B1A3D845E3" */
+  ContentIdentifier?: string
   /** ☆☆☆☆ ✔ Example: "Low" */
   ContinuousBracketing?: string
   /** ★★☆☆ ✔ Example: "Unknown (11)" */
@@ -2012,7 +2019,7 @@ export interface MakerNotesTags {
   DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -2214,8 +2221,6 @@ export interface MakerNotesTags {
   FaceDetectArea?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "0 26 640 428 0 26 640 428 0 0 0 0" */
   FaceDetectFrameCrop?: string
-  /** ★☆☆☆ ✔ Example: "720 480" */
-  FaceDetectFrameSize?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   FaceDetection?: string
   /** ☆☆☆☆ ✔ Example: "918 1058 1959 2101" */
@@ -2248,6 +2253,8 @@ export interface MakerNotesTags {
   FileNumberMemory?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   FileNumberSequence?: string
+  /** ☆☆☆☆ ✔ Example: "APS_H" */
+  FileSource?: string
   /** ☆☆☆☆ ✔ Example: "Enable" */
   FillFlashAutoReduction?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -2888,7 +2895,7 @@ export interface MakerNotesTags {
   LuminanceNoiseReduction?: string
   /** ☆☆☆☆   Example: 0 */
   M16CVersion?: number
-  /** ☆☆☆☆ ✔ Example: "Bulgaria" */
+  /** ☆☆☆☆ ✔ Example: "Bulgaria (284)" */
   MCCData?: string
   /** ☆☆☆☆ ✔ Example: 99 */
   MCUVersion?: number
@@ -2954,8 +2961,6 @@ export interface MakerNotesTags {
   MeasuredRGGBData?: string
   /** ☆☆☆☆ ✔ Example: 7 */
   MechanicalShutterCount?: number
-  /** ☆☆☆☆ ✔ Example: "FFCBAC24-E547-4BBC-AF47-38B1A3D845E3" */
-  MediaGroupUUID?: string
   /** ☆☆☆☆ ✔ Example: "SD card in use, MemoryStick slot empty" */
   MemoryCardConfiguration?: string
   /** ☆☆☆☆ ✔ Example: 1 */
@@ -3056,7 +3061,7 @@ export interface MakerNotesTags {
   MonochromeToning?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   MonochromeVignetting?: number
-  /** ☆☆☆☆   Example: "11:13" */
+  /** ☆☆☆☆   Example: "03:15" */
   MonthDayCreated?: ExifDate | string
   /** ☆☆☆☆   Example: "Old Crescent" */
   MoonPhase?: string
@@ -3256,6 +3261,8 @@ export interface MakerNotesTags {
   PhaseDetectAF?: string
   /** ☆☆☆☆ ✔ Example: "Vivid" */
   PhotoEffect?: string
+  /** ☆☆☆☆ ✔ Example: "F7248739-9D7D-45ED-8B0C-63530491EEA8" */
+  PhotoIdentifier?: string
   /** ☆☆☆☆ ✔ Example: "Info Up-down, Playback Left-right" */
   PhotoInfoPlayback?: string
   /** ☆☆☆☆ ✔ Example: "A" */
@@ -3534,8 +3541,6 @@ export interface MakerNotesTags {
   SceneMode?: string
   /** ☆☆☆☆   Example: "Unknown (9)" */
   SceneModeUsed?: string
-  /** ☆☆☆☆ ✔ Example: "Unrecognized" */
-  SceneRecognition?: string
   /** ☆☆☆☆   Example: "User 1" */
   SceneSelect?: string
   /** ☆☆☆☆ ✔ Example: "On" */
@@ -3556,7 +3561,7 @@ export interface MakerNotesTags {
   SelfTimerShotCount?: number
   /** ☆☆☆☆ ✔ Example: "1 s" */
   SelfTimerShotInterval?: string
-  /** ☆☆☆☆ ✔ Example: {"0":1,"1":0,"2":0,"3":0} */
+  /** ☆☆☆☆ ✔ Example: {"_0":1,"_1":0,"_2":0,"_3":0} */
   SemanticStyle?: Struct
   /** ☆☆☆☆ ✔ Example: true */
   SemanticStylePreset?: boolean
@@ -3834,13 +3839,11 @@ export interface MakerNotesTags {
   TimeZoneInfo?: number
   /** ☆☆☆☆ ✔ Example: "Disable; 6 s: 6; 16 s: 16; After release: 2" */
   TimerLength?: string
-  /** ☆☆☆☆ ✔ Example: "" */
-  Title?: string
   /** ☆☆☆☆ ✔ Example: "Standard" */
   ToneCurve?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
   ToneCurveMatching?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1505 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
   ToneCurveTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   ToningEffect?: string
@@ -3960,7 +3963,7 @@ export interface MakerNotesTags {
   WhiteBalanceSet?: string
   /** ☆☆☆☆ ✔ Example: "Custom 1" */
   WhiteBalanceSetting?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2201 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
   WhiteBalanceTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceTemperature?: string
@@ -4529,8 +4532,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.62 on Thu Jul 20 2023.
- * 3077 unique tags were found in 10090 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.65 on Sun Sep 03 2023.
+ * 3079 unique tags were found in 10090 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
@@ -4547,6 +4550,7 @@ export interface Tags
     FlashPixTags,
     ICCProfileTags,
     IPTCTags,
+    ImageDataHashTag,
     JFIFTags,
     MPFTags,
     MakerNotesTags,
