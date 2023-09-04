@@ -176,10 +176,6 @@ contains your user configuration.</li>
 </ol>
 <pre><code class="language-js"><span class="hl-3">new</span><span class="hl-0"> </span><span class="hl-5">ExifTool</span><span class="hl-0">({ </span><span class="hl-1">exiftoolEnv:</span><span class="hl-0"> { </span><span class="hl-1">EXIFTOOL_HOME:</span><span class="hl-0"> </span><span class="hl-5">resolve</span><span class="hl-0">(</span><span class="hl-6">&quot;path&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;to&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;config&quot;</span><span class="hl-0">, </span><span class="hl-6">&quot;dir&quot;</span><span class="hl-0">) }</span>
 </code><button>Copy</button></pre>
-<a id="md:this-package-requires-procps" class="tsd-anchor"></a><h2><a href="#md:this-package-requires-procps">This package requires <code>procps</code>.</a></h2><p>The default <code>BatchClusterOptions.cleanupChildProcs</code> value of <code>true</code> means that BatchCluster, which is used to manage child <code>exiftool</code> processes, will try to use <code>ps</code> to ensure Node&#39;s view of process state are correct, and that errant
-processes are cleaned up.</p>
-<p>If you run this in a docker image based on Alpine or Debian Slim, <strong>this won&#39;t work properly unless you install the <code>procps</code> package.</strong></p>
-<p><a href="https://github.com/photostructure/batch-cluster.js/issues/13">See <code>batch-cluster</code> for details.</a></p>
 <a id="md:resource-hygiene" class="tsd-anchor"></a><h2><a href="#md:resource-hygiene">Resource hygiene</a></h2><p><strong>Call <code>ExifTool.end()</code> when you&#39;re done</strong></p>
 <p>You must explicitly call
 <a href="https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#end"><code>.end()</code></a>
@@ -334,7 +330,6 @@ very fast disk IO, you may see a speed increase with larger values of
 <li><a href="#md:always-beware-timezones"><span>Always <wbr/>Beware: <wbr/>Timezones</span></a></li>
 <li><a href="#md:rewriting-tags"><span>Rewriting tags</span></a></li>
 <li><a href="#md:exiftool-configuration-support-exiftool_config"><span>Exif<wbr/>Tool configuration support (.<wbr/>Exif<wbr/>Tool_<wbr/>config)</span></a></li></ul></li>
-<li><a href="#md:this-package-requires-procps"><span>This package requires procps.</span></a></li>
 <li><a href="#md:resource-hygiene"><span>Resource hygiene</span></a></li>
 <li>
 <ul>
