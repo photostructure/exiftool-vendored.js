@@ -1,5 +1,6 @@
 import { Info } from "luxon"
 import { expect } from "./_chai.spec"
+import { ExifDateTime } from "./ExifDateTime"
 import {
   extractOffset,
   extractTzOffsetFromTags,
@@ -25,7 +26,7 @@ describe("Timezones", () => {
       expect(extractOffset("UTC-00:01")).to.eql(undefined)
     })
   })
-  describe("extractOffsetMinutes", () => {
+  describe("extractOffset()", () => {
     function ozn(tz: string) {
       return {
         tz,
@@ -55,6 +56,12 @@ describe("Timezones", () => {
         tz: "UTC-" + s,
         exp: ozn(exp.replace("+", "-")),
       })),
+      {
+        tz: ExifDateTime.fromEXIF("2014:07:19 12:05:19-09:00"),
+        exp: { tz: "UTC-9", src: "ExifDateTime" },
+      },
+      { tz: 3, exp: { tz: "UTC+3", src: "hourOffset" } },
+      { tz: -10, exp: { tz: "UTC-10", src: "hourOffset" } },
     ]
 
     for (const { tz, exp } of ex) {
