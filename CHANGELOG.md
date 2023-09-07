@@ -26,6 +26,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v22.2.1
+
+- 🐞 `ExifTime` now properly rejects invalid `SubSecTime`, `SubSecTimeOriginal`, ... values of "0" or "00".
+
 ### v22.2.0
 
 - ✨ Add support for zone extraction from `ExifDateTime`, `ExifTime`, `number[]`, and `number` fields.

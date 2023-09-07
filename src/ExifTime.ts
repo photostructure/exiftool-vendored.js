@@ -2,13 +2,18 @@ import { DateTime } from "luxon"
 import { first, map, Maybe } from "./Maybe"
 import { blank, pad2, pad3, toS } from "./String"
 
+// Reject times whose raw value is "0" or "00". TODO: We may want to reject
+// "00:00", but midnight is a valid time--we'd have to reject 00:00 only if we
+// could be certain this photo wasn't taken exactly at midnight.
+const onlyZerosRE = /^0+$/
+
 /**
  * Encodes an ExifTime (which may not have a timezone offset)
  */
 export class ExifTime {
   static fromEXIF(text: string): Maybe<ExifTime> {
-    if (blank(text)) return
     text = toS(text).trim()
+    if (blank(text) || onlyZerosRE.test(text)) return
     return first(
       ["HH:mm:ss.uZZ", "HH:mm:ssZZ", "HH:mm:ss.u", "HH:mm:ss"],
       (fmt) =>
