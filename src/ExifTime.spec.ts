@@ -42,7 +42,19 @@ describe("ExifTime", () => {
   })
 
   describe("rejects invalid raw values", () => {
-    for (const ea of [null, undefined, "", " ", "0", "00", "a"]) {
+    for (const ea of [
+      null,
+      undefined,
+      "",
+      " ",
+      "0",
+      "00",
+      "01",
+      "02",
+      "0001",
+      "1958",
+      "a",
+    ]) {
       it(`rejects ${JSON.stringify(ea)}`, () => {
         expect(ExifTime.fromEXIF(ea as any)).to.eql(undefined)
       })

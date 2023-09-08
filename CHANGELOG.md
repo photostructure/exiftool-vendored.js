@@ -26,6 +26,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v22.2.3
+
+- 🐞 Apply the v22.2.3 bugfix _even wider_ (just found a `SubSecTime` value of "01" in the wild, and it was happily parsed into today's date, oops).
+
 ### v22.2.2
 
 - 🐞 Apply the v22.2.1 bugfix wider: we now reject parsing any date-ish or time-ish value that matches `/^0+$/`.

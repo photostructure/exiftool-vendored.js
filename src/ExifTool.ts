@@ -437,7 +437,7 @@ export class ExifTool {
    * be lost in the process.
    *
    * This should only be applied as a last resort to images whose metadata is
-   * not readable via {@link .read()}.
+   * not readable via {@link ExifTool.read()}.
    *
    * @see https://exiftool.org/faq.html#Q20
    *

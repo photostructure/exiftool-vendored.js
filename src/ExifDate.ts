@@ -1,8 +1,11 @@
 import { DateTime } from "luxon"
 
 import { HourMs, validDateTime } from "./DateTime"
-import { Maybe, first, firstDefinedThunk, map } from "./Maybe"
+import { Maybe, firstDefinedThunk } from "./Maybe"
 import { blank, pad2, toS } from "./String"
+
+const StrictExifRE = /^\d+:\d+:\d+|\d+-\d+-\d+$/
+const LooseExifRE = /^\S+\s+\S+\s+\S+$/
 
 /**
  * Encodes an ExifDate
@@ -17,15 +20,21 @@ export class ExifDate {
     )
   }
   static fromISO(text: string): Maybe<ExifDate> {
-    return this.fromDateTime(DateTime.fromISO(text), text)
+    return StrictExifRE.test(toS(text).trim())
+      ? this.fromDateTime(DateTime.fromISO(text), text)
+      : undefined
   }
 
   private static fromPatterns(text: string, fmts: string[]) {
     if (blank(text)) return
     text = toS(text).trim()
-    return first(fmts, (fmt) =>
-      map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt, text))
-    )
+    for (const fmt of fmts) {
+      const dt = DateTime.fromFormat(text, fmt)
+      if (validDateTime(dt)) {
+        return this.fromDateTime(dt, text)
+      }
+    }
+    return
   }
 
   // These are all formats I've seen in the wild from exiftool's output.
@@ -35,11 +44,17 @@ export class ExifDate {
   // chance of misinterpreting a given value.
 
   static fromExifStrict(text: string): Maybe<ExifDate> {
-    return this.fromPatterns(text, ["y:MM:dd", "y-MM-dd", "y:M:d"])
+    return StrictExifRE.test(toS(text).trim())
+      ? this.fromPatterns(text, ["y:MM:dd", "y-MM-dd", "y:M:d"])
+      : undefined
   }
 
   static fromExifLoose(text: string): Maybe<ExifDate> {
-    return this.fromPatterns(text, ["MMM d y", "MMMM d y"])
+    // Unfortunately, Luxon parses "00" and "01" as _today_. So if we don't
+    // three non-blank strings parts, reject.
+    return LooseExifRE.test(toS(text).trim())
+      ? this.fromPatterns(text, ["MMM d y", "MMMM d y"])
+      : undefined
   }
 
   static fromEXIF(text: string): Maybe<ExifDate> {

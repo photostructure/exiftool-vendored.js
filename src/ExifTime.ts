@@ -1,5 +1,6 @@
 import { DateTime } from "luxon"
-import { first, map, Maybe } from "./Maybe"
+import { validDateTime } from "./DateTime"
+import { Maybe } from "./Maybe"
 import { blank, pad2, pad3, toS } from "./String"
 
 /**
@@ -9,17 +10,22 @@ export class ExifTime {
   static fromEXIF(text: string): Maybe<ExifTime> {
     text = toS(text).trim()
     if (blank(text)) return
-    return first(
-      ["HH:mm:ss.uZZ", "HH:mm:ssZZ", "HH:mm:ss.u", "HH:mm:ss"],
-      (fmt) =>
-        map(DateTime.fromFormat(text, fmt), (dt) => this.fromDateTime(dt, text))
-    )
+    for (const fmt of [
+      "HH:mm:ss.uZZ",
+      "HH:mm:ssZZ",
+      "HH:mm:ss.u",
+      "HH:mm:ss",
+    ]) {
+      const result = this.fromDateTime(DateTime.fromFormat(text, fmt), text)
+      if (result != null) return result
+    }
+    return
   }
 
   static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifTime> {
-    return dt == null || !dt.isValid
-      ? undefined
-      : new ExifTime(dt.hour, dt.minute, dt.second, dt.millisecond, rawValue)
+    return validDateTime(dt)
+      ? new ExifTime(dt.hour, dt.minute, dt.second, dt.millisecond, rawValue)
+      : undefined
   }
 
   constructor(
