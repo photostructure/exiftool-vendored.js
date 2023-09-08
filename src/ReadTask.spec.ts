@@ -14,6 +14,7 @@ import {
 import { hms } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
 import { defaultVideosToUTC, ExifTime, ExifTool } from "./ExifTool"
+import { omit } from "./Object"
 import { ReadTask, ReadTaskOptions } from "./ReadTask"
 import { Tags } from "./Tags"
 
@@ -181,6 +182,13 @@ describe("ReadTask", () => {
           })
           it("rejects a string timestamp", () => {
             const exp = "Off"
+            const tags: any = {}
+            tags[key] = exp
+            const t = parse({ tags }) as any
+            expect(t[key]).to.equal(exp)
+          })
+          it("rejects a 00 timestamp", () => {
+            const exp = "00"
             const tags: any = {}
             tags[key] = exp
             const t = parse({ tags }) as any
@@ -392,13 +400,17 @@ describe("ReadTask", () => {
     })
 
     it("skips invalid timestamps", () => {
-      const t = parse({
-        tags: {
-          DateTimeOriginal: "2016:08:12 13:28:50",
-          GPSDateTime: "not a timestamp",
-        },
-      })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(undefined)
+      const expected = {
+        DateTimeOriginal: "2016:08:12 13:28:50",
+        GPSDateTime: "not a timestamp",
+        SubSecTime: "00",
+        SubSecTimeOriginal: "00",
+        SubSecTimeDigitized: "00",
+      }
+      const t = parse({ tags: expected })
+      expect(t).containSubset(omit(expected, "DateTimeOriginal"))
+      expect(t.DateTimeOriginal).to.be.instanceOf(ExifDateTime)
+      expect(t.DateTimeOriginal?.toString()).to.eql("2016-08-12T13:28:50")
       expect(t.tz).to.eql(undefined)
       expect(t.tzSource).to.eql(undefined)
     })

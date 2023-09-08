@@ -13,6 +13,7 @@ import { firstDateTime } from "./FirstDateTime"
 import { lazy } from "./Lazy"
 import { Maybe, firstDefinedThunk, map } from "./Maybe"
 import { toFloat } from "./Number"
+import { OnlyZerosRE } from "./OnlyZerosRE"
 import { pick } from "./Pick"
 import { blank, isString, toS } from "./String"
 import { Tags } from "./Tags"
@@ -350,7 +351,12 @@ export class ReadTask extends ExifToolTask<Tags> {
         const b = BinaryField.fromRawValue(value)
         if (b != null) return b
 
-        if (MaybeDateOrTimeRe.test(tagName)) {
+        if (
+          MaybeDateOrTimeRe.test(tagName) &&
+          // Reject date/time keys that are "0" or "00" (found in Canon
+          // SubSecTime values)
+          !OnlyZerosRE.test(value)
+        ) {
           const utc_tz_override = isUtcTagName(tagName) || this.#defaultToUTC()
           const tz = utc_tz_override ? "UTC" : this.tz
 
