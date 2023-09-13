@@ -8,13 +8,13 @@ import { expect, randomChars } from "./_chai.spec"
 describe("ExifDateTime", () => {
   for (const ea of [
     {
-      desc: "no tzoffset or UTC suffix",
+      desc: "no zone suffix",
       exif: "2016:09:12 07:28:50.768120",
       exifExp: "2016:09:12 07:28:50.768",
       iso: "2016-09-12T07:28:50.768",
       d: {
         hasZone: false,
-        zone: undefined,
+        zoneName: undefined,
         year: 2016,
         month: 9,
         day: 12,
@@ -25,13 +25,13 @@ describe("ExifDateTime", () => {
       },
     },
     {
-      desc: "with UTC suffix",
+      desc: "with zulu suffix",
       exif: "1999:01:02 03:04:05.67890Z",
       exifExp: "1999:01:02 03:04:05.678+00:00",
       iso: "1999-01-02T03:04:05.678Z",
       d: {
         hasZone: true,
-        zone: "UTC",
+        zoneName: "UTC",
         year: 1999,
         month: 1,
         day: 2,
@@ -44,7 +44,7 @@ describe("ExifDateTime", () => {
     {
       desc: "with timezone offset",
       exif: "2002:10:11 13:14:15.789-03:00",
-      iso: "2002-10-11 13:14:15.789-03:00",
+      iso: "2002-10-11 13:14:15.789-03:00", // < no T!
       isoExp: "2002-10-11T13:14:15.789-03:00",
       d: {
         hasZone: true,
@@ -60,11 +60,9 @@ describe("ExifDateTime", () => {
     },
     {
       desc: "with no tzoffset and UTC default",
-      exif: ExifDateTime.fromEXIF(
-        "2011:01:23 18:19:20",
-        "UTC"
-      )!.toExifString()!,
-      iso: ExifDateTime.fromISO("2011-01-23T18:19:20", "UTC")!.toISOString()!,
+      exif: "2011:01:23 18:19:20Z",
+      iso: "2011-01-23T18:19:20Z",
+      exifExp: "2011:01:23 18:19:20+00:00",
       d: {
         hasZone: true,
         zoneName: "UTC",
@@ -84,7 +82,7 @@ describe("ExifDateTime", () => {
       iso: "2016-08-12T07:28:50.768",
       d: {
         hasZone: false,
-        zone: undefined,
+        zoneName: undefined,
         year: 2016,
         month: 8,
         day: 12,
@@ -151,12 +149,26 @@ describe("ExifDateTime", () => {
   ]) {
     describe(ea.desc + " (iso: " + ea.iso + ")", () => {
       const fromExif = ExifDateTime.fromEXIF(ea.exif)
+      const expected = {
+        ...ea.d,
+        inferredZone: false, // < because the .fromEXIF call doesn't have a default!
+      }
       it("parses from EXIF", () => {
-        expect(fromExif).to.containSubset(ea.d)
+        expect(fromExif).to.containSubset(expected)
+      })
+      it("parses from EXIF with zone default", () => {
+        const edt = ExifDateTime.fromEXIF(ea.exif, "UTC+1")
+        expect(edt).to.haveOwnProperty("inferredZone", !expected.hasZone)
+        expect(edt?.zoneName).to.eql(expected.zoneName ?? "UTC+1")
       })
       const fromISO = ExifDateTime.fromISO(ea.iso)
       it("parses from ISO", () => {
-        expect(fromISO).to.containSubset(ea.d)
+        expect(fromISO).to.containSubset(expected)
+      })
+      it("parses from ISO with zone default", () => {
+        const edt = ExifDateTime.fromISO(ea.iso, "UTC-5")
+        expect(edt).to.haveOwnProperty("inferredZone", !expected.hasZone)
+        expect(edt?.zoneName).to.eql(expected.zoneName ?? "UTC-5")
       })
       const jsDate = new Date(ea.iso)
       it("renders correct epoch millis", () => {

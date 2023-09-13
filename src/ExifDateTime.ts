@@ -50,9 +50,9 @@ export class ExifDateTime {
     // so we have to do this ourselves:
     const patterns = []
     for (const z of [
-      { fmt: "ZZ", zone: undefined },
-      { fmt: "'Z'", zone: "UTC" },
-      { fmt: "", zone: defaultZone },
+      { fmt: "ZZ", zone: undefined, inferredZone: false },
+      { fmt: "'Z'", zone: "UTC", inferredZone: false },
+      { fmt: "", zone: defaultZone, inferredZone: true },
     ]) {
       for (const sep of ["'T'", " "]) {
         for (const timeFmt of TimeFmts) {
@@ -60,6 +60,7 @@ export class ExifDateTime {
             fmt: `y-M-d${sep}${timeFmt.fmt}${z.fmt}`,
             zone: z.zone,
             unsetMilliseconds: timeFmt.unsetMilliseconds,
+            inferredZone: z.inferredZone,
           })
         }
       }
@@ -95,6 +96,7 @@ export class ExifDateTime {
       fmt: string
       zone?: string | Zone | undefined
       unsetMilliseconds?: boolean
+      inferredZone?: boolean
     }[]
   ): Maybe<ExifDateTime> {
     const s = toS(text).trim()
@@ -107,22 +109,33 @@ export class ExifDateTime {
     // Unfortunately, luxon doesn't support regex.
 
     // We only want to strip off the TZA if it isn't "UTC" or "Z"
-    if (null == s.match(/[.\d\s](UTC|Z)$/)) {
+    const zuluSuffix = s.match(/[.\d\s](UTC|Z)$/)
+    if (null == zuluSuffix) {
       const noTza = s.replace(/ [a-z]{2,5}$/i, "")
       if (noTza !== s) inputs.push(noTza)
     }
-    // PERF: unroll first() to avoid creating closures
     for (const input of inputs) {
-      for (const { fmt, zone, unsetMilliseconds } of fmts) {
-        const dt = DateTime.fromFormat(input, fmt, {
+      for (const ea of fmts) {
+        const dt = DateTime.fromFormat(input, ea.fmt, {
           setZone: true,
-          zone: zone ?? UnsetZone,
+          zone: ea.zone ?? UnsetZone,
         })
-        const edt = ExifDateTime.fromDateTime(dt, {
-          rawValue: s,
-          unsetMilliseconds: unsetMilliseconds ?? false,
-        })
-        if (edt != null) return edt
+        if (dt != null && dt.isValid) {
+          const zoneUnset = dt.zone == null || dt.zone === UnsetZone
+          let inferredZone = zoneUnset ? false : ea.inferredZone
+          if (inferredZone == null) {
+            // this is pretty miserable, but luxon doesn't expose how it got
+            // the zone, so we have to resort to this hack:
+            const dt2 = DateTime.fromFormat(input, ea.fmt, { setZone: true })
+            inferredZone = dt.zone !== dt2.zone
+          }
+          const edt = ExifDateTime.fromDateTime(dt, {
+            rawValue: s,
+            unsetMilliseconds: ea.unsetMilliseconds ?? false,
+            inferredZone,
+          })
+          if (edt != null) return edt
+        }
       }
     }
     return
@@ -147,15 +160,16 @@ export class ExifDateTime {
     const patterns = []
 
     for (const z of [
-      { fmt: "ZZ", zone: undefined },
-      { fmt: "'Z'", zone: "UTC" },
-      { fmt: "", zone: defaultZone },
+      { fmt: "ZZ", zone: undefined, inferredZone: false },
+      { fmt: "'Z'", zone: "UTC", inferredZone: false },
+      { fmt: "", zone: defaultZone, inferredZone: true },
     ]) {
       for (const timeFmt of TimeFmts) {
         patterns.push({
           fmt: `y:M:d ${timeFmt.fmt}${z.fmt}`,
           zone: z.zone,
           unsetMilliseconds: timeFmt.unsetMilliseconds,
+          inferredZone: z.inferredZone,
         })
       }
     }
@@ -182,15 +196,19 @@ export class ExifDateTime {
       "ccc MMM d H:m:s y",
     ]
     return this.fromPatterns(text, [
-      ...formats.map((fmt) => ({ fmt: fmt + "ZZ" })),
+      ...formats.map((fmt) => ({ fmt: fmt + "ZZ", inferredZone: false })),
       // And the same formats, without offsets with default zone:
-      ...formats.map((fmt) => ({ fmt, zone })),
+      ...formats.map((fmt) => ({ fmt, zone, inferredZone: true })),
     ])
   }
 
   static fromDateTime(
     dt: Maybe<DateTime>,
-    opts?: { rawValue?: Maybe<string>; unsetMilliseconds?: boolean }
+    opts?: {
+      rawValue?: Maybe<string>
+      unsetMilliseconds?: boolean
+      inferredZone?: Maybe<boolean>
+    }
   ): Maybe<ExifDateTime> {
     if (dt == null || !dt.isValid || dt.year === 0 || dt.year === 1) {
       return undefined
@@ -209,7 +227,8 @@ export class ExifDateTime {
       opts?.rawValue,
       dt.zoneName == null || dt.zone?.name === UnsetZone.name
         ? undefined
-        : dt.zoneName
+        : dt.zoneName,
+      opts?.inferredZone
     )
   }
 
@@ -262,7 +281,8 @@ export class ExifDateTime {
     readonly millisecond?: number,
     readonly tzoffsetMinutes?: number,
     readonly rawValue?: string,
-    readonly zoneName?: string
+    readonly zoneName?: string,
+    readonly inferredZone?: boolean
   ) {}
 
   get millis() {
@@ -370,6 +390,7 @@ export class ExifDateTime {
       tzoffsetMinutes: this.tzoffsetMinutes,
       rawValue: this.rawValue,
       zoneName: this.zoneName,
+      inferredZone: this.inferredZone,
     }
   }
 
@@ -389,7 +410,8 @@ export class ExifDateTime {
       json.millisecond,
       json.tzoffsetMinutes,
       json.rawValue,
-      json.zoneName
+      json.zoneName,
+      json.inferredZone
     )
   }
 
