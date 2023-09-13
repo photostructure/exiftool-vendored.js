@@ -24,7 +24,12 @@
 <div class="tsd-comment tsd-typography"><p>Should we try to backfill timezones for date-times that don&#39;t have them?
 If set to <code>true</code>, and <code>defaultVideosToUTC</code> is also <code>true</code>, we&#39;ll try
 backfilling timezones for date-times that are UTC, as well.</p>
-<p>This defaults to false to retain prior versions&#39; behavior.</p>
+<p>Setting this to <code>false</code> removes <strong>all</strong> timezone inference--only those
+date-times with an explicit offset will have a defined timezone. Prior
+versions of exiftool-vendored would use the file&#39;s <code>.tz</code> as a backstop
+even if this was set to <code>false</code>.</p>
+<p>As of version 23, this now defaults to <code>true</code>, as it&#39;s more likely to be
+what people expect.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li class="tsd-parameter">
@@ -85,7 +90,8 @@ to infer the timezone.</p>
 <p>If these strategies fail, can we infer a timezone from any non-UTC
 datestamp whose tag starts with &quot;Creat&quot; and includes an offset? (This
 means CreateDateSubSec, CreateDate, and CreationDate will be considered).</p>
-<p>This defaults to false to retain prior versions&#39; behavior.</p>
+<p>This defaults to false as it both retains prior behavior and means fewer
+&quot;fuzzy&quot; heuristics are enabled by default.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li class="tsd-parameter">

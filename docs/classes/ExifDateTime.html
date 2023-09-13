@@ -38,6 +38,7 @@
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="ExifDateTime.html#day" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>day</span></a>
 <a href="ExifDateTime.html#hour" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>hour</span></a>
+<a href="ExifDateTime.html#inferredZone" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>inferred<wbr/>Zone?</span></a>
 <a href="ExifDateTime.html#millisecond" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>millisecond?</span></a>
 <a href="ExifDateTime.html#minute" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>minute</span></a>
 <a href="ExifDateTime.html#month" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>month</span></a>
@@ -82,7 +83,7 @@
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_ExifDateTime"><span class="tsd-kind-constructor-signature">new <wbr/>Exif<wbr/>Date<wbr/>Time</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">year</span>, <span class="tsd-kind-parameter">month</span>, <span class="tsd-kind-parameter">day</span>, <span class="tsd-kind-parameter">hour</span>, <span class="tsd-kind-parameter">minute</span>, <span class="tsd-kind-parameter">second</span>, <span class="tsd-kind-parameter">millisecond</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">tzoffsetMinutes</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">rawValue</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">zoneName</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><a href="#constructor.new_ExifDateTime" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_ExifDateTime"><span class="tsd-kind-constructor-signature">new <wbr/>Exif<wbr/>Date<wbr/>Time</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">year</span>, <span class="tsd-kind-parameter">month</span>, <span class="tsd-kind-parameter">day</span>, <span class="tsd-kind-parameter">hour</span>, <span class="tsd-kind-parameter">minute</span>, <span class="tsd-kind-parameter">second</span>, <span class="tsd-kind-parameter">millisecond</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">tzoffsetMinutes</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">rawValue</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">zoneName</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">inferredZone</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><a href="#constructor.new_ExifDateTime" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -106,62 +107,69 @@
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">rawValue</span>: <span class="tsd-signature-type">string</span></h5></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">zoneName</span>: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">zoneName</span>: <span class="tsd-signature-type">string</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">inferredZone</span>: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L255">src/ExifDateTime.ts:255</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L274">src/ExifDateTime.ts:274</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member"><a id="day" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>day</span><a href="#day" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L258">src/ExifDateTime.ts:258</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L277">src/ExifDateTime.ts:277</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="hour" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>hour</span><a href="#hour" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L259">src/ExifDateTime.ts:259</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L278">src/ExifDateTime.ts:278</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="inferredZone" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>inferred<wbr/>Zone</span><a href="#inferredZone" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">inferred<wbr/>Zone</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L285">src/ExifDateTime.ts:285</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="millisecond" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>millisecond</span><a href="#millisecond" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L262">src/ExifDateTime.ts:262</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L281">src/ExifDateTime.ts:281</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="minute" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>minute</span><a href="#minute" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">minute</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L260">src/ExifDateTime.ts:260</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L279">src/ExifDateTime.ts:279</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="month" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>month</span><a href="#month" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">month</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L257">src/ExifDateTime.ts:257</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L276">src/ExifDateTime.ts:276</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="rawValue" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>raw<wbr/>Value</span><a href="#rawValue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">raw<wbr/>Value</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L264">src/ExifDateTime.ts:264</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L283">src/ExifDateTime.ts:283</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="second" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>second</span><a href="#second" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">second</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L261">src/ExifDateTime.ts:261</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L280">src/ExifDateTime.ts:280</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="tzoffsetMinutes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>tzoffset<wbr/>Minutes</span><a href="#tzoffsetMinutes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">tzoffset<wbr/>Minutes</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L263">src/ExifDateTime.ts:263</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L282">src/ExifDateTime.ts:282</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="year" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>year</span><a href="#year" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">year</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L256">src/ExifDateTime.ts:256</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L275">src/ExifDateTime.ts:275</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="zoneName" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>zone<wbr/>Name</span><a href="#zoneName" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">zone<wbr/>Name</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L265">src/ExifDateTime.ts:265</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L284">src/ExifDateTime.ts:284</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member"><a id="hasZone" class="tsd-anchor"></a>
@@ -171,7 +179,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L272">src/ExifDateTime.ts:272</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L292">src/ExifDateTime.ts:292</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="isValid" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Valid</span><a href="#isValid" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -179,7 +187,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L356">src/ExifDateTime.ts:356</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L376">src/ExifDateTime.ts:376</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="millis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>millis</span><a href="#millis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -187,7 +195,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L268">src/ExifDateTime.ts:268</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L288">src/ExifDateTime.ts:288</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="zone" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>zone</span><a href="#zone" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -195,7 +203,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L276">src/ExifDateTime.ts:276</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L296">src/ExifDateTime.ts:296</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="maybeMatchZone" class="tsd-anchor"></a>
@@ -212,7 +220,7 @@
 <h5><span class="tsd-kind-parameter">maxDeltaMs</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = ...</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L396">src/ExifDateTime.ts:396</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L418">src/ExifDateTime.ts:418</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="plus" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>plus</span><a href="#plus" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -225,7 +233,7 @@
 <h5><span class="tsd-kind-parameter">duration</span>: <span class="tsd-signature-type ">DurationLike</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L423">src/ExifDateTime.ts:423</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L445">src/ExifDateTime.ts:445</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="setZone" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Zone</span><a href="#setZone" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -240,7 +248,7 @@
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">opts</span>: <span class="tsd-signature-type ">ZoneOptions</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L280">src/ExifDateTime.ts:280</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L300">src/ExifDateTime.ts:300</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toDate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Date</span><a href="#toDate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -248,7 +256,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Date</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L324">src/ExifDateTime.ts:324</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L344">src/ExifDateTime.ts:344</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toDateTime" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Date<wbr/>Time</span><a href="#toDateTime" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -260,7 +268,7 @@ has an unset zone</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">DateTime</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L303">src/ExifDateTime.ts:303</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L323">src/ExifDateTime.ts:323</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toEpochSeconds" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Epoch<wbr/>Seconds</span><a href="#toEpochSeconds" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -268,7 +276,7 @@ has an unset zone</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L320">src/ExifDateTime.ts:320</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L340">src/ExifDateTime.ts:340</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toExifString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Exif<wbr/>String</span><a href="#toExifString" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -276,7 +284,7 @@ has an unset zone</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L338">src/ExifDateTime.ts:338</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L358">src/ExifDateTime.ts:358</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toISOString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>toISOString</span><a href="#toISOString" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -289,13 +297,13 @@ has an unset zone</p>
 <h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">ToISOTimeOptions</span><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L328">src/ExifDateTime.ts:328</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L348">src/ExifDateTime.ts:348</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toJSON" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>toJSON</span><a href="#toJSON" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="toJSON.toJSON-1"><span class="tsd-kind-call-signature">toJSON</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">_ctor</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">minute</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">month</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">second</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tzoffsetMinutes</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">year</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">zoneName</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><a href="#toJSON.toJSON-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="toJSON.toJSON-1"><span class="tsd-kind-call-signature">toJSON</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">_ctor</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">inferredZone</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">minute</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">month</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">second</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tzoffsetMinutes</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">year</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">zoneName</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><a href="#toJSON.toJSON-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">_ctor</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">minute</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">month</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">second</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tzoffsetMinutes</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">year</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">zoneName</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h4>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">_ctor</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">inferredZone</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">minute</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">month</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">second</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tzoffsetMinutes</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">year</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">zoneName</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h4>
 <ul class="tsd-parameters">
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">_ctor</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li>
@@ -303,6 +311,8 @@ has an unset zone</p>
 <h5><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li>
+<li class="tsd-parameter">
+<h5><span class="tsd-kind-property">inferred<wbr/>Zone</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h5></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5></li>
 <li class="tsd-parameter">
@@ -320,7 +330,7 @@ has an unset zone</p>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">zone<wbr/>Name</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L360">src/ExifDateTime.ts:360</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L380">src/ExifDateTime.ts:380</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toMillis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Millis</span><a href="#toMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -330,7 +340,7 @@ has an unset zone</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L352">src/ExifDateTime.ts:352</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L372">src/ExifDateTime.ts:372</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>String</span><a href="#toString" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -338,7 +348,7 @@ has an unset zone</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L345">src/ExifDateTime.ts:345</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L365">src/ExifDateTime.ts:365</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="from" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from</span><a href="#from" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -365,15 +375,17 @@ has an unset zone</p>
 <li>
 <h5><span class="tsd-kind-parameter">dt</span>: <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type ">DateTime</span><span class="tsd-signature-symbol">&gt;</span></h5></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">opts</span>: <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">?: </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">unsetMilliseconds</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h5>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">opts</span>: <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">inferredZone</span><span class="tsd-signature-symbol">?: </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">?: </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">unsetMilliseconds</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h5>
 <ul class="tsd-parameters">
+<li class="tsd-parameter">
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-property">inferred<wbr/>Zone</span><span class="tsd-signature-symbol">?: </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h5></li>
 <li class="tsd-parameter">
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-property">raw<wbr/>Value</span><span class="tsd-signature-symbol">?: </span><a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5></li>
 <li class="tsd-parameter">
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-property">unset<wbr/>Milliseconds</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L191">src/ExifDateTime.ts:191</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L205">src/ExifDateTime.ts:205</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="fromEXIF" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>fromEXIF</span><a href="#fromEXIF" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -401,7 +413,7 @@ and a time component, returns <code>undefined</code>.</p>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L80">src/ExifDateTime.ts:80</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L81">src/ExifDateTime.ts:81</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="fromExifLoose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>Exif<wbr/>Loose</span><a href="#fromExifLoose" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -416,7 +428,7 @@ and a time component, returns <code>undefined</code>.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">defaultZone</span>: <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L171">src/ExifDateTime.ts:171</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L185">src/ExifDateTime.ts:185</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="fromExifStrict" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>Exif<wbr/>Strict</span><a href="#fromExifStrict" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -444,7 +456,7 @@ sub-seconds and/or timezone)</p>
 <h4 class="tsd-returns-title">Returns <a href="../types/Maybe.html" class="tsd-signature-type tsd-kind-type-alias">Maybe</a><span class="tsd-signature-symbol">&lt;</span><a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L142">src/ExifDateTime.ts:142</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L155">src/ExifDateTime.ts:155</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="fromISO" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>fromISO</span><a href="#fromISO" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -469,12 +481,12 @@ sub-seconds and/or timezone)</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">json</span>: <span class="tsd-signature-type ">Omit</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">_ctor</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">minute</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">month</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">second</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tzoffsetMinutes</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">year</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">zoneName</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;_ctor&quot;</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">json</span>: <span class="tsd-signature-type ">Omit</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">_ctor</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">day</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">hour</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">inferredZone</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">millisecond</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">minute</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">month</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">second</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">tzoffsetMinutes</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">year</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">zoneName</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;_ctor&quot;</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a></h4><p>a new ExifDateTime from the given JSON. Note that this instance <strong>may not be valid</strong>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L379">src/ExifDateTime.ts:379</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L400">src/ExifDateTime.ts:400</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="fromMillis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>Millis</span><a href="#fromMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -496,7 +508,7 @@ sub-seconds and/or timezone)</p>
 <h4 class="tsd-returns-title">Returns <a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L228">src/ExifDateTime.ts:228</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L247">src/ExifDateTime.ts:247</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="now" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>now</span><a href="#now" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -509,7 +521,7 @@ sub-seconds and/or timezone)</p>
 <h5><span class="tsd-kind-parameter">opts</span>: <span class="tsd-signature-type ">DateTimeJSOptions</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">rawValue</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ExifDateTime.html" class="tsd-signature-type tsd-kind-class">ExifDateTime</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L249">src/ExifDateTime.ts:249</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifDateTime.ts#L268">src/ExifDateTime.ts:268</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -531,6 +543,7 @@ sub-seconds and/or timezone)</p>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
 <li><a href="#day" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>day</span></a></li>
 <li><a href="#hour" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>hour</span></a></li>
+<li><a href="#inferredZone" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>inferred<wbr/>Zone</span></a></li>
 <li><a href="#millisecond" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>millisecond</span></a></li>
 <li><a href="#minute" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>minute</span></a></li>
 <li><a href="#month" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>month</span></a></li>

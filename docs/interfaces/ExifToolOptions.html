@@ -78,11 +78,16 @@
 <div class="tsd-comment tsd-typography"><p>Should we try to backfill timezones for date-times that don&#39;t have them?
 If set to <code>true</code>, and <code>defaultVideosToUTC</code> is also <code>true</code>, we&#39;ll try
 backfilling timezones for date-times that are UTC, as well.</p>
-<p>This defaults to false to retain prior versions&#39; behavior.</p>
+<p>Setting this to <code>false</code> removes <strong>all</strong> timezone inference--only those
+date-times with an explicit offset will have a defined timezone. Prior
+versions of exiftool-vendored would use the file&#39;s <code>.tz</code> as a backstop
+even if this was set to <code>false</code>.</p>
+<p>As of version 23, this now defaults to <code>true</code>, as it&#39;s more likely to be
+what people expect.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L133">src/ExifToolOptions.ts:133</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L139">src/ExifToolOptions.ts:139</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="checkPerl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>check<wbr/>Perl</span><a href="#checkPerl" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">check<wbr/>Perl</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -92,7 +97,7 @@ if you know perl is installed.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L165">src/ExifToolOptions.ts:165</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L172">src/ExifToolOptions.ts:172</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="cleanupChildProcs" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>cleanup<wbr/>Child<wbr/>Procs</span><a href="#cleanupChildProcs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">cleanup<wbr/>Child<wbr/>Procs</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -209,7 +214,7 @@ resources, consider using <code>geo-tz</code> for more accurate results.</p>
 </ul>
 </div></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L184">src/ExifToolOptions.ts:184</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L191">src/ExifToolOptions.ts:191</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="healthCheckCommand" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>health<wbr/>Check<wbr/>Command</span><a href="#healthCheckCommand" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">health<wbr/>Check<wbr/>Command</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div>
@@ -246,7 +251,7 @@ situations. Note also that <code>perl</code> will be spawned in a sub-shell.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L158">src/ExifToolOptions.ts:158</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L165">src/ExifToolOptions.ts:165</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="imageHashType" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>image<wbr/>Hash<wbr/>Type</span><a href="#imageHashType" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">image<wbr/>Hash<wbr/>Type</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MD5&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SHA256&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SHA512&quot;</span></div>
@@ -276,11 +281,12 @@ to infer the timezone.</p>
 <p>If these strategies fail, can we infer a timezone from any non-UTC
 datestamp whose tag starts with &quot;Creat&quot; and includes an offset? (This
 means CreateDateSubSec, CreateDate, and CreationDate will be considered).</p>
-<p>This defaults to false to retain prior versions&#39; behavior.</p>
+<p>This defaults to false as it both retains prior behavior and means fewer
+&quot;fuzzy&quot; heuristics are enabled by default.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L145">src/ExifToolOptions.ts:145</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L152">src/ExifToolOptions.ts:152</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="isIgnorableError" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Ignorable<wbr/>Error</span><a href="#isIgnorableError" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">is<wbr/>Ignorable<wbr/>Error</span><span class="tsd-signature-symbol">:</span> <a href="IgnorableError.html" class="tsd-signature-type tsd-kind-interface">IgnorableError</a></div>
@@ -292,7 +298,7 @@ means CreateDateSubSec, CreateDate, and CreationDate will be considered).</p>
 <h4>Returns</h4><p>true if the error should be ignored</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L195">src/ExifToolOptions.ts:195</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L202">src/ExifToolOptions.ts:202</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="logger" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>logger</span><a href="#logger" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">logger</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Logger</span><span class="tsd-signature-symbol">)</span></div>
