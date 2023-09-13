@@ -86,7 +86,7 @@ function tzHourToOffset(n: any): Maybe<string> {
 }
 
 const utcTzRe = /(?:UTC)?(?<sign>[+-]?)(?<hours>\d\d?)(?::(?<minutes>\d\d))?/
-const timestampTzRe = /(?<sign>[+-])(?<hours>\d\d?):(?<minutes>\d\d)$/
+const timestampTzRe = /(?<sign>[+-]?)(?<hours>\d\d?)(?::(?<minutes>\d\d))$/
 
 export interface TzSrc {
   tz: string
@@ -180,7 +180,9 @@ export function extractTzOffsetFromTags(
     ...TimezoneOffsetTagnames,
     ...(opts?.inferTimezoneFromDatestamps ?? false ? CreateDateTagnames : []),
   ] as const) {
-    if (t[tagName] != null) {
+    // don't adopt FileCreateDate or FileModifyDate offsets--those are just
+    // the system timezone:
+    if (t[tagName] != null && !tagName.startsWith("File")) {
       const offset = extractOffset(t[tagName])
       if (offset != null) {
         return { tz: offset.tz, src: tagName }
