@@ -594,6 +594,54 @@ describe("ReadTask", () => {
             errors: [],
           })
         })
+
+        it("Timezone from CreateDate and GPS (issue #156)", () => {
+          // see https://github.com/photostructure/exiftool-vendored.js/issues/156
+          const t = parse({
+            tags: {
+              // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/sad.MOV
+              MIMEType: "video/mp4",
+              FileModifyDate: "2022:10:26 16:56:17-07:00",
+              FileAccessDate: "2023:09:13 11:44:02-07:00",
+              FileInodeChangeDate: "2023:09:13 11:44:02-07:00",
+              CreateDate: "2021:09:06 17:44:16",
+              ModifyDate: "2021:09:06 17:44:16",
+              TrackCreateDate: "2021:09:06 17:44:16",
+              TrackModifyDate: "2021:09:06 17:44:16",
+              MediaCreateDate: "2021:09:06 17:44:16",
+              MediaModifyDate: "2021:09:06 17:44:16",
+              GPSCoordinates: "33.3531 -111.8628",
+              GPSLatitude: 33.3531,
+              GPSLongitude: -111.8628,
+              GPSPosition: "33.3531 -111.8628",
+            },
+            defaultVideosToUTC: false,
+            backfillTimezones: true,
+          })
+
+          const tz = "America/Phoenix"
+          expect(t).to.containSubset({
+            MIMEType: "video/mp4",
+            tz,
+            tzSource: "GPSLatitude/GPSLongitude",
+          })
+
+          const createDate: ExifDateTime = t.CreateDate as ExifDateTime
+          expect(createDate.zoneName).to.eql(tz)
+
+          // note the 17:00 hour from the source is not changed by inheriting
+          // the TZ from the GPS location:
+          const iso = "2021-09-06T17:44:16-07:00"
+
+          expect(renderTagsWithISO(t)).to.containSubset({
+            CreateDate: iso,
+            ModifyDate: iso,
+            TrackCreateDate: iso,
+            TrackModifyDate: iso,
+            MediaCreateDate: iso,
+            MediaModifyDate: iso,
+          })
+        })
       })
 
       it("defaults video without offset to UTC", () => {
