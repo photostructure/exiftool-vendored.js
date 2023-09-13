@@ -15,6 +15,7 @@ import { hms } from "./DateTime"
 import { ExifDateTime } from "./ExifDateTime"
 import { defaultVideosToUTC, ExifTime, ExifTool } from "./ExifTool"
 import { omit } from "./Object"
+import { pick } from "./Pick"
 import { ReadTask, ReadTaskOptions } from "./ReadTask"
 import { Tags } from "./Tags"
 
@@ -435,212 +436,183 @@ describe("ReadTask", () => {
 
     // https://github.com/photostructure/exiftool-vendored.js/issues/113
     describe("timezone parsing", () => {
-      for (const MIMEType of ["image/jpeg", "video/mp4"]) {
-        describe(JSON.stringify({ MIMEType }), () => {
-          it("handles explicit GMT with explicit offset", () => {
-            const t = parse({
-              tags: {
-                MIMEType,
-                TimeZone: "+00:00",
-                CreateDate: "2020:08:03 08:00:19-07:00",
-                SubSecCreateDate: "2020:08:03 15:00:19.01+00:00",
-                DateTimeOriginal: "2020:08:03 15:00:19",
-                TimeStamp: "2020:08:03 15:00:19.01",
-              },
-            })
-            expect(renderTagsWithISO(t)).to.eql({
-              MIMEType,
-              CreateDate: "2020-08-03T08:00:19-07:00",
-              SubSecCreateDate: "2020-08-03T15:00:19.010Z",
-              DateTimeOriginal: "2020-08-03T15:00:19Z",
-              TimeStamp: "2020-08-03T15:00:19.010Z",
-
-              tz: "UTC",
-              tzSource: "TimeZone",
-              TimeZone: "+00:00",
-
-              errors: [],
-            })
-          })
-        })
+      const input = {
+        TimeZone: "+00:00",
+        CreateDate: "2020:08:03 08:00:19-07:00",
+        SubSecCreateDate: "2020:08:03 15:00:19.01+00:00",
+        DateTimeOriginal: "2020:08:03 15:00:19",
+        TimeStamp: "2020:08:03 15:00:19.01",
       }
-      describe("iPhone MOV with only CreationDate offset", () => {
-        // https://github.com/photostructure/exiftool-vendored.js/issues/151
-        it("Timezone from CreationDate with no GPS", () => {
-          const t = renderTagsWithISO(
-            parse({
-              tags: {
-                // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/sad.MOV
-                MIMEType: "video/quicktime",
-                FileModifyDate: "2023:07:19 15:38:32-07:00",
-                FileAccessDate: "2023:07:19 15:38:42-07:00",
-                FileInodeChangeDate: "2023:07:19 15:38:42-07:00",
-                CreateDate: "2023:06:11 13:30:35",
-                ModifyDate: "2023:06:11 13:30:46",
-                TrackCreateDate: "2023:06:11 13:30:35",
-                TrackModifyDate: "2023:06:11 13:30:46",
-                MediaCreateDate: "2023:06:11 13:30:35",
-                MediaModifyDate: "2023:06:11 13:30:46",
-                // iPhone 14 Pro renders MOV with only the CreationDate
-                // containing a value offset (!!) -- so the other dates _are
-                // actually in UTC_, not local time (!!!!)
-                CreationDate: "2023:06:11 14:30:35+01:00",
-              },
-              inferTimezoneFromDatestamps: false,
-              backfillTimezones: false,
-            })
-          )
-          expect(t).to.eql({
-            errors: [],
-            tz: "UTC",
-            tzSource: "defaultVideosToUTC",
-            MIMEType: "video/quicktime",
-            FileModifyDate: "2023-07-19T15:38:32-07:00",
-            FileAccessDate: "2023-07-19T15:38:42-07:00",
-            FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
-            CreateDate: "2023-06-11T13:30:35Z",
-            ModifyDate: "2023-06-11T13:30:46Z",
-            TrackCreateDate: "2023-06-11T13:30:35Z",
-            TrackModifyDate: "2023-06-11T13:30:46Z",
-            MediaCreateDate: "2023-06-11T13:30:35Z",
-            MediaModifyDate: "2023-06-11T13:30:46Z",
-            CreationDate: "2023-06-11T14:30:35+01:00",
-          })
+      it("handles explicit GMT with explicit offset for image/jpeg", () => {
+        const MIMEType = "image/jpeg"
+        const t = parse({
+          tags: {
+            MIMEType,
+            ...input,
+          },
         })
-        it("Timezone from CreationDate with no GPS and new inferTimezoneFromDatestamps", () => {
-          const t = renderTagsWithISO(
-            parse({
-              tags: {
-                // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/sad.MOV
-                MIMEType: "video/quicktime",
-                FileModifyDate: "2023:07:19 15:38:32-07:00",
-                FileAccessDate: "2023:07:19 15:38:42-07:00",
-                FileInodeChangeDate: "2023:07:19 15:38:42-07:00",
-                CreateDate: "2023:06:11 13:30:35",
-                ModifyDate: "2023:06:11 13:30:46",
-                TrackCreateDate: "2023:06:11 13:30:35",
-                TrackModifyDate: "2023:06:11 13:30:46",
-                MediaCreateDate: "2023:06:11 13:30:35",
-                MediaModifyDate: "2023:06:11 13:30:46",
-                // iPhone 14 Pro renders MOV with only the CreationDate
-                // containing a value offset (!!) -- so the other dates _are
-                // actually in UTC_, not local time (!!!!)
-                CreationDate: "2023:06:11 14:30:35+01:00",
-              },
-              inferTimezoneFromDatestamps: true,
-              backfillTimezones: true,
-            })
-          )
-          expect(t).to.eql({
-            errors: [],
-            tz: "UTC+1",
-            tzSource: "CreationDate",
-            MIMEType: "video/quicktime",
-            FileModifyDate: "2023-07-19T15:38:32-07:00",
-            FileAccessDate: "2023-07-19T15:38:42-07:00",
-            FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
-            CreateDate: "2023-06-11T14:30:35+01:00",
-            ModifyDate: "2023-06-11T14:30:46+01:00",
-            TrackCreateDate: "2023-06-11T14:30:35+01:00",
-            TrackModifyDate: "2023-06-11T14:30:46+01:00",
-            MediaCreateDate: "2023-06-11T14:30:35+01:00",
-            MediaModifyDate: "2023-06-11T14:30:46+01:00",
-            CreationDate: "2023-06-11T14:30:35+01:00",
-          })
-        })
-        it("Timezone from CreationDate and GPS", () => {
-          const t = renderTagsWithISO(
-            parse({
-              tags: {
-                // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/sad.MOV
-                MIMEType: "video/quicktime",
-                FileModifyDate: "2023:07:19 15:38:32-07:00",
-                FileAccessDate: "2023:07:19 15:38:42-07:00",
-                FileInodeChangeDate: "2023:07:19 15:38:42-07:00",
-                CreateDate: "2023:06:11 13:30:35",
-                ModifyDate: "2023:06:11 13:30:46",
-                TrackCreateDate: "2023:06:11 13:30:35",
-                TrackModifyDate: "2023:06:11 13:30:46",
-                MediaCreateDate: "2023:06:11 13:30:35",
-                MediaModifyDate: "2023:06:11 13:30:46",
-                CreationDate: "2023:06:11 14:30:35+01:00",
-                GPSAltitude: 99.22,
-                GPSAltitudeRef: 0,
-                GPSLatitude: 51.1037,
-                GPSLongitude: -0.8732,
-              },
-              inferTimezoneFromDatestamps: true,
-              backfillTimezones: true,
-            })
-          )
-          expect(t).to.eql({
-            MIMEType: "video/quicktime",
-            tz: "Europe/London",
-            tzSource: "CreationDate & GPSLatitude/GPSLongitude",
-            FileModifyDate: "2023-07-19T15:38:32-07:00",
-            FileAccessDate: "2023-07-19T15:38:42-07:00",
-            FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
-            CreateDate: "2023-06-11T14:30:35+01:00",
-            ModifyDate: "2023-06-11T14:30:46+01:00",
-            TrackCreateDate: "2023-06-11T14:30:35+01:00",
-            TrackModifyDate: "2023-06-11T14:30:46+01:00",
-            MediaCreateDate: "2023-06-11T14:30:35+01:00",
-            MediaModifyDate: "2023-06-11T14:30:46+01:00",
-            CreationDate: "2023-06-11T14:30:35+01:00",
-            GPSAltitude: 99.22,
-            GPSAltitudeRef: 0,
-            GPSLatitude: 51.1037,
-            GPSLongitude: -0.8732,
-            errors: [],
-          })
-        })
+        expect(renderTagsWithISO(t)).to.eql({
+          MIMEType,
+          CreateDate: "2020-08-03T08:00:19-07:00",
+          SubSecCreateDate: "2020-08-03T15:00:19.010Z",
 
-        it("Timezone from CreateDate and GPS (issue #156)", () => {
-          // see https://github.com/photostructure/exiftool-vendored.js/issues/156
-          const t = parse({
+          DateTimeOriginal: "2020-08-03T15:00:19Z",
+          TimeStamp: "2020-08-03T15:00:19.010Z",
+
+          tz: "UTC",
+          tzSource: "TimeZone",
+          TimeZone: "+00:00",
+
+          errors: [],
+        })
+      })
+      it("handles explicit GMT with explicit offset for video/mp4", () => {
+        const MIMEType = "video/mp4/jpeg"
+        const t = parse({
+          tags: {
+            MIMEType,
+            ...input,
+          },
+        })
+        expect(renderTagsWithISO(t)).to.containSubset({
+          MIMEType,
+          CreateDate: "2020-08-03T08:00:19-07:00", // < because the input had a zone
+          SubSecCreateDate: "2020-08-03T15:00:19.010Z",
+          DateTimeOriginal: "2020-08-03T15:00:19Z",
+          TimeStamp: "2020-08-03T15:00:19.010Z",
+          TimeZone: "+00:00",
+          errors: [],
+        })
+      })
+    })
+    describe("iPhone MOV with only CreationDate offset", () => {
+      // https://github.com/photostructure/exiftool-vendored.js/issues/151
+      it("Timezone from CreationDate with no GPS", () => {
+        const t = renderTagsWithISO(
+          parse({
             tags: {
               // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/sad.MOV
-              MIMEType: "video/mp4",
-              FileModifyDate: "2022:10:26 16:56:17-07:00",
-              FileAccessDate: "2023:09:13 11:44:02-07:00",
-              FileInodeChangeDate: "2023:09:13 11:44:02-07:00",
-              CreateDate: "2021:09:06 17:44:16",
-              ModifyDate: "2021:09:06 17:44:16",
-              TrackCreateDate: "2021:09:06 17:44:16",
-              TrackModifyDate: "2021:09:06 17:44:16",
-              MediaCreateDate: "2021:09:06 17:44:16",
-              MediaModifyDate: "2021:09:06 17:44:16",
-              GPSCoordinates: "33.3531 -111.8628",
-              GPSLatitude: 33.3531,
-              GPSLongitude: -111.8628,
-              GPSPosition: "33.3531 -111.8628",
+              MIMEType: "video/quicktime",
+              FileModifyDate: "2023:07:19 15:38:32-07:00",
+              FileAccessDate: "2023:07:19 15:38:42-07:00",
+              FileInodeChangeDate: "2023:07:19 15:38:42-07:00",
+              CreateDate: "2023:06:11 13:30:35",
+              ModifyDate: "2023:06:11 13:30:46",
+              TrackCreateDate: "2023:06:11 13:30:35",
+              TrackModifyDate: "2023:06:11 13:30:46",
+              MediaCreateDate: "2023:06:11 13:30:35",
+              MediaModifyDate: "2023:06:11 13:30:46",
+              // iPhone 14 Pro renders MOV with only the CreationDate
+              // containing a value offset (!!) -- so the other dates _are
+              // actually in UTC_, not local time (!!!!)
+              CreationDate: "2023:06:11 14:30:35+01:00",
             },
-            defaultVideosToUTC: false,
+            inferTimezoneFromDatestamps: false,
+            backfillTimezones: false,
+          })
+        )
+        expect(t).to.eql({
+          errors: [],
+          tz: "UTC",
+          tzSource: "defaultVideosToUTC",
+          MIMEType: "video/quicktime",
+          FileModifyDate: "2023-07-19T15:38:32-07:00",
+          FileAccessDate: "2023-07-19T15:38:42-07:00",
+          FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
+          CreateDate: "2023-06-11T13:30:35Z",
+          ModifyDate: "2023-06-11T13:30:46Z",
+          TrackCreateDate: "2023-06-11T13:30:35Z",
+          TrackModifyDate: "2023-06-11T13:30:46Z",
+          MediaCreateDate: "2023-06-11T13:30:35Z",
+          MediaModifyDate: "2023-06-11T13:30:46Z",
+          CreationDate: "2023-06-11T14:30:35+01:00",
+        })
+      })
+      it("Timezone from CreationDate with no GPS and new inferTimezoneFromDatestamps", () => {
+        const t = renderTagsWithISO(
+          parse({
+            tags: {
+              // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/sad.MOV
+              MIMEType: "video/quicktime",
+              FileModifyDate: "2023:07:19 15:38:32-07:00",
+              FileAccessDate: "2023:07:19 15:38:42-07:00",
+              FileInodeChangeDate: "2023:07:19 15:38:42-07:00",
+              CreateDate: "2023:06:11 13:30:35",
+              ModifyDate: "2023:06:11 13:30:46",
+              TrackCreateDate: "2023:06:11 13:30:35",
+              TrackModifyDate: "2023:06:11 13:30:46",
+              MediaCreateDate: "2023:06:11 13:30:35",
+              MediaModifyDate: "2023:06:11 13:30:46",
+              // iPhone 14 Pro renders MOV with only the CreationDate
+              // containing a value offset (!!) -- so the other dates _are
+              // actually in UTC_, not local time (!!!!)
+              CreationDate: "2023:06:11 14:30:35+01:00",
+            },
+            inferTimezoneFromDatestamps: true,
             backfillTimezones: true,
           })
-
-          const tz = "America/Phoenix"
-          expect(t).to.containSubset({
-            MIMEType: "video/mp4",
-            tz,
-            tzSource: "GPSLatitude/GPSLongitude",
+        )
+        expect(t).to.eql({
+          errors: [],
+          tz: "UTC+1",
+          tzSource: "CreationDate",
+          MIMEType: "video/quicktime",
+          FileModifyDate: "2023-07-19T15:38:32-07:00",
+          FileAccessDate: "2023-07-19T15:38:42-07:00",
+          FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
+          CreateDate: "2023-06-11T14:30:35+01:00",
+          ModifyDate: "2023-06-11T14:30:46+01:00",
+          TrackCreateDate: "2023-06-11T14:30:35+01:00",
+          TrackModifyDate: "2023-06-11T14:30:46+01:00",
+          MediaCreateDate: "2023-06-11T14:30:35+01:00",
+          MediaModifyDate: "2023-06-11T14:30:46+01:00",
+          CreationDate: "2023-06-11T14:30:35+01:00",
+        })
+      })
+      it("Timezone from CreationDate and GPS", () => {
+        const t = renderTagsWithISO(
+          parse({
+            tags: {
+              // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/sad.MOV
+              MIMEType: "video/quicktime",
+              FileModifyDate: "2023:07:19 15:38:32-07:00",
+              FileAccessDate: "2023:07:19 15:38:42-07:00",
+              FileInodeChangeDate: "2023:07:19 15:38:42-07:00",
+              CreateDate: "2023:06:11 13:30:35",
+              ModifyDate: "2023:06:11 13:30:46",
+              TrackCreateDate: "2023:06:11 13:30:35",
+              TrackModifyDate: "2023:06:11 13:30:46",
+              MediaCreateDate: "2023:06:11 13:30:35",
+              MediaModifyDate: "2023:06:11 13:30:46",
+              CreationDate: "2023:06:11 14:30:35+01:00",
+              GPSAltitude: 99.22,
+              GPSAltitudeRef: 0,
+              GPSLatitude: 51.1037,
+              GPSLongitude: -0.8732,
+            },
+            inferTimezoneFromDatestamps: true,
+            backfillTimezones: true,
           })
-
-          const createDate: ExifDateTime = t.CreateDate as ExifDateTime
-          expect(createDate.zoneName).to.eql(tz)
-
-          // note the 17:00 hour from the source is not changed by inheriting
-          // the TZ from the GPS location:
-          const iso = "2021-09-06T17:44:16-07:00"
-
-          expect(renderTagsWithISO(t)).to.containSubset({
-            CreateDate: iso,
-            ModifyDate: iso,
-            TrackCreateDate: iso,
-            TrackModifyDate: iso,
-            MediaCreateDate: iso,
-            MediaModifyDate: iso,
-          })
+        )
+        expect(t).to.eql({
+          MIMEType: "video/quicktime",
+          tz: "Europe/London",
+          tzSource: "CreationDate & GPSLatitude/GPSLongitude",
+          FileModifyDate: "2023-07-19T15:38:32-07:00",
+          FileAccessDate: "2023-07-19T15:38:42-07:00",
+          FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
+          CreateDate: "2023-06-11T14:30:35+01:00",
+          ModifyDate: "2023-06-11T14:30:46+01:00",
+          TrackCreateDate: "2023-06-11T14:30:35+01:00",
+          TrackModifyDate: "2023-06-11T14:30:46+01:00",
+          MediaCreateDate: "2023-06-11T14:30:35+01:00",
+          MediaModifyDate: "2023-06-11T14:30:46+01:00",
+          CreationDate: "2023-06-11T14:30:35+01:00",
+          GPSAltitude: 99.22,
+          GPSAltitudeRef: 0,
+          GPSLatitude: 51.1037,
+          GPSLongitude: -0.8732,
+          errors: [],
         })
       })
 
@@ -707,10 +679,10 @@ describe("ReadTask", () => {
               MIMEType: "video/mp4",
               TimeZone: "+01:00",
               TimeZoneCity: "Rome",
-              CreateDate: "2020:08:03 16:00:19", // < different (local system) zone!
-              DateTimeOriginal: "2020:08:03 16:00:19", // < missing zone!
+              CreateDate: "2020:08:03 15:00:19", // < missing zone (assume UTC)
+              DateTimeOriginal: "2020:08:03 15:00:19", // < missing zone (assume UTC)
               SubSecCreateDate: "2020:08:03 16:00:19.123+01:00",
-              TimeStamp: "2020:08:03 16:00:19.01", // < missing zone!
+              TimeStamp: "2020:08:03 15:00:19.01", // < missing zone (assume UTC)
             },
           })
         )
@@ -837,7 +809,7 @@ describe("ReadTask", () => {
         })
       })
 
-      it("assumes UTC if video (even if GPS infers EST)", () => {
+      it("{defaultVideosToUTC: true} assumes UTC if video (even if GPS infers EST)", () => {
         const t = parse({
           tags: {
             MIMEType: "video/mp4",
@@ -847,17 +819,37 @@ describe("ReadTask", () => {
             GPSLatitude: 34.15,
             GPSLongitude: -84.73,
           },
+          defaultVideosToUTC: true,
         })
         expect(renderTagsWithISO(t)).to.eql({
           MIMEType: "video/mp4",
-          CreateDate: "2022-08-31T00:32:06Z",
-          // Smartphone videos seem to always encode timestamps in UTC, even
-          // if there is GPS metadata
+          CreateDate: "2022-08-30T20:32:06-04:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
           errors: [],
-          tz: "UTC",
-          tzSource: defaultVideosToUTC,
+          tz: "America/New_York",
+          tzSource: "GPSLatitude/GPSLongitude",
+        })
+      })
+
+      it("{defaultVideosToUTC: false} assumes video is in local offset (not UTC)", () => {
+        const t = parse({
+          tags: {
+            MIMEType: "video/mp4",
+            CreateDate: "2022:08:31 00:32:06", // < FWIW I haven't seen local datestamps in videos in the wild
+            GPSLatitude: 34.15,
+            GPSLongitude: -84.73,
+          },
+          defaultVideosToUTC: false,
+        })
+        expect(renderTagsWithISO(t)).to.eql({
+          MIMEType: "video/mp4",
+          CreateDate: "2022-08-31T00:32:06-04:00",
+          GPSLatitude: 34.15,
+          GPSLongitude: -84.73,
+          errors: [],
+          tz: "America/New_York",
+          tzSource: "GPSLatitude/GPSLongitude",
         })
       })
 
@@ -865,16 +857,12 @@ describe("ReadTask", () => {
         const t = parse({
           tags: {
             CreateDate: "2022:08:31 00:32:06",
-            // Smartphone videos seem to always encode timestamps in UTC, even
-            // if there is GPS metadata
             GPSLatitude: 34.15,
             GPSLongitude: -84.73,
           },
         })
         expect(renderTagsWithISO(t)).to.eql({
           CreateDate: "2022-08-31T00:32:06-04:00",
-          // Smartphone videos seem to always encode timestamps in UTC, even
-          // if there is GPS metadata
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
           errors: [],
@@ -916,6 +904,121 @@ describe("ReadTask", () => {
           errors: [],
           tz: "UTC-5",
           tzSource: "OffsetTime",
+        })
+      })
+    })
+
+    describe("issue #156", () => {
+      // see https://github.com/photostructure/exiftool-vendored.js/issues/156
+      const input = {
+        // exiftool -j -*Zone -MIMEType -*Date -GPS\*\# ~/Downloads/File1.mp4
+        MIMEType: "video/mp4",
+        FileModifyDate: "2022:10:26 16:56:17-07:00",
+        FileAccessDate: "2023:09:13 11:44:02-07:00",
+        FileInodeChangeDate: "2023:09:13 11:44:02-07:00",
+        CreateDate: "2021:09:06 17:44:16",
+        ModifyDate: "2021:09:06 17:44:16",
+        TrackCreateDate: "2021:09:06 17:44:16",
+        TrackModifyDate: "2021:09:06 17:44:16",
+        MediaCreateDate: "2021:09:06 17:44:16",
+        MediaModifyDate: "2021:09:06 17:44:16",
+        GPSCoordinates: "33.3531 -111.8628",
+        GPSLatitude: 33.3531,
+        GPSLongitude: -111.8628,
+        GPSPosition: "33.3531 -111.8628",
+      }
+      const tz = "America/Phoenix"
+
+      it("{defaultVideosToUTC: true} assumes CreateDate in UTC", () => {
+        const t = parse({
+          tags: input,
+          defaultVideosToUTC: true,
+          backfillTimezones: true,
+        })
+        expect(t).to.containSubset({
+          MIMEType: "video/mp4",
+          tz,
+          tzSource: "GPSLatitude/GPSLongitude",
+        })
+
+        const createDate: ExifDateTime = t.CreateDate as ExifDateTime
+        expect(createDate.zoneName).to.eql(tz)
+
+        // 17:44 from the source is assumed to be in UTC, so we expect 10:44.
+        const iso = "2021-09-06T10:44:16-07:00"
+
+        expect(renderTagsWithISO(t)).to.containSubset({
+          CreateDate: iso,
+          ModifyDate: iso,
+          TrackCreateDate: iso,
+          TrackModifyDate: iso,
+          MediaCreateDate: iso,
+          MediaModifyDate: iso,
+        })
+      })
+
+      it("{defaultVideosToUTC: false} assumes CreateDate in local time", () => {
+        const t = parse({
+          tags: input,
+          defaultVideosToUTC: false,
+          backfillTimezones: true,
+        })
+        expect(t).to.containSubset({
+          MIMEType: "video/mp4",
+          tz,
+          tzSource: "GPSLatitude/GPSLongitude",
+        })
+
+        const createDate: ExifDateTime = t.CreateDate as ExifDateTime
+        expect(createDate.zoneName).to.eql(tz)
+
+        // note the 17:00 hour from the source is not changed by inheriting
+        // the TZ from the GPS location:
+        const iso = "2021-09-06T17:44:16-07:00"
+
+        expect(renderTagsWithISO(t)).to.containSubset({
+          CreateDate: iso,
+          ModifyDate: iso,
+          TrackCreateDate: iso,
+          TrackModifyDate: iso,
+          MediaCreateDate: iso,
+          MediaModifyDate: iso,
+        })
+      })
+
+      it("{defaultVideosToUTC: false, backfillTimezones: false}", () => {
+        const t = parse({
+          tags: input,
+          defaultVideosToUTC: false,
+          backfillTimezones: false,
+        })
+        expect(t).to.containSubset({
+          ...pick(
+            input,
+            "MIMEType",
+            "GPSCoordinates",
+            "GPSLatitude",
+            "GPSLongitude"
+          ),
+          tz,
+          tzSource: "GPSLatitude/GPSLongitude",
+        })
+
+        const createDate: ExifDateTime = t.CreateDate as ExifDateTime
+        expect(createDate.zoneName).to.eql(undefined)
+        expect(createDate.inferredZone).to.eql(false)
+
+        // note the 17:00 hour from the source is not changed by inheriting
+        // the TZ from the GPS location:
+        const iso = "2021-09-06T17:44:16"
+
+        expect(renderTagsWithISO(t)).to.containSubset({
+          CreateDate: iso,
+          ModifyDate: iso,
+          TrackCreateDate: iso,
+          TrackModifyDate: iso,
+          MediaCreateDate: iso,
+          MediaModifyDate: iso,
         })
       })
     })

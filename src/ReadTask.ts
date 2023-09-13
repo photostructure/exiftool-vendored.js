@@ -167,7 +167,8 @@ export class ReadTask extends ExifToolTask<Tags> {
     edt: ExifDateTime,
     candidates: ExifDateTime[]
   ): Maybe<ExifDateTime> {
-    if (edt.hasZone && edt.zone === this.tz) return edt
+    if (!edt.inferredZone && edt.hasZone) return edt
+    if (this.tz != null) return edt.setZone(this.tz)
     for (const src of candidates) {
       const result = edt.maybeMatchZone(src)
       if (result != null) {
@@ -190,7 +191,14 @@ export class ReadTask extends ExifToolTask<Tags> {
     for (const [key, value] of Object.entries(this._raw)) {
       const k = this.#tagName(key)
       const v = this.#parseTag(k, value)
-      if (v instanceof ExifDateTime && v.hasZone && !isUtcTagName(key)) {
+      if (
+        v instanceof ExifDateTime &&
+        v.hasZone &&
+        v.inferredZone !== true &&
+        !isUtcTagName(key) &&
+        // We don't want to use current system offset (from `File*` tags):
+        !key.startsWith("File")
+      ) {
         // don't incorrectly infer UTC dates if this is a UTC tag.
         datesWithTz.push(v)
       }
@@ -205,7 +213,12 @@ export class ReadTask extends ExifToolTask<Tags> {
         (ea) => -Math.abs(ea.tzoffsetMinutes ?? 0)
       )
       for (const [key, value] of Object.entries(tags)) {
-        if (value instanceof ExifDateTime && !isUtcTagName(key)) {
+        // We don't want to backfill dates from `stat`, so skip `File*` tags:
+        if (
+          value instanceof ExifDateTime &&
+          !isUtcTagName(key) &&
+          !key.startsWith("File")
+        ) {
           tags[key] = this.#maybeSetZone(value, candidates) ?? value
         }
       }
@@ -291,14 +304,19 @@ export class ReadTask extends ExifToolTask<Tags> {
           return tz
         },
 
+        // If lat/lon is valid, use the tzlookup library, as it will be a proper
+        // Zone name (like "America/New_York"), rather than just an hour offset.
+        () =>
+          map(this.#geoTz(), (ea) => ({
+            tz: ea.name,
+            src: "GPSLatitude/GPSLongitude",
+          })),
+
         // See https://github.com/photostructure/exiftool-vendored.js/issues/113
+        // and https://github.com/photostructure/exiftool-vendored.js/issues/156
 
         // Videos are frequently encoded in UTC, but don't include the
         // timezone offset in their datetime stamps.
-
-        // This must be BEFORE the tz_lookup/geoTz strategy, as smartphone
-        // videos will contain GPS, but still encode timestamps in UTC without
-        // an explicit offset. HURRAY
         () =>
           this.#defaultToUTC()
             ? {
@@ -307,14 +325,6 @@ export class ReadTask extends ExifToolTask<Tags> {
               }
             : // not applicable:
               undefined,
-
-        // If lat/lon is valid, use the tzlookup library, as it will be a proper
-        // Zone name (like "America/New_York"), rather than just an hour offset.
-        () =>
-          map(this.#geoTz(), (ea) => ({
-            tz: ea.name,
-            src: "GPSLatitude/GPSLongitude",
-          })),
 
         // This is a last-ditch estimation heuristic:
         () => extractTzOffsetFromUTCOffset(this._rawDegrouped),
@@ -357,8 +367,15 @@ export class ReadTask extends ExifToolTask<Tags> {
           // SubSecTime values)
           !OnlyZerosRE.test(value)
         ) {
-          const utc_tz_override = isUtcTagName(tagName) || this.#defaultToUTC()
-          const tz = utc_tz_override ? "UTC" : this.tz
+          // if #defaultToUTC() is true, _we actually think zoneless
+          // datestamps are all in UTC_, rather than being in `this.tz` (which
+          // may be from GPS or other heuristics). See #153.
+          const tz =
+            isUtcTagName(tagName) || this.#defaultToUTC()
+              ? "UTC"
+              : this.options.backfillTimezones
+              ? this.tz
+              : undefined
 
           return (
             ExifDateTime.from(value, tz) ??

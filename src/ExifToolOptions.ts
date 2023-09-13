@@ -128,7 +128,13 @@ export interface ExifToolOptions
    * If set to `true`, and `defaultVideosToUTC` is also `true`, we'll try
    * backfilling timezones for date-times that are UTC, as well.
    *
-   * This defaults to false to retain prior versions' behavior.
+   * Setting this to `false` removes **all** timezone inference--only those
+   * date-times with an explicit offset will have a defined timezone. Prior
+   * versions of exiftool-vendored would use the file's `.tz` as a backstop
+   * even if this was set to `false`.
+   *
+   * As of version 23, this now defaults to `true`, as it's more likely to be
+   * what people expect.
    */
   backfillTimezones: boolean
 
@@ -140,7 +146,8 @@ export interface ExifToolOptions
    * datestamp whose tag starts with "Creat" and includes an offset? (This
    * means CreateDateSubSec, CreateDate, and CreationDate will be considered).
    *
-   * This defaults to false to retain prior versions' behavior.
+   * This defaults to false as it both retains prior behavior and means fewer
+   * "fuzzy" heuristics are enabled by default.
    */
   inferTimezoneFromDatestamps: boolean
 

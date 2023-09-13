@@ -26,6 +26,30 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v23.0.0
+
+- 🏚️ Dropped support for Node.js v16, which is [End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol).
+
+- 💔/🐞 If `defaultVideosToUTC` is set to `true`, `read()` will now allow non-UTC
+  timezones extractable from other tags to be assigned to `.tz`. Prior
+  versions would simply force `.tz` to "UTC" for all videos, which wasn't
+  great. Note that "UTC" is still used as the default timezone for all
+  datestamps without explicit timezones, just as prior versions did. See [issue
+  #156](https://github.com/photostructure/exiftool-vendored.js/issues/156) for
+  details.
+
+- 💔 `backfillTimezones` now defaults to `true`. Although this is likely to be
+  what people expect, know that there are edge and corner cases that you
+  should be aware of.
+
+- 💔 If `backfillTimezones` is set to `false`, `ExifDateTime` will no longer
+  use the current file's `.tz` as a default. Prior versions would inherit the
+  file's `.tz`, which might be incorrect.
+
+- 📦 `ExifDateTime` now includes an `.inferredZone` field, which may be useful
+  in helping to determine how "trustworthy" the zone and actual datestamp
+  value is.
+
 ### v22.2.3
 
 - 🐞 Apply the v22.2.3 bugfix _even wider_ (just found a `SubSecTime` value of "01" in the wild, and it was happily parsed into today's date, oops).
