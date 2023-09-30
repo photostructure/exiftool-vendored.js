@@ -7,7 +7,6 @@ export function retryOnReject<T>(
     try {
       return await f()
     } catch (err) {
-      // console.log("retryOnReject caught error", { err, retries, maxRetries })
       if (retries < maxRetries) {
         retries++
         return g()

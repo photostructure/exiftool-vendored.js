@@ -123,7 +123,6 @@ export class WriteTask extends ExifToolTask<void> {
 
     args.push(...extraArgs)
     args.push(sourceFile)
-    // console.log("new WriteTask()", { sourceFile, args, tags })
     return new WriteTask(sourceFile, args)
   }
 
@@ -132,7 +131,6 @@ export class WriteTask extends ExifToolTask<void> {
   }
 
   protected parse(data: string, error: Error): void {
-    // console.log(this.toString() + ".parse()", { data, error })
     if (error != null) throw error
     if (this.errors.length > 0) throw new Error(this.errors.join(";"))
     data = data.trim()
