@@ -28,6 +28,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v23.1.0
 
+- 🌱 ExifTool upgraded to [v12.67](https://exiftool.org/history.html#v12.67)
+
 - ✨ `ExifTime` now parses and stores timezone offsets if available. This resolves [issue
   #157](https://github.com/photostructure/exiftool-vendored.js/issues/157).
   

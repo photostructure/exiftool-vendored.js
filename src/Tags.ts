@@ -14,7 +14,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 12.65 */
+  /** ★★★★ ✔ Example: 12.67 */
   ExifToolVersion?: number
   /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */
   Warning?: string
@@ -39,7 +39,7 @@ export interface FileTags {
   Directory?: string
   /** ★★★★ ✔ Example: "Progressive DCT, Huffman coding" */
   EncodingProcess?: string
-  /** ★★★★ ✔ Example: "2023:09:30 12:42:38-07:00" */
+  /** ★★★★ ✔ Example: "2023:09:30 12:42:54-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2023:07:19 21:21:02-07:00" */
   FileInodeChangeDate?: ExifDateTime | string
@@ -75,7 +75,7 @@ export interface FileTags {
   PixelsPerMeterY?: number
   /** ☆☆☆☆ ✔ Example: 1 */
   Planes?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 67596 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 315546 bytes, use -b option to extract)" */
   PreviewImage?: BinaryField
   /** ★★★★ ✔ Example: "YCbCr4:4:4 (1 1)" */
   YCbCrSubSampling?: string
@@ -580,7 +580,7 @@ export interface EXIFTags {
   DefaultCropOrigin?: string
   /** ☆☆☆☆ ✔ Example: "8272 6200" */
   DefaultCropSize?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 4 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 0 bytes, use -b option to extract)" */
   DeviceSettingDescription?: BinaryField | string
   /** ★★★☆ ✔ Example: 8.1319764 */
   DigitalZoomRatio?: number
@@ -650,7 +650,7 @@ export interface EXIFTags {
   ImageNumber?: number
   /** ☆☆☆☆ ✔ Example: "fa5fdfee65f3a6e05fe7d4692b9112a7" */
   ImageUniqueID?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 571392 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -826,7 +826,7 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
@@ -1295,8 +1295,6 @@ export interface MakerNotesTags {
   AEBBracketValue?: number
   /** ☆☆☆☆ ✔ Example: "0,-,+/Enabled" */
   AEBSequenceAutoCancel?: string
-  /** ☆☆☆☆ ✔ Example: "7 shots" */
-  AEBShotCount?: string
   /** ☆☆☆☆ ✔ Example: 0.5 */
   AEBXv?: number
   /** ☆☆☆☆ ✔ Example: "AE Bracketing Disabled" */
@@ -1589,8 +1587,6 @@ export interface MakerNotesTags {
   AutoBracketingSet?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   AutoDistortionControl?: string
-  /** ☆☆☆☆ ✔ Example: "400%" */
-  AutoDynamicRange?: string
   /** ★★☆☆ ✔ Example: "On" */
   AutoExposureBracketing?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -2649,6 +2645,8 @@ export interface MakerNotesTags {
   ImageAuthentication?: string
   /** ☆☆☆☆ ✔ Example: "0 0 8256 5504" */
   ImageBoundary?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (5)" */
+  ImageCaptureType?: string
   /** ☆☆☆☆ ✔ Example: 9927271 */
   ImageDataSize?: number
   /** ☆☆☆☆ ✔ Example: 1 */
@@ -2739,7 +2737,7 @@ export interface MakerNotesTags {
   Intervals?: number
   /** ☆☆☆☆ ✔ Example: "n/a (Movie)" */
   JPEGQuality?: string
-  /** ☆☆☆☆ ✔ Example: "Optimal Quality" */
+  /** ☆☆☆☆ ✔ Example: "Size Priority" */
   JPGCompression?: string
   /** ☆☆☆☆ ✔ Example: "10 MP" */
   JpgRecordedPixels?: string
@@ -3373,6 +3371,8 @@ export interface MakerNotesTags {
   RawDataByteOrder?: string
   /** ☆☆☆☆ ✔ Example: "Unchanged" */
   RawDataCFAPattern?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  RawDataLength?: number
   /** ☆☆☆☆ ✔ Example: "Off; 0; 0; 0" */
   RawDevArtFilter?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -3521,7 +3521,7 @@ export interface MakerNotesTags {
   SamsungModelID?: string
   /** ☆☆☆☆   Example: "Unknown (0x211)" */
   SanyoQuality?: string
-  /** ☆☆☆☆   Example: "(Binary data 4048 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 10313 bytes, use -b option to extract)" */
   SanyoThumbnail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   SaturationAdj?: number
@@ -4056,7 +4056,7 @@ export interface XMPTags {
   CameraProfileDigest?: string
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
-  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
   Cameras?: Struct[]
   /** ☆☆☆☆ ✔ Example: "Photo" */
   CaptureMode?: string
@@ -4092,7 +4092,7 @@ export interface XMPTags {
   ColorSpace?: string
   /** ☆☆☆☆ ✔ Example: "" */
   Colorlabels?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
   Container?: Struct
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
@@ -4390,7 +4390,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
   Profiles?: Struct[]
   /** ☆☆☆☆ ✔ Example: "equirectangular" */
   ProjectionType?: string
@@ -4532,8 +4532,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.65 on Sat Sep 30 2023.
- * 3079 unique tags were found in 10090 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.67 on Sat Sep 30 2023.
+ * 3081 unique tags were found in 10090 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
