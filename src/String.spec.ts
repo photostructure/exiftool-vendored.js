@@ -3,6 +3,7 @@ import { expect } from "./_chai.spec"
 
 describe("String", () => {
   const examples = [
+    { i: -1000, pad2: "-1000", pad3: "-1000" },
     { i: -100, pad2: "-100", pad3: "-100" },
     { i: -10, pad2: "-10", pad3: "-10" },
     { i: -1, pad2: "-1", pad3: "-01" },

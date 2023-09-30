@@ -1,4 +1,5 @@
 import { Maybe } from "./Maybe"
+import { isNumber } from "./Number"
 import { times } from "./Times"
 
 export function isString(o: any): o is string {
@@ -29,15 +30,16 @@ export function toS(s: Maybe<any>): string {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function leftPad(
-  i: Maybe<any>,
+  i: Maybe<number | string>,
   minLen: number,
   padChar: "0" | " "
 ): string {
-  if (i == null || isNaN(i)) i = 0
-  if (i < 0) {
-    return "-" + leftPad(-i, minLen - 1, padChar)
+  if (i == null || (isNumber(i) && isNaN(i))) i = 0
+  const s = String(i)
+  if (isNumber(i) && i < 0 && padChar === "0") {
+    // avoid "000-1":
+    return "-" + padding(padChar, minLen - s.length) + Math.abs(i)
   } else {
-    const s = String(i)
     return padding(padChar, minLen - s.length) + s
   }
 }
