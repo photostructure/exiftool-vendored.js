@@ -1,15 +1,15 @@
 import { Info } from "luxon"
-import { expect } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 import {
-  extractOffset,
-  extractTzOffsetFromTags,
-  extractTzOffsetFromUTCOffset,
-  offsetMinutesToZoneName,
-  reasonableTzOffsetMinutes,
   UnsetZone,
   UnsetZoneOffsetMinutes,
+  extractTzOffsetFromTags,
+  extractTzOffsetFromUTCOffset,
+  extractZone,
+  offsetMinutesToZoneName,
+  validTzOffsetMinutes,
 } from "./Timezones"
+import { expect } from "./_chai.spec"
 
 describe("Timezones", () => {
   describe("UnsetZone", () => {
@@ -17,20 +17,20 @@ describe("Timezones", () => {
       expect(UnsetZone.isValid).to.eql(true)
     })
     it("reasonableTzOffsetMinutes() returns undefined for UnsetZone", () => {
-      expect(reasonableTzOffsetMinutes(UnsetZoneOffsetMinutes)).to.eql(false)
+      expect(validTzOffsetMinutes(UnsetZoneOffsetMinutes)).to.eql(false)
     })
     it("offsetMinutesToZoneName() returns undefined for UnsetZone", () => {
       expect(offsetMinutesToZoneName(UnsetZoneOffsetMinutes)).to.eql(undefined)
     })
     it("extractOffset() returns undefined for UnsetZone", () => {
-      expect(extractOffset("UTC-00:01")).to.eql(undefined)
+      expect(extractZone("UTC-00:01")).to.eql(undefined)
     })
   })
   describe("extractOffset()", () => {
     function ozn(tz: string) {
       return {
         tz,
-        src: "offsetMinutesToZoneName",
+        src: "normalizeZone",
       }
     }
     const arr = [
@@ -40,17 +40,23 @@ describe("Timezones", () => {
     const ex = [
       { tz: "", exp: undefined },
       { tz: "garbage", exp: undefined },
-      { tz: "09:00", exp: ozn("UTC+9") },
+      { tz: "+09:00", exp: { tz: "UTC+9", src: "offsetMinutesToZoneName" } },
       {
         tz: "America/Los_Angeles",
-        exp: { tz: "America/Los_Angeles", src: "validIANAZone" },
+        exp: ozn("America/Los_Angeles"),
       },
-      ...arr.map(({ s, exp }) => ({ tz: s, exp: ozn(exp) })),
-      ...arr.map(({ s, exp }) => ({ tz: "+" + s, exp: ozn(exp) })),
+      ...arr.map(({ s, exp }) => ({
+        tz: "+" + s,
+        exp: { leftovers: "", tz: exp, src: "offsetMinutesToZoneName" },
+      })),
       ...arr.map(({ s, exp }) => ({ tz: "UTC+" + s, exp: ozn(exp) })),
       ...arr.map(({ s, exp }) => ({
         tz: "-" + s,
-        exp: ozn(exp.replace("+", "-")),
+        exp: {
+          leftovers: "",
+          tz: exp.replace("+", "-"),
+          src: "offsetMinutesToZoneName",
+        },
       })),
       ...arr.map(({ s, exp }) => ({
         tz: "UTC-" + s,
@@ -58,15 +64,15 @@ describe("Timezones", () => {
       })),
       {
         tz: ExifDateTime.fromEXIF("2014:07:19 12:05:19-09:00"),
-        exp: { tz: "UTC-9", src: "ExifDateTime" },
+        exp: { tz: "UTC-9", src: "ExifDateTime.zone" },
       },
       { tz: 3, exp: { tz: "UTC+3", src: "hourOffset" } },
       { tz: -10, exp: { tz: "UTC-10", src: "hourOffset" } },
     ]
 
     for (const { tz, exp } of ex) {
-      it(`("${tz}") => ${exp}`, () => {
-        expect(extractOffset(tz)).to.eql(exp)
+      it(`("${tz}") => ${JSON.stringify(exp)}`, () => {
+        expect(extractZone(tz)).to.containSubset(exp)
       })
     }
   })

@@ -58,7 +58,6 @@ export const DefaultReadTaskOptions = {
 export type ReadTaskOptions = typeof DefaultReadTaskOptions
 
 const MaybeDateOrTimeRe = /when|date|time|subsec|creat|modif/i
-const TimeRe = /time/i
 
 export class ReadTask extends ExifToolTask<Tags> {
   private readonly degroup: boolean
@@ -118,6 +117,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     return "ReadTask" + this.sourceFile + ")"
   }
 
+  // only exposed for tests
   parse(data: string, err?: Error): Tags {
     try {
       this._raw = JSON.parse(data)[0]
@@ -193,13 +193,15 @@ export class ReadTask extends ExifToolTask<Tags> {
       const v = this.#parseTag(k, value)
       if (
         v instanceof ExifDateTime &&
+        // Don't backfill from `stat()` dates, as they may include the system
+        // zone:
+        !key.startsWith("File") &&
         v.hasZone &&
+        // Don't backfill from inferred zones:
         v.inferredZone !== true &&
-        !isUtcTagName(key) &&
-        // We don't want to use current system offset (from `File*` tags):
-        !key.startsWith("File")
+        // Don't backfill from UTC tags:
+        !isUtcTagName(key)
       ) {
-        // don't incorrectly infer UTC dates if this is a UTC tag.
         datesWithTz.push(v)
       }
       // Note that we set `key` (which may include a group prefix):
@@ -207,17 +209,25 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
 
     if (this.options.backfillTimezones === true) {
-      // prefer non-UTC offsets (which may be incorrect):
+      // prefer non-UTC offsets (UTC may be incorrect):
       const candidates = sortBy(
         datesWithTz,
         (ea) => -Math.abs(ea.tzoffsetMinutes ?? 0)
       )
       for (const [key, value] of Object.entries(tags)) {
-        // We don't want to backfill dates from `stat`, so skip `File*` tags:
         if (
+          // we don't backfill ExifTime zones, as we don't know for sure what
+          // day they are for, and if the zone isn't fixed, that would be an
+          // issue. (We _could_ set ExifTime zones if we knew the zone was
+          // fixed, but that's a later, low-priority TODO).
           value instanceof ExifDateTime &&
+          // Don't backfill dates from `stat`:
+          !key.startsWith("File") &&
+          // Don't backfill UTC tags:
           !isUtcTagName(key) &&
-          !key.startsWith("File")
+          // Only backfill from inferred zones:
+          value.inferredZone !== false &&
+          value.hasZone !== true
         ) {
           tags[key] = this.#maybeSetZone(value, candidates) ?? value
         }
@@ -340,6 +350,12 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (PassthroughTags.indexOf(tagName) >= 0) {
         return value
       }
+      if (tagName === "GPSLatitude") {
+        return this.lat
+      }
+      if (tagName === "GPSLongitude") {
+        return this.lon
+      }
       if (Array.isArray(value)) {
         return value.map((ea) => this.#parseTag(tagName, ea))
       }
@@ -350,13 +366,6 @@ export class ReadTask extends ExifToolTask<Tags> {
         }
         return result
       }
-      if (tagName === "GPSLatitude") {
-        return this.lat
-      }
-      if (tagName === "GPSLongitude") {
-        return this.lon
-      }
-
       if (typeof value === "string") {
         const b = BinaryField.fromRawValue(value)
         if (b != null) return b
@@ -369,7 +378,7 @@ export class ReadTask extends ExifToolTask<Tags> {
         ) {
           // if #defaultToUTC() is true, _we actually think zoneless
           // datestamps are all in UTC_, rather than being in `this.tz` (which
-          // may be from GPS or other heuristics). See #153.
+          // may be from GPS or other heuristics). See issue #153.
           const tz =
             isUtcTagName(tagName) || this.#defaultToUTC()
               ? "UTC"
@@ -377,10 +386,15 @@ export class ReadTask extends ExifToolTask<Tags> {
               ? this.tz
               : undefined
 
+          // Time-only tags have "time" but not "date" in their name:
+          const keyIncludesTime = /time/i.test(tagName)
+          const keyIncludesDate = /date/i.test(tagName)
           return (
-            ExifDateTime.from(value, tz) ??
-            (TimeRe.test(tagName) ? ExifTime.fromEXIF(value) : undefined) ??
-            ExifDate.from(value) ??
+            (keyIncludesTime || keyIncludesDate
+              ? ExifDateTime.from(value, tz)
+              : undefined) ??
+            (keyIncludesTime ? ExifTime.fromEXIF(value) : undefined) ??
+            (keyIncludesDate ? ExifDate.from(value) : undefined) ??
             value
           )
         }

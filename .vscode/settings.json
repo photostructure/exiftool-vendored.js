@@ -27,5 +27,7 @@
     "structs",
     "tmpname",
     "tzoffset"
-  ]
+  ],
+  "debug.console.fontFamily": "monospace",
+  "editor.fontFamily": "Fira Code"
 }

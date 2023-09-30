@@ -1,53 +1,106 @@
-import { DateTime } from "luxon"
+import { DateTime, Zone, ZoneOptions } from "luxon"
 import { validDateTime } from "./DateTime"
 import { Maybe } from "./Maybe"
-import { blank, pad2, pad3, toS } from "./String"
+import { pad2, pad3, toS } from "./String"
+import { parseDateTime, setZone, timeFormats } from "./TimeParsing"
+import { getZoneName, normalizeZone } from "./Timezones"
 
 /**
  * Encodes an ExifTime (which may not have a timezone offset)
  */
 export class ExifTime {
-  static fromEXIF(text: string): Maybe<ExifTime> {
-    text = toS(text).trim()
-    if (blank(text)) return
-    for (const fmt of [
-      "HH:mm:ss.uZZ",
-      "HH:mm:ssZZ",
-      "HH:mm:ss.u",
-      "HH:mm:ss",
-    ]) {
-      const result = this.fromDateTime(DateTime.fromFormat(text, fmt), text)
-      if (result != null) return result
+  static fromEXIF(text: string, defaultZone?: Maybe<string>): Maybe<ExifTime> {
+    const s = toS(text).trim()
+    if (s.length === 0) return
+    const result = parseDateTime(text, timeFormats({ defaultZone }))
+    if (result != null) {
+      return this.fromDateTime(
+        result.dt,
+        text,
+        result.unsetZone ? undefined : getZoneName({ zone: result.dt.zone }),
+        result.inferredZone,
+        result.unsetMilliseconds
+      )
     }
     return
   }
 
-  static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifTime> {
-    return validDateTime(dt)
-      ? new ExifTime(dt.hour, dt.minute, dt.second, dt.millisecond, rawValue)
-      : undefined
+  static fromDateTime(
+    dt: Maybe<DateTime>,
+    rawValue?: string,
+    zone?: string,
+    inferredZone?: boolean,
+    unsetMilliseconds?: boolean
+  ): Maybe<ExifTime> {
+    return !validDateTime(dt)
+      ? undefined
+      : new ExifTime(
+          dt.hour,
+          dt.minute,
+          dt.second,
+          unsetMilliseconds ? undefined : dt.millisecond,
+          rawValue,
+          zone,
+          inferredZone
+        )
   }
+
+  #dt?: DateTime
+  #z?: Maybe<string>
+  readonly zone: Maybe<string>
 
   constructor(
     readonly hour: number,
     readonly minute: number,
     readonly second: number,
     readonly millisecond?: number,
-    readonly rawValue?: string
-  ) {}
+    readonly rawValue?: string,
+    zoneName?: Maybe<string>,
+    readonly inferredZone?: boolean
+  ) {
+    this.zone = getZoneName({ zoneName })
+  }
 
+  toDateTime(): DateTime {
+    return (this.#dt ??= DateTime.fromObject(
+      {
+        hour: this.hour,
+        minute: this.minute,
+        second: this.second,
+        millisecond: this.millisecond,
+      },
+      {
+        zone: this.zone,
+      }
+    ))
+  }
+
+  /**
+   * Alias for `.millisecond`
+   */
   get millis() {
     return this.millisecond
   }
 
-  private subsec() {
-    return this.millisecond == null || this.millisecond === 0
-      ? ""
-      : "." + pad3(this.millisecond)
+  get hasZone(): boolean {
+    return this.zone != null
+  }
+
+  #subsec() {
+    return this.millisecond == null ? "" : "." + pad3(this.millisecond)
+  }
+
+  #shortZone() {
+    return (this.#z ??=
+      normalizeZone(this.zone)?.formatOffset(Date.now(), "short") ?? "")
   }
 
   toString() {
-    return pad2(this.hour, this.minute, this.second).join(":") + this.subsec()
+    return (
+      pad2(this.hour, this.minute, this.second).join(":") +
+      this.#subsec() +
+      this.#shortZone()
+    )
   }
 
   toISOString() {
@@ -58,6 +111,22 @@ export class ExifTime {
     return this.toString()
   }
 
+  setZone(zone: string | Zone, opts?: ZoneOptions): Maybe<ExifTime> {
+    const dt = setZone({
+      zone,
+      src: this.toDateTime(),
+      srcHasZone: this.hasZone,
+      opts,
+    })
+    return ExifTime.fromDateTime(
+      dt,
+      this.rawValue,
+      this.zone,
+      this.inferredZone,
+      this.millisecond == null
+    )
+  }
+
   toJSON() {
     return {
       _ctor: "ExifTime",
@@ -66,6 +135,8 @@ export class ExifTime {
       second: this.second,
       millisecond: this.millisecond,
       rawValue: this.rawValue,
+      zone: this.zone,
+      inferredZone: this.inferredZone,
     }
   }
 
@@ -75,7 +146,9 @@ export class ExifTime {
       json.minute,
       json.second,
       json.millisecond,
-      json.rawValue
+      json.rawValue,
+      json.zone,
+      json.inferredZone
     )
   }
 }

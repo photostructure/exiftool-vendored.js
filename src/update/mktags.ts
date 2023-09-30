@@ -284,7 +284,7 @@ const files = roots
       nocase: true,
       nodir: true,
       absolute: true,
-    })
+    } as any)
   })
   .reduce((prev, curr) => prev.concat(curr))
 

@@ -208,7 +208,15 @@ describe("ReadTask", () => {
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
+      expect(t).to.containSubset({
+        tz: "UTC+9",
+        tzSource: "TimeZoneOffset",
+      })
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: 9 * 60,
+        zone: "UTC+9",
+        inferredZone: true,
+      })
     })
 
     it("finds positive array TimeZoneOffset and sets accordingly", () => {
@@ -218,7 +226,15 @@ describe("ReadTask", () => {
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(9 * 60)
+      expect(t).to.containSubset({
+        tz: "UTC+9",
+        tzSource: "TimeZoneOffset",
+      })
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: 9 * 60,
+        zone: "UTC+9",
+        inferredZone: true,
+      })
     })
 
     it("finds zulu TimeZoneOffset and sets accordingly", () => {
@@ -228,7 +244,15 @@ describe("ReadTask", () => {
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(0)
+      expect(t).to.containSubset({
+        tz: "UTC",
+        tzSource: "TimeZoneOffset",
+      })
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: 0,
+        zone: "UTC",
+        inferredZone: true,
+      })
     })
 
     it("finds negative TimeZoneOffset in array and sets accordingly", () => {
@@ -238,17 +262,29 @@ describe("ReadTask", () => {
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-4 * 60)
+      expect(t).to.containSubset({
+        tz: "UTC-4",
+        tzSource: "TimeZoneOffset",
+      })
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: -4 * 60,
+        zone: "UTC-4",
+        inferredZone: true,
+      })
     })
 
     it("respects positive HH:MM OffsetTime", () => {
       const t = parse({
         tags: {
-          OffsetTime: "+02:30",
+          OffsetTime: "+03:30",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(2 * 60 + 30)
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: 3 * 60 + 30,
+        zone: "UTC+3:30",
+        inferredZone: true,
+      })
     })
 
     it("respects positive HH OffsetTime", () => {
@@ -258,17 +294,37 @@ describe("ReadTask", () => {
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(7 * 60)
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: 7 * 60,
+        zone: "UTC+7",
+        inferredZone: true,
+      })
     })
 
     it("respects negative HH:MM OffsetTime", () => {
       const t = parse({
         tags: {
-          OffsetTime: "-06:30",
+          OffsetTime: "-09:30",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       })
-      expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-(6 * 60 + 30))
+      expect(t).to.containSubset({
+        tz: "UTC-9:30",
+        tzSource: "OffsetTime",
+      })
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: -(9 * 60 + 30),
+        year: 2016,
+        month: 8,
+        day: 12,
+        hour: 13,
+        minute: 28,
+        second: 50,
+        millisecond: undefined,
+        inferredZone: true,
+        zone: "UTC-9:30",
+        rawValue: "2016:08:12 13:28:50",
+      })
     })
 
     it("respects negative H OffsetTime", () => {
@@ -1087,5 +1143,125 @@ describe("ReadTask", () => {
         expect(t.DateTimeOriginal?.toString()).to.match(/^2016-08-12T13:28:50/)
       })
     }
+  })
+
+  /**
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/157
+   */
+  describe("issue 157", () => {
+    it("time stamp parsing without inferTimezoneFromDatestamps", () => {
+      const t = parse({
+        inferTimezoneFromDatestamps: false,
+        backfillTimezones: false,
+        tags: {
+          DateTimeOriginal: "2014:04:06 00:47:40",
+          TimeCreated: "00:47:40+02:00",
+        },
+      })
+      expect(t.tz).to.eql(undefined)
+      expect(t.DateTimeOriginal).to.be.instanceof(ExifDateTime)
+      expect(t.DateTimeOriginal?.toString()).to.eql("2014-04-06T00:47:40")
+      expect(t.DateTimeOriginal).to.containSubset({
+        year: 2014,
+        month: 4,
+        day: 6,
+        hour: 0,
+        minute: 47,
+        second: 40,
+        millisecond: undefined,
+        inferredZone: false,
+        zone: undefined,
+        rawValue: "2014:04:06 00:47:40",
+      })
+      expect(t.TimeCreated).to.be.instanceof(ExifTime)
+      expect(t.TimeCreated?.toString()).to.eql("00:47:40+02:00")
+      expect(t.TimeCreated).to.containSubset({
+        hour: 0,
+        minute: 47,
+        second: 40,
+        millisecond: undefined,
+        inferredZone: false,
+        zone: "UTC+2",
+        rawValue: "00:47:40+02:00",
+      })
+    })
+    it("timezone offset is pulled from timestamps with offsets", () => {
+      const t = parse({
+        inferTimezoneFromDatestamps: true,
+        backfillTimezones: false,
+        tags: {
+          DateTimeOriginal: "2014:04:06 00:47:40",
+          TimeCreated: "00:47:40+02:00",
+        },
+      })
+      expect(t).to.containSubset({
+        tz: "UTC+2",
+        tzSource: "TimeCreated",
+      })
+      expect(t.DateTimeOriginal).to.be.instanceof(ExifDateTime)
+      expect(t.DateTimeOriginal?.toString()).to.eql("2014-04-06T00:47:40")
+      expect(t.DateTimeOriginal).to.containSubset({
+        year: 2014,
+        month: 4,
+        day: 6,
+        hour: 0,
+        minute: 47,
+        second: 40,
+        millisecond: undefined,
+        inferredZone: false,
+        zone: undefined,
+        rawValue: "2014:04:06 00:47:40",
+      })
+      expect(t.TimeCreated).to.be.instanceof(ExifTime)
+      expect(t.TimeCreated?.toString()).to.eql("00:47:40+02:00")
+      expect(t.TimeCreated).to.containSubset({
+        hour: 0,
+        minute: 47,
+        second: 40,
+        millisecond: undefined,
+        inferredZone: false,
+        zone: "UTC+2",
+        rawValue: "00:47:40+02:00",
+      })
+    })
+    it("timezone offset is pulled from timestamps with offsets and backfills", () => {
+      const t = parse({
+        inferTimezoneFromDatestamps: true,
+        backfillTimezones: true,
+        tags: {
+          DateTimeOriginal: "2014:04:06 00:47:40",
+          TimeCreated: "00:47:40+02:00",
+        },
+      })
+      expect(t).to.containSubset({
+        tz: "UTC+2",
+        tzSource: "TimeCreated",
+      })
+      expect(t.DateTimeOriginal).to.be.instanceof(ExifDateTime)
+      expect(t.DateTimeOriginal?.toString()).to.eql("2014-04-06T00:47:40+02:00")
+      expect(t.DateTimeOriginal).to.containSubset({
+        year: 2014,
+        month: 4,
+        day: 6,
+        hour: 0,
+        minute: 47,
+        second: 40,
+        millisecond: undefined,
+        inferredZone: true,
+        zone: "UTC+2",
+        rawValue: "2014:04:06 00:47:40",
+      })
+      expect(t.TimeCreated).to.be.instanceof(ExifTime)
+      expect(t.TimeCreated?.toString()).to.eql("00:47:40+02:00")
+      expect(t.TimeCreated).to.containSubset({
+        hour: 0,
+        minute: 47,
+        second: 40,
+        millisecond: undefined,
+        inferredZone: false,
+        zone: "UTC+2",
+        rawValue: "00:47:40+02:00",
+      })
+    })
   })
 })
