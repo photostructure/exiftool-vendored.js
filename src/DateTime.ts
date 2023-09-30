@@ -4,11 +4,12 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { Maybe } from "./Maybe"
 
-export function validDateTime(dt: DateTime): boolean {
+export function validDateTime(dt: Maybe<DateTime>): dt is DateTime {
   return dt != null && dt.isValid
 }
 
-export const MinuteMs = 60 * 1000
+export const SecondMs = 1000
+export const MinuteMs = 60 * SecondMs
 export const HourMs = 60 * MinuteMs
 export const DayMs = 24 * HourMs
 
