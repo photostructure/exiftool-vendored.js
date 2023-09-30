@@ -224,10 +224,7 @@ export class ReadTask extends ExifToolTask<Tags> {
           // Don't backfill dates from `stat`:
           !key.startsWith("File") &&
           // Don't backfill UTC tags:
-          !isUtcTagName(key) &&
-          // Only backfill from inferred zones:
-          value.inferredZone !== false &&
-          value.hasZone !== true
+          !isUtcTagName(key)
         ) {
           tags[key] = this.#maybeSetZone(value, candidates) ?? value
         }
