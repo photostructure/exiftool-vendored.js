@@ -26,6 +26,13 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v23.1.0
+
+- ✨ `ExifTime` now parses and stores timezone offsets if available. This resolves [issue
+  #157](https://github.com/photostructure/exiftool-vendored.js/issues/157)
+  
+- 📦 Upgrade all deps, but only devDependencies were impacted.
+
 ### v23.0.0
 
 - 🏚️ Dropped support for Node.js v16, which is [End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol).
