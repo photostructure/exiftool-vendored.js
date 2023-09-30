@@ -29,9 +29,15 @@ vendored versions of ExifTool match the version that they vendor.
 ### v23.1.0
 
 - ✨ `ExifTime` now parses and stores timezone offsets if available. This resolves [issue
-  #157](https://github.com/photostructure/exiftool-vendored.js/issues/157)
+  #157](https://github.com/photostructure/exiftool-vendored.js/issues/157).
   
-- 📦 Upgrade all deps, but only devDependencies were impacted.
+- 📦 `ExifDateTime`, `ExifTime`, and `ExifDate` are now [only allowed to try
+  to parse keys that includes `date` or
+  `time`](https://github.com/photostructure/exiftool-vendored.js/blob/ed7bf9eaea9b1d8ad234fb907953568219fc5bdb/src/ReadTask.ts#L389),
+  which avoids incorrect parsing of tags like `MonthDayCreated` (which looks
+  like `12:19`)
+
+- 📦 Upgrade all deps, but only `devDependencies` were impacted.
 
 ### v23.0.0
 
@@ -46,8 +52,10 @@ vendored versions of ExifTool match the version that they vendor.
   details.
 
 - 💔 `backfillTimezones` now defaults to `true`. Although this is likely to be
-  what people expect, know that there are edge and corner cases that you
-  should be aware of.
+  what people expect, but know that this makes the assumption that all encoded
+  times without an explicit offset share the same tz, which may not be correct
+  (say, if you edit the image in a different timezone from when it was
+  captured).
 
 - 💔 If `backfillTimezones` is set to `false`, `ExifDateTime` will no longer
   use the current file's `.tz` as a default. Prior versions would inherit the
