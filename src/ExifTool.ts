@@ -60,6 +60,7 @@ import { WriteTags } from "./WriteTags"
 import { WriteTask, WriteTaskOptions } from "./WriteTask"
 
 export { BinaryField } from "./BinaryField"
+export { CapturedAtTagNames } from "./CapturedAtTagNames"
 export { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 export { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 export { DefaultMaxProcs } from "./DefaultMaxProcs"

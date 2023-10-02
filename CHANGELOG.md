@@ -37,6 +37,8 @@ vendored versions of ExifTool match the version that they vendor.
     timezone. Code was refactored to do this in a single pass.
   - Timezone extraction and normalization was improved.
 
+- 📦 Add `creationDate` to [CapturedAtTagNames](https://photostructure.github.io/exiftool-vendored.js/variables/CapturedAtTagNames.html). [See PR#159](https://github.com/photostructure/exiftool-vendored.js/pull/159).
+
 ### v23.1.0
 
 - 🌱 ExifTool upgraded to [v12.67](https://exiftool.org/history.html#v12.67)

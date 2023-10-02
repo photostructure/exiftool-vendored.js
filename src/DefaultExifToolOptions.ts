@@ -1,5 +1,5 @@
 import * as bc from "batch-cluster"
-import { DefaultCreateDateTagNames } from "./DefaultCreateDateTagNames"
+import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { ExifToolOptions } from "./ExifToolOptions"
@@ -14,7 +14,6 @@ import { VersionTask } from "./VersionTask"
  * Default values for `ExifToolOptions`, except for `processFactory` (which is
  * created by the ExifTool constructor)
  */
-
 export const DefaultExifToolOptions: Omit<
   ExifToolOptions,
   "processFactory" | "ignoreShebang"
@@ -51,7 +50,7 @@ export const DefaultExifToolOptions: Omit<
   defaultVideosToUTC: true,
   backfillTimezones: true,
   inferTimezoneFromDatestamps: false, // to retain prior behavior
-  inferTimezoneFromDatestampTags: [...DefaultCreateDateTagNames],
+  inferTimezoneFromDatestampTags: [...CapturedAtTagNames],
   geoTz: geoTz,
   isIgnorableError: isIgnorableWarning,
 })

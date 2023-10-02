@@ -1,11 +1,13 @@
+import { Tags } from "./Tags"
+
 export const CapturedAtTagNames = [
   "SubSecDateTimeOriginal",
-  "DateTimeOriginal",
   "SubSecCreateDate",
-  "CreationDate",
-  "CreateDate",
-  "CreationDate", // < Found in some transcoded Apple movies
   "SubSecMediaCreateDate",
+  "DateTimeOriginal",
+  "CreateDate",
   "MediaCreateDate",
+  "CreationDate", // < Found in some transcoded Apple movies
   "DateTimeCreated",
-] as const
+  "TimeCreated", // < may not have the date
+] as const satisfies readonly (keyof Tags)[]
