@@ -171,7 +171,7 @@ export interface ExifToolOptions
    * This setting is only in play if {@link inferTimezoneFromDatestamps} has
    * been overridden to be `true`.
    *
-   * This defaults to {@link DefaultCreateDateTagNames}
+   * This defaults to {@link CapturedAtTagNames}
    */
   inferTimezoneFromDatestampTags: (keyof Tags)[]
 
