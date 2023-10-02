@@ -4,6 +4,7 @@ export const CapturedAtTagNames = [
   "SubSecCreateDate",
   "CreationDate",
   "CreateDate",
+  "CreationDate", // < Found in some transcoded Apple movies
   "SubSecMediaCreateDate",
   "MediaCreateDate",
   "DateTimeCreated",

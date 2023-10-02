@@ -1,5 +1,4 @@
 import { FixedOffsetZone, Info, Zone } from "luxon"
-import { compact } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { ExifDate } from "./ExifDate"
@@ -7,8 +6,9 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolOptions } from "./ExifToolOptions"
 import { lazy } from "./Lazy"
-import { Maybe, first, map } from "./Maybe"
+import { Maybe, first, map, map2 } from "./Maybe"
 import { isNumber } from "./Number"
+import { pick } from "./Pick"
 import { blank, pad2 } from "./String"
 import { Tags } from "./Tags"
 
@@ -417,32 +417,40 @@ export function inferLikelyOffsetMinutes(deltaMinutes: number): number {
   return TzBoundaryMinutes * Math.floor(deltaMinutes / TzBoundaryMinutes)
 }
 
-export function extractTzOffsetFromUTCOffset(t: {
-  DateTimeUTC?: string
-  GPSDateTime?: string
-  GPSDateStamp?: string
-  GPSTimeStamp?: string
-  GPSDateTimeStamp?: string
-  SubSecDateTimeOriginal?: string
-  DateTimeOriginal?: string
-  SubSecCreateDate?: string
-  CreateDate?: string
-  SubSecMediaCreateDate?: string
-  MediaCreateDate?: string
-  DateTimeCreated?: string
-}): Maybe<TzSrc> {
-  const gpsStamps = compact([t.GPSDateStamp, t.GPSTimeStamp])
-  if (gpsStamps.length === 2) {
-    t.GPSDateTimeStamp ??= gpsStamps.join(" ")
+/**
+ * Convert blank strings to undefined.
+ */
+function blankToNull<T>(x: Maybe<T>): Maybe<T> {
+  return x == null || (typeof x === "string" && blank(x)) ? undefined : x
+}
+
+export function extractTzOffsetFromUTCOffset(
+  t: Pick<
+    Tags,
+    | (typeof CapturedAtTagNames)[number]
+    | "GPSDateTime"
+    | "DateTimeUTC"
+    | "GPSDateStamp"
+    | "GPSTimeStamp"
+  >
+): Maybe<TzSrc> {
+  const utcSources = {
+    ...pick(t, "GPSDateTime", "DateTimeUTC"),
+    GPSDateTimeStamp: map2(
+      blankToNull(t.GPSDateStamp), // Example: "2022:04:13"
+      blankToNull(t.GPSTimeStamp), // Example: "23:59:41.001"
+      (a, b) => a + " " + b
+    ),
   }
 
   // We can always assume these are in UTC:
   const utc = first(
-    ["GPSDateTime", "DateTimeUTC", "GPSDateTimeStamp"],
+    ["GPSDateTime", "DateTimeUTC", "GPSDateTimeStamp"] as const,
     (tagName) => {
-      const edt = ExifDateTime.fromExifStrict((t as any)[tagName])
+      const v = utcSources[tagName]
+      const edt = v instanceof ExifDateTime ? v : ExifDateTime.fromExifStrict(v)
       const s =
-        edt != null && (edt.zone == null || edt.zone === "UTC")
+        edt != null && (edt.zone == null || isUTC(edt.zone))
           ? edt.setZone("UTC", { keepLocalTime: true })?.toEpochSeconds()
           : undefined
       return s != null

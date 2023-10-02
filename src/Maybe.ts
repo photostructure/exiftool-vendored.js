@@ -5,6 +5,14 @@ export function map<T, U>(maybeT: MaybeNull<T>, f: (t: T) => U): Maybe<U> {
   return maybeT == null ? undefined : f(maybeT)
 }
 
+export function map2<A, B, U>(
+  a: MaybeNull<A>,
+  b: MaybeNull<B>,
+  f: (a: A, b: B) => U
+): Maybe<U> {
+  return a == null || b == null ? undefined : f(a, b)
+}
+
 export function first<T, U>(
   iter: Iterable<Maybe<T>>,
   f: (t: T) => Maybe<U>
