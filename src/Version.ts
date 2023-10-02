@@ -12,3 +12,9 @@ export interface Version {
   ModifyDate?: ExifDateTime | ExifDate | string
   Version?: string
 }
+
+const fields = ["Comments", "Event", "Modifier", "ModifyDate", "Version"]
+
+export function isVersion(obj: any): obj is Version {
+  return obj != null && typeof obj === "object" && fields.every((f) => f in obj)
+}

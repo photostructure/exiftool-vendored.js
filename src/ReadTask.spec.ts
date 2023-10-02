@@ -653,7 +653,7 @@ describe("ReadTask", () => {
         expect(t).to.eql({
           MIMEType: "video/quicktime",
           tz: "Europe/London",
-          tzSource: "CreationDate & GPSLatitude/GPSLongitude",
+          tzSource: "GPSLatitude/GPSLongitude",
           FileModifyDate: "2023-07-19T15:38:32-07:00",
           FileAccessDate: "2023-07-19T15:38:42-07:00",
           FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
@@ -841,8 +841,8 @@ describe("ReadTask", () => {
           SubSecTimeDigitized: 700,
           SubSecTimeOriginal: 700,
           errors: [],
-          tz: "America/New_York",
-          tzSource: "OffsetTime & GPSLatitude/GPSLongitude",
+          tz: "UTC-5",
+          tzSource: "OffsetTime",
         })
       })
 
@@ -961,6 +961,57 @@ describe("ReadTask", () => {
           tz: "UTC-5",
           tzSource: "OffsetTime",
         })
+      })
+    })
+
+    describe("ignore UTC zone offsets as valid .tz sources when coming from date and time stamps", () => {
+      const input = {
+        DateCreated: "2018:07:03",
+        TimeCreated: "16:38:32+00:00",
+        DateTimeCreated: "2018:07:03 16:38:32+00:00",
+        DateTimeOriginal: "2018:07:03 16:38:32",
+        FileModifyDate: "2020:01:02 12:34:56-08:00",
+      }
+      const output = {
+        DateCreated: "2018-07-03",
+        TimeCreated: "16:38:32+00:00",
+        DateTimeCreated: "2018-07-03T16:38:32Z",
+        DateTimeOriginal: "2018-07-03T16:38:32",
+        FileModifyDate: "2020-01-02T12:34:56-08:00",
+        // NOTE! No .tz or .tzSource!
+        errors: [],
+      }
+      it("{backfill: false, infer: false} makes no tz changes", () => {
+        const t = parse({
+          tags: input,
+          backfillTimezones: false,
+          inferTimezoneFromDatestamps: false,
+        })
+        expect(renderTagsWithISO(t)).to.eql(output)
+      })
+      it("{backfill: true, infer: true|false} adds tz", () => {
+        expect(
+          renderTagsWithISO(
+            parse({
+              tags: input,
+              backfillTimezones: true,
+              inferTimezoneFromDatestamps: false,
+            })
+          )
+        )
+          .to.eql(output)
+          .and.to.not.haveOwnProperty("tz")
+        expect(
+          renderTagsWithISO(
+            parse({
+              tags: input,
+              backfillTimezones: true,
+              inferTimezoneFromDatestamps: true,
+            })
+          )
+        )
+          .to.eql(output)
+          .and.to.not.haveOwnProperty("tz")
       })
     })
 

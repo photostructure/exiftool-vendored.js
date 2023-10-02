@@ -1,4 +1,4 @@
-import { Info } from "luxon"
+import { IANAZone, Info } from "luxon"
 import { ExifDateTime } from "./ExifDateTime"
 import {
   UnsetZone,
@@ -6,6 +6,7 @@ import {
   extractTzOffsetFromTags,
   extractTzOffsetFromUTCOffset,
   extractZone,
+  normalizeZone,
   offsetMinutesToZoneName,
   validTzOffsetMinutes,
 } from "./Timezones"
@@ -26,6 +27,52 @@ describe("Timezones", () => {
       expect(extractZone("UTC-00:01")).to.eql(undefined)
     })
   })
+
+  describe("normalizeZone()", () => {
+    describe("rejects invalid inputs", () => {
+      for (const invalid of [
+        undefined,
+        "",
+        new IANAZone("invalid"),
+        "GMT/invalid",
+        "BAD",
+        "UTC+21",
+        "UTC-15",
+        "+BAD",
+        "+1",
+        "2014-07-19T12:05:19-09:00",
+      ]) {
+        it(`(${JSON.stringify(invalid)}) => undefined`, () => {
+          expect(normalizeZone(invalid)).to.eql(undefined)
+        })
+      }
+    })
+    describe("accepts valid inputs", () => {
+      const ts = new Date("2023-01-01T01:00:00").getTime()
+      for (const ea of [
+        { z: "Z", exp: "+00:00" },
+        { z: "GMT", exp: "+00:00" },
+        { z: "Zulu", exp: "+00:00" },
+        { z: "UTC", exp: "+00:00" },
+        { z: "UCT", exp: "+00:00" },
+        { z: "UTC+0", exp: "+00:00" },
+        { z: "UTC+00:00", exp: "+00:00" },
+        { z: "UTC+07:00", exp: "+07:00" },
+        { z: "UTC+07:30", exp: "+07:30" },
+        { z: "UTC-03:00", exp: "-03:00" },
+        { z: "America/Los_Angeles", exp: "-08:00" },
+        { z: "US/Hawaii", exp: "-10:00" },
+        { z: "US/Hawaii", exp: "-10:00" },
+        { z: "Japan", exp: "+09:00" },
+        { z: "GB", exp: "+00:00" }, // FIRST MISSPELLING COLOR, AND NOW THIS
+      ]) {
+        it(`(${JSON.stringify(ea.z)}) => ${ea.exp}`, () => {
+          expect(normalizeZone(ea.z)?.formatOffset(ts, "short")).to.eql(ea.exp)
+        })
+      }
+    })
+  })
+
   describe("extractOffset()", () => {
     function ozn(tz: string) {
       return {
@@ -111,6 +158,7 @@ describe("Timezones", () => {
       }
     })
   })
+
   describe("extractTzOffsetFromUTCOffset", () => {
     it("with DateTimeUTC and created-at CreateDate", () => {
       expect(

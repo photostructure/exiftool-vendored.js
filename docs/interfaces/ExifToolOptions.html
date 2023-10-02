@@ -15,6 +15,11 @@
 <li><a href="../modules.html">exiftool-vendored</a></li>
 <li><a href="ExifToolOptions.html">ExifToolOptions</a></li></ul>
 <h1>Interface ExifToolOptions</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>Options for the <a href="../classes/ExifTool.html" class="tsd-kind-class">ExifTool</a> constructor.</p>
+<p>Defaults are defined in <a href="../variables/DefaultExifToolOptions.html" class="tsd-kind-variable">DefaultExifToolOptions</a>.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
@@ -24,7 +29,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">ExifToolOptions</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L5">src/ExifToolOptions.ts:5</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L11">src/ExifToolOptions.ts:11</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -48,6 +53,7 @@
 <a href="ExifToolOptions.html#ignoreShebang" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>ignore<wbr/>Shebang</span></a>
 <a href="ExifToolOptions.html#imageHashType" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>image<wbr/>Hash<wbr/>Type</span></a>
 <a href="ExifToolOptions.html#includeImageDataMD5" class="tsd-index-link deprecated"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>include<wbr/>Image<wbr/>DataMD5</span></a>
+<a href="ExifToolOptions.html#inferTimezoneFromDatestampTags" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>infer<wbr/>Timezone<wbr/>From<wbr/>Datestamp<wbr/>Tags</span></a>
 <a href="ExifToolOptions.html#inferTimezoneFromDatestamps" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>infer<wbr/>Timezone<wbr/>From<wbr/>Datestamps</span></a>
 <a href="ExifToolOptions.html#isIgnorableError" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>is<wbr/>Ignorable<wbr/>Error</span></a>
 <a href="ExifToolOptions.html#logger" class="tsd-index-link tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>logger</span></a>
@@ -76,18 +82,18 @@
 <h3 class="tsd-anchor-link"><span>backfill<wbr/>Timezones</span><a href="#backfillTimezones" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">backfill<wbr/>Timezones</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 <div class="tsd-comment tsd-typography"><p>Should we try to backfill timezones for date-times that don&#39;t have them?
-If set to <code>true</code>, and <code>defaultVideosToUTC</code> is also <code>true</code>, we&#39;ll try
-backfilling timezones for date-times that are UTC, as well.</p>
+If set to <code>true</code>, and <a href="ExifToolOptions.html#defaultVideosToUTC" class="tsd-kind-property">defaultVideosToUTC</a> is also <code>true</code>, we&#39;ll
+try backfilling timezones for date-times that are UTC, as well.</p>
 <p>Setting this to <code>false</code> removes <strong>all</strong> timezone inference--only those
-date-times with an explicit offset will have a defined timezone. Prior
-versions of exiftool-vendored would use the file&#39;s <code>.tz</code> as a backstop
-even if this was set to <code>false</code>.</p>
+date-times with an explicit offset will have a defined timezone.</p>
+<p>Prior versions of exiftool-vendored would use the file&#39;s <code>.tz</code> as a
+backstop even if this was set to <code>false</code>.</p>
 <p>As of version 23, this now defaults to <code>true</code>, as it&#39;s more likely to be
 what people expect.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L139">src/ExifToolOptions.ts:139</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L149">src/ExifToolOptions.ts:149</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="checkPerl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>check<wbr/>Perl</span><a href="#checkPerl" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">check<wbr/>Perl</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -97,7 +103,7 @@ if you know perl is installed.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L172">src/ExifToolOptions.ts:172</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L196">src/ExifToolOptions.ts:196</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="cleanupChildProcs" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>cleanup<wbr/>Child<wbr/>Procs</span><a href="#cleanupChildProcs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">cleanup<wbr/>Child<wbr/>Procs</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -120,7 +126,7 @@ inference used in images. To disable this default, set this to false.</p>
 <h4>See</h4><p><a href="https://github.com/photostructure/exiftool-vendored.js/issues/113">https://github.com/photostructure/exiftool-vendored.js/issues/113</a></p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L124">src/ExifToolOptions.ts:124</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L133">src/ExifToolOptions.ts:133</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="endGracefulWaitTimeMillis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>end<wbr/>Graceful<wbr/>Wait<wbr/>Time<wbr/>Millis</span><a href="#endGracefulWaitTimeMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">end<wbr/>Graceful<wbr/>Wait<wbr/>Time<wbr/>Millis</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -142,7 +148,7 @@ kill signal to shut down. Any pending requests may be interrupted. Must be
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L68">src/ExifToolOptions.ts:68</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L75">src/ExifToolOptions.ts:75</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="exiftoolEnv" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>exiftool<wbr/>Env</span><a href="#exiftoolEnv" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">exiftool<wbr/>Env</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">ProcessEnv</span></div>
@@ -150,16 +156,17 @@ kill signal to shut down. Any pending requests may be interrupted. Must be
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L73">src/ExifToolOptions.ts:73</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L80">src/ExifToolOptions.ts:80</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="exiftoolPath" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>exiftool<wbr/>Path</span><a href="#exiftoolPath" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">exiftool<wbr/>Path</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-<div class="tsd-comment tsd-typography"><p>Allows for non-standard paths to ExifTool. Defaults to the perl or windows
-binaries provided by <code>exiftool-vendored.pl</code> or <code>exiftool-vendored.exe</code>.</p>
+<div class="tsd-comment tsd-typography"><p>Allows for non-standard paths to ExifTool. Defaults to the perl or
+windows binaries provided by <code>exiftool-vendored.pl</code> or
+<code>exiftool-vendored.exe</code>.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L63">src/ExifToolOptions.ts:63</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L70">src/ExifToolOptions.ts:70</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="exitCommand" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>exit<wbr/>Command</span><a href="#exitCommand" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">exit<wbr/>Command</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div>
@@ -214,7 +221,7 @@ resources, consider using <code>geo-tz</code> for more accurate results.</p>
 </ul>
 </div></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L191">src/ExifToolOptions.ts:191</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L215">src/ExifToolOptions.ts:215</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="healthCheckCommand" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>health<wbr/>Check<wbr/>Command</span><a href="#healthCheckCommand" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">health<wbr/>Check<wbr/>Command</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div>
@@ -251,7 +258,7 @@ situations. Note also that <code>perl</code> will be spawned in a sub-shell.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L165">src/ExifToolOptions.ts:165</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L189">src/ExifToolOptions.ts:189</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="imageHashType" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>image<wbr/>Hash<wbr/>Type</span><a href="#imageHashType" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">image<wbr/>Hash<wbr/>Type</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MD5&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SHA256&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SHA512&quot;</span></div>
@@ -264,7 +271,7 @@ some RIFF-based files such as AVI, WAV and WEBP.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L111">src/ExifToolOptions.ts:111</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L120">src/ExifToolOptions.ts:120</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="includeImageDataMD5" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span class="deprecated">include<wbr/>Image<wbr/>DataMD5</span><a href="#includeImageDataMD5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">include<wbr/>Image<wbr/>DataMD5</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></div>
@@ -272,21 +279,36 @@ some RIFF-based files such as AVI, WAV and WEBP.</p>
 <h4>Deprecated</h4><p>Use <code>imageHashType</code> instead.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L116">src/ExifToolOptions.ts:116</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L125">src/ExifToolOptions.ts:125</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="inferTimezoneFromDatestampTags" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>infer<wbr/>Timezone<wbr/>From<wbr/>Datestamp<wbr/>Tags</span><a href="#inferTimezoneFromDatestampTags" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">infer<wbr/>Timezone<wbr/>From<wbr/>Datestamp<wbr/>Tags</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">keyof </span><a href="Tags.html" class="tsd-signature-type tsd-kind-interface">Tags</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+<div class="tsd-comment tsd-typography"><p>This is the list of tag names that will be used to infer the timezone as
+a backstop, if no explicit timezone is found in metadata. Note that
+datestamps with UTC offsets are ignored, as they are frequently
+incorrectly set.</p>
+<p>This setting is only in play if <a href="ExifToolOptions.html#inferTimezoneFromDatestamps" class="tsd-kind-property">inferTimezoneFromDatestamps</a> has
+been overridden to be <code>true</code>.</p>
+<p>This defaults to DefaultCreateDatestampNames</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L176">src/ExifToolOptions.ts:176</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="inferTimezoneFromDatestamps" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>infer<wbr/>Timezone<wbr/>From<wbr/>Datestamps</span><a href="#inferTimezoneFromDatestamps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">infer<wbr/>Timezone<wbr/>From<wbr/>Datestamps</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-<div class="tsd-comment tsd-typography"><p>We always look at TimeZone, OffsetTime, TimeZoneOffset, and GPS metadata
-to infer the timezone.</p>
-<p>If these strategies fail, can we infer a timezone from any non-UTC
-datestamp whose tag starts with &quot;Creat&quot; and includes an offset? (This
-means CreateDateSubSec, CreateDate, and CreationDate will be considered).</p>
+<div class="tsd-comment tsd-typography"><p>We always look at <a href="MakerNotesTags.html#TimeZone" class="tsd-kind-property">Tags.TimeZone</a>, <a href="EXIFTags.html#OffsetTime" class="tsd-kind-property">Tags.OffsetTime</a>,
+<a href="EXIFTags.html#TimeZoneOffset" class="tsd-kind-property">Tags.TimeZoneOffset</a>, <a href="EXIFTags.html#OffsetTimeOriginal" class="tsd-kind-property">Tags.OffsetTimeOriginal</a>,
+<a href="EXIFTags.html#OffsetTimeDigitized" class="tsd-kind-property">Tags.OffsetTimeDigitized</a>, and GPS metadata to infer the timezone.</p>
+<p>If these strategies fail, and this is enabled, we&#39;ll try to infer the
+timezone from non-UTC datestamps included in the
+<a href="ExifToolOptions.html#inferTimezoneFromDatestampTags" class="tsd-kind-property">inferTimezoneFromDatestampTags</a> value.</p>
 <p>This defaults to false as it both retains prior behavior and means fewer
 &quot;fuzzy&quot; heuristics are enabled by default.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L152">src/ExifToolOptions.ts:152</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L163">src/ExifToolOptions.ts:163</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="isIgnorableError" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Ignorable<wbr/>Error</span><a href="#isIgnorableError" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">is<wbr/>Ignorable<wbr/>Error</span><span class="tsd-signature-symbol">:</span> <a href="IgnorableError.html" class="tsd-signature-type tsd-kind-interface">IgnorableError</a></div>
@@ -298,7 +320,7 @@ means CreateDateSubSec, CreateDate, and CreationDate will be considered).</p>
 <h4>Returns</h4><p>true if the error should be ignored</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L202">src/ExifToolOptions.ts:202</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L226">src/ExifToolOptions.ts:226</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="logger" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>logger</span><a href="#logger" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">logger</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Logger</span><span class="tsd-signature-symbol">)</span></div>
@@ -362,7 +384,7 @@ it down to reduce system resource consumption.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Overrides bc.BatchClusterOptions.maxProcs</p>
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L14">src/ExifToolOptions.ts:14</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L20">src/ExifToolOptions.ts:20</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="maxReasonableProcessFailuresPerMinute" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>max<wbr/>Reasonable<wbr/>Process<wbr/>Failures<wbr/>Per<wbr/>Minute</span><a href="#maxReasonableProcessFailuresPerMinute" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">max<wbr/>Reasonable<wbr/>Process<wbr/>Failures<wbr/>Per<wbr/>Minute</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -380,14 +402,14 @@ created indefinitely.</p>
 <section class="tsd-panel tsd-member"><a id="maxTasksPerProcess" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>max<wbr/>Tasks<wbr/>Per<wbr/>Process</span><a href="#maxTasksPerProcess" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">max<wbr/>Tasks<wbr/>Per<wbr/>Process</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-<div class="tsd-comment tsd-typography"><p>The maximum number of requests a given ExifTool process will service before
-being retired.</p>
+<div class="tsd-comment tsd-typography"><p>The maximum number of requests a given ExifTool process will service
+before being retired.</p>
 <p>Defaults to 500, to balance performance with memory usage.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Overrides bc.BatchClusterOptions.maxTasksPerProcess</p>
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L22">src/ExifToolOptions.ts:22</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L28">src/ExifToolOptions.ts:28</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="minDelayBetweenSpawnMillis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>min<wbr/>Delay<wbr/>Between<wbr/>Spawn<wbr/>Millis</span><a href="#minDelayBetweenSpawnMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">min<wbr/>Delay<wbr/>Between<wbr/>Spawn<wbr/>Millis</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -406,12 +428,13 @@ down initial processing, and create unnecessary processes.</p>
 values, rather than ExifTool&#39;s &quot;Print Conversion.&quot;</p>
 <p>If you&#39;re using tag values only for human consumption, you may want to
 leave this blank.</p>
-<p>The default includes &quot;<em>Duration</em>&quot;, &quot;GPSAltitude&quot;, &quot;GPSLatitude&quot;,
-&quot;GPSLongitude&quot;, &quot;GPSPosition&quot;, and &quot;Orientation&quot;.</p>
+<p>The default includes &quot;<em>Duration</em>&quot;, <a href="CompositeTags.html#GPSAltitude" class="tsd-kind-property">Tags.GPSAltitude</a>,
+<a href="CompositeTags.html#GPSLatitude" class="tsd-kind-property">Tags.GPSLatitude</a>, <a href="CompositeTags.html#GPSLongitude" class="tsd-kind-property">Tags.GPSLongitude</a>,
+<a href="CompositeTags.html#GPSPosition" class="tsd-kind-property">Tags.GPSPosition</a>, and <a href="EXIFTags.html#Orientation" class="tsd-kind-property">Tags.Orientation</a>.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L99">src/ExifToolOptions.ts:99</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L108">src/ExifToolOptions.ts:108</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="onIdleIntervalMillis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Idle<wbr/>Interval<wbr/>Millis</span><a href="#onIdleIntervalMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">on<wbr/>Idle<wbr/>Interval<wbr/>Millis</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -422,7 +445,7 @@ child processes with this periodicity.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Overrides bc.BatchClusterOptions.onIdleIntervalMillis</p>
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L50">src/ExifToolOptions.ts:50</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L56">src/ExifToolOptions.ts:56</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="pass" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pass</span><a href="#pass" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">pass</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type ">RegExp</span></div>
@@ -469,16 +492,16 @@ system resources.</p>
 <h3 class="tsd-anchor-link"><span>spawn<wbr/>Timeout<wbr/>Millis</span><a href="#spawnTimeoutMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">spawn<wbr/>Timeout<wbr/>Millis</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography"><p>Spawning new ExifTool processes must not take longer than
-<code>spawnTimeoutMillis</code> millis before it times out and a new attempt is made.
-Be pessimistic here--windows can regularly take several seconds to spin up
-a process, thanks to antivirus shenanigans. This can&#39;t be set to a value
-less than 100ms.</p>
+<a href="ExifToolOptions.html#spawnTimeoutMillis" class="tsd-kind-property">spawnTimeoutMillis</a> milliseconds before the child process is timed
+out and a new attempt is made. Be pessimistic here--windows can regularly
+take several seconds to spin up a process, thanks to antivirus
+shenanigans. This can&#39;t be set to a value less than 100ms.</p>
 <p>Defaults to 30 seconds, to accommodate slow Windows machines.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Overrides bc.BatchClusterOptions.spawnTimeoutMillis</p>
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L33">src/ExifToolOptions.ts:33</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L39">src/ExifToolOptions.ts:39</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="streamFlushMillis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>stream<wbr/>Flush<wbr/>Millis</span><a href="#streamFlushMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">stream<wbr/>Flush<wbr/>Millis</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -509,26 +532,27 @@ to be associated to tasks that were just settled)</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L57">src/ExifToolOptions.ts:57</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L63">src/ExifToolOptions.ts:63</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="taskTimeoutMillis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>task<wbr/>Timeout<wbr/>Millis</span><a href="#taskTimeoutMillis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">task<wbr/>Timeout<wbr/>Millis</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-<div class="tsd-comment tsd-typography"><p>If requests to ExifTool take longer than this,
-presume the underlying process is dead and we should restart the task. This
-can&#39;t be set to a value less than 10ms, and really should be set to at more
-than a second unless <code>taskRetries</code> is sufficiently large or all writes will
-be to a fast local disk. Defaults to 10 seconds.</p>
+<div class="tsd-comment tsd-typography"><p>If requests to ExifTool take longer than this, presume the underlying
+process is dead and we should restart the task. This can&#39;t be set to a
+value less than 10ms, and really should be set to at more than a second
+unless <code>taskRetries</code> is sufficiently large or all writes will be to a
+fast local disk. Defaults to 10 seconds.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Overrides bc.BatchClusterOptions.taskTimeoutMillis</p>
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L42">src/ExifToolOptions.ts:42</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L48">src/ExifToolOptions.ts:48</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="useMWG" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>useMWG</span><a href="#useMWG" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">useMWG</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 <div class="tsd-comment tsd-typography"><p>Should ExifTool use MWG (Metadata Working Group) composite tags for
 reading and writing tags?</p>
-<p>ExifTool recommends this to be set to true.</p>
+<p>ExifTool recommends this to be set to true. This defaults to <code>false</code> to
+maintain consistency with prior versions.</p>
 <p>Note that this can result in many tag value differences from
 <code>ExifTool.read</code>, and makes <code>ExifTool.write</code> write to &quot;synonymous&quot; MWG
 tags automatically.</p>
@@ -537,7 +561,7 @@ tags automatically.</p>
 <h4>See</h4><p><a href="https://exiftool.org/TagNames/MWG.html">https://exiftool.org/TagNames/MWG.html</a> for details</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L87">src/ExifToolOptions.ts:87</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifToolOptions.ts#L95">src/ExifToolOptions.ts:95</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-inherited tsd-is-external"><a id="versionCommand" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>version<wbr/>Command</span><a href="#versionCommand" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">version<wbr/>Command</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
@@ -583,6 +607,7 @@ tasks will be given to a given process.</p>
 <li><a href="#ignoreShebang" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>ignore<wbr/>Shebang</span></a></li>
 <li><a href="#imageHashType" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>image<wbr/>Hash<wbr/>Type</span></a></li>
 <li><a href="#includeImageDataMD5" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>include<wbr/>Image<wbr/>DataMD5</span></a></li>
+<li><a href="#inferTimezoneFromDatestampTags" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>infer<wbr/>Timezone<wbr/>From<wbr/>Datestamp<wbr/>Tags</span></a></li>
 <li><a href="#inferTimezoneFromDatestamps" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>infer<wbr/>Timezone<wbr/>From<wbr/>Datestamps</span></a></li>
 <li><a href="#isIgnorableError" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>is<wbr/>Ignorable<wbr/>Error</span></a></li>
 <li><a href="#logger" class="tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>logger</span></a></li>

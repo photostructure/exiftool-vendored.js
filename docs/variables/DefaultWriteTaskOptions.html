@@ -23,7 +23,8 @@
 <h5><code class="tsd-tag ts-flagReadonly">Readonly</code> <span class="tsd-kind-property">useMWG</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
 <div class="tsd-comment tsd-typography"><p>Should ExifTool use MWG (Metadata Working Group) composite tags for
 reading and writing tags?</p>
-<p>ExifTool recommends this to be set to true.</p>
+<p>ExifTool recommends this to be set to true. This defaults to <code>false</code> to
+maintain consistency with prior versions.</p>
 <p>Note that this can result in many tag value differences from
 <code>ExifTool.read</code>, and makes <code>ExifTool.write</code> write to &quot;synonymous&quot; MWG
 tags automatically.</p>

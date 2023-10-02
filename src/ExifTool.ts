@@ -172,10 +172,10 @@ export interface StructAppendTags {
 }
 
 /**
- * Manages delegating calls to a vendored running instance of ExifTool.
+ * Manages delegating calls to a cluster of ExifTool child processes.
  *
- * Instances should be shared: consider using the exported singleton
- * instance of this class, `exiftool`.
+ * Instances should be shared: consider using the exported singleton instance
+ * of this class, {@link exiftool}.
  */
 export class ExifTool {
   readonly options: ExifToolOptions
@@ -555,14 +555,20 @@ export class ExifTool {
 }
 
 /**
- * Use this singleton rather than instantiating new ExifTool instances in order
- * to leverage a single running ExifTool process. As of v3.0, its `maxProcs` is
- * set to the number of CPUs on the current system; no more than `maxProcs`
- * instances of `exiftool` will be spawned. You may want to experiment with
- * smaller or larger values for `maxProcs`, depending on CPU and disk speed of
- * your system and performance tradeoffs.
+ * Use this singleton rather than instantiating new {@link ExifTool} instances
+ * in order to leverage a single running ExifTool process.
+ *
+ * As of v3.0, its {@link ExifToolOptions.maxProcs} is set to the number of
+ * CPUs on the current system; no more than `maxProcs` instances of `exiftool`
+ * will be spawned. You may want to experiment with smaller or larger values
+ * for `maxProcs`, depending on CPU and disk speed of your system and
+ * performance tradeoffs.
  *
  * Note that each child process consumes between 10 and 50 MB of RAM. If you
- * have limited system resources you may want to use a smaller `maxProcs` value.
+ * have limited system resources you may want to use a smaller `maxProcs`
+ * value.
+ *
+ * See the source of {@link DefaultExifToolOptions} for more details about how
+ * this instance is configured.
  */
 export const exiftool = new ExifTool()

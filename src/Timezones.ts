@@ -1,13 +1,15 @@
 import { FixedOffsetZone, Info, Zone } from "luxon"
 import { compact } from "./Array"
+import { BinaryField } from "./BinaryField"
 import { CapturedAtTagNames } from "./CapturedAtTagNames"
+import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolOptions } from "./ExifToolOptions"
 import { lazy } from "./Lazy"
 import { Maybe, first, map } from "./Maybe"
 import { isNumber } from "./Number"
-import { blank, pad2, toS } from "./String"
+import { blank, pad2 } from "./String"
 import { Tags } from "./Tags"
 
 // Unique values from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -104,6 +106,34 @@ export const UnsetZone = Info.normalizeZone(UnsetZoneOffsetMinutes)
  */
 export const UnsetZoneName = UnsetZone.name
 
+const Zulus = [
+  FixedOffsetZone.utcInstance,
+  0,
+  -0,
+  "UTC",
+  "GMT",
+  "Z",
+  "+0",
+  "+00:00",
+  "UTC+0",
+  "GMT+0",
+  "UTC+00:00",
+  // ...sigh, so much for "normalizeZone"...
+]
+
+export function isUTC(zone: Maybe<Zone | string | number>) {
+  const z = zone as any
+  return (
+    zone != null && (Zulus.includes(z) || Zulus.includes(z.zoneName ?? z.fixed))
+  )
+}
+
+export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
+  return (
+    zone != null && zone.isValid && Math.abs(zone.offset(Date.now())) < 14 * 60
+  )
+}
+
 /**
  * If `tzSource` matches this value, the tags are from a video, and we had to
  * resort to assuming time fields are in UTC.
@@ -111,18 +141,58 @@ export const UnsetZoneName = UnsetZone.name
  */
 export const defaultVideosToUTC = "defaultVideosToUTC"
 
-export function normalizeZone(z: Maybe<string | number | Zone>): Maybe<Zone> {
+// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones -- not that
+// "WET" and "W-SU" are full TZs
+const IanaFormatRE = /^\w{2,15}(?:\/\w{3,15})?$/
+// Luxon requires fixed-offset zones to look like "UTC+H", "UTC-H",
+// "UTC+H:mm", "UTC-H:mm":
+const FixedFormatRE = /^UTC[+-]\d{1,2}(?::\d\d)?$/
+/**
+ * @param input must be either a number, which is the offset in minutes, or a
+ * string in the format "UTC+H" or "UTC+HH:mm"
+ */
+export function normalizeZone(
+  input: Maybe<string | number | Zone>
+): Maybe<Zone> {
+  // wrapped in a try/catch as Luxon.settings.throwOnInvalid may be true:
   try {
     // Info.normalizeZone returns the system zone if the input is null or
-    // blank (!!!), but we want to return undefined instead--we don't want to introduce the system zone by accident!
-    if (z == null || blank(String(z))) return
-    const zone = Info.normalizeZone(z)
-    return zone != null && zone.isValid && zone.name !== UnsetZoneName
-      ? zone
+    // blank (!!!), but we want to return undefined instead:
+    // Info.normalizeZone(null) returns the system zone, which isn't what we
+    // (ever!) want.
+    if (input == null) return
+    if (input instanceof Zone) {
+      return isZoneValid(input) ? input : undefined
+    }
+    let z = input
+    if (typeof z === "string") {
+      z = z.replace(/^(Zulu|Z|GMT)(\b|$)/, "UTC")
+      // Info.normalizeZone("") returns the system zone, which we never want.
+      // We also don't need to tease Info.normalizeZone with obviously
+      // non-offset inputs:
+      if (blank(z) || (!IanaFormatRE.test(z) && !FixedFormatRE.test(z))) {
+        return
+      }
+    }
+    const result = Info.normalizeZone(z)
+    return isZoneValid(result) && result.name !== UnsetZoneName
+      ? result
       : undefined
   } catch {
     return
   }
+}
+
+/**
+ * @param ts must be provided if the zone is not a fixed offset
+ * @return the zone offset (in "±HH:MM" format) for the given zone, or "" if
+ * the zone is invalid
+ */
+export function zoneToShortOffset(
+  zone: Maybe<string | number | Zone>,
+  ts?: number
+): string {
+  return normalizeZone(zone)?.formatOffset(ts ?? Date.now(), "short") ?? ""
 }
 
 export function validTzOffsetMinutes(
@@ -193,25 +263,48 @@ function extractOffsetFromHours(
  * Parse a timezone offset and return the offset minutes
  */
 export function extractZone(
-  value: Maybe<string | number | number[] | ExifDateTime | ExifTime>,
+  value: Tags[keyof Tags],
   opts?: { stripTZA?: boolean }
 ): Maybe<TzSrc> {
+  if (
+    value == null ||
+    typeof value === "boolean" ||
+    value instanceof BinaryField ||
+    value instanceof ExifDate
+  ) {
+    return
+  }
+
+  if (Array.isArray(value)) {
+    // we only ever care about the first non-null value
+    return extractZone(value.find((ea) => ea != null))
+  }
+
   if (value instanceof ExifDateTime || value instanceof ExifTime) {
     return value.zone == null
       ? undefined
       : { tz: value.zone, src: value.constructor.name + ".zone" }
   }
-  if (isNumber(value) || Array.isArray(value)) {
+
+  if (isNumber(value)) {
     return extractOffsetFromHours(value)
   }
-  let str = (value as any).rawValue ?? toS(value)
+
+  if (typeof value !== "string" || blank(value)) {
+    // don't accept ExifDate, boolean, BinaryField, ResourceEvent, Struct, or
+    // Version instances:
+    return
+  }
+
   {
-    if (blank(str)) return
-    const z = normalizeZone(str)
+    // If value is a proper timezone name, this may be easy!
+    const z = normalizeZone(value)
     if (z != null) {
       return { tz: z.name, src: "normalizeZone" }
     }
   }
+
+  let str = value.trim()
 
   // Some EXIF datetime will "over-specify" and include both the utc offset
   // *and* the "time zone abbreviation"/TZA, like "PST" or "PDT". TZAs are
@@ -231,20 +324,22 @@ export function extractZone(
       return { tz: z.name, src: "normalizeZone" }
     }
   }
-  const m = tzRe.exec(str)
-  const g = m?.groups
 
-  if (m != null && g != null) {
-    const leftovers = str.slice(0, m.index)
-    if (g.Z === "Z")
+  const match = tzRe.exec(str)
+  const capturedGroups = match?.groups
+
+  if (match != null && capturedGroups != null) {
+    const leftovers = str.slice(0, match.index)
+    if (capturedGroups.Z === "Z")
       return {
-        tz: FixedOffsetZone.utcInstance.name,
+        tz: "UTC",
         src: "Z",
         leftovers,
       }
     const offsetMinutes =
-      (g.sign === "-" ? -1 : 1) *
-      (parseInt(g.hours ?? "0") * 60 + parseInt(g.minutes ?? "0"))
+      (capturedGroups.sign === "-" ? -1 : 1) *
+      (parseInt(capturedGroups.hours ?? "0") * 60 +
+        parseInt(capturedGroups.minutes ?? "0"))
     const tz = offsetMinutesToZoneName(offsetMinutes)
     if (tz != null) {
       return { tz, src: "offsetMinutesToZoneName", leftovers }
@@ -272,51 +367,41 @@ const TimezoneOffsetTagnames = [
   "TimeZoneOffset", // number | number[] | string
 ] as const satisfies readonly (keyof Tags)[]
 
-// The following are a hail-mary to try to get the offset from a
-// created-at tag, and only examined if `inferTimezoneFromDatestamps` is
-// true.
-const CreateDateTagnames = [
-  "SubSecCreateDate",
-  "CreateDate",
-  "SubSecDateTimeOriginal",
-  "DateTimeOriginal",
-  "SubSecMediaCreateDate",
-  "MediaCreateDate",
-  "CreationDate", // < from quicktime videos, sometimes has offset!
-  "TimeCreated", // < IPTC tag
-] as const satisfies readonly (keyof Tags)[]
-
-export function extractTzOffsetFromTags(
-  t: Pick<
-    Tags,
-    | (typeof TimezoneOffsetTagnames)[number]
-    | (typeof CreateDateTagnames)[number]
-  >,
-  opts?: Partial<Pick<ExifToolOptions, "inferTimezoneFromDatestamps">>
-): Maybe<TzSrc> {
-  for (const tagName of [
-    ...TimezoneOffsetTagnames,
-    ...(opts?.inferTimezoneFromDatestamps ?? false ? CreateDateTagnames : []),
-  ] as const) {
-    // don't adopt FileCreateDate or FileModifyDate offsets--those are just
-    // the system timezone:
-    if (t[tagName] != null && !tagName.startsWith("File")) {
+export function extractTzOffsetFromTags(t: Tags): Maybe<TzSrc> {
+  // We have to iterate twice: if it's from a timezone offset tag, we can
+  // trust it, even if it's UTC.
+  for (const tagName of TimezoneOffsetTagnames) {
+    if (t[tagName] != null) {
       const offset = extractZone(t[tagName])
       if (offset != null) {
         return { tz: offset.tz, src: tagName }
       }
     }
   }
+  return
+}
 
-  if (t.TimeZoneOffset != null) {
-    const tz = tzHourToOffset(
-      Array.isArray(t.TimeZoneOffset) ? t.TimeZoneOffset[0] : t.TimeZoneOffset
-    )
-    if (tz != null)
-      return {
-        tz,
-        src: "TimeZoneOffset",
+export function extractTzOffsetFromDatestamps(
+  t: Tags,
+  opts: Partial<
+    Pick<
+      ExifToolOptions,
+      "inferTimezoneFromDatestamps" | "inferTimezoneFromDatestampTags"
+    >
+  >
+): Maybe<TzSrc> {
+  if (opts?.inferTimezoneFromDatestamps === true) {
+    for (const tagName of opts.inferTimezoneFromDatestampTags ?? []) {
+      if (t[tagName] != null) {
+        const offset = extractZone(t[tagName])
+        // Some applications (looking at you, Google Takeout) will add a
+        // spurious "+00:00" timezone offset to random datestamp tags, so
+        // ignore UTC offsets here.
+        if (offset != null && !isUTC(offset.tz)) {
+          return { tz: offset.tz, src: tagName }
+        }
       }
+    }
   }
   return
 }

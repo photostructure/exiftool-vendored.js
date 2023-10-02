@@ -26,13 +26,23 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v23.2.0
+
+- ✨ Timezone parsing improvements:
+  - Added [`ExifToolOptions.inferTimezoneFromDatestampTags`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#inferTimezoneFromDatestampTags).
+  - Timezone inference from datestamps now skips over UTC values, as Google
+    Takeout (and several other applications) may spuriously set "+00:00" to
+    datestamps.
+  - ReadTask.parse in prior versions had to scan all tags twice to set the
+    timezone. Code was refactored to do this in a single pass.
+  - Timezone extraction and normalization was improved.
+
 ### v23.1.0
 
 - 🌱 ExifTool upgraded to [v12.67](https://exiftool.org/history.html#v12.67)
 
 - ✨ `ExifTime` now parses and stores timezone offsets if available. This resolves [issue
   #157](https://github.com/photostructure/exiftool-vendored.js/issues/157).
-  
 - 📦 `ExifDateTime`, `ExifTime`, and `ExifDate` are now [only allowed to try
   to parse keys that includes `date` or
   `time`](https://github.com/photostructure/exiftool-vendored.js/blob/ed7bf9eaea9b1d8ad234fb907953568219fc5bdb/src/ReadTask.ts#L389),

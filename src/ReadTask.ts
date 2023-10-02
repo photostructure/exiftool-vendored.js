@@ -1,6 +1,6 @@
 import { logger } from "batch-cluster"
 import * as _path from "path"
-import { sortBy, toA } from "./Array"
+import { toA } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { ExifDate } from "./ExifDate"
@@ -9,15 +9,15 @@ import { ExifTime } from "./ExifTime"
 import { handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
-import { firstDateTime } from "./FirstDateTime"
 import { lazy } from "./Lazy"
-import { Maybe, firstDefinedThunk, map } from "./Maybe"
+import { firstDefinedThunk, map } from "./Maybe"
 import { toFloat } from "./Number"
 import { OnlyZerosRE } from "./OnlyZerosRE"
 import { pick } from "./Pick"
 import { blank, isString, toS } from "./String"
 import { Tags } from "./Tags"
 import {
+  extractTzOffsetFromDatestamps,
   extractTzOffsetFromTags,
   extractTzOffsetFromUTCOffset,
   normalizeZone,
@@ -51,6 +51,7 @@ export const DefaultReadTaskOptions = {
     "defaultVideosToUTC",
     "backfillTimezones",
     "inferTimezoneFromDatestamps",
+    "inferTimezoneFromDatestampTags",
     "geoTz"
   ),
 } as const
@@ -163,21 +164,6 @@ export class ReadTask extends ExifToolTask<Tags> {
     return this.degroup ? k.split(":")[1] ?? k : k
   }
 
-  #maybeSetZone(
-    edt: ExifDateTime,
-    candidates: ExifDateTime[]
-  ): Maybe<ExifDateTime> {
-    if (!edt.inferredZone && edt.hasZone) return edt
-    if (this.tz != null) return edt.setZone(this.tz)
-    for (const src of candidates) {
-      const result = edt.maybeMatchZone(src)
-      if (result != null) {
-        return result
-      }
-    }
-    return
-  }
-
   #parseTags(): Tags {
     this.#extractLatLon()
     this.#extractTzOffset()
@@ -185,51 +171,14 @@ export class ReadTask extends ExifToolTask<Tags> {
     map(this.tzSource, (ea) => (this.tags.tzSource = ea))
     // avoid casting `this.tags as any` everywhere:
     const tags = this.tags as any
-    const datesWithTz: ExifDateTime[] = []
 
-    // two passes: one to parse dates, and the next to possibly set timezones.
     for (const [key, value] of Object.entries(this._raw)) {
       const k = this.#tagName(key)
       const v = this.#parseTag(k, value)
-      if (
-        v instanceof ExifDateTime &&
-        // Don't backfill from `stat()` dates, as they may include the system
-        // zone:
-        !key.startsWith("File") &&
-        v.hasZone &&
-        // Don't backfill from inferred zones:
-        v.inferredZone !== true &&
-        // Don't backfill from UTC tags:
-        !isUtcTagName(key)
-      ) {
-        datesWithTz.push(v)
-      }
       // Note that we set `key` (which may include a group prefix):
       tags[key] = v
     }
 
-    if (this.options.backfillTimezones === true) {
-      // prefer non-UTC offsets (UTC may be incorrect):
-      const candidates = sortBy(
-        datesWithTz,
-        (ea) => -Math.abs(ea.tzoffsetMinutes ?? 0)
-      )
-      for (const [key, value] of Object.entries(tags)) {
-        if (
-          // we don't backfill ExifTime zones, as we don't know for sure what
-          // day they are for, and if the zone isn't fixed, that would be an
-          // issue. (We _could_ set ExifTime zones if we knew the zone was
-          // fixed, but that's a later, low-priority TODO).
-          value instanceof ExifDateTime &&
-          // Don't backfill dates from `stat`:
-          !key.startsWith("File") &&
-          // Don't backfill UTC tags:
-          !isUtcTagName(key)
-        ) {
-          tags[key] = this.#maybeSetZone(value, candidates) ?? value
-        }
-      }
-    }
     if (this.errors.length > 0) this.tags.errors = this.errors
     return tags
   }
@@ -286,38 +235,15 @@ export class ReadTask extends ExifToolTask<Tags> {
       firstDefinedThunk([
         // If there is an explicit TimeZone tag (which is rare), defer to that
         // before defaulting to UTC for videos:
-        () => {
-          const tz = extractTzOffsetFromTags(this._rawDegrouped, this.options)
-          // If this tz offset matches the GPS zone, use the GPS zone name (like "America/Los_Angeles") instead of the offset.
-          const z = normalizeZone(tz?.tz)
-          if (tz != null && z != null) {
-            const geoTz = this.#geoTz()
-            if (geoTz != null) {
-              const edt = firstDateTime(this._rawDegrouped)
-              if (edt != null) {
-                const ts = edt.toMillis()
-                const zOffset = z.offset(ts)
-                const geoTzOffset = geoTz.offset(ts)
-                if (zOffset === geoTzOffset) {
-                  return {
-                    tz: geoTz.name,
-                    src: tz.src + " & GPSLatitude/GPSLongitude",
-                  }
-                }
-              }
-            }
-          }
-          // nope, no GPS, just use the minutes-offset zone format:
-          return tz
-        },
+        () => extractTzOffsetFromTags(this._rawDegrouped),
 
-        // If lat/lon is valid, use the tzlookup library, as it will be a proper
-        // Zone name (like "America/New_York"), rather than just an hour offset.
         () =>
           map(this.#geoTz(), (ea) => ({
             tz: ea.name,
             src: "GPSLatitude/GPSLongitude",
           })),
+
+        () => extractTzOffsetFromDatestamps(this._rawDegrouped, this.options),
 
         // See https://github.com/photostructure/exiftool-vendored.js/issues/113
         // and https://github.com/photostructure/exiftool-vendored.js/issues/156
@@ -386,14 +312,25 @@ export class ReadTask extends ExifToolTask<Tags> {
           // Time-only tags have "time" but not "date" in their name:
           const keyIncludesTime = /time/i.test(tagName)
           const keyIncludesDate = /date/i.test(tagName)
-          return (
+          const result =
             (keyIncludesTime || keyIncludesDate
               ? ExifDateTime.from(value, tz)
               : undefined) ??
             (keyIncludesTime ? ExifTime.fromEXIF(value) : undefined) ??
             (keyIncludesDate ? ExifDate.from(value) : undefined) ??
             value
-          )
+          if (
+            this.options.backfillTimezones &&
+            result != null &&
+            this.tz != null &&
+            result instanceof ExifDateTime &&
+            this.#defaultToUTC() &&
+            !isUtcTagName(tagName) &&
+            true === result.inferredZone
+          ) {
+            return result.setZone(this.tz)
+          }
+          return result
         }
       }
       // Trust that ExifTool rendered the value with the correct type in JSON:

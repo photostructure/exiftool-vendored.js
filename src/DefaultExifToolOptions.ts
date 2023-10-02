@@ -1,4 +1,5 @@
 import * as bc from "batch-cluster"
+import { DefaultCreateDateTagNames } from "./DefaultCreateDateTagNames"
 import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { ExifToolOptions } from "./ExifToolOptions"
@@ -50,6 +51,7 @@ export const DefaultExifToolOptions: Omit<
   defaultVideosToUTC: true,
   backfillTimezones: true,
   inferTimezoneFromDatestamps: false, // to retain prior behavior
+  inferTimezoneFromDatestampTags: [...DefaultCreateDateTagNames],
   geoTz: geoTz,
   isIgnorableError: isIgnorableWarning,
 })

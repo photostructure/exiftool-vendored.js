@@ -3,7 +3,7 @@ import { validDateTime } from "./DateTime"
 import { Maybe } from "./Maybe"
 import { pad2, pad3, toS } from "./String"
 import { parseDateTime, setZone, timeFormats } from "./TimeParsing"
-import { getZoneName, normalizeZone } from "./Timezones"
+import { getZoneName, zoneToShortOffset } from "./Timezones"
 
 /**
  * Encodes an ExifTime (which may not have a timezone offset)
@@ -91,8 +91,7 @@ export class ExifTime {
   }
 
   #shortZone() {
-    return (this.#z ??=
-      normalizeZone(this.zone)?.formatOffset(Date.now(), "short") ?? "")
+    return (this.#z ??= zoneToShortOffset(this.zone))
   }
 
   toString() {

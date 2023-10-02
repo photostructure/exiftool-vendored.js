@@ -16,18 +16,22 @@
 <li><a href="exiftool-1.html">exiftool</a></li></ul>
 <h1>Variable exiftool<code class="tsd-tag ts-flagConst">Const</code> </h1></div>
 <div class="tsd-signature"><span class="tsd-kind-variable">exiftool</span><span class="tsd-signature-symbol">:</span> <a href="../classes/ExifTool.html" class="tsd-signature-type tsd-kind-class">ExifTool</a><span class="tsd-signature-symbol"> = ...</span></div>
-<div class="tsd-comment tsd-typography"><p>Use this singleton rather than instantiating new ExifTool instances in order
-to leverage a single running ExifTool process. As of v3.0, its <code>maxProcs</code> is
-set to the number of CPUs on the current system; no more than <code>maxProcs</code>
-instances of <code>exiftool</code> will be spawned. You may want to experiment with
-smaller or larger values for <code>maxProcs</code>, depending on CPU and disk speed of
-your system and performance tradeoffs.</p>
+<div class="tsd-comment tsd-typography"><p>Use this singleton rather than instantiating new <a href="../classes/ExifTool.html" class="tsd-kind-class">ExifTool</a> instances
+in order to leverage a single running ExifTool process.</p>
+<p>As of v3.0, its <a href="../interfaces/ExifToolOptions.html#maxProcs" class="tsd-kind-property">ExifToolOptions.maxProcs</a> is set to the number of
+CPUs on the current system; no more than <code>maxProcs</code> instances of <code>exiftool</code>
+will be spawned. You may want to experiment with smaller or larger values
+for <code>maxProcs</code>, depending on CPU and disk speed of your system and
+performance tradeoffs.</p>
 <p>Note that each child process consumes between 10 and 50 MB of RAM. If you
-have limited system resources you may want to use a smaller <code>maxProcs</code> value.</p>
+have limited system resources you may want to use a smaller <code>maxProcs</code>
+value.</p>
+<p>See the source of <a href="DefaultExifToolOptions.html" class="tsd-kind-variable">DefaultExifToolOptions</a> for more details about how
+this instance is configured.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L568">src/ExifTool.ts:568</a></li></ul></aside></div>
+<li>Defined in <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/src/ExifTool.ts#L574">src/ExifTool.ts:574</a></li></ul></aside></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

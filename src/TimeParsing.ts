@@ -1,6 +1,6 @@
 import { DateTime, Zone, ZoneOptions } from "luxon"
 import { Maybe } from "./Maybe"
-import { toS } from "./String"
+import { notBlank, toS } from "./String"
 import { TzSrc, UnsetZone, extractZone } from "./Timezones"
 
 export interface TimeFormatMeta {
@@ -22,13 +22,14 @@ export function* timeFormats(args: {
   formatPrefixes?: Maybe<string[]>
   defaultZone: Maybe<string>
 }): Iterable<TimeFormatMeta> {
+  const inferredZone = notBlank(args.defaultZone)
   for (const prefix of args.formatPrefixes ?? [""]) {
     for (const timeFmt of TimeFmts) {
       yield {
         fmt: prefix + timeFmt.fmt,
         zone: args.defaultZone,
         unsetMilliseconds: timeFmt.unsetMilliseconds,
-        inferredZone: true,
+        inferredZone,
       }
     }
   }

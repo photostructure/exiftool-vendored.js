@@ -12,3 +12,16 @@ export interface ResourceEvent {
   SoftwareAgent?: string
   When?: ExifDateTime | ExifDate | string
 }
+
+const fields = [
+  "Action",
+  "Changed",
+  "InstanceID",
+  "Parameters",
+  "SoftwareAgent",
+  "When",
+]
+
+export function isResourceEvent(obj: any): obj is ResourceEvent {
+  return obj != null && typeof obj === "object" && fields.every((f) => f in obj)
+}
