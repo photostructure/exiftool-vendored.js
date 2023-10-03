@@ -26,9 +26,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v23.3.0
+
+- 🐞 Restored datestamp parsing of `ResourceEvent.When`
+
 ### v23.2.0
 
 - ✨ Timezone parsing improvements:
+
   - Added [`ExifToolOptions.inferTimezoneFromDatestampTags`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#inferTimezoneFromDatestampTags).
   - Timezone inference from datestamps now skips over UTC values, as Google
     Takeout (and several other applications) may spuriously set "+00:00" to

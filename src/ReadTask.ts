@@ -285,7 +285,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (typeof value === "object") {
         const result: any = {}
         for (const [k, v] of Object.entries(value)) {
-          result[k] = this.#parseTag(k, v)
+          result[k] = this.#parseTag(tagName + "." + k, v)
         }
         return result
       }
@@ -312,12 +312,17 @@ export class ReadTask extends ExifToolTask<Tags> {
           // Time-only tags have "time" but not "date" in their name:
           const keyIncludesTime = /time/i.test(tagName)
           const keyIncludesDate = /date/i.test(tagName)
+          const keyIncludesWhen = /when/i.test(tagName) // < ResourceEvent.When
           const result =
-            (keyIncludesTime || keyIncludesDate
+            (keyIncludesTime || keyIncludesDate || keyIncludesWhen
               ? ExifDateTime.from(value, tz)
               : undefined) ??
-            (keyIncludesTime ? ExifTime.fromEXIF(value) : undefined) ??
-            (keyIncludesDate ? ExifDate.from(value) : undefined) ??
+            (keyIncludesTime || keyIncludesWhen
+              ? ExifTime.fromEXIF(value)
+              : undefined) ??
+            (keyIncludesDate || keyIncludesWhen
+              ? ExifDate.from(value)
+              : undefined) ??
             value
           if (
             this.options.backfillTimezones &&

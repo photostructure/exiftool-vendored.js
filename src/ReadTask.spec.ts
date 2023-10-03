@@ -1131,6 +1131,26 @@ describe("ReadTask", () => {
     })
   })
 
+  it("Resource.When is parsed by ExifDateTime", () => {
+    const t = parse({
+      tags: {
+        History: [
+          {
+            Action: "infer",
+            Changed: "Make",
+            Parameters: '"ppeggj"',
+            SoftwareAgent: "PhotoStructure",
+            When: "2023:10:01 17:13:07.141",
+          },
+        ],
+      },
+    })
+    expect(t.History).to.be.an("array")
+    const w = (t.History as any)[0].When
+    expect(w).to.be.instanceof(ExifDateTime)
+    expect(w.toString()).to.eql("2023-10-01T17:13:07.141")
+  })
+
   describe("SubSecDateTimeOriginal", () => {
     it("extracts datetimestamp with millis", () => {
       const t = parse({
