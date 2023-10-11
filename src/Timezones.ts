@@ -84,8 +84,6 @@ function offsetToMinutes(offset: TimezoneOffset): number {
   return h * 60 + sign * m
 }
 
-// export const localTzOffsetMinutes = lazy(() => DateTime.local().offset, hourMs)
-
 const ValidOffsetMinutes = lazy(
   () => new Set(ValidTimezoneOffsets.map(offsetToMinutes))
 )
