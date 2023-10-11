@@ -11,11 +11,13 @@
 
 1.  **Best-of-class cross-platform performance and reliability**.
 
-    _Expect [an order of magnitude faster performance](#performance) than other packages._
+    This is the module that [PhotoStructure](https://photostructure.com) uses for all metadata reading and writing.
 
-1.  Proper extraction of
+    Expect [an order of magnitude faster performance](#performance) than other Node.js ExifTool modules.
 
-    - **dates** with [correct timezone offset encoding, when available](#dates))
+1.  Best-effort extraction of
+
+    - **dates** with [correct timezone offset encoding](#dates)
     - **latitudes & longitudes** as floats (where negative values indicate west or south of the meridian)
 
 1.  Support for
@@ -29,7 +31,7 @@
     different camera makes and models (see an [example](https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html))
 
 1.  **Automated updates** to ExifTool ([as new versions come out
-    monthly](https://exiftool.org/history.html))
+    frequently](https://exiftool.org/history.html))
 
 1.  **Robust test coverage**, performed with on [macOS, Linux, and
     Windows](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
