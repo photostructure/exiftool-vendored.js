@@ -310,7 +310,7 @@ export class ReadTask extends ExifToolTask<Tags> {
               : undefined
 
           // Time-only tags have "time" but not "date" in their name:
-          const keyIncludesTime = /time/i.test(tagName)
+          const keyIncludesTime = /subsec|time/i.test(tagName)
           const keyIncludesDate = /date/i.test(tagName)
           const keyIncludesWhen = /when/i.test(tagName) // < ResourceEvent.When
           const result =
