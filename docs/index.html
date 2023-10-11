@@ -19,11 +19,12 @@
 <a href="https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json"><img src="https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a></p>
 <a id="md:features" class="tsd-anchor"></a><h2><a href="#md:features">Features</a></h2><ol>
 <li><p><strong>Best-of-class cross-platform performance and reliability</strong>.</p>
-<p><em>Expect <a href="#performance">an order of magnitude faster performance</a> than other packages.</em></p>
+<p>This is the module that <a href="https://photostructure.com">PhotoStructure</a> uses for all metadata reading and writing.</p>
+<p>Expect <a href="#performance">an order of magnitude faster performance</a> than other Node.js ExifTool modules.</p>
 </li>
-<li><p>Proper extraction of</p>
+<li><p>Best-effort extraction of</p>
 <ul>
-<li><strong>dates</strong> with <a href="#dates">correct timezone offset encoding, when available</a>)</li>
+<li><strong>dates</strong> with <a href="#dates">correct timezone offset encoding</a></li>
 <li><strong>latitudes &amp; longitudes</strong> as floats (where negative values indicate west or south of the meridian)</li>
 </ul>
 </li>
@@ -39,7 +40,7 @@
 different camera makes and models (see an <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html">example</a>)</p>
 </li>
 <li><p><strong>Automated updates</strong> to ExifTool (<a href="https://exiftool.org/history.html">as new versions come out
-monthly</a>)</p>
+frequently</a>)</p>
 </li>
 <li><p><strong>Robust test coverage</strong>, performed with on <a href="https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22">macOS, Linux, and
 Windows</a></p>
