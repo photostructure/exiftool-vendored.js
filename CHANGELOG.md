@@ -26,6 +26,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v23.4.0
+
+- 🌱 ExifTool upgraded to [v12.69](https://exiftool.org/history.html#v12.69)
+
+- 📦 `ExifTool.read`: `ExifTime` now adopts the default zone extracted from
+  the file. **This may result in different values from timestamps.**
+
+- 📦 Updated dependencies
+
 ### v23.3.0
 
 - 🐞 Restored datestamp parsing of `ResourceEvent.When`
@@ -56,7 +65,7 @@ vendored versions of ExifTool match the version that they vendor.
   which avoids incorrect parsing of tags like `MonthDayCreated` (which looks
   like `12:19`)
 
-- 📦 Upgrade all deps, but only `devDependencies` were impacted.
+- 📦 Updated all dependencies, but only `devDependencies` were impacted.
 
 ### v23.0.0
 
