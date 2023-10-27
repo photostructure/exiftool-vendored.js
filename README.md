@@ -1,6 +1,6 @@
 # exiftool-vendored
 
-**Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](https://exiftool.org/).**
+**Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](https://exiftool.org/). Built and supported by [PhotoStructure](https://photostructure.com).**
 
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
 [![Node.js CI](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml)
@@ -11,7 +11,7 @@
 
 1.  **Best-of-class cross-platform performance and reliability**.
 
-    This is the module that [PhotoStructure](https://photostructure.com) uses for all metadata reading and writing.
+    This is the module that [PhotoStructure](https://photostructure.com) (and [500+](https://github.com/photostructure/exiftool-vendored.js/network/dependents) other projects) use for photo and video metadata reading and writing.
 
     Expect [an order of magnitude faster performance](#performance) than other Node.js ExifTool modules.
 
@@ -28,7 +28,7 @@
     - [rescuing metadata](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#rewriteAllTags)
 
 1.  **[Robust type definitions](#tags)** of the top 99.5% tags used by over 6,000
-    different camera makes and models (see an [example](https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html))
+    different camera makes and models (see an [example](https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html#CreateDate))
 
 1.  **Automated updates** to ExifTool ([as new versions come out
     frequently](https://exiftool.org/history.html))
@@ -44,15 +44,17 @@ or
 
      npm install --save exiftool-vendored
 
-Note that `exiftool-vendored` provides an installation of ExifTool relevant
-for your local platform through
-[optionalDependencies](https://docs.npmjs.com/files/package.json#optionaldependencies).
+### Installation notes
 
-You shouldn't include either the `exiftool-vendored.exe` or
-`exiftool-vendored.pl` as direct dependencies to your project.
+- `exiftool-vendored` provides an installation of ExifTool relevant for your
+  local platform through
+  [optionalDependencies](https://docs.npmjs.com/files/package.json#optionaldependencies).
 
-If you're installing on a minimal Linux distribution, like
-[Alpine](https://alpinelinux.org/), you may need to install `perl` (à la "`apk add perl`").
+- You shouldn't include either the `exiftool-vendored.exe` or
+  `exiftool-vendored.pl` as direct dependencies to your project, unless you know
+  what you're doing.
+
+- If you're installing on a minimal Linux distribution, you may need to install `perl`. On Alpine, run `apk add perl`.
 
 ## Upgrading
 

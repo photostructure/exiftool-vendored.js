@@ -12,14 +12,14 @@
 <div class="col-content">
 <div class="tsd-page-title">
 <h2>exiftool-vendored</h2></div>
-<div class="tsd-panel tsd-typography"><a id="md:exiftool-vendored" class="tsd-anchor"></a><h1><a href="#md:exiftool-vendored">exiftool-vendored</a></h1><p><strong>Fast, cross-platform <a href="https://nodejs.org/">Node.js</a> access to <a href="https://exiftool.org/">ExifTool</a>.</strong></p>
+<div class="tsd-panel tsd-typography"><a id="md:exiftool-vendored" class="tsd-anchor"></a><h1><a href="#md:exiftool-vendored">exiftool-vendored</a></h1><p><strong>Fast, cross-platform <a href="https://nodejs.org/">Node.js</a> access to <a href="https://exiftool.org/">ExifTool</a>. Built and supported by <a href="https://photostructure.com">PhotoStructure</a>.</strong></p>
 <p><a href="https://www.npmjs.com/package/exiftool-vendored"><img src="https://img.shields.io/npm/v/exiftool-vendored.svg" alt="npm version"></a>
 <a href="https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml"><img src="https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg" alt="Node.js CI"></a>
 <a href="https://github.com/photostructure/exiftool-vendored.js/issues"><img src="https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg" alt="GitHub issues"></a>
 <a href="https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json"><img src="https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a></p>
 <a id="md:features" class="tsd-anchor"></a><h2><a href="#md:features">Features</a></h2><ol>
 <li><p><strong>Best-of-class cross-platform performance and reliability</strong>.</p>
-<p>This is the module that <a href="https://photostructure.com">PhotoStructure</a> uses for all metadata reading and writing.</p>
+<p>This is the module that <a href="https://photostructure.com">PhotoStructure</a> (and <a href="https://github.com/photostructure/exiftool-vendored.js/network/dependents">500+</a> other projects) use for photo and video metadata reading and writing.</p>
 <p>Expect <a href="#performance">an order of magnitude faster performance</a> than other Node.js ExifTool modules.</p>
 </li>
 <li><p>Best-effort extraction of</p>
@@ -37,7 +37,7 @@
 </ul>
 </li>
 <li><p><strong><a href="#tags">Robust type definitions</a></strong> of the top 99.5% tags used by over 6,000
-different camera makes and models (see an <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html">example</a>)</p>
+different camera makes and models (see an <a href="https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html#CreateDate">example</a>)</p>
 </li>
 <li><p><strong>Automated updates</strong> to ExifTool (<a href="https://exiftool.org/history.html">as new versions come out
 frequently</a>)</p>
@@ -51,13 +51,18 @@ Windows</a></p>
 <p>or</p>
 <pre><code><span class="hl-0"> </span><span class="hl-1">npm</span><span class="hl-0"> </span><span class="hl-1">install</span><span class="hl-0"> --</span><span class="hl-1">save</span><span class="hl-0"> </span><span class="hl-1">exiftool</span><span class="hl-0">-</span><span class="hl-1">vendored</span>
 </code><button>Copy</button></pre>
-<p>Note that <code>exiftool-vendored</code> provides an installation of ExifTool relevant
-for your local platform through
+<a id="md:installation-notes" class="tsd-anchor"></a><h3><a href="#md:installation-notes">Installation notes</a></h3><ul>
+<li><p><code>exiftool-vendored</code> provides an installation of ExifTool relevant for your
+local platform through
 <a href="https://docs.npmjs.com/files/package.json#optionaldependencies">optionalDependencies</a>.</p>
-<p>You shouldn&#39;t include either the <code>exiftool-vendored.exe</code> or
-<code>exiftool-vendored.pl</code> as direct dependencies to your project.</p>
-<p>If you&#39;re installing on a minimal Linux distribution, like
-<a href="https://alpinelinux.org/">Alpine</a>, you may need to install <code>perl</code> (à la &quot;<code>apk add perl</code>&quot;).</p>
+</li>
+<li><p>You shouldn&#39;t include either the <code>exiftool-vendored.exe</code> or
+<code>exiftool-vendored.pl</code> as direct dependencies to your project, unless you know
+what you&#39;re doing.</p>
+</li>
+<li><p>If you&#39;re installing on a minimal Linux distribution, you may need to install <code>perl</code>. On Alpine, run <code>apk add perl</code>.</p>
+</li>
+</ul>
 <a id="md:upgrading" class="tsd-anchor"></a><h2><a href="#md:upgrading">Upgrading</a></h2><p>See the
 <a href="https://github.com/photostructure/exiftool-vendored.js/blob/main/CHANGELOG.md">CHANGELOG</a>
 for breaking changes since you last updated.</p>
@@ -314,6 +319,9 @@ very fast disk IO, you may see a speed increase with larger values of
 <ul>
 <li><a href="#md:features"><span>Features</span></a></li>
 <li><a href="#md:installation"><span>Installation</span></a></li>
+<li>
+<ul>
+<li><a href="#md:installation-notes"><span>Installation notes</span></a></li></ul></li>
 <li><a href="#md:upgrading"><span>Upgrading</span></a></li>
 <li>
 <ul>
