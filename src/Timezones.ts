@@ -164,7 +164,7 @@ export function normalizeZone(
     }
     let z = input
     if (typeof z === "string") {
-      z = z.replace(/^(Zulu|Z|GMT)(\b|$)/, "UTC")
+      z = z.replace(/^(?:Zulu|Z|GMT)(?:\b|$)/, "UTC")
       // Info.normalizeZone("") returns the system zone, which we never want.
       // We also don't need to tease Info.normalizeZone with obviously
       // non-offset inputs:
@@ -311,7 +311,7 @@ export function extractZone(
     opts?.stripTZA !== false &&
     // We only want to strip off the TZA if the input _doesn't_ end with "UTC"
     // or "Z"
-    !/[.\d\s](UTC|Z)$/.test(str)
+    !/[.\d\s](?:UTC|Z)$/.test(str)
   ) {
     str = str.replace(/\s[a-z]{2,5}$/i, "")
   }

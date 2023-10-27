@@ -16,7 +16,9 @@ export abstract class ExifToolTask<T> extends bc.Task<T> {
     super(ExifToolTask.renderCommand(args), (stdout, stderr, passed) => {
       let error: Maybe<Error>
       if (notBlank(stderr) || !passed) {
-        const errMsg = (stderr ?? stdout).trim().replace(/error(:\s*|\b)/i, "")
+        const errMsg = (stderr ?? stdout)
+          .trim()
+          .replace(/error(?::\s*|\b)/i, "")
         if (!this.isIgnorableError(errMsg)) {
           this.errors.push(errMsg)
           error = new Error(errMsg)

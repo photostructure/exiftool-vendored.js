@@ -1,7 +1,7 @@
 import { ExifToolTask } from "./ExifToolTask"
 
 export class VersionTask extends ExifToolTask<string> {
-  private static readonly versionRegex = /^\d{1,3}\.\d{1,3}(\.\d{1,3}})?$/
+  private static readonly versionRegex = /^\d{1,3}\.\d{1,3}(?:\.\d{1,3})?$/
 
   constructor() {
     super(["-ver"])

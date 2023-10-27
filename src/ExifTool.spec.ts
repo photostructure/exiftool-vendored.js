@@ -49,7 +49,7 @@ describe("ExifTool", function () {
     // vendorVersion might have a ^ or ~ or something else as a prefix, so get
     // rid of that:
     return vendorVersion
-      .replace(/^[^.0-9]+/, "")
+      .replace(/^[^.\d]+/, "")
       .split(".")
       .slice(0, 2)
       .map((ea) => leftPad(ea, 2, "0"))

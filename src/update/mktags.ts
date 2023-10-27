@@ -1,3 +1,5 @@
+/* eslint-disable regexp/optimal-quantifier-concatenation */
+/* eslint-disable regexp/no-dupe-disjunctions */
 require("source-map-support").install()
 
 import { BatchCluster, Log, logger, setLogger } from "batch-cluster"
@@ -648,7 +650,7 @@ class TagMap {
 }
 
 const tagMap = new TagMap()
-const saneTagRe = /^[a-z0-9_]+:[a-z0-9_]+$/i
+const saneTagRe = /^\w+:\w+$/
 
 const bar = new ProgressBar(
   "reading tags [:bar] :current/:total files, :tasks pending @ :rate files/sec w/:procs procs :etas",
@@ -706,7 +708,7 @@ process.on("unhandledRejection", (reason: any) => {
 })
 
 function escapeKey(s: string): string {
-  return s.match(/[^0-9a-z_]/i) != null ? JSON.stringify(s) : s
+  return s.match(/\W/) != null ? JSON.stringify(s) : s
 }
 
 Promise.all(files.map((file) => readAndAddToTagMap(file)))
