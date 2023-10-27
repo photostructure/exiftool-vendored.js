@@ -474,13 +474,13 @@ describe("ExifTool", function () {
 
         expect({
           datetime: ea.SubSecCreateDate?.toString(),
-          time: ea.GPSTimeStamp?.toString(),
-          date: ea.GPSDateStamp?.toString(),
+          gpstime: ea.GPSTimeStamp?.toString(),
+          gpsdate: ea.GPSDateStamp?.toString(),
           thumbBytes: ea.ThumbnailImage?.bytes,
         }).to.eql({
           datetime: "2017-12-22T17:08:35.363-08:00",
-          time: "01:08:22",
-          date: "2017-12-23",
+          gpstime: "01:08:22+00:00",
+          gpsdate: "2017-12-23",
           thumbBytes: 5133,
         })
 

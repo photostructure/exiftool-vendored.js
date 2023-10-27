@@ -171,7 +171,8 @@ describe("ReadTask", () => {
             const t = parse({ tags }) as any
             // Seems obvi? well, check out NotDateRe and MaybeDateOrTimeRe.
             expect(t[key]).to.be.instanceOf(ExifTime)
-            expect(t[key]?.toString()).to.eql(exp)
+            const suffix = key.includes("GPS") ? "+00:00" : ""
+            expect(t[key]?.toString()).to.eql(exp + suffix)
           })
 
           it("rejects a numeric timestamp", () => {

@@ -318,7 +318,7 @@ export class ReadTask extends ExifToolTask<Tags> {
               ? ExifDateTime.from(value, tz)
               : undefined) ??
             (keyIncludesTime || keyIncludesWhen
-              ? ExifTime.fromEXIF(value)
+              ? ExifTime.fromEXIF(value, tz)
               : undefined) ??
             (keyIncludesDate || keyIncludesWhen
               ? ExifDate.from(value)

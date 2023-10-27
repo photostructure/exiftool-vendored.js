@@ -31,7 +31,7 @@ vendored versions of ExifTool match the version that they vendor.
 - 🌱 ExifTool upgraded to [v12.69](https://exiftool.org/history.html#v12.69)
 
 - 📦 `ExifTool.read`: `ExifTime` now adopts the default zone extracted from
-  the file. **This may result in different values from timestamps.**
+  the file. **This may result in different values for timestamps.**
 
 - 📦 Updated dependencies
 
