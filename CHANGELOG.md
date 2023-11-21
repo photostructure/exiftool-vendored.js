@@ -26,9 +26,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v23.4.0
+### v23.5.0
 
-- 🌱 ExifTool upgraded to [v12.70](https://exiftool.org/history.html#v12.70). Thanks for 20 years of updates, Phil Harvey! 🏆
+- 🌱 ExifTool upgraded to [v12.70](https://exiftool.org/history.html#v12.70). **🏆 Thanks for 20 years of updates, Phil Harvey! 🏆**
 
 - 📦 `XMPTags.Album` was added
 
