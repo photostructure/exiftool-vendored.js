@@ -306,8 +306,8 @@ export class ReadTask extends ExifToolTask<Tags> {
             isUtcTagName(tagName) || this.#defaultToUTC()
               ? "UTC"
               : this.options.backfillTimezones
-              ? this.tz
-              : undefined
+                ? this.tz
+                : undefined
 
           // Time-only tags have "time" but not "date" in their name:
           const keyIncludesTime = /subsec|time/i.test(tagName)

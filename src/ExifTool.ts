@@ -150,8 +150,8 @@ type ExpandedDateTags = {
     | (Tags[K] extends number
         ? number
         : Tags[K] extends ExifDateTime
-        ? ExifDate | ExifDateTime
-        : Tags[K])
+          ? ExifDate | ExifDateTime
+          : Tags[K])
     | string
 }
 

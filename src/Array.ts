@@ -13,12 +13,12 @@ export function toA<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
   return Array.isArray(arr) // < strings are not arrays
     ? (arr as T[])
     : arr == null
-    ? []
-    : isString(arr) // < don't rely on isIterable rejecting Strings
-    ? [arr as T]
-    : isIterable(arr)
-    ? Array.from(arr)
-    : [arr as T]
+      ? []
+      : isString(arr) // < don't rely on isIterable rejecting Strings
+        ? [arr as T]
+        : isIterable(arr)
+          ? Array.from(arr)
+          : [arr as T]
 }
 
 export function compact<T>(array: MaybeNull<T>[]): T[] {

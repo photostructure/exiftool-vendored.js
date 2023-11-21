@@ -253,8 +253,8 @@ function extractOffsetFromHours(
         src: "hourOffset",
       }))
     : Array.isArray(hourOffset)
-    ? extractOffsetFromHours(hourOffset[0])
-    : undefined
+      ? extractOffsetFromHours(hourOffset[0])
+      : undefined
 }
 
 /**

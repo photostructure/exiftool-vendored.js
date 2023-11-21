@@ -47,8 +47,8 @@ export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
       err ??= notBlank(data)
         ? new Error(data)
         : caught instanceof Error
-        ? caught
-        : new Error(String(caught))
+          ? caught
+          : new Error(String(caught))
     }
     return err ?? new Error(this.tagname + " not found")
   }
