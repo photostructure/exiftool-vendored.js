@@ -38,7 +38,8 @@ import ProgressBar = require("progress")
 // Avoid error TS2590: Expression produces a union type that is too complex to represent
 const MAX_TAGS = 2500 // TypeScript 4.2 crashes with 3100+
 
-const RequiredTags: Record<string, { t: string; grp: string }> = {
+const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
+  Album: { t: "string", grp: "XMP", value: "Twilight Dreams" },
   Aperture: { t: "number", grp: "Composite" },
   ApertureValue: { t: "number", grp: "EXIF" },
   AvgBitrate: { t: "string", grp: "Composite" },
@@ -580,8 +581,11 @@ class TagMap {
   readonly tags: Tag[] = []
   constructor() {
     // Seed with required tags
-    for (const ea of Object.entries(RequiredTags)) {
-      this.tag(ea[1].grp + ":" + ea[0])
+    for (const [k, v] of Object.entries(RequiredTags)) {
+      const t = this.tag(v.grp + ":" + k)
+      if (v.value != null) {
+        t.values.push(v.value)
+      }
     }
   }
 
@@ -595,6 +599,7 @@ class TagMap {
       return t
     }
   }
+
   add(tagName: string, value: any, important: boolean) {
     if (
       tagName == null ||
