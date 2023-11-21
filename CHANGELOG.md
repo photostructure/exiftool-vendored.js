@@ -28,6 +28,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v23.4.0
 
+- 🌱 ExifTool upgraded to [v12.70](https://exiftool.org/history.html#v12.70). Thanks for 20 years of updates, Phil Harvey! 🏆
+
+- 📦 `XMPTags.Album` was added
+
+### v23.4.0
+
 - 🌱 ExifTool upgraded to [v12.69](https://exiftool.org/history.html#v12.69)
 
 - 📦 `ExifTool.read`: `ExifTime` now adopts the default zone extracted from
