@@ -26,6 +26,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v23.6.0
+
+- `Rotation` was added to the default set of `numericTags`, as it may be encoded as an EXIF orientation value. Prior builds could return Rotation values like `"Rotate 270 CW"`.
+
 ### v23.5.0
 
 - 🌱 ExifTool upgraded to [v12.70](https://exiftool.org/history.html#v12.70). **🏆 Thanks for 20 years of updates, Phil Harvey! 🏆**

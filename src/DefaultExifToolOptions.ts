@@ -44,6 +44,7 @@ export const DefaultExifToolOptions: Omit<
     "GPSLongitude",
     "GPSPosition",
     "Orientation",
+    "Rotation",
   ],
   includeImageDataMD5: undefined,
   imageHashType: false,
