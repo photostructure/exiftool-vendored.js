@@ -110,6 +110,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   MIMEType: { t: "string", grp: "File" },
   Model: { t: "string", grp: "EXIF" },
   ModifyDate: { t: "ExifDateTime | string", grp: "EXIF" },
+  Notes: { t: "string", grp: "XMP", value: "Album description" },
   ObjectName: { t: "string", grp: "IPTC" },
   Orientation: { t: "number", grp: "EXIF" },
   OriginalCreateDateTime: { t: "ExifDateTime | string", grp: "XMP" },
