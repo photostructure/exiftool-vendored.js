@@ -32,7 +32,7 @@ vendored versions of ExifTool match the version that they vendor.
   to `true`**. Several camera manufacturers and image applications will write
   `0` to the `GPSLatitude` and `GPSLongitude` tags when they mean "unset"--but
   this can cause incorrect timezone inference. Set to `false` to retain prior
-  code functionality.
+  code behavior.
 
 - 📦 `Rotation` was added to the default set of `numericTags`, as it may be
   encoded as an EXIF orientation value. Prior builds could return Rotation
