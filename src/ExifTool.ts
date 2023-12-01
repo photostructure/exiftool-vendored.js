@@ -22,7 +22,7 @@ import { pick } from "./Pick"
 import { PreviewTag } from "./PreviewTag"
 import { Json, Literal, RawTags } from "./RawTags"
 import { ReadRawTask } from "./ReadRawTask"
-import { ReadTask, ReadTaskOptions } from "./ReadTask"
+import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask"
 import { ResourceEvent } from "./ResourceEvent"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { blank, notBlank } from "./String"
@@ -258,14 +258,7 @@ export class ExifTool {
     return this.enqueueTask(() =>
       ReadTask.for(file, {
         optionalArgs,
-        ...pick(
-          this.options,
-          "numericTags",
-          "useMWG",
-          "imageHashType",
-          "defaultVideosToUTC",
-          "geoTz"
-        ),
+        ...pick(this.options, ...ReadTaskOptionFields),
         ...options,
       })
     ) as any // < no way to know at compile time if we're going to get back a T!

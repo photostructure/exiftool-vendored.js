@@ -36,7 +36,16 @@ export const DefaultExifToolOptions: Omit<
   versionCommand: new VersionTask().command,
   healthCheckIntervalMillis: 30000,
   healthCheckCommand: "-ver\n-execute\n",
-  useMWG: false,
+
+  backfillTimezones: true,
+  defaultVideosToUTC: true,
+  geoTz: geoTz,
+  ignoreZeroZeroLatLon: true,
+  imageHashType: false,
+  includeImageDataMD5: undefined,
+  inferTimezoneFromDatestamps: false, // to retain prior behavior
+  inferTimezoneFromDatestampTags: [...CapturedAtTagNames],
+  isIgnorableError: isIgnorableWarning,
   numericTags: [
     "*Duration*",
     "GPSAltitude",
@@ -46,12 +55,5 @@ export const DefaultExifToolOptions: Omit<
     "Orientation",
     "Rotation",
   ],
-  includeImageDataMD5: undefined,
-  imageHashType: false,
-  defaultVideosToUTC: true,
-  backfillTimezones: true,
-  inferTimezoneFromDatestamps: false, // to retain prior behavior
-  inferTimezoneFromDatestampTags: [...CapturedAtTagNames],
-  geoTz: geoTz,
-  isIgnorableError: isIgnorableWarning,
+  useMWG: false,
 })

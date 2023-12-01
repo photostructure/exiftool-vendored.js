@@ -176,6 +176,14 @@ export interface ExifToolOptions
   inferTimezoneFromDatestampTags: (keyof Tags)[]
 
   /**
+   * Some software uses a GPS position of (0,0) as a synonym for "unset". If
+   * this option is true, and GPSLatitude and GPSLongitude are both 0, then
+   * those values will be returned, but the TZ will not be inferred from that
+   * location.
+   */
+  ignoreZeroZeroLatLon: boolean
+
+  /**
    * `ExifTool` has a shebang line that assumes a valid `perl` is installed at
    * `/usr/bin/perl`.
    *

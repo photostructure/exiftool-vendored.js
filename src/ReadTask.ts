@@ -34,6 +34,19 @@ const PassthroughTags = [
   "DateDisplayFormat",
 ]
 
+export const ReadTaskOptionFields = [
+  "backfillTimezones",
+  "defaultVideosToUTC",
+  "geoTz",
+  "ignoreZeroZeroLatLon",
+  "imageHashType",
+  "includeImageDataMD5",
+  "inferTimezoneFromDatestamps",
+  "inferTimezoneFromDatestampTags",
+  "numericTags",
+  "useMWG",
+] as const
+
 const NullIsh = ["undef", "null", "undefined"]
 
 export function nullish(s: string | undefined): s is undefined {
@@ -42,18 +55,7 @@ export function nullish(s: string | undefined): s is undefined {
 
 export const DefaultReadTaskOptions = {
   optionalArgs: [] as string[],
-  ...pick(
-    DefaultExifToolOptions,
-    "numericTags",
-    "useMWG",
-    "includeImageDataMD5",
-    "imageHashType",
-    "defaultVideosToUTC",
-    "backfillTimezones",
-    "inferTimezoneFromDatestamps",
-    "inferTimezoneFromDatestampTags",
-    "geoTz"
-  ),
+  ...pick(DefaultExifToolOptions, ...ReadTaskOptionFields),
 } as const
 
 export type ReadTaskOptions = typeof DefaultReadTaskOptions
@@ -186,6 +188,9 @@ export class ReadTask extends ExifToolTask<Tags> {
   #extractLatLon = lazy(() => {
     this.lat ??= this.#latlon("GPSLatitude", "S", 90)
     this.lon ??= this.#latlon("GPSLongitude", "W", 180)
+    if (this.options.ignoreZeroZeroLatLon && this.lat === 0 && this.lon === 0) {
+      this.invalidLatLon = true
+    }
     if (this.invalidLatLon) {
       this.lat = this.lon = undefined
     }
