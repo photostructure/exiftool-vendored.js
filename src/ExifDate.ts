@@ -82,6 +82,8 @@ export class ExifDate {
   }
 
   /**
+   * @param deltaMs defaults to 12 hours, so toMillis() is in the middle of the day.
+   *
    * @return the epoch milliseconds for this day in UTC, plus `deltaMs` milliseconds.
    */
   toMillis(deltaMs = 12 * HourMs) {
