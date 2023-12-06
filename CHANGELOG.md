@@ -26,6 +26,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v23.6.1
+
+- 📦 Added MWG `.HierarchicalKeywords` and `.Collections` to `Tags`
+
+- 📦 `Rotation` was removed from the default set of `numericTags`, as it may
+  be encoded as an EXIF orientation value, or a degree rotation, and it should
+  be up to the application to figure it out.
+
 ### v23.6.0
 
 - 📦 Added new option, `ignoreZeroZeroLatLon`, and **defaulted this new option
@@ -37,7 +45,7 @@ vendored versions of ExifTool match the version that they vendor.
 - 📦 `Rotation` was added to the default set of `numericTags`, as it may be
   encoded as an EXIF orientation value. Prior builds could return Rotation
   values like `"Rotate 270 CW"`.
-  
+
 - 📦 `XMPTags.Notes` was added to `Tags`, used as an album description
 
 - 🐞 Some `ExifToolOption`s were not passed from ExifTool into the ReadTask,
