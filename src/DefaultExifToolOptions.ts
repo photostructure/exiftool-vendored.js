@@ -53,7 +53,6 @@ export const DefaultExifToolOptions: Omit<
     "GPSLongitude",
     "GPSPosition",
     "Orientation",
-    "Rotation",
   ],
   useMWG: false,
 })
