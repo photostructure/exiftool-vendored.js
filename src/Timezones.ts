@@ -261,7 +261,7 @@ function extractOffsetFromHours(
  * Parse a timezone offset and return the offset minutes
  */
 export function extractZone(
-  value: Tags[keyof Tags],
+  value: any,
   opts?: { stripTZA?: boolean }
 ): Maybe<TzSrc> {
   if (

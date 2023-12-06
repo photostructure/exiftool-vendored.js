@@ -740,6 +740,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { ExifTime } from "./ExifTime"',
         'import { ICCProfileTags } from "./ICCProfileTags"',
         'import { ImageDataHashTag } from "./ImageDataHashTag"',
+        'import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags"',
         'import { ResourceEvent } from "./ResourceEvent"',
         'import { Struct } from "./Struct"',
         'import { Version } from "./Version"',
@@ -793,6 +794,8 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       "ApplicationRecordTags",
       "ImageDataHashTag",
       "ICCProfileTags",
+      "MWGCollectionsTags",
+      "MWGKeywordTags",
     ].sort()
     tagWriter.write(
       [

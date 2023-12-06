@@ -16,6 +16,13 @@ import { ICCProfileTags } from "./ICCProfileTags"
 import { IgnorableError } from "./IgnorableError"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
+import {
+  CollectionInfo,
+  KeywordInfoStruct,
+  KeywordStruct,
+  MWGCollectionsTags,
+  MWGKeywordTags,
+} from "./MWGTags"
 import { Maybe } from "./Maybe"
 import { Omit } from "./Omit"
 import { pick } from "./Pick"
@@ -88,6 +95,7 @@ export type {
   APP6Tags,
   AdditionalWriteTags,
   ApplicationRecordTags,
+  CollectionInfo,
   CompositeTags,
   EXIFTags,
   ExifToolOptions,
@@ -100,8 +108,12 @@ export type {
   IgnorableError,
   JFIFTags,
   Json,
+  KeywordInfoStruct,
+  KeywordStruct,
   Literal,
   MPFTags,
+  MWGCollectionsTags,
+  MWGKeywordTags,
   MakerNotesTags,
   Maybe,
   MetaTags,
