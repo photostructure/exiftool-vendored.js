@@ -26,11 +26,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v23.6.1
+### v23.7.0
 
 - 📦 Added MWG `.HierarchicalKeywords` and `.Collections` to `Tags`
 
-- 📦 `Rotation` was removed from the default set of `numericTags`, as it may
+- 🐞/📦 `Rotation` was removed from the default set of `numericTags`, as it may
   be encoded as an EXIF orientation value, or a degree rotation, and it should
   be up to the application to figure it out.
 
