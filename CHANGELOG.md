@@ -26,6 +26,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v24.0.0
+
+- 💔/🐞 `ExifTool.write` now returns metadata describing how many files were unchanged, updated, or created, and no longer throws an error if the operation is a no-op. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
+
 ### v23.7.0
 
 - 📦 Added MWG `.HierarchicalKeywords` and `.Collections` to `Tags`
