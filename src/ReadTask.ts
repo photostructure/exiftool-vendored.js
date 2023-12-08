@@ -1,5 +1,5 @@
 import { logger } from "batch-cluster"
-import * as _path from "path"
+import * as _path from "node:path"
 import { toA } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"

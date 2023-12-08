@@ -1,7 +1,7 @@
 import assert from "assert"
-import crypto from "crypto"
-import { copyFile } from "fs/promises"
-import path from "path"
+import crypto from "node:crypto"
+import { copyFile } from "node:fs/promises"
+import path from "node:path"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
 import { exiftool } from "./ExifTool"
 import {

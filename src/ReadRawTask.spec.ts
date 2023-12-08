@@ -1,5 +1,5 @@
-import { copyFile } from "fs/promises"
-import path from "path"
+import { copyFile } from "node:fs/promises"
+import path from "node:path"
 import { exiftool } from "./ExifTool"
 import {
   NonAlphaStrings,

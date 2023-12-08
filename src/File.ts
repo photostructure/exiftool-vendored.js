@@ -1,4 +1,4 @@
-import { stat, Stats } from "fs"
+import { stat, Stats } from "node:fs"
 import { blank } from "./String"
 
 export async function isFileEmpty(path: string): Promise<boolean> {

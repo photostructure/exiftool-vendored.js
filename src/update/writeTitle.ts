@@ -1,4 +1,4 @@
-import path from "path"
+import path from "node:path"
 import { testDir, UnicodeTestMessage } from "../_chai.spec"
 import { exiftool } from "../ExifTool"
 

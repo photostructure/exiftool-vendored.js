@@ -1,6 +1,6 @@
 import assert from "assert"
-import { copyFile } from "fs/promises"
-import path from "path"
+import { copyFile } from "node:fs/promises"
+import path from "node:path"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { exiftool } from "./ExifTool"
 import {

@@ -1,5 +1,5 @@
 import { logger } from "batch-cluster"
-import * as _path from "path"
+import * as _path from "node:path"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { RawTags } from "./RawTags"

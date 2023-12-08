@@ -3,11 +3,11 @@
 require("source-map-support").install()
 
 import { BatchCluster, Log, logger, setLogger } from "batch-cluster"
-import fs from "fs"
 import globule from "globule"
-import os from "os"
-import path from "path"
-import process from "process"
+import fs from "node:fs"
+import os from "node:os"
+import path from "node:path"
+import process from "node:process"
 import { compact, filterInPlace, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
 import { Maybe, map } from "../Maybe"

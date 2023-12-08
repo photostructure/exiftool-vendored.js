@@ -1,7 +1,7 @@
 import * as bc from "batch-cluster"
-import * as _cp from "child_process"
-import * as _fs from "fs"
-import process from "process"
+import * as _cp from "node:child_process"
+import * as _fs from "node:fs"
+import process from "node:process"
 import { ApplicationRecordTags } from "./ApplicationRecordTags"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
@@ -64,7 +64,7 @@ import { Version } from "./Version"
 import { VersionTask } from "./VersionTask"
 import { which } from "./Which"
 import { WriteTags } from "./WriteTags"
-import { WriteTask, WriteTaskOptions } from "./WriteTask"
+import { WriteTask, WriteTaskOptions, WriteTaskResult } from "./WriteTask"
 
 export { BinaryField } from "./BinaryField"
 export { CapturedAtTagNames } from "./CapturedAtTagNames"
@@ -132,6 +132,7 @@ export type {
   Version,
   WriteTags,
   WriteTaskOptions,
+  WriteTaskResult,
   XMPTags,
 }
 
@@ -324,7 +325,9 @@ export class ExifTool {
     tags: WriteTags,
     args?: string[],
     options?: WriteTaskOptions
-  ): Promise<void> {
+  ): Promise<WriteTaskResult> {
+    // don't retry because writes might not be idempotent (e.g. incrementing
+    // timestamps by an hour)
     const retriable = false
     return this.enqueueTask(
       () =>
@@ -342,7 +345,7 @@ export class ExifTool {
    * stat information and image dimensions, are intrinsic to the file and will
    * continue to exist if you re-`read` the file.
    */
-  deleteAllTags(file: string): Promise<void> {
+  deleteAllTags(file: string): Promise<WriteTaskResult> {
     return this.write(file, {}, DeleteAllTagsArgs)
   }
 

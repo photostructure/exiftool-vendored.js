@@ -1,5 +1,5 @@
-import * as _fs from "fs"
-import * as _path from "path"
+import * as _fs from "node:fs"
+import * as _path from "node:path"
 import { isWin32 } from "./IsWin32"
 
 function findExiftool(): string {

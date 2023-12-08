@@ -1,6 +1,6 @@
-import { copyFile } from "fs/promises"
 import { DateTime } from "luxon"
-import path, { join } from "path"
+import { copyFile } from "node:fs/promises"
+import path, { join } from "node:path"
 import {
   expect,
   mkdirp,
