@@ -65,3 +65,14 @@ export function stripSuffix(s: string, suffix: string): string {
   const str = toS(s)
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str
 }
+
+/**
+ * @return `arr` with all empty strings removed and all non-empty strings trimmed.
+ */
+export function splitLines(...arr: string[]): string[] {
+  return arr
+    .join("\n")
+    .split(/\r?\n/)
+    .map((ea) => ea.trim())
+    .filter((ea) => ea.length > 0)
+}

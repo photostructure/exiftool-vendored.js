@@ -1,22 +1,18 @@
 import { encode } from "he"
-import * as _path from "path"
-import { shallowArrayEql } from "./Array"
+import * as _path from "node:path"
 import { isDateOrTime, toExifString } from "./DateTime"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
-import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ExifToolTask } from "./ExifToolTask"
-import { isFileEmpty } from "./File"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
+import { isIgnorableWarning } from "./IgnorableError"
 import { Maybe } from "./Maybe"
-import { isNumber } from "./Number"
+import { isNumber, toInt } from "./Number"
 import { keys } from "./Object"
 import { pick } from "./Pick"
-import { isString } from "./String"
+import { isString, splitLines } from "./String"
 import { isStruct } from "./Struct"
-import { VersionTask } from "./VersionTask"
 import { WriteTags } from "./WriteTags"
 
-const successRE = /1 image files? (?:created|updated)/i
 const sep = String.fromCharCode(31) // < unit separator
 
 // this is private because it's very special-purpose for just encoding ExifTool
@@ -65,20 +61,50 @@ export const DefaultWriteTaskOptions = {
 
 export type WriteTaskOptions = typeof DefaultWriteTaskOptions
 
-export class WriteTask extends ExifToolTask<void> {
+export interface WriteTaskResult {
+  /**
+   * Number of files created by ExifTool
+   */
+  created: number
+  /**
+   * Number of files updated by ExifTool. Note that this does not mean any
+   * field values were _changed_ from prior values.
+   */
+  updated: number
+  /**
+   * Number of files that ExifTool knew it did not need change. Note that
+   * ExifTool (at least as of v12.70) only realizes it doesn't need to change
+   * a file if you are clearing an already empty value.
+   */
+  unchanged: number
+  /**
+   * Non-exceptional warnings from ExifTool, like "Error: Nothing to write",
+   * or "Nothing to do."
+   *
+   * Any invalid tag names or values will cause {@link Error}s to be thrown.
+   *
+   * @see {@link isIgnorableWarning}
+   */
+  warnings?: string[]
+}
+
+export class WriteTask extends ExifToolTask<WriteTaskResult> {
   private constructor(
     readonly sourceFile: string,
     override readonly args: string[]
   ) {
     super(args)
+    // we're not going to ignore any stderr output, so we can shove it into
+    // the warnings array in WriteTaskResult:
+    this.isIgnorableError = () => false
   }
 
-  static async for(
+  static for(
     filename: string,
     tags: WriteTags,
     extraArgs: string[] = [],
     options?: Partial<WriteTaskOptions>
-  ): Promise<WriteTask | ExifToolTask<void>> {
+  ): WriteTask {
     const sourceFile = _path.resolve(filename)
 
     const args: string[] = [
@@ -90,19 +116,6 @@ export class WriteTask extends ExifToolTask<void> {
 
     if (options?.useMWG ?? DefaultWriteTaskOptions.useMWG) {
       args.push("-use", "MWG")
-    }
-
-    // ExifTool complains "Nothing to write" if the task will only remove values
-    // and the file is missing.
-
-    if (
-      (extraArgs.length === 0 ||
-        shallowArrayEql(extraArgs, DeleteAllTagsArgs)) &&
-      Object.values(tags).every((ea) => ea == null) &&
-      (await isFileEmpty(filename))
-    ) {
-      // no-op!
-      return new VersionTask() as any
     }
 
     // Special handling for GPSLatitude and GPSLongitude (due to differences
@@ -130,14 +143,64 @@ export class WriteTask extends ExifToolTask<void> {
     return "WriteTask(" + this.sourceFile + ")"
   }
 
-  protected parse(data: string, error: Error): void {
-    if (error != null) throw error
-    if (this.errors.length > 0) throw new Error(this.errors.join(";"))
-    data = data.trim()
-    if (successRE.exec(data) != null) {
-      return
-    } else {
-      throw new Error("No success message: " + data)
+  protected parse(data: string): WriteTaskResult {
+    let created = 0
+    let updated = 0
+    let unchanged = 0
+    const errors: string[] = []
+    const warnings: string[] = []
+
+    for (const ea of splitLines(...this.errors)) {
+      if (WarningRE.test(ea) || isIgnorableWarning(ea)) {
+        warnings.push(ea)
+      } else {
+        errors.push(ea.replace(/^error: /i, ""))
+      }
+    }
+
+    if (errors.length > 0) throw new Error(errors.join(";"))
+
+    for (const line of splitLines(data)) {
+      const m_created = CreatedRE.exec(line)
+      if (m_created != null) {
+        created += toInt(m_created[1]) ?? 0
+        continue
+      }
+
+      // careful! we need to apply UnchangedRE before UpdateRE, as both match
+      // "updated"
+
+      const m_unchanged = UnchangedRE.exec(line)
+      if (m_unchanged != null) {
+        unchanged += toInt(m_unchanged[1]) ?? 0
+        continue
+      }
+
+      const m_updated = UpdatedRE.exec(line)
+      if (m_updated != null) {
+        updated += toInt(m_updated[1]) ?? 0
+        continue
+      }
+
+      // if we get here, we didn't match any of the expected patterns.
+      warnings.push("Unexpected output from ExifTool: " + line)
+    }
+
+    return {
+      created,
+      updated,
+      unchanged,
+      ...(warnings.length === 0 ? {} : { warnings }),
     }
   }
 }
+
+// stderr lines that match this are warnings, not errors:
+const WarningRE =
+  /^error: nothing to write|^nothing to do|^warning: icc_profile deleted/i
+
+const CreatedRE = /(\d+) .*?\bcreated\b/i
+
+const UnchangedRE = /(\d+) .*?(?:\bweren't updated|unchanged\b)/i
+
+const UpdatedRE = /(\d+) .*?\bupdated\b/i

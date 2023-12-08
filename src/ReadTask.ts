@@ -43,6 +43,7 @@ export const ReadTaskOptionFields = [
   "includeImageDataMD5",
   "inferTimezoneFromDatestamps",
   "inferTimezoneFromDatestampTags",
+  "isIgnorableError",
   "numericTags",
   "useMWG",
 ] as const

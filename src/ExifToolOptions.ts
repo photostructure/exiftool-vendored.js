@@ -227,8 +227,6 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    *
    * ExifTool will emit error and warning messages for a variety of reasons.
    *
-   * The default implementation ignores all errors that begin with "Warning:"
-   *
    * @return true if the error should be ignored
    */
   isIgnorableError: IgnorableError

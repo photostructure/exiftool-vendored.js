@@ -13,7 +13,7 @@ import { ExifDateTime } from "./ExifDateTime"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { ICCProfileTags } from "./ICCProfileTags"
-import { IgnorableError } from "./IgnorableError"
+import { IgnorableError, isIgnorableWarning } from "./IgnorableError"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
 import {
@@ -502,15 +502,13 @@ export class ExifTool {
    *
    * @see BinaryExtractionTask for an example task implementation
    */
-  enqueueTask<T>(
-    task: () => ExifToolTask<T> | Promise<ExifToolTask<T>>,
-    retriable = true
-  ): Promise<T> {
+  enqueueTask<T>(task: () => ExifToolTask<T>, retriable = true): Promise<T> {
     const f = async () => {
       await this.#checkForPerl()
-      const t = await task()
-      // if we have to add more options for every task, rethink this approach:
-      t.isIgnorableError = this.options.isIgnorableError
+      const t = task()
+      if (isIgnorableWarning !== this.options.isIgnorableError) {
+        t.isIgnorableError = this.options.isIgnorableError
+      }
       return this.batchCluster.enqueueTask(t)
     }
     return retriable ? retryOnReject(f, this.options.taskRetries) : f()

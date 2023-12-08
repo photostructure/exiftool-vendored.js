@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool } from "./ExifTool"
@@ -89,9 +90,18 @@ describe("WriteTask", function () {
         args?: string[]
         cmp?: (actual: any, tags: Tags) => any
       }) {
+        const fileExists = existsSync(dest)
         const wt: WriteTags = {}
         ;(wt[tagName] as any) = inputValue
-        await exiftool.write(dest, wt, args)
+        const writeResult = await exiftool.write(dest, wt, args)
+        expect(writeResult.warnings).to.eql(undefined)
+
+        if (fileExists) {
+          expect(writeResult).to.containSubset({ created: 0, updated: 1 })
+        } else {
+          expect(writeResult).to.containSubset({ created: 1, updated: 0 })
+        }
+
         const result = (await exiftool.read(dest)) as any
         const expected = expectedValue ?? inputValue
         const cleanTagName = stripSuffix(tagName, "#")
@@ -104,7 +114,7 @@ describe("WriteTask", function () {
             JSON.stringify({ src: dest, tagName, expected, actual })
           )
         }
-        return
+        return writeResult
       }
 
       // Well-supported text tag name:

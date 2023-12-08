@@ -5,16 +5,20 @@ export interface IgnorableError {
   (err: Maybe<Error | string>): boolean
 }
 
+// These are ignorable:
 // Warning: Duplicate MakerNoteUnknown tag in ExifIFD
-// Warning: ICC_Profile deleted. Image colors may be affected
 
-const WarningRE = /^Warning: (?:Duplicate|ICC_Profile deleted)/i
+// These are not:
+// Warning: Tag 'INVALID_TAG_NAME' is not defined
+
+const WarningRE = /^warning: duplicate \w+ tag/i
 /**
  * This is the default implementation of IgnorableError, and ignores null,
  * undefined, errors without a message, warnings about duplicate tags, and
  * ICC_Profile deletions.
  */
 export function isIgnorableWarning(err: Maybe<Error | string>): boolean {
+  if (err == null) return true
   const msg = (err instanceof Error ? err.message : toS(err)).trim()
-  return blank(msg) || null != WarningRE.exec(msg)
+  return blank(msg) || WarningRE.test(msg)
 }
