@@ -17,6 +17,10 @@ export function notBlank(s: Maybe<string>): s is string {
   return !blank(s)
 }
 
+export function compactBlanks(arr: Maybe<string>[]): string[] {
+  return arr.filter(notBlank)
+}
+
 function padding(padChar: "0" | " ", count: number): string {
   if (count <= 0) return ""
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

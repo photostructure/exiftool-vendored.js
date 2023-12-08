@@ -3,6 +3,7 @@ import * as _path from "node:path"
 import { toA } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
+import { errorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
@@ -43,7 +44,6 @@ export const ReadTaskOptionFields = [
   "includeImageDataMD5",
   "inferTimezoneFromDatestamps",
   "inferTimezoneFromDatestampTags",
-  "isIgnorableError",
   "numericTags",
   "useMWG",
 ] as const
@@ -182,7 +182,13 @@ export class ReadTask extends ExifToolTask<Tags> {
       tags[key] = v
     }
 
-    if (this.errors.length > 0) this.tags.errors = this.errors
+    // we could `return {...tags, ...errorsAndWarnings(this, tags)}` but tags
+    // is a chonky monster, and we don't want to double work for the poor
+    // garbage collector.
+    const { errors, warnings } = errorsAndWarnings(this, tags)
+    tags.errors = errors
+    tags.warnings = warnings
+
     return tags
   }
 
@@ -208,7 +214,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     if (result == null) {
       return
     } else if (Math.abs(result) > maxValid) {
-      this.errors.push(`Invalid ${tagName}: ${JSON.stringify(tagValue)}`)
+      this.warnings.push(`Invalid ${tagName}: ${JSON.stringify(tagValue)}`)
       this.invalidLatLon = true
       return
     } else if (blank(ref)) {
@@ -347,7 +353,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       // Trust that ExifTool rendered the value with the correct type in JSON:
       return value
     } catch (e) {
-      this.addError(
+      this.warnings.push(
         `Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`
       )
       return value

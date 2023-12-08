@@ -1,3 +1,5 @@
+import { ErrorsAndWarnings } from "./ErrorsAndWarnings"
+
 export type Literal = string | number | boolean
 export type Json = Literal | { [key: string]: Json } | Json[]
 
@@ -6,4 +8,4 @@ export type Json = Literal | { [key: string]: Json } | Json[]
  *
  * @see https://github.com/photostructure/exiftool-vendored.js/issues/138
  */
-export type RawTags = Record<string, Json>
+export type RawTags = Record<string, Json> & ErrorsAndWarnings

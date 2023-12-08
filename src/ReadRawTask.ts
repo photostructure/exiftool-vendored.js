@@ -1,5 +1,6 @@
 import { logger } from "batch-cluster"
 import * as _path from "node:path"
+import { errorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { RawTags } from "./RawTags"
@@ -26,7 +27,11 @@ export class ReadRawTask extends ExifToolTask<RawTags> {
 
   protected parse(data: string, err?: Error): RawTags {
     try {
-      return JSON.parse(data)[0]
+      const tags = JSON.parse(data)[0]
+      const { errors, warnings } = errorsAndWarnings(this, tags)
+      tags.errors = errors
+      tags.warnings = warnings
+      return tags
     } catch (jsonError) {
       logger().error("ExifTool.ReadRawTask(): Invalid JSON", { data })
       throw err ?? jsonError

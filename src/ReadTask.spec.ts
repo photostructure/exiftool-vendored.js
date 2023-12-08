@@ -436,6 +436,7 @@ describe("ReadTask", () => {
         DateTimeOriginal: "2016-12-13T09:05:27",
         SubSecDateTimeOriginal: "2016-12-13T09:05:27.120",
         errors: [],
+        warnings: [],
       })
     })
 
@@ -451,9 +452,10 @@ describe("ReadTask", () => {
         DateTimeOriginal: "2016-12-13T09:05:27-08:00",
         GPSDateTime: "2016-12-13T17:05:25Z",
         SubSecDateTimeOriginal: "2016-12-13T09:05:27.120-08:00",
-        errors: [],
         tz: "UTC-8",
         tzSource: "offset between SubSecDateTimeOriginal and GPSDateTime",
+        errors: [],
+        warnings: [],
       })
     })
 
@@ -521,6 +523,7 @@ describe("ReadTask", () => {
           TimeZone: "+00:00",
 
           errors: [],
+          warnings: [],
         })
       })
       it("handles explicit GMT with explicit offset for video/mp4", () => {
@@ -539,6 +542,7 @@ describe("ReadTask", () => {
           TimeStamp: "2020-08-03T15:00:19.010Z",
           TimeZone: "+00:00",
           errors: [],
+          warnings: [],
         })
       })
     })
@@ -569,7 +573,6 @@ describe("ReadTask", () => {
           })
         )
         expect(t).to.eql({
-          errors: [],
           tz: "UTC",
           tzSource: "defaultVideosToUTC",
           MIMEType: "video/quicktime",
@@ -583,6 +586,8 @@ describe("ReadTask", () => {
           MediaCreateDate: "2023-06-11T13:30:35Z",
           MediaModifyDate: "2023-06-11T13:30:46Z",
           CreationDate: "2023-06-11T14:30:35+01:00",
+          errors: [],
+          warnings: [],
         })
       })
       it("Timezone from CreationDate with no GPS and new inferTimezoneFromDatestamps", () => {
@@ -610,7 +615,6 @@ describe("ReadTask", () => {
           })
         )
         expect(t).to.eql({
-          errors: [],
           tz: "UTC+1",
           tzSource: "CreationDate",
           MIMEType: "video/quicktime",
@@ -624,6 +628,8 @@ describe("ReadTask", () => {
           MediaCreateDate: "2023-06-11T14:30:35+01:00",
           MediaModifyDate: "2023-06-11T14:30:46+01:00",
           CreationDate: "2023-06-11T14:30:35+01:00",
+          errors: [],
+          warnings: [],
         })
       })
       it("Timezone from CreationDate and GPS", () => {
@@ -670,6 +676,7 @@ describe("ReadTask", () => {
           GPSLatitude: 51.1037,
           GPSLongitude: -0.8732,
           errors: [],
+          warnings: [],
         })
       })
 
@@ -687,6 +694,7 @@ describe("ReadTask", () => {
           tz: "UTC",
           tzSource: defaultVideosToUTC,
           errors: [],
+          warnings: [],
         })
       })
       it("retains tzoffset in video timestamps", () => {
@@ -703,6 +711,7 @@ describe("ReadTask", () => {
           tz: "UTC",
           tzSource: defaultVideosToUTC,
           errors: [],
+          warnings: [],
         })
       })
       it("handles CET timezone for images", () => {
@@ -727,6 +736,7 @@ describe("ReadTask", () => {
           tz: "UTC+1",
           tzSource: "TimeZone",
           errors: [],
+          warnings: [],
         })
       })
       it("handles CET timezone for video with TimeZone tag", () => {
@@ -755,7 +765,9 @@ describe("ReadTask", () => {
           TimeZoneCity: "Rome",
           tz: "UTC+1",
           tzSource: "TimeZone",
+
           errors: [],
+          warnings: [],
         })
       })
       it("handles CET timezone for video without TimeZone tag", () => {
@@ -778,7 +790,9 @@ describe("ReadTask", () => {
 
           tz: "UTC",
           tzSource: defaultVideosToUTC,
+
           errors: [],
+          warnings: [],
         })
       })
       it("doesn't apply missing timezone", () => {
@@ -799,6 +813,7 @@ describe("ReadTask", () => {
           SubSecCreateDate: "2020-08-03T15:00:19.010Z",
           TimeStamp: "2020-08-03T15:00:19.010", // < no zone!
           errors: [],
+          warnings: [],
         })
         expect(t.tz).to.eql(undefined)
         expect(t.tzSource).to.eql(undefined)
@@ -841,9 +856,10 @@ describe("ReadTask", () => {
           OffsetTimeOriginal: "-05:00",
           SubSecTimeDigitized: 700,
           SubSecTimeOriginal: 700,
-          errors: [],
           tz: "UTC-5",
           tzSource: "OffsetTime",
+          errors: [],
+          warnings: [],
         })
       })
 
@@ -860,9 +876,10 @@ describe("ReadTask", () => {
           CreateDate: "2020-12-29T14:24:45-05:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
-          errors: [],
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          errors: [],
+          warnings: [],
         })
       })
 
@@ -883,9 +900,10 @@ describe("ReadTask", () => {
           CreateDate: "2022-08-30T20:32:06-04:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
-          errors: [],
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          errors: [],
+          warnings: [],
         })
       })
 
@@ -904,9 +922,10 @@ describe("ReadTask", () => {
           CreateDate: "2022-08-31T00:32:06-04:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
-          errors: [],
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          errors: [],
+          warnings: [],
         })
       })
 
@@ -922,9 +941,10 @@ describe("ReadTask", () => {
           CreateDate: "2022-08-31T00:32:06-04:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
-          errors: [],
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          errors: [],
+          warnings: [],
         })
       })
 
@@ -958,9 +978,10 @@ describe("ReadTask", () => {
           OffsetTimeOriginal: "-05:00",
           SubSecTimeDigitized: 700,
           SubSecTimeOriginal: 700,
-          errors: [],
           tz: "UTC-5",
           tzSource: "OffsetTime",
+          errors: [],
+          warnings: [],
         })
       })
     })
@@ -981,6 +1002,7 @@ describe("ReadTask", () => {
         FileModifyDate: "2020-01-02T12:34:56-08:00",
         // NOTE! No .tz or .tzSource!
         errors: [],
+        warnings: [],
       }
       it("{backfill: false, infer: false} makes no tz changes", () => {
         const t = parse({

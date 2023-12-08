@@ -7,13 +7,12 @@ import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
+import { Defined, DefinedOrNullValued } from "./Defined"
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
-import { ExifDate } from "./ExifDate"
-import { ExifDateTime } from "./ExifDateTime"
+import { ErrorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { ICCProfileTags } from "./ICCProfileTags"
-import { IgnorableError, isIgnorableWarning } from "./IgnorableError"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
 import {
@@ -32,6 +31,7 @@ import { ReadRawTask } from "./ReadRawTask"
 import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask"
 import { ResourceEvent } from "./ResourceEvent"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
+import { ShortcutTags } from "./ShortcutTags"
 import { blank, notBlank } from "./String"
 import { Struct } from "./Struct"
 import {
@@ -63,7 +63,13 @@ import {
 import { Version } from "./Version"
 import { VersionTask } from "./VersionTask"
 import { which } from "./Which"
-import { WriteTags } from "./WriteTags"
+import {
+  AdditionalWriteTags,
+  ExpandedDateTags,
+  MutableTags,
+  StructAppendTags,
+  WriteTags,
+} from "./WriteTags"
 import { WriteTask, WriteTaskOptions, WriteTaskResult } from "./WriteTask"
 
 export { BinaryField } from "./BinaryField"
@@ -75,7 +81,6 @@ export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"
 export { ExifToolTask } from "./ExifToolTask"
-export { isIgnorableWarning } from "./IgnorableError"
 export { parseJSON } from "./JSON"
 export { DefaultReadTaskOptions } from "./ReadTask"
 export {
@@ -97,7 +102,10 @@ export type {
   ApplicationRecordTags,
   CollectionInfo,
   CompositeTags,
+  Defined,
+  DefinedOrNullValued,
   EXIFTags,
+  ErrorsAndWarnings,
   ExifToolOptions,
   ExifToolTags,
   ExpandedDateTags,
@@ -105,7 +113,6 @@ export type {
   FlashPixTags,
   ICCProfileTags,
   IPTCTags,
-  IgnorableError,
   JFIFTags,
   Json,
   KeywordInfoStruct,
@@ -117,6 +124,7 @@ export type {
   MakerNotesTags,
   Maybe,
   MetaTags,
+  MutableTags,
   Omit,
   PanasonicRawTags,
   PhotoshopTags,
@@ -127,7 +135,9 @@ export type {
   RawTags,
   ReadTaskOptions,
   ResourceEvent,
+  ShortcutTags,
   Struct,
+  StructAppendTags,
   Tags,
   Version,
   WriteTags,
@@ -139,51 +149,6 @@ export type {
 const _ignoreShebang = lazy(
   () => !isWin32() && !_fs.existsSync("/usr/bin/perl")
 )
-
-/**
- * @see https://exiftool.org/TagNames/Shortcuts.html
- */
-export interface ShortcutTags {
-  /**
-   * Shortcut for writing the "common EXIF date/time tags": `DateTimeOriginal`,
-   * `CreateDate`, and `ModifyDate` tags.
-   *
-   * Only used by `write`. This tag is not returned by `read`.
-   */
-  AllDates?: string
-}
-
-type AdditionalWriteTags = {
-  "Orientation#"?: number
-}
-
-// exiftool expects numeric tags to be numbers, but everything else is a string:
-type ExpandedDateTags = {
-  [K in keyof Tags]:
-    | (Tags[K] extends number
-        ? number
-        : Tags[K] extends ExifDateTime
-          ? ExifDate | ExifDateTime
-          : Tags[K])
-    | string
-}
-
-export type Defined<T> = T extends undefined ? never : T
-
-export type DefinedOrNullValued<T> = {
-  [P in keyof T]: Defined<T[P]> | null
-}
-
-export interface StructAppendTags {
-  /**
-   * Use this to **append** to existing History records.
-   */
-  "History+"?: ResourceEvent | ResourceEvent[]
-  /**
-   * Use this to **append** to existing Version records.
-   */
-  "Versions+"?: Version | Version[]
-}
 
 /**
  * Manages delegating calls to a cluster of ExifTool child processes.
@@ -505,11 +470,7 @@ export class ExifTool {
   enqueueTask<T>(task: () => ExifToolTask<T>, retriable = true): Promise<T> {
     const f = async () => {
       await this.#checkForPerl()
-      const t = task()
-      if (isIgnorableWarning !== this.options.isIgnorableError) {
-        t.isIgnorableError = this.options.isIgnorableError
-      }
-      return this.batchCluster.enqueueTask(t)
+      return this.batchCluster.enqueueTask(task())
     }
     return retriable ? retryOnReject(f, this.options.taskRetries) : f()
   }

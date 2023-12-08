@@ -5,7 +5,6 @@ import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { ExifToolOptions } from "./ExifToolOptions"
 import { DefaultExifToolPath } from "./FindExiftool"
 import { geoTz } from "./GeoTz"
-import { isIgnorableWarning } from "./IgnorableError"
 import { isWin32 } from "./IsWin32"
 import { Omit } from "./Omit"
 import { VersionTask } from "./VersionTask"
@@ -45,7 +44,6 @@ export const DefaultExifToolOptions: Omit<
   includeImageDataMD5: undefined,
   inferTimezoneFromDatestamps: false, // to retain prior behavior
   inferTimezoneFromDatestampTags: [...CapturedAtTagNames],
-  isIgnorableError: isIgnorableWarning,
   numericTags: [
     "*Duration*",
     "GPSAltitude",

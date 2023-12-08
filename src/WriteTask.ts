@@ -2,9 +2,9 @@ import { encode } from "he"
 import * as _path from "node:path"
 import { isDateOrTime, toExifString } from "./DateTime"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
+import { errorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
-import { isIgnorableWarning } from "./IgnorableError"
 import { Maybe } from "./Maybe"
 import { isNumber, toInt } from "./Number"
 import { keys } from "./Object"
@@ -82,8 +82,6 @@ export interface WriteTaskResult {
    * or "Nothing to do."
    *
    * Any invalid tag names or values will cause {@link Error}s to be thrown.
-   *
-   * @see {@link isIgnorableWarning}
    */
   warnings?: string[]
 }
@@ -94,9 +92,6 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     override readonly args: string[]
   ) {
     super(args)
-    // we're not going to ignore any stderr output, so we can shove it into
-    // the warnings array in WriteTaskResult:
-    this.isIgnorableError = () => false
   }
 
   static for(
@@ -143,22 +138,13 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     return "WriteTask(" + this.sourceFile + ")"
   }
 
-  protected parse(data: string): WriteTaskResult {
+  // we're handling the stderr output ourselves, so we tell ExifToolTask that all stderr output is not ignorable so we can capture the warnings
+  protected parse(data: string, error?: Error): WriteTaskResult {
+    if (error != null) throw error
+
     let created = 0
     let updated = 0
     let unchanged = 0
-    const errors: string[] = []
-    const warnings: string[] = []
-
-    for (const ea of splitLines(...this.errors)) {
-      if (WarningRE.test(ea) || isIgnorableWarning(ea)) {
-        warnings.push(ea)
-      } else {
-        errors.push(ea.replace(/^error: /i, ""))
-      }
-    }
-
-    if (errors.length > 0) throw new Error(errors.join(";"))
 
     for (const line of splitLines(data)) {
       const m_created = CreatedRE.exec(line)
@@ -183,21 +169,19 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
       }
 
       // if we get here, we didn't match any of the expected patterns.
-      warnings.push("Unexpected output from ExifTool: " + line)
+      this.warnings.push("Unexpected output from ExifTool: " + line)
     }
+
+    const w = errorsAndWarnings(this).warnings ?? []
 
     return {
       created,
       updated,
       unchanged,
-      ...(warnings.length === 0 ? {} : { warnings }),
+      ...(w.length === 0 ? {} : { warnings: w }),
     }
   }
 }
-
-// stderr lines that match this are warnings, not errors:
-const WarningRE =
-  /^error: nothing to write|^nothing to do|^warning: icc_profile deleted/i
 
 const CreatedRE = /(\d+) .*?\bcreated\b/i
 

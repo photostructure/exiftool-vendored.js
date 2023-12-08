@@ -112,6 +112,8 @@ describe("ExifTool", function () {
           Make: "Apple",
           Model: "iPhone 7 Plus",
           SourceFile: posixPath(img),
+          errors: [],
+          warnings: [],
         }) // and nothing else
       })
 
@@ -220,6 +222,7 @@ describe("ExifTool", function () {
             "SourceFile",
             "YCbCrSubSampling",
             "errors",
+            "warnings",
           ])
         )
       })

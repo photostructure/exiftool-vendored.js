@@ -1,6 +1,5 @@
 import * as bc from "batch-cluster"
 import { geoTz } from "./GeoTz"
-import { IgnorableError } from "./IgnorableError"
 import { Tags } from "./Tags"
 
 /**
@@ -221,15 +220,6 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * @see https://github.com/evansiroky/node-geo-tz/
    */
   geoTz: typeof geoTz
-
-  /**
-   * Predicate for error handling.
-   *
-   * ExifTool will emit error and warning messages for a variety of reasons.
-   *
-   * @return true if the error should be ignored
-   */
-  isIgnorableError: IgnorableError
 }
 
 export function handleDeprecatedOptions<

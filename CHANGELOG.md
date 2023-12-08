@@ -28,7 +28,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v24.0.0
 
-- 💔/🐞 `ExifTool.write` now returns metadata describing how many files were unchanged, updated, or created, and no longer throws an error if the operation is a no-op. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
+- 💔 In the interests of reducing complexity, the `ExifToolOptions.isIgnorableError` predicate field was removed -- if this was used by anyone, please open an issue and we can talk about it.
+
+- 💔 `ExifTool.write` now returns metadata describing how many files were unchanged, updated, or created, and no longer throws an error if the operation is a no-op. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
+
+- ✨ `.warnings` are returned by `ExifTool.read` and `ExifTool.write` tasks if there are non-critical warnings emitted to `stderr` by ExifTool.
+
+- 📦 Some fields in `Tags` were moved to more correct groups 
+
+- 📦 Refined `WriteTags` signature to omit `ExifToolTags` and `FileTags` fields.
 
 - 📦 Added [`node:` prefix](https://nodejs.org/api/esm.html#node-imports) to Node.js module imports. This requires node v14.13, v16.0, or later.
 
