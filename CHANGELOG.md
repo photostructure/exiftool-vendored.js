@@ -30,6 +30,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 💔/🐞 `ExifTool.write` now returns metadata describing how many files were unchanged, updated, or created, and no longer throws an error if the operation is a no-op. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
 
+- 📦 Added [`node:` prefix](https://nodejs.org/api/esm.html#node-imports) to Node.js module imports. This requires node v14.13, v16.0, or later.
+
 ### v23.7.0
 
 - 📦 Added MWG `.HierarchicalKeywords` and `.Collections` to `Tags`
