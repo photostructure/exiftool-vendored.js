@@ -357,16 +357,20 @@ describe("WriteTask", function () {
         it("rejects setting to a non-time value", async () => {
           const src = await dest()
           expect(
-            (await exiftool.write(src, {
-              DateTimeOriginal: "this is not a time" as any,
-            })).warnings?.join("\n")
+            (
+              await exiftool.write(src, {
+                DateTimeOriginal: "this is not a time" as any,
+              })
+            ).warnings?.join("\n")
           ).to.match(/Invalid date\/time/)
         })
 
         it("rejects an invalid numeric Orientation", async () => {
           const src = await dest()
           expect(
-            (await exiftool.write(src, { "Orientation#": -1 })).warnings?.join("\n")
+            (await exiftool.write(src, { "Orientation#": -1 })).warnings?.join(
+              "\n"
+            )
           ).to.match(/Value below int16u minimum/i)
         })
 
@@ -495,7 +499,9 @@ describe("WriteTask", function () {
         it("rejects unknown tags", async () => {
           const src = await dest()
           return expect(
-            (await exiftool.write(src, { RandomTag: 123 } as any)).warnings?.join("\n")
+            (
+              await exiftool.write(src, { RandomTag: 123 } as any)
+            ).warnings?.join("\n")
           ).to.match(/Tag 'RandomTag' is not defined/)
         })
 

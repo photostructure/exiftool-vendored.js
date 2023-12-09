@@ -13,9 +13,7 @@ describe("IsWarning", () => {
       expect(isWarning(msg)).to.eql(true)
     })
   }
-  for (const msg of [
-    "Error: File not found - nonexistant.jpg",
-  ]) {
+  for (const msg of ["Error: File not found - nonexistant.jpg"]) {
     it(`rejects ${msg}`, () => {
       expect(isWarning(msg)).to.eql(false)
     })
