@@ -26,11 +26,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v24.1.0
+
+- 📦 Relaxed `isWarning()` detection to be simply `/warning:/i`. v24.0.0 would throw errors when extracting binary thumbnails due to issues like "Warning: Ignored non-standard EXIF at TIFF-IFD0-JPEG-APP1-IFD0", which is decidedly a warning. `ExifTool.write` now leans (hard) on returning `.warnings` rather than throwing errors: **It is up to you to inspect `.warnings` and decide for your own usecase if the issue is exceptional**. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
+
 ### v24.0.0
 
 - 💔 In the interests of reducing complexity, the `ExifToolOptions.isIgnorableError` predicate field was removed -- if this was used by anyone, please open an issue and we can talk about it.
 
-- 💔 `ExifTool.write` now returns metadata describing how many files were unchanged, updated, or created, and no longer throws an error if the operation is a no-op. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
+- 💔 `ExifTool.write` now returns metadata describing how many files were unchanged, updated, or created, and **no longer throws errors** if the operation is a no-op or inputs are invalid. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
 
 - ✨ `.warnings` are returned by `ExifTool.read` and `ExifTool.write` tasks if there are non-critical warnings emitted to `stderr` by ExifTool.
 

@@ -352,23 +352,22 @@ describe("WriteTask", function () {
           await exiftool.write(f, { RegistryID: struct })
           const tags = await exiftool.read(f)
           expect(tags.RegistryID).to.eql(struct)
-          return
         })
 
         it("rejects setting to a non-time value", async () => {
           const src = await dest()
-          return expect(
-            exiftool.write(src, {
+          expect(
+            (await exiftool.write(src, {
               DateTimeOriginal: "this is not a time" as any,
-            })
-          ).to.be.rejectedWith(/Invalid date\/time/)
+            })).warnings?.join("\n")
+          ).to.match(/Invalid date\/time/)
         })
 
         it("rejects an invalid numeric Orientation", async () => {
           const src = await dest()
-          return expect(
-            exiftool.write(src, { "Orientation#": -1 })
-          ).to.be.rejectedWith(/Value below int16u minimum/i)
+          expect(
+            (await exiftool.write(src, { "Orientation#": -1 })).warnings?.join("\n")
+          ).to.match(/Value below int16u minimum/i)
         })
 
         it("tags case-insensitively", async () => {
@@ -385,18 +384,24 @@ describe("WriteTask", function () {
 
         it("rejects un-writable tags", async () => {
           const src = await dest()
-          await expect(
-            exiftool.write(src, { ImageOffset: 12345 } as any)
-          ).to.be.rejectedWith(/ImageOffset is not writable/)
+          expect(
+            (
+              await exiftool.write(src, {
+                ImageOffset: 12345,
+              } as any)
+            ).warnings?.join("\n")
+          ).to.match(/ImageOffset is not writable/i)
         })
 
         it("rejects an invalid string Orientation", async () => {
           const src = await dest()
-          await expect(
-            exiftool.write(src, {
-              Orientation: "this isn't a valid orientation" as any,
-            })
-          ).to.be.rejectedWith(/Can't convert IFD0:Orientation/i)
+          expect(
+            (
+              await exiftool.write(src, {
+                Orientation: "this isn't a valid orientation",
+              })
+            ).warnings?.join("\n")
+          ).to.be.match(/Can't convert IFD0:Orientation/i)
         })
 
         it("handles deleting tags from empty files", async () => {
@@ -490,8 +495,8 @@ describe("WriteTask", function () {
         it("rejects unknown tags", async () => {
           const src = await dest()
           return expect(
-            exiftool.write(src, { RandomTag: 123 } as any)
-          ).to.be.rejectedWith(/Tag 'RandomTag' is not defined/)
+            (await exiftool.write(src, { RandomTag: 123 } as any)).warnings?.join("\n")
+          ).to.match(/Tag 'RandomTag' is not defined/)
         })
 
         it("round-trips a struct tag with a ResourceEvent with primitive values", async () => {
