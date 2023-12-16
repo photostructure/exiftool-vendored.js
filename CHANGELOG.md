@@ -26,6 +26,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v24.2.0
+
+- 🐞 If `perl` isn't installed in `/usr/bin`, feed the full path to `perl` (if we can find it) to `spawn` (rather than relying on the shell to use `$PATH`). This should address issues like [#163](https://github.com/photostructure/exiftool-vendored.js/issues/163)
+
 ### v24.1.0
 
 - 📦 Relaxed `isWarning()` detection to be simply `/warning:/i`. v24.0.0 would throw errors when extracting binary thumbnails due to issues like "Warning: Ignored non-standard EXIF at TIFF-IFD0-JPEG-APP1-IFD0", which is decidedly a warning. `ExifTool.write` now leans (hard) on returning `.warnings` rather than throwing errors: **It is up to you to inspect `.warnings` and decide for your own usecase if the issue is exceptional**. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
