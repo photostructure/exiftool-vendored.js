@@ -150,6 +150,16 @@ const _ignoreShebang = lazy(
   () => !isWin32() && !_fs.existsSync("/usr/bin/perl")
 )
 
+const whichPerl = lazy(async () => {
+  const result = await which("perl")
+  if (result == null) {
+    throw new Error(
+      "Perl must be installed. Please add perl to your $PATH and try again."
+    )
+  }
+  return result
+})
+
 /**
  * Manages delegating calls to a cluster of ExifTool child processes.
  *
@@ -179,14 +189,19 @@ export class ExifTool {
     }
     const spawnOpts: _cp.SpawnOptions = {
       stdio: "pipe",
-      shell: ignoreShebang, // we need to spawn a shell if we ignore the shebang.
+      shell: false,
       detached: false, // < no orphaned exiftool procs, please
       env,
     }
-    const processFactory = () =>
+    const processFactory = async () =>
       ignoreShebang
-        ? _cp.spawn("perl", [o.exiftoolPath, ...o.exiftoolArgs], spawnOpts)
+        ? _cp.spawn(
+            await whichPerl(),
+            [o.exiftoolPath, ...o.exiftoolArgs],
+            spawnOpts
+          )
         : _cp.spawn(o.exiftoolPath, o.exiftoolArgs, spawnOpts)
+
     this.options = {
       ...o,
       ignoreShebang,
@@ -452,12 +467,7 @@ export class ExifTool {
 
   readonly #checkForPerl = lazy(async () => {
     if (this.options.checkPerl) {
-      const perl = await which("perl")
-      if (perl == null) {
-        throw new Error(
-          "ExifTool requires perl. Please install perl and try again."
-        )
-      }
+      await whichPerl() // < throws if perl is missing
     }
   })
 
