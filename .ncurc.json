@@ -1,0 +1,7 @@
+{
+  "reject": [
+    "chai v5.0 switched to ESM, and we're not ready for that yet",
+    "chai",
+    "@types/chai"
+  ]
+}
