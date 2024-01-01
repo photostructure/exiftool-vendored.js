@@ -12,10 +12,10 @@ import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { lazy } from "./Lazy"
 import { firstDefinedThunk, map } from "./Maybe"
-import { toFloat } from "./Number"
+import { isNumber, toFloat } from "./Number"
 import { OnlyZerosRE } from "./OnlyZerosRE"
 import { pick } from "./Pick"
-import { blank, isString, toS } from "./String"
+import { blank, isString } from "./String"
 import { Tags } from "./Tags"
 import {
   extractTzOffsetFromDatestamps,
@@ -193,8 +193,18 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   #extractLatLon = lazy(() => {
-    this.lat ??= this.#latlon("GPSLatitude", "S", 90)
-    this.lon ??= this.#latlon("GPSLongitude", "W", 180)
+    this.lat ??= this.#latlon({
+      tagName: "GPSLatitude",
+      positiveRef: "N",
+      negativeRef: "S",
+      maxValid: 90,
+    })
+    this.lon ??= this.#latlon({
+      tagName: "GPSLongitude",
+      positiveRef: "E",
+      negativeRef: "W",
+      maxValid: 180,
+    })
     if (this.options.ignoreZeroZeroLatLon && this.lat === 0 && this.lon === 0) {
       this.invalidLatLon = true
     }
@@ -203,13 +213,20 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
   })
 
-  #latlon(
-    tagName: "GPSLatitude" | "GPSLongitude",
-    negateRef: "S" | "W",
+  #latlon({
+    tagName,
+    positiveRef,
+    negativeRef,
+    maxValid,
+  }: {
+    tagName: "GPSLatitude" | "GPSLongitude"
+    positiveRef: "N" | "E"
+    negativeRef: "S" | "W"
     maxValid: 90 | 180
-  ): number | undefined {
+  }): number | undefined {
     const tagValue = this._rawDegrouped[tagName]
-    const ref = this._rawDegrouped[tagName + "Ref"]
+    const refKey = tagName + "Ref"
+    const ref = this._rawDegrouped[refKey]
     const result = toFloat(tagValue)
     if (result == null) {
       return
@@ -221,12 +238,22 @@ export class ReadTask extends ExifToolTask<Tags> {
       // Videos may not have a GPSLatitudeRef or GPSLongitudeRef: if this is the case, assume the given sign is correct.
       return result
     } else {
-      // Versions of ExifTool pre-12 returned properly-negated lat/lon. ExifTool
-      // 12+ always returns positive values (!!). Also: if '-GPS*#' is set,
-      // we'll see "S" instead of "South", hence the .startsWith() instead of
-      // ===:
-      const negative = toS(ref).toUpperCase().startsWith(negateRef)
-      return (negative ? -1 : 1) * Math.abs(result)
+      // See https://github.com/photostructure/exiftool-vendored.js/issues/165
+      // and https://www.exiftool.org/TagNames/GPS.html
+      const expectedPositive =
+        ref.toUpperCase().startsWith(positiveRef) || (isNumber(ref) && ref >= 0)
+      const expectedNegative =
+        ref.toUpperCase().startsWith(negativeRef) || (isNumber(ref) && ref < 0)
+      if (expectedPositive && result < 0) {
+        this.warnings.push(
+          `Invalid ${tagName} or ${refKey}: expected ${ref} ${tagName} > 0 but got ${result}`
+        )
+      } else if (expectedNegative && result > 0) {
+        this.warnings.push(
+          `Invalid ${tagName} or ${refKey}: expected ${ref} ${tagName} < 0 but got ${result}`
+        )
+      }
+      return result
     }
   }
 

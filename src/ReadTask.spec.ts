@@ -71,20 +71,42 @@ describe("ReadTask", () => {
     })
     it("S lat is negative", () => {
       expect(
-        parse({ tags: { GPSLatitude: 33.84842123, GPSLatitudeRef: "S" } })
+        parse({ tags: { GPSLatitude: -33.84842123, GPSLatitudeRef: "S" } })
           .GPSLatitude
       ).to.be.closeTo(-33.84842123, 0.00001)
     })
-    it("E lon is positive", () => {
+    it("positive E lon is positive", () => {
       expect(
-        parse({
-          tags: { GPSLongitude: 114.16401667, GPSLongitudeRef: "E" },
-        }).GPSLongitude
+        parse({ tags: { GPSLongitude: 114.16401667, GPSLongitudeRef: "E" } })
+          .GPSLongitude
       ).to.be.closeTo(114.16401667, 0.00001)
     })
-    it("W lon is negative", () => {
+    // See https://github.com/photostructure/exiftool-vendored.js/issues/165
+    it("negative E lon is negative", () => {
       expect(
-        parse({ tags: { GPSLongitude: 122.4406148, GPSLongitudeRef: "W" } })
+        parse({ tags: { GPSLongitude: -114, GPSLongitudeRef: "E" } })
+      ).to.containSubset({
+        GPSLongitude: -114,
+        GPSLongitudeRef: "E",
+        warnings: [
+          "Invalid GPSLongitude or GPSLongitudeRef: expected E GPSLongitude > 0 but got -114",
+        ],
+      })
+    })
+    it("positive W lon is negative", () => {
+      expect(
+        parse({ tags: { GPSLongitude: 122, GPSLongitudeRef: "W" } })
+      ).to.containSubset({
+        GPSLongitude: 122,
+        GPSLongitudeRef: "W",
+        warnings: [
+          "Invalid GPSLongitude or GPSLongitudeRef: expected W GPSLongitude < 0 but got 122",
+        ],
+      })
+    })
+    it("negative W lon is positive", () => {
+      expect(
+        parse({ tags: { GPSLongitude: -122.4406148, GPSLongitudeRef: "W" } })
           .GPSLongitude
       ).to.be.closeTo(-122.4406148, 0.00001)
     })
@@ -92,7 +114,7 @@ describe("ReadTask", () => {
       expect(
         parse({
           tags: {
-            GPSLongitude: 122.4406148,
+            GPSLongitude: -122.4406148,
             GPSLongitudeRef: "West",
             OffsetTime: "+02:00",
           },
@@ -357,7 +379,7 @@ describe("ReadTask", () => {
         tags: {
           GPSLatitude: 38.791121,
           GPSLatitudeRef: "North",
-          GPSLongitude: 109.606407,
+          GPSLongitude: -109.606407,
           GPSLongitudeRef: "West",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
