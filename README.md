@@ -50,8 +50,8 @@ or
   local platform through
   [optionalDependencies](https://docs.npmjs.com/files/package.json#optionaldependencies).
 
-- You shouldn't include either the `exiftool-vendored.exe` or
-  `exiftool-vendored.pl` as direct dependencies to your project, unless you know
+- You shouldn't include either [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe) or
+  [exiftool-vendored.pl](https://github.com/photostructure/exiftool-vendored.pl) as direct dependencies to your project, unless you know
   what you're doing.
 
 - If you're installing on a minimal Linux distribution, you may need to install `perl`. On Alpine, run `apk add perl`.
