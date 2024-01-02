@@ -12,7 +12,7 @@
 
 2. On POSIX, in `../exiftool-vendored.pl`:
 
-   1. `git stash -u ; git fetch ; git checkout main ; npx ncu -u && yarn install && ./update.sh && yarn test`
+   1. `git stash -u && git fetch && git checkout main && yarn install && yarn update && yarn test`
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
@@ -20,14 +20,14 @@
 
 (The terminal built into vscode plays with `ncu` and `release-it` a bit nicer than CMD or Windows for Git's terminal)
 
-   1. `git stash -u ; git fetch ; git checkout main ; npx ncu -u --packageFile package.json && yarn install && ./update.sh && yarn test`
+   1. `git stash -u && git fetch && git checkout main && yarn install && yarn update && yarn test`
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
 4. Finally, back on the POSIX box, release `exiftool-vendored`:
 
    1. `cd ../exiftool-vendored.js`
-   1. `npx ncu -u`
+   1. `yarn u`
    1. `yarn install`
    1. `yarn mktags ../test-images` # < assumes ``../test-images`` has the full ExifTool sample image suite
    1. `yarn prettier`
