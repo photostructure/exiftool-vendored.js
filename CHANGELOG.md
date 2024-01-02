@@ -28,6 +28,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v24.3.0
 
+- 🌱 ExifTool upgraded to [v12.72](https://exiftool.org/history.html#v12.72).
+
 - 📦 Relax GPS latitude/longitude parser to handle invalid Ref values (a warning will be appended to the [Tags.warnings field](https://photostructure.github.io/exiftool-vendored.js/interfaces/Tags.html#warnings)). See [#165](https://github.com/photostructure/exiftool-vendored.js/issues/165).
 
 ### v24.2.0
