@@ -9,7 +9,7 @@
     "url": "https://github.com/photostructure/exiftool-vendored.js/issues"
   },
   "scripts": {
-    "u": "yarn npm-check-updates -u --install always",
+    "u": "yarn npm-check-updates --upgrade --install always",
     "ci": "yarn install --frozen-lockfile",
     "clean": "rimraf lib dist coverage .nyc_output",
     "precompile": "yarn clean",
@@ -77,8 +77,8 @@
     "@types/progress": "^2.0.7",
     "@types/tmp": "^0.2.6",
     "@types/xmldom": "^0.1.34",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
     "@xmldom/xmldom": "^0.8.10",
     "chai": "^4.3.10",
     "chai-as-promised": "^7.1.1",
@@ -100,7 +100,7 @@
     "serve": "^14.2.1",
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.1",
-    "typedoc": "^0.25.4",
+    "typedoc": "^0.25.6",
     "typescript": "^5.3.3",
     "xpath": "^0.0.34"
   },
@@ -113,7 +113,7 @@
     "luxon": "^3.4.4"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "12.70.0",
-    "exiftool-vendored.pl": "12.70.0"
+    "exiftool-vendored.exe": "12.72.0",
+    "exiftool-vendored.pl": "12.72.0"
   }
 }
