@@ -8,15 +8,14 @@
 
 3. On a Windows machine, clone
    [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe)
-   
 
-2. On POSIX, in `../exiftool-vendored.pl`:
+4. On POSIX, in `../exiftool-vendored.pl`:
 
    1. `git stash -u && git fetch && git checkout main && yarn install && yarn update && yarn test`
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
-3. On Windows, in `...\exiftool-vendored.exe\`:
+5. On Windows, in `...\exiftool-vendored.exe\`:
 
 (The terminal built into vscode plays with `ncu` and `release-it` a bit nicer than CMD or Windows for Git's terminal)
 
@@ -24,7 +23,7 @@
    1. Verify diffs are in order, and commit
    1. `npx release-it`
 
-4. Finally, back on the POSIX box, release `exiftool-vendored`:
+6. Finally, back on the POSIX box, release `exiftool-vendored`:
 
    1. `cd ../exiftool-vendored.js`
    1. `yarn u`
