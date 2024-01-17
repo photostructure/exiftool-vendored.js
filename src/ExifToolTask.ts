@@ -3,6 +3,8 @@ import { isWarning } from "./IsWarning"
 import { Maybe } from "./Maybe"
 import { notBlank, splitLines } from "./String"
 
+const BadPerlInstallationRE = /Can't locate \S+ in @INC/i
+
 export abstract class ExifToolTask<T> extends bc.Task<T> {
   static renderCommand(args: string[]): string {
     return [...args, "-ignoreMinorErrors", "-execute", ""].join("\n")
@@ -15,6 +17,17 @@ export abstract class ExifToolTask<T> extends bc.Task<T> {
     super(ExifToolTask.renderCommand(args), (stdout, stderr, passed) =>
       this.#parser(stdout, stderr, passed)
     )
+  }
+
+  override onStderr(buf: string | Buffer): void {
+    if (BadPerlInstallationRE.test(buf.toString())) {
+      // This isn't an error we can recover from: there's a Perl module that
+      // needs to be installed. See
+      // https://github.com/photostructure/exiftool-vendored.js/issues/168 for
+      // details.
+      throw new Error(buf.toString())
+    }
+    super.onStderr(buf)
   }
 
   #parser(stdout: string, stderr: string | undefined, passed: boolean): T {
