@@ -56,6 +56,8 @@ or
 
 - If you're installing on a minimal Linux distribution, you may need to install `perl`. On Alpine, run `apk add perl`.
 
+- Node.js's `-slim` docker images don't include a working `perl` build. Use the non-slim image instead. [See the issue report for details.](https://github.com/photostructure/exiftool-vendored.js/issues/168)
+
 ## Upgrading
 
 See the
