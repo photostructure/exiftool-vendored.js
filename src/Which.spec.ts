@@ -6,9 +6,16 @@ if (!isWin32()) {
   describe("Which", () => {
     it("finds perl", async () => {
       const act = await which("perl")
-      // macOS is `/usr/local/bin/perl`. Most linux distros will use
-      // `/usr/bin/perl`, but could be `/bin/perl` and still be valid.
-      expect(act).to.match(/^(\/usr(\/local)?)?\/bin\/perl$/)
+      // macOS is expected to be `/usr/local/bin/perl` or
+      // `/opt/homebrew/bin/perl`.
+
+      // Most linux distros will use `/usr/bin/perl` or `/bin/perl`.
+      expect([
+        "/bin/perl",
+        "/usr/bin/perl",
+        "/usr/local/bin/perl",
+        "/opt/homebrew/bin/perl",
+      ]).to.include(act)
     })
     it("finds node", async () => {
       const act = await which("node")
