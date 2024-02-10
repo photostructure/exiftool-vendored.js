@@ -272,7 +272,7 @@ describe("ExifTool", function () {
         )
         assertReasonableTags(tags)
         await et2.end()
-        expect(await et2.pids).to.eql([])
+        expect(et2.pids).to.eql([])
         return
       })
 
@@ -293,7 +293,7 @@ describe("ExifTool", function () {
             })
           )
           await et2.end()
-          expect(await et2.pids).to.eql([])
+          expect(et2.pids).to.eql([])
         } finally {
           await et2.end()
         }

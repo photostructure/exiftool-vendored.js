@@ -67,7 +67,7 @@ describe("BinaryExtractionTask", () => {
   it("throws for missing src", async function () {
     this.slow(500)
     const src = path.join(testDir, "nonexistant-file.jpg")
-    const dest = await tmpname()
+    const dest = tmpname()
     try {
       await exiftool.extractJpgFromRaw(src, dest)
       assert.fail("expected error to be thrown")

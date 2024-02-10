@@ -491,7 +491,7 @@ export class ExifTool {
    * and not the actual perl vm. This should only really be relevant for
    * integration tests that verify processes are cleaned up properly.
    */
-  get pids(): Promise<number[]> {
+  get pids(): number[] {
     return this.batchCluster.pids()
   }
 
