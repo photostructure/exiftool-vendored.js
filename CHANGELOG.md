@@ -26,6 +26,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v24.5.0
+
+- 🌱 ExifTool upgraded to [v12.76](https://exiftool.org/history.html#v12.76). Note that an ARW file corrupting issue was found that's existed since v12.45.
+
+- 📦 Updated dependencies, including new [batch-cluster v13](https://github.com/photostructure/batch-cluster.js/releases/tag/v13.0.0) 🍀
+
 ### v24.4.0
 
 - 🌱 ExifTool upgraded to [v12.73](https://exiftool.org/history.html#v12.73).
@@ -54,7 +60,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ `.warnings` are returned by `ExifTool.read` and `ExifTool.write` tasks if there are non-critical warnings emitted to `stderr` by ExifTool.
 
-- 📦 Some fields in `Tags` were moved to more correct groups 
+- 📦 Some fields in `Tags` were moved to more correct groups
 
 - 📦 Refined `WriteTags` signature to omit `ExifToolTags` and `FileTags` fields.
 
