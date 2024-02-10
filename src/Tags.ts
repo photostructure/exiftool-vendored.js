@@ -16,7 +16,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 12.72 */
+  /** ★★★★ ✔ Example: 12.76 */
   ExifToolVersion?: number
   /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */
   Warning?: string
@@ -37,9 +37,9 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: "2024:01:02 11:53:10-08:00" */
+  /** ★★★★ ✔ Example: "2024:02:09 22:00:17-08:00" */
   FileAccessDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2023:12:29 13:54:08-08:00" */
+  /** ★★★★ ✔ Example: "2024:02:09 17:23:54-08:00" */
   FileInodeChangeDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2023:07:19 21:21:02-07:00" */
   FileModifyDate?: ExifDateTime | string
@@ -183,6 +183,8 @@ export interface APP1Tags {
   EmbeddedImageType?: string
   /** ☆☆☆☆   Example: 640 */
   EmbeddedImageWidth?: number
+  /** ☆☆☆☆   Example: 1 */
+  Emissivity?: number
   /** ☆☆☆☆   Example: "46.1 deg" */
   FieldOfView?: string
   /** ☆☆☆☆   Example: "NOF" */
@@ -265,6 +267,8 @@ export interface APP1Tags {
   Real2IR?: number
   /** ☆☆☆☆   Example: "26.7 C" */
   ReflectedApparentTemperature?: string
+  /** ☆☆☆☆   Example: "80.0 %" */
+  RelativeHumidity?: string
   /** ☆☆☆☆   Example: "41 110 240" */
   UnderflowColor?: string
 }
@@ -428,10 +432,6 @@ export interface APP14Tags {
 export interface APP4Tags {
   /** ☆☆☆☆ ✔ Example: "40 C" */
   AmbientTemperature?: string
-  /** ☆☆☆☆   Example: 1 */
-  Emissivity?: number
-  /** ☆☆☆☆   Example: "80.0 %" */
-  RelativeHumidity?: string
 }
 
 export interface APP5Tags {
@@ -467,20 +467,16 @@ export interface APP6Tags {
 export interface EXIFTags {
   /** ☆☆☆☆ ✔ Example: 988517 */
   Acceleration?: number
-  /** ☆☆☆☆ ✔ Example: "2.225585938 1 2.039794922" */
-  AnalogBalance?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   AntiAliasStrength?: number
   /** ★★★☆ ✔ Example: 9016997700 */
   ApertureValue?: number
   /** ★☆☆☆ ✔ Example: "Arturo DeImage" */
   Artist?: string
-  /** ☆☆☆☆ ✔ Example: "1 1 1" */
+  /** ☆☆☆☆ ✔ Example: "0.8326394671 1.012145749 0.3512469266" */
   AsShotNeutral?: string
-  /** ☆☆☆☆ ✔ Example: 3.0021124 */
+  /** ☆☆☆☆ ✔ Example: -0.6566481 */
   BaselineExposure?: number
-  /** ☆☆☆☆ ✔ Example: 1.5 */
-  BaselineSharpness?: number
   /** ☆☆☆☆ ✔ Example: "94 95 93 93" */
   BlackLevel?: string
   /** ☆☆☆☆ ✔ Example: 130 */
@@ -519,12 +515,10 @@ export interface EXIFTags {
   CustomRendered?: string
   /** ☆☆☆☆ ✔ Example: "1.3.0.0" */
   DNGBackwardVersion?: string
-  /** ☆☆☆☆ ✔ Example: "1.6.0.0" */
+  /** ☆☆☆☆ ✔ Example: "1.4.0.0" */
   DNGVersion?: string
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
   DateTimeOriginal?: ExifDateTime | string
-  /** ☆☆☆☆ ✔ Example: "None" */
-  DefaultBlackRender?: string
   /** ☆☆☆☆ ✔ Example: "8 8" */
   DefaultCropOrigin?: string
   /** ☆☆☆☆ ✔ Example: "8272 6200" */
@@ -653,7 +647,7 @@ export interface EXIFTags {
   InteropIndex?: string
   /** ★★★★ ✔ Example: "undef undef undef" */
   InteropVersion?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 453632 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -675,8 +669,6 @@ export interface EXIFTags {
   LinearityLimitGreen?: number
   /** ☆☆☆☆ ✔ Example: 4095 */
   LinearityLimitRed?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 22629 bytes, use -b option to extract)" */
-  LinearizationTable?: BinaryField | string
   /** ★★★★ ✔ Example: "samsung" */
   Make?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 3072 bytes, use -b option to extract)" */
@@ -697,10 +689,8 @@ export interface EXIFTags {
   ModifyDate?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: 6 */
   Noise?: number
-  /** ☆☆☆☆ ✔ Example: "3e-05 3e-08" */
+  /** ☆☆☆☆ ✔ Example: "0.00627371 0.0011865" */
   NoiseProfile?: string
-  /** ☆☆☆☆ ✔ Example: 0.94999999 */
-  NoiseReductionApplied?: number
   /** ☆☆☆☆ ✔ Example: "5 100 4 4 4 200 8 8 8 400 16 16 16 800 32 32 32 1600 64 64 64" */
   NoiseReductionParams?: string
   /** ☆☆☆☆ ✔ Example: 58 */
@@ -741,12 +731,6 @@ export interface EXIFTags {
   PrimaryChromaticities?: string
   /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
   ProcessingSoftware?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 822464 bytes, use -b option to extract)" */
-  ProfileGainTableMap?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "Apple Embedded Color Profile" */
-  ProfileName?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 7195 bytes, use -b option to extract)" */
-  ProfileToneCurve?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 928768 */
   RawDataOffset?: number
   /** ☆☆☆☆ ✔ Example: "30353330394431333030303032383242" */
@@ -781,8 +765,6 @@ export interface EXIFTags {
   SceneCaptureType?: string
   /** ★★★★ ✔ Example: "Unknown (Directly photographed)" */
   SceneType?: string
-  /** ☆☆☆☆ ✔ Example: "urn:com:apple:photo:2020:aux:semanticskymatte" */
-  SemanticName?: string
   /** ★★★☆ ✔ Example: "Unknown (One-chip color area sensor)" */
   SensingMethod?: string
   /** ★★☆☆ ✔ Example: "Unknown" */
@@ -811,7 +793,7 @@ export interface EXIFTags {
   SubSecTimeDigitized?: number
   /** ★☆☆☆ ✔ Example: 999 */
   SubSecTimeOriginal?: number
-  /** ☆☆☆☆ ✔ Example: "Semantic Mask" */
+  /** ☆☆☆☆ ✔ Example: "Reduced-resolution image" */
   SubfileType?: string
   /** ☆☆☆☆ ✔ Example: "967 967 1425 851" */
   SubjectArea?: string
@@ -821,7 +803,7 @@ export interface EXIFTags {
   SubjectDistanceRange?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   SubjectLocation?: number
-  /** ★★★★ ✔ Example: "(Binary data 25908 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 10202 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ★★★★ ✔ Example: 9998 */
   ThumbnailLength?: number
@@ -833,7 +815,7 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
@@ -1074,7 +1056,7 @@ export interface PhotoshopTags {
   PhotoshopFormat?: string
   /** ☆☆☆☆ ✔ Example: 9 */
   PhotoshopQuality?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 5768 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 4291 bytes, use -b option to extract)" */
   PhotoshopThumbnail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "0 0" */
   PrintPosition?: string
@@ -2184,7 +2166,7 @@ export interface MakerNotesTags {
   DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -2748,7 +2730,7 @@ export interface MakerNotesTags {
   FreeBytes?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 805 */
   FreeMemoryCardImages?: number
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /** ☆☆☆☆   Example: "Yes" */
   FrontFacingCamera?: string
   /** ★☆☆☆ ✔ Example: "Red-eye reduction" */
   FujiFlashMode?: string
@@ -2880,8 +2862,8 @@ export interface MakerNotesTags {
   ISOAutoMax?: number
   /** ☆☆☆☆ ✔ Example: 80 */
   ISOAutoMin?: number
-  /** ☆☆☆☆   Example: "Unknown (1 132)" */
-  ISOAutoParameters?: string
+  /** ☆☆☆☆   Example: "Shutter Speed Control; 1/32" */
+  ISOAutoMinSpeed?: string
   /** ☆☆☆☆ ✔ Example: "Auto (Faster)" */
   ISOAutoShutterTime?: string
   /** ☆☆☆☆ ✔ Example: "Show Frame Count" */
@@ -3464,7 +3446,7 @@ export interface MakerNotesTags {
   NEFBitDepth?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (Auto)" */
   NeutralDensityFilter?: string
@@ -3958,11 +3940,11 @@ export interface MakerNotesTags {
   SelfTimerShotInterval?: string
   /** ☆☆☆☆ ✔ Example: "2 s" */
   SelfTimerTime?: string
-  /** ☆☆☆☆ ✔ Example: {"_0":1,"_1":0,"_2":0,"_3":0} */
+  /** ☆☆☆☆   Example: {"_0":1,"_1":0,"_2":0,"_3":0} */
   SemanticStyle?: Struct
-  /** ☆☆☆☆ ✔ Example: true */
+  /** ☆☆☆☆   Example: true */
   SemanticStylePreset?: boolean
-  /** ☆☆☆☆ ✔ Example: true */
+  /** ☆☆☆☆   Example: true */
   SemanticStyleRenderingVer?: boolean
   /** ☆☆☆☆ ✔ Example: 0 */
   SensitivityAdjust?: number
@@ -4537,10 +4519,6 @@ export interface XMPTags {
   AsrSceneMode?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   AutoLateralCA?: number
-  /** ☆☆☆☆ ✔ Example: "portraiteffectsmatte" */
-  AuxiliaryImageSubType?: string
-  /** ☆☆☆☆ ✔ Example: "depth" */
-  AuxiliaryImageType?: string
   /** ☆☆☆☆   Example: ["LWIR"] */
   BandName?: string[]
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -4567,7 +4545,7 @@ export interface XMPTags {
   CameraProfileDigest?: string
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
-  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
+  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
   Cameras?: Struct[]
   /** ☆☆☆☆ ✔ Example: "Photo" */
   CaptureMode?: string
@@ -4603,7 +4581,7 @@ export interface XMPTags {
   Colorlabels?: string
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
   Comment?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
   Container?: Struct
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
@@ -4733,7 +4711,7 @@ export interface XMPTags {
   GreenHue?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   GreenSaturation?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 49603 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 23317 bytes, use -b option to extract)" */
   HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: false */
   HasCrop?: boolean
@@ -4801,6 +4779,8 @@ export interface XMPTags {
   LensManufacturer?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   LensProfileEnable?: number
+  /** ☆☆☆☆   Example: "Camera Settings" */
+  LensProfileName?: string
   /** ☆☆☆☆ ✔ Example: "LensDefaults" */
   LensProfileSetup?: string
   /** ☆☆☆☆   Example: 37087 */
@@ -4911,8 +4891,6 @@ export interface XMPTags {
   PickLabel?: number
   /** ☆☆☆☆ ✔ Example: "01.00" */
   PipelineVersion?: string
-  /** ☆☆☆☆ ✔ Example: 65537 */
-  PortraitEffectsMatteVersion?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   PortraitVersion?: number
   /** ☆☆☆☆ ✔ Example: 22.5 */
@@ -4927,7 +4905,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
+  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
   Profiles?: Struct[]
   /** ☆☆☆☆   Example:  */
   ProgramMode?: string
@@ -4977,8 +4955,6 @@ export interface XMPTags {
   SceneDetectResultIds?: string
   /** ☆☆☆☆   Example: "Undefined" */
   SelfData?: string
-  /** ☆☆☆☆ ✔ Example: 65536 */
-  SemanticSegmentationMatteVersion?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   ShadowTint?: number
   /** ☆☆☆☆ ✔ Example: 25 */
@@ -5085,8 +5061,8 @@ export interface XMPTags {
  * devices (like iPhones) An example value, JSON stringified, follows the
  * popularity ratings.
  *
- * Autogenerated by "yarn mktags" by ExifTool 12.72 on Tue Jan 02 2024.
- * 2734 unique tags were found in 10097 photo and video files.
+ * Autogenerated by "yarn mktags" by ExifTool 12.76 on Fri Feb 09 2024.
+ * 2723 unique tags were found in 10096 photo and video files.
  */
 export interface Tags
   extends APP12Tags,
