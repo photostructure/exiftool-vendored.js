@@ -217,9 +217,14 @@ export class ExifTool {
   /**
    * Register life cycle event listeners. Delegates to BatchProcess.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly on: bc.BatchCluster["on"] = (event: any, listener: any) =>
     this.batchCluster.on(event, listener)
+
+  /**
+   * Unregister life cycle event listeners. Delegates to BatchProcess.
+   */
+  readonly off: bc.BatchCluster["off"] = (event: any, listener: any) =>
+    this.batchCluster.off(event, listener)
 
   /**
    * @return a promise holding the version number of the vendored ExifTool
