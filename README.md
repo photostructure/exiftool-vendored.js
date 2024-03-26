@@ -44,6 +44,25 @@ or
 
      npm install --save exiftool-vendored
 
+### Electron-builder support
+
+Add the following pattern to `electron-builder.yml`'s `asarUnpack`:
+
+```yaml
+- "node_modules/exiftool-vendored.*/**/*"
+```
+
+### Electron-forge support
+
+Version 25.0 of this library added experimental support for `electron-forge`:
+add the following element to your `ForgeConfig.packagerConfig.extraResource`
+string array, and things should "just work":
+
+```ts
+"./node_modules/exiftool-vendored." +
+  (process.platform === "win32" ? "exe" : "pl")
+```
+
 ### Installation notes
 
 - `exiftool-vendored` provides an installation of ExifTool relevant for your
@@ -57,6 +76,8 @@ or
 - If you're installing on a minimal Linux distribution, you may need to install `perl`. On Alpine, run `apk add perl`.
 
 - Node.js's `-slim` docker images don't include a working `perl` build. Use the non-slim image instead. [See the issue report for details.](https://github.com/photostructure/exiftool-vendored.js/issues/168)
+
+- If the platform-correct vendor module (`exiftool-vendored.exe` or `exiftool-vendored.pl`) is not found, `exiftool` is searched for on your `PATH`. Note that _very_ old versions of `exiftool` are found on currently-supported Linux distributions which this library will not work correctly with.
 
 ## Upgrading
 

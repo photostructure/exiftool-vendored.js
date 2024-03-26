@@ -26,6 +26,18 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v25.0.0
+
+- 🌱/✨ ExifTool upgraded to [v12.80](https://exiftool.org/history.html#v12.80), which **adds support for reverse-geo lookups** and [several other geolocation features](https://exiftool.org/geolocation.html
+
+- ✨ If no vendored version of `exiftool` is available, we'll try to make do with whatever is available in the `PATH`.
+
+- ✨ `ExifToolOptions.exiftoolPath` can now be an `async` function
+
+- ✨ Added [Geolocation](https://photostructure.github.io/exiftool-vendored.js/interfaces/Geolocation.html) Tags. These will only be available if `{geolocation: true}` is passed to the [ExifTool constructor](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#constructor).
+
+- 📦 Added support for `electron-forge`: [see the docs for details](https://photostructure.github.io/exiftool-vendored.js/#md:electron-forge-support).
+
 ### v24.6.0
 
 - 🌱 ExifTool upgraded to [v12.78](https://exiftool.org/history.html#v12.78)
