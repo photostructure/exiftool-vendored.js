@@ -3,7 +3,7 @@ import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 import { DefaultMaxProcs } from "./DefaultMaxProcs"
 import { ExifToolOptions } from "./ExifToolOptions"
-import { DefaultExifToolPath } from "./FindExiftool"
+import { exiftoolPath } from "./ExiftoolPath"
 import { geoTz } from "./GeoTz"
 import { isWin32 } from "./IsWin32"
 import { Omit } from "./Omit"
@@ -25,7 +25,7 @@ export const DefaultExifToolOptions: Omit<
   taskTimeoutMillis: 20000,
   onIdleIntervalMillis: 2000,
   taskRetries: 1,
-  exiftoolPath: DefaultExifToolPath,
+  exiftoolPath,
   exiftoolArgs: DefaultExiftoolArgs,
   exiftoolEnv: {},
   checkPerl: !isWin32(),

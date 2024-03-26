@@ -23,6 +23,7 @@ import {
   MWGKeywordTags,
 } from "./MWGTags"
 import { Maybe } from "./Maybe"
+import { isFunction } from "./Object"
 import { Omit } from "./Omit"
 import { pick } from "./Pick"
 import { PreviewTag } from "./PreviewTag"
@@ -169,6 +170,7 @@ const whichPerl = lazy(async () => {
 export class ExifTool {
   readonly options: ExifToolOptions
   private readonly batchCluster: bc.BatchCluster
+  readonly exiftoolPath: () => Promise<string>
 
   constructor(options: Partial<ExifToolOptions> = {}) {
     if (options != null && typeof options !== "object") {
@@ -193,23 +195,22 @@ export class ExifTool {
       detached: false, // < no orphaned exiftool procs, please
       env,
     }
+    this.exiftoolPath = lazy(async () =>
+      isFunction(o.exiftoolPath) ? o.exiftoolPath(o.logger()) : o.exiftoolPath
+    )
     const processFactory = async () =>
       ignoreShebang
         ? _cp.spawn(
             await whichPerl(),
-            [o.exiftoolPath, ...o.exiftoolArgs],
+            [await this.exiftoolPath(), ...o.exiftoolArgs],
             spawnOpts
           )
-        : _cp.spawn(o.exiftoolPath, o.exiftoolArgs, spawnOpts)
+        : _cp.spawn(await this.exiftoolPath(), o.exiftoolArgs, spawnOpts)
 
     this.options = {
       ...o,
       ignoreShebang,
       processFactory,
-      exitCommand: o.exitCommand,
-      versionCommand: o.versionCommand,
-      // User options win:
-      ...options,
     }
     this.batchCluster = new bc.BatchCluster(this.options)
   }
