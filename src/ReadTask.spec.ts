@@ -122,23 +122,49 @@ describe("ReadTask", () => {
       ).to.be.closeTo(-122.4406148, 0.00001)
     })
 
-    it("extracts problematic GPSDateTime", async () => {
-      const t = await exiftool.read(join(testDir, "nexus5x.jpg"))
-      expect(t).to.containSubset({
-        MIMEType: "image/jpeg",
-        Make: "LGE",
-        Model: "Nexus 5X",
-        ImageWidth: 16,
-        ImageHeight: 16,
-        tz: "Europe/Zurich",
-        tzSource: "GPSLatitude/GPSLongitude",
-      })
+    for (const geolocation of [true, false]) {
+      describe(JSON.stringify({ geolocation }), () => {
+        it("extracts problematic GPSDateTime", async () => {
+          const t = await exiftool.read(
+            join(testDir, "nexus5x.jpg"),
+            undefined,
+            { geolocation }
+          )
+          expect(t).to.containSubset({
+            MIMEType: "image/jpeg",
+            Make: "LGE",
+            Model: "Nexus 5X",
+            ImageWidth: 16,
+            ImageHeight: 16,
+            tz: "Europe/Zurich",
+            tzSource: geolocation
+              ? "GeolocationTimeZone"
+              : "GPSLatitude/GPSLongitude",
+          })
 
-      const gpsdt = t.GPSDateTime as any as ExifDateTime
-      expect(gpsdt.toString()).to.eql("2016-07-19T10:00:24Z")
-      expect(gpsdt.rawValue).to.eql("2016:07:19 10:00:24Z")
-      expect(gpsdt.zoneName).to.eql("UTC")
-    })
+          const gpsdt = t.GPSDateTime as any as ExifDateTime
+          expect(gpsdt.toString()).to.eql("2016-07-19T10:00:24Z")
+          expect(gpsdt.rawValue).to.eql("2016:07:19 10:00:24Z")
+          expect(gpsdt.zoneName).to.eql("UTC")
+
+          if (geolocation) {
+            expect(t).to.containSubset({
+              GeolocationCity: "Adligenswil",
+              GeolocationRegion: "Lucerne",
+              GeolocationSubregion: "Lucerne-Land District",
+              GeolocationCountryCode: "CH",
+              GeolocationCountry: "Switzerland",
+              GeolocationTimeZone: "Europe/Zurich",
+              GeolocationFeatureCode: "PPL",
+              GeolocationPopulation: 5600,
+              GeolocationPosition: "47.0653, 8.3613",
+              GeolocationDistance: "1.71 km",
+              GeolocationBearing: 60,
+            })
+          }
+        })
+      })
+    }
 
     describe("without *Ref fields", () => {
       for (const latSign of [1, -1]) {

@@ -7,11 +7,11 @@ import { errorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
-import { handleDeprecatedOptions } from "./ExifToolOptions"
+import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { lazy } from "./Lazy"
-import { firstDefinedThunk, map } from "./Maybe"
+import { map } from "./Maybe"
 import { isNumber, toFloat } from "./Number"
 import { OnlyZerosRE } from "./OnlyZerosRE"
 import { pick } from "./Pick"
@@ -25,7 +25,8 @@ import {
 } from "./Timezones"
 
 /**
- * tag names we don't need to muck with:
+ * tag names we don't need to muck with, but name conventions (like including
+ * "date") suggest they might be date/time tags
  */
 const PassthroughTags = [
   "ExifToolVersion",
@@ -39,6 +40,7 @@ export const ReadTaskOptionFields = [
   "backfillTimezones",
   "defaultVideosToUTC",
   "geoTz",
+  "geolocation",
   "ignoreZeroZeroLatLon",
   "imageHashType",
   "includeImageDataMD5",
@@ -46,7 +48,7 @@ export const ReadTaskOptionFields = [
   "inferTimezoneFromDatestampTags",
   "numericTags",
   "useMWG",
-] as const
+] as const satisfies (keyof ExifToolOptions)[]
 
 const NullIsh = ["undef", "null", "undefined"]
 
@@ -57,7 +59,7 @@ export function nullish(s: string | undefined): s is undefined {
 export const DefaultReadTaskOptions = {
   optionalArgs: [] as string[],
   ...pick(DefaultExifToolOptions, ...ReadTaskOptionFields),
-} as const
+} as const satisfies Partial<ExifToolOptions> & { optionalArgs: string[] }
 
 export type ReadTaskOptions = typeof DefaultReadTaskOptions
 
@@ -65,14 +67,14 @@ const MaybeDateOrTimeRe = /when|date|time|subsec|creat|modif/i
 
 export class ReadTask extends ExifToolTask<Tags> {
   private readonly degroup: boolean
-  private _raw: any = {}
-  private _rawDegrouped: any = {}
-  private readonly tags: Tags = {}
-  private lat: number | undefined
-  private lon: number | undefined
-  private invalidLatLon = false
-  private tz: string | undefined
-  private tzSource?: string
+  #raw: any = {}
+  #rawDegrouped: any = {}
+  readonly #tags: Tags = {}
+  #lat: number | undefined
+  #lon: number | undefined
+  #invalidLatLon = false
+  #tz: string | undefined
+  #tzSource?: string
 
   private constructor(
     readonly sourceFile: string,
@@ -82,8 +84,8 @@ export class ReadTask extends ExifToolTask<Tags> {
     super(args)
     // See https://github.com/photostructure/exiftool-vendored.js/issues/147#issuecomment-1642580118
     this.degroup = this.args.includes("-G")
-    this.tags = { SourceFile: sourceFile } as Tags
-    this.tags.errors = this.errors
+    this.#tags = { SourceFile: sourceFile } as Tags
+    this.#tags.errors = this.errors
   }
 
   static for(filename: string, options: Partial<ReadTaskOptions>): ReadTask {
@@ -106,6 +108,9 @@ export class ReadTask extends ExifToolTask<Tags> {
       args.push("-api", "requesttags=imagedatahash")
       args.push("-api", "imagehashtype=" + opts.imageHashType)
     }
+    if (opts.geolocation ?? false) {
+      args.push("-api", "geolocation")
+    }
     // IMPORTANT: "-all" must be after numeric tag references, as the first
     // reference in wins
     args.push(...opts.numericTags.map((ea) => "-" + ea + "#"))
@@ -124,7 +129,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   // only exposed for tests
   parse(data: string, err?: Error): Tags {
     try {
-      this._raw = JSON.parse(data)[0]
+      this.#raw = JSON.parse(data)[0]
     } catch (jsonError) {
       // TODO: should restart exiftool?
       logger().warn("ExifTool.ReadTask(): Invalid JSON", {
@@ -135,28 +140,20 @@ export class ReadTask extends ExifToolTask<Tags> {
       throw err ?? jsonError
     }
     // ExifTool does "humorous" things to paths, like flip path separators. resolve() undoes that.
-    const SourceFile = _path.resolve(this._raw.SourceFile)
+    const SourceFile = _path.resolve(this.#raw.SourceFile)
     // Sanity check that the result is for the file we want:
     if (SourceFile !== this.sourceFile) {
       // Throw an error rather than add an errors string because this is *really* bad:
       throw new Error(
-        `Internal error: unexpected SourceFile of ${this._raw.SourceFile} for file ${this.sourceFile}`
+        `Internal error: unexpected SourceFile of ${this.#raw.SourceFile} for file ${this.sourceFile}`
       )
     }
-    if (this.degroup) {
-      this._rawDegrouped = {}
-      for (const [key, value] of Object.entries(this._raw)) {
-        const k = this.#tagName(key)
-        this._rawDegrouped[k] = value
-      }
-    } else {
-      this._rawDegrouped = this._raw
-    }
+
     return this.#parseTags()
   }
 
   #isVideo(): boolean {
-    return String(this._rawDegrouped?.MIMEType).startsWith("video/")
+    return String(this.#rawDegrouped?.MIMEType).startsWith("video/")
   }
 
   #defaultToUTC(): boolean {
@@ -168,22 +165,35 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   #parseTags(): Tags {
-    this.#extractLatLon()
-    this.#extractTzOffset()
-    map(this.tz, (ea) => (this.tags.tz = ea))
-    map(this.tzSource, (ea) => (this.tags.tzSource = ea))
-    // avoid casting `this.tags as any` everywhere:
-    const tags = this.tags as any
+    if (this.degroup) {
+      this.#rawDegrouped = {}
+      for (const [key, value] of Object.entries(this.#raw)) {
+        const k = this.#tagName(key)
+        this.#rawDegrouped[k] = value
+      }
+    } else {
+      this.#rawDegrouped = this.#raw
+    }
 
-    for (const [key, value] of Object.entries(this._raw)) {
+    this.#extractLatLon()
+
+    this.#extractTzOffset()
+
+    map(this.#tz, (ea) => (this.#tags.tz = ea))
+    map(this.#tzSource, (ea) => (this.#tags.tzSource = ea))
+
+    // avoid casting `this.tags as any` for the rest of the function:
+    const tags = this.#tags as any
+
+    for (const [key, value] of Object.entries(this.#raw)) {
       const k = this.#tagName(key)
       const v = this.#parseTag(k, value)
       // Note that we set `key` (which may include a group prefix):
       tags[key] = v
     }
 
-    // we could `return {...tags, ...errorsAndWarnings(this, tags)}` but tags
-    // is a chonky monster, and we don't want to double work for the poor
+    // we could `return {...tags, ...errorsAndWarnings(this, tags)}` but tags is
+    // a chonky monster, and we don't want to double the work for the poor
     // garbage collector.
     const { errors, warnings } = errorsAndWarnings(this, tags)
     tags.errors = errors
@@ -193,23 +203,40 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   #extractLatLon = lazy(() => {
-    this.lat ??= this.#latlon({
+    this.#lat ??= this.#latlon({
       tagName: "GPSLatitude",
       positiveRef: "N",
       negativeRef: "S",
       maxValid: 90,
     })
-    this.lon ??= this.#latlon({
+    this.#lon ??= this.#latlon({
       tagName: "GPSLongitude",
       positiveRef: "E",
       negativeRef: "W",
       maxValid: 180,
     })
-    if (this.options.ignoreZeroZeroLatLon && this.lat === 0 && this.lon === 0) {
-      this.invalidLatLon = true
+    if (
+      this.options.ignoreZeroZeroLatLon &&
+      this.#lat === 0 &&
+      this.#lon === 0
+    ) {
+      this.#invalidLatLon = true
     }
-    if (this.invalidLatLon) {
-      this.lat = this.lon = undefined
+    if (this.#invalidLatLon) {
+      this.#lat = this.#lon = undefined
+
+      if (this.options.geolocation) {
+        this.warnings.push(
+          "Invalid GPSLatitude or GPSLongitude. Geolocation tags have been deleted."
+        )
+        for (const key of Object.keys(this.#raw)) {
+          const k = this.#tagName(key)
+          if (k.startsWith("Geolocation")) {
+            delete this.#raw[key]
+            delete this.#rawDegrouped[k]
+          }
+        }
+      }
     }
   })
 
@@ -224,15 +251,15 @@ export class ReadTask extends ExifToolTask<Tags> {
     negativeRef: "S" | "W"
     maxValid: 90 | 180
   }): number | undefined {
-    const tagValue = this._rawDegrouped[tagName]
+    const tagValue = this.#rawDegrouped[tagName]
     const refKey = tagName + "Ref"
-    const ref = this._rawDegrouped[refKey]
+    const ref = this.#rawDegrouped[refKey]
     const result = toFloat(tagValue)
     if (result == null) {
       return
     } else if (Math.abs(result) > maxValid) {
       this.warnings.push(`Invalid ${tagName}: ${JSON.stringify(tagValue)}`)
-      this.invalidLatLon = true
+      this.#invalidLatLon = true
       return
     } else if (blank(ref)) {
       // Videos may not have a GPSLatitudeRef or GPSLongitudeRef: if this is the case, assume the given sign is correct.
@@ -259,50 +286,47 @@ export class ReadTask extends ExifToolTask<Tags> {
 
   #geoTz = lazy(() => {
     this.#extractLatLon()
-    if (this.invalidLatLon || this.lat == null || this.lon == null) return
+    if (this.#invalidLatLon || this.#lat == null || this.#lon == null) return
     try {
-      const geoTz = this.options.geoTz(this.lat, this.lon)
+      const geoTz = this.options.geoTz(this.#lat, this.#lon)
       return normalizeZone(geoTz)
     } catch {
-      this.invalidLatLon = true
+      this.#invalidLatLon = true
       return
     }
   })
 
   #extractTzOffset() {
-    map(
-      firstDefinedThunk([
-        // If there is an explicit TimeZone tag (which is rare), defer to that
-        // before defaulting to UTC for videos:
-        () => extractTzOffsetFromTags(this._rawDegrouped),
+    const result =
+      // If there is an explicit TimeZone tag (which is rare), or if  defer to that
+      // before defaulting to UTC for videos:
+      extractTzOffsetFromTags(this.#rawDegrouped) ??
+      map(this.#geoTz(), (ea) => ({
+        tz: ea.name,
+        src: "GPSLatitude/GPSLongitude",
+      })) ??
+      extractTzOffsetFromDatestamps(this.#rawDegrouped, this.options) ??
+      // See https://github.com/photostructure/exiftool-vendored.js/issues/113
+      // and https://github.com/photostructure/exiftool-vendored.js/issues/156
 
-        () =>
-          map(this.#geoTz(), (ea) => ({
-            tz: ea.name,
-            src: "GPSLatitude/GPSLongitude",
-          })),
+      // Videos are frequently encoded in UTC, but don't include the
+      // timezone offset in their datetime stamps.
 
-        () => extractTzOffsetFromDatestamps(this._rawDegrouped, this.options),
+      (this.#defaultToUTC()
+        ? {
+            tz: "UTC",
+            src: "defaultVideosToUTC",
+          }
+        : // not applicable:
+          undefined) ??
+      // This is a last-ditch estimation heuristic:
+      extractTzOffsetFromUTCOffset(this.#rawDegrouped)
 
-        // See https://github.com/photostructure/exiftool-vendored.js/issues/113
-        // and https://github.com/photostructure/exiftool-vendored.js/issues/156
-
-        // Videos are frequently encoded in UTC, but don't include the
-        // timezone offset in their datetime stamps.
-        () =>
-          this.#defaultToUTC()
-            ? {
-                tz: "UTC",
-                src: "defaultVideosToUTC",
-              }
-            : // not applicable:
-              undefined,
-
-        // This is a last-ditch estimation heuristic:
-        () => extractTzOffsetFromUTCOffset(this._rawDegrouped),
-      ]),
-      (ea) => ({ tz: this.tz, src: this.tzSource } = ea)
-    )
+    if (result != null) {
+      this.#tz = result.tz
+      this.#tzSource = result.src
+    }
+    return result
   }
 
   #parseTag(tagName: string, value: any): any {
@@ -313,10 +337,10 @@ export class ReadTask extends ExifToolTask<Tags> {
         return value
       }
       if (tagName === "GPSLatitude") {
-        return this.lat
+        return this.#lat
       }
       if (tagName === "GPSLongitude") {
-        return this.lon
+        return this.#lon
       }
       if (Array.isArray(value)) {
         return value.map((ea) => this.#parseTag(tagName, ea))
@@ -345,7 +369,7 @@ export class ReadTask extends ExifToolTask<Tags> {
             isUtcTagName(tagName) || this.#defaultToUTC()
               ? "UTC"
               : this.options.backfillTimezones
-                ? this.tz
+                ? this.#tz
                 : undefined
 
           // Time-only tags have "time" but not "date" in their name:
@@ -366,13 +390,13 @@ export class ReadTask extends ExifToolTask<Tags> {
           if (
             this.options.backfillTimezones &&
             result != null &&
-            this.tz != null &&
+            this.#tz != null &&
             result instanceof ExifDateTime &&
             this.#defaultToUTC() &&
             !isUtcTagName(tagName) &&
             true === result.inferredZone
           ) {
-            return result.setZone(this.tz)
+            return result.setZone(this.#tz)
           }
           return result
         }

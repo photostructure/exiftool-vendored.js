@@ -60,19 +60,19 @@ describe("RewriteAllTagsTask", () => {
         }
 
         it("matches expected metadata", async () => {
-          const img = await testImg("problematic.jpg")
+          const img = await testImg({ srcBasename: "problematic.jpg" })
           expect(await exiftool.read(img)).to.containSubset(expectedMeta)
         })
 
         it("problematic file is problematic", async () => {
-          const img = await testImg("problematic.jpg")
+          const img = await testImg({ srcBasename: "problematic.jpg" })
           return expect(exiftool.write(img, writeTags)).to.be.rejectedWith(
             /Error reading ThumbnailImage data/
           )
         })
 
         it("problematic file is not problematic after rewriting", async () => {
-          const img = await testImg("problematic.jpg")
+          const img = await testImg({ srcBasename: "problematic.jpg" })
           const f = path.parse(img)
           const rewritten = path.join(f.dir, "rewritten.jpg")
           await exiftool.rewriteAllTags(img, rewritten)

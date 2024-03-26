@@ -17,6 +17,12 @@ export function notBlank(s: Maybe<string>): s is string {
   return !blank(s)
 }
 
+export function toNotBlank(s: Maybe<string>): Maybe<string> {
+  if (s == null) return
+  s = String(s).trim()
+  return s.length === 0 ? undefined : s
+}
+
 export function compactBlanks(arr: Maybe<string>[]): string[] {
   return arr.filter(notBlank)
 }

@@ -1,10 +1,9 @@
 import tz_lookup from "@photostructure/tz-lookup"
 import { Maybe } from "./Maybe"
 
+/**
+ * @throws if the given latitude and longitude are invalid.
+ */
 export function geoTz(lat: number, lon: number): Maybe<string> {
-  try {
-    return tz_lookup(lat, lon)
-  } catch {
-    return
-  }
+  return tz_lookup(lat, lon)
 }

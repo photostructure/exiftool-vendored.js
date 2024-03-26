@@ -542,7 +542,11 @@ describe("WriteTask", function () {
       describe("round-trip with an image", () =>
         runRoundTripTests({
           withTZ: true,
-          dest: (name) => testImg(name, undefined, "ïmägë.jpg"),
+          dest: (name) =>
+            testImg({
+              srcBasename: name,
+              destBasename: "ïmägë.jpg",
+            }),
         }))
 
       describe("round-trip with an XMP sidecar", () =>

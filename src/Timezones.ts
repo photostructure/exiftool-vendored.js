@@ -363,6 +363,7 @@ const TimezoneOffsetTagnames = [
   // hours, 2. If present, the time zone offset of ModifyDate (which we
   // ignore) @see https://www.exiftool.org/TagNames/EXIF.html
   "TimeZoneOffset", // number | number[] | string
+  "GeolocationTimeZone",
 ] as const satisfies readonly (keyof Tags)[]
 
 export function extractTzOffsetFromTags(t: Tags): Maybe<TzSrc> {

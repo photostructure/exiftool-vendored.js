@@ -12,6 +12,7 @@ import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ErrorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
+import { GeolocationTags } from "./GeolocationTags"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
@@ -112,6 +113,7 @@ export type {
   ExpandedDateTags,
   FileTags,
   FlashPixTags,
+  GeolocationTags,
   ICCProfileTags,
   IPTCTags,
   JFIFTags,

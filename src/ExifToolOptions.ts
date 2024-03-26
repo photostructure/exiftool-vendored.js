@@ -66,7 +66,7 @@ export interface ExifToolOptions
    * windows binaries provided by `exiftool-vendored.pl` or
    * `exiftool-vendored.exe`.
    */
-  exiftoolPath: string
+  exiftoolPath: string | ((logger?: bc.Logger) => string | Promise<string>)
 
   /**
    * Args passed to exiftool on launch.
@@ -179,8 +179,43 @@ export interface ExifToolOptions
    * this option is true, and GPSLatitude and GPSLongitude are both 0, then
    * those values will be returned, but the TZ will not be inferred from that
    * location.
+   *
+   * If both this and {@link geolocation} are `true`, we will _delete_ the
+   * Geolocation tags from the returned metadata object.
+   *
+   * @see https://en.wikipedia.org/wiki/Null_Island
    */
   ignoreZeroZeroLatLon: boolean
+
+  /**
+   * Override the default geo-to-timezone lookup service. Note that if {@link geolocation} is enabled, we'll try to use {@
+   *
+   * This defaults to `@photostructure/tz-lookup`, but if you have the
+   * resources, consider using `geo-tz` for more accurate results.
+   * 
+   * If your implementation throws an error, `ExifTool` will consider that given
+   * latitude/longitude as invalid.
+   *
+   * Here's a snippet of how to use `geo-tz` instead of `tz-lookup`:
+   *
+```js
+const geotz = require("geo-tz")
+const { ExifTool } = require("exiftool-vendored")
+const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
+```
+   *
+   * @see https://github.com/photostructure/tz-lookup
+   * @see https://github.com/evansiroky/node-geo-tz/
+   */
+  geoTz: typeof geoTz
+
+  /**
+   * When reading metadata, should we enable ExifTool's geolocation features?
+   * Note that this requires ExifTool version 12.78 or later.
+   *
+   * @see https://exiftool.org/geolocation.html
+   */
+  geolocation: boolean
 
   /**
    * `ExifTool` has a shebang line that assumes a valid `perl` is installed at
@@ -201,25 +236,6 @@ export interface ExifToolOptions
    * if you know perl is installed.
    */
   checkPerl: boolean
-
-  /**
-   * Override the default geo-to-timezone lookup service.
-   *
-   * This defaults to `@photostructure/tz-lookup`, but if you have the
-   * resources, consider using `geo-tz` for more accurate results.
-   *
-   * Here's a snippet of how to use `geo-tz` instead of `tz-lookup`:
-   *
-```js
-const geotz = require("geo-tz")
-const { ExifTool } = require("exiftool-vendored")
-const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
-```
-   *
-   * @see https://github.com/photostructure/tz-lookup
-   * @see https://github.com/evansiroky/node-geo-tz/
-   */
-  geoTz: typeof geoTz
 }
 
 export function handleDeprecatedOptions<

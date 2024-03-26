@@ -89,7 +89,7 @@ export function setZone(args: {
   opts?: Maybe<ZoneOptions>
 }): DateTime {
   // This is a bit tricky... We want to keep the local time and just _say_ it
-  // was in the zone of the image **if we don't already have a zone.**
+  // was in the zone of the image **but only if we don't already have a zone.**
 
   // If we _do_ have a zone, assume it was already converted by ExifTool into
   // (probably the system) timezone, which means _don't_ `keepLocalTime`.

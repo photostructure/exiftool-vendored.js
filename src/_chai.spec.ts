@@ -70,11 +70,15 @@ export function renderTagsWithRawValues(t: Tags) {
 /**
  * Copy a test image to a tmp directory and return the path
  */
-export async function testImg(
+export async function testImg({
   srcBasename = "img.jpg",
   parentDir = "test",
+  destBasename,
+}: {
+  srcBasename?: Maybe<string>
+  parentDir?: string
   destBasename?: string
-): Promise<string> {
+} = {}): Promise<string> {
   const dir = path.join(tmpname(), parentDir)
   await mkdirp(dir)
   const dest = path.join(dir, destBasename ?? srcBasename)

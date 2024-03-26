@@ -175,6 +175,7 @@ const ExcludedTagRe = new RegExp(
     "DefCor",
     "Face\\d",
     "FCS\\d",
+    "Geolocation", // we add these with the external GeolocationTags interface
     "HJR",
     "IM[a-z]",
     "IncandConv",
@@ -741,6 +742,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { ExifDate } from "./ExifDate"',
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
+        'import { GeolocationTags } from "./GeolocationTags"',
         'import { ICCProfileTags } from "./ICCProfileTags"',
         'import { ImageDataHashTag } from "./ImageDataHashTag"',
         'import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags"',
@@ -791,6 +793,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       ...tagGroups.map((s) => s + "Tags"),
       "ApplicationRecordTags",
       "ErrorsAndWarnings",
+      "GeolocationTags",
       "ImageDataHashTag",
       "ICCProfileTags",
       "MWGCollectionsTags",
