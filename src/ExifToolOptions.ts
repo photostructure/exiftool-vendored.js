@@ -188,7 +188,9 @@ export interface ExifToolOptions
   ignoreZeroZeroLatLon: boolean
 
   /**
-   * Override the default geo-to-timezone lookup service. Note that if {@link geolocation} is enabled, we'll try to use {@
+   * Override the default geo-to-timezone lookup service. Note that if
+     {@link geolocation} is enabled, we'll use
+     {@link Tags.GeolocationTimeZone} if it's not blank.
    *
    * This defaults to `@photostructure/tz-lookup`, but if you have the
    * resources, consider using `geo-tz` for more accurate results.
