@@ -34,7 +34,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ `ExifToolOptions.exiftoolPath` can now be an `async` function
 
-- ✨ Added [Geolocation](https://photostructure.github.io/exiftool-vendored.js/interfaces/Geolocation.html) Tags. These will only be available if `{geolocation: true}` is passed to the [ExifTool constructor](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#constructor).
+- ✨ Added [Geolocation](https://photostructure.github.io/exiftool-vendored.js/interfaces/GeolocationTags.html) Tags. These will only be available if `{geolocation: true}` is passed to the [ExifTool constructor](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#constructor).
 
 - 📦 Added support for `electron-forge`: [see the docs for details](https://photostructure.github.io/exiftool-vendored.js/#md:electron-forge-support).
 
