@@ -769,6 +769,7 @@ describe("WriteTask", function () {
       return [
         "CurrentIPTCDigest",
         "ExifByteOrder",
+        "FileAccessDate",
         "FileModifyDate",
         "FileSize",
         "tz",
