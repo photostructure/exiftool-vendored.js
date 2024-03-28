@@ -2,13 +2,19 @@ import { existsSync } from "node:fs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool } from "./ExifTool"
+import { isExifToolTag } from "./ExifToolTags"
+import {
+  ExifToolVendoredTags,
+  isExifToolVendoredTag,
+} from "./ExifToolVendoredTags"
 import { isFileEmpty } from "./File"
+import { isFileTag } from "./FileTags"
 import { omit } from "./Object"
 import { ResourceEvent } from "./ResourceEvent"
 import { isSidecarExt } from "./Sidecars"
 import { stripSuffix } from "./String"
 import { Struct } from "./Struct"
-import { Tags } from "./Tags"
+import { ExifToolTags, FileTags, Tags } from "./Tags"
 import { Version } from "./Version"
 import { WriteTags } from "./WriteTags"
 import {
@@ -705,4 +711,122 @@ describe("WriteTask", function () {
       })
     })
   }
+
+  /**
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/178
+   */
+  describe("deleteAllTags()", () => {
+    const exiftool = new ExifTool()
+    after(() => exiftool.end())
+
+    const exp = {
+      UserComment: "This is a user comment added by exiftool.",
+      Artist: "Arturo DeImage",
+      Copyright: "© Chuckles McSnortypants, Inc.",
+      Credit: "photo by Jenny Snapsalot",
+    }
+
+    const expectedDefinedTags = [
+      "Make",
+      "Model",
+      "Software",
+      "ExposureTime",
+      "FNumber",
+      "ISO",
+      "CreateDate",
+      "DateTimeOriginal",
+      "LightSource",
+      "Flash",
+      "FocalLength",
+      "SerialNumber",
+      "DateTimeUTC",
+    ]
+
+    function assertMissingGeneralTags(t: Tags) {
+      for (const ea of expectedDefinedTags) {
+        expect(t).to.not.haveOwnProperty(ea)
+      }
+    }
+
+    function assertDefinedGeneralTags(t: Tags) {
+      for (const ea of expectedDefinedTags) {
+        expect(t).to.haveOwnProperty(ea)
+      }
+    }
+
+    function isIntrinsticTag(
+      k: string
+    ): k is keyof (FileTags | ExifToolTags | ExifToolVendoredTags) {
+      return (
+        isFileTag(k) ||
+        isExifToolTag(k) ||
+        isExifToolVendoredTag(k) ||
+        ["ImageSize", "Megapixels"].includes(k)
+      )
+    }
+
+    function expectedChangedTag(k: string) {
+      return [
+        "CurrentIPTCDigest",
+        "ExifByteOrder",
+        "FileModifyDate",
+        "FileSize",
+        "tz",
+        "tzSource",
+      ].includes(k)
+    }
+
+    it("deletes all tags by default", async () => {
+      const img = await testImg({ srcBasename: "oly.jpg" })
+      const before = await exiftool.read(img)
+      expect(before).to.containSubset(exp)
+      assertDefinedGeneralTags(before)
+      await exiftool.deleteAllTags(img)
+      const after = await exiftool.read(img)
+      assertMissingGeneralTags(after)
+      expect(after).to.not.containSubset(exp)
+      for (const k in exp) {
+        expect(after).to.not.haveOwnProperty(k)
+      }
+      // And make sure everything else is gone:
+      for (const k in before) {
+        if (expectedChangedTag(k)) continue
+        if (isIntrinsticTag(k)) {
+          expect(after[k]).to.eql(before[k], "intrinsic tag " + k)
+        } else {
+          expect(after).to.not.haveOwnProperty(k)
+        }
+      }
+    })
+
+    for (const key in exp) {
+      it(`deletes all tags except ${key}`, async () => {
+        const img = await testImg({ srcBasename: "oly.jpg" })
+        const before = await exiftool.read(img)
+        expect(before).to.containSubset(exp)
+        assertDefinedGeneralTags(before)
+        await exiftool.deleteAllTags(img, { retain: [key] })
+        const after = await exiftool.read(img)
+        assertMissingGeneralTags(after)
+        expect(after).to.haveOwnProperty(key)
+        for (const k in Object.keys(exp)) {
+          if (k !== key) {
+            expect(after).to.not.haveOwnProperty(k)
+          }
+        }
+      })
+    }
+    it("supports deleting everything-except (issue #178)", async () => {
+      const img = await testImg({ srcBasename: "oly.jpg" })
+      const before = await exiftool.read(img)
+      expect(before).to.containSubset(exp)
+      assertDefinedGeneralTags(before)
+      await exiftool.deleteAllTags(img, { retain: Object.keys(exp) })
+      const after = await exiftool.read(img)
+      assertMissingGeneralTags(after)
+      expect(after).to.containSubset(exp)
+      // const missing = Object.keys(before).filter((k) => !(k in after))
+      // console.log({ missing })
+    })
+  })
 })

@@ -10,6 +10,7 @@ import path from "node:path"
 import process from "node:process"
 import { compact, filterInPlace, uniq } from "../Array"
 import { ExifTool } from "../ExifTool"
+import { ExifToolVendoredTagNames } from "../ExifToolVendoredTags"
 import { Maybe, map } from "../Maybe"
 import { isNumber } from "../Number"
 import { nullish } from "../ReadTask"
@@ -128,6 +129,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   SonyExposureTime: { t: "string", grp: "MakerNotes" },
   SonyFNumber: { t: "number", grp: "MakerNotes" },
   SonyISO: { t: "number", grp: "MakerNotes" },
+  SourceFile: { t: "string", grp: "ExifTool", value: "path/to/file.jpg" },
   SubSecCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
   SubSecDateTimeOriginal: { t: "ExifDateTime | string", grp: "Composite" },
   SubSecMediaCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
@@ -148,6 +150,28 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
 }
 
 // ☠☠ NO REALLY THIS IS BAD CODE PLEASE STOP SCROLLING ☠☠
+
+const js_docs = {
+  CompositeTags: [
+    "These are tags are derived from the values of one or more other tags.",
+    "Only a few are writable directly.",
+    "@see https://exiftool.org/TagNames/Composite.html",
+  ],
+  EXIFTags: ["@see https://exiftool.org/TagNames/EXIF.html"],
+  ExifToolTags: ["These tags are added by `exiftool`."],
+  FileTags: [
+    "These tags are not metadata fields, but are intrinsic to the content of a",
+    "given file. ExifTool can't write to many of these tags.",
+  ],
+  FlashPixTags: ["@see https://exiftool.org/TagNames/FlashPix.html"],
+  GeolocationTags: [
+    "These tags are only available if {@link ExifToolOptions.geolocation} is true",
+    "and the file has valid GPS location data.",
+  ],
+  IPTCTags: ["@see https://exiftool.org/TagNames/IPTC.html"],
+  PhotoshopTags: ["@see https://exiftool.org/TagNames/Photoshop.html"],
+  XMPTags: ["@see https://exiftool.org/TagNames/XMP.html"],
+}
 
 // If we don't do tag pruning, TypeScript fails with
 // error TS2590: Expression produces a union type that is too complex to represent.
@@ -173,9 +197,9 @@ const ExcludedTagRe = new RegExp(
     "DayltConv",
     "DefConv",
     "DefCor",
+    ...[...ExifToolVendoredTagNames].map((ea) => "^" + ea + "$"),
     "Face\\d",
     "FCS\\d",
-    "Geolocation", // we add these with the external GeolocationTags interface
     "HJR",
     "IM[a-z]",
     "IncandConv",
@@ -228,6 +252,7 @@ const exiftool = new ExifTool({
   // if we use straight defaults, we're load-testing those defaults.
   streamFlushMillis: 2,
   minDelayBetweenSpawnMillis: 0,
+  geolocation: true,
   // maxTasksPerProcess: 100, // < uncomment to verify proc wearing works
 })
 
@@ -609,6 +634,10 @@ class TagMap {
     ) {
       return
     }
+    // Let's move the geolocation tags to their own Geolocation group:
+    if (tagName.startsWith("ExifTool:Geolocation")) {
+      tagName = tagName.replace("ExifTool:", "Geolocation:")
+    }
     const tag = this.tag(tagName)
     if (important) {
       tag.important = true
@@ -738,11 +767,10 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       [
         'import { ApplicationRecordTags } from "./ApplicationRecordTags"',
         'import { BinaryField } from "./BinaryField"',
-        'import { ErrorsAndWarnings } from "./ErrorsAndWarnings"',
         'import { ExifDate } from "./ExifDate"',
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
-        'import { GeolocationTags } from "./GeolocationTags"',
+        'import { ExifToolVendoredTags } from "./ExifToolVendoredTags"',
         'import { ICCProfileTags } from "./ICCProfileTags"',
         'import { ImageDataHashTag } from "./ImageDataHashTag"',
         'import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags"',
@@ -774,12 +802,20 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       return indexOf >= 0 ? indexOf : index + unsortedGroupNames.length
     })
     for (const group of groupNames) {
+      const interfaceName = group + "Tags"
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const tagsForGroup = groupedTags.get(group)!
       const filteredTags = sortBy(tagsForGroup, (ea) => ea.tag)
       if (filteredTags.length > 0) {
         tagGroups.push(group)
-        tagWriter.write(`\nexport interface ${group}Tags {\n`)
+        if (interfaceName in js_docs) {
+          tagWriter.write(`\n/**\n`)
+          for (const line of (js_docs as any)[interfaceName]) {
+            tagWriter.write(" * " + line + "\n")
+          }
+          tagWriter.write(` */`)
+        }
+        tagWriter.write(`\nexport interface ${interfaceName} {\n`)
         for (const tag of filteredTags) {
           tagWriter.write(
             `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
@@ -792,8 +828,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     const interfaceNames = [
       ...tagGroups.map((s) => s + "Tags"),
       "ApplicationRecordTags",
-      "ErrorsAndWarnings",
-      "GeolocationTags",
+      "ExifToolVendoredTags",
       "ImageDataHashTag",
       "ICCProfileTags",
       "MWGCollectionsTags",
@@ -818,14 +853,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         ` * ${tagMap.byBase.size} unique tags were found in ${files.length} photo and video files.`,
         ` */`,
         "export interface Tags",
-        `  extends ${interfaceNames.join(",\n    ")} {`,
-        `  /** Full, resolved native path to this file */`,
-        "  SourceFile?: string",
-        "  /** Either an offset, like `UTC-7`, or an actual timezone, like `America/Los_Angeles` */",
-        "  tz?: string",
-        "  /** Description of where and how `tz` was extracted */",
-        "  tzSource?: string",
-        "}",
+        `  extends ${interfaceNames.join(",\n    ")} {}`,
         "",
       ].join("\n")
     )

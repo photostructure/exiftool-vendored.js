@@ -45,3 +45,16 @@ export function omit<T extends Record<string, any>, S extends string>(
   }
   return result
 }
+
+/**
+ * Provides a type-safe exhaustive array of keys for a given interface.
+ *
+ * Unfortunately, `satisfies (keyof T)[]` doesn't ensure all keys are present,
+ * and doesn't guard against duplicates. This function does.
+ *
+ * @param t - The interface to extract keys from. This is a Record of keys to
+ * `true`, which ensures the returned key array is unique.
+ */
+export function keysOf<T>(t: Required<Record<keyof T, true>>): (keyof T)[] {
+  return Object.keys(t) as any
+}

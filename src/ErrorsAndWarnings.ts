@@ -8,6 +8,7 @@ export interface ErrorsAndWarnings {
    * process.
    */
   errors?: string[]
+
   /**
    * This is a list of all non-critical errors raised by ExifTool during the
    * read process.

@@ -1,11 +1,11 @@
 import { Deferred, Log, setLogger } from "batch-cluster"
 import { expect } from "chai"
-import crypto, { randomBytes } from "node:crypto"
+import { createHash, randomBytes } from "node:crypto"
 import { createReadStream } from "node:fs"
 import { copyFile, mkdir } from "node:fs/promises"
-import path from "node:path"
-import process from "node:process"
-import tmp from "tmp"
+import { join } from "node:path"
+import { env } from "node:process"
+import { dirSync } from "tmp"
 import { compact } from "./Array"
 import { DateOrTime, toExifString } from "./DateTime"
 import { isWin32 } from "./IsWin32"
@@ -35,7 +35,7 @@ setLogger(
           warn: console.warn,
           error: console.error,
         },
-        (process.env.LOG as any) ?? "error"
+        (env.LOG as any) ?? "error"
       )
     )
   )
@@ -43,16 +43,16 @@ setLogger(
 
 export { expect } from "chai"
 
-export const testDir = path.join(__dirname, "..", "test")
+export const testDir = join(__dirname, "..", "test")
 
 export function randomChars(chars = 8) {
   return randomBytes(chars / 2).toString("hex")
 }
 
-export const tmpdir = lazy(() => tmp.dirSync().name)
+export const tmpdir = lazy(() => dirSync().name)
 
 export function tmpname(prefix = ""): string {
-  return path.join(tmpdir(), prefix + randomChars())
+  return join(tmpdir(), prefix + randomChars())
 }
 
 export function renderTagsWithISO(t: Tags) {
@@ -72,30 +72,31 @@ export function renderTagsWithRawValues(t: Tags) {
  */
 export async function testImg({
   srcBasename = "img.jpg",
-  parentDir = "test",
+  parentDir,
   destBasename,
 }: {
   srcBasename?: Maybe<string>
   parentDir?: string
   destBasename?: string
 } = {}): Promise<string> {
-  const dir = path.join(tmpname(), parentDir)
+  const parent = tmpname()
+  const dir = parentDir == null ? parent : join(parent, parentDir)
   await mkdirp(dir)
-  const dest = path.join(dir, destBasename ?? srcBasename)
-  await copyFile(path.join(testDir, srcBasename), dest)
+  const dest = join(dir, destBasename ?? srcBasename)
+  await copyFile(join(testDir, srcBasename), dest)
   return dest
 }
 
 export async function testFile(name: string): Promise<string> {
   const dir = tmpname()
   await mkdirp(dir)
-  return path.join(dir, name)
+  return join(dir, name)
 }
 
 export function sha1(path: string): Promise<string> {
   const d = new Deferred<string>()
   const readStream = createReadStream(path, { autoClose: true })
-  const sha = crypto.createHash("sha1")
+  const sha = createHash("sha1")
   readStream.on("data", (ea) => sha.update(ea))
   readStream.on("error", (err) => d.reject(err))
   readStream.on("end", () => d.resolve(sha.digest().toString("hex")))
@@ -103,7 +104,7 @@ export function sha1(path: string): Promise<string> {
 }
 
 export function sha1buffer(input: string | Buffer): string {
-  return crypto.createHash("sha1").update(input).digest().toString("hex")
+  return createHash("sha1").update(input).digest().toString("hex")
 }
 
 function dateishToExifString(d: Maybe<DateOrTime | string>): Maybe<string> {

@@ -26,6 +26,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v25.1.0
+
+- ✨ Added `retain` field to [`ExifTool.deleteAllTags`](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#deleteAllTags) to address [#178](https://github.com/photostructure/exiftool-vendored.js/issues/178)
+
+- 📦 Added jsdocs for many `Tag` interface types
+
+- 📦 Expose `GeolocationTags` and `isGeolocationTag()`
+
 ### v25.0.0
 
 - 🌱/✨ ExifTool upgraded to [v12.80](https://exiftool.org/history.html#v12.80), which **adds support for reverse-geo lookups** and [several other geolocation features](https://exiftool.org/geolocation.html

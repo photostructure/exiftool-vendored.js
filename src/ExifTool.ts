@@ -12,7 +12,7 @@ import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ErrorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
-import { GeolocationTags } from "./GeolocationTags"
+import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
@@ -48,6 +48,7 @@ import {
   ExifToolTags,
   FileTags,
   FlashPixTags,
+  GeolocationTags,
   IPTCTags,
   JFIFTags,
   MPFTags,
@@ -83,6 +84,7 @@ export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"
 export { ExifToolTask } from "./ExifToolTask"
+export { isGeolocationTag } from "./GeolocationTags"
 export { parseJSON } from "./JSON"
 export { DefaultReadTaskOptions } from "./ReadTask"
 export {
@@ -110,6 +112,7 @@ export type {
   ErrorsAndWarnings,
   ExifToolOptions,
   ExifToolTags,
+  ExifToolVendoredTags,
   ExpandedDateTags,
   FileTags,
   FlashPixTags,
@@ -333,8 +336,15 @@ export class ExifTool {
    * stat information and image dimensions, are intrinsic to the file and will
    * continue to exist if you re-`read` the file.
    */
-  deleteAllTags(file: string): Promise<WriteTaskResult> {
-    return this.write(file, {}, DeleteAllTagsArgs)
+  deleteAllTags(
+    file: string,
+    opts?: { retain?: (keyof Tags | string)[] }
+  ): Promise<WriteTaskResult> {
+    const args = [...DeleteAllTagsArgs]
+    for (const ea of opts?.retain ?? []) {
+      args.push(`-${ea}<${ea}`)
+    }
+    return this.write(file, {}, args)
   }
 
   /**

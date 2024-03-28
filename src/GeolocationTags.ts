@@ -1,3 +1,27 @@
+import { keysOf } from "./Object"
+
+export const GeolocationTagNames = keysOf<GeolocationTags>({
+  GeolocationBearing: true,
+  GeolocationCity: true,
+  GeolocationCountry: true,
+  GeolocationCountryCode: true,
+  GeolocationDistance: true,
+  GeolocationFeatureCode: true,
+  GeolocationPopulation: true,
+  GeolocationPosition: true,
+  GeolocationRegion: true,
+  GeolocationSubregion: true,
+  GeolocationTimeZone: true,
+})
+
+/**
+ * Is the given tag name intrinsic to the content of a given file? In other
+ * words, is it not an artifact of a metadata field?
+ */
+export function isGeolocationTag(name: string): name is keyof GeolocationTags {
+  return GeolocationTagNames.includes(name as any)
+}
+
 /**
  * These tags are only available if {@link ExifToolOptions.geolocation} is true and the file
  * has valid GPS location data.
