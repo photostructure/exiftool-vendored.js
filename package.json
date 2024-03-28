@@ -17,6 +17,7 @@
     "compile:watch": "yarn precompile && tsc --watch",
     "premktags": "yarn compile",
     "mktags": "node dist/update/mktags.js",
+    "prelint": "yarn compile",
     "lint": "yarn eslint src --ext .ts",
     "prettier": "prettier --write src/*.ts src/**/*.ts",
     "pretest": "run-p lint compile",
@@ -32,6 +33,9 @@
     "url": "https://github.com/photostructure/exiftool-vendored.js.git"
   },
   "release-it": {
+    "hooks": {
+      "before:init": "yarn lint"
+    },
     "src": {
       "tagName": "v%s",
       "commitArgs": "-S",
