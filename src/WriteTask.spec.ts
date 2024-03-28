@@ -771,6 +771,7 @@ describe("WriteTask", function () {
         "ExifByteOrder",
         "FileAccessDate",
         "FileModifyDate",
+        "FileInodeChangeDate",
         "FileSize",
         "tz",
         "tzSource",
