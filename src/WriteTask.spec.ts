@@ -770,6 +770,7 @@ describe("WriteTask", function () {
         "CurrentIPTCDigest",
         "ExifByteOrder",
         "FileAccessDate",
+        "FileCreateDate",
         "FileModifyDate",
         "FileInodeChangeDate",
         "FileSize",
