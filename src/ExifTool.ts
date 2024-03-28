@@ -335,6 +335,11 @@ export class ExifTool {
    * name `${FILENAME}_original`) will be retained. Note that some tags, like
    * stat information and image dimensions, are intrinsic to the file and will
    * continue to exist if you re-`read` the file.
+   *
+   * @param {string} file the file to strip of metadata
+   *
+   * @param {(keyof Tags | string)[]} opts.retain optional. If provided, this is
+   * a list of metadata keys to **not** delete.
    */
   deleteAllTags(
     file: string,
