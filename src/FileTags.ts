@@ -10,6 +10,7 @@ const FileTagNames = keysOf<FileTags>({
   EncodingProcess: true,
   ExifByteOrder: true,
   FileAccessDate: true,
+  FileCreateDate: true,
   FileInodeChangeDate: true,
   FileModifyDate: true,
   FileName: true,

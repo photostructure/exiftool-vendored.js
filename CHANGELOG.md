@@ -34,6 +34,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 📦 Expose `GeolocationTags` and `isGeolocationTag()`
 
+- 📦 Add `FileTags.FileCreateDate` (only a thing on Windows)
+
 ### v25.0.0
 
 - 🌱/✨ ExifTool upgraded to [v12.80](https://exiftool.org/history.html#v12.80), which **adds support for reverse-geo lookups** and [several other geolocation features](https://exiftool.org/geolocation.html
