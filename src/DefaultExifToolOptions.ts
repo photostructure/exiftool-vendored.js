@@ -1,4 +1,5 @@
 import * as bc from "batch-cluster"
+import { debuglog } from "node:util"
 import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 import { DefaultMaxProcs } from "./DefaultMaxProcs"
@@ -8,6 +9,21 @@ import { geoTz } from "./GeoTz"
 import { isWin32 } from "./IsWin32"
 import { Omit } from "./Omit"
 import { VersionTask } from "./VersionTask"
+
+const _debuglog = debuglog("exiftool-vendored")
+function noop() {}
+
+export const ConsoleLogger: bc.Logger = {
+  trace: noop,
+  debug: _debuglog,
+  info: _debuglog,
+  warn: console.warn,
+  error: console.error,
+}
+
+function logger(): bc.Logger {
+  return debuglog("exiftool-vendored").enabled ? ConsoleLogger : bc.NoLogger
+}
 
 /**
  * Default values for `ExifToolOptions`, except for `processFactory` (which is
@@ -45,6 +61,7 @@ export const DefaultExifToolOptions: Omit<
   includeImageDataMD5: undefined,
   inferTimezoneFromDatestamps: false, // to retain prior behavior
   inferTimezoneFromDatestampTags: [...CapturedAtTagNames],
+  logger,
   numericTags: [
     "*Duration*",
     "GPSAltitude",

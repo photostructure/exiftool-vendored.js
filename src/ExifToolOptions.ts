@@ -65,8 +65,13 @@ export interface ExifToolOptions
    * Allows for non-standard paths to ExifTool. Defaults to the perl or
    * windows binaries provided by `exiftool-vendored.pl` or
    * `exiftool-vendored.exe`.
+   *
+   * This must be the full path to `exiftool`, not just the directory.
    */
-  exiftoolPath: string | ((logger?: bc.Logger) => string | Promise<string>)
+  exiftoolPath:
+    | string
+    | Promise<string>
+    | ((logger?: bc.Logger) => string | Promise<string>)
 
   /**
    * Args passed to exiftool on launch.

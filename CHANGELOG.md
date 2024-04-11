@@ -26,6 +26,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v25.2.0
+
+- 🌱/✨ ExifTool upgraded to [v12.82](https://exiftool.org/history.html#v12.82)
+
+- 📦 Add support for `NODE_DEBUG=exiftool-vendored`
+
+- 📦 Export `exiftoolPath()` so custom implementations can use it as a fallback
+  (or default, and provide their own fallback)
+
 ### v25.1.0
 
 - ✨ Added `retain` field to [`ExifTool.deleteAllTags`](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#deleteAllTags) to address [#178](https://github.com/photostructure/exiftool-vendored.js/issues/178)

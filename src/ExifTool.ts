@@ -13,6 +13,7 @@ import { ErrorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
+import { exiftoolPath } from "./ExiftoolPath"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
@@ -84,6 +85,7 @@ export { ExifDate } from "./ExifDate"
 export { ExifDateTime } from "./ExifDateTime"
 export { ExifTime } from "./ExifTime"
 export { ExifToolTask } from "./ExifToolTask"
+export { exiftoolPath } from "./ExiftoolPath"
 export { isGeolocationTag } from "./GeolocationTags"
 export { parseJSON } from "./JSON"
 export { DefaultReadTaskOptions } from "./ReadTask"
@@ -152,6 +154,10 @@ export type {
   XMPTags,
 }
 
+/**
+ * Is the #!/usr/bin/perl shebang line in exiftool-vendored.pl going to fail? If
+ * so, we need to find `perl` ourselves, and ignore the shebang line.
+ */
 const _ignoreShebang = lazy(
   () => !isWin32() && !_fs.existsSync("/usr/bin/perl")
 )
@@ -169,13 +175,22 @@ const whichPerl = lazy(async () => {
 /**
  * Manages delegating calls to a cluster of ExifTool child processes.
  *
- * Instances should be shared: consider using the exported singleton instance
- * of this class, {@link exiftool}.
+ * **NOTE: Instances are expensive!**
+ *
+ * * use either the default exported singleton instance of this class,
+ *   {@link exiftool}, or your own singleton
+ *
+ * * make sure you await {@link ExifTool.end} when you're done with an instance
+ *   to clean up subprocesses
+ *
+ * * review the {@link ExifToolOptions} for configuration options--the default
+ *   values are conservative to avoid overwhelming your system.
+ *
+ * @see https://photostructure.github.io/exiftool-vendored.js/ for more documentation.
  */
 export class ExifTool {
   readonly options: ExifToolOptions
-  private readonly batchCluster: bc.BatchCluster
-  readonly exiftoolPath: () => Promise<string>
+  readonly batchCluster: bc.BatchCluster
 
   constructor(options: Partial<ExifToolOptions> = {}) {
     if (options != null && typeof options !== "object") {
@@ -200,9 +215,6 @@ export class ExifTool {
       detached: false, // < no orphaned exiftool procs, please
       env,
     }
-    this.exiftoolPath = lazy(async () =>
-      isFunction(o.exiftoolPath) ? o.exiftoolPath(o.logger()) : o.exiftoolPath
-    )
     const processFactory = async () =>
       ignoreShebang
         ? _cp.spawn(
@@ -219,6 +231,15 @@ export class ExifTool {
     }
     this.batchCluster = new bc.BatchCluster(this.options)
   }
+
+  readonly exiftoolPath = lazy(async () => {
+    const o = this.options
+    return (
+      (await (isFunction(o.exiftoolPath)
+        ? o.exiftoolPath(this.options.logger())
+        : o.exiftoolPath)) ?? exiftoolPath(this.options.logger())
+    )
+  })
 
   /**
    * Register life cycle event listeners. Delegates to BatchProcess.
@@ -488,6 +509,8 @@ export class ExifTool {
     return this.batchCluster.ended
   }
 
+  // calling whichPerl through this lazy() means we only do that task once per
+  // instance.
   readonly #checkForPerl = lazy(async () => {
     if (this.options.checkPerl) {
       await whichPerl() // < throws if perl is missing

@@ -43,6 +43,20 @@
 or
 
      npm install --save exiftool-vendored
+     
+### Debug logging
+
+If anything doesn't work, the first thing to try is enabling the logger.
+
+You can provide a [Logger implementation](https://photostructure.github.io/batch-cluster.js/interfaces/Logger.html) via [`ExifToolOptions.logger`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#logger), or set the environment variable `NODE_DEBUG=exiftool-vendored`. [See the debuglog() documentation](https://nodejs.org/docs/latest/api/util.html#utildebuglogsection-callback) for more details.
+     
+### Regarding use within Electron
+
+Due to how different every Electron application setup is, and how new versions
+frequently have breaking changes, **do not ask for help by opening a github
+issue on this project.** 
+
+Please seek help via StackOverflow, the Electron discord, or other channels.
 
 ### Electron-builder support
 
@@ -52,16 +66,27 @@ Add the following pattern to `electron-builder.yml`'s `asarUnpack`:
 - "node_modules/exiftool-vendored.*/**/*"
 ```
 
+The default `exiftoolPath` implementation will detect `app.asar` in your `require`
+path and replace it with `app.asar.unpacked` automatically.
+
 ### Electron-forge support
 
 Version 25.0 of this library added experimental support for `electron-forge`:
 add the following element to your `ForgeConfig.packagerConfig.extraResource`
-string array, and things should "just work":
+string array, and things should "just work" **for the main process**.
 
 ```ts
 "./node_modules/exiftool-vendored." +
   (process.platform === "win32" ? "exe" : "pl")
 ```
+
+**If your main process forks any node subprocesses, `process.resourcesPath` _will
+not be set_ in those subprocesses, and the default `exiftoolPath` won't work.**
+
+If this is your case, you must provide a correct implementation of
+[ExifToolOptions.exiftoolPath](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#exiftoolPath),
+either by passing through `resourcesPath` via `process.env`, or some other
+method.
 
 ### Installation notes
 

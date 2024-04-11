@@ -1,7 +1,6 @@
 import { Logger } from "batch-cluster"
 import * as _fs from "node:fs"
 import * as _path from "node:path"
-import process from "node:process"
 import { isWin32 } from "./IsWin32"
 import { Maybe } from "./Maybe"
 import { which } from "./Which"
@@ -23,24 +22,46 @@ function tryRequire({
   }
 }
 
+/**
+ * This implementation relies on the fact that both `exiftool-vendored.pl` and
+ * `exiftool-vendored.exe` both export the path to their respective exiftool
+ * binary.
+ *
+ * When running in node, this method should suffice.
+ *
+ * When running in Electron, all bets are off, due to ASAR packaging and other
+ * nonsense. As perl can't run from within an ASAR archive, `electron-builder`
+ * must be configured to `asarUnpack`
+ * "**&#47;node_modules/exiftool-vendored.{pl,exe}/". See
+ * <https://www.electron.build/generated/platformspecificbuildoptions#configuration-asarUnpack>
+ * for details.
+ *
+ * If you're using `electron-forge`, add something like the following to your
+ * ForgeConfig.packagerConfig.extraResource array: `fs.join(".", "node_modules",
+ * "exiftool-vendored." + (isWin ? "exe" : "pl"))` but then you must specify a
+ * custom exiftoolPath in your options hash, as subprocesses that use
+ * ELECTRON_RUN_AS_NODE will no longer have process.resourcesPath set.
+ *
+ * If none of the above work for your use case, you can provide your own
+ * `exiftoolPath` implementation to your instance of ExifTool
+ *
+ * @return the path to the exiftool binary, preferring the vendored version in
+ * node_modules.
+ */
 export async function exiftoolPath(logger?: Logger): Promise<string> {
   const path = tryRequire({ prefix: "", logger })
   // This s/app.asar/app.asar.unpacked/ path switch adds support for Electron
-  // apps that are ASAR-packed (like by electron-builder). This is necessary because
-  // Note that we can't reliably automatically detect that we're running in
-  // electron because child processes that are spawned by the main process will
-  // most likely need the ELECTRON_RUN_AS_NODE environment variable set, which
-  // will unset the process.versions.electron field.
-  const fixedPath = path
+  // apps whose modules are ASAR-packed (like by electron-builder).
+
+  const asarUnpackedPath = path
     ?.split(_path.sep)
     .map((ea) => (ea === "app.asar" ? "app.asar.unpacked" : ea))
     .join(_path.sep)
 
-  // Note also, that we must check for the fixedPath first, because Electron's
-  // ASAR shenanigans will make existsSync return true even for asar-packed
-  // resources.
-  if (fixedPath != null && _fs.existsSync(fixedPath)) {
-    return fixedPath
+  // NOTE: we must check for the fixedPath FIRST, because Electron's ASAR
+  // shenanigans will make existsSync return true for asar-packed resources
+  if (asarUnpackedPath != null && _fs.existsSync(asarUnpackedPath)) {
+    return asarUnpackedPath
   }
   if (path != null && _fs.existsSync(path)) {
     return path
@@ -48,7 +69,7 @@ export async function exiftoolPath(logger?: Logger): Promise<string> {
 
   logger?.warn("Failed to find exiftool via " + vendorPackage())
 
-  // Set by electron-forge:
+  // process.resourcesPath is set by electron-forge:
   const electronResourcePath = (process as any).resourcesPath
   if (electronResourcePath != null) {
     const forgePath = _path.join(
