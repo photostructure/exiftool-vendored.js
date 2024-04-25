@@ -1,20 +1,31 @@
 import * as bc from "batch-cluster"
+import { ExifToolOptions } from "./ExifToolOptions"
 import { isWarning } from "./IsWarning"
 import { Maybe } from "./Maybe"
-import { notBlank, splitLines } from "./String"
+import { blank, notBlank, splitLines } from "./String"
 
 const BadPerlInstallationRE = /Can't locate \S+ in @INC/i
 
+export type ExifToolTaskOptions = Pick<ExifToolOptions, "ignoreMinorErrors">
+
 export abstract class ExifToolTask<T> extends bc.Task<T> {
-  static renderCommand(args: string[]): string {
-    return [...args, "-ignoreMinorErrors", "-execute", ""].join("\n")
+  static renderCommand(args: string[], options?: ExifToolTaskOptions): string {
+    const result = args.filter((ea) => !blank(ea))
+    if (options?.ignoreMinorErrors === true) {
+      result.push("-ignoreMinorErrors")
+    }
+    result.push("-execute")
+    return result.join("\n") + "\n"
   }
 
   readonly errors: string[] = []
   readonly warnings: string[] = []
 
-  constructor(readonly args: string[]) {
-    super(ExifToolTask.renderCommand(args), (stdout, stderr, passed) =>
+  constructor(
+    readonly args: string[],
+    readonly options?: ExifToolTaskOptions
+  ) {
+    super(ExifToolTask.renderCommand(args, options), (stdout, stderr, passed) =>
       this.#parser(stdout, stderr, passed)
     )
   }

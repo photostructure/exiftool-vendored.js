@@ -1,17 +1,17 @@
 import * as _path from "node:path"
 import { compact } from "./Array"
-import { ExifToolTask } from "./ExifToolTask"
+import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 
 export class RewriteAllTagsTask extends ExifToolTask<void> {
-  private constructor(args: string[]) {
-    super(args)
+  private constructor(args: string[], options: ExifToolTaskOptions) {
+    super(args, options)
   }
 
   static for(
     imgSrc: string,
     imgDest: string,
-    allowMakerNoteRepair: boolean
+    opts: { allowMakerNoteRepair?: boolean } & ExifToolTaskOptions
   ): RewriteAllTagsTask {
     // -all= -tagsfromfile @ -all:all -unsafe -icc_profile bad.jpg
 
@@ -23,12 +23,12 @@ export class RewriteAllTagsTask extends ExifToolTask<void> {
       "-all:all",
       "-unsafe",
       "-icc_profile",
-      allowMakerNoteRepair ? "-F" : undefined,
+      opts.allowMakerNoteRepair ? "-F" : undefined,
       "-out",
       _path.resolve(imgDest),
       _path.resolve(imgSrc),
     ])
-    return new RewriteAllTagsTask(args)
+    return new RewriteAllTagsTask(args, opts)
   }
 
   parse(data: string, error?: Error): void {

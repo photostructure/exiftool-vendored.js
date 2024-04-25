@@ -1,5 +1,5 @@
 import path from "node:path"
-import { ExifToolTask } from "./ExifToolTask"
+import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
 import { toS } from "./String"
@@ -11,14 +11,15 @@ const StdoutRe = /\b(\d+) output files? created/i
  * everything seems to have worked.
  */
 export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
-  private constructor(args: string[]) {
-    super(args)
+  private constructor(args: string[], options?: ExifToolTaskOptions) {
+    super(args, options)
   }
 
   static for(
     tagname: string,
     imgSrc: string,
-    imgDest: string
+    imgDest: string,
+    options?: ExifToolTaskOptions
   ): BinaryExtractionTask {
     const args = [
       ...Utf8FilenameCharsetArgs,
@@ -30,7 +31,7 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
       "%0f" + path.resolve(imgDest),
       path.resolve(imgSrc),
     ]
-    return new BinaryExtractionTask(args)
+    return new BinaryExtractionTask(args, options)
   }
 
   parse(stdout: string, err?: Error): Maybe<string> {

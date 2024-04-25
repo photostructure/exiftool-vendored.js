@@ -11,7 +11,7 @@ import { Defined, DefinedOrNullValued } from "./Defined"
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
 import { ErrorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
-import { ExifToolTask } from "./ExifToolTask"
+import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
 import { exiftoolPath } from "./ExiftoolPath"
 import { ICCProfileTags } from "./ICCProfileTags"
@@ -25,7 +25,7 @@ import {
   MWGKeywordTags,
 } from "./MWGTags"
 import { Maybe } from "./Maybe"
-import { isFunction } from "./Object"
+import { isFunction, omit } from "./Object"
 import { Omit } from "./Omit"
 import { pick } from "./Pick"
 import { PreviewTag } from "./PreviewTag"
@@ -114,6 +114,7 @@ export type {
   ErrorsAndWarnings,
   ExifToolOptions,
   ExifToolTags,
+  ExifToolTaskOptions,
   ExifToolVendoredTags,
   ExpandedDateTags,
   FileTags,
@@ -241,6 +242,8 @@ export class ExifTool {
     )
   })
 
+  #taskOptions = lazy(() => pick(this.options, "ignoreMinorErrors"))
+
   /**
    * Register life cycle event listeners. Delegates to BatchProcess.
    */
@@ -257,7 +260,7 @@ export class ExifTool {
    * @return a promise holding the version number of the vendored ExifTool
    */
   version(): Promise<string> {
-    return this.enqueueTask(() => new VersionTask())
+    return this.enqueueTask(() => new VersionTask(this.options))
   }
 
   /**
@@ -278,7 +281,7 @@ export class ExifTool {
   read<T extends Tags = Tags>(
     file: string,
     optionalArgs: string[] = ["-fast"],
-    options?: Partial<ReadTaskOptions>
+    options?: ReadTaskOptions
   ): Promise<T> {
     return this.enqueueTask(() =>
       ReadTask.for(file, {
@@ -316,7 +319,9 @@ export class ExifTool {
    * typing details.
    */
   readRaw(file: string, args: string[] = []): Promise<RawTags> {
-    return this.enqueueTask(() => ReadRawTask.for(file, args))
+    return this.enqueueTask(() =>
+      ReadRawTask.for(file, args, this.#taskOptions())
+    )
   }
 
   /**
@@ -344,7 +349,7 @@ export class ExifTool {
     return this.enqueueTask(
       () =>
         WriteTask.for(file, tags, args, {
-          ...pick(this.options, "useMWG"),
+          ...pick(this.options, "useMWG", "ignoreMinorErrors"),
           ...options,
         }),
       retriable
@@ -364,13 +369,13 @@ export class ExifTool {
    */
   deleteAllTags(
     file: string,
-    opts?: { retain?: (keyof Tags | string)[] }
+    opts?: { retain?: (keyof Tags | string)[] } & Partial<ExifToolTaskOptions>
   ): Promise<WriteTaskResult> {
     const args = [...DeleteAllTagsArgs]
     for (const ea of opts?.retain ?? []) {
       args.push(`-${ea}<${ea}`)
     }
-    return this.write(file, {}, args)
+    return this.write(file, {}, args, omit(opts ?? {}, "retain"))
   }
 
   /**
@@ -382,8 +387,17 @@ export class ExifTool {
    * @return a `Promise<void>`. An `Error` is raised if
    * the file could not be read or the output not written.
    */
-  extractThumbnail(imageFile: string, thumbnailFile: string): Promise<void> {
-    return this.extractBinaryTag("ThumbnailImage", imageFile, thumbnailFile)
+  extractThumbnail(
+    imageFile: string,
+    thumbnailFile: string,
+    opts?: ExifToolOptions
+  ): Promise<void> {
+    return this.extractBinaryTag(
+      "ThumbnailImage",
+      imageFile,
+      thumbnailFile,
+      opts
+    )
   }
 
   /**
@@ -396,8 +410,12 @@ export class ExifTool {
    * @return a `Promise<void>`. An `Error` is raised if
    * the file could not be read or the output not written.
    */
-  extractPreview(imageFile: string, previewFile: string): Promise<void> {
-    return this.extractBinaryTag("PreviewImage", imageFile, previewFile)
+  extractPreview(
+    imageFile: string,
+    previewFile: string,
+    opts?: ExifToolOptions
+  ): Promise<void> {
+    return this.extractBinaryTag("PreviewImage", imageFile, previewFile, opts)
   }
 
   /**
@@ -410,8 +428,12 @@ export class ExifTool {
    * @return a `Promise<void>`. The promise will be rejected if the file could
    * not be read or the output not written.
    */
-  extractJpgFromRaw(imageFile: string, outputFile: string): Promise<void> {
-    return this.extractBinaryTag("JpgFromRaw", imageFile, outputFile)
+  extractJpgFromRaw(
+    imageFile: string,
+    outputFile: string,
+    opts?: ExifToolOptions
+  ): Promise<void> {
+    return this.extractBinaryTag("JpgFromRaw", imageFile, outputFile, opts)
   }
 
   /**
@@ -425,12 +447,16 @@ export class ExifTool {
   async extractBinaryTag(
     tagname: string,
     src: string,
-    dest: string
+    dest: string,
+    opts?: ExifToolTaskOptions
   ): Promise<void> {
     // BinaryExtractionTask returns a stringified error if the output indicates
     // the task should not be retried.
     const maybeError = await this.enqueueTask(() =>
-      BinaryExtractionTask.for(tagname, src, dest)
+      BinaryExtractionTask.for(tagname, src, dest, {
+        ...this.#taskOptions(),
+        ...opts,
+      })
     )
     if (maybeError != null) {
       throw new Error(maybeError)
@@ -448,10 +474,14 @@ export class ExifTool {
    */
   async extractBinaryTagToBuffer(
     tagname: PreviewTag,
-    imageFile: string
+    imageFile: string,
+    opts?: ExifToolTaskOptions
   ): Promise<Buffer> {
     const result = await this.enqueueTask(() =>
-      BinaryToBufferTask.for(tagname, imageFile)
+      BinaryToBufferTask.for(tagname, imageFile, {
+        ...this.#taskOptions(),
+        ...opts,
+      })
     )
     if (Buffer.isBuffer(result)) {
       return result
@@ -484,10 +514,14 @@ export class ExifTool {
   rewriteAllTags(
     inputFile: string,
     outputFile: string,
-    allowMakerNoteRepair = false
+    opts?: { allowMakerNoteRepair?: boolean } & ExifToolTaskOptions
   ): Promise<void> {
     return this.enqueueTask(() =>
-      RewriteAllTagsTask.for(inputFile, outputFile, allowMakerNoteRepair)
+      RewriteAllTagsTask.for(inputFile, outputFile, {
+        allowMakerNoteRepair: false,
+        ...this.#taskOptions(),
+        ...opts,
+      })
     )
   }
 

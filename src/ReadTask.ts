@@ -39,8 +39,9 @@ const PassthroughTags = [
 export const ReadTaskOptionFields = [
   "backfillTimezones",
   "defaultVideosToUTC",
-  "geoTz",
   "geolocation",
+  "geoTz",
+  "ignoreMinorErrors",
   "ignoreZeroZeroLatLon",
   "imageHashType",
   "includeImageDataMD5",
@@ -61,7 +62,7 @@ export const DefaultReadTaskOptions = {
   ...pick(DefaultExifToolOptions, ...ReadTaskOptionFields),
 } as const satisfies Partial<ExifToolOptions> & { optionalArgs: string[] }
 
-export type ReadTaskOptions = typeof DefaultReadTaskOptions
+export type ReadTaskOptions = Partial<typeof DefaultReadTaskOptions>
 
 const MaybeDateOrTimeRe = /when|date|time|subsec|creat|modif/i
 
@@ -79,17 +80,17 @@ export class ReadTask extends ExifToolTask<Tags> {
   private constructor(
     readonly sourceFile: string,
     override readonly args: string[],
-    readonly options: ReadTaskOptions
+    override options: Required<ReadTaskOptions>
   ) {
-    super(args)
+    super(args, options)
     // See https://github.com/photostructure/exiftool-vendored.js/issues/147#issuecomment-1642580118
     this.degroup = this.args.includes("-G")
     this.#tags = { SourceFile: sourceFile } as Tags
     this.#tags.errors = this.errors
   }
 
-  static for(filename: string, options: Partial<ReadTaskOptions>): ReadTask {
-    const opts: ReadTaskOptions = handleDeprecatedOptions({
+  static for(filename: string, options: ReadTaskOptions): ReadTask {
+    const opts: Required<ReadTaskOptions> = handleDeprecatedOptions({
       ...DefaultReadTaskOptions,
       ...options,
     })

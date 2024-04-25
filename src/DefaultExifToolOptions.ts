@@ -57,6 +57,7 @@ export const DefaultExifToolOptions: Omit<
   geoTz: geoTz,
   geolocation: false,
   ignoreZeroZeroLatLon: true,
+  ignoreMinorErrors: true,
   imageHashType: false,
   includeImageDataMD5: undefined,
   inferTimezoneFromDatestamps: false, // to retain prior behavior

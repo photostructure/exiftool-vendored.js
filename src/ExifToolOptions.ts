@@ -225,6 +225,13 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
   geolocation: boolean
 
   /**
+   * Should we ignore minor errors when reading metadata?
+   *
+   * This defaults to `true`, as ExifTool can be quite chatty.
+   */
+  ignoreMinorErrors: boolean
+
+  /**
    * `ExifTool` has a shebang line that assumes a valid `perl` is installed at
    * `/usr/bin/perl`.
    *

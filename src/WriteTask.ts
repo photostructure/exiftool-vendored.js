@@ -3,7 +3,7 @@ import * as _path from "node:path"
 import { isDateOrTime, toExifString } from "./DateTime"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { errorsAndWarnings } from "./ErrorsAndWarnings"
-import { ExifToolTask } from "./ExifToolTask"
+import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
 import { isNumber, toInt } from "./Number"
@@ -56,10 +56,10 @@ function enc(o: any, structValue = false): Maybe<string> {
 }
 
 export const DefaultWriteTaskOptions = {
-  ...pick(DefaultExifToolOptions, "useMWG"),
+  ...pick(DefaultExifToolOptions, "useMWG", "ignoreMinorErrors"),
 } as const
 
-export type WriteTaskOptions = typeof DefaultWriteTaskOptions
+export type WriteTaskOptions = Partial<typeof DefaultWriteTaskOptions>
 
 export interface WriteTaskResult {
   /**
@@ -89,16 +89,17 @@ export interface WriteTaskResult {
 export class WriteTask extends ExifToolTask<WriteTaskResult> {
   private constructor(
     readonly sourceFile: string,
-    override readonly args: string[]
+    override readonly args: string[],
+    override readonly options: ExifToolTaskOptions
   ) {
-    super(args)
+    super(args, options)
   }
 
   static for(
     filename: string,
     tags: WriteTags,
     extraArgs: string[] = [],
-    options?: Partial<WriteTaskOptions>
+    options: Partial<WriteTaskOptions> & Required<ExifToolTaskOptions>
   ): WriteTask {
     const sourceFile = _path.resolve(filename)
 
@@ -131,7 +132,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
 
     args.push(...extraArgs)
     args.push(sourceFile)
-    return new WriteTask(sourceFile, args)
+    return new WriteTask(sourceFile, args, options)
   }
 
   override toString(): string {

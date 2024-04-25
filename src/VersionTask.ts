@@ -1,10 +1,10 @@
-import { ExifToolTask } from "./ExifToolTask"
+import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 
 export class VersionTask extends ExifToolTask<string> {
   private static readonly versionRegex = /^\d{1,3}\.\d{1,3}(?:\.\d{1,3})?$/
 
-  constructor() {
-    super(["-ver"])
+  constructor(options?: ExifToolTaskOptions) {
+    super(["-ver"], options)
   }
 
   protected parse(input: string): string {
