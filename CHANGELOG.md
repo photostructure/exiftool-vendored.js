@@ -30,7 +30,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🌱/✨ ExifTool upgraded to [v12.84](https://exiftool.org/history.html#12.84)
 
-- 📦 Support **disabling** `-ignoreMinorErrors` to work around shenanigans like [#181](https://github.com/photostructure/exiftool-vendored.js/issues/181). This is an optional field that defaults to prior behavior (enabled, which ignores minor errors).
+- 📦 Support **disabling** `-ignoreMinorErrors` to work around shenanigans like [#181](https://github.com/photostructure/exiftool-vendored.js/issues/181). This is an optional field that defaults to prior behavior (enabled, which ignores minor errors, which is normally desired, _but has some side effects like fully reading tags that may be extremely long_). See [ExifToolOptions.ignoreMinorErrors](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#ignoreMinorErrors) for details.
 
 - 📦 ExifTool on Windows was upgraded to Strawberry Perl 5.32.1
 
