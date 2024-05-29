@@ -156,15 +156,20 @@ export type {
 }
 
 /**
+ * This is the hardcoded path in the exiftool shebang line
+ */
+const PERL = "/usr/bin/perl"
+
+/**
  * Is the #!/usr/bin/perl shebang line in exiftool-vendored.pl going to fail? If
  * so, we need to find `perl` ourselves, and ignore the shebang line.
  */
 const _ignoreShebang = lazy(
-  () => !isWin32() && !_fs.existsSync("/usr/bin/perl")
+  () => !isWin32() && !_fs.existsSync(PERL)
 )
 
 const whichPerl = lazy(async () => {
-  const result = await which("perl")
+  const result = await which(PERL)
   if (result == null) {
     throw new Error(
       "Perl must be installed. Please add perl to your $PATH and try again."
