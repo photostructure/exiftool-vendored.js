@@ -555,6 +555,8 @@ export class ExifTool {
    * Most users will not need to use `enqueueTask` directly. This method
    * supports submitting custom `BatchCluster` tasks.
    *
+   * @param task is a thunk to support retries by providing new instances on retries.
+   *
    * @see BinaryExtractionTask for an example task implementation
    */
   enqueueTask<T>(task: () => ExifToolTask<T>, retriable = true): Promise<T> {
