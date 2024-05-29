@@ -10,12 +10,11 @@ vendored versions of ExifTool match the version that they vendor.
 ### The `MAJOR` or `API` version is incremented for
 
 - 💔 Non-backward-compatible API changes
-- 🌲 New releases of ExifTool that have externally visible changes
-- 🏚️ [EOL](https://github.com/nodejs/release#release-schedule) versions of Node.js are dropped from support
+- 🏚️ [End of life](https://github.com/nodejs/release#release-schedule) versions of Node.js are dropped from the build matrix
 
 ### The `MINOR` or `UPDATE` version is incremented for
 
-- 🌱 New releases of ExifTool with no externally visible changes
+- 🌱 New releases of ExifTool
 - 🔥 Security updates
 - ✨ Backwards-compatible features
 
@@ -25,6 +24,10 @@ vendored versions of ExifTool match the version that they vendor.
 - 📦 Minor packaging changes
 
 ## Version history
+
+### v26.1.0
+
+- 🌱/✨/🐞 ExifTool upgraded to [v12.85](https://exiftool.org/history.html#12.85). Notably, this addresses [reversed HEIC orientation](https://exiftool.org/forum/index.php?topic=15240.msg86229#msg86229).
 
 ### v26.0.0
 
