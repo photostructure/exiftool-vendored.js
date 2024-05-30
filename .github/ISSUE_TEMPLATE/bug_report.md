@@ -13,6 +13,8 @@ Thanks for taking the time to report your bug! Filling out this template can hel
 **To Reproduce**
 Please include sample code, and a sample image, which reproduces the bug.
 
+_Filing bugs without reproduction steps will be closed as invalid._
+
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
