@@ -1,6 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
@@ -14,5 +17,6 @@ Please include sample code, and a sample image, which reproduces the bug.
 A clear and concise description of what you expected to happen.
 
 **Environment (please complete the following information):**
- - OS and version: [e.g. Mac OS X 10.11.6]
- - Node.JS version [must be an active, current, or maintenance version]
+ - Version of this library (hint: only the last release is supported) 
+ - OS and version: (macOS Ventura, Ubuntu 22.04, ...)
+ - Node.js version (must be an active, current, or maintenance version)
