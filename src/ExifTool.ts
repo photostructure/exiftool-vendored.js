@@ -2,7 +2,6 @@ import * as bc from "batch-cluster"
 import * as _cp from "node:child_process"
 import * as _fs from "node:fs"
 import process from "node:process"
-import { ApplicationRecordTags } from "./ApplicationRecordTags"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
@@ -15,6 +14,7 @@ import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
 import { exiftoolPath } from "./ExiftoolPath"
 import { ICCProfileTags } from "./ICCProfileTags"
+import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
 import {
@@ -105,7 +105,8 @@ export type {
   APP5Tags,
   APP6Tags,
   AdditionalWriteTags,
-  ApplicationRecordTags,
+  // For backwards compatibility:
+  IPTCApplicationRecordTags as ApplicationRecordTags,
   CollectionInfo,
   CompositeTags,
   Defined,
@@ -121,6 +122,7 @@ export type {
   FlashPixTags,
   GeolocationTags,
   ICCProfileTags,
+  IPTCApplicationRecordTags,
   IPTCTags,
   JFIFTags,
   Json,
@@ -164,9 +166,7 @@ const PERL = "/usr/bin/perl"
  * Is the #!/usr/bin/perl shebang line in exiftool-vendored.pl going to fail? If
  * so, we need to find `perl` ourselves, and ignore the shebang line.
  */
-const _ignoreShebang = lazy(
-  () => !isWin32() && !_fs.existsSync(PERL)
-)
+const _ignoreShebang = lazy(() => !isWin32() && !_fs.existsSync(PERL))
 
 const whichPerl = lazy(async () => {
   const result = await which(PERL)

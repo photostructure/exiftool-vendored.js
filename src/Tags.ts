@@ -1,4 +1,3 @@
-import { ApplicationRecordTags } from "./ApplicationRecordTags"
 import { BinaryField } from "./BinaryField"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
@@ -6,6 +5,7 @@ import { ExifTime } from "./ExifTime"
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { ImageDataHashTag } from "./ImageDataHashTag"
+import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
 import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags"
 import { ResourceEvent } from "./ResourceEvent"
 import { Struct } from "./Struct"
@@ -5141,7 +5141,6 @@ export interface Tags
     APP4Tags,
     APP5Tags,
     APP6Tags,
-    ApplicationRecordTags,
     CompositeTags,
     EXIFTags,
     ExifToolTags,
@@ -5152,6 +5151,7 @@ export interface Tags
     ICCProfileTags,
     IPTCTags,
     ImageDataHashTag,
+    IPTCApplicationRecordTags,
     JFIFTags,
     JSONTags,
     MPFTags,
