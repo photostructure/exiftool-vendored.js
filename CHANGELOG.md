@@ -29,6 +29,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🌱/✨/🐞 ExifTool upgraded to [v12.85](https://exiftool.org/history.html#12.85). Notably, this addresses [reversed HEIC orientation](https://exiftool.org/forum/index.php?topic=15240.msg86229#msg86229).
 
+- 🐞 Perhaps address [Perl not installed error](https://github.com/photostructure/exiftool-vendored.js/issues/182).
+
 ### v26.0.0
 
 - 🌱/✨ ExifTool upgraded to [v12.84](https://exiftool.org/history.html#12.84)

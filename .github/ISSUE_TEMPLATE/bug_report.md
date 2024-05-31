@@ -1,6 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
@@ -10,9 +13,12 @@ Thanks for taking the time to report your bug! Filling out this template can hel
 **To Reproduce**
 Please include sample code, and a sample image, which reproduces the bug.
 
+_Filing bugs without reproduction steps will be closed as invalid._
+
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
 **Environment (please complete the following information):**
- - OS and version: [e.g. Mac OS X 10.11.6]
- - Node.JS version [must be an active, current, or maintenance version]
+ - Version of this library (hint: only the last release is supported) 
+ - OS and version: (macOS Ventura, Ubuntu 22.04, ...)
+ - Node.js version (must be an active, current, or maintenance version)
