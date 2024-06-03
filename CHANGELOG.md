@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v26.2.0 (to be released)
+
+- 📦 Fix documentation to reference ExifTool.read() (fixes [#183](https://github.com/photostructure/exiftool-vendored.js/issues/183))
+
 ### v26.1.0
 
 - 🌱/✨/🐞 ExifTool upgraded to [v12.85](https://exiftool.org/history.html#12.85). Notably, this addresses [reversed HEIC orientation](https://exiftool.org/forum/index.php?topic=15240.msg86229#msg86229).
@@ -497,7 +501,7 @@ const exiftool = new ExifTool({
   adjusted across daylight savings offset boundaries.
 
 - 💔/🐞 Timezone application is now has been improved: if a timezone can be
-  extracted for a given file, `readTags` will now make all `ExifDateTime`
+  extracted for a given file, `ExifTool.read()` will now make all `ExifDateTime`
   entries match that timezone. The timestamps should refer to the same
   timestamp/seconds-from-common-epoch, but "local time" may be different as
   we've adjusted the timezone accordingly.
@@ -512,7 +516,7 @@ const exiftool = new ExifTool({
   prior versions could return `CreateDate: 2022-02-02 02:02:22-07:00`. This
   version will translate that time into `CreateDate: 2022-02-02 11:02:22+01:00`.
 
-  Note that this fix results in `readTags` rendering different `ExifDateTime`
+  Note that this fix results in `ExifTool.read()` rendering different `ExifDateTime`
   values from prior versions, so I bumped the major version to highlight this
   change.
 
@@ -521,7 +525,7 @@ const exiftool = new ExifTool({
   don't disappear or change types.
 
   As a reminder, the `Tags` interface is only a subset of fields returned, due
-  to TypeScript limitations. `readTags` still returns all values that ExifTool
+  to TypeScript limitations. `ExifTool.read()` still returns all values that ExifTool
   provides.
 
 - 🐞 Fixed a bunch of broken API links in the README due to `typedoc` changing
