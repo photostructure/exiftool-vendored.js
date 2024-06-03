@@ -25,7 +25,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v26.2.0 (to be released)
+### v26.2.0
 
 - ✨ Support for all ExifTool `struct` modes (fixes [#184](https://github.com/photostructure/exiftool-vendored.js/issues/184)).
 
