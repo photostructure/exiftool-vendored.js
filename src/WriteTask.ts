@@ -56,7 +56,7 @@ function enc(o: any, structValue = false): Maybe<string> {
 }
 
 export const DefaultWriteTaskOptions = {
-  ...pick(DefaultExifToolOptions, "useMWG", "ignoreMinorErrors"),
+  ...pick(DefaultExifToolOptions, "useMWG", "struct", "ignoreMinorErrors"),
 } as const
 
 export type WriteTaskOptions = Partial<typeof DefaultWriteTaskOptions>
@@ -109,6 +109,9 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
       `${sep}`,
       "-E", // < html encoding https://exiftool.org/faq.html#Q10
     ]
+    if (options?.struct != null) {
+      args.push("-api", "struct=" + options.struct.toString())
+    }
 
     if (options?.useMWG ?? DefaultWriteTaskOptions.useMWG) {
       args.push("-use", "MWG")

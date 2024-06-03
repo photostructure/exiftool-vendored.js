@@ -72,4 +72,5 @@ export const DefaultExifToolOptions: Omit<
     "Orientation",
   ],
   useMWG: false,
+  struct: 1,
 })

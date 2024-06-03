@@ -49,6 +49,7 @@ export const ReadTaskOptionFields = [
   "inferTimezoneFromDatestampTags",
   "numericTags",
   "useMWG",
+  "struct",
 ] as const satisfies (keyof ExifToolOptions)[]
 
 const NullIsh = ["undef", "null", "undefined"]
@@ -98,9 +99,11 @@ export class ReadTask extends ExifToolTask<Tags> {
     const args = [
       ...Utf8FilenameCharsetArgs,
       "-json",
-      "-struct", // Return struct tags https://exiftool.org/struct.html
       ...toA(opts.optionalArgs),
     ]
+    if (opts.struct != null) {
+      args.push("-api", "struct=" + opts.struct)
+    }
     if (opts.useMWG) {
       args.push("-use", "MWG")
     }

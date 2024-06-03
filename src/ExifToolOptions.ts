@@ -250,6 +250,21 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * if you know perl is installed.
    */
   checkPerl: boolean
+
+  /**
+   * How should ExifTool handle nested structures?
+   *
+   * Defaults to `1`.
+   *
+   * - `0` =  Read/copy flattened tags
+   * - `1` =  Read/copy structures
+   * - `2` =  Read/copy both flattened and structured tags, but flag flattened
+   *   tags as "unsafe" for copying
+   * - `undefined` = Same as `0` for reading and `2` for copying
+   *
+   * @see https://exiftool.org/struct.html
+   */
+  struct: undefined | 0 | 1 | 2
 }
 
 export function handleDeprecatedOptions<
