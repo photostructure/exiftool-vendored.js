@@ -90,6 +90,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-redos": "^4.4.5",
     "eslint-plugin-regexp": "^2.6.0",
     "extract-zip": "^2.0.1",
     "geo-tz": "^8.0.2",

@@ -187,8 +187,9 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   }
 }
 
-const CreatedRE = /(\d+) .*?\bcreated\b/i
+// "0 files created" | "0 file created"
+const CreatedRE = /(\d{1,4})(?: files?)? created\b/i
 
-const UnchangedRE = /(\d+) .*?(?:\bweren't updated|unchanged\b)/i
+const UnchangedRE = /(\d{1,4})(?: files?)? (?:weren't updated|unchanged\b)/i
 
-const UpdatedRE = /(\d+) .*?\bupdated\b/i
+const UpdatedRE = /(\d{1,4})(?: files?)? updated\b/i

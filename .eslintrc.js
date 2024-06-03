@@ -6,7 +6,8 @@ module.exports = {
     "@typescript-eslint",
     "eslint-plugin-import",
     "eslint-plugin-node",
-    "regexp"
+    "regexp",
+    "redos"
   ],
   extends: [
     "eslint:recommended",
@@ -14,7 +15,8 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:eslint-plugin-import/recommended",
     "plugin:node/recommended",
-    "plugin:regexp/recommended"
+    "plugin:regexp/recommended",
+    "plugin:redos/recommended"
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
