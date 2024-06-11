@@ -511,7 +511,7 @@ export class ExifTool {
    *
    * @param {string} inputFile the path to the problematic image
    * @param {string} outputFile the path to write the repaired image
-   * @param {boolean} allowMakerNoteRepair if there are problems with MakerNote
+   * @param {boolean} opts.allowMakerNoteRepair if there are problems with MakerNote
    * tags, allow ExifTool to apply heuristics to recover corrupt tags. See
    * exiftool's `-F` flag.
    * @return {Promise<void>} resolved when outputFile has been written.
