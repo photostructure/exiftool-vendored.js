@@ -260,11 +260,11 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * - `1` =  Read/copy structures
    * - `2` =  Read/copy both flattened and structured tags, but flag flattened
    *   tags as "unsafe" for copying
-   * - `undefined` = Same as `0` for reading and `2` for copying
+   * - `"undef"` = Same as `0` for reading and `2` for copying
    *
    * @see https://exiftool.org/struct.html
    */
-  struct: undefined | 0 | 1 | 2
+  struct: "undef" | 0 | 1 | 2
 }
 
 export function handleDeprecatedOptions<
