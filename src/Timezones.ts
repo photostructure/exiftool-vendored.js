@@ -431,10 +431,11 @@ export function extractTzOffsetFromUTCOffset(
     | "DateTimeUTC"
     | "GPSDateStamp"
     | "GPSTimeStamp"
+    | "SonyDateTime2"
   >
 ): Maybe<TzSrc> {
   const utcSources = {
-    ...pick(t, "GPSDateTime", "DateTimeUTC"),
+    ...pick(t, "GPSDateTime", "DateTimeUTC", "SonyDateTime2"),
     GPSDateTimeStamp: map2(
       blankToNull(t.GPSDateStamp), // Example: "2022:04:13"
       blankToNull(t.GPSTimeStamp), // Example: "23:59:41.001"
@@ -444,7 +445,7 @@ export function extractTzOffsetFromUTCOffset(
 
   // We can always assume these are in UTC:
   const utc = first(
-    ["GPSDateTime", "DateTimeUTC", "GPSDateTimeStamp"] as const,
+    ["GPSDateTime", "DateTimeUTC", "GPSDateTimeStamp", "SonyDateTime2"] as const,
     (tagName) => {
       const v = utcSources[tagName]
       const edt = v instanceof ExifDateTime ? v : ExifDateTime.fromExifStrict(v)

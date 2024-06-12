@@ -4186,6 +4186,8 @@ export interface MakerNotesTags {
   /** ☆☆☆☆ ✔ Example: "n/a" */
   SoftSkinEffect?: string
   /** ☆☆☆☆ ✔ Example: "2023:05:24 15:18:25" */
+  SonyDateTime2?: ExifDateTime | string
+  /** ☆☆☆☆ ✔ Example: "2023:05:24 15:18:25" */
   SonyDateTime?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "1/82" */
   SonyExposureTime?: string
