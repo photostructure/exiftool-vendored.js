@@ -50,6 +50,7 @@ export const ReadTaskOptionFields = [
   "numericTags",
   "useMWG",
   "struct",
+  "readArgs",
 ] as const satisfies (keyof ExifToolOptions)[]
 
 const NullIsh = ["undef", "null", "undefined"]
@@ -59,9 +60,8 @@ export function nullish(s: string | undefined): s is undefined {
 }
 
 export const DefaultReadTaskOptions = {
-  optionalArgs: [] as string[],
   ...pick(DefaultExifToolOptions, ...ReadTaskOptionFields),
-} as const satisfies Partial<ExifToolOptions> & { optionalArgs: string[] }
+} as const satisfies Partial<ExifToolOptions>
 
 export type ReadTaskOptions = Partial<typeof DefaultReadTaskOptions>
 
@@ -78,6 +78,11 @@ export class ReadTask extends ExifToolTask<Tags> {
   #tz: string | undefined
   #tzSource?: string
 
+  /**
+   * @param sourceFile the file to read
+   * @param args the full arguments to pass to exiftool that take into account
+   * the flags in `options`
+   */
   private constructor(
     readonly sourceFile: string,
     override readonly args: string[],
@@ -96,14 +101,9 @@ export class ReadTask extends ExifToolTask<Tags> {
       ...options,
     })
     const sourceFile = _path.resolve(filename)
-    const args = [
-      ...Utf8FilenameCharsetArgs,
-      "-json",
-      ...toA(opts.optionalArgs),
-    ]
-    if (opts.struct != null) {
-      args.push("-api", "struct=" + opts.struct)
-    }
+    const args = [...Utf8FilenameCharsetArgs, "-json", ...toA(opts.readArgs)]
+    // "-api struct=undef" doesn't work: but it's the same as struct=0:
+    args.push("-api", "struct=" + (isNumber(opts.struct) ? opts.struct : "0"))
     if (opts.useMWG) {
       args.push("-use", "MWG")
     }

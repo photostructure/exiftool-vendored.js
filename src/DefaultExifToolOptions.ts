@@ -73,4 +73,6 @@ export const DefaultExifToolOptions: Omit<
   ],
   useMWG: false,
   struct: 1,
+  readArgs: ["-fast"],
+  writeArgs: [],
 })

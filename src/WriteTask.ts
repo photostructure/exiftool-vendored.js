@@ -3,6 +3,7 @@ import * as _path from "node:path"
 import { isDateOrTime, toExifString } from "./DateTime"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { errorsAndWarnings } from "./ErrorsAndWarnings"
+import { ExifToolOptions } from "./ExifToolOptions"
 import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
@@ -55,9 +56,16 @@ function enc(o: any, structValue = false): Maybe<string> {
   }
 }
 
+export const WriteTaskOptionFields = [
+  "useMWG",
+  "struct",
+  "ignoreMinorErrors",
+  "writeArgs",
+] as const satisfies (keyof ExifToolOptions)[]
+
 export const DefaultWriteTaskOptions = {
-  ...pick(DefaultExifToolOptions, "useMWG", "struct", "ignoreMinorErrors"),
-} as const
+  ...pick(DefaultExifToolOptions, ...WriteTaskOptionFields),
+} as const satisfies Partial<ExifToolOptions>
 
 export type WriteTaskOptions = Partial<typeof DefaultWriteTaskOptions>
 
@@ -98,7 +106,6 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   static for(
     filename: string,
     tags: WriteTags,
-    extraArgs: string[] = [],
     options: Partial<WriteTaskOptions> & Required<ExifToolTaskOptions>
   ): WriteTask {
     const sourceFile = _path.resolve(filename)
@@ -109,9 +116,12 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
       `${sep}`,
       "-E", // < html encoding https://exiftool.org/faq.html#Q10
     ]
-    if (options?.struct != null) {
-      args.push("-api", "struct=" + options.struct.toString())
-    }
+
+    // "undef" doesn't work: but undef works the same as 2
+    args.push(
+      "-api",
+      "struct=" + (isNumber(options?.struct) ? options.struct : "2")
+    )
 
     if (options?.useMWG ?? DefaultWriteTaskOptions.useMWG) {
       args.push("-use", "MWG")
@@ -133,7 +143,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
       args.push(`-${key}=${enc(val)}`)
     }
 
-    args.push(...extraArgs)
+    if (options.writeArgs != null) args.push(...options.writeArgs)
     args.push(sourceFile)
     return new WriteTask(sourceFile, args, options)
   }
@@ -188,8 +198,11 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
 }
 
 // "0 files created" | "0 file created"
-const CreatedRE = /(\d{1,4})(?: files?)? created\b/i
 
-const UnchangedRE = /(\d{1,4})(?: files?)? (?:weren't updated|unchanged\b)/i
+// "1 image files created"
+const CreatedRE = /(\d{1,4})(?:.{0,8} files?)? created\b/i
 
-const UpdatedRE = /(\d{1,4})(?: files?)? updated\b/i
+const UnchangedRE =
+  /(\d{1,4})(?:.{0,8} files?)? (?:weren't updated|unchanged\b)/i
+
+const UpdatedRE = /(\d{1,4})(?:.{0,8} files?)? updated\b/i

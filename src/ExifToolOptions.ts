@@ -74,7 +74,8 @@ export interface ExifToolOptions
     | ((logger?: bc.Logger) => string | Promise<string>)
 
   /**
-   * Args passed to exiftool on launch.
+   * Args only passed to exiftool on launch. You probably don't need to change
+   * this from the default.
    */
   exiftoolArgs: string[]
 
@@ -265,6 +266,20 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * @see https://exiftool.org/struct.html
    */
   struct: "undef" | 0 | 1 | 2
+
+  /**
+   * Any additional arguments that should be added by default to all read tasks,
+   * like `["-fast", "-api", "largefilesupport=1"]`. The value provided to the
+   * ExifTool constructor can be overridden in the call to {@link ExifTool.read()}
+   */
+  readArgs: string[]
+
+  /**
+   * Any additional arguments that should be added by default to all write
+   * tasks, like `["-overwrite_original"]`. The value provided to the ExifTool
+   * constructor can be overridden in the call to {@link ExifTool.write()}.
+   */
+  writeArgs: string[]
 }
 
 export function handleDeprecatedOptions<
