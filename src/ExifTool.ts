@@ -295,22 +295,24 @@ export class ExifTool {
    *
    * @param file the file to extract metadata tags from
    *
-   * @param readArgs any additional ExifTool arguments, like
-   * `["-fast"]`, `["-fast2"]`, `["-g"]`, or `["-api", "largefilesupport=1"]`.
-   * Note that providing a value here will override the `readArgs` array
-   * provided to the ExifTool constructor. **Note that most other arguments will
-   * require you to use `readRaw`.** Note that the default is `["-fast"]`, so if
-   * you want ExifTool to read the entire file for metadata, you should pass an
-   * empty array as the second parameter. See https://exiftool.org/#performance
-   * for more information about `-fast` and `-fast2`.
+   * @param readArgs any additional ExifTool arguments, like `["-fast"]`,
+   * `["-fast2"]`, `["-g"]`, or `["-api", "largefilesupport=1"]`. Note that
+   * providing a value here will override the `readArgs` array provided to the
+   * ExifTool constructor. **Note that most other arguments will require you to
+   * use `readRaw`.** Note that the default is `["-fast"]`, so if you want
+   * ExifTool to read the entire file for metadata, you should pass an empty
+   * array as the second parameter. See https://exiftool.org/#performance for
+   * more information about `-fast` and `-fast2`.
    *
    * @param options overrides to the default ExifTool options provided to the
    * ExifTool constructor.
    *
-   * @returns A resolved Tags promise. If there are errors
-   * during reading, the `.errors` field will be present.
+   * @returns A resolved Tags promise. If there are errors during reading, the
+   * `.errors` field will be present.
    *
-   * @deprecated use {@link ExifTool.read(file: string, options?: ReadTaskOptions)} instead
+   * @deprecated use
+   * {@link ExifTool.read(file: string, options?: ReadTaskOptions)} instead
+   * (move `readArgs` into your `options` hash)
    */
   read<T extends Tags = Tags>(
     file: string,
@@ -398,13 +400,15 @@ export class ExifTool {
    * @param options overrides to the default ExifTool options provided to the
    * ExifTool constructor.
    *
-   * @returns Either the promise will be resolved if the tags
-   * are written to successfully, or the promise will be rejected if there are
-   * errors or warnings.
+   * @returns Either the promise will be resolved if the tags are written to
+   * successfully, or the promise will be rejected if there are errors or
+   * warnings.
    *
    * @see https://exiftool.org/exiftool_pod.html#overwrite_original
    *
-   * @deprecated use {@link ExifTool.write(file: string, tags: WriteTags, options?: WriteTaskOptions)} instead
+   * @deprecated use
+   * {@link ExifTool.write(file: string, tags: WriteTags, options?: WriteTaskOptions)}
+   * instead (move `writeArgs` into your `options` hash)
    */
   write(
     file: string,
