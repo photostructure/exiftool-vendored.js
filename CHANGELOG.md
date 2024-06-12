@@ -25,6 +25,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v27.0.0
+
+- 💔 `ExifToolOptions.struct` is now `"undef" | 0 | 1 | 2`. See
+  [#184](https://github.com/photostructure/exiftool-vendored.js/issues/184)
+
+- ✨ `ExifToolOptions` now includes `readArgs` and `writeArgs`, which can be
+  specified both at `ExifTool` construction, as well as calls to `ExifTool.read`
+  and `ExifTool.write`. The prior method signatures are deprecated.
+
 ### v26.2.0
 
 - ✨ Support for all ExifTool `struct` modes (fixes [#184](https://github.com/photostructure/exiftool-vendored.js/issues/184)). See [ExifToolOptions.struct](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#struct) for details.
