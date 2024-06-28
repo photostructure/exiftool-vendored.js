@@ -132,6 +132,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   ShutterCount2: { t: "number", grp: "MakerNotes" },
   ShutterCount3: { t: "number", grp: "MakerNotes" },
   ShutterSpeed: { t: "string", grp: "Composite" },
+  SonyDateTime2: { t: "ExifDateTime | string", grp: "MakerNotes" },
   SonyExposureTime: { t: "string", grp: "MakerNotes" },
   SonyFNumber: { t: "number", grp: "MakerNotes" },
   SonyISO: { t: "number", grp: "MakerNotes" },
