@@ -4649,6 +4649,8 @@ export interface XMPTags {
   Comment?: string
   /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
   Container?: Struct
+  /** ☆☆☆☆ ✔ Example: [{"Item":{"Mime":"image/jpeg","Semantic":"Primary"}},…] */
+  ContainerDirectory?: { Item: { Length?: number; Mime: string; Padding?: number; Semantic?: string; } }[]
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
   /** ☆☆☆☆ ✔ Example: "United States" */
