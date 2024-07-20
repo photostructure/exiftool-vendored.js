@@ -7,11 +7,13 @@ export const GeolocationTagNames = keysOf<GeolocationTags>({
   GeolocationCountryCode: true,
   GeolocationDistance: true,
   GeolocationFeatureCode: true,
+  GeolocationFeatureType: true,
   GeolocationPopulation: true,
   GeolocationPosition: true,
   GeolocationRegion: true,
   GeolocationSubregion: true,
   GeolocationTimeZone: true,
+  GeolocationWarning: true,
 })
 
 /**
@@ -23,8 +25,8 @@ export function isGeolocationTag(name: string): name is keyof GeolocationTags {
 }
 
 /**
- * These tags are only available if {@link ExifToolOptions.geolocation} is true and the file
- * has valid GPS location data.
+ * These tags are only available if {@link ExifToolOptions.geolocation} is true
+ * and the file has valid GPS location data.
  *
  * @see https://exiftool.org/geolocation.html#Read
  */
@@ -39,10 +41,13 @@ export interface GeolocationTags {
   GeolocationCountryCode?: string
   /** ☆☆☆☆ ✔ Example: "9.60 km" */
   GeolocationDistance?: string
-  /** ☆☆☆☆ ✔ Example: "PPLL"
+  /**
+   * ☆☆☆☆ ✔ Example: "PPLL"
    * @see http://www.geonames.org/export/codes.html#P
    */
   GeolocationFeatureCode?: string
+  /** ☆☆☆☆ ✔ Example: "Populated Place" */
+  GeolocationFeatureType?: string
   /** ☆☆☆☆ ✔ Example: 95000 */
   GeolocationPopulation?: number
   /** ☆☆☆☆ ✔ Example: "7.3397, 134.4733" */
@@ -58,4 +63,5 @@ export interface GeolocationTags {
    * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
    */
   GeolocationTimeZone?: string
+  GeolocationWarning?: string
 }

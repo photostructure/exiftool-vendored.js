@@ -4,7 +4,7 @@ import { toInt } from "./Number"
 // "(Binary data 2506078 bytes, use -b option to extract)"
 const BinaryFieldRE =
   // /^\(?Binary data (\d+).*use -b option to extract\)?$/i
-  /Binary.*? (\d+) bytes/i
+  /Binary(?: data)? (\d+) bytes/i
 
 export class BinaryField {
   constructor(

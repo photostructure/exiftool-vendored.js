@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
-import { ExifTool } from "./ExifTool"
+import { ExifTool, WriteTaskOptions } from "./ExifTool"
 import { isExifToolTag } from "./ExifToolTags"
 import {
   ExifToolVendoredTags,
@@ -86,21 +86,26 @@ describe("WriteTask", function () {
         tagName,
         inputValue,
         expectedValue,
-        args,
+        writeArgs,
         cmp,
       }: {
         dest: string
         tagName: keyof WriteTags
         inputValue: InputValue | InputValue[]
         expectedValue?: any
-        args?: string[]
+        writeArgs?: string[]
         cmp?: (actual: any, tags: Tags) => any
       }) {
         const fileExists = existsSync(dest)
         const wt: WriteTags = {}
         ;(wt[tagName] as any) = inputValue
-        const writeResult = await exiftool.write(dest, wt, args)
-        expect(writeResult.warnings).to.eql(undefined)
+        const writeResult = await exiftool.write(dest, wt, {
+          writeArgs,
+        } as WriteTaskOptions)
+        expect(writeResult.warnings).to.eql(
+          undefined,
+          JSON.stringify({ warnings: writeResult.warnings })
+        )
 
         if (fileExists) {
           expect(writeResult).to.containSubset({ created: 0, updated: 1 })

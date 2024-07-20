@@ -442,14 +442,14 @@ reasonable for safety.
 
 ## Serialization
 
-The `Tags` object returned by `.readTags()` can be serialized to JSON with `JSON.stringify`.
+The `Tags` object returned by `ExifTool.read()` can be serialized to JSON with `JSON.stringify`.
 
 To reconstitute, use the `parseJSON()` method.
 
 ```ts
 import { exiftool, parseJSON } from "exiftool-vendored"
 
-const tags: Tags = await exiftool.readTags("/path/to/file.jpg")
+const tags: Tags = await exiftool.read("/path/to/file.jpg")
 const str: string = JSON.stringify(tags)
 
 // parseJSON doesn't validate the input, so we don't assert that it's a Tags

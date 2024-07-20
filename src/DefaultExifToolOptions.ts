@@ -70,6 +70,24 @@ export const DefaultExifToolOptions: Omit<
     "GPSLongitude",
     "GPSPosition",
     "Orientation",
+    // NOT Rotation! Rotation can be encoded as degrees rotated clockwise, or a
+    // EXIF-Orientation string (!!). If we ask ExifTool for numeric rotations of HEICs,
+    // we get "3" (when it means "Rotate 90 CW"):
+
+    // $ exiftool -j -Rotation -Orientation IMG_6947.HEIC
+    // [{
+    //   "Rotation": "Rotate 90 CW",
+    //   "Orientation": "Rotate 90 CW"
+    // }]
+
+    // $ exiftool -j -Rotation# -Orientation# IMG_6947.HEIC
+    // [{
+    //   "Rotation": 3,   // < WTH is this? 3 means 180º (!?)
+    //   "Orientation": 6 // < expected
+    // }]
   ],
   useMWG: false,
+  struct: 1,
+  readArgs: ["-fast"],
+  writeArgs: [],
 })

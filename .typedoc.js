@@ -7,11 +7,6 @@ module.exports = {
   exclude: ["**/update/*", "**/*test*", "**/*spec*"],
   excludePrivate: true,
   entryPoints: [
-    // "./src/ExifDate.ts",
-    // "./src/ExifDateTime.ts",
-    // "./src/ExifTime.ts",
     "./src/ExifTool.ts",
-    // "./src/Tags.ts",
-  ],
-  // entryPoints: ["./src"]
+  ]
 }

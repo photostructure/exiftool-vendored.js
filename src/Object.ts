@@ -1,5 +1,9 @@
 import { Maybe } from "./Maybe"
 
+export function isObject(obj: any): obj is Record<string, any> {
+  return typeof obj === "object" && obj !== null
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function keys<T extends object, K extends string & keyof T>(o: T): K[] {
   return o == null

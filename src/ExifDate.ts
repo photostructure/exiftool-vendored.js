@@ -4,7 +4,7 @@ import { HourMs, validDateTime } from "./DateTime"
 import { Maybe, firstDefinedThunk } from "./Maybe"
 import { blank, pad2, toS } from "./String"
 
-const StrictExifRE = /^\d+:\d+:\d+|\d+-\d+-\d+$/
+const StrictExifRE = /^\d{1,4}:\d{1,2}:\d{1,2}|\d{1,4}-\d{1,2}-\d{1,2}$/
 const LooseExifRE = /^\S+\s+\S+\s+\S+$/
 
 /**

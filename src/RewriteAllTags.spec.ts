@@ -20,7 +20,7 @@ describe("RewriteAllTagsTask", () => {
         this.slow(500)
         return expect(
           exiftool.rewriteAllTags("missing.jpg", "ignored.jpg")
-        ).to.be.rejectedWith(/Error opening file.+missing\.jpg/)
+        ).to.be.rejectedWith(/Error opening file.{0,80}missing\.jpg/)
       })
 
       function expectSameYmdHms(a: ExifDateTime, b: Date) {

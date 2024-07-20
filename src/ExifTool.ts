@@ -2,7 +2,7 @@ import * as bc from "batch-cluster"
 import * as _cp from "node:child_process"
 import * as _fs from "node:fs"
 import process from "node:process"
-import { ApplicationRecordTags } from "./ApplicationRecordTags"
+import { ifArr } from "./Array"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
@@ -15,6 +15,7 @@ import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
 import { exiftoolPath } from "./ExiftoolPath"
 import { ICCProfileTags } from "./ICCProfileTags"
+import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
 import {
@@ -25,7 +26,7 @@ import {
   MWGKeywordTags,
 } from "./MWGTags"
 import { Maybe } from "./Maybe"
-import { isFunction, omit } from "./Object"
+import { isFunction, isObject, omit } from "./Object"
 import { Omit } from "./Omit"
 import { pick } from "./Pick"
 import { PreviewTag } from "./PreviewTag"
@@ -74,7 +75,12 @@ import {
   StructAppendTags,
   WriteTags,
 } from "./WriteTags"
-import { WriteTask, WriteTaskOptions, WriteTaskResult } from "./WriteTask"
+import {
+  WriteTask,
+  WriteTaskOptionFields,
+  WriteTaskOptions,
+  WriteTaskResult,
+} from "./WriteTask"
 
 export { BinaryField } from "./BinaryField"
 export { CapturedAtTagNames } from "./CapturedAtTagNames"
@@ -105,7 +111,8 @@ export type {
   APP5Tags,
   APP6Tags,
   AdditionalWriteTags,
-  ApplicationRecordTags,
+  // For backwards compatibility:
+  IPTCApplicationRecordTags as ApplicationRecordTags,
   CollectionInfo,
   CompositeTags,
   Defined,
@@ -121,6 +128,7 @@ export type {
   FlashPixTags,
   GeolocationTags,
   ICCProfileTags,
+  IPTCApplicationRecordTags,
   IPTCTags,
   JFIFTags,
   Json,
@@ -164,9 +172,7 @@ const PERL = "/usr/bin/perl"
  * Is the #!/usr/bin/perl shebang line in exiftool-vendored.pl going to fail? If
  * so, we need to find `perl` ourselves, and ignore the shebang line.
  */
-const _ignoreShebang = lazy(
-  () => !isWin32() && !_fs.existsSync(PERL)
-)
+const _ignoreShebang = lazy(() => !isWin32() && !_fs.existsSync(PERL))
 
 const whichPerl = lazy(async () => {
   const result = await which(PERL)
@@ -271,46 +277,76 @@ export class ExifTool {
   /**
    * Read the tags in `file`.
    *
-   * @param {string} file the file to extract metadata tags from
+   * @param file the file to extract metadata tags from
    *
-   * @param {string[]} [optionalArgs] any additional ExifTool arguments, like
-   * "-fast" or "-fast2". **Most other arguments will require you to use
-   * `readRaw`.** Note that the default is "-fast", so if you want ExifTool to
-   * read the entire file for metadata, you should pass an empty array as the
-   * second parameter. See https://exiftool.org/#performance for more
-   * information about `-fast` and `-fast2`.
+   * @param options overrides to the default ExifTool options provided to the
+   * ExifTool constructor.
    *
-   * @returns {Promise<Tags>} A resolved Tags promise. If there are errors
-   * during reading, the `.errors` field will be present.
+   * @returns A resolved Tags promise. If there are errors during reading, the
+   * `.errors` field will be present.
    */
   read<T extends Tags = Tags>(
     file: string,
-    optionalArgs: string[] = ["-fast"],
+    options?: ReadTaskOptions
+  ): Promise<T>
+
+  /**
+   * Read the tags in `file`.
+   *
+   * @param file the file to extract metadata tags from
+   *
+   * @param readArgs any additional ExifTool arguments, like `["-fast"]`,
+   * `["-fast2"]`, `["-g"]`, or `["-api", "largefilesupport=1"]`. Note that
+   * providing a value here will override the `readArgs` array provided to the
+   * ExifTool constructor. **Note that most other arguments will require you to
+   * use `readRaw`.** Note that the default is `["-fast"]`, so if you want
+   * ExifTool to read the entire file for metadata, you should pass an empty
+   * array as the second parameter. See https://exiftool.org/#performance for
+   * more information about `-fast` and `-fast2`.
+   *
+   * @param options overrides to the default ExifTool options provided to the
+   * ExifTool constructor.
+   *
+   * @returns A resolved Tags promise. If there are errors during reading, the
+   * `.errors` field will be present.
+   *
+   * @deprecated use
+   * {@link ExifTool.read(file: string, options?: ReadTaskOptions)} instead
+   * (move `readArgs` into your `options` hash)
+   */
+  read<T extends Tags = Tags>(
+    file: string,
+    readArgs?: string[],
+    options?: ReadTaskOptions
+  ): Promise<T>
+
+  read<T extends Tags = Tags>(
+    file: string,
+    argsOrOptions?: string[] | ReadTaskOptions,
     options?: ReadTaskOptions
   ): Promise<T> {
-    return this.enqueueTask(() =>
-      ReadTask.for(file, {
-        optionalArgs,
-        ...pick(this.options, ...ReadTaskOptionFields),
-        ...options,
-      })
-    ) as any // < no way to know at compile time if we're going to get back a T!
+    const opts = {
+      ...pick(this.options, ...ReadTaskOptionFields),
+      ...(isObject(argsOrOptions) ? argsOrOptions : options),
+    }
+    opts.readArgs =
+      ifArr(argsOrOptions) ?? ifArr(opts.readArgs) ?? this.options.readArgs
+    return this.enqueueTask(() => ReadTask.for(file, opts)) as any // < no way to know at compile time if we're going to get back a T!
   }
 
   /**
-   * Read the tags from `file`, without any post-processing of ExifTool
-   * values.
+   * Read the tags from `file`, without any post-processing of ExifTool values.
    *
-   * **You probably want `read`, not this method. READ THE REST OF THIS
-   * COMMENT CAREFULLY.**
+   * **You probably want `read`, not this method. READ THE REST OF THIS COMMENT
+   * CAREFULLY.**
    *
-   * If you want to extract specific tag values from a file, you may want to
-   * use this, but all data validation and inference heuristics provided by
-   * `read` will be skipped.
+   * If you want to extract specific tag values from a file, you may want to use
+   * this, but all data validation and inference heuristics provided by `read`
+   * will be skipped.
    *
-   * Note that performance will be very similar to `read`, and will actually
-   * be worse if you don't include `-fast` or `-fast2` (as the most expensive
-   * bit is the perl interpreter and scanning the file on disk).
+   * Note that performance will be very similar to `read`, and will actually be
+   * worse if you don't include `-fast` or `-fast2` (as the most expensive bit
+   * is the perl interpreter and scanning the file on disk).
    *
    * @param args any additional arguments other than the file path. Note that
    * "-json", and the Windows unicode filename handler flags, "-charset
@@ -332,33 +368,74 @@ export class ExifTool {
   /**
    * Write the given `tags` to `file`.
    *
-   * @param {string} file an existing file to write `tags` to.
-   * @param {Tags} tags the tags to write to `file`.
-   * @param {string[]} [args] any additional ExifTool arguments, like `-n`, or
-   * `-overwrite_original`.
-   * @returns {Promise<void>} Either the promise will be resolved if the tags
-   * are written to successfully, or the promise will be rejected if there are
-   * errors or warnings.
-   * @memberof ExifTool
+   * @param file an existing file to write `tags` to
+   *
+   * @param tags the tags to write to `file`
+   *
+   * @param options overrides to the default ExifTool options provided to the
+   * ExifTool constructor.
+   *
+   * @return Either the promise will be resolved if the tags are written to
+   * successfully, or the promise will be rejected if there are errors or
+   * warnings.
+   *
    * @see https://exiftool.org/exiftool_pod.html#overwrite_original
    */
   write(
     file: string,
     tags: WriteTags,
-    args?: string[],
+    options?: WriteTaskOptions
+  ): Promise<WriteTaskResult>
+
+  /**
+   * Write the given `tags` to `file`.
+   *
+   * @param file an existing file to write `tags` to
+   *
+   * @param tags the tags to write to `file`.
+   *
+   * @param writeArgs any additional ExifTool arguments, like `-n`, or
+   * `-overwrite_original`.
+   *
+   * @param options overrides to the default ExifTool options provided to the
+   * ExifTool constructor.
+   *
+   * @returns Either the promise will be resolved if the tags are written to
+   * successfully, or the promise will be rejected if there are errors or
+   * warnings.
+   *
+   * @see https://exiftool.org/exiftool_pod.html#overwrite_original
+   *
+   * @deprecated use
+   * {@link ExifTool.write(file: string, tags: WriteTags, options?: WriteTaskOptions)}
+   * instead (move `writeArgs` into your `options` hash)
+   */
+  write(
+    file: string,
+    tags: WriteTags,
+    writeArgs?: string[],
+    options?: WriteTaskOptions
+  ): Promise<WriteTaskResult>
+
+  write(
+    file: string,
+    tags: WriteTags,
+    writeArgsOrOptions?: string[] | WriteTaskOptions,
     options?: WriteTaskOptions
   ): Promise<WriteTaskResult> {
+    const opts = {
+      ...pick(this.options, ...WriteTaskOptionFields),
+      ...(isObject(writeArgsOrOptions) ? writeArgsOrOptions : options),
+    }
+    opts.writeArgs =
+      ifArr(writeArgsOrOptions) ??
+      ifArr(opts.writeArgs) ??
+      this.options.writeArgs
+
     // don't retry because writes might not be idempotent (e.g. incrementing
     // timestamps by an hour)
     const retriable = false
-    return this.enqueueTask(
-      () =>
-        WriteTask.for(file, tags, args, {
-          ...pick(this.options, "useMWG", "ignoreMinorErrors"),
-          ...options,
-        }),
-      retriable
-    )
+    return this.enqueueTask(() => WriteTask.for(file, tags, opts), retriable)
   }
 
   /**
@@ -511,7 +588,7 @@ export class ExifTool {
    *
    * @param {string} inputFile the path to the problematic image
    * @param {string} outputFile the path to write the repaired image
-   * @param {boolean} allowMakerNoteRepair if there are problems with MakerNote
+   * @param {boolean} opts.allowMakerNoteRepair if there are problems with MakerNote
    * tags, allow ExifTool to apply heuristics to recover corrupt tags. See
    * exiftool's `-F` flag.
    * @return {Promise<void>} resolved when outputFile has been written.

@@ -2,7 +2,9 @@
   "reject": [
     "chai",
     "@types/chai",
-    "chai-why: v5.0 switched to ESM, and we're not ready for that yet",
+    "chai-as-promised",
+    "deep-eql",
+    "everything above switched to ESM. We're not ready for that.",
     "eslint",
     "eslint-why: they broke their own config format and now plugins seem to all be broken"
   ]

@@ -9,6 +9,10 @@ export function isIterable(obj: any): obj is Iterable<any> {
   )
 }
 
+export function ifArr(arr: unknown): Maybe<any[]> {
+  return Array.isArray(arr) ? arr : undefined
+}
+
 export function toA<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
   return Array.isArray(arr) // < strings are not arrays
     ? (arr as T[])
