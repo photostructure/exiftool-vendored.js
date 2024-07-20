@@ -165,7 +165,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   #tagName(k: string): string {
-    return this.degroup ? k.split(":")[1] ?? k : k
+    return this.degroup ? (k.split(":")[1] ?? k) : k
   }
 
   #parseTags(): Tags {
