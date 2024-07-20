@@ -3,8 +3,10 @@ import { toInt } from "./Number"
 
 // "(Binary data 2506078 bytes, use -b option to extract)"
 const BinaryFieldRE =
-  // /^\(?Binary data (\d+).*use -b option to extract\)?$/i
-  /Binary(?: data)? (\d+) bytes/i
+  // 1000000000 bytes is 1 GB. The largest binary field I've seen is ~5 MB (7
+  // chars): 10 chars is absurdly large, and is just to avoid the
+  // `js/polynomial-redos` eslint rule.
+  /Binary(?: data)? (\d{1,10}) bytes/i
 
 export class BinaryField {
   constructor(
