@@ -20,13 +20,13 @@
     "prelint": "yarn compile",
     "lint": "yarn eslint src --ext .ts",
     "prettier": "prettier --write src/*.ts src/**/*.ts",
-    "pretest": "run-p lint compile",
+    "pretest": "yarn run-p lint compile",
     "test": "mocha 'dist/*.spec.js'",
     "docs:1": "typedoc --options .typedoc.js",
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
     "docs:5": "yarn serve docs",
-    "docs": "run-s docs:*"
+    "docs": "yarn run-s docs:*"
   },
   "repository": {
     "type": "git",
@@ -77,13 +77,13 @@
     "@types/deep-eql": "^4.0.2",
     "@types/globule": "^1.1.9",
     "@types/he": "^1.2.3",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.14.2",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.14.11",
     "@types/progress": "^2.0.7",
     "@types/tmp": "^0.2.6",
     "@types/xmldom": "^0.1.34",
-    "@typescript-eslint/eslint-plugin": "^7.13.0",
-    "@typescript-eslint/parser": "^7.13.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
     "@xmldom/xmldom": "^0.8.10",
     "chai": "^4.3.10",
     "chai-as-promised": "^7.1.2",
@@ -96,18 +96,18 @@
     "extract-zip": "^2.0.1",
     "geo-tz": "^8.0.2",
     "globule": "^1.3.4",
-    "mocha": "^10.4.0",
+    "mocha": "^10.7.0",
     "npm-check-updates": "^16.14.20",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.3.2",
-    "prettier-plugin-organize-imports": "^3.2.4",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.0.0",
     "progress": "^2.0.3",
-    "rimraf": "^5.0.7",
+    "rimraf": "^6.0.1",
     "serve": "^14.2.3",
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.3",
-    "typedoc": "^0.25.13",
-    "typescript": "^5.4.5",
+    "typedoc": "^0.26.4",
+    "typescript": "^5.5.3",
     "xpath": "^0.0.34"
   },
   "dependencies-note": "@types/luxon is a proper dependency, not devDependency, as our exported TypeScript typings reference luxon types. See <https://github.com/photostructure/exiftool-vendored.js/pull/108>",
@@ -119,7 +119,7 @@
     "luxon": "^3.4.4"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "12.85.0",
-    "exiftool-vendored.pl": "12.85.0"
+    "exiftool-vendored.exe": "12.89.0",
+    "exiftool-vendored.pl": "12.89.0"
   }
 }
