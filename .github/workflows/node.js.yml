@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   lint:
@@ -16,6 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
+      - run: npm i -g npm
       - run: npm install
       - run: npm run lint
 
@@ -26,15 +27,16 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-14, windows-latest]
         # See https://github.com/nodejs/release#release-schedule
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x, 20.x, 22.5.1]
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        lfs: true
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm run test
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install --global npm
+      - run: npm install
+      - run: npm run test
