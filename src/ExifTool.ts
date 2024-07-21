@@ -6,6 +6,7 @@ import { ifArr } from "./Array"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
+import { ContainerDirectoryItem } from "./ContainerDirectoryItem"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { Defined, DefinedOrNullValued } from "./Defined"
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
@@ -115,6 +116,7 @@ export type {
   IPTCApplicationRecordTags as ApplicationRecordTags,
   CollectionInfo,
   CompositeTags,
+  ContainerDirectoryItem,
   Defined,
   DefinedOrNullValued,
   EXIFTags,

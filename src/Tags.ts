@@ -1,4 +1,5 @@
 import { BinaryField } from "./BinaryField"
+import { ContainerDirectoryItem } from "./ContainerDirectoryItem"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
@@ -46,7 +47,7 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: "2024:07:20 17:33:35-07:00" */
+  /** ★★★★ ✔ Example: "2024:07:20 17:33:51-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ☆☆☆☆   Example:  */
   FileCreateDate?: ExifDateTime | string
@@ -191,7 +192,7 @@ export interface APP1Tags {
   CreatorSoftware?: string
   /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
   DateTimeGenerated?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 1998654 bytes, use -b option to extract)" */
   EmbeddedImage?: BinaryField | string
   /** ☆☆☆☆   Example: 960 */
   EmbeddedImageHeight?: number
@@ -199,8 +200,6 @@ export interface APP1Tags {
   EmbeddedImageType?: string
   /** ☆☆☆☆   Example: 640 */
   EmbeddedImageWidth?: number
-  /** ☆☆☆☆   Example: 1 */
-  Emissivity?: number
   /** ☆☆☆☆   Example: "46.1 deg" */
   FieldOfView?: string
   /** ☆☆☆☆   Example: "NOF" */
@@ -263,7 +262,7 @@ export interface APP1Tags {
   PaletteStretch?: number
   /** ☆☆☆☆   Example: ".basicImgData.objectParams.emissivity" */
   Param0?: string
-  /** ☆☆☆☆   Example: "(Binary data 153804 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 614604 bytes, use -b option to extract)" */
   RawThermalImage?: BinaryField | string
   /** ☆☆☆☆   Example: 90 */
   RawThermalImageHeight?: number
@@ -283,8 +282,6 @@ export interface APP1Tags {
   Real2IR?: number
   /** ☆☆☆☆   Example: "26.7 C" */
   ReflectedApparentTemperature?: string
-  /** ☆☆☆☆   Example: "80.0 %" */
-  RelativeHumidity?: string
   /** ☆☆☆☆   Example: "41 110 240" */
   UnderflowColor?: string
 }
@@ -448,6 +445,10 @@ export interface APP14Tags {
 export interface APP4Tags {
   /** ☆☆☆☆ ✔ Example: "40 C" */
   AmbientTemperature?: string
+  /** ☆☆☆☆   Example: 1 */
+  Emissivity?: number
+  /** ☆☆☆☆   Example: "80.0 %" */
+  RelativeHumidity?: string
 }
 
 export interface APP5Tags {
@@ -743,8 +744,6 @@ export interface EXIFTags {
   RelatedImageWidth?: number
   /** ☆☆☆☆ ✔ Example: "xxx.avi" */
   RelatedSoundFile?: string
-  /** ★★★★ ✔ Example: "inches" */
-  ResolutionUnit?: string
   /** ☆☆☆☆ ✔ Example: 96 */
   RowsPerStrip?: number
   /** ☆☆☆☆ ✔ Example: 4 */
@@ -795,7 +794,7 @@ export interface EXIFTags {
   SubjectDistanceRange?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   SubjectLocation?: number
-  /** ★★★★ ✔ Example: "(Binary data 12652 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 39781 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ★★★★ ✔ Example: 9998 */
   ThumbnailLength?: number
@@ -837,16 +836,12 @@ export interface EXIFTags {
   XPSubject?: string
   /** ☆☆☆☆ ✔ Example: "楆慮⁬敤琠牡敤攠⁭汉慨䈠汥Ⅱ" */
   XPTitle?: string
-  /** ★★★★ ✔ Example: 99 */
-  XResolution?: number
   /** ☆☆☆☆   Example: "Redmi 9T" */
   XiaomiModel?: string
   /** ☆☆☆☆ ✔ Example: "0.299 0.587 0.114" */
   YCbCrCoefficients?: string
   /** ★★★★ ✔ Example: "Unknown (512)" */
   YCbCrPositioning?: string
-  /** ★★★★ ✔ Example: 99 */
-  YResolution?: number
 }
 
 export interface APP6Tags {
@@ -1364,6 +1359,12 @@ export interface RIFFTags {
 export interface JFIFTags {
   /** ★★★☆ ✔ Example: 1.02 */
   JFIFVersion?: number
+  /** ★★★★ ✔ Example: "inches" */
+  ResolutionUnit?: string
+  /** ★★★★ ✔ Example: 99 */
+  XResolution?: number
+  /** ★★★★ ✔ Example: 99 */
+  YResolution?: number
 }
 
 export interface MakerNotesTags {
@@ -2223,7 +2224,7 @@ export interface MakerNotesTags {
   DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -3501,7 +3502,7 @@ export interface MakerNotesTags {
   NEFBitDepth?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (Auto)" */
   NeutralDensityFilter?: string
@@ -4341,7 +4342,7 @@ export interface MakerNotesTags {
   ToneCurve?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
   ToneCurveMatching?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1505 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
   ToneCurveTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0" */
   ToneLevel?: string
@@ -4509,7 +4510,7 @@ export interface MakerNotesTags {
   WhiteBalanceSetting?: string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceSetup?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2201 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
   WhiteBalanceTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceTemperature?: string
@@ -4648,7 +4649,7 @@ export interface XMPTags {
   /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
   Container?: Struct
   /** ☆☆☆☆   Example: "/home/username/pictures" */
-  ContainerDirectory?: Struct[]
+  ContainerDirectory?: ContainerDirectoryItem[] | Struct[]
   /** ☆☆☆☆ ✔ Example: false */
   ConvertToGrayscale?: boolean
   /** ☆☆☆☆ ✔ Example: "United States" */
@@ -4777,7 +4778,7 @@ export interface XMPTags {
   GreenHue?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   GreenSaturation?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 49603 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 53037 bytes, use -b option to extract)" */
   HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: false */
   HasCrop?: boolean

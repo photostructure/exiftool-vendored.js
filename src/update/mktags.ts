@@ -55,6 +55,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   "Caption-Abstract": { t: "string", grp: "IPTC" },
   Compass: { t: "string", grp: "APP5" },
   Comment: { t: "string", grp: "XMP" },
+  ContainerDirectory: { t: "ContainerDirectoryItem[] | Struct[]", grp: "XMP" },
   Copyright: { t: "string", grp: "EXIF" },
   Country: { t: "string", grp: "XMP" },
   CountryCode: { t: "string", grp: "XMP" },
@@ -772,6 +773,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     tagWriter.write(
       [
         'import { BinaryField } from "./BinaryField"',
+        'import { ContainerDirectoryItem } from "./ContainerDirectoryItem"',
         'import { ExifDate } from "./ExifDate"',
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
