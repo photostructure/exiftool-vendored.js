@@ -31,6 +31,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ Added support for [old Sony A7 UTC inference](https://github.com/photostructure/exiftool-vendored.js/issues/187). Thanks for the help, [Friso Smit](https://github.com/fwsmit)!
 
+- ✨ Added support for [Android Motion Photos](https://github.com/photostructure/exiftool-vendored.js/issues/189). Thanks for the help, [Lukas](https://github.com/lukashass)!
+
 ### v27.0.0
 
 - 💔 `ExifToolOptions.struct` is now `"undef" | 0 | 1 | 2`. See
