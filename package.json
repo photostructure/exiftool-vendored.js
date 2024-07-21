@@ -9,23 +9,23 @@
     "url": "https://github.com/photostructure/exiftool-vendored.js/issues"
   },
   "scripts": {
-    "u": "yarn npm-check-updates --upgrade --install always",
-    "clean": "yarn rimraf lib dist coverage .nyc_output",
+    "u": "npx npm-check-updates --upgrade --install always",
+    "clean": "npx rimraf lib dist coverage .nyc_output",
     "precompile": "yarn clean",
     "compile": "tsc",
     "compile:watch": "yarn precompile && tsc --watch",
     "premktags": "yarn compile",
     "mktags": "node dist/update/mktags.js",
     "prelint": "yarn compile",
-    "lint": "yarn eslint src --ext .ts",
-    "prettier": "prettier --write src/*.ts src/**/*.ts",
+    "lint": "npx eslint src --ext .ts",
+    "prettier": "npx prettier --write src/*.ts src/**/*.ts",
     "pretest": "yarn compile",
-    "test": "mocha 'dist/*.spec.js'",
-    "docs:1": "typedoc --options .typedoc.js",
+    "test": "npx mocha 'dist/*.spec.js'",
+    "docs:1": "npx typedoc --options .typedoc.js",
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
-    "docs:5": "yarn serve docs",
-    "docs": "run-s docs:*"
+    "docs:5": "npx serve docs",
+    "docs": "npx run-s docs:*"
   },
   "repository": {
     "type": "git",
