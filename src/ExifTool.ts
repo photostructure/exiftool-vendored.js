@@ -40,12 +40,7 @@ import { ShortcutTags } from "./ShortcutTags"
 import { blank, notBlank } from "./String"
 import { Struct } from "./Struct"
 import {
-  APP12Tags,
-  APP14Tags,
-  APP1Tags,
-  APP4Tags,
-  APP5Tags,
-  APP6Tags,
+  APPTags,
   CompositeTags,
   EXIFTags,
   ExifToolTags,
@@ -105,12 +100,7 @@ export {
 } from "./Timezones"
 export { DefaultWriteTaskOptions } from "./WriteTask"
 export type {
-  APP12Tags,
-  APP14Tags,
-  APP1Tags,
-  APP4Tags,
-  APP5Tags,
-  APP6Tags,
+  APPTags,
   AdditionalWriteTags,
   // For backwards compatibility:
   IPTCApplicationRecordTags as ApplicationRecordTags,

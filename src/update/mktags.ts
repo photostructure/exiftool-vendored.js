@@ -421,6 +421,13 @@ function getOrSet<K, V>(m: Map<K, V>, k: K, valueThunk: () => V): V {
   }
 }
 
+/**
+ * Unfortunately there's a ton of duplication between APP group names, so we throw everything into APPTags.
+ */
+function normalizeGroup(group: string): string {
+  return group.replace(/^APP\d+/, "APP")
+}
+
 class Tag {
   values: any[] = []
   important = false
@@ -441,7 +448,7 @@ class Tag {
   }
 
   get group(): string {
-    return this.tag.split(":")[0] ?? this.tag
+    return map(this.tag.split(":")[0], normalizeGroup) ?? this.tag
   }
 
   get base(): string {

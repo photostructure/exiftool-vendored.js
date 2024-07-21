@@ -47,13 +47,13 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: "2024:07:20 17:33:51-07:00" */
+  /** ★★★★ ✔ Example: "2024:07:20 19:47:53-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ☆☆☆☆   Example:  */
   FileCreateDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2024:07:19 20:28:02-07:00" */
+  /** ★★★★ ✔ Example: "2024:07:20 19:47:47-07:00" */
   FileInodeChangeDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2024:05:13 10:21:03-07:00" */
+  /** ★★★★ ✔ Example: "2024:06:15 18:39:22-07:00" */
   FileModifyDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "utc+8_oly.jpg" */
   FileName?: string
@@ -101,6 +101,8 @@ export interface CompositeTags {
   AutoFocus?: string
   /** ☆☆☆☆ ✔ Example: "8.7 Mbps" */
   AvgBitrate?: string
+  /** ★★☆☆ ✔ Example: 46 */
+  BlueBalance?: number
   /** ☆☆☆☆ ✔ Example: "[Red,Green][Green,Blue]" */
   CFAPattern?: string
   /** ★★★★ ✔ Example: "1.030 mm" */
@@ -143,8 +145,10 @@ export interface CompositeTags {
   OriginalDecisionData?: BinaryField | string
   /** ☆☆☆☆   Example: "9.9 um" */
   PeakSpectralSensitivity?: string
-  /** ★★★☆ ✔ Example: "(Binary data 315546 bytes, use -b option to extract)" */
+  /** ★★★☆ ✔ Example: "(Binary data 37244 bytes, use -b option to extract)" */
   PreviewImage?: BinaryField
+  /** ★★☆☆ ✔ Example: 38.625 */
+  RedBalance?: number
   /** ☆☆☆☆ ✔ Example: "On" */
   RedEyeReduction?: string
   /** ☆☆☆☆   Example: 11.2 */
@@ -173,120 +177,7 @@ export interface CompositeTags {
   SubSecModifyDate?: ExifDateTime | string
 }
 
-export interface APP1Tags {
-  /** ☆☆☆☆   Example: "59 128 128" */
-  AboveColor?: string
-  /** ☆☆☆☆   Example: "5.0 C" */
-  AtmosphericTemperature?: string
-  /** ☆☆☆☆   Example: "60 128 128" */
-  BelowColor?: string
-  /** ☆☆☆☆   Example: "Z-CAMERA" */
-  CameraModel?: string
-  /** ☆☆☆☆   Example: "_______________" */
-  CameraPartNumber?: string
-  /** ☆☆☆☆ ✔ Example: 8340330 */
-  CameraSerialNumber?: number
-  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
-  CameraSoftware?: string
-  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
-  CreatorSoftware?: string
-  /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
-  DateTimeGenerated?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "(Binary data 1998654 bytes, use -b option to extract)" */
-  EmbeddedImage?: BinaryField | string
-  /** ☆☆☆☆   Example: 960 */
-  EmbeddedImageHeight?: number
-  /** ☆☆☆☆   Example: "PNG" */
-  EmbeddedImageType?: string
-  /** ☆☆☆☆   Example: 640 */
-  EmbeddedImageWidth?: number
-  /** ☆☆☆☆   Example: "46.1 deg" */
-  FieldOfView?: string
-  /** ☆☆☆☆   Example: "NOF" */
-  FilterModel?: string
-  /** ☆☆☆☆   Example: "" */
-  FilterPartNumber?: string
-  /** ☆☆☆☆   Example: "00000000" */
-  FilterSerialNumber?: string
-  /** ☆☆☆☆ ✔ Example: "inf" */
-  FocusDistance?: string
-  /** ☆☆☆☆ ✔ Example: 98 */
-  FocusStepCount?: number
-  /** ☆☆☆☆ ✔ Example: 9 */
-  FrameRate?: number
-  /** ☆☆☆☆ ✔ Example: 88.01 */
-  GPSTrack?: number
-  /** ☆☆☆☆ ✔ Example: "True North" */
-  GPSTrackRef?: string
-  /** ☆☆☆☆   Example: "Yes" */
-  GPSValid?: string
-  /** ☆☆☆☆   Example: "7.4 C" */
-  IRWindowTemperature?: string
-  /** ☆☆☆☆   Example: 1 */
-  IRWindowTransmission?: number
-  /** ☆☆☆☆   Example: "99 128 128" */
-  Isotherm1Color?: string
-  /** ☆☆☆☆   Example: "92 115 209" */
-  Isotherm2Color?: string
-  /** ☆☆☆☆   Example: "T199104" */
-  LensPartNumber?: string
-  /** ☆☆☆☆   Example: 1 */
-  Meas1Label?: number
-  /** ☆☆☆☆   Example: "80 60" */
-  Meas1Params?: string
-  /** ☆☆☆☆   Example: "Spot" */
-  Meas1Type?: string
-  /** ☆☆☆☆   Example: "Sp1" */
-  Meas2Label?: string
-  /** ☆☆☆☆   Example: "213 160 213 160" */
-  Meas2Params?: string
-  /** ☆☆☆☆   Example: "Spot" */
-  Meas2Type?: string
-  /** ☆☆☆☆   Example: "+98" */
-  OffsetX?: string
-  /** ☆☆☆☆   Example: "+51" */
-  OffsetY?: string
-  /** ☆☆☆☆   Example: "67 216 98" */
-  OverflowColor?: string
-  /** ☆☆☆☆   Example: "(Binary data 672 bytes, use -b option to extract)" */
-  Palette?: BinaryField | string
-  /** ☆☆☆☆   Example: 224 */
-  PaletteColors?: number
-  /** ☆☆☆☆   Example: "iron.pal" */
-  PaletteFileName?: string
-  /** ☆☆☆☆   Example: 0 */
-  PaletteMethod?: number
-  /** ☆☆☆☆   Example: "iron" */
-  PaletteName?: string
-  /** ☆☆☆☆   Example: 3 */
-  PaletteStretch?: number
-  /** ☆☆☆☆   Example: ".basicImgData.objectParams.emissivity" */
-  Param0?: string
-  /** ☆☆☆☆   Example: "(Binary data 614604 bytes, use -b option to extract)" */
-  RawThermalImage?: BinaryField | string
-  /** ☆☆☆☆   Example: 90 */
-  RawThermalImageHeight?: number
-  /** ☆☆☆☆   Example: "TIFF" */
-  RawThermalImageType?: string
-  /** ☆☆☆☆   Example: 80 */
-  RawThermalImageWidth?: number
-  /** ☆☆☆☆   Example: 9392 */
-  RawValueMedian?: number
-  /** ☆☆☆☆   Example: 993 */
-  RawValueRange?: number
-  /** ☆☆☆☆   Example: 65535 */
-  RawValueRangeMax?: number
-  /** ☆☆☆☆   Example: 8628 */
-  RawValueRangeMin?: number
-  /** ☆☆☆☆   Example: 2.2125397 */
-  Real2IR?: number
-  /** ☆☆☆☆   Example: "26.7 C" */
-  ReflectedApparentTemperature?: string
-  /** ☆☆☆☆   Example: "41 110 240" */
-  UnderflowColor?: string
-}
-
-export interface APP12Tags {
+export interface APPTags {
   /** ☆☆☆☆   Example: 388 */
   Again?: number
   /** ☆☆☆☆   Example: 3383 */
@@ -325,8 +216,6 @@ export interface APP12Tags {
   Case?: number
   /** ☆☆☆☆   Example: 1 */
   Color?: number
-  /** ★★☆☆ ✔ Example: "n/a" */
-  ColorMode?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ContTake?: number
   /** ☆☆☆☆ ✔ Example: 8501 */
@@ -433,27 +322,220 @@ export interface APP12Tags {
   Zoom?: string
   /** ☆☆☆☆   Example: 9 */
   ZoomPos?: number
-}
-
-export interface APP14Tags {
   /** ☆☆☆☆ ✔ Example: "YCbCr" */
   ColorTransform?: string
   /** ☆☆☆☆ ✔ Example: 100 */
   DCTEncodeVersion?: number
-}
-
-export interface APP4Tags {
-  /** ☆☆☆☆ ✔ Example: "40 C" */
-  AmbientTemperature?: string
+  /** ☆☆☆☆   Example: "59 128 128" */
+  AboveColor?: string
+  /** ☆☆☆☆   Example: "5.0 C" */
+  AtmosphericTemperature?: string
+  /** ☆☆☆☆   Example: "60 128 128" */
+  BelowColor?: string
+  /** ☆☆☆☆   Example: "Z-CAMERA" */
+  CameraModel?: string
+  /** ☆☆☆☆   Example: "_______________" */
+  CameraPartNumber?: string
+  /** ☆☆☆☆ ✔ Example: 8340330 */
+  CameraSerialNumber?: number
+  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
+  CameraSoftware?: string
+  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
+  CreatorSoftware?: string
+  /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
+  DateTimeGenerated?: ExifDateTime | string
+  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
+  EmbeddedImage?: BinaryField | string
+  /** ☆☆☆☆   Example: 960 */
+  EmbeddedImageHeight?: number
+  /** ☆☆☆☆   Example: "PNG" */
+  EmbeddedImageType?: string
+  /** ☆☆☆☆   Example: 640 */
+  EmbeddedImageWidth?: number
+  /** ☆☆☆☆   Example: "46.1 deg" */
+  FieldOfView?: string
+  /** ☆☆☆☆   Example: "NOF" */
+  FilterModel?: string
+  /** ☆☆☆☆   Example: "" */
+  FilterPartNumber?: string
+  /** ☆☆☆☆   Example: "00000000" */
+  FilterSerialNumber?: string
+  /** ☆☆☆☆ ✔ Example: "inf" */
+  FocusDistance?: string
+  /** ☆☆☆☆ ✔ Example: 98 */
+  FocusStepCount?: number
+  /** ☆☆☆☆ ✔ Example: 9 */
+  FrameRate?: number
+  /** ☆☆☆☆ ✔ Example: 88.01 */
+  GPSTrack?: number
+  /** ☆☆☆☆ ✔ Example: "True North" */
+  GPSTrackRef?: string
+  /** ☆☆☆☆   Example: "Yes" */
+  GPSValid?: string
+  /** ☆☆☆☆   Example: "7.4 C" */
+  IRWindowTemperature?: string
+  /** ☆☆☆☆   Example: 1 */
+  IRWindowTransmission?: number
+  /** ☆☆☆☆   Example: "99 128 128" */
+  Isotherm1Color?: string
+  /** ☆☆☆☆   Example: "92 115 209" */
+  Isotherm2Color?: string
+  /** ☆☆☆☆   Example: "T199104" */
+  LensPartNumber?: string
+  /** ☆☆☆☆   Example: 1 */
+  Meas1Label?: number
+  /** ☆☆☆☆   Example: "80 60" */
+  Meas1Params?: string
+  /** ☆☆☆☆   Example: "Spot" */
+  Meas1Type?: string
+  /** ☆☆☆☆   Example: "Sp1" */
+  Meas2Label?: string
+  /** ☆☆☆☆   Example: "213 160 213 160" */
+  Meas2Params?: string
+  /** ☆☆☆☆   Example: "Spot" */
+  Meas2Type?: string
+  /** ☆☆☆☆   Example: "+98" */
+  OffsetX?: string
+  /** ☆☆☆☆   Example: "+51" */
+  OffsetY?: string
+  /** ☆☆☆☆   Example: "67 216 98" */
+  OverflowColor?: string
+  /** ☆☆☆☆   Example: "(Binary data 672 bytes, use -b option to extract)" */
+  Palette?: BinaryField | string
+  /** ☆☆☆☆   Example: 224 */
+  PaletteColors?: number
+  /** ☆☆☆☆   Example: "iron.pal" */
+  PaletteFileName?: string
+  /** ☆☆☆☆   Example: 0 */
+  PaletteMethod?: number
+  /** ☆☆☆☆   Example: "iron" */
+  PaletteName?: string
+  /** ☆☆☆☆   Example: 3 */
+  PaletteStretch?: number
+  /** ☆☆☆☆   Example: ".basicImgData.objectParams.emissivity" */
+  Param0?: string
+  /** ☆☆☆☆   Example: "(Binary data 614604 bytes, use -b option to extract)" */
+  RawThermalImage?: BinaryField | string
+  /** ☆☆☆☆   Example: 90 */
+  RawThermalImageHeight?: number
+  /** ☆☆☆☆   Example: "TIFF" */
+  RawThermalImageType?: string
+  /** ☆☆☆☆   Example: 80 */
+  RawThermalImageWidth?: number
+  /** ☆☆☆☆   Example: 9392 */
+  RawValueMedian?: number
+  /** ☆☆☆☆   Example: 993 */
+  RawValueRange?: number
+  /** ☆☆☆☆   Example: 65535 */
+  RawValueRangeMax?: number
+  /** ☆☆☆☆   Example: 8628 */
+  RawValueRangeMin?: number
+  /** ☆☆☆☆   Example: 2.2125397 */
+  Real2IR?: number
+  /** ☆☆☆☆   Example: "26.7 C" */
+  ReflectedApparentTemperature?: string
+  /** ☆☆☆☆   Example: "41 110 240" */
+  UnderflowColor?: string
   /** ☆☆☆☆   Example: 1 */
   Emissivity?: number
   /** ☆☆☆☆   Example: "80.0 %" */
   RelativeHumidity?: string
-}
-
-export interface APP5Tags {
   /** ☆☆☆☆   Example: 45 */
   Compass?: string
+  /** ☆☆☆☆ ✔ Example: 800 */
+  AutoISOMax?: number
+  /** ☆☆☆☆ ✔ Example: 3200 */
+  AutoISOMin?: number
+  /** ☆☆☆☆ ✔ Example: "Up" */
+  AutoRotation?: string
+  /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
+  DeviceName?: string
+  /** ☆☆☆☆ ✔ Example: "AUTO" */
+  MaximumShutterAngle?: string
+  /** ☆☆☆☆ ✔ Example: "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000" */
+  MediaUniqueID?: string
+  /** ☆☆☆☆ ✔ Example: "7.6.4" */
+  MetadataVersion?: string
+  /** ☆☆☆☆ ✔ Example: "12MP_W" */
+  PhotoResolution?: string
+  /** ☆☆☆☆ ✔ Example: "On" */
+  ProTune?: string
+  /** ☆☆☆☆ ✔ Example: "4_1SEC" */
+  Rate?: string
+}
+
+/**
+ * @see https://exiftool.org/TagNames/FlashPix.html
+ */
+export interface FlashPixTags {
+  /** ☆☆☆☆   Example: "(Binary data 20796 bytes, use -b option to extract)" */
+  AudioStream?: BinaryField | string
+  /** ☆☆☆☆ ✔ Example: "Unicode UTF-16, little endian" */
+  CodePage?: string
+  /** ☆☆☆☆ ✔ Example: "Picoss" */
+  CreatingApplication?: string
+  /** ☆☆☆☆ ✔ Example: "30020010-C06F-D011-BD01-00609719A180" */
+  ExtensionClassID?: string
+  /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
+  ExtensionCreateDate?: ExifDateTime | string
+  /** ☆☆☆☆ ✔ Example: "Presized image for LCD display" */
+  ExtensionDescription?: string
+  /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
+  ExtensionModifyDate?: ExifDateTime | string
+  /** ☆☆☆☆ ✔ Example: "Screen nail" */
+  ExtensionName?: string
+  /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
+  ExtensionPersistence?: string
+  /** ☆☆☆☆ ✔ Example: "(Binary data 57881 bytes, use -b option to extract)" */
+  ScreenNail?: BinaryField | string
+  /** ☆☆☆☆ ✔ Example: 1 */
+  UsedExtensionNumbers?: number
+}
+
+/**
+ * These tags are only available if {@link ExifToolOptions.geolocation} is true
+ * and the file has valid GPS location data.
+ */
+export interface GeolocationTags {
+  /** ☆☆☆☆ ✔ Example: 99 */
+  GeolocationBearing?: number
+  /** ☆☆☆☆ ✔ Example: "Zürich (Kreis 4) / Langstrasse" */
+  GeolocationCity?: string
+  /** ☆☆☆☆ ✔ Example: "United States" */
+  GeolocationCountry?: string
+  /** ☆☆☆☆ ✔ Example: "US" */
+  GeolocationCountryCode?: string
+  /** ☆☆☆☆ ✔ Example: "9.60 km" */
+  GeolocationDistance?: string
+  /** ☆☆☆☆ ✔ Example: "PPLX" */
+  GeolocationFeatureCode?: string
+  /** ☆☆☆☆ ✔ Example: "Section Of Populated Place" */
+  GeolocationFeatureType?: string
+  /** ☆☆☆☆ ✔ Example: 93000 */
+  GeolocationPopulation?: number
+  /** ☆☆☆☆ ✔ Example: "7.3397, 134.4733" */
+  GeolocationPosition?: string
+  /** ☆☆☆☆ ✔ Example: "Île-de-France" */
+  GeolocationRegion?: string
+  /** ☆☆☆☆ ✔ Example: "Ōta-ku" */
+  GeolocationSubregion?: string
+  /** ☆☆☆☆ ✔ Example: "Pacific/Saipan" */
+  GeolocationTimeZone?: string
+}
+
+export interface JSONTags {
+  /** ☆☆☆☆   Example: 0 */
+  AIScene?: number
+  /** ☆☆☆☆   Example: 66048 */
+  FilterId?: number
+  /** ☆☆☆☆   Example: "off" */
+  Hdr?: string
+  /** ☆☆☆☆   Example: false */
+  Mirror?: boolean
+  /** ☆☆☆☆   Example: 36864 */
+  OpMode?: number
+  /** ☆☆☆☆   Example: 1 */
+  ZoomMultiple?: number
 }
 
 /**
@@ -640,7 +722,7 @@ export interface EXIFTags {
   InteropIndex?: string
   /** ★★★★ ✔ Example: "undef undef undef" */
   InteropVersion?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 532480 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -744,6 +826,8 @@ export interface EXIFTags {
   RelatedImageWidth?: number
   /** ☆☆☆☆ ✔ Example: "xxx.avi" */
   RelatedSoundFile?: string
+  /** ★★★★ ✔ Example: "inches" */
+  ResolutionUnit?: string
   /** ☆☆☆☆ ✔ Example: 96 */
   RowsPerStrip?: number
   /** ☆☆☆☆ ✔ Example: 4 */
@@ -794,7 +878,7 @@ export interface EXIFTags {
   SubjectDistanceRange?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   SubjectLocation?: number
-  /** ★★★★ ✔ Example: "(Binary data 39781 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 10202 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ★★★★ ✔ Example: 9998 */
   ThumbnailLength?: number
@@ -836,181 +920,16 @@ export interface EXIFTags {
   XPSubject?: string
   /** ☆☆☆☆ ✔ Example: "楆慮⁬敤琠牡敤攠⁭汉慨䈠汥Ⅱ" */
   XPTitle?: string
+  /** ★★★★ ✔ Example: 99 */
+  XResolution?: number
   /** ☆☆☆☆   Example: "Redmi 9T" */
   XiaomiModel?: string
   /** ☆☆☆☆ ✔ Example: "0.299 0.587 0.114" */
   YCbCrCoefficients?: string
   /** ★★★★ ✔ Example: "Unknown (512)" */
   YCbCrPositioning?: string
-}
-
-export interface APP6Tags {
-  /** ☆☆☆☆ ✔ Example: 800 */
-  AutoISOMax?: number
-  /** ☆☆☆☆ ✔ Example: 3200 */
-  AutoISOMin?: number
-  /** ☆☆☆☆ ✔ Example: "Up" */
-  AutoRotation?: string
-  /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
-  DeviceName?: string
-  /** ☆☆☆☆ ✔ Example: "On (Manual)" */
-  HDRSetting?: string
-  /** ☆☆☆☆ ✔ Example: "AUTO" */
-  MaximumShutterAngle?: string
-  /** ☆☆☆☆ ✔ Example: "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000" */
-  MediaUniqueID?: string
-  /** ☆☆☆☆ ✔ Example: "7.6.4" */
-  MetadataVersion?: string
-  /** ☆☆☆☆ ✔ Example: "12MP_W" */
-  PhotoResolution?: string
-  /** ☆☆☆☆ ✔ Example: "On" */
-  ProTune?: string
-  /** ☆☆☆☆ ✔ Example: "4_1SEC" */
-  Rate?: string
-}
-
-/**
- * @see https://exiftool.org/TagNames/FlashPix.html
- */
-export interface FlashPixTags {
-  /** ☆☆☆☆   Example: "(Binary data 20796 bytes, use -b option to extract)" */
-  AudioStream?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "Unicode UTF-16, little endian" */
-  CodePage?: string
-  /** ☆☆☆☆ ✔ Example: "Picoss" */
-  CreatingApplication?: string
-  /** ☆☆☆☆ ✔ Example: "30020010-C06F-D011-BD01-00609719A180" */
-  ExtensionClassID?: string
-  /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
-  ExtensionCreateDate?: ExifDateTime | string
-  /** ☆☆☆☆ ✔ Example: "Presized image for LCD display" */
-  ExtensionDescription?: string
-  /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
-  ExtensionModifyDate?: ExifDateTime | string
-  /** ☆☆☆☆ ✔ Example: "Screen nail" */
-  ExtensionName?: string
-  /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
-  ExtensionPersistence?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46285 bytes, use -b option to extract)" */
-  ScreenNail?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: 1 */
-  UsedExtensionNumbers?: number
-}
-
-/**
- * These tags are only available if {@link ExifToolOptions.geolocation} is true
- * and the file has valid GPS location data.
- */
-export interface GeolocationTags {
-  /** ☆☆☆☆ ✔ Example: 99 */
-  GeolocationBearing?: number
-  /** ☆☆☆☆ ✔ Example: "Zürich (Kreis 4) / Langstrasse" */
-  GeolocationCity?: string
-  /** ☆☆☆☆ ✔ Example: "United States" */
-  GeolocationCountry?: string
-  /** ☆☆☆☆ ✔ Example: "US" */
-  GeolocationCountryCode?: string
-  /** ☆☆☆☆ ✔ Example: "9.60 km" */
-  GeolocationDistance?: string
-  /** ☆☆☆☆ ✔ Example: "PPLX" */
-  GeolocationFeatureCode?: string
-  /** ☆☆☆☆ ✔ Example: "Section Of Populated Place" */
-  GeolocationFeatureType?: string
-  /** ☆☆☆☆ ✔ Example: 93000 */
-  GeolocationPopulation?: number
-  /** ☆☆☆☆ ✔ Example: "7.3397, 134.4733" */
-  GeolocationPosition?: string
-  /** ☆☆☆☆ ✔ Example: "Île-de-France" */
-  GeolocationRegion?: string
-  /** ☆☆☆☆ ✔ Example: "Ōta-ku" */
-  GeolocationSubregion?: string
-  /** ☆☆☆☆ ✔ Example: "Pacific/Saipan" */
-  GeolocationTimeZone?: string
-}
-
-export interface JSONTags {
-  /** ☆☆☆☆   Example: 0 */
-  AIScene?: number
-  /** ☆☆☆☆   Example: 66048 */
-  FilterId?: number
-  /** ☆☆☆☆   Example: "off" */
-  Hdr?: string
-  /** ☆☆☆☆   Example: false */
-  Mirror?: boolean
-  /** ☆☆☆☆   Example: 36864 */
-  OpMode?: number
-  /** ☆☆☆☆   Example: 1 */
-  ZoomMultiple?: number
-}
-
-/**
- * @see https://exiftool.org/TagNames/IPTC.html
- */
-export interface IPTCTags {
-  /** ☆☆☆☆ ✔ Example: 4 */
-  ApplicationRecordVersion?: number
-  /** ☆☆☆☆   Example:  */
-  "Caption-Abstract"?: string
-  /** ☆☆☆☆ ✔ Example: "Other" */
-  Category?: string
-  /** ☆☆☆☆ ✔ Example: "TEDDINGTON" */
-  City?: string
-  /** ☆☆☆☆ ✔ Example: "UTF8" */
-  CodedCharacterSet?: string
-  /** ☆☆☆☆ ✔ Example: "Donna Ringmanumba" */
-  Contact?: string
-  /** ☆☆☆☆ ✔ Example: "Creative Commons Attribution 4.0 International" */
-  CopyrightNotice?: string
-  /** ☆☆☆☆ ✔ Example: "photo by Jenny Snapsalot" */
-  Credit?: string
-  /** ☆☆☆☆ ✔ Example: "" */
-  DateSent?: string
-  /** ☆☆☆☆ ✔ Example: "2023:11:07 14:10:21-05:00" */
-  DateTimeCreated?: ExifDateTime | string
-  /** ☆☆☆☆ ✔ Example: "" */
-  Destination?: string
-  /** ☆☆☆☆ ✔ Example: "2021:03:16" */
-  DigitalCreationDate?: ExifDate | string
-  /** ☆☆☆☆ ✔ Example: "20:25:15" */
-  DigitalCreationTime?: ExifTime | string
-  /** ☆☆☆☆ ✔ Example: "" */
-  EnvelopeNumber?: string
-  /** ☆☆☆☆ ✔ Example: "5 (normal urgency)" */
-  EnvelopePriority?: string
-  /** ☆☆☆☆ ✔ Example: 4 */
-  EnvelopeRecordVersion?: number
-  /** ☆☆☆☆ ✔ Example: "X3F" */
-  FileFormat?: string
-  /** ☆☆☆☆ ✔ Example: 2 */
-  FileVersion?: number
-  /** ☆☆☆☆ ✔ Example: "" */
-  Headline?: string
-  /** ☆☆☆☆ ✔ Example: ["red","car"] */
-  Keywords?: string | string[]
-  /** ☆☆☆☆ ✔ Example: "Artist deep into to wine and flower" */
-  ObjectName?: string
-  /** ☆☆☆☆ ✔ Example: "" */
-  OriginalTransmissionReference?: string
-  /** ☆☆☆☆ ✔ Example: "digiKam" */
-  OriginatingProgram?: string
-  /** ☆☆☆☆ ✔ Example: "Tagged:1, ColorClass:2, Rating:0, FrameNum:000940" */
-  Prefs?: string
-  /** ☆☆☆☆ ✔ Example: "4.13.0" */
-  ProgramVersion?: string
-  /** ☆☆☆☆ ✔ Example: "" */
-  ServiceIdentifier?: string
-  /** ☆☆☆☆ ✔ Example: "Renee Lanette Sims" */
-  Source?: string
-  /** ☆☆☆☆ ✔ Example: "" */
-  SpecialInstructions?: string
-  /** ☆☆☆☆ ✔ Example: "" */
-  SupplementalCategories?: string
-  /** ☆☆☆☆ ✔ Example: "23:59:46.92" */
-  TimeCreated?: ExifTime | string
-  /** ☆☆☆☆ ✔ Example: "" */
-  TimeSent?: string
-  /** ☆☆☆☆ ✔ Example: "1 (most urgent)" */
-  Urgency?: string
+  /** ★★★★ ✔ Example: 99 */
+  YResolution?: number
 }
 
 export interface MPFTags {
@@ -1356,15 +1275,77 @@ export interface RIFFTags {
   VideoFrameCount?: number
 }
 
+/**
+ * @see https://exiftool.org/TagNames/IPTC.html
+ */
+export interface IPTCTags {
+  /** ☆☆☆☆ ✔ Example: 4 */
+  ApplicationRecordVersion?: number
+  /** ☆☆☆☆   Example:  */
+  "Caption-Abstract"?: string
+  /** ☆☆☆☆ ✔ Example: "Other" */
+  Category?: string
+  /** ☆☆☆☆ ✔ Example: "TEDDINGTON" */
+  City?: string
+  /** ☆☆☆☆ ✔ Example: "UTF8" */
+  CodedCharacterSet?: string
+  /** ☆☆☆☆ ✔ Example: "Donna Ringmanumba" */
+  Contact?: string
+  /** ☆☆☆☆ ✔ Example: "Creative Commons Attribution 4.0 International" */
+  CopyrightNotice?: string
+  /** ☆☆☆☆ ✔ Example: "photo by Jenny Snapsalot" */
+  Credit?: string
+  /** ☆☆☆☆ ✔ Example: "" */
+  DateSent?: string
+  /** ☆☆☆☆ ✔ Example: "2023:11:07 14:10:21-05:00" */
+  DateTimeCreated?: ExifDateTime | string
+  /** ☆☆☆☆ ✔ Example: "" */
+  Destination?: string
+  /** ☆☆☆☆ ✔ Example: "2021:03:16" */
+  DigitalCreationDate?: ExifDate | string
+  /** ☆☆☆☆ ✔ Example: "20:25:15" */
+  DigitalCreationTime?: ExifTime | string
+  /** ☆☆☆☆ ✔ Example: "" */
+  EnvelopeNumber?: string
+  /** ☆☆☆☆ ✔ Example: "5 (normal urgency)" */
+  EnvelopePriority?: string
+  /** ☆☆☆☆ ✔ Example: 4 */
+  EnvelopeRecordVersion?: number
+  /** ☆☆☆☆ ✔ Example: 2 */
+  FileVersion?: number
+  /** ☆☆☆☆ ✔ Example: "" */
+  Headline?: string
+  /** ☆☆☆☆ ✔ Example: ["red","car"] */
+  Keywords?: string | string[]
+  /** ☆☆☆☆ ✔ Example: "Artist deep into to wine and flower" */
+  ObjectName?: string
+  /** ☆☆☆☆ ✔ Example: "" */
+  OriginalTransmissionReference?: string
+  /** ☆☆☆☆ ✔ Example: "digiKam" */
+  OriginatingProgram?: string
+  /** ☆☆☆☆ ✔ Example: "Tagged:1, ColorClass:2, Rating:0, FrameNum:000940" */
+  Prefs?: string
+  /** ☆☆☆☆ ✔ Example: "4.13.0" */
+  ProgramVersion?: string
+  /** ☆☆☆☆ ✔ Example: "" */
+  ServiceIdentifier?: string
+  /** ☆☆☆☆ ✔ Example: "Renee Lanette Sims" */
+  Source?: string
+  /** ☆☆☆☆ ✔ Example: "" */
+  SpecialInstructions?: string
+  /** ☆☆☆☆ ✔ Example: "" */
+  SupplementalCategories?: string
+  /** ☆☆☆☆ ✔ Example: "23:59:46.92" */
+  TimeCreated?: ExifTime | string
+  /** ☆☆☆☆ ✔ Example: "" */
+  TimeSent?: string
+  /** ☆☆☆☆ ✔ Example: "1 (most urgent)" */
+  Urgency?: string
+}
+
 export interface JFIFTags {
   /** ★★★☆ ✔ Example: 1.02 */
   JFIFVersion?: number
-  /** ★★★★ ✔ Example: "inches" */
-  ResolutionUnit?: string
-  /** ★★★★ ✔ Example: 99 */
-  XResolution?: number
-  /** ★★★★ ✔ Example: 99 */
-  YResolution?: number
 }
 
 export interface MakerNotesTags {
@@ -1654,6 +1635,8 @@ export interface MakerNotesTags {
   Altitude?: string
   /** ☆☆☆☆ ✔ Example: "Standard" */
   AmbienceSelection?: string
+  /** ☆☆☆☆ ✔ Example: "40 C" */
+  AmbientTemperature?: string
   /** ☆☆☆☆   Example: "95 F" */
   AmbientTemperatureFahrenheit?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -1810,8 +1793,6 @@ export interface MakerNotesTags {
   BlackPoint?: string
   /** ☆☆☆☆   Example: "n/a" */
   BleachBypassToning?: string
-  /** ★★☆☆ ✔ Example: 46 */
-  BlueBalance?: number
   /** ☆☆☆☆   Example: "5C" */
   BlueGain?: string
   /** ☆☆☆☆   Example: "Off; 0; 0; 0" */
@@ -1848,6 +1829,8 @@ export interface MakerNotesTags {
   BracketStep?: string
   /** ☆☆☆☆ ✔ Example: 12 */
   BracketValue?: number
+  /** ☆☆☆☆ ✔ Example: 9.25 */
+  Brightness?: number
   /** ☆☆☆☆   Example: "SU6-7" */
   BuildNumber?: string
   /** ★★☆☆ ✔ Example: 0 */
@@ -2004,6 +1987,8 @@ export interface MakerNotesTags {
   ColorMatrixB?: string
   /** ☆☆☆☆ ✔ Example: 4 */
   ColorMatrixNumber?: number
+  /** ★★☆☆ ✔ Example: "n/a" */
+  ColorMode?: string
   /** ☆☆☆☆ ✔ Example: "Min -5; Max 5; Yellow 0; Orange 0; Orange-red 0; Red 0; M…green 0" */
   ColorProfileSettings?: string
   /** ☆☆☆☆ ✔ Example: 8059 */
@@ -2224,7 +2209,7 @@ export interface MakerNotesTags {
   DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -2494,6 +2479,8 @@ export interface MakerNotesTags {
   FacesRecognized?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   Fade?: number
+  /** ☆☆☆☆ ✔ Example: "X3F" */
+  FileFormat?: string
   /** ☆☆☆☆ ✔ Example: 9984 */
   FileIndex?: number
   /** ☆☆☆☆ ✔ Example: "0100" */
@@ -2862,6 +2849,8 @@ export interface MakerNotesTags {
   HDRInfoVersion?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   HDRLevel?: string
+  /** ☆☆☆☆ ✔ Example: "On (Manual)" */
+  HDRSetting?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   HDRSmoothing?: string
   /** ☆☆☆☆   Example: 53248 */
@@ -3098,8 +3087,6 @@ export interface MakerNotesTags {
   LCDPanels?: string
   /** ☆☆☆☆ ✔ Example: "Masked" */
   LVShootingAreaDisplay?: string
-  /** ☆☆☆☆ ✔ Example: "UNICORN THEATRE FOR CHILDREN" */
-  Landmark?: string
   /** ☆☆☆☆ ✔ Example: "English" */
   Language?: string
   /** ☆☆☆☆   Example: 92 */
@@ -3502,7 +3489,7 @@ export interface MakerNotesTags {
   NEFBitDepth?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (Auto)" */
   NeutralDensityFilter?: string
@@ -3856,8 +3843,6 @@ export interface MakerNotesTags {
   RecordingFormat?: string
   /** ☆☆☆☆   Example: "Auto" */
   RecordingMode?: string
-  /** ★★☆☆ ✔ Example: 38.625 */
-  RedBalance?: number
   /** ☆☆☆☆ ✔ Example: "On" */
   RedEyeRemoval?: string
   /** ☆☆☆☆   Example: "8D" */
@@ -4182,8 +4167,10 @@ export interface MakerNotesTags {
   SoftFocusFilter?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   SoftSkinEffect?: string
-  /** ☆☆☆☆ ✔ Example: "2023:05:24 15:18:25" */
+  /** ☆☆☆☆ ✔ Example: "2024:06:12 18:00:20" */
   SonyDateTime?: ExifDateTime | string
+  /** ☆☆☆☆   Example:  */
+  SonyDateTime2?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "1/82" */
   SonyExposureTime?: string
   /** ☆☆☆☆ ✔ Example: 8.8 */
@@ -4590,8 +4577,6 @@ export interface XMPTags {
   BlueHue?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   BlueSaturation?: number
-  /** ☆☆☆☆ ✔ Example: 9.25 */
-  Brightness?: number
   /** ☆☆☆☆ ✔ Example: "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89" */
   BurstID?: string
   /** ☆☆☆☆ ✔ Example: 1 */
@@ -4778,11 +4763,11 @@ export interface XMPTags {
   GreenHue?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   GreenSaturation?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 53037 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 23317 bytes, use -b option to extract)" */
   HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: false */
   HasCrop?: boolean
-  /** ☆☆☆☆ ✔ Example: "D1C7077D72112BA2E3FD1FDA7BCC2F0C" */
+  /** ☆☆☆☆ ✔ Example: "F995C3239BC6E6FC1997814864CD2CA2" */
   HasExtendedXMP?: string
   /** ☆☆☆☆ ✔ Example: true */
   HasSettings?: boolean
@@ -4898,7 +4883,7 @@ export interface XMPTags {
   ModificationDate?: ExifDateTime | string
   /** ☆☆☆☆   Example: 1 */
   MotionPhoto?: number
-  /** ☆☆☆☆   Example: 2933040 */
+  /** ☆☆☆☆   Example: 717986 */
   MotionPhotoPresentationTimestampUs?: number
   /** ☆☆☆☆   Example: 1 */
   MotionPhotoVersion?: number
@@ -5136,17 +5121,12 @@ export interface XMPTags {
  * - an example value, JSON stringified.
  *
  * Autogenerated by "yarn mktags" by ExifTool 12.89 on Sat Jul 20 2024.
- * 2753 unique tags were found in 10122 photo and video files.
+ * 2754 unique tags were found in 10126 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
  */
 export interface Tags
-  extends APP12Tags,
-    APP14Tags,
-    APP1Tags,
-    APP4Tags,
-    APP5Tags,
-    APP6Tags,
+  extends APPTags,
     CompositeTags,
     EXIFTags,
     ExifToolTags,
