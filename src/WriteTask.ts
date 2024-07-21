@@ -161,29 +161,31 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     let unchanged = 0
 
     for (const line of splitLines(data)) {
-      const m_created = CreatedRE.exec(line)
+      const m_created = CreatedRE.exec(line)?.groups?.count
       if (m_created != null) {
-        created += toInt(m_created[1]) ?? 0
+        created += toInt(m_created) ?? 0
         continue
       }
 
       // careful! we need to apply UnchangedRE before UpdateRE, as both match
       // "updated"
 
-      const m_unchanged = UnchangedRE.exec(line)
+      const m_unchanged = UnchangedRE.exec(line)?.groups?.count
       if (m_unchanged != null) {
-        unchanged += toInt(m_unchanged[1]) ?? 0
+        unchanged += toInt(m_unchanged) ?? 0
         continue
       }
 
-      const m_updated = UpdatedRE.exec(line)
+      const m_updated = UpdatedRE.exec(line)?.groups?.count
       if (m_updated != null) {
-        updated += toInt(m_updated[1]) ?? 0
+        updated += toInt(m_updated) ?? 0
         continue
       }
 
       // if we get here, we didn't match any of the expected patterns.
-      this.warnings.push("Unexpected output from ExifTool: " + line)
+      this.warnings.push(
+        "Unexpected output from ExifTool: " + JSON.stringify(line)
+      )
     }
 
     const w = errorsAndWarnings(this).warnings ?? []
@@ -197,10 +199,11 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   }
 }
 
-// "0 files created" | "0 file created"
-// "1 image files created"
-const CreatedRE = /(\d{1,5})\D{1,6}\bcreated\b/i
+// "0 files created" | "0 file created" | "1 image files created"
+const CreatedRE = /(?<count>\d{1,5}) [\w ]{1,12}\bcreated$/i
 
-const UnchangedRE = /(\d{1,5})\D{1,6}\b(?:weren't updated|unchanged)\b/i
+const UnchangedRE =
+  /(?<count>\d{1,5}) [\w ]{1,12}\b(?:weren't updated|unchanged)$/i
 
-const UpdatedRE = /(\d{1,5})\D{1,6}\bupdated\b/i
+// "1 image files updated"
+const UpdatedRE = /(?<count>\d{1,5}) [\w ]{1,12}\bupdated$/i
