@@ -1,6 +1,7 @@
 import { join } from "path"
 import { ExifDateTime } from "./ExifDateTime"
-import { ExifTool } from "./ExifTool"
+import { DefaultExifToolOptions, ExifTool } from "./ExifTool"
+import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { IPTC_JPG, expect, randomChars, testDir, testImg } from "./_chai.spec"
 
 describe("ExifToolOptions", () => {
@@ -183,6 +184,35 @@ describe("ExifToolOptions", () => {
       await et.write(img, exp)
       const t = await et.read(img)
       expect(t).to.containSubset(exp)
+    }
+  })
+
+  describe("handleDeprecatedOptions", () => {
+    for (const imageHashType of [
+      undefined,
+      "MD5",
+      "SHA256",
+      "SHA512",
+      false,
+    ] as const) {
+      for (const opts of [
+        { includeImageDataMD5: true, expected: "MD5" },
+        { includeImageDataMD5: false, expected: false },
+        { includeImageDataMD5: undefined, expected: undefined },
+      ]) {
+        const args: Partial<
+          Pick<ExifToolOptions, "includeImageDataMD5" | "imageHashType">
+        > = { includeImageDataMD5: opts.includeImageDataMD5 }
+        if (imageHashType != null) args.imageHashType = imageHashType
+        const expected = imageHashType ?? opts.expected
+        it(`(${JSON.stringify(args)}) -> ${expected}`, () => {
+          expect(handleDeprecatedOptions(args).imageHashType).to.eql(expected)
+          const et = new ExifTool(args)
+          expect(et.options.imageHashType).to.eql(
+            expected ?? DefaultExifToolOptions.imageHashType
+          )
+        })
+      }
     }
   })
 })
