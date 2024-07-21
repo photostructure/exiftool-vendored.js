@@ -11,10 +11,12 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
-      - run: npm i -g yarn
+      - run: npm i -g yarn@1
       - run: yarn install
       - run: yarn lint
 
@@ -29,9 +31,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        lfs: true
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+    - run: npm i -g yarn@1
     - run: yarn install
     - run: yarn test
