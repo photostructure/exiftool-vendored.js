@@ -10,7 +10,6 @@
   },
   "scripts": {
     "u": "yarn npm-check-updates --upgrade --install always",
-    "ci": "yarn install --frozen-lockfile",
     "clean": "rimraf lib dist coverage .nyc_output",
     "precompile": "yarn clean",
     "compile": "tsc",
@@ -20,13 +19,13 @@
     "prelint": "yarn compile",
     "lint": "yarn eslint src --ext .ts",
     "prettier": "prettier --write src/*.ts src/**/*.ts",
-    "pretest": "yarn run-p lint compile",
+    "pretest": "yarn compile",
     "test": "mocha 'dist/*.spec.js'",
     "docs:1": "typedoc --options .typedoc.js",
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
     "docs:5": "yarn serve docs",
-    "docs": "yarn run-s docs:*"
+    "docs": "run-s docs:*"
   },
   "repository": {
     "type": "git",
