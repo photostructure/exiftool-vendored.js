@@ -10,7 +10,7 @@
   },
   "scripts": {
     "u": "yarn npm-check-updates --upgrade --install always",
-    "clean": "rimraf lib dist coverage .nyc_output",
+    "clean": "yarn rimraf lib dist coverage .nyc_output",
     "precompile": "yarn clean",
     "compile": "tsc",
     "compile:watch": "yarn precompile && tsc --watch",
