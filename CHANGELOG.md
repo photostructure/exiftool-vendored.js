@@ -25,9 +25,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v27.1.0
+### v28.0.0
 
 - 🌱/✨/🐞 ExifTool upgraded to [v12.89](https://exiftool.org/history.html#12.89). Notably, ExifTool on Windows is now using the "official" packaging. This should be equivalent to prior builds, as [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe) was already using Oliver Betz's perl launcher.
+
+- 💔 Prior versions included `APP1Tags`, `APP4Tags`, `APP5Tags`, `APP6Tags`, `APP12Tags`, and `APP14Tags`. Unfortunately, due to field name duplications, fields could hop between these interfaces between versions. These have all been collapsed into a single new `APPTags`.
 
 - ✨ Added support for [old Sony A7 UTC inference](https://github.com/photostructure/exiftool-vendored.js/issues/187). Thanks for the help, [Friso Smit](https://github.com/fwsmit)!
 
