@@ -6,7 +6,7 @@ Only the latest version of this library is supported.
 
 ## Reporting a Vulnerability
 
-If you find a vulnerability, *or even think you have*, please send an email to
+If you find a vulnerability, _or even think you have_, please send an email to
 the author. Each signed git release by `mceachen` contains a monitored email
 address.
 

@@ -43,18 +43,18 @@
 or
 
      npm install --save exiftool-vendored
-     
+
 ### Debug logging
 
 If anything doesn't work, the first thing to try is enabling the logger.
 
 You can provide a [Logger implementation](https://photostructure.github.io/batch-cluster.js/interfaces/Logger.html) via [`ExifToolOptions.logger`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#logger), or set the environment variable `NODE_DEBUG=exiftool-vendored`. [See the debuglog() documentation](https://nodejs.org/docs/latest/api/util.html#utildebuglogsection-callback) for more details.
-     
+
 ### Regarding use within Electron
 
 Due to how different every Electron application setup is, and how new versions
 frequently have breaking changes, **do not ask for help by opening a github
-issue on this project.** 
+issue on this project.**
 
 Please seek help via StackOverflow, the Electron discord, or other channels.
 
