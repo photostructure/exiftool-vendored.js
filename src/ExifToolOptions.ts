@@ -283,7 +283,9 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
 }
 
 export function handleDeprecatedOptions<
-  T extends Pick<ExifToolOptions, "includeImageDataMD5" | "imageHashType">,
+  T extends Partial<
+    Pick<ExifToolOptions, "includeImageDataMD5" | "imageHashType">
+  >,
 >(options: T): T {
   if (options.imageHashType == null && options.includeImageDataMD5 != null) {
     options.imageHashType = options.includeImageDataMD5 ? "MD5" : false
