@@ -326,13 +326,16 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 📦 EXIF and ISO dates without specified seconds or milliseconds are now allowed
 
+- 📦 Switched `package.json` scripts from `yarn` to `npm`, as yarn@1 doesn't
+  work with Node v22.5 and GitHub Actions.
+
 ### v20.0.0
 
 - 💔 `ExifTool.write` took a generic that defaulted to `WriteTags`, but the type wasn't used for anything. I removed the generic typing, which may require consumers to change their code.
 
 - 🌱 ExifTool upgraded to [v12.55](https://exiftool.org/history.html#v12.55)
 
-- 📦 `yarn prettier` now re-organizes imports
+- 📦 `npm run prettier` now re-organizes imports
 
 - 📦 Updated dependencies, re-ran prettier, rebuilt tags, rebuilt docs
 
