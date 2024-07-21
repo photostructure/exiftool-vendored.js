@@ -445,7 +445,12 @@ export function extractTzOffsetFromUTCOffset(
 
   // We can always assume these are in UTC:
   const utc = first(
-    ["GPSDateTime", "DateTimeUTC", "GPSDateTimeStamp", "SonyDateTime2"] as const,
+    [
+      "GPSDateTime",
+      "DateTimeUTC",
+      "GPSDateTimeStamp",
+      "SonyDateTime2",
+    ] as const,
     (tagName) => {
       const v = utcSources[tagName]
       const edt = v instanceof ExifDateTime ? v : ExifDateTime.fromExifStrict(v)
