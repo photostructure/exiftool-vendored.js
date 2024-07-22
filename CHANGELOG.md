@@ -37,6 +37,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 📦 Updated `ReadTask` and `WriteTask` constructors to be public as well as the `.parse()` methods as a workaround for [#190](https://github.com/photostructure/exiftool-vendored.js/issues/190)
 
+- 📦 Fought AND WON [a very obscure issue with Node v22.5.0](https://photostructure.com/coding/node-22-exit-handler-never-called/)
+
 ### v27.0.0
 
 - 💔 `ExifToolOptions.struct` is now `"undef" | 0 | 1 | 2`. See
