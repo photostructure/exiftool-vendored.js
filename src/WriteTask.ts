@@ -95,7 +95,7 @@ export interface WriteTaskResult {
 }
 
 export class WriteTask extends ExifToolTask<WriteTaskResult> {
-  private constructor(
+  constructor(
     readonly sourceFile: string,
     override readonly args: string[],
     override readonly options: ExifToolTaskOptions
@@ -152,8 +152,9 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     return "WriteTask(" + this.sourceFile + ")"
   }
 
-  // we're handling the stderr output ourselves, so we tell ExifToolTask that all stderr output is not ignorable so we can capture the warnings
-  protected parse(data: string, error?: Error): WriteTaskResult {
+  // we're handling the stderr output ourselves, so we tell ExifToolTask that
+  // all stderr output is not ignorable so we can capture the warnings
+  parse(data: string, error?: Error): WriteTaskResult {
     if (error != null) throw error
 
     let created = 0

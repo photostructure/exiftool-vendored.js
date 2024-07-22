@@ -83,7 +83,7 @@ export class ReadTask extends ExifToolTask<Tags> {
    * @param args the full arguments to pass to exiftool that take into account
    * the flags in `options`
    */
-  private constructor(
+  constructor(
     readonly sourceFile: string,
     override readonly args: string[],
     override options: Required<ReadTaskOptions>

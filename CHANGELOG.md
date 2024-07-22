@@ -35,6 +35,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ Added support for [Android Motion Photos](https://github.com/photostructure/exiftool-vendored.js/issues/189). Thanks for the help, [Lukas](https://github.com/lukashass)!
 
+- 📦 Updated `ReadTask` and `WriteTask` constructors to be public as well as the `.parse()` methods as a workaround for [#190](https://github.com/photostructure/exiftool-vendored.js/issues/190)
+
 ### v27.0.0
 
 - 💔 `ExifToolOptions.struct` is now `"undef" | 0 | 1 | 2`. See
