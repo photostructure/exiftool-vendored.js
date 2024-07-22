@@ -1,5 +1,7 @@
 import { IANAZone, Info } from "luxon"
+import { expect } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
+import { Tags } from "./Tags"
 import {
   UnsetZone,
   UnsetZoneOffsetMinutes,
@@ -10,7 +12,6 @@ import {
   offsetMinutesToZoneName,
   validTzOffsetMinutes,
 } from "./Timezones"
-import { expect } from "./_chai.spec"
 
 describe("Timezones", () => {
   describe("UnsetZone", () => {
@@ -160,39 +161,6 @@ describe("Timezones", () => {
   })
 
   describe("extractTzOffsetFromUTCOffset", () => {
-    it("with DateTimeUTC and created-at CreateDate", () => {
-      expect(
-        extractTzOffsetFromUTCOffset({
-          CreateDate: "2014:07:19 12:05:19",
-          DateTimeUTC: "2014:07:19 19:05:19",
-        })
-      ).to.eql({
-        tz: "UTC-7",
-        src: "offset between CreateDate and DateTimeUTC",
-      })
-    })
-    it("with lagging DateTimeUTC and CreateDate in positive whole-number offset", () => {
-      expect(
-        extractTzOffsetFromUTCOffset({
-          CreateDate: "2016:07:18 09:54:03",
-          DateTimeUTC: "2016:07:18 07:41:01Z",
-        })
-      ).to.eql({
-        tz: "UTC+2",
-        src: "offset between CreateDate and DateTimeUTC",
-      })
-    })
-    it("with lagging DateTimeUTC and SubSecCreateDate in positive half-hour offset", () => {
-      expect(
-        extractTzOffsetFromUTCOffset({
-          SubSecCreateDate: "2016:07:18 09:54:03",
-          DateTimeUTC: "2016:07:18 04:16:01",
-        })
-      ).to.eql({
-        tz: "UTC+5:30",
-        src: "offset between SubSecCreateDate and DateTimeUTC",
-      })
-    })
     it("with lagging GPSDateStamp & GPSTimeStamp and DateTimeOriginal in negative offset", () => {
       expect(
         extractTzOffsetFromUTCOffset({
@@ -205,13 +173,53 @@ describe("Timezones", () => {
         src: "offset between DateTimeOriginal and GPSDateTimeStamp",
       })
     })
-    it("with DateTimeUTC and very different created-at DateTime", () => {
-      expect(
-        extractTzOffsetFromUTCOffset({
+    for (const tagname of [
+      "DateTimeUTC",
+      "GPSDateTime",
+      "SonyDateTime2",
+    ] as const) {
+      it(`with ${tagname} and created-at CreateDate with 7 hour offset`, () => {
+        const obj: Tags = {
           CreateDate: "2014:07:19 12:05:19",
-          DateTimeUTC: "2015:07:19 19:05:19",
+        }
+        obj[tagname] = "2014:07:19 19:05:19"
+
+        expect(extractTzOffsetFromUTCOffset(obj)).to.eql({
+          tz: "UTC-7",
+          src: "offset between CreateDate and " + tagname,
         })
-      ).to.eql(undefined)
-    })
+      })
+      it(`with lagging ${tagname} and CreateDate in positive whole-number offset`, () => {
+        const obj: Tags = {
+          CreateDate: "2016:07:18 09:54:03",
+        }
+        obj[tagname] = "2016:07:18 07:41:01Z"
+
+        expect(extractTzOffsetFromUTCOffset(obj)).to.eql({
+          tz: "UTC+2",
+          src: "offset between CreateDate and " + tagname,
+        })
+      })
+      it(`with lagging ${tagname} and SubSecCreateDate in positive half-hour offset`, () => {
+        const obj: Tags = {
+          SubSecCreateDate: "2016:07:18 09:54:03",
+        }
+        obj[tagname] = "2016:07:18 04:16:01"
+
+        expect(extractTzOffsetFromUTCOffset(obj)).to.eql({
+          tz: "UTC+5:30",
+          src: "offset between SubSecCreateDate and " + tagname,
+        })
+      })
+
+      it(`with DateTimeUTC and very different created-at DateTime`, () => {
+        const obj: Tags = {
+          CreateDate: "2014:07:19 12:05:19",
+        }
+        obj[tagname] = "2015:07:19 19:05:19"
+
+        expect(extractTzOffsetFromUTCOffset(obj)).to.eql(undefined)
+      })
+    }
   })
 })
