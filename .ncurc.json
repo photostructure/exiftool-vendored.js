@@ -8,6 +8,6 @@
     "eslint",
     "eslint-why: they broke their own config format and now plugins seem to all be broken",
     "rimraf",
-    "rimraf-why: 6.0 dropped node 18? WTF? 18 doesn't EOL until 2025-04-30!"
+    "rimraf-why: https://github.com/isaacs/rimraf/issues/310"
   ]
 }
