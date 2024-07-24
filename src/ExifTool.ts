@@ -17,6 +17,7 @@ import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
 import { exiftoolPath } from "./ExiftoolPath"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
+import { ImageDataHashTag } from "./ImageDataHashTag"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
 import {
@@ -122,6 +123,7 @@ export type {
   ICCProfileTags,
   IPTCApplicationRecordTags,
   IPTCTags,
+  ImageDataHashTag,
   JFIFTags,
   Json,
   KeywordInfoStruct,

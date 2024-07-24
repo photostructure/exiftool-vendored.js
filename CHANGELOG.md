@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.1.0
+
+- 📦 Add tests for [#187](https://github.com/photostructure/exiftool-vendored.js/issues/187)
+
+- 📦 Export `ImageDataHashTag` interface
+
 ### v28.0.0
 
 - 🌱/✨/🐞 ExifTool upgraded to [v12.89](https://exiftool.org/history.html#12.89). Notably, ExifTool on Windows is now using the "official" packaging. This should be equivalent to prior builds, as [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe) was already using Oliver Betz's perl launcher.
