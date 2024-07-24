@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.2.0
+
+- 🌱/✨/🐞 ExifTool upgraded to [v12.91](https://exiftool.org/history.html#12.89). Notably, the shebang line has changed from `/usr/bin/perl` to `/usr/bin/env perl`. The [exiftool-vendored.pl package](https://github.com/photostructure/exiftool-vendored.pl/blob/9606de60669da56908c472b8b964f7fd17784df8/update.sh#L24) works around [the new -w error](https://exiftool.org/forum/index.php?topic=16271.0).
+
 ### v28.1.0
 
 - 📦 Add tests for [#187](https://github.com/photostructure/exiftool-vendored.js/issues/187)
