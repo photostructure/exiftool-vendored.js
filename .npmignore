@@ -5,14 +5,18 @@
 *.json
 *.yml
 *.log
+yarn.lock
+package-lock.json
 
 # no testing artifacts
 *spec*
 *test*
 
+# internal use only:
+dist/update/
+benchmark/
+snyk-linux
+
 # no directories except for dist
 */
 !dist/
-
-# this directory is for internal use only:
-dist/update/
