@@ -37,6 +37,7 @@ describe("ExifTool", function () {
   const img3 = _path.join(__dirname, "..", "test", "with_thumb.jpg")
   const nonEnglishImg = _path.join(__dirname, "..", "test", "中文.jpg")
 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const packageJson = require("../package.json")
 
   function expectedExiftoolVersion(flavor: "exe" | "pl" = "pl"): string {

@@ -19,6 +19,7 @@ import { pick } from "./Pick"
 import { ReadTask, ReadTaskOptions } from "./ReadTask"
 import { Tags } from "./Tags"
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const gt = require("geo-tz")
 
 function parse(

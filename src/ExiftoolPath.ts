@@ -15,6 +15,7 @@ function tryRequire({
 }: { prefix?: string; logger?: Maybe<Logger> } = {}): Maybe<string> {
   const id = prefix + vendorPackage()
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     return require(id)
   } catch (error) {
     logger?.warn(id + "not found: ", error)

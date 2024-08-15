@@ -1,5 +1,6 @@
 /* eslint-disable regexp/optimal-quantifier-concatenation */
 /* eslint-disable regexp/no-dupe-disjunctions */
+/* eslint-disable @typescript-eslint/no-require-imports */
 require("source-map-support").install()
 
 import { BatchCluster, Log, logger, setLogger } from "batch-cluster"

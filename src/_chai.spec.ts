@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { Deferred, Log, setLogger } from "batch-cluster"
 import chai, { expect } from "chai"
 import eql from "deep-eql"
