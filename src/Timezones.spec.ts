@@ -161,6 +161,17 @@ describe("Timezones", () => {
   })
 
   describe("extractTzOffsetFromUTCOffset", () => {
+    it("with DateTimeUTC offset by 4 hours and lagging by one second from DateTimeOriginal", () => {
+      expect(
+        extractTzOffsetFromUTCOffset({
+          DateTimeOriginal: "2024:09:14 12:00:00",
+          DateTimeUTC: "2024:09:14 16:00:01",
+        })
+      ).to.eql({
+        tz: "UTC-4",
+        src: "offset between DateTimeOriginal and DateTimeUTC",
+      })
+    })
     it("with lagging GPSDateStamp & GPSTimeStamp and DateTimeOriginal in negative offset", () => {
       expect(
         extractTzOffsetFromUTCOffset({

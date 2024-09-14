@@ -409,11 +409,20 @@ export function extractTzOffsetFromDatestamps(
 // old, this can be spurious. We get less mistakes with a larger multiple, so
 // we're using 30 minutes instead of 15. See
 // https://www.timeanddate.com/time/time-zones-interesting.html
-
-const TzBoundaryMinutes = 30
+const LikelyOffsetMinutes = ValidTimezoneOffsets
+    .filter((offset) => offset.endsWith(":00") || offset.endsWith(":30"))
+    .map(offsetToMinutes)
 
 export function inferLikelyOffsetMinutes(deltaMinutes: number): number {
-  return TzBoundaryMinutes * Math.floor(deltaMinutes / TzBoundaryMinutes)
+  // More then a day away? nothing is likely
+  if (Math.abs(deltaMinutes) > (24 * 60)) return deltaMinutes
+
+  return LikelyOffsetMinutes
+    .reduce((prev, curr) =>
+      Math.abs(curr - deltaMinutes) < Math.abs(prev - deltaMinutes)
+      ? curr
+      : prev
+    )
 }
 
 /**
