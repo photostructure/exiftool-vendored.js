@@ -31,9 +31,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ Add support for timezone offset extraction from `TimeStamp`. Note that this is disabled by default to retain prior behavior (and due to me being chicken that this might break other random cameras). Addresses [#209](https://github.com/photostructure/exiftool-vendored.js/issues/209)
 
-- ✨ @bugfest improved write typings around `Struct`s. See [#212](https://github.com/photostructure/exiftool-vendored.js/pull/212)
+- ✨ [@bugfest](https://github.com/bugfest) improved write typings around `Struct`s. Thanks! See [#212](https://github.com/photostructure/exiftool-vendored.js/pull/212)
 
-- 🐞 [@noahmorrison] found and fixed an issue with `inferLikelyOffsetMinutes`. Thanks for the assist! See [#208](https://github.com/photostructure/exiftool-vendored.js/pull/208) for details.
+- 🐞 [@noahmorrison](https://github.com/noahmorrison) found and fixed an issue with `inferLikelyOffsetMinutes`. Thanks for the assist! See [#208](https://github.com/photostructure/exiftool-vendored.js/pull/208) for details.
 
 - 📦/💔 Possible breaking change: several archane timezone offsets were removed from the `ValidTimezoneOffsets` array, to better address [#208](https://github.com/photostructure/exiftool-vendored.js/pull/208).
 
