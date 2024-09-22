@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.3.0
+
+- ✨ Add support for timezone offset extraction from `TimeStamp`. Note that this is disabled by default to retain prior behavior (and due to me being chicken that this might break other random cameras). Addresses [#209](https://github.com/photostructure/exiftool-vendored.js/issues/209)
+
+- ✨ @bugfest improved write typings around `Struct`s. See [#212](https://github.com/photostructure/exiftool-vendored.js/pull/212)
+
 ### v28.2.1
 
 - 📦 Add `snyk-linux` to npmignore to fix [#200](https://github.com/photostructure/exiftool-vendored.js/issues/200)
