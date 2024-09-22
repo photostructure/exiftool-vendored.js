@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { Deferred, Log, setLogger } from "batch-cluster"
-import chai, { expect } from "chai"
+import { expect, use } from "chai"
 import eql from "deep-eql"
 import { createHash, randomBytes } from "node:crypto"
 import { createReadStream } from "node:fs"
@@ -18,7 +18,7 @@ import { pick } from "./Pick"
 import { isString } from "./String"
 import { Tags } from "./Tags"
 
-chai.use(require("chai-as-promised"))
+use(require("chai-as-promised"))
 
 export function mkdirp(dir: string) {
   return mkdir(dir, { recursive: true })
@@ -149,8 +149,8 @@ declare global {
   }
 }
 
-chai.use(function (_chai, utils) {
-  const Assertion = _chai.Assertion
+use(function (chai, utils) {
+  const Assertion = chai.Assertion
 
   utils.addChainableMethod(
     Assertion.prototype,
