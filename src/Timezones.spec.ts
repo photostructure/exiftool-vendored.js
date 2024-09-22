@@ -48,6 +48,7 @@ describe("Timezones", () => {
         })
       }
     })
+
     describe("accepts valid inputs", () => {
       const ts = new Date("2023-01-01T01:00:00").getTime()
       for (const ea of [
@@ -128,6 +129,7 @@ describe("Timezones", () => {
   describe("extractTzOffsetFromTags", () => {
     describe("with TimeZone", () => {
       for (const { tzo, exp } of [
+        { tzo: "+00:00", exp: "UTC" },
         { tzo: "-9", exp: "UTC-9" },
         { tzo: "-09:00", exp: "UTC-9" },
         { tzo: "+5:30", exp: "UTC+5:30" },

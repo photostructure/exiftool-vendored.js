@@ -162,6 +162,11 @@ export function normalizeZone(
     if (input instanceof Zone) {
       return isZoneValid(input) ? input : undefined
     }
+
+    // This test and short-circuit may not be necessary, but it's cheap and
+    // explicit:
+    if (isUTC(input)) return FixedOffsetZone.utcInstance
+
     let z = input
     if (typeof z === "string") {
       z = z.replace(/^(?:Zulu|Z|GMT)(?:\b|$)/, "UTC")
