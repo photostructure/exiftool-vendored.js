@@ -27,6 +27,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v28.3.0
 
+- 🌱 ExifTool upgraded to [v12.96](https://exiftool.org/history.html#12.96)
+
 - ✨ Add support for timezone offset extraction from `TimeStamp`. Note that this is disabled by default to retain prior behavior (and due to me being chicken that this might break other random cameras). Addresses [#209](https://github.com/photostructure/exiftool-vendored.js/issues/209)
 
 - ✨ @bugfest improved write typings around `Struct`s. See [#212](https://github.com/photostructure/exiftool-vendored.js/pull/212)
@@ -37,7 +39,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v28.2.0
 
-- 🌱/✨/🐞 ExifTool upgraded to [v12.91](https://exiftool.org/history.html#12.89). Notably, the shebang line has changed from `/usr/bin/perl` to `/usr/bin/env perl`. The [exiftool-vendored.pl package](https://github.com/photostructure/exiftool-vendored.pl/blob/9606de60669da56908c472b8b964f7fd17784df8/update.sh#L24) works around [a new error from this shebang line](https://exiftool.org/forum/index.php?topic=16271.0).
+- 🌱/✨/🐞 ExifTool upgraded to [v12.91](https://exiftool.org/history.html#12.91). Notably, the shebang line has changed from `/usr/bin/perl` to `/usr/bin/env perl`. The [exiftool-vendored.pl package](https://github.com/photostructure/exiftool-vendored.pl/blob/9606de60669da56908c472b8b964f7fd17784df8/update.sh#L24) works around [a new error from this shebang line](https://exiftool.org/forum/index.php?topic=16271.0).
 
 ### v28.1.0
 
