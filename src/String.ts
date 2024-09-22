@@ -9,7 +9,7 @@ export function isString(o: any): o is string {
 const spaces = times(10, (i) => times(i, () => " ").join(""))
 const zeroes = times(10, (i) => times(i, () => "0").join(""))
 
-export function blank(s: Maybe<string>): s is undefined {
+export function blank(s: Maybe<any>): s is undefined {
   return s == null || String(s).trim().length === 0
 }
 
