@@ -62,6 +62,7 @@ export const DefaultExifToolOptions: Omit<
   includeImageDataMD5: undefined,
   inferTimezoneFromDatestamps: false, // to retain prior behavior
   inferTimezoneFromDatestampTags: [...CapturedAtTagNames],
+  inferTimezoneFromTimeStamp: false, // to retain prior behavior
   logger,
   numericTags: [
     "*Duration*",

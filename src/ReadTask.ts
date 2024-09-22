@@ -20,6 +20,7 @@ import { Tags } from "./Tags"
 import {
   extractTzOffsetFromDatestamps,
   extractTzOffsetFromTags,
+  extractTzOffsetFromTimeStamp,
   extractTzOffsetFromUTCOffset,
   normalizeZone,
 } from "./Timezones"
@@ -47,6 +48,7 @@ export const ReadTaskOptionFields = [
   "includeImageDataMD5",
   "inferTimezoneFromDatestamps",
   "inferTimezoneFromDatestampTags",
+  "inferTimezoneFromTimeStamp",
   "numericTags",
   "useMWG",
   "struct",
@@ -324,7 +326,9 @@ export class ReadTask extends ExifToolTask<Tags> {
         : // not applicable:
           undefined) ??
       // This is a last-ditch estimation heuristic:
-      extractTzOffsetFromUTCOffset(this.#rawDegrouped)
+      extractTzOffsetFromUTCOffset(this.#rawDegrouped) ??
+      // No, really, this is the even worse than UTC offset heuristics:
+      extractTzOffsetFromTimeStamp(this.#rawDegrouped, this.options)
 
     if (result != null) {
       this.#tz = result.tz

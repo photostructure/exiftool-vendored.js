@@ -181,6 +181,20 @@ export interface ExifToolOptions
   inferTimezoneFromDatestampTags: (keyof Tags)[]
 
   /**
+   * Some cameras (Samsung Galaxy S7, for example) may not always include GPS
+   * metadata in photos if a fix can't be obtained. If this option is true, and
+   * GPS metadata is missing, we'll try to infer the timezone from the
+   * difference of the TimeStamp tag and the first defined tag value from
+   * {@link inferTimezoneFromDatestampTags}.
+   *
+   * This heuristic is pretty sketchy, and used as a last resort. You shouldn't
+   * enable it unless you have to.
+   *
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/209
+   */
+  inferTimezoneFromTimeStamp: boolean
+
+  /**
    * Some software uses a GPS position of (0,0) as a synonym for "unset". If
    * this option is true, and GPSLatitude and GPSLongitude are both 0, then
    * those values will be returned, but the TZ will not be inferred from that

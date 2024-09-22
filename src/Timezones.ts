@@ -410,6 +410,36 @@ export function extractTzOffsetFromDatestamps(
   return
 }
 
+export function extractTzOffsetFromTimeStamp(
+  t: Tags,
+  opts: Partial<
+    Pick<
+      ExifToolOptions,
+      "inferTimezoneFromTimeStamp" | "inferTimezoneFromDatestampTags"
+    >
+  >
+): Maybe<TzSrc> {
+  if (opts?.inferTimezoneFromTimeStamp !== true) return
+  const ts = ExifDateTime.from(t.TimeStamp)
+  if (ts == null) return
+  for (const tagName of opts.inferTimezoneFromDatestampTags ?? []) {
+    const ea = ExifDateTime.from(t[tagName] as any)
+    if (ea == null) continue
+    if (ea.zone != null) {
+      return { tz: ea.zone, src: tagName }
+    }
+    const deltaMinutes = Math.floor(
+      (ea.toEpochSeconds("UTC") - ts.toEpochSeconds()) / 60
+    )
+    const likelyOffsetZone = inferLikelyOffsetMinutes(deltaMinutes)
+    const tz = offsetMinutesToZoneName(likelyOffsetZone)
+    if (tz != null) {
+      return { tz, src: "offset between " + tagName + " and TimeStamp" }
+    }
+  }
+  return
+}
+
 // timezone offsets may be on a 15 minute boundary, but if GPS acquisition is
 // old, this can be spurious. We get less mistakes with a larger multiple, so
 // we're using 30 minutes instead of 15. See

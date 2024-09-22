@@ -18,6 +18,7 @@ import { omit } from "./Object"
 import { pick } from "./Pick"
 import { ReadTask, ReadTaskOptions } from "./ReadTask"
 import { Tags } from "./Tags"
+import { isUTC } from "./Timezones"
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const gt = require("geo-tz")
@@ -279,8 +280,36 @@ describe("ReadTask", () => {
       })
       expect(t.DateTimeOriginal).to.containSubset({
         tzoffsetMinutes: 0,
-        zone: "UTC",
         inferredZone: true,
+      })
+      expect(isUTC(ExifDateTime.from(t.DateTimeOriginal)?.zone)).to.eql(true)
+    })
+
+    describe("inferTimezoneFromTimeStamp (see #209)", () => {
+      it("disabled", () => {
+        const t = parse({
+          tags: {
+            DateTimeOriginal: "2016:10:17 09:40:43",
+            CreateDate: "2016:10:17 09:40:43",
+            TimeStamp: "2016:10:17 07:40:43.891-07:00",
+          },
+          inferTimezoneFromTimeStamp: false,
+        })
+        expect(t.tz).to.eql(undefined)
+      })
+      it("enabled", () => {
+        const t = parse({
+          tags: {
+            DateTimeOriginal: "2016:10:17 09:40:43",
+            CreateDate: "2016:10:17 09:40:43",
+            TimeStamp: "2016:10:17 07:40:43.891-07:00",
+          },
+          inferTimezoneFromTimeStamp: true,
+        })
+        expect(t).to.containSubset({
+          tz: "UTC-5",
+          tzSource: "offset between DateTimeOriginal and TimeStamp",
+        })
       })
     })
 
