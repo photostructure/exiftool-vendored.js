@@ -269,6 +269,21 @@ describe("ReadTask", () => {
       })
     })
 
+    it("respects zero HH:MM OffsetTime (see #203)", () => {
+      // this is not UTC, but it is used for "Atlantic/Reykjavik" and other zones
+      const t = parse({
+        tags: {
+          OffsetTime: "+00:00",
+          DateTimeOriginal: "2016:08:12 13:28:50",
+        },
+      })
+      expect(t.DateTimeOriginal).to.containSubset({
+        tzoffsetMinutes: 0,
+        zone: "UTC",
+        inferredZone: true,
+      })
+    })
+
     it("finds positive array TimeZoneOffset and sets accordingly", () => {
       const t = parse({
         tags: {
