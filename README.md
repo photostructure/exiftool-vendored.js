@@ -38,10 +38,6 @@
 
 ## Installation
 
-     yarn add exiftool-vendored
-
-or
-
      npm install --save exiftool-vendored
 
 ### Debug logging

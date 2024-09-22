@@ -34,7 +34,7 @@
   },
   "release-it": {
     "hooks": {
-      "before:init": "yarn lint"
+      "before:init": "npm run lint"
     },
     "src": {
       "tagName": "v%s",
