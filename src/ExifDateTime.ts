@@ -28,15 +28,16 @@ import {
  */
 export class ExifDateTime {
   static from(
-    exifOrIso: string,
+    exifOrIso: Maybe<string | ExifDateTime>,
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
-    return (
-      // in order of strictness:
-      this.fromExifStrict(exifOrIso, defaultZone) ??
-      this.fromISO(exifOrIso, defaultZone) ??
-      this.fromExifLoose(exifOrIso, defaultZone)
-    )
+    return exifOrIso instanceof ExifDateTime
+      ? exifOrIso // already an ExifDateTime
+      : blank(exifOrIso)
+        ? undefined // in order of strictness:
+        : (this.fromExifStrict(exifOrIso, defaultZone) ??
+          this.fromISO(exifOrIso, defaultZone) ??
+          this.fromExifLoose(exifOrIso, defaultZone))
   }
 
   static fromISO(
@@ -262,7 +263,7 @@ export class ExifDateTime {
    * CAUTION: This instance will inherit the system timezone if this instance
    * has an unset zone (as Luxon doesn't support "unset" timezones)
    */
-  toDateTime(): DateTime {
+  toDateTime(overrideZone?: Maybe<string>): DateTime {
     return (this.#dt ??= DateTime.fromObject(
       {
         year: this.year,
@@ -274,13 +275,13 @@ export class ExifDateTime {
         millisecond: this.millisecond,
       },
       {
-        zone: this.zone,
+        zone: overrideZone ?? this.zone,
       }
     ))
   }
 
-  toEpochSeconds() {
-    return this.toDateTime().toUnixInteger()
+  toEpochSeconds(overrideZone?: Maybe<string>) {
+    return this.toDateTime(overrideZone).toUnixInteger()
   }
 
   toDate(): Date {
