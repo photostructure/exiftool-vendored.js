@@ -836,5 +836,32 @@ describe("WriteTask", function () {
       // const missing = Object.keys(before).filter((k) => !(k in after))
       // console.log({ missing })
     })
+
+    it("supports creating arrays in structs", async () => {
+      const f = await testImg()
+      const regionData = {
+        RegionInfo: {
+          AppliedToDimensions: { W: 10, H: 10, Unit: "pixel" },
+          RegionList: [
+            {
+              Area: { X: 0.5, Y: 0.5, W: 0.1, H: 0.1, Unit: "normalized" },
+              Rotation: 0,
+              Type: "Face",
+              Name: "randomName1",
+            },
+            {
+              Area: { X: 0.5, Y: 0.5, W: 0.1, H: 0.1, Unit: "normalized" },
+              Rotation: 0,
+              Type: "Face",
+              Name: "randomName2",
+            },
+          ],
+        },
+      }
+
+      await exiftool.write(f, regionData)
+      const after = await exiftool.read(f)
+      expect(after).to.containSubset(regionData)
+    })
   })
 })
