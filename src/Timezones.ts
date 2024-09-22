@@ -1,4 +1,5 @@
 import { FixedOffsetZone, Info, Zone } from "luxon"
+import { leastBy } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { ExifDate } from "./ExifDate"
@@ -38,7 +39,6 @@ const ValidTimezoneOffsets = [
   // "-00:25:21", // Ireland 1880-1916 https://en.wikipedia.org/wiki/UTC%E2%88%9200:25:21
   "+00:00",
   // "+00:20", // used by Netherlands until 1940
-
   // "+00:30", // used by Switzerland until 1936
   "+01:00",
   // "+01:24", // used by Warsaw until 1915
@@ -53,7 +53,7 @@ const ValidTimezoneOffsets = [
   "+05:00",
   "+05:30",
   // "+05:40", // used by Nepal until 1920
-  "+05:45",
+  "+05:45", // Nepal
   "+06:00",
   "+06:30",
   "+07:00",
@@ -409,20 +409,14 @@ export function extractTzOffsetFromDatestamps(
 // old, this can be spurious. We get less mistakes with a larger multiple, so
 // we're using 30 minutes instead of 15. See
 // https://www.timeanddate.com/time/time-zones-interesting.html
-const LikelyOffsetMinutes = ValidTimezoneOffsets
-    .filter((offset) => offset.endsWith(":00") || offset.endsWith(":30"))
-    .map(offsetToMinutes)
+const LikelyOffsetMinutes = ValidTimezoneOffsets.map(offsetToMinutes)
 
-export function inferLikelyOffsetMinutes(deltaMinutes: number): number {
-  // More then a day away? nothing is likely
-  if (Math.abs(deltaMinutes) > (24 * 60)) return deltaMinutes
-
-  return LikelyOffsetMinutes
-    .reduce((prev, curr) =>
-      Math.abs(curr - deltaMinutes) < Math.abs(prev - deltaMinutes)
-      ? curr
-      : prev
-    )
+export function inferLikelyOffsetMinutes(deltaMinutes: number): Maybe<number> {
+  const nearest = leastBy(LikelyOffsetMinutes, (ea) =>
+    Math.abs(ea - deltaMinutes)
+  )!
+  // Reject timezone offsets more than 30 minutes away from the nearest:
+  return Math.abs(nearest - deltaMinutes) < 30 ? nearest : undefined
 }
 
 /**

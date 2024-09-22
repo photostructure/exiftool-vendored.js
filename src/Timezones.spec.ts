@@ -161,6 +161,17 @@ describe("Timezones", () => {
   })
 
   describe("extractTzOffsetFromUTCOffset", () => {
+    it("with DateTimeUTC offset by 4 hours and preceding by one second from DateTimeOriginal", () => {
+      expect(
+        extractTzOffsetFromUTCOffset({
+          DateTimeOriginal: "2024:09:14 12:00:00",
+          DateTimeUTC: "2024:09:14 15:59:00", // from a prior GPS fix?
+        })
+      ).to.eql({
+        tz: "UTC-4",
+        src: "offset between DateTimeOriginal and DateTimeUTC",
+      })
+    })
     it("with DateTimeUTC offset by 4 hours and lagging by one second from DateTimeOriginal", () => {
       expect(
         extractTzOffsetFromUTCOffset({
@@ -211,14 +222,14 @@ describe("Timezones", () => {
           src: "offset between CreateDate and " + tagname,
         })
       })
-      it(`with lagging ${tagname} and SubSecCreateDate in positive half-hour offset`, () => {
+      it(`with lagging ${tagname} and SubSecCreateDate in positive :20 offset`, () => {
         const obj: Tags = {
           SubSecCreateDate: "2016:07:18 09:54:03",
         }
         obj[tagname] = "2016:07:18 04:16:01"
 
         expect(extractTzOffsetFromUTCOffset(obj)).to.eql({
-          tz: "UTC+5:30",
+          tz: "UTC+5:45",
           src: "offset between SubSecCreateDate and " + tagname,
         })
       })
