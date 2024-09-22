@@ -12,65 +12,65 @@ import { pick } from "./Pick"
 import { blank, pad2 } from "./String"
 import { Tags } from "./Tags"
 
-// Unique values from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+// Unique values from
+// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones, excluding those
+// that have not been used for at least 50 years.
 const ValidTimezoneOffsets = [
-  "-12:00",
+  // "-12:00", // not used for any populated land
   "-11:00",
-  "-10:30",
+  // "-10:30", // used by Hawaii 1896-1947
   "-10:00",
   "-09:30",
   "-09:00",
   "-08:30",
   "-08:00",
-  "-07:30",
   "-07:00",
   "-06:00",
   "-05:00",
-  "-04:30",
+  "-04:30", // used by Venezuela 1912-1965 and 2007-2016
   "-04:00",
   "-03:30",
   "-03:00",
   "-02:30",
   "-02:00",
   "-01:00",
-  "-00:44",
-  "-00:25:21", // LOL https://en.wikipedia.org/wiki/UTC%E2%88%9200:25:21
+  // "-00:44", // used by Liberia until 1972
+  // "-00:25:21", // Ireland 1880-1916 https://en.wikipedia.org/wiki/UTC%E2%88%9200:25:21
   "+00:00",
-  "+00:20",
-  "+00:30",
+  // "+00:20", // used by Netherlands until 1940
+
+  // "+00:30", // used by Switzerland until 1936
   "+01:00",
-  "+01:24",
-  "+01:30",
+  // "+01:24", // used by Warsaw until 1915
+  // "+01:30", // used by some southern African countries until 1903
   "+02:00",
-  "+02:30",
+  // "+02:30", // archaic Moscow time
   "+03:00",
   "+03:30",
   "+04:00",
   "+04:30",
-  "+04:51", // LOL https://en.wikipedia.org/wiki/UTC%2B04:51
+  // "+04:51", // used by Bombay until 1955 https://en.wikipedia.org/wiki/UTC%2B04:51
   "+05:00",
   "+05:30",
-  "+05:40",
+  // "+05:40", // used by Nepal until 1920
   "+05:45",
   "+06:00",
   "+06:30",
   "+07:00",
-  "+07:20",
-  "+07:30",
+  // "+07:20", // used by Singapore and Malaya until 1941
+  "+07:30", // used by Mayasia until 1982
   "+08:00",
-  "+08:30",
-  "+08:45",
+  "+08:30", // used by North Korea until 2018
+  "+08:45", // used by Western Australia, but not in tz database
   "+09:00",
   "+09:30",
-  "+09:45",
+  "+09:45", // used by Western Australia, but not in tz database
   "+10:00",
   "+10:30",
   "+11:00",
-  "+11:30",
   "+12:00",
-  "+12:45",
-  "+13:00",
-  "+13:45",
+  "+12:45", // New Zealand islands
+  "+13:45", // New Zealand islands
   "+14:00",
 ] as const
 
