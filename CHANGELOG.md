@@ -33,6 +33,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ @bugfest improved write typings around `Struct`s. See [#212](https://github.com/photostructure/exiftool-vendored.js/pull/212)
 
+- 🐞 [@noahmorrison] found and fixed an issue with `inferLikelyOffsetMinutes`. Thanks for the assist! See [#208](https://github.com/photostructure/exiftool-vendored.js/pull/208) for details.
+
+- 📦/💔 Possible breaking change: several archane timezone offsets were removed from the `ValidTimezoneOffsets` array, to better address [#208](https://github.com/photostructure/exiftool-vendored.js/pull/208).
+
 ### v28.2.1
 
 - 📦 Add `snyk-linux` to npmignore to fix [#200](https://github.com/photostructure/exiftool-vendored.js/issues/200)
