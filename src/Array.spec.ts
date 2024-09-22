@@ -1,4 +1,11 @@
-import { compact, filterInPlace, shallowArrayEql, sortBy, uniq } from "./Array"
+import {
+  compact,
+  filterInPlace,
+  leastBy,
+  shallowArrayEql,
+  sortBy,
+  uniq,
+} from "./Array"
 import { times } from "./Times"
 import { expect } from "./_chai.spec"
 
@@ -81,6 +88,62 @@ describe("Array", () => {
     it("sorts case as expected", () => {
       const result = sortBy(["a", "b", "Aa", "Bb", "aa", "bb"], (ea) => ea)
       expect(result).to.eql(["a", "aa", "Aa", "b", "bb", "Bb"])
+    })
+  })
+
+  describe("leastBy", () => {
+    it("should return undefined when the array is empty", () => {
+      const emptyArray: number[] = []
+      const result = leastBy(emptyArray, (n) => n)
+      expect(result).to.eql(undefined)
+    })
+
+    it("should handle all null/undefined values", () => {
+      const allNull = [null, undefined, null, undefined]
+      const result = leastBy(allNull, (n) => n as any)
+      expect(result).to.eql(undefined)
+    })
+
+    it("should handle arrays with undefined values", () => {
+      const mixedArray = [3, undefined, 1, 4, null, 2]
+      const result = leastBy(mixedArray, (n) => n as any)
+      expect(result).to.equal(1)
+    })
+
+    it("should return the element with the least value when all elements are valid", () => {
+      const numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+      const result = leastBy(numbers, (n) => n)
+      expect(result).to.equal(1)
+    })
+
+    it("should return the nearest element", () => {
+      const numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+      const result = leastBy(numbers, (n) => Math.abs(n - 7))
+      expect(result).to.equal(6)
+    })
+
+    it("should return the first occurrence of the least value", () => {
+      const numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+      const result = leastBy(numbers, (n) => n)
+      expect(result).to.equal(1)
+      expect(numbers.indexOf(result!)).to.equal(1) // Check if it's the first occurrence
+    })
+
+    it("should work with custom comparison functions", () => {
+      const words = ["apple", "banana", "cherry", "date"]
+      const result = leastBy(words, (word) => word.length)
+      expect(result).to.equal("date")
+    })
+
+    it("should work with objects and custom property extraction", () => {
+      const objects = [
+        { name: "Alice", age: 30 },
+        { name: "Bob", age: 25 },
+        { name: "Charlie", age: 35 },
+        { name: "Dianne", age: 25 }, // < prefer the lowest-indexed object
+      ]
+      const result = leastBy(objects, (obj) => obj.age)
+      expect(result).to.deep.equal({ name: "Bob", age: 25 })
     })
   })
 })

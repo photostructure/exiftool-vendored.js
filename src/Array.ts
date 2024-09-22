@@ -109,3 +109,19 @@ function cmp(a: Maybe<Comparable>, b: Maybe<Comparable>): number {
   }
   return a > b ? 1 : a < b ? -1 : 0
 }
+
+export function leastBy<T>(
+  haystack: T[],
+  f: (t: T) => Maybe<Comparable>
+): Maybe<T> {
+  let min: Maybe<Comparable>
+  let result: Maybe<T>
+  for (const ea of haystack) {
+    const val = f(ea)
+    if (val != null && (min == null || val < min)) {
+      min = val
+      result = ea
+    }
+  }
+  return result!
+}
