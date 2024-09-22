@@ -13,7 +13,7 @@
     "clean": "rimraf lib dist coverage .nyc_output",
     "precompile": "npm run clean",
     "compile": "tsc",
-    "compile:watch": "npm precompile && tsc --watch",
+    "compile:watch": "npm run precompile && tsc --watch",
     "premktags": "npm run compile",
     "mktags": "node dist/update/mktags.js",
     "prelint": "npm run compile",
