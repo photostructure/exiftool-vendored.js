@@ -6,7 +6,7 @@ binary.</p>
 nonsense. As perl can't run from within an ASAR archive, <code>electron-builder</code>
 must be configured to <code>asarUnpack</code>
 &quot;**/node_modules/exiftool-vendored.{pl,exe}/&quot;. See
-<a href="https://www.electron.build/generated/platformspecificbuildoptions#configuration-asarUnpack">https://www.electron.build/generated/platformspecificbuildoptions#configuration-asarUnpack</a>
+<a href="https://www.electron.build/generated/platformspecificbuildoptions#configuration-asarUnpack" target="_blank" class="external">https://www.electron.build/generated/platformspecificbuildoptions#configuration-asarUnpack</a>
 for details.</p>
 <p>If you're using <code>electron-forge</code>, add something like the following to your
 ForgeConfig.packagerConfig.extraResource array: <code>fs.join(&quot;.&quot;, &quot;node_modules&quot;, &quot;exiftool-vendored.&quot; + (isWin ? &quot;exe&quot; : &quot;pl&quot;))</code> but then you must specify a
