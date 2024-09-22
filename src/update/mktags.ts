@@ -597,6 +597,8 @@ class Tag {
       return exampleToS(["https://PhotoStructure.com/"])
     if (this.tag.endsWith("Credit"))
       return exampleToS(["photo by Jenny Snapsalot"])
+    if (this.tag.endsWith("Source") && this.valueType === "string")
+      return exampleToS(["Shutterfly McShutterface"])
     const byValueType = new Map<string, any[]>()
     // Shove boring values to the end:
     this.vacuumValues()
