@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.3.1
+
+- 🐞 Re-add +13:00 as a valid timezone offset. Addresses [#214](https://github.com/photostructure/exiftool-vendored.js/issues/214).
+
 ### v28.3.0
 
 - 🌱 ExifTool upgraded to [v12.96](https://exiftool.org/history.html#12.96)
