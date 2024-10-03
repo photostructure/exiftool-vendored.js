@@ -70,6 +70,7 @@ const ValidTimezoneOffsets = [
   "+11:00",
   "+12:00",
   "+12:45", // New Zealand islands
+  "+13:00", // New Zealand and Antarctica
   "+13:45", // New Zealand islands
   "+14:00",
 ] as const
