@@ -1,5 +1,6 @@
 import * as bc from "batch-cluster"
 import { debuglog } from "node:util"
+import { toBoolean } from "./Boolean"
 import { CapturedAtTagNames } from "./CapturedAtTagNames"
 import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
 import { DefaultMaxProcs } from "./DefaultMaxProcs"
@@ -8,6 +9,7 @@ import { exiftoolPath } from "./ExiftoolPath"
 import { geoTz } from "./GeoTz"
 import { isWin32 } from "./IsWin32"
 import { Omit } from "./Omit"
+import { Tags } from "./Tags"
 import { VersionTask } from "./VersionTask"
 
 const _debuglog = debuglog("exiftool-vendored")
@@ -91,4 +93,20 @@ export const DefaultExifToolOptions: Omit<
   struct: 1,
   readArgs: ["-fast"],
   writeArgs: [],
+
+  adjustTimeZoneIfDaylightSavings: defaultAdjustTimeZoneIfDaylightSavings,
 })
+
+/**
+ * @see https://github.com/photostructure/exiftool-vendored.js/issues/215
+ */
+export function defaultAdjustTimeZoneIfDaylightSavings(
+  t: Tags
+): number | undefined {
+  // `DaylightSavings` may be "Yes" or `true`:
+  return true === toBoolean(t.DaylightSavings) &&
+    // Daggum Nikon likes "FS-Nikon", "Nikon", "NIKON", and "NIKON CORPORATION"
+    /\bnikon\b/i.test(String(t.Make))
+    ? 60
+    : undefined
+}

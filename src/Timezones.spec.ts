@@ -246,4 +246,115 @@ describe("Timezones", () => {
       })
     }
   })
+
+  describe("Nikon Daylight Savings Time (#215)", () => {
+    describe("America/Los_Angeles", () => {
+      it("doesn't adjust for non-daylight-savings", () => {
+        const tags = {
+          CreateDate: "2021:11:07 11:22:33",
+          TimeZone: "-08:00",
+          DaylightSavings: "No",
+          Make: "NIKON CORPORATION",
+        }
+        expect(extractTzOffsetFromTags(tags)).to.eql({
+          tz: "UTC-8",
+          src: "TimeZone",
+        })
+      })
+      it("adjusts forward by an hour for daylight-savings", () => {
+        const tags = {
+          CreateDate: "2021:07:07 11:22:33",
+          TimeZone: "-08:00",
+          DaylightSavings: "Yes",
+          Make: "NIKON CORPORATION",
+        }
+        expect(extractTzOffsetFromTags(tags)).to.eql({
+          tz: "UTC-7",
+          src: "TimeZone (adjusted for DaylightSavings)",
+        })
+      })
+      it("DOESN'T adjust forward by an hour for daylight-savings if adjustment function returns null", () => {
+        const tags = {
+          CreateDate: "2021:07:07 11:22:33",
+          TimeZone: "-08:00",
+          DaylightSavings: "Yes",
+          Make: "NIKON CORPORATION",
+        }
+        expect(
+          extractTzOffsetFromTags(tags, {
+            adjustTimeZoneIfDaylightSavings: () => undefined,
+          })
+        ).to.eql({
+          tz: "UTC-8",
+          src: "TimeZone",
+        })
+      })
+      it("DOESN'T adjust forward by an hour for daylight-savings if NOT Nikon (by default)", () => {
+        const tags = {
+          CreateDate: "2021:07:07 11:22:33",
+          TimeZone: "-08:00",
+          DaylightSavings: "Yes",
+          Make: "Canon",
+        }
+        expect(extractTzOffsetFromTags(tags)).to.eql({
+          tz: "UTC-8",
+          src: "TimeZone",
+        })
+      })
+    })
+  })
+  describe("Pacific/Auckland", () => {
+    it("doesn't adjust for non-daylight-savings", () => {
+      const tags = {
+        CreateDate: "2021:11:07 11:22:33",
+        TimeZone: "+12:00",
+        DaylightSavings: "No",
+        Make: "NIKON CORPORATION",
+      }
+      expect(extractTzOffsetFromTags(tags)).to.eql({
+        tz: "UTC+12",
+        src: "TimeZone",
+      })
+    })
+    it("adjusts forward by an hour for daylight-savings", () => {
+      const tags = {
+        CreateDate: "2021:07:07 11:22:33",
+        TimeZone: "+12:00",
+        DaylightSavings: "Yes",
+        Make: "NIKON CORPORATION",
+      }
+      expect(extractTzOffsetFromTags(tags)).to.eql({
+        tz: "UTC+13",
+        src: "TimeZone (adjusted for DaylightSavings)",
+      })
+    })
+    it("DOESN'T adjust forward by an hour for daylight-savings if adjustment function returns null", () => {
+      const tags = {
+        CreateDate: "2021:07:07 11:22:33",
+        TimeZone: "+12:00",
+        DaylightSavings: "Yes",
+        Make: "NIKON CORPORATION",
+      }
+      expect(
+        extractTzOffsetFromTags(tags, {
+          adjustTimeZoneIfDaylightSavings: () => undefined,
+        })
+      ).to.eql({
+        tz: "UTC+12",
+        src: "TimeZone",
+      })
+    })
+    it("DOESN'T adjust forward by an hour for daylight-savings if NOT Nikon (by default)", () => {
+      const tags = {
+        CreateDate: "2021:07:07 11:22:33",
+        TimeZone: "+12:00",
+        DaylightSavings: "Yes",
+        Make: "Apple, Inc.",
+      }
+      expect(extractTzOffsetFromTags(tags)).to.eql({
+        tz: "UTC+12",
+        src: "TimeZone",
+      })
+    })
+  })
 })

@@ -67,26 +67,43 @@ describe("ReadTask", () => {
    */
     it("N lat is positive", () => {
       expect(
-        parse({ tags: { GPSLatitude: 22.33543889, GPSLatitudeRef: "N" } })
-          .GPSLatitude
+        parse({
+          tags: {
+            GPSLatitude: 22.33543889,
+            GPSLatitudeRef: "N",
+            GPSLongitude: 1,
+          },
+        }).GPSLatitude
       ).to.be.closeTo(22.33543889, 0.00001)
     })
     it("S lat is negative", () => {
       expect(
-        parse({ tags: { GPSLatitude: -33.84842123, GPSLatitudeRef: "S" } })
-          .GPSLatitude
+        parse({
+          tags: {
+            GPSLatitude: -33.84842123,
+            GPSLatitudeRef: "S",
+            GPSLongitude: 1,
+          },
+        }).GPSLatitude
       ).to.be.closeTo(-33.84842123, 0.00001)
     })
     it("positive E lon is positive", () => {
       expect(
-        parse({ tags: { GPSLongitude: 114.16401667, GPSLongitudeRef: "E" } })
-          .GPSLongitude
+        parse({
+          tags: {
+            GPSLongitude: 114.16401667,
+            GPSLongitudeRef: "E",
+            GPSLatitude: 1,
+          },
+        }).GPSLongitude
       ).to.be.closeTo(114.16401667, 0.00001)
     })
     // See https://github.com/photostructure/exiftool-vendored.js/issues/165
     it("negative E lon is negative", () => {
       expect(
-        parse({ tags: { GPSLongitude: -114, GPSLongitudeRef: "E" } })
+        parse({
+          tags: { GPSLongitude: -114, GPSLongitudeRef: "E", GPSLatitude: 1 },
+        })
       ).to.containSubset({
         GPSLongitude: -114,
         GPSLongitudeRef: "E",
@@ -97,7 +114,9 @@ describe("ReadTask", () => {
     })
     it("positive W lon is negative", () => {
       expect(
-        parse({ tags: { GPSLongitude: 122, GPSLongitudeRef: "W" } })
+        parse({
+          tags: { GPSLongitude: 122, GPSLongitudeRef: "W", GPSLatitude: 1 },
+        })
       ).to.containSubset({
         GPSLongitude: 122,
         GPSLongitudeRef: "W",
@@ -108,8 +127,13 @@ describe("ReadTask", () => {
     })
     it("negative W lon is positive", () => {
       expect(
-        parse({ tags: { GPSLongitude: -122.4406148, GPSLongitudeRef: "W" } })
-          .GPSLongitude
+        parse({
+          tags: {
+            GPSLongitude: -122.4406148,
+            GPSLongitudeRef: "W",
+            GPSLatitude: 1,
+          },
+        }).GPSLongitude
       ).to.be.closeTo(-122.4406148, 0.00001)
     })
     it("parses lat lon even if timezone is given", () => {
@@ -119,6 +143,7 @@ describe("ReadTask", () => {
             GPSLongitude: -122.4406148,
             GPSLongitudeRef: "West",
             OffsetTime: "+02:00",
+            GPSLatitude: 1,
           },
         }).GPSLongitude
       ).to.be.closeTo(-122.4406148, 0.00001)
@@ -639,6 +664,7 @@ describe("ReadTask", () => {
         })
       })
     })
+
     describe("iPhone MOV with only CreationDate offset", () => {
       // https://github.com/photostructure/exiftool-vendored.js/issues/151
       it("Timezone from CreationDate with no GPS", () => {
@@ -1449,6 +1475,57 @@ describe("ReadTask", () => {
         zone: "UTC+2",
         rawValue: "00:47:40+02:00",
       })
+    })
+  })
+
+  /**
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/215
+   */
+  describe("issue 215", () => {
+    it("adjusts Nikon timezones by an hour if DaylightSavings is truthy", () => {
+      // From https://github.com/immich-app/immich/issues/13141#issuecomment-2390788790
+      // exiftool -j -struct -GPS*# ~/src/exiftool-vendored.js/test/nikon-daylight-savings.jpg -\*time\* -\*date\* -Daylight* -\*zone\* -Make -Model
+      const t = parse({
+        tags: {
+          GPSLatitude: -45.8745231666667,
+          GPSLongitude: 170.503112783333,
+          GPSLatitudeRef: "S",
+          GPSLongitudeRef: "E",
+          GPSPosition: "-45.8745231666667 170.503112783333",
+          ExposureTime: "1/20",
+          OffsetTime: "+13:00",
+          OffsetTimeOriginal: "+13:00",
+          OffsetTimeDigitized: "+13:00",
+          TimeZone: "+12:00",
+          ISOAutoShutterTime: "Auto",
+          SelfTimerTime: "10 s",
+          SelfTimerShotCount: 9,
+          SelfTimerShotInterval: "0.5 s",
+          PlaybackMonitorOffTime: "10 s",
+          MenuMonitorOffTime: "1 min",
+          ShootingInfoMonitorOffTime: "4 s",
+          ImageReviewMonitorOffTime: "4 s",
+          LiveViewMonitorOffTime: "10 min",
+          PowerUpTime: "0000:00:00 00:00:00",
+          SubSecTime: 45,
+          SubSecTimeDigitized: 45,
+          DateTimeOriginal: "2020:02:10 20:24:43",
+          ProfileDateTime: "2024:10:01 13:21:03",
+          SubSecDateTimeOriginal: "2020:02:10 20:24:43+13:00",
+          FileModifyDate: "2024:10:05 11:34:57-07:00",
+          FileAccessDate: "2024:10:05 11:34:57-07:00",
+          FileInodeChangeDate: "2024:10:05 11:34:57-07:00",
+          ModifyDate: "2024:10:03 08:15:25",
+          CreateDate: "2020:02:10 20:24:43",
+          DateDisplayFormat: "D/M/Y",
+          SubSecCreateDate: "2020:02:10 20:24:43.45+13:00",
+          SubSecModifyDate: "2024:10:03 08:15:25.45+13:00",
+          DaylightSavings: "Yes",
+          Make: "NIKON CORPORATION",
+          Model: "NIKON D7500",
+        },
+      })
+      expect(t.tz).to.eql("UTC+13")
     })
   })
 })

@@ -1,4 +1,5 @@
 import { logger } from "batch-cluster"
+import { Zone } from "luxon"
 import * as _path from "node:path"
 import { toA } from "./Array"
 import { BinaryField } from "./BinaryField"
@@ -11,7 +12,7 @@ import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { lazy } from "./Lazy"
-import { map } from "./Maybe"
+import { map, Maybe } from "./Maybe"
 import { isNumber, toFloat } from "./Number"
 import { OnlyZerosRE } from "./OnlyZerosRE"
 import { pick } from "./Pick"
@@ -23,6 +24,7 @@ import {
   extractTzOffsetFromTimeStamp,
   extractTzOffsetFromUTCOffset,
   normalizeZone,
+  TzSrc,
 } from "./Timezones"
 
 /**
@@ -53,6 +55,7 @@ export const ReadTaskOptionFields = [
   "useMWG",
   "struct",
   "readArgs",
+  "adjustTimeZoneIfDaylightSavings",
 ] as const satisfies (keyof ExifToolOptions)[]
 
 const NullIsh = ["undef", "null", "undefined"]
@@ -74,11 +77,6 @@ export class ReadTask extends ExifToolTask<Tags> {
   #raw: any = {}
   #rawDegrouped: any = {}
   readonly #tags: Tags = {}
-  #lat: number | undefined
-  #lon: number | undefined
-  #invalidLatLon = false
-  #tz: string | undefined
-  #tzSource?: string
 
   /**
    * @param sourceFile the file to read
@@ -181,15 +179,14 @@ export class ReadTask extends ExifToolTask<Tags> {
       this.#rawDegrouped = this.#raw
     }
 
-    this.#extractLatLon()
-
-    this.#extractTzOffset()
-
-    map(this.#tz, (ea) => (this.#tags.tz = ea))
-    map(this.#tzSource, (ea) => (this.#tags.tzSource = ea))
-
     // avoid casting `this.tags as any` for the rest of the function:
     const tags = this.#tags as any
+
+    const tzSrc = this.#extractTzOffset()
+    if (tzSrc) {
+      tags.tz = tzSrc.tz
+      tags.tzSource = tzSrc.src
+    }
 
     for (const [key, value] of Object.entries(this.#raw)) {
       const k = this.#tagName(key)
@@ -208,45 +205,60 @@ export class ReadTask extends ExifToolTask<Tags> {
     return tags
   }
 
-  #extractLatLon = lazy(() => {
-    this.#lat ??= this.#latlon({
+  #lat = lazy(() => this.#extractGpsMetadata()?.lat)
+  #lon = lazy(() => this.#extractGpsMetadata()?.lon)
+  #tzFromGps = lazy(() => this.#extractGpsMetadata()?.tzFromGps)
+
+  #extractGpsMetadata = lazy(() => {
+    const lat = this.#parseLocation({
       tagName: "GPSLatitude",
       positiveRef: "N",
       negativeRef: "S",
       maxValid: 90,
     })
-    this.#lon ??= this.#latlon({
+    const lon = this.#parseLocation({
       tagName: "GPSLongitude",
       positiveRef: "E",
       negativeRef: "W",
       maxValid: 180,
     })
-    if (
-      this.options.ignoreZeroZeroLatLon &&
-      this.#lat === 0 &&
-      this.#lon === 0
-    ) {
-      this.#invalidLatLon = true
-    }
-    if (this.#invalidLatLon) {
-      this.#lat = this.#lon = undefined
-
-      if (this.options.geolocation) {
-        this.warnings.push(
-          "Invalid GPSLatitude or GPSLongitude. Geolocation tags have been deleted."
-        )
-        for (const key of Object.keys(this.#raw)) {
-          const k = this.#tagName(key)
-          if (k.startsWith("Geolocation")) {
-            delete this.#raw[key]
-            delete this.#rawDegrouped[k]
-          }
+    let invalid =
+      lat == null ||
+      lon == null ||
+      (this.options.ignoreZeroZeroLatLon && lat === 0 && lon === 0)
+    if (this.options.geolocation && invalid) {
+      this.warnings.push(
+        "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags."
+      )
+      for (const key of Object.keys(this.#raw)) {
+        const k = this.#tagName(key)
+        if (k.startsWith("Geolocation")) {
+          delete this.#raw[key]
+          delete this.#rawDegrouped[k]
         }
       }
     }
+
+    let tzFromGps: Maybe<Zone>
+
+    if (!invalid && lat != null && lon != null) {
+      try {
+        const geoTz = this.options.geoTz(lat, lon)
+        tzFromGps = normalizeZone(geoTz)
+      } catch {
+        invalid = true
+      }
+    }
+
+    return {
+      lat: invalid ? undefined : lat,
+      lon: invalid ? undefined : lon,
+      invalid,
+      tzFromGps,
+    }
   })
 
-  #latlon({
+  #parseLocation({
     tagName,
     positiveRef,
     negativeRef,
@@ -256,17 +268,16 @@ export class ReadTask extends ExifToolTask<Tags> {
     positiveRef: "N" | "E"
     negativeRef: "S" | "W"
     maxValid: 90 | 180
-  }): number | undefined {
+  }): Maybe<number> {
     const tagValue = this.#rawDegrouped[tagName]
     const refKey = tagName + "Ref"
     const ref = this.#rawDegrouped[refKey]
     const result = toFloat(tagValue)
     if (result == null) {
-      return
+      return undefined
     } else if (Math.abs(result) > maxValid) {
       this.warnings.push(`Invalid ${tagName}: ${JSON.stringify(tagValue)}`)
-      this.#invalidLatLon = true
-      return
+      return undefined
     } else if (blank(ref)) {
       // Videos may not have a GPSLatitudeRef or GPSLongitudeRef: if this is the case, assume the given sign is correct.
       return result
@@ -290,24 +301,14 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
   }
 
-  #geoTz = lazy(() => {
-    this.#extractLatLon()
-    if (this.#invalidLatLon || this.#lat == null || this.#lon == null) return
-    try {
-      const geoTz = this.options.geoTz(this.#lat, this.#lon)
-      return normalizeZone(geoTz)
-    } catch {
-      this.#invalidLatLon = true
-      return
-    }
-  })
+  #tz = lazy(() => this.#extractTzOffset()?.tz)
 
-  #extractTzOffset() {
-    const result =
-      // If there is an explicit TimeZone tag (which is rare), or if  defer to that
+  #extractTzOffset = lazy<Maybe<TzSrc>>(
+    () =>
+      // If there is an explicit TimeZone tag (which is rare), defer to that
       // before defaulting to UTC for videos:
-      extractTzOffsetFromTags(this.#rawDegrouped) ??
-      map(this.#geoTz(), (ea) => ({
+      extractTzOffsetFromTags(this.#rawDegrouped, this.options) ??
+      map(this.#tzFromGps(), (ea) => ({
         tz: ea.name,
         src: "GPSLatitude/GPSLongitude",
       })) ??
@@ -329,13 +330,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       extractTzOffsetFromUTCOffset(this.#rawDegrouped) ??
       // No, really, this is the even worse than UTC offset heuristics:
       extractTzOffsetFromTimeStamp(this.#rawDegrouped, this.options)
-
-    if (result != null) {
-      this.#tz = result.tz
-      this.#tzSource = result.src
-    }
-    return result
-  }
+  )
 
   #parseTag(tagName: string, value: any): any {
     if (nullish(value)) return undefined
@@ -345,10 +340,10 @@ export class ReadTask extends ExifToolTask<Tags> {
         return value
       }
       if (tagName === "GPSLatitude") {
-        return this.#lat
+        return this.#lat()
       }
       if (tagName === "GPSLongitude") {
-        return this.#lon
+        return this.#lon()
       }
       if (Array.isArray(value)) {
         return value.map((ea) => this.#parseTag(tagName, ea))
@@ -377,7 +372,7 @@ export class ReadTask extends ExifToolTask<Tags> {
             isUtcTagName(tagName) || this.#defaultToUTC()
               ? "UTC"
               : this.options.backfillTimezones
-                ? this.#tz
+                ? this.#tz()
                 : undefined
 
           // Time-only tags have "time" but not "date" in their name:
@@ -395,16 +390,18 @@ export class ReadTask extends ExifToolTask<Tags> {
               ? ExifDate.from(value)
               : undefined) ??
             value
+
+          const defaultTz = this.#tz()
           if (
             this.options.backfillTimezones &&
             result != null &&
-            this.#tz != null &&
+            defaultTz != null &&
             result instanceof ExifDateTime &&
             this.#defaultToUTC() &&
             !isUtcTagName(tagName) &&
             true === result.inferredZone
           ) {
-            return result.setZone(this.#tz)
+            return result.setZone(defaultTz)
           }
           return result
         }

@@ -2,6 +2,7 @@ import { FixedOffsetZone, Info, Zone } from "luxon"
 import { leastBy } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { CapturedAtTagNames } from "./CapturedAtTagNames"
+import { defaultAdjustTimeZoneIfDaylightSavings } from "./DefaultExifToolOptions"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
@@ -265,6 +266,11 @@ function extractOffsetFromHours(
 
 /**
  * Parse a timezone offset and return the offset minutes
+ *
+ * @param opts.stripTZA If false, do not strip off the timezone abbreviation
+ * (TZA) from the value. Defaults to true.
+ *
+ * @return undefined if the value cannot be parsed as a valid timezone offset
  */
 export function extractZone(
   value: any,
@@ -372,16 +378,40 @@ const TimezoneOffsetTagnames = [
   "GeolocationTimeZone",
 ] as const satisfies readonly (keyof Tags)[]
 
-export function extractTzOffsetFromTags(t: Tags): Maybe<TzSrc> {
-  // We have to iterate twice: if it's from a timezone offset tag, we can
-  // trust it, even if it's UTC.
+export function incrementZone(
+  z: string | Zone | number,
+  minutes: number
+): Maybe<Zone> {
+  const norm = normalizeZone(z)
+  if (norm == null || true !== norm.isUniversal) return
+  const fixed = norm.offset(Date.now()) // < arg doesn't matter, it's universal
+  return isNumber(fixed) ? FixedOffsetZone.instance(fixed + minutes) : undefined
+}
+
+export function extractTzOffsetFromTags(
+  t: Tags,
+  opts?: Pick<ExifToolOptions, "adjustTimeZoneIfDaylightSavings">
+): Maybe<TzSrc> {
+  const adjustFn =
+    opts?.adjustTimeZoneIfDaylightSavings ??
+    defaultAdjustTimeZoneIfDaylightSavings
   for (const tagName of TimezoneOffsetTagnames) {
-    if (t[tagName] != null) {
-      const offset = extractZone(t[tagName])
-      if (offset != null) {
-        return { tz: offset.tz, src: tagName }
-      }
+    const offset = extractZone(t[tagName])
+    if (offset == null) continue
+
+    // UGH. See https://github.com/photostructure/exiftool-vendored.js/issues/215
+    const minutes = adjustFn(t, offset.tz)
+    if (minutes != null) {
+      const adjustedZone = incrementZone(offset.tz, minutes)
+      if (adjustedZone != null)
+        return {
+          tz: adjustedZone.name,
+          src: tagName + " (adjusted for DaylightSavings)",
+        }
     }
+
+    // No fancy adjustments needed, just return the extracted zone:
+    return { tz: offset.tz, src: tagName }
   }
   return
 }

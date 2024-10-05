@@ -1,5 +1,6 @@
 import * as bc from "batch-cluster"
 import { geoTz } from "./GeoTz"
+import { Maybe } from "./Maybe"
 import { Tags } from "./Tags"
 
 /**
@@ -294,6 +295,23 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * constructor can be overridden in the call to {@link ExifTool.write()}.
    */
   writeArgs: string[]
+
+  /**
+   * The TimeZone tag normally represents the offset from UTC.
+   *
+   * Unfortunately, at least for some Nikon cameras, the TimeZone tag **and the
+   * DaylightSavings tag** must be taken into account to find the UTC offset.
+   *
+   * By default, this is a predicate that returns `true` if the `Make` tag is
+   * `Nikon`. If you find other makes and models that need this treatment,
+   * please open a ticket on GitHub with example images or videos and we can
+   * update the default predicate.
+   *
+   * The return value is the number of minutes to adjust the timezone by.
+   *
+   * @see https://github.com/photostructure/exiftool-vendored.js/issues/215
+   */
+  adjustTimeZoneIfDaylightSavings: (tags: Tags, tz: string) => Maybe<number>
 }
 
 export function handleDeprecatedOptions<
