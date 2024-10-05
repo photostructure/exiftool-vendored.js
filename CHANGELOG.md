@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.4.0
+
+- ✨ Add workaround for abberant Nikon `TimeZone` encoding. Addresses [#215](https://github.com/photostructure/exiftool-vendored.js/issues/215). Set `ExifToolOptions.adjustTimeZoneIfDaylightSavings` to `() => undefined` to retain prior behavior.
+
 ### v28.3.1
 
 - 🐞 Re-add +13:00 as a valid timezone offset. Addresses [#214](https://github.com/photostructure/exiftool-vendored.js/issues/214).
