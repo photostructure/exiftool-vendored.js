@@ -227,9 +227,12 @@ export class ReadTask extends ExifToolTask<Tags> {
       lon == null ||
       (this.options.ignoreZeroZeroLatLon && lat === 0 && lon === 0)
     if (this.options.geolocation && invalid) {
-      this.warnings.push(
-        "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags."
-      )
+      if (this.#tags.GPSLatitude != null || this.#tags.GPSLongitude != null) {
+        // don't complain unless there was a GPS value:
+        this.warnings.push(
+          "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags."
+        )
+      }
       for (const key of Object.keys(this.#raw)) {
         const k = this.#tagName(key)
         if (k.startsWith("Geolocation")) {

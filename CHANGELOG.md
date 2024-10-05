@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.4.1
+
+- 📦 The warning "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags" will only be added if `GPSLatitude` or `GPSLongitude` is non-null.
+
 ### v28.4.0
 
 - ✨ Add workaround for abberant Nikon `TimeZone` encoding. Addresses [#215](https://github.com/photostructure/exiftool-vendored.js/issues/215). Set `ExifToolOptions.adjustTimeZoneIfDaylightSavings` to `() => undefined` to retain prior behavior.
