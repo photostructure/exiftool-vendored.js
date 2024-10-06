@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.5.0
+
+- 🐞/📦 Add new `ExifToolOptions.preferTimezoneInferenceFromGps` to prefer GPS timezones. See the jsdoc for details.
+
 ### v28.4.1
 
 - 📦 The warning "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags" will only be added if `GPSLatitude` or `GPSLongitude` is non-null.

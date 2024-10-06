@@ -95,6 +95,8 @@ export const DefaultExifToolOptions: Omit<
   writeArgs: [],
 
   adjustTimeZoneIfDaylightSavings: defaultAdjustTimeZoneIfDaylightSavings,
+
+  preferTimezoneInferenceFromGps: false, // to retain prior behavior
 })
 
 /**

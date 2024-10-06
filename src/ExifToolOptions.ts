@@ -312,6 +312,18 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * @see https://github.com/photostructure/exiftool-vendored.js/issues/215
    */
   adjustTimeZoneIfDaylightSavings: (tags: Tags, tz: string) => Maybe<number>
+
+  /**
+   * Timezone parsing requires a bunch of heuristics due to hardware and
+   * software companies not following metadata specifications similarly.
+   *
+   * If GPS metadata is trustworthy, set this to `true` to override explicit
+   * values assigned to {@link TimezoneOffsetTagnames}.
+   *
+   * Note that there **are** regions that have had their IANA timezone change
+   * over time--this will result incorrect timezones.
+   */
+  preferTimezoneInferenceFromGps: boolean
 }
 
 export function handleDeprecatedOptions<

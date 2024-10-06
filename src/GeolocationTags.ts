@@ -1,20 +1,17 @@
-import { keysOf } from "./Object"
-
-export const GeolocationTagNames = keysOf<GeolocationTags>({
-  GeolocationBearing: true,
-  GeolocationCity: true,
-  GeolocationCountry: true,
-  GeolocationCountryCode: true,
-  GeolocationDistance: true,
-  GeolocationFeatureCode: true,
-  GeolocationFeatureType: true,
-  GeolocationPopulation: true,
-  GeolocationPosition: true,
-  GeolocationRegion: true,
-  GeolocationSubregion: true,
-  GeolocationTimeZone: true,
-  GeolocationWarning: true,
-})
+export const GeolocationTagNames = [
+  "GeolocationBearing",
+  "GeolocationCity",
+  "GeolocationCountry",
+  "GeolocationCountryCode",
+  "GeolocationDistance",
+  "GeolocationFeatureCode",
+  "GeolocationFeatureType",
+  "GeolocationPopulation",
+  "GeolocationPosition",
+  "GeolocationRegion",
+  "GeolocationSubregion",
+  "GeolocationTimeZone",
+] satisfies (keyof GeolocationTags)[]
 
 /**
  * Is the given tag name intrinsic to the content of a given file? In other
