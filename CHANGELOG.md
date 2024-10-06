@@ -27,6 +27,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v28.5.0
 
+- 🌱 ExifTool upgraded to version [12.97](https://exiftool.org/history.html#12.97)
+
 - 🐞/📦 Add new `ExifToolOptions.preferTimezoneInferenceFromGps` to prefer GPS timezones. See the jsdoc for details.
 
 - 🐞 Support triple-deep IANA timezones, like `America/Indiana/Indianapolis`.
