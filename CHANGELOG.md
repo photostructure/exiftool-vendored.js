@@ -29,6 +29,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🐞/📦 Add new `ExifToolOptions.preferTimezoneInferenceFromGps` to prefer GPS timezones. See the jsdoc for details.
 
+- 🐞 Support triple-deep IANA timezones, like `America/Indiana/Indianapolis`.
+
 ### v28.4.1
 
 - 📦 The warning "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags" will only be added if `GPSLatitude` or `GPSLongitude` is non-null.

@@ -63,10 +63,12 @@ describe("Timezones", () => {
         { z: "UTC+07:30", exp: "+07:30" },
         { z: "UTC-03:00", exp: "-03:00" },
         { z: "America/Los_Angeles", exp: "-08:00" },
+        { z: "America/Indiana/Indianapolis", exp: "-05:00" },
+        { z: "America/Kentucky/Louisville", exp: "-05:00" },
         { z: "US/Hawaii", exp: "-10:00" },
-        { z: "US/Hawaii", exp: "-10:00" },
+        { z: "Pacific/Honolulu", exp: "-10:00" },
         { z: "Japan", exp: "+09:00" },
-        { z: "GB", exp: "+00:00" }, // FIRST MISSPELLING COLOR, AND NOW THIS
+        { z: "GB", exp: "+00:00" }, // FIRST THEY MISSPEL COLOUR, AND NOW THIS. BLIMEY.
       ]) {
         it(`(${JSON.stringify(ea.z)}) => ${ea.exp}`, () => {
           expect(normalizeZone(ea.z)?.formatOffset(ts, "short")).to.eql(ea.exp)

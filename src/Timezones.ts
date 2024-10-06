@@ -142,8 +142,9 @@ export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
 export const defaultVideosToUTC = "defaultVideosToUTC"
 
 // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones -- not that
-// "WET" and "W-SU" are full TZs
-const IanaFormatRE = /^\w{2,15}(?:\/\w{3,15})?$/
+// "WET" and "W-SU" are full TZs (!!!), and "America/Indiana/Indianapolis" is
+// also a thing.
+const IanaFormatRE = /^\w{2,15}(?:\/\w{3,15}){0,2}$/
 // Luxon requires fixed-offset zones to look like "UTC+H", "UTC-H",
 // "UTC+H:mm", "UTC-H:mm":
 const FixedFormatRE = /^UTC[+-]\d{1,2}(?::\d\d)?$/
@@ -158,9 +159,8 @@ export function normalizeZone(
   try {
     // Info.normalizeZone returns the system zone if the input is null or
     // blank (!!!), but we want to return undefined instead:
-    // Info.normalizeZone(null) returns the system zone, which isn't what we
-    // (ever!) want.
-    if (input == null) return
+    if (blank(input)) return undefined
+    
     if (input instanceof Zone) {
       return isZoneValid(input) ? input : undefined
     }
@@ -168,11 +168,10 @@ export function normalizeZone(
     // This test and short-circuit may not be necessary, but it's cheap and
     // explicit:
     if (isUTC(input)) return FixedOffsetZone.utcInstance
-
+    
     let z = input
     if (typeof z === "string") {
       z = z.replace(/^(?:Zulu|Z|GMT)(?:\b|$)/, "UTC")
-      // Info.normalizeZone("") returns the system zone, which we never want.
       // We also don't need to tease Info.normalizeZone with obviously
       // non-offset inputs:
       if (blank(z) || (!IanaFormatRE.test(z) && !FixedFormatRE.test(z))) {
