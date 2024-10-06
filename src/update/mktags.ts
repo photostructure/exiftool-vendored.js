@@ -848,6 +848,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     const interfaceNames = [
       ...tagGroups.map((s) => s + "Tags"),
       "ExifToolVendoredTags",
+      "GeolocationTags",
       "ImageDataHashTag",
       "ICCProfileTags",
       "IPTCApplicationRecordTags",
