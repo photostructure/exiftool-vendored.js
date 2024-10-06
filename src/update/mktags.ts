@@ -649,14 +649,13 @@ class TagMap {
     if (
       tagName == null ||
       value == null ||
-      tagName.match(ExcludedTagRe) != null
+      tagName.match(ExcludedTagRe) != null ||
+      // Geolocation tags are handled by a static interface:
+      tagName.startsWith("ExifTool:Geolocation")
     ) {
       return
     }
-    // Let's move the geolocation tags to their own Geolocation group:
-    if (tagName.startsWith("ExifTool:Geolocation")) {
-      tagName = tagName.replace("ExifTool:", "Geolocation:")
-    }
+
     const tag = this.tag(tagName)
     if (important) {
       tag.important = true
@@ -790,6 +789,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { ExifDateTime } from "./ExifDateTime"',
         'import { ExifTime } from "./ExifTime"',
         'import { ExifToolVendoredTags } from "./ExifToolVendoredTags"',
+        'import { GeolocationTags } from "./GeolocationTags"',
         'import { ICCProfileTags } from "./ICCProfileTags"',
         'import { ImageDataHashTag } from "./ImageDataHashTag"',
         'import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"',

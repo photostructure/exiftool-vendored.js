@@ -9,36 +9,38 @@
 
 ## Features
 
-1.  **Best-of-class cross-platform performance and reliability**.
+1. **Best-of-class cross-platform performance and reliability**.
 
     This is the module that [PhotoStructure](https://photostructure.com) (and [500+](https://github.com/photostructure/exiftool-vendored.js/network/dependents) other projects) use for photo and video metadata reading and writing.
 
     Expect [an order of magnitude faster performance](#performance) than other Node.js ExifTool modules.
 
-1.  Best-effort extraction of
+1. Best-effort extraction of
 
     - **dates** with [correct timezone offset encoding](#dates)
     - **latitudes & longitudes** as floats (where negative values indicate west or south of the meridian)
 
-1.  Support for
+1. Support for
 
     - [reading tags](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#read)
     - extracting embedded binaries, like [thumbnail](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#extractThumbnail) and [preview](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#extractPreview) images
     - [writing tags](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#write)
     - [rescuing metadata](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#rewriteAllTags)
 
-1.  **[Robust type definitions](#tags)** of the top 99.5% tags used by over 6,000
+1. **[Robust type definitions](#tags)** of the top 99.5% tags used by over 6,000
     different camera makes and models (see an [example](https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html#CreateDate))
 
-1.  **Automated updates** to ExifTool ([as new versions come out
+1. **Automated updates** to ExifTool ([as new versions come out
     frequently](https://exiftool.org/history.html))
 
-1.  **Robust test coverage**, performed with on [macOS, Linux, and
+1. **Robust test coverage**, performed with on [macOS, Linux, and
     Windows](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
 
 ## Installation
 
-     npm install --save exiftool-vendored
+```sh
+npm install --save exiftool-vendored
+```
 
 ### Debug logging
 

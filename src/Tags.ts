@@ -4,6 +4,7 @@ import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTime } from "./ExifTime"
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
+import { GeolocationTags } from "./GeolocationTags"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { ImageDataHashTag } from "./ImageDataHashTag"
 import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
@@ -490,37 +491,6 @@ export interface FlashPixTags {
   ScreenNail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   UsedExtensionNumbers?: number
-}
-
-/**
- * These tags are only available if {@link ExifToolOptions.geolocation} is true
- * and the file has valid GPS location data.
- */
-export interface GeolocationTags {
-  /** ☆☆☆☆ ✔ Example: 99 */
-  GeolocationBearing?: number
-  /** ☆☆☆☆ ✔ Example: "Zürich (Kreis 4) / Langstrasse" */
-  GeolocationCity?: string
-  /** ☆☆☆☆ ✔ Example: "United States" */
-  GeolocationCountry?: string
-  /** ☆☆☆☆ ✔ Example: "US" */
-  GeolocationCountryCode?: string
-  /** ☆☆☆☆ ✔ Example: "9.60 km" */
-  GeolocationDistance?: string
-  /** ☆☆☆☆ ✔ Example: "PPLX" */
-  GeolocationFeatureCode?: string
-  /** ☆☆☆☆ ✔ Example: "Section Of Populated Place" */
-  GeolocationFeatureType?: string
-  /** ☆☆☆☆ ✔ Example: 93000 */
-  GeolocationPopulation?: number
-  /** ☆☆☆☆ ✔ Example: "7.3397, 134.4733" */
-  GeolocationPosition?: string
-  /** ☆☆☆☆ ✔ Example: "Île-de-France" */
-  GeolocationRegion?: string
-  /** ☆☆☆☆ ✔ Example: "Ōta-ku" */
-  GeolocationSubregion?: string
-  /** ☆☆☆☆ ✔ Example: "Pacific/Saipan" */
-  GeolocationTimeZone?: string
 }
 
 export interface JSONTags {

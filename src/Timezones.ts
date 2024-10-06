@@ -358,7 +358,7 @@ export function extractZone(
   return
 }
 
-const TimezoneOffsetTagnames = [
+export const TimezoneOffsetTagnames = [
   "TimeZone",
   "OffsetTime",
 

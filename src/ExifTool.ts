@@ -15,6 +15,7 @@ import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
 import { exiftoolPath } from "./ExiftoolPath"
+import { GeolocationTags } from "./GeolocationTags"
 import { ICCProfileTags } from "./ICCProfileTags"
 import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
 import { ImageDataHashTag } from "./ImageDataHashTag"
@@ -47,7 +48,6 @@ import {
   ExifToolTags,
   FileTags,
   FlashPixTags,
-  GeolocationTags,
   IPTCTags,
   JFIFTags,
   MPFTags,
@@ -93,6 +93,7 @@ export { isGeolocationTag } from "./GeolocationTags"
 export { parseJSON } from "./JSON"
 export { DefaultReadTaskOptions } from "./ReadTask"
 export {
+  TimezoneOffsetTagnames,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,

@@ -89,7 +89,7 @@ export interface WriteTaskResult {
    * Non-exceptional warnings from ExifTool, like "Error: Nothing to write",
    * or "Nothing to do."
    *
-   * Any invalid tag names or values will cause {@link Error}s to be thrown.
+   * Any invalid tag names or values will cause Errors to be thrown.
    */
   warnings?: string[]
 }
