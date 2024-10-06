@@ -152,7 +152,7 @@ describe("ReadTask", () => {
 
     for (const geolocation of [true, false]) {
       for (const preferTimezoneInferenceFromGps of [true, false]) {
-        describe.only(
+        describe(
           JSON.stringify({ geolocation, preferTimezoneInferenceFromGps }),
           () => {
             it("extracts problematic GPSDateTime", async () => {
@@ -1493,7 +1493,7 @@ describe("ReadTask", () => {
   describe("issue #215", () => {
     for (const geolocation of [true, false]) {
       for (const preferTimezoneInferenceFromGps of [true, false]) {
-        describe.only(
+        describe(
           JSON.stringify({ geolocation, preferTimezoneInferenceFromGps }),
           () => {
             it("adjusts Nikon timezones by an hour if DaylightSavings is truthy", () => {
