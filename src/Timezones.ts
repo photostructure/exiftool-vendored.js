@@ -160,7 +160,7 @@ export function normalizeZone(
     // Info.normalizeZone returns the system zone if the input is null or
     // blank (!!!), but we want to return undefined instead:
     if (blank(input)) return undefined
-    
+
     if (input instanceof Zone) {
       return isZoneValid(input) ? input : undefined
     }
@@ -168,7 +168,7 @@ export function normalizeZone(
     // This test and short-circuit may not be necessary, but it's cheap and
     // explicit:
     if (isUTC(input)) return FixedOffsetZone.utcInstance
-    
+
     let z = input
     if (typeof z === "string") {
       z = z.replace(/^(?:Zulu|Z|GMT)(?:\b|$)/, "UTC")
