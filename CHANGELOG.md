@@ -25,9 +25,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v28.5.0
+### v28.6.0
 
 - 🌱 ExifTool upgraded to version [12.97](https://exiftool.org/history.html#12.97)
+
+### v28.5.0
 
 - 🐞/📦 Add new `ExifToolOptions.preferTimezoneInferenceFromGps` to prefer GPS timezones. See the jsdoc for details.
 
