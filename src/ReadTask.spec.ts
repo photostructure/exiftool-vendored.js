@@ -620,6 +620,18 @@ describe("ReadTask", () => {
       })
     })
 
+      describe("read timezone offset from XMP", () => {
+          it("reads timezone offset +00:00", async () => {
+              const t = await new ExifTool({inferTimezoneFromDatestamps: true}).read(join(testDir, "offset0.jpg.xmp"))
+              expect(t.tz).to.eql("UTC+0")
+          })
+
+          it("reads timezone offset +01:00", async () => {
+              const t = await new ExifTool({inferTimezoneFromDatestamps: true}).read(join(testDir, "offset1.jpg.xmp"))
+              expect(t.tz).to.eql("UTC+1")
+          })
+      })
+
     // https://github.com/photostructure/exiftool-vendored.js/issues/113
     describe("timezone parsing", () => {
       const input = {
