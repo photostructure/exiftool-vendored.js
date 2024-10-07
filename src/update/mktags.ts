@@ -825,8 +825,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       const interfaceName = group + "Tags"
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const tagsForGroup = groupedTags.get(group)!
-      const filteredTags = sortBy(tagsForGroup, (ea) => ea.tag)
-      if (filteredTags.length > 0) {
+      if (tagsForGroup.length > 0) {
         tagGroups.push(group)
         if (interfaceName in js_docs) {
           tagWriter.write(`\n/**\n`)
@@ -836,7 +835,9 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
           tagWriter.write(` */`)
         }
         tagWriter.write(`\nexport interface ${interfaceName} {\n`)
-        for (const tag of filteredTags) {
+        for (const tag of sortBy(tagsForGroup, (tag) =>
+          tag.base.toLowerCase()
+        )) {
           tagWriter.write(
             `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`
           )

@@ -21,7 +21,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 12.96 */
+  /** ★★★★ ✔ Example: 12.97 */
   ExifToolVersion?: number
   /** ☆☆☆☆   Example: "path/to/file.jpg" */
   SourceFile?: string
@@ -34,10 +34,10 @@ export interface ExifToolTags {
  * given file. ExifTool can't write to many of these tags.
  */
 export interface FileTags {
-  /** ☆☆☆☆ ✔ Example: "Windows V3" */
-  BMPVersion?: string
   /** ★★★★ ✔ Example: 8 */
   BitsPerSample?: number
+  /** ☆☆☆☆ ✔ Example: "Windows V3" */
+  BMPVersion?: string
   /** ★★★★ ✔ Example: 3 */
   ColorComponents?: number
   /** ☆☆☆☆ ✔ Example: "ff5978eb5c164fa308177d41e817e08f" */
@@ -48,7 +48,7 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: "2024:10:06 13:56:46-07:00" */
+  /** ★★★★ ✔ Example: "2024:10:06 17:12:25-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ☆☆☆☆   Example:  */
   FileCreateDate?: ExifDateTime | string
@@ -89,32 +89,56 @@ export interface FileTags {
 }
 
 export interface APPTags {
+  /** ☆☆☆☆   Example: "59 128 128" */
+  AboveColor?: string
   /** ☆☆☆☆   Example: 388 */
   Again?: number
+  /** ☆☆☆☆   Example: "5.0 C" */
+  AtmosphericTemperature?: string
+  /** ☆☆☆☆ ✔ Example: 800 */
+  AutoISOMax?: number
+  /** ☆☆☆☆ ✔ Example: 3200 */
+  AutoISOMin?: number
+  /** ☆☆☆☆ ✔ Example: "Up" */
+  AutoRotation?: string
   /** ☆☆☆☆   Example: 3383 */
   B5100?: number
-  /** ☆☆☆☆   Example: 216 */
-  BHL?: number
-  /** ☆☆☆☆   Example: 255 */
-  BHighLight?: number
-  /** ☆☆☆☆   Example: 86 */
-  BMean?: number
-  /** ☆☆☆☆   Example: 3 */
-  BSD?: number
-  /** ☆☆☆☆   Example: 1 */
-  BSd?: number
-  /** ☆☆☆☆   Example: 1908 */
-  BStrobe?: number
+  /** ☆☆☆☆   Example: "60 128 128" */
+  BelowColor?: string
   /** ☆☆☆☆   Example: 2438 */
   Bgain?: number
+  /** ☆☆☆☆   Example: 255 */
+  BHighLight?: number
+  /** ☆☆☆☆   Example: 216 */
+  BHL?: number
   /** ☆☆☆☆   Example: 33 */
   Blk0?: number
   /** ☆☆☆☆   Example: 32 */
   Blk1?: number
+  /** ☆☆☆☆   Example: 86 */
+  BMean?: number
   /** ☆☆☆☆   Example: 6 */
   Boff?: number
+  /** ☆☆☆☆   Example: 1 */
+  BSd?: number
+  /** ☆☆☆☆   Example: 3 */
+  BSD?: number
+  /** ☆☆☆☆   Example: 1908 */
+  BStrobe?: number
+  /** ☆☆☆☆   Example: "Z-CAMERA" */
+  CameraModel?: string
+  /** ☆☆☆☆   Example: "_______________" */
+  CameraPartNumber?: string
+  /** ☆☆☆☆ ✔ Example: 8340330 */
+  CameraSerialNumber?: number
+  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
+  CameraSoftware?: string
+  /** ☆☆☆☆   Example: 2 */
+  Case?: number
   /** ☆☆☆☆   Example: 2 */
   CBal?: number
+  /** ☆☆☆☆   Example: 1 */
+  Color?: number
   /** ☆☆☆☆ ✔ Example: 42926626 */
   COLOR1?: number
   /** ☆☆☆☆ ✔ Example: 32321478 */
@@ -123,12 +147,30 @@ export interface APPTags {
   COLOR3?: number
   /** ☆☆☆☆ ✔ Example: 5 */
   COLOR4?: number
-  /** ☆☆☆☆   Example: 2 */
-  Case?: number
-  /** ☆☆☆☆   Example: 1 */
-  Color?: number
+  /** ☆☆☆☆ ✔ Example: "YCbCr" */
+  ColorTransform?: string
+  /** ☆☆☆☆   Example: 45 */
+  Compass?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ContTake?: number
+  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
+  CreatorSoftware?: string
+  /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
+  DateTimeGenerated?: ExifDateTime | string
+  /** ☆☆☆☆ ✔ Example: 100 */
+  DCTEncodeVersion?: number
+  /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
+  DeviceName?: string
+  /** ☆☆☆☆   Example: "(Binary data 275008 bytes, use -b option to extract)" */
+  EmbeddedImage?: BinaryField | string
+  /** ☆☆☆☆   Example: 960 */
+  EmbeddedImageHeight?: number
+  /** ☆☆☆☆   Example: "PNG" */
+  EmbeddedImageType?: string
+  /** ☆☆☆☆   Example: 640 */
+  EmbeddedImageWidth?: number
+  /** ☆☆☆☆   Example: 1 */
+  Emissivity?: number
   /** ☆☆☆☆ ✔ Example: 8501 */
   EXP1?: number
   /** ☆☆☆☆ ✔ Example: 59 */
@@ -139,132 +181,6 @@ export interface APPTags {
   ExposRatio?: number
   /** ☆☆☆☆   Example: 3687 */
   Exposure?: number
-  /** ☆☆☆☆   Example: 192 */
-  FMean?: number
-  /** ☆☆☆☆   Example: 1 */
-  FinalRatio?: number
-  /** ☆☆☆☆   Example: 640 */
-  FlashTime?: number
-  /** ☆☆☆☆ ✔ Example: "F2.8" */
-  Fnumber?: string
-  /** ☆☆☆☆   Example: 136 */
-  FocusPos?: number
-  /** ☆☆☆☆   Example: 2152 */
-  GBgain?: number
-  /** ☆☆☆☆   Example: 8 */
-  GBoff?: number
-  /** ☆☆☆☆   Example: 255 */
-  GHL?: number
-  /** ☆☆☆☆   Example: 255 */
-  GHighLight?: number
-  /** ☆☆☆☆   Example: 52 */
-  GMean?: number
-  /** ☆☆☆☆   Example: 2152 */
-  GRgain?: number
-  /** ☆☆☆☆   Example: 8 */
-  GRoff?: number
-  /** ☆☆☆☆   Example: 4 */
-  GSD?: number
-  /** ☆☆☆☆   Example: 1 */
-  GSd?: number
-  /** ☆☆☆☆   Example: 85 */
-  Gain?: number
-  /** ☆☆☆☆ ✔ Example: "PDR-M60" */
-  ID?: string
-  /** ☆☆☆☆ ✔ Example: 696880 */
-  JPEG1?: number
-  /** ☆☆☆☆ ✔ Example: 0 */
-  LightS?: number
-  /** ☆☆☆☆   Example: " 10.6" */
-  Mean?: string
-  /** ☆☆☆☆   Example: 26 */
-  MotorPos?: number
-  /** ☆☆☆☆   Example: 4 */
-  Offset?: number
-  /** ☆☆☆☆ ✔ Example: 87648 */
-  PicLen?: number
-  /** ☆☆☆☆ ✔ Example: 0 */
-  Protect?: number
-  /** ☆☆☆☆   Example: 6929 */
-  R5100?: number
-  /** ☆☆☆☆ ✔ Example: "DCPT" */
-  REV?: string
-  /** ☆☆☆☆   Example: 247 */
-  RHL?: number
-  /** ☆☆☆☆   Example: 255 */
-  RHighLight?: number
-  /** ☆☆☆☆   Example: 32 */
-  RMean?: number
-  /** ☆☆☆☆   Example: 4 */
-  RSD?: number
-  /** ☆☆☆☆   Example: 1 */
-  RSd?: number
-  /** ☆☆☆☆   Example: 5896 */
-  RStrobe?: number
-  /** ☆☆☆☆ ✔ Example: 6 */
-  Resolution?: number
-  /** ☆☆☆☆   Example: 1887 */
-  Rgain?: number
-  /** ☆☆☆☆   Example: 9 */
-  Roff?: number
-  /** ☆☆☆☆ ✔ Example: "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7" */
-  S0?: string
-  /** ☆☆☆☆   Example: 0 */
-  StrobeTime?: number
-  /** ☆☆☆☆ ✔ Example: "bd1,1,5,2beec,b5,ec15" */
-  T0?: string
-  /** ☆☆☆☆ ✔ Example: 357 */
-  TagB?: number
-  /** ☆☆☆☆ ✔ Example: 92 */
-  TagQ?: number
-  /** ☆☆☆☆ ✔ Example: 243 */
-  TagR?: number
-  /** ☆☆☆☆ ✔ Example: "v" */
-  TagS?: string
-  /** ☆☆☆☆ ✔ Example: 4016 */
-  ThmLen?: number
-  /** ★☆☆☆ ✔ Example: "vf0-3c" */
-  Version?: string
-  /** ☆☆☆☆   Example: 4054 */
-  YLevel?: number
-  /** ☆☆☆☆   Example: 2209 */
-  YTarget?: number
-  /** ☆☆☆☆ ✔ Example:  */
-  Zoom?: string
-  /** ☆☆☆☆   Example: 9 */
-  ZoomPos?: number
-  /** ☆☆☆☆ ✔ Example: "YCbCr" */
-  ColorTransform?: string
-  /** ☆☆☆☆ ✔ Example: 100 */
-  DCTEncodeVersion?: number
-  /** ☆☆☆☆   Example: "59 128 128" */
-  AboveColor?: string
-  /** ☆☆☆☆   Example: "5.0 C" */
-  AtmosphericTemperature?: string
-  /** ☆☆☆☆   Example: "60 128 128" */
-  BelowColor?: string
-  /** ☆☆☆☆   Example: "Z-CAMERA" */
-  CameraModel?: string
-  /** ☆☆☆☆   Example: "_______________" */
-  CameraPartNumber?: string
-  /** ☆☆☆☆ ✔ Example: 8340330 */
-  CameraSerialNumber?: number
-  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
-  CameraSoftware?: string
-  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
-  CreatorSoftware?: string
-  /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
-  DateTimeGenerated?: ExifDateTime | string
-  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
-  EmbeddedImage?: BinaryField | string
-  /** ☆☆☆☆   Example: 960 */
-  EmbeddedImageHeight?: number
-  /** ☆☆☆☆   Example: "PNG" */
-  EmbeddedImageType?: string
-  /** ☆☆☆☆   Example: 640 */
-  EmbeddedImageWidth?: number
-  /** ☆☆☆☆   Example: 1 */
-  Emissivity?: number
   /** ☆☆☆☆   Example: "46.1 deg" */
   FieldOfView?: string
   /** ☆☆☆☆   Example: "NOF" */
@@ -273,18 +189,50 @@ export interface APPTags {
   FilterPartNumber?: string
   /** ☆☆☆☆   Example: "00000000" */
   FilterSerialNumber?: string
+  /** ☆☆☆☆   Example: 1 */
+  FinalRatio?: number
+  /** ☆☆☆☆   Example: 640 */
+  FlashTime?: number
+  /** ☆☆☆☆   Example: 192 */
+  FMean?: number
+  /** ☆☆☆☆ ✔ Example: "F2.8" */
+  Fnumber?: string
   /** ☆☆☆☆ ✔ Example: "inf" */
   FocusDistance?: string
+  /** ☆☆☆☆   Example: 136 */
+  FocusPos?: number
   /** ☆☆☆☆ ✔ Example: 98 */
   FocusStepCount?: number
   /** ☆☆☆☆ ✔ Example: 9 */
   FrameRate?: number
+  /** ☆☆☆☆   Example: 85 */
+  Gain?: number
+  /** ☆☆☆☆   Example: 2152 */
+  GBgain?: number
+  /** ☆☆☆☆   Example: 8 */
+  GBoff?: number
+  /** ☆☆☆☆   Example: 255 */
+  GHighLight?: number
+  /** ☆☆☆☆   Example: 255 */
+  GHL?: number
+  /** ☆☆☆☆   Example: 52 */
+  GMean?: number
   /** ☆☆☆☆ ✔ Example: 88.01 */
   GPSTrack?: number
   /** ☆☆☆☆ ✔ Example: "True North" */
   GPSTrackRef?: string
   /** ☆☆☆☆   Example: "Yes" */
   GPSValid?: string
+  /** ☆☆☆☆   Example: 2152 */
+  GRgain?: number
+  /** ☆☆☆☆   Example: 8 */
+  GRoff?: number
+  /** ☆☆☆☆   Example: 1 */
+  GSd?: number
+  /** ☆☆☆☆   Example: 4 */
+  GSD?: number
+  /** ☆☆☆☆ ✔ Example: "PDR-M60" */
+  ID?: string
   /** ☆☆☆☆   Example: "7.4 C" */
   IRWindowTemperature?: string
   /** ☆☆☆☆   Example: 1 */
@@ -293,8 +241,16 @@ export interface APPTags {
   Isotherm1Color?: string
   /** ☆☆☆☆   Example: "92 115 209" */
   Isotherm2Color?: string
+  /** ☆☆☆☆ ✔ Example: 696880 */
+  JPEG1?: number
   /** ☆☆☆☆   Example: "T199104" */
   LensPartNumber?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  LightS?: number
+  /** ☆☆☆☆ ✔ Example: "AUTO" */
+  MaximumShutterAngle?: string
+  /** ☆☆☆☆   Example: " 10.6" */
+  Mean?: string
   /** ☆☆☆☆   Example: 1 */
   Meas1Label?: number
   /** ☆☆☆☆   Example: "80 60" */
@@ -307,6 +263,14 @@ export interface APPTags {
   Meas2Params?: string
   /** ☆☆☆☆   Example: "Spot" */
   Meas2Type?: string
+  /** ☆☆☆☆ ✔ Example: "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000" */
+  MediaUniqueID?: string
+  /** ☆☆☆☆ ✔ Example: "7.6.4" */
+  MetadataVersion?: string
+  /** ☆☆☆☆   Example: 26 */
+  MotorPos?: number
+  /** ☆☆☆☆   Example: 4 */
+  Offset?: number
   /** ☆☆☆☆   Example: "+98" */
   OffsetX?: string
   /** ☆☆☆☆   Example: "+51" */
@@ -327,6 +291,18 @@ export interface APPTags {
   PaletteStretch?: number
   /** ☆☆☆☆   Example: ".basicImgData.objectParams.emissivity" */
   Param0?: string
+  /** ☆☆☆☆ ✔ Example: "12MP_W" */
+  PhotoResolution?: string
+  /** ☆☆☆☆ ✔ Example: 87648 */
+  PicLen?: number
+  /** ☆☆☆☆ ✔ Example: 0 */
+  Protect?: number
+  /** ☆☆☆☆ ✔ Example: "On" */
+  ProTune?: string
+  /** ☆☆☆☆   Example: 6929 */
+  R5100?: number
+  /** ☆☆☆☆ ✔ Example: "4_1SEC" */
+  Rate?: string
   /** ☆☆☆☆   Example: "(Binary data 614604 bytes, use -b option to extract)" */
   RawThermalImage?: BinaryField | string
   /** ☆☆☆☆   Example: 90 */
@@ -349,30 +325,54 @@ export interface APPTags {
   ReflectedApparentTemperature?: string
   /** ☆☆☆☆   Example: "80.0 %" */
   RelativeHumidity?: string
+  /** ☆☆☆☆ ✔ Example: 6 */
+  Resolution?: number
+  /** ☆☆☆☆ ✔ Example: "DCPT" */
+  REV?: string
+  /** ☆☆☆☆   Example: 1887 */
+  Rgain?: number
+  /** ☆☆☆☆   Example: 255 */
+  RHighLight?: number
+  /** ☆☆☆☆   Example: 247 */
+  RHL?: number
+  /** ☆☆☆☆   Example: 32 */
+  RMean?: number
+  /** ☆☆☆☆   Example: 9 */
+  Roff?: number
+  /** ☆☆☆☆   Example: 1 */
+  RSd?: number
+  /** ☆☆☆☆   Example: 4 */
+  RSD?: number
+  /** ☆☆☆☆   Example: 5896 */
+  RStrobe?: number
+  /** ☆☆☆☆ ✔ Example: "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7" */
+  S0?: string
+  /** ☆☆☆☆   Example: 0 */
+  StrobeTime?: number
+  /** ☆☆☆☆ ✔ Example: "bd1,1,5,2beec,b5,ec15" */
+  T0?: string
+  /** ☆☆☆☆ ✔ Example: 357 */
+  TagB?: number
+  /** ☆☆☆☆ ✔ Example: 92 */
+  TagQ?: number
+  /** ☆☆☆☆ ✔ Example: 243 */
+  TagR?: number
+  /** ☆☆☆☆ ✔ Example: "v" */
+  TagS?: string
+  /** ☆☆☆☆ ✔ Example: 4016 */
+  ThmLen?: number
   /** ☆☆☆☆   Example: "41 110 240" */
   UnderflowColor?: string
-  /** ☆☆☆☆   Example: 45 */
-  Compass?: string
-  /** ☆☆☆☆ ✔ Example: 800 */
-  AutoISOMax?: number
-  /** ☆☆☆☆ ✔ Example: 3200 */
-  AutoISOMin?: number
-  /** ☆☆☆☆ ✔ Example: "Up" */
-  AutoRotation?: string
-  /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
-  DeviceName?: string
-  /** ☆☆☆☆ ✔ Example: "AUTO" */
-  MaximumShutterAngle?: string
-  /** ☆☆☆☆ ✔ Example: "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000" */
-  MediaUniqueID?: string
-  /** ☆☆☆☆ ✔ Example: "7.6.4" */
-  MetadataVersion?: string
-  /** ☆☆☆☆ ✔ Example: "12MP_W" */
-  PhotoResolution?: string
-  /** ☆☆☆☆ ✔ Example: "On" */
-  ProTune?: string
-  /** ☆☆☆☆ ✔ Example: "4_1SEC" */
-  Rate?: string
+  /** ★☆☆☆ ✔ Example: "vf0-3c" */
+  Version?: string
+  /** ☆☆☆☆   Example: 4054 */
+  YLevel?: number
+  /** ☆☆☆☆   Example: 2209 */
+  YTarget?: number
+  /** ☆☆☆☆ ✔ Example:  */
+  Zoom?: string
+  /** ☆☆☆☆   Example: 9 */
+  ZoomPos?: number
 }
 
 /**
@@ -397,20 +397,20 @@ export interface CompositeTags {
   CircleOfConfusion?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ConditionalFEC?: number
-  /** ★★☆☆ ✔ Example: "inf (9.66 m - inf)" */
-  DOF?: string
   /** ☆☆☆☆ ✔ Example: "2021:03:16 18:14:25" */
   DigitalCreationDateTime?: ExifDateTime | string
+  /** ★★☆☆ ✔ Example: "inf (9.66 m - inf)" */
+  DOF?: string
   /** ★★☆☆ ✔ Example: "Unknown (3152)" */
   DriveMode?: string
   /** ☆☆☆☆ ✔ Example: "Not attached" */
   ExtenderStatus?: string
-  /** ★★★★ ✔ Example: "97.7 deg" */
-  FOV?: string
   /** ☆☆☆☆ ✔ Example: "Optional,TTL" */
   FlashType?: string
   /** ★★★★ ✔ Example: "99.7 mm (35 mm equivalent: 554.0 mm)" */
   FocalLength35efl?: string
+  /** ★★★★ ✔ Example: "97.7 deg" */
+  FOV?: string
   /** ☆☆☆☆ ✔ Example: "2024:04:21 04:09:51Z" */
   GPSDateTime?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "7.196465 134.376806666667" */
@@ -433,7 +433,7 @@ export interface CompositeTags {
   OriginalDecisionData?: BinaryField | string
   /** ☆☆☆☆   Example: "9.9 um" */
   PeakSpectralSensitivity?: string
-  /** ★★★☆ ✔ Example: "(Binary data 315546 bytes, use -b option to extract)" */
+  /** ★★★☆ ✔ Example: "(Binary data 37244 bytes, use -b option to extract)" */
   PreviewImage?: BinaryField
   /** ★★☆☆ ✔ Example: 38.625 */
   RedBalance?: number
@@ -487,7 +487,7 @@ export interface FlashPixTags {
   ExtensionName?: string
   /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
   ExtensionPersistence?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 57881 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 46285 bytes, use -b option to extract)" */
   ScreenNail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   UsedExtensionNumbers?: number
@@ -561,12 +561,12 @@ export interface EXIFTags {
   BlackLevelRepeatDim?: string
   /** ★★★☆ ✔ Example: 9.9919505 */
   BrightnessValue?: number
+  /** ☆☆☆☆   Example: 6.1 */
+  CameraElevationAngle?: number
   /** ☆☆☆☆ ✔ Example: "Red,Green,Blue" */
   CFAPlaneColor?: string
   /** ☆☆☆☆ ✔ Example: "2 2" */
   CFARepeatPatternDim?: string
-  /** ☆☆☆☆   Example: 6.1 */
-  CameraElevationAngle?: number
   /** ☆☆☆☆ ✔ Example: "On" */
   ChromaticAberrationCorrection?: string
   /** ★★★★ ✔ Example: "sRGB" */
@@ -583,10 +583,6 @@ export interface EXIFTags {
   CreateDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "Unknown (Custom process)" */
   CustomRendered?: string
-  /** ☆☆☆☆ ✔ Example: "1.3.0.0" */
-  DNGBackwardVersion?: string
-  /** ☆☆☆☆ ✔ Example: "1.4.0.0" */
-  DNGVersion?: string
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
   DateTimeOriginal?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "8 8" */
@@ -597,6 +593,10 @@ export interface EXIFTags {
   DeviceSettingDescription?: BinaryField | string
   /** ★★★☆ ✔ Example: 8.1319764 */
   DigitalZoomRatio?: number
+  /** ☆☆☆☆ ✔ Example: "1.3.0.0" */
+  DNGBackwardVersion?: string
+  /** ☆☆☆☆ ✔ Example: "1.4.0.0" */
+  DNGVersion?: string
   /** ☆☆☆☆   Example: "" */
   DocumentName?: string
   /** ★★★★ ✔ Example: 990 */
@@ -611,14 +611,14 @@ export interface EXIFTags {
   ExposureProgram?: string
   /** ★★★★ ✔ Example: "inf" */
   ExposureTime?: string
-  /** ★★★★ ✔ Example: 90 */
-  FNumber?: number
   /** ★★★★ ✔ Example: "Unknown (DSC)" */
   FileSource?: string
   /** ★★★★ ✔ Example: "Unknown (0xffff)" */
   Flash?: string
   /** ☆☆☆☆ ✔ Example: 54 */
   FlashEnergy?: number
+  /** ★★★★ ✔ Example: 90 */
+  FNumber?: number
   /** ★★★★ ✔ Example: "99.7 mm" */
   FocalLength?: string
   /** ★★★☆ ✔ Example: "9920 mm" */
@@ -629,14 +629,16 @@ export interface EXIFTags {
   FocalPlaneXResolution?: number
   /** ★★★☆ ✔ Example: 9846.1538 */
   FocalPlaneYResolution?: number
+  /** ★★★☆ ✔ Example: "Unknown (8176)" */
+  GainControl?: string
+  /** ☆☆☆☆ ✔ Example: 2.4921875 */
+  Gamma?: number
   /** ★☆☆☆ ✔ Example: 99.8 */
   GPSAltitude?: number
   /** ☆☆☆☆ ✔ Example: "Unknown (Sea level reference)" */
   GPSAltitudeRef?: string
   /** ☆☆☆☆ ✔ Example: "府中市郷土の森博物館" */
   GPSAreaInformation?: string
-  /** ☆☆☆☆ ✔ Example: 9 */
-  GPSDOP?: number
   /** ☆☆☆☆ ✔ Example: "2024:04:21" */
   GPSDateStamp?: ExifDate | string
   /** ☆☆☆☆ ✔ Example: 86.180049 */
@@ -657,6 +659,8 @@ export interface EXIFTags {
   GPSDestLongitudeRef?: string
   /** ☆☆☆☆ ✔ Example: "No Correction" */
   GPSDifferential?: string
+  /** ☆☆☆☆ ✔ Example: 9 */
+  GPSDOP?: number
   /** ☆☆☆☆ ✔ Example: "8.937059922 m" */
   GPSHPositioningError?: string
   /** ☆☆☆☆ ✔ Example: 94.800416 */
@@ -687,10 +691,6 @@ export interface EXIFTags {
   GPSStatus?: string
   /** ☆☆☆☆ ✔ Example: "23:59:41.001" */
   GPSTimeStamp?: ExifTime | string
-  /** ★★★☆ ✔ Example: "Unknown (8176)" */
-  GainControl?: string
-  /** ☆☆☆☆ ✔ Example: 2.4921875 */
-  Gamma?: number
   /** ☆☆☆☆ ✔ Example: 1 */
   HighISOMultiplierBlue?: number
   /** ☆☆☆☆ ✔ Example: 1 */
@@ -699,16 +699,16 @@ export interface EXIFTags {
   HighISOMultiplierRed?: number
   /** ☆☆☆☆ ✔ Example: "iPhone 15 Plus" */
   HostComputer?: string
-  /** ★★★★ ✔ Example: 993 */
-  ISO?: number
-  /** ☆☆☆☆ ✔ Example: 80 */
-  ISOSpeed?: number
   /** ★★★☆ ✔ Example: "untitled" */
   ImageDescription?: string
   /** ★★★★ ✔ Example: "Unknown ([None])" */
   InteropIndex?: string
   /** ★★★★ ✔ Example: "undef undef undef" */
   InteropVersion?: string
+  /** ★★★★ ✔ Example: 993 */
+  ISO?: number
+  /** ☆☆☆☆ ✔ Example: 80 */
+  ISOSpeed?: number
   /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
@@ -817,8 +817,6 @@ export interface EXIFTags {
   ResolutionUnit?: string
   /** ☆☆☆☆ ✔ Example: 96 */
   RowsPerStrip?: number
-  /** ☆☆☆☆ ✔ Example: 4 */
-  SRawType?: number
   /** ☆☆☆☆ ✔ Example: 3 */
   SamplesPerPixel?: number
   /** ★★★★ ✔ Example: "n/a" */
@@ -843,18 +841,14 @@ export interface EXIFTags {
   SonyToneCurve?: string
   /** ☆☆☆☆ ✔ Example: 668058300 */
   SpatialFrequencyResponse?: number
+  /** ☆☆☆☆ ✔ Example: 4 */
+  SRawType?: number
   /** ☆☆☆☆ ✔ Example: 800 */
   StandardOutputSensitivity?: number
   /** ☆☆☆☆ ✔ Example: 9600 */
   StripByteCounts?: number
   /** ☆☆☆☆ ✔ Example: 986 */
   StripOffsets?: number
-  /** ★☆☆☆ ✔ Example: 996 */
-  SubSecTime?: number
-  /** ★☆☆☆ ✔ Example: 996 */
-  SubSecTimeDigitized?: number
-  /** ★☆☆☆ ✔ Example: 999 */
-  SubSecTimeOriginal?: number
   /** ☆☆☆☆ ✔ Example: "Reduced-resolution image" */
   SubfileType?: string
   /** ☆☆☆☆ ✔ Example: "967 967 1425 851" */
@@ -865,6 +859,12 @@ export interface EXIFTags {
   SubjectDistanceRange?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   SubjectLocation?: number
+  /** ★☆☆☆ ✔ Example: 996 */
+  SubSecTime?: number
+  /** ★☆☆☆ ✔ Example: 996 */
+  SubSecTimeDigitized?: number
+  /** ★☆☆☆ ✔ Example: 999 */
+  SubSecTimeOriginal?: number
   /** ★★★★ ✔ Example: "(Binary data 39781 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ★★★★ ✔ Example: 9998 */
@@ -897,6 +897,8 @@ export interface EXIFTags {
   WhiteLevel?: number
   /** ☆☆☆☆ ✔ Example: "9696 8192 8192 7136" */
   WhitePoint?: string
+  /** ☆☆☆☆   Example: "Redmi 9T" */
+  XiaomiModel?: string
   /** ☆☆☆☆ ✔ Example: "Norm De Plume" */
   XPAuthor?: string
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
@@ -909,8 +911,6 @@ export interface EXIFTags {
   XPTitle?: string
   /** ★★★★ ✔ Example: 99 */
   XResolution?: number
-  /** ☆☆☆☆   Example: "Redmi 9T" */
-  XiaomiModel?: string
   /** ☆☆☆☆ ✔ Example: "0.299 0.587 0.114" */
   YCbCrCoefficients?: string
   /** ★★★★ ✔ Example: "Unknown (512)" */
@@ -926,10 +926,10 @@ export interface MetaTags {
   BorderLocation?: number
   /** ☆☆☆☆   Example: "None" */
   BorderName?: string
-  /** ☆☆☆☆   Example: 0 */
-  BorderType?: number
   /** ☆☆☆☆   Example: "1 0 0 0" */
   BordersVersion?: string
+  /** ☆☆☆☆   Example: 0 */
+  BorderType?: number
   /** ☆☆☆☆   Example: "KODAK DC5000 ZOOM DIGITAL CAMERA" */
   CameraOwner?: string
   /** ☆☆☆☆   Example: 1 */
@@ -1061,8 +1061,6 @@ export interface QuickTimeTags {
   EncodedPixelsDimensions?: string
   /** ☆☆☆☆ ✔ Example: "Helvetica" */
   FontName?: string
-  /** ☆☆☆☆ ✔ Example: "51 deg 6' 13.32" N, 0 deg 52' 23.52" W, 99.22 m Above Sea Level" */
-  GPSCoordinates?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   GenBalance?: number
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
@@ -1073,6 +1071,8 @@ export interface QuickTimeTags {
   GenMediaVersion?: number
   /** ☆☆☆☆ ✔ Example: "32768 32768 32768" */
   GenOpColor?: string
+  /** ☆☆☆☆ ✔ Example: "51 deg 6' 13.32" N, 0 deg 52' 23.52" W, 99.22 m Above Sea Level" */
+  GPSCoordinates?: string
   /** ☆☆☆☆ ✔ Example: "srcCopy" */
   GraphicsMode?: string
   /** ☆☆☆☆ ✔ Example: "Data Handler" */
@@ -1119,10 +1119,10 @@ export interface QuickTimeTags {
   OpColor?: string
   /** ☆☆☆☆ ✔ Example: "tmcd" */
   OtherFormat?: string
-  /** ☆☆☆☆ ✔ Example: "SEQ_PLAY" */
-  PlayMode?: string
   /** ☆☆☆☆ ✔ Example: 59.94006 */
   PlaybackFrameRate?: number
+  /** ☆☆☆☆ ✔ Example: "SEQ_PLAY" */
+  PlayMode?: string
   /** ☆☆☆☆ ✔ Example: "0 s" */
   PosterTime?: string
   /** ☆☆☆☆ ✔ Example: 1 */
@@ -1194,10 +1194,10 @@ export interface RAFTags {
   RAFCompression?: string
   /** ☆☆☆☆ ✔ Example: -1.7 */
   RawExposureBias?: number
-  /** ☆☆☆☆ ✔ Example: "6 16" */
-  RawImageCropTopLeft?: string
   /** ☆☆☆☆ ✔ Example: "4896x3264" */
   RawImageCroppedSize?: string
+  /** ☆☆☆☆ ✔ Example: "6 16" */
+  RawImageCropTopLeft?: string
   /** ☆☆☆☆ ✔ Example: 3296 */
   RawImageFullHeight?: number
   /** ☆☆☆☆ ✔ Example: "5120x3288" */
@@ -1311,12 +1311,42 @@ export interface JFIFTags {
 }
 
 export interface MakerNotesTags {
+  /** ☆☆☆☆ ✔ Example: 2 */
+  AccelerationTracking?: number
+  /** ☆☆☆☆ ✔ Example: "0.9421226483 0.0351725654 -0.3452420701" */
+  AccelerationVector?: string
+  /** ☆☆☆☆   Example: "358.3 11.2" */
+  Accelerometer?: string
+  /** ☆☆☆☆ ✔ Example: 9 */
+  AccelerometerX?: number
+  /** ☆☆☆☆ ✔ Example: 80 */
+  AccelerometerY?: number
+  /** ☆☆☆☆ ✔ Example: 56 */
+  AccelerometerZ?: number
+  /** ☆☆☆☆ ✔ Example: "00:00" */
+  AccessorySerialNumber?: string
+  /** ☆☆☆☆ ✔ Example: "NO-ACCESSORY" */
+  AccessoryType?: string
+  /** ☆☆☆☆   Example: "+0.0" */
+  ActualCompensation?: string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  AddAspectRatioInfo?: string
+  /** ☆☆☆☆ ✔ Example: "Disable" */
+  AddIPTCInformation?: string
+  /** ☆☆☆☆ ✔ Example: "On" */
+  AddOriginalDecisionData?: string
   /** ☆☆☆☆   Example: "(Binary data 1024 bytes, use -b option to extract)" */
   ADJDebugInfo?: BinaryField | string
+  /** ☆☆☆☆   Example: "X3F Setting Mode" */
+  AdjustmentMode?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   ADLBracketingStep?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   ADLBracketingType?: string
+  /** ☆☆☆☆ ✔ Example: "Toy Camera" */
+  AdvancedFilter?: string
+  /** ☆☆☆☆ ✔ Example: 9 */
+  AdvancedSceneType?: number
   /** ☆☆☆☆ ✔ Example: 9.9 */
   AEAperture?: number
   /** ☆☆☆☆ ✔ Example: 8 */
@@ -1327,6 +1357,8 @@ export interface MakerNotesTags {
   AEBAutoCancel?: string
   /** ★★☆☆ ✔ Example: 0 */
   AEBBracketValue?: number
+  /** ☆☆☆☆ ✔ Example: "AE Bracketing Disabled" */
+  AEBracketingSteps?: string
   /** ☆☆☆☆ ✔ Example: "0,-,+" */
   AEBSequence?: string
   /** ☆☆☆☆ ✔ Example: "0,-,+/Enabled" */
@@ -1335,8 +1367,6 @@ export interface MakerNotesTags {
   AEBShotCount?: string
   /** ☆☆☆☆ ✔ Example: 0.5 */
   AEBXv?: number
-  /** ☆☆☆☆ ✔ Example: "AE Bracketing Disabled" */
-  AEBracketingSteps?: string
   /** ☆☆☆☆   Example: "(Binary data 256 bytes, use -b option to extract)" */
   AEDebugInfo?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "1/965" */
@@ -1407,24 +1437,22 @@ export interface MakerNotesTags {
   AFAreaModeSetting?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   AFAreaPointSize?: string
-  /** ☆☆☆☆ ✔ Example: "AF area selection button" */
-  AFAreaSelectMethod?: string
+  /** ☆☆☆☆ ✔ Example: "none" */
+  AFAreas?: string
   /** ☆☆☆☆ ✔ Example: "Main Dial" */
   AFAreaSelectionMethod?: string
+  /** ☆☆☆☆ ✔ Example: "AF area selection button" */
+  AFAreaSelectMethod?: string
   /** ☆☆☆☆ ✔ Example: 996 */
   AFAreaWidth?: number
   /** ★☆☆☆ ✔ Example: "994 18 18 18 18 18 18 18 18" */
   AFAreaWidths?: string
   /** ☆☆☆☆ ✔ Example: 4388 */
   AFAreaXPosition?: number
-  /** ★☆☆☆ ✔ Example: "999 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0…0 0 0 0" */
-  AFAreaXPositions?: string
   /** ☆☆☆☆ ✔ Example: 744 */
   AFAreaYPosition?: number
   /** ☆☆☆☆ ✔ Example: "n/a" */
   AFAreaZoneSize?: string
-  /** ☆☆☆☆ ✔ Example: "none" */
-  AFAreas?: string
   /** ☆☆☆☆ ✔ Example: "Only ext. flash emits/Fires" */
   AFAssist?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
@@ -1465,10 +1493,10 @@ export interface MakerNotesTags {
   AFMicroAdjMode?: string
   /** ☆☆☆☆ ✔ Example: 2 */
   AFMicroAdjRegisteredLenses?: number
-  /** ☆☆☆☆ ✔ Example: 0 */
-  AFMicroAdjValue?: number
   /** ☆☆☆☆ ✔ Example: "Disable; 0; 0; 0; 84" */
   AFMicroadjustment?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  AFMicroAdjValue?: number
   /** ★☆☆☆ ✔ Example: "Zone" */
   AFMode?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -1505,6 +1533,8 @@ export interface MakerNotesTags {
   AFPointPosition?: string
   /** ☆☆☆☆ ✔ Example: "Center" */
   AFPointRegistration?: string
+  /** ☆☆☆☆   Example: "Center" */
+  AFPoints?: string
   /** ☆☆☆☆ ✔ Example: "Use Half" */
   AFPointSel?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
@@ -1515,24 +1545,22 @@ export interface MakerNotesTags {
   AFPointSelectionMethod?: string
   /** ☆☆☆☆ ✔ Example: "Lower-right" */
   AFPointSetting?: string
-  /** ☆☆☆☆ ✔ Example: "9/Active AF point" */
-  AFPointSpotMetering?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  AFPointSwitching?: number
-  /** ☆☆☆☆   Example: "Center" */
-  AFPoints?: string
   /** ★★☆☆ ✔ Example: "Upper-right, Top" */
   AFPointsInFocus?: string
   /** ☆☆☆☆ ✔ Example: "C6 (C6)" */
   AFPointsInFocus1D?: string
   /** ☆☆☆☆ ✔ Example: "Center" */
   AFPointsInFocus5D?: string
+  /** ☆☆☆☆ ✔ Example: "9/Active AF point" */
+  AFPointSpotMetering?: string
   /** ☆☆☆☆ ✔ Example: 9 */
   AFPointsSelected?: number
   /** ☆☆☆☆   Example: 17 */
   AFPointsSpecial?: number
   /** ☆☆☆☆ ✔ Example: "Top" */
   AFPointsUsed?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  AFPointSwitching?: number
   /** ☆☆☆☆ ✔ Example: 903 */
   AFPredictor?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -1561,36 +1589,6 @@ export interface MakerNotesTags {
   AIServoTrackingSensitivity?: string
   /** ☆☆☆☆ ✔ Example: "Off; Object Not Found" */
   AISubjectTrackingMode?: string
-  /** ☆☆☆☆ ✔ Example: 2 */
-  AccelerationTracking?: number
-  /** ☆☆☆☆ ✔ Example: "0.9421226483 0.0351725654 -0.3452420701" */
-  AccelerationVector?: string
-  /** ☆☆☆☆   Example: "358.3 11.2" */
-  Accelerometer?: string
-  /** ☆☆☆☆ ✔ Example: 9 */
-  AccelerometerX?: number
-  /** ☆☆☆☆ ✔ Example: 80 */
-  AccelerometerY?: number
-  /** ☆☆☆☆ ✔ Example: 56 */
-  AccelerometerZ?: number
-  /** ☆☆☆☆ ✔ Example: "00:00" */
-  AccessorySerialNumber?: string
-  /** ☆☆☆☆ ✔ Example: "NO-ACCESSORY" */
-  AccessoryType?: string
-  /** ☆☆☆☆   Example: "+0.0" */
-  ActualCompensation?: string
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  AddAspectRatioInfo?: string
-  /** ☆☆☆☆ ✔ Example: "Disable" */
-  AddIPTCInformation?: string
-  /** ☆☆☆☆ ✔ Example: "On" */
-  AddOriginalDecisionData?: string
-  /** ☆☆☆☆   Example: "X3F Setting Mode" */
-  AdjustmentMode?: string
-  /** ☆☆☆☆ ✔ Example: "Toy Camera" */
-  AdvancedFilter?: string
-  /** ☆☆☆☆ ✔ Example: 9 */
-  AdvancedSceneType?: number
   /** ☆☆☆☆ ✔ Example: "91 m" */
   Altitude?: string
   /** ☆☆☆☆ ✔ Example: "Standard" */
@@ -1661,28 +1659,28 @@ export interface MakerNotesTags {
   AutoAperture?: string
   /** ☆☆☆☆   Example: "None" */
   AutoBracket?: string
-  /** ☆☆☆☆ ✔ Example: "Flash/Speed" */
-  AutoBracketModeM?: string
-  /** ☆☆☆☆ ✔ Example: "0,-,+" */
-  AutoBracketOrder?: string
-  /** ☆☆☆☆ ✔ Example: "Exposure" */
-  AutoBracketSet?: string
   /** ★☆☆☆ ✔ Example: "On" */
   AutoBracketing?: string
   /** ☆☆☆☆ ✔ Example: "Flash/Speed" */
   AutoBracketingMode?: string
   /** ☆☆☆☆ ✔ Example: "AE Only" */
   AutoBracketingSet?: string
+  /** ☆☆☆☆ ✔ Example: "Flash/Speed" */
+  AutoBracketModeM?: string
+  /** ☆☆☆☆ ✔ Example: "0,-,+" */
+  AutoBracketOrder?: string
+  /** ☆☆☆☆ ✔ Example: "Exposure" */
+  AutoBracketSet?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   AutoDistortionControl?: string
   /** ☆☆☆☆ ✔ Example: "400%" */
   AutoDynamicRange?: string
   /** ★★☆☆ ✔ Example: "On" */
   AutoExposureBracketing?: string
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  AutoFP?: string
   /** ☆☆☆☆ ✔ Example: "Subject and Background" */
   AutoFlashISOSensitivity?: string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  AutoFP?: string
   /** ★★☆☆ ✔ Example: 96 */
   AutoISO?: number
   /** ☆☆☆☆ ✔ Example: "1/30 s" */
@@ -1697,16 +1695,12 @@ export interface MakerNotesTags {
   AuxiliaryLens?: string
   /** ☆☆☆☆ ✔ Example: 6.7 */
   AvApertureSetting?: number
-  /** ☆☆☆☆ ✔ Example: "Disable" */
-  AvSettingWithoutLens?: string
   /** ☆☆☆☆ ✔ Example: "513 513 513 513" */
   AverageBlackLevel?: string
   /** ☆☆☆☆ ✔ Example: 9.875 */
   AverageLV?: number
-  /** ☆☆☆☆   Example: 8 */
-  BWFilter?: number
-  /** ☆☆☆☆ ✔ Example: "On" */
-  BWMode?: string
+  /** ☆☆☆☆ ✔ Example: "Disable" */
+  AvSettingWithoutLens?: string
   /** ☆☆☆☆ ✔ Example: "99:99:99 00:00:00" */
   BabyAge?: string
   /** ☆☆☆☆ ✔ Example: "" */
@@ -1811,22 +1805,10 @@ export interface MakerNotesTags {
   BurstUUID?: string
   /** ☆☆☆☆ ✔ Example: "Normal (enable)" */
   ButtonFunctionControlOff?: string
-  /** ☆☆☆☆   Example: 2 */
-  CCDBoardVersion?: number
-  /** ☆☆☆☆ ✔ Example: "Interlaced" */
-  CCDScanMode?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  CCDSensitivity?: number
-  /** ☆☆☆☆   Example: 0 */
-  CCDVersion?: number
-  /** ☆☆☆☆ ✔ Example: "9 fps" */
-  CHModeShootingSpeed?: string
-  /** ☆☆☆☆ ✔ Example: "6 fps" */
-  CLModeShootingSpeed?: string
-  /** ☆☆☆☆ ✔ Example: "1.02.00.06" */
-  CPUFirmwareVersion?: string
-  /** ☆☆☆☆   Example: "d, 2009:09:04 03:19:07" */
-  CPUVersions?: string
+  /** ☆☆☆☆   Example: 8 */
+  BWFilter?: number
+  /** ☆☆☆☆ ✔ Example: "On" */
+  BWMode?: string
   /** ☆☆☆☆   Example: "Starting calibration file for SD14F13_Rev3; S/N C75_00001…8:16:34" */
   Calibration?: string
   /** ☆☆☆☆   Example: "2216/02/28 03:49:48" */
@@ -1861,26 +1843,32 @@ export interface MakerNotesTags {
   CanonFirmwareVersion?: string
   /** ★★☆☆ ✔ Example: "n/a" */
   CanonFlashMode?: string
-  /** ★☆☆☆ ✔ Example: 768 */
-  CanonImageHeight?: number
   /** ★★☆☆ ✔ Example: "n/a" */
   CanonImageSize?: string
   /** ★★☆☆ ✔ Example: "PIC:DC50 JPEG" */
   CanonImageType?: string
-  /** ★☆☆☆ ✔ Example: 8688 */
-  CanonImageWidth?: number
   /** ★★☆☆ ✔ Example: "XH A1S" */
   CanonModelID?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   CardShutterLock?: string
   /** ★☆☆☆ ✔ Example: "People" */
   Categories?: string
+  /** ☆☆☆☆   Example: 2 */
+  CCDBoardVersion?: number
+  /** ☆☆☆☆ ✔ Example: "Interlaced" */
+  CCDScanMode?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  CCDSensitivity?: number
+  /** ☆☆☆☆   Example: 0 */
+  CCDVersion?: number
   /** ☆☆☆☆ ✔ Example: "Normal Zone" */
   CenterAFArea?: string
   /** ☆☆☆☆ ✔ Example: "Normal Zone" */
   CenterFocusPoint?: string
-  /** ☆☆☆☆ ✔ Example: "8 mm" */
+  /** ☆☆☆☆ ✔ Example: "Small" */
   CenterWeightedAreaSize?: string
+  /** ☆☆☆☆ ✔ Example: "9 fps" */
+  CHModeShootingSpeed?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   ChromaticAberrationCorr?: string
   /** ☆☆☆☆ ✔ Example: "9758 13871 16956 16964 14142 9776 30 9502 13101 15416 151…1 15949" */
@@ -1897,22 +1885,22 @@ export interface MakerNotesTags {
   ClarityControl?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   ClearRetouch?: string
+  /** ☆☆☆☆ ✔ Example: "6 fps" */
+  CLModeShootingSpeed?: string
   /** ☆☆☆☆ ✔ Example: "Sub-command Dial" */
   CmdDialsApertureSetting?: string
   /** ☆☆☆☆ ✔ Example: "Autofocus Off, Exposure Off" */
   CmdDialsChangeMainSub?: string
   /** ☆☆☆☆ ✔ Example: "On (Image Review Excluded)" */
   CmdDialsMenuAndPlayback?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  CmdDialsReverseRotExposureComp?: number
   /** ☆☆☆☆ ✔ Example: "No" */
   CmdDialsReverseRotation?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  CmdDialsReverseRotExposureComp?: number
   /** ☆☆☆☆   Example: "0 0 0" */
   ColorAdjustment?: string
   /** ☆☆☆☆   Example: "Off" */
   ColorAdjustmentMode?: string
-  /** ☆☆☆☆ ✔ Example: 257 */
-  ColorBW?: number
   /** ☆☆☆☆   Example: 256 */
   ColorBalanceBlue?: number
   /** ☆☆☆☆   Example: 65792 */
@@ -1923,6 +1911,8 @@ export interface MakerNotesTags {
   ColorBalanceVersion?: string
   /** ☆☆☆☆ ✔ Example: 24 */
   ColorBitDepth?: number
+  /** ☆☆☆☆ ✔ Example: 257 */
+  ColorBW?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
   ColorChromeEffect?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -1969,6 +1959,16 @@ export interface MakerNotesTags {
   ColorTempCustom?: number
   /** ☆☆☆☆ ✔ Example: 6071 */
   ColorTempDaylight?: number
+  /** ★☆☆☆ ✔ Example: 9900 */
+  ColorTemperature?: number
+  /** ☆☆☆☆ ✔ Example: 7820 */
+  ColorTemperatureAuto?: number
+  /** ☆☆☆☆ ✔ Example: "6300 K" */
+  ColorTemperatureCustom?: string
+  /** ☆☆☆☆ ✔ Example: "7200 K" */
+  ColorTemperatureSet?: string
+  /** ☆☆☆☆ ✔ Example: "Temperature" */
+  ColorTemperatureSetting?: string
   /** ☆☆☆☆ ✔ Example: 9826 */
   ColorTempFlash?: number
   /** ☆☆☆☆ ✔ Example: 4607 */
@@ -1981,16 +1981,6 @@ export interface MakerNotesTags {
   ColorTempShade?: number
   /** ☆☆☆☆ ✔ Example: 3212 */
   ColorTempTungsten?: number
-  /** ★☆☆☆ ✔ Example: 9900 */
-  ColorTemperature?: number
-  /** ☆☆☆☆ ✔ Example: 7820 */
-  ColorTemperatureAuto?: number
-  /** ☆☆☆☆ ✔ Example: "6300 K" */
-  ColorTemperatureCustom?: string
-  /** ☆☆☆☆ ✔ Example: "7200 K" */
-  ColorTemperatureSet?: string
-  /** ☆☆☆☆ ✔ Example: "Temperature" */
-  ColorTemperatureSetting?: string
   /** ☆☆☆☆   Example: 5 */
   ColorTint?: number
   /** ☆☆☆☆ ✔ Example: "Normal" */
@@ -2105,14 +2095,14 @@ export interface MakerNotesTags {
   ContrastStandard?: number
   /** ☆☆☆☆ ✔ Example: "Shutter Speed" */
   ControlDialSet?: string
+  /** ☆☆☆☆   Example: 0 */
+  ControllerBoardVersion?: number
   /** ★★☆☆ ✔ Example: "n/a" */
   ControlMode?: string
   /** ☆☆☆☆ ✔ Example: "High" */
   ControlRingResponse?: string
   /** ☆☆☆☆ ✔ Example: "Normal" */
   ControlRingRotation?: string
-  /** ☆☆☆☆   Example: 0 */
-  ControllerBoardVersion?: number
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
   ConversionLens?: string
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -2121,6 +2111,10 @@ export interface MakerNotesTags {
   CoringFilter?: number
   /** ☆☆☆☆   Example: 6807 */
   CorrelatedColorTemp?: number
+  /** ☆☆☆☆ ✔ Example: "1.02.00.06" */
+  CPUFirmwareVersion?: string
+  /** ☆☆☆☆   Example: "d, 2009:09:04 03:19:07" */
+  CPUVersions?: string
   /** ☆☆☆☆ ✔ Example: "Vivid" */
   CreativeStyle?: string
   /** ☆☆☆☆ ✔ Example: "Standard" */
@@ -2135,12 +2129,6 @@ export interface MakerNotesTags {
   CropLeftMargin?: number
   /** ☆☆☆☆ ✔ Example: "n/a" */
   CropMode?: string
-  /** ☆☆☆☆ ✔ Example: 8240 */
-  CropRightMargin?: number
-  /** ☆☆☆☆ ✔ Example: 8240 */
-  CropTopMargin?: number
-  /** ☆☆☆☆ ✔ Example: 5184 */
-  CropWidth?: number
   /** ☆☆☆☆ ✔ Example: 5792 */
   CroppedImageHeight?: number
   /** ☆☆☆☆ ✔ Example: 3153968 */
@@ -2149,10 +2137,18 @@ export interface MakerNotesTags {
   CroppedImageTop?: number
   /** ☆☆☆☆ ✔ Example: 8688 */
   CroppedImageWidth?: number
+  /** ☆☆☆☆ ✔ Example: 8240 */
+  CropRightMargin?: number
+  /** ☆☆☆☆ ✔ Example: 8240 */
+  CropTopMargin?: number
+  /** ☆☆☆☆ ✔ Example: 5184 */
+  CropWidth?: number
   /** ☆☆☆☆   Example: "Off" */
   CrossProcess?: string
   /** ☆☆☆☆ ✔ Example: "20 0 19 2 0 65535 65535 65535 2 2 0 65535 65535 65535 18 … 4 5 31" */
   CustomControls?: string
+  /** ☆☆☆☆ ✔ Example: "0 0 1 30 31 0 0 0 0 0 0 2 30 31 0 0 0 0 0 0 5 30 31 0 0 0…1 1 1 0" */
+  CustomizeDials?: string
   /** ☆☆☆☆ ✔ Example: "P-STUDIO" */
   CustomPictureStyleFileName?: string
   /** ☆☆☆☆ ✔ Example: "CS3 (min CS0, max CS4)" */
@@ -2171,17 +2167,9 @@ export interface MakerNotesTags {
   CustomWBRedLevel?: number
   /** ☆☆☆☆ ✔ Example: "Setup" */
   CustomWBSetting?: string
-  /** ☆☆☆☆ ✔ Example: "0 0 1 30 31 0 0 0 0 0 0 2 30 31 0 0 0 0 0 0 5 30 31 0 0 0…1 1 1 0" */
-  CustomizeDials?: string
-  /** ☆☆☆☆   Example: "Unknown (27471)" */
-  DECPosition?: string
-  /** ☆☆☆☆ ✔ Example: "100.00.00.00" */
-  DSPFirmwareVersion?: string
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  DXCropAlert?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DarkFocusEnvironment?: string
-  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
+  /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
   DataDump?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 8289 */
   DataScaling?: number
@@ -2199,6 +2187,8 @@ export interface MakerNotesTags {
   DateTimeUTC?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   DaylightSavings?: string
+  /** ☆☆☆☆   Example: "Unknown (27471)" */
+  DECPosition?: string
   /** ☆☆☆☆ ✔ Example: "Erase selected" */
   DefaultEraseOption?: string
   /** ☆☆☆☆ ✔ Example: 3 */
@@ -2243,26 +2233,30 @@ export interface MakerNotesTags {
   DisplayAperture?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
   DistortionControl?: string
-  /** ☆☆☆☆ ✔ Example: "88 0 -136 -288 -480 -696 -944 -1200 -1480 -1752 -2040 0 0 0 0 0" */
-  DistortionCorrParams?: string
-  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  DistortionCorrParamsNumber?: string
-  /** ☆☆☆☆ ✔ Example: "Yes" */
-  DistortionCorrParamsPresent?: string
   /** ★☆☆☆ ✔ Example: "Unknown (60)" */
   DistortionCorrection?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   DistortionCorrectionSetting?: string
   /** ☆☆☆☆ ✔ Example: 100 */
   DistortionCorrectionValue?: number
+  /** ☆☆☆☆ ✔ Example: "88 0 -136 -288 -480 -696 -944 -1200 -1480 -1752 -2040 0 0 0 0 0" */
+  DistortionCorrParams?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
+  DistortionCorrParamsNumber?: string
+  /** ☆☆☆☆ ✔ Example: "Yes" */
+  DistortionCorrParamsPresent?: string
   /** ☆☆☆☆ ✔ Example: "Single Frame" */
   DriveModeSetting?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   DriveSpeed?: string
+  /** ☆☆☆☆ ✔ Example: "100.00.00.00" */
+  DSPFirmwareVersion?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   DualPixelRaw?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 1024 bytes, use -b option to extract)" */
   DustRemovalData?: BinaryField | string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  DXCropAlert?: string
   /** ☆☆☆☆ ✔ Example: "9 Points" */
   DynamicAFArea?: string
   /** ☆☆☆☆ ✔ Example: "On" */
@@ -2287,16 +2281,6 @@ export interface MakerNotesTags {
   DynamicRangeOptimizerSetting?: string
   /** ☆☆☆☆ ✔ Example: "Manual" */
   DynamicRangeSetting?: string
-  /** ☆☆☆☆ ✔ Example: "Evaluative" */
-  ETTLII?: string
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  EVStepSize?: string
-  /** ☆☆☆☆ ✔ Example: "1/3 EV Steps" */
-  EVSteps?: string
-  /** ☆☆☆☆ ✔ Example: "Manual" */
-  EXRAuto?: string
-  /** ☆☆☆☆ ✔ Example: "HR (High Resolution)" */
-  EXRMode?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   EasyExposureComp?: string
   /** ☆☆☆☆ ✔ Example: "On" */
@@ -2323,28 +2307,34 @@ export interface MakerNotesTags {
   EpsonSoftware?: string
   /** ☆☆☆☆ ✔ Example: "0100" */
   EquipmentVersion?: string
+  /** ☆☆☆☆ ✔ Example: "Evaluative" */
+  ETTLII?: string
   /** ☆☆☆☆   Example: 89 */
   EventNumber?: number
+  /** ☆☆☆☆ ✔ Example: "1/3 EV Steps" */
+  EVSteps?: string
+  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  EVStepSize?: string
   /** ☆☆☆☆ ✔ Example: "97.5 mm" */
   ExitPupilPosition?: string
+  /** ☆☆☆☆ ✔ Example: "Not Indicated" */
+  ExposureBracketingIndicatorLast?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ExposureBracketShotNumber?: number
   /** ☆☆☆☆ ✔ Example: 0.5 */
   ExposureBracketStepSize?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   ExposureBracketValue?: number
-  /** ☆☆☆☆ ✔ Example: "Not Indicated" */
-  ExposureBracketingIndicatorLast?: string
   /** ☆☆☆☆ ✔ Example: "Enable" */
   ExposureCompAutoCancel?: string
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ExposureCompStepSize?: string
   /** ☆☆☆☆ ✔ Example: "Ambient and Flash" */
   ExposureCompensationMode?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ExposureCompensationSet?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   ExposureCompensationSetting?: number
+  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  ExposureCompStepSize?: string
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
   ExposureControlStep?: string
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
@@ -2369,6 +2359,10 @@ export interface MakerNotesTags {
   ExposureTuning?: number
   /** ★☆☆☆ ✔ Example: "Good" */
   ExposureWarning?: string
+  /** ☆☆☆☆ ✔ Example: "Manual" */
+  EXRAuto?: string
+  /** ☆☆☆☆ ✔ Example: "HR (High Resolution)" */
+  EXRMode?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   ExtendedMenuBanks?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -2395,10 +2389,10 @@ export interface MakerNotesTags {
   ExternalFlashFirmware?: string
   /** ☆☆☆☆ ✔ Example: "(none)" */
   ExternalFlashFlags?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  ExternalFlashGValue?: number
   /** ☆☆☆☆ ✔ Example: "n/a" */
   ExternalFlashGuideNumber?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  ExternalFlashGValue?: number
   /** ☆☆☆☆ ✔ Example: 1 */
   ExternalFlashMode?: number
   /** ☆☆☆☆ ✔ Example: "n/a" */
@@ -2417,8 +2411,6 @@ export interface MakerNotesTags {
   EyeDetection?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   EyeStartAF?: string
-  /** ☆☆☆☆ ✔ Example: "Enable; 0; 8; 0" */
-  FEMicroadjustment?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (II*)" */
   FaceDetect?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 383 bytes, use -b option to extract)" */
@@ -2445,14 +2437,16 @@ export interface MakerNotesTags {
   FacePosition?: string
   /** ☆☆☆☆ ✔ Example: "918 1058 1959 2101" */
   FacePositions?: string
-  /** ☆☆☆☆ ✔ Example: 35 */
-  FaceWidth?: number
   /** ★★★☆ ✔ Example: 65535 */
   FacesDetected?: number
   /** ☆☆☆☆ ✔ Example: 12336 */
   FacesRecognized?: number
+  /** ☆☆☆☆ ✔ Example: 35 */
+  FaceWidth?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   Fade?: number
+  /** ☆☆☆☆ ✔ Example: "Enable; 0; 8; 0" */
+  FEMicroadjustment?: string
   /** ☆☆☆☆ ✔ Example: "X3F" */
   FileFormat?: string
   /** ☆☆☆☆ ✔ Example: 9984 */
@@ -2679,6 +2673,8 @@ export interface MakerNotesTags {
   FocusHoldButton?: string
   /** ☆☆☆☆ ✔ Example: "0100" */
   FocusInfoVersion?: string
+  /** ☆☆☆☆ ✔ Example: "Eh-A" */
+  FocusingScreen?: string
   /** ☆☆☆☆ ✔ Example: "9504 6336 6029 2587" */
   FocusLocation?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
@@ -2739,8 +2735,6 @@ export interface MakerNotesTags {
   FocusTrackingLockOn?: string
   /** ★☆☆☆ ✔ Example: "Out of focus" */
   FocusWarning?: string
-  /** ☆☆☆☆ ✔ Example: "Eh-A" */
-  FocusingScreen?: string
   /** ☆☆☆☆   Example: "Standard Form" */
   FolderName?: string
   /** ☆☆☆☆ ✔ Example: 373 */
@@ -2775,14 +2769,14 @@ export interface MakerNotesTags {
   FuncButtonPlusDials?: string
   /** ☆☆☆☆ ✔ Example: "ISO Display" */
   FunctionButton?: string
+  /** ☆☆☆☆ ✔ Example: 256 */
+  GainBase?: number
   /** ☆☆☆☆   Example: "4320x3240" */
   GEImageSize?: string
   /** ☆☆☆☆   Example: "GEDSC DIGITAL CAMERA           " */
   GEMake?: string
   /** ☆☆☆☆   Example: "J1470S" */
   GEModel?: string
-  /** ☆☆☆☆ ✔ Example: 256 */
-  GainBase?: number
   /** ☆☆☆☆   Example: "1279,-900,0" */
   GimbalDegree?: string
   /** ☆☆☆☆ ✔ Example: "n/a; User-Selected" */
@@ -2839,12 +2833,10 @@ export interface MakerNotesTags {
   HighFrameRate?: string
   /** ★☆☆☆ ✔ Example: "n/a" */
   HighISONoiseReduction?: string
-  /** ☆☆☆☆   Example: 4 */
-  HighLowKeyAdj?: number
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  HighSpeedSync?: string
   /** ☆☆☆☆   Example: 0.1 */
   Highlight?: number
+  /** ☆☆☆☆ ✔ Example: 0 */
+  Highlights?: number
   /** ☆☆☆☆ ✔ Example: "0 0" */
   HighlightShadow?: string
   /** ☆☆☆☆ ✔ Example: "0 (normal)" */
@@ -2853,8 +2845,10 @@ export interface MakerNotesTags {
   HighlightTonePriority?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   HighlightWarning?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  Highlights?: number
+  /** ☆☆☆☆   Example: 4 */
+  HighLowKeyAdj?: number
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  HighSpeedSync?: string
   /** ☆☆☆☆   Example: "disable, " */
   Histogram?: string
   /** ☆☆☆☆ ✔ Example: "ndon" */
@@ -2875,46 +2869,6 @@ export interface MakerNotesTags {
   HueAdjustment?: string
   /** ☆☆☆☆   Example: "(Binary data 8 bytes, use -b option to extract)" */
   HyperlapsDebugInfo?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: 800 */
-  ISO2?: number
-  /** ☆☆☆☆   Example: "On" */
-  ISOAuto?: string
-  /** ☆☆☆☆ ✔ Example: "Same As Without Flash" */
-  ISOAutoFlashLimit?: string
-  /** ☆☆☆☆ ✔ Example: "Unknown (0x6)" */
-  ISOAutoHiLimit?: string
-  /** ☆☆☆☆ ✔ Example: 800 */
-  ISOAutoMax?: number
-  /** ☆☆☆☆ ✔ Example: 80 */
-  ISOAutoMin?: number
-  /** ☆☆☆☆   Example: "Shutter Speed Control; 1/32" */
-  ISOAutoMinSpeed?: string
-  /** ☆☆☆☆ ✔ Example: "Auto (Faster)" */
-  ISOAutoShutterTime?: string
-  /** ☆☆☆☆ ✔ Example: "Show Frame Count" */
-  ISODisplay?: string
-  /** ☆☆☆☆ ✔ Example: "On" */
-  ISOExpansion?: string
-  /** ☆☆☆☆ ✔ Example: 800 */
-  ISOFloor?: number
-  /** ☆☆☆☆   Example: "Auto" */
-  ISOSelected?: string
-  /** ☆☆☆☆ ✔ Example: "Manual" */
-  ISOSelection?: string
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ISOSensitivityStep?: string
-  /** ☆☆☆☆ ✔ Example: 90 */
-  ISOSetting?: number
-  /** ☆☆☆☆ ✔ Example: "Yes" */
-  ISOSpeedExpansion?: string
-  /** ☆☆☆☆ ✔ Example: "1/3 Stop" */
-  ISOSpeedIncrements?: string
-  /** ☆☆☆☆ ✔ Example: "Enable; Max 3200; Min 1" */
-  ISOSpeedRange?: string
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ISOStepSize?: string
-  /** ☆☆☆☆ ✔ Example: 79.44 */
-  ISOValue?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
   Illumination?: string
   /** ☆☆☆☆ ✔ Example: "Normal" */
@@ -3025,10 +2979,50 @@ export interface MakerNotesTags {
   IntervalNumber?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
   IntervalPriority?: string
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  IntervalShooting?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   Intervals?: number
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  IntervalShooting?: string
+  /** ☆☆☆☆ ✔ Example: 800 */
+  ISO2?: number
+  /** ☆☆☆☆   Example: "On" */
+  ISOAuto?: string
+  /** ☆☆☆☆ ✔ Example: "Same As Without Flash" */
+  ISOAutoFlashLimit?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (0x6)" */
+  ISOAutoHiLimit?: string
+  /** ☆☆☆☆ ✔ Example: 800 */
+  ISOAutoMax?: number
+  /** ☆☆☆☆ ✔ Example: 80 */
+  ISOAutoMin?: number
+  /** ☆☆☆☆   Example: "Shutter Speed Control; 1/32" */
+  ISOAutoMinSpeed?: string
+  /** ☆☆☆☆ ✔ Example: "Auto (Faster)" */
+  ISOAutoShutterTime?: string
+  /** ☆☆☆☆ ✔ Example: "Show Frame Count" */
+  ISODisplay?: string
+  /** ☆☆☆☆ ✔ Example: "On" */
+  ISOExpansion?: string
+  /** ☆☆☆☆ ✔ Example: 800 */
+  ISOFloor?: number
+  /** ☆☆☆☆   Example: "Auto" */
+  ISOSelected?: string
+  /** ☆☆☆☆ ✔ Example: "Manual" */
+  ISOSelection?: string
+  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  ISOSensitivityStep?: string
+  /** ☆☆☆☆ ✔ Example: 90 */
+  ISOSetting?: number
+  /** ☆☆☆☆ ✔ Example: "Yes" */
+  ISOSpeedExpansion?: string
+  /** ☆☆☆☆ ✔ Example: "1/3 Stop" */
+  ISOSpeedIncrements?: string
+  /** ☆☆☆☆ ✔ Example: "Enable; Max 3200; Min 1" */
+  ISOSpeedRange?: string
+  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  ISOStepSize?: string
+  /** ☆☆☆☆ ✔ Example: 79.44 */
+  ISOValue?: number
   /** ☆☆☆☆ ✔ Example: "n/a (Movie)" */
   JPEGQuality?: string
   /** ☆☆☆☆ ✔ Example: "Size Priority" */
@@ -3057,6 +3051,12 @@ export interface MakerNotesTags {
   KodakModel?: string
   /** ☆☆☆☆   Example: "1.0.0.0" */
   KodakVersion?: string
+  /** ☆☆☆☆ ✔ Example: "English" */
+  Language?: string
+  /** ☆☆☆☆   Example: 92 */
+  LastFileNumber?: number
+  /** ☆☆☆☆ ✔ Example: "n/a" */
+  LateralChromaticAberration?: string
   /** ☆☆☆☆ ✔ Example: "Retain power off status" */
   LCDDisplayAtPowerOn?: string
   /** ☆☆☆☆ ✔ Example: "With Shutter Button only" */
@@ -3067,17 +3067,9 @@ export interface MakerNotesTags {
   LCDIlluminationDuringBulb?: string
   /** ☆☆☆☆ ✔ Example: "Remain. shots/File no." */
   LCDPanels?: string
-  /** ☆☆☆☆ ✔ Example: "Masked" */
-  LVShootingAreaDisplay?: string
-  /** ☆☆☆☆ ✔ Example: "English" */
-  Language?: string
-  /** ☆☆☆☆   Example: 92 */
-  LastFileNumber?: number
-  /** ☆☆☆☆ ✔ Example: "n/a" */
-  LateralChromaticAberration?: string
   /** ☆☆☆☆   Example: "4.0 to 22" */
   LensApertureRange?: string
-  /** ☆☆☆☆ ✔ Example: "Aperture" */
+  /** ☆☆☆☆ ✔ Example: "None (Disabled)" */
   LensControlRing?: string
   /** ☆☆☆☆ ✔ Example: "0802" */
   LensDataVersion?: string
@@ -3087,8 +3079,6 @@ export interface MakerNotesTags {
   LensDriveNoAF?: string
   /** ☆☆☆☆ ✔ Example: "Continue Focus Search" */
   LensDriveWhenAFImpossible?: string
-  /** ☆☆☆☆ ✔ Example: 8.67 */
-  LensFStops?: number
   /** ☆☆☆☆   Example: "RL8 :V01390000 " */
   LensFirmware?: string
   /** ☆☆☆☆ ✔ Example: "Ver.04.000" */
@@ -3101,6 +3091,8 @@ export interface MakerNotesTags {
   LensFocusFunctionButtons?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (72)" */
   LensFormat?: string
+  /** ☆☆☆☆ ✔ Example: 8.67 */
+  LensFStops?: number
   /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
   LensFunc1Button?: string
   /** ☆☆☆☆ ✔ Example: "AF-On" */
@@ -3113,7 +3105,7 @@ export interface MakerNotesTags {
   LensModulationOptimizer?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (74)" */
   LensMount?: string
-  /** ☆☆☆☆ ✔ Example: "Z-mount Lens" */
+  /** ☆☆☆☆ ✔ Example: "Z-mount" */
   LensMountType?: string
   /** ☆☆☆☆ ✔ Example: 91 */
   LensPositionAbsolute?: number
@@ -3147,6 +3139,8 @@ export interface MakerNotesTags {
   LevelOrientation?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   LightCondition?: number
+  /** ☆☆☆☆   Example: "Shadow Enhance Low" */
+  LightingMode?: string
   /** ☆☆☆☆   Example: 8 */
   LightReading?: number
   /** ☆☆☆☆   Example: "Unknown (512)" */
@@ -3157,8 +3151,6 @@ export interface MakerNotesTags {
   LightValueCenter?: number
   /** ☆☆☆☆ ✔ Example: 7.796875 */
   LightValuePeriphery?: number
-  /** ☆☆☆☆   Example: "Shadow Enhance Low" */
-  LightingMode?: string
   /** ☆☆☆☆ ✔ Example: "No Restrictions" */
   LimitAFAreaModeSelection?: string
   /** ☆☆☆☆ ✔ Example: 12735 */
@@ -3199,22 +3191,20 @@ export interface MakerNotesTags {
   LocationName?: string
   /** ☆☆☆☆ ✔ Example: "Protect (hold:record memo); 31" */
   LockMicrophoneButton?: string
-  /** ☆☆☆☆ ✔ Example: "Yes" */
-  LongExposureNRUsed?: string
   /** ★☆☆☆ ✔ Example: "n/a" */
   LongExposureNoiseReduction?: string
+  /** ☆☆☆☆ ✔ Example: "Yes" */
+  LongExposureNRUsed?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   LowLightAF?: string
   /** ☆☆☆☆ ✔ Example: 0.014752804 */
   LuminanceNoiseAmplitude?: number
   /** ☆☆☆☆   Example: "+0.500" */
   LuminanceNoiseReduction?: string
+  /** ☆☆☆☆ ✔ Example: "Masked" */
+  LVShootingAreaDisplay?: string
   /** ☆☆☆☆   Example: 0 */
   M16CVersion?: number
-  /** ☆☆☆☆ ✔ Example: "Bulgaria (284)" */
-  MCCData?: string
-  /** ☆☆☆☆ ✔ Example: 99 */
-  MCUVersion?: number
   /** ★★☆☆ ✔ Example: "Unknown (3)" */
   Macro?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -3237,10 +3227,10 @@ export interface MakerNotesTags {
   ManometerPressure?: string
   /** ☆☆☆☆ ✔ Example: "400 m, 1320 ft" */
   ManometerReading?: string
-  /** ☆☆☆☆ ✔ Example: "Stops at AF Area Edges" */
-  ManualAFPointSelPattern?: string
   /** ☆☆☆☆ ✔ Example: "Stops at AF area edges" */
   ManualAFPointSelectPattern?: string
+  /** ☆☆☆☆ ✔ Example: "Stops at AF Area Edges" */
+  ManualAFPointSelPattern?: string
   /** ☆☆☆☆ ✔ Example: "On (1/64 strength)" */
   ManualFlash?: string
   /** ★★☆☆ ✔ Example: "n/a" */
@@ -3273,6 +3263,10 @@ export interface MakerNotesTags {
   MaxFaces?: string
   /** ★★☆☆ ✔ Example: "96.2 mm" */
   MaxFocalLength?: string
+  /** ☆☆☆☆ ✔ Example: "Bulgaria (284)" */
+  MCCData?: string
+  /** ☆☆☆☆ ✔ Example: 99 */
+  MCUVersion?: number
   /** ★★☆☆ ✔ Example: 9.97 */
   MeasuredEV?: number
   /** ☆☆☆☆ ✔ Example: 9.375 */
@@ -3299,14 +3293,14 @@ export interface MakerNotesTags {
   MergedImages?: number
   /** ☆☆☆☆ ✔ Example: "THm211000000000" */
   MetaVersion?: string
-  /** ☆☆☆☆   Example: "Matrix metering" */
-  MeterMode?: string
   /** ☆☆☆☆ ✔ Example: "Matrix" */
   Metering?: string
   /** ☆☆☆☆ ✔ Example: "Within Range" */
   MeteringOffScaleIndicator?: string
   /** ☆☆☆☆ ✔ Example: "8 s" */
   MeteringTime?: string
+  /** ☆☆☆☆   Example: "Matrix metering" */
+  MeterMode?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   MidRangeSharpness?: string
   /** ★★☆☆ ✔ Example: 9.8 */
@@ -3339,10 +3333,10 @@ export interface MakerNotesTags {
   MirrorLockup?: string
   /** ☆☆☆☆ ✔ Example: "Manual" */
   ModeDialPosition?: string
-  /** ☆☆☆☆ ✔ Example: 2018 */
-  ModelReleaseYear?: number
   /** ☆☆☆☆ ✔ Example: "On" */
   ModelingFlash?: string
+  /** ☆☆☆☆ ✔ Example: 2018 */
+  ModelReleaseYear?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   ModifiedColorTemp?: number
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -3431,6 +3425,8 @@ export interface MakerNotesTags {
   MovieSubSelectorAssignment?: string
   /** ☆☆☆☆ ✔ Example: "None" */
   MovieSubSelectorAssignmentPlusDials?: string
+  /** ☆☆☆☆ ✔ Example: "H.265 10-bit (MOV)" */
+  MovieType?: string
   /** ☆☆☆☆ ✔ Example: "Yes" */
   MovieWhiteBalanceSameAsPhoto?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -3449,12 +3445,16 @@ export interface MakerNotesTags {
   MultiExposureShots?: number
   /** ☆☆☆☆ ✔ Example: "0103" */
   MultiExposureVersion?: string
-  /** ☆☆☆☆ ✔ Example: "Normal" */
-  MultiFrameNREffect?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   MultiFrameNoiseReduction?: string
+  /** ☆☆☆☆ ✔ Example: "Normal" */
+  MultiFrameNREffect?: string
   /** ☆☆☆☆ ✔ Example: "On (quick control dial)" */
   MultiFunctionLock?: string
+  /** ☆☆☆☆ ✔ Example: "On (2 frames); 1" */
+  MultipleExposureMode?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (15)" */
+  MultipleExposureSet?: string
   /** ☆☆☆☆ ✔ Example: "Reset Meter-off Delay" */
   MultiSelector?: string
   /** ☆☆☆☆ ✔ Example: "Start Movie Recording" */
@@ -3463,10 +3463,6 @@ export interface MakerNotesTags {
   MultiSelectorPlaybackMode?: string
   /** ☆☆☆☆ ✔ Example: "Select Center Focus Point (Reset)" */
   MultiSelectorShootMode?: string
-  /** ☆☆☆☆ ✔ Example: "On (2 frames); 1" */
-  MultipleExposureMode?: string
-  /** ☆☆☆☆ ✔ Example: "Unknown (15)" */
-  MultipleExposureSet?: string
   /** ★☆☆☆ ✔ Example: "Vivid" */
   MyColorMode?: string
   /** ★★☆☆ ✔ Example: "n/a" */
@@ -3475,7 +3471,7 @@ export interface MakerNotesTags {
   NEFBitDepth?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (Auto)" */
   NeutralDensityFilter?: string
@@ -3485,34 +3481,34 @@ export interface MakerNotesTags {
   NikonImageSize?: string
   /** ☆☆☆☆ ✔ Example: "Matrix" */
   NikonMeteringMode?: string
-  /** ☆☆☆☆ ✔ Example: "Release Locked" */
-  NoMemoryCard?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   NoiseFilter?: string
   /** ★★☆☆ ✔ Example: "[4]" */
   NoiseReduction?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   NoiseReductionStrength?: number
+  /** ☆☆☆☆ ✔ Example: "Release Locked" */
+  NoMemoryCard?: string
   /** ☆☆☆☆ ✔ Example: 5.7 */
   NominalMaxAperture?: number
   /** ☆☆☆☆ ✔ Example: 7 */
   NominalMinAperture?: number
   /** ☆☆☆☆ ✔ Example: 16383 */
   NormalWhiteLevel?: number
-  /** ☆☆☆☆ ✔ Example: 3 */
-  NumFaceElements?: number
-  /** ☆☆☆☆ ✔ Example: 65535 */
-  NumFacePositions?: number
   /** ☆☆☆☆ ✔ Example: "55 Points" */
   NumberOfFocusPoints?: string
   /** ☆☆☆☆ ✔ Example: 32 */
   NumberOffsets?: number
+  /** ☆☆☆☆ ✔ Example: 3 */
+  NumFaceElements?: number
+  /** ☆☆☆☆ ✔ Example: 65535 */
+  NumFacePositions?: number
+  /** ☆☆☆☆   Example: "inf" */
+  ObjectDistance?: string
   /** ☆☆☆☆ ✔ Example: 5 */
   OISMode?: number
   /** ☆☆☆☆ ✔ Example: "Select Center Focus Point" */
   OKButton?: string
-  /** ☆☆☆☆   Example: "inf" */
-  ObjectDistance?: string
   /** ☆☆☆☆ ✔ Example: 960 */
   OlympusImageHeight?: number
   /** ☆☆☆☆ ✔ Example: 3648 */
@@ -3549,8 +3545,6 @@ export interface MakerNotesTags {
   OutputLUT?: BinaryField | string
   /** ★★☆☆ ✔ Example: "Itsa Myowna" */
   OwnerName?: string
-  /** ☆☆☆☆ ✔ Example: 3 */
-  POILevel?: number
   /** ☆☆☆☆ ✔ Example: "Off" */
   PaintingFilter?: string
   /** ☆☆☆☆ ✔ Example: "2023:01:19 22:32:42.04" */
@@ -3615,14 +3609,14 @@ export interface MakerNotesTags {
   PhotoIdentifier?: string
   /** ☆☆☆☆ ✔ Example: "Info Up-down, Playback Left-right" */
   PhotoInfoPlayback?: string
+  /** ☆☆☆☆ ✔ Example: 1 */
+  PhotosAppFeatureFlags?: number
   /** ☆☆☆☆ ✔ Example: "A" */
   PhotoShootingMenuBank?: string
   /** ☆☆☆☆ ✔ Example: "FX (36x24)" */
   PhotoShootingMenuBankImageArea?: string
   /** ☆☆☆☆ ✔ Example: "Vivid" */
   PhotoStyle?: string
-  /** ☆☆☆☆ ✔ Example: 1 */
-  PhotosAppFeatureFlags?: number
   /** ☆☆☆☆ ✔ Example: "Quick Adjust" */
   PictureControlAdjust?: string
   /** ☆☆☆☆ ✔ Example: "Vivid" */
@@ -3669,14 +3663,18 @@ export interface MakerNotesTags {
   PixelShiftInfo?: string
   /** ☆☆☆☆   Example: "On" */
   PixelShiftResolution?: string
-  /** ☆☆☆☆ ✔ Example: "Auto Rotate" */
-  PlayDisplay?: string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  PixelShiftShooting?: string
   /** ☆☆☆☆ ✔ Example: "5 min" */
   PlaybackMenusTime?: string
   /** ☆☆☆☆ ✔ Example: "20 s" */
   PlaybackMonitorOffTime?: string
   /** ☆☆☆☆ ✔ Example: "Use Separate Zoom Buttons" */
   PlaybackZoom?: string
+  /** ☆☆☆☆ ✔ Example: "Auto Rotate" */
+  PlayDisplay?: string
+  /** ☆☆☆☆ ✔ Example: 3 */
+  POILevel?: number
   /** ☆☆☆☆   Example: "Off" */
   PopupFlash?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -3739,14 +3737,6 @@ export interface MakerNotesTags {
   QuickControlDialInMeter?: string
   /** ☆☆☆☆   Example: "Off" */
   QuickShot?: string
-  /** ☆☆☆☆ ✔ Example: "n/a" */
-  RAWFileType?: string
-  /** ☆☆☆☆ ✔ Example: "Varies With Rotation Speed" */
-  RFLensMFFocusRingSensitivity?: string
-  /** ☆☆☆☆ ✔ Example: "n/a" */
-  RFLensType?: string
-  /** ☆☆☆☆ ✔ Example: "USA" */
-  ROMOperationMode?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   RangeFinder?: string
   /** ☆☆☆☆ ✔ Example: "RAW+Small/Normal" */
@@ -3767,6 +3757,8 @@ export interface MakerNotesTags {
   RawDevContrastValue?: string
   /** ☆☆☆☆ ✔ Example: "Original" */
   RawDevEditStatus?: string
+  /** ☆☆☆☆   Example: "9 (Q)" */
+  RawDevelopmentProcess?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
   RawDevEngine?: string
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -3779,6 +3771,8 @@ export interface MakerNotesTags {
   RawDevMemoryColorEmphasis?: number
   /** ☆☆☆☆ ✔ Example: "Noise Filter" */
   RawDevNoiseReduction?: string
+  /** ☆☆☆☆ ✔ Example: "Natural" */
+  RawDevPictureMode?: string
   /** ☆☆☆☆ ✔ Example: "0 -2 2" */
   RawDevPMContrast?: string
   /** ☆☆☆☆ ✔ Example: "2 0 -2 1" */
@@ -3789,8 +3783,6 @@ export interface MakerNotesTags {
   RawDevPMSaturation?: string
   /** ☆☆☆☆ ✔ Example: "0 -2 2" */
   RawDevPMSharpness?: string
-  /** ☆☆☆☆ ✔ Example: "Natural" */
-  RawDevPictureMode?: string
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
   RawDevSaturationEmphasis?: string
   /** ☆☆☆☆ ✔ Example: "(none)" */
@@ -3805,8 +3797,8 @@ export interface MakerNotesTags {
   RawDevWhiteBalance?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   RawDevWhiteBalanceValue?: number
-  /** ☆☆☆☆   Example: "9 (Q)" */
-  RawDevelopmentProcess?: string
+  /** ☆☆☆☆ ✔ Example: "n/a" */
+  RAWFileType?: string
   /** ☆☆☆☆ ✔ Example: "3712 2462" */
   RawImageCenter?: string
   /** ☆☆☆☆ ✔ Example: 3296 */
@@ -3825,14 +3817,14 @@ export interface MakerNotesTags {
   RecordDisplay?: string
   /** ☆☆☆☆ ✔ Example: 58 */
   RecordID?: number
-  /** ★★☆☆ ✔ Example: "TIF+JPEG" */
-  RecordMode?: string
-  /** ☆☆☆☆   Example: "Record while down" */
-  RecordShutterRelease?: string
   /** ☆☆☆☆   Example: "JPEG" */
   RecordingFormat?: string
   /** ☆☆☆☆   Example: "Auto" */
   RecordingMode?: string
+  /** ★★☆☆ ✔ Example: "TIF+JPEG" */
+  RecordMode?: string
+  /** ☆☆☆☆   Example: "Record while down" */
+  RecordShutterRelease?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   RedEyeRemoval?: string
   /** ☆☆☆☆   Example: "8D" */
@@ -3875,6 +3867,10 @@ export interface MakerNotesTags {
   ReverseIndicators?: string
   /** ☆☆☆☆ ✔ Example: "No" */
   ReverseShutterSpeedAperture?: string
+  /** ☆☆☆☆ ✔ Example: "Varies With Rotation Speed" */
+  RFLensMFFocusRingSensitivity?: string
+  /** ☆☆☆☆ ✔ Example: "n/a" */
+  RFLensType?: string
   /** ☆☆☆☆   Example: "2012:03:29 18:17:52" */
   RicohDate?: ExifDateTime | string
   /** ☆☆☆☆   Example: 960 */
@@ -3889,6 +3885,8 @@ export interface MakerNotesTags {
   Roll?: number
   /** ☆☆☆☆ ✔ Example: 90 */
   RollAngle?: number
+  /** ☆☆☆☆ ✔ Example: "USA" */
+  ROMOperationMode?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   RunTimeEpoch?: number
   /** ☆☆☆☆ ✔ Example: "Valid" */
@@ -3897,16 +3895,6 @@ export interface MakerNotesTags {
   RunTimeScale?: number
   /** ☆☆☆☆ ✔ Example: 987823130000000 */
   RunTimeValue?: number
-  /** ☆☆☆☆ ✔ Example: "sRAW2 (sRAW)" */
-  SRAWQuality?: string
-  /** ☆☆☆☆ ✔ Example: "Yes" */
-  SRActive?: string
-  /** ☆☆☆☆ ✔ Example: "97 mm" */
-  SRFocalLength?: string
-  /** ☆☆☆☆ ✔ Example: "4.25 s or longer" */
-  SRHalfPressTime?: string
-  /** ☆☆☆☆ ✔ Example: "Stabilized, Not ready" */
-  SRResult?: string
   /** ☆☆☆☆ ✔ Example: "Enable (Tv/Av)" */
   SafetyShift?: string
   /** ☆☆☆☆ ✔ Example: "Enable" */
@@ -3955,12 +3943,12 @@ export interface MakerNotesTags {
   ScreenTips?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
   SecondarySlotFunction?: string
-  /** ☆☆☆☆ ✔ Example: "Unknown (87)" */
-  SelectAFAreaSelectMode?: string
-  /** ☆☆☆☆ ✔ Example: "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], […], [14]" */
-  SelectAFAreaSelectionMode?: string
   /** ☆☆☆☆ ✔ Example: "45 points" */
   SelectableAFPoint?: string
+  /** ☆☆☆☆ ✔ Example: "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], […], [14]" */
+  SelectAFAreaSelectionMode?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (87)" */
+  SelectAFAreaSelectMode?: string
   /** ★★☆☆ ✔ Example: "Self-timer 5 or 10 s" */
   SelfTimer?: string
   /** ☆☆☆☆ ✔ Example: "0.5 s" */
@@ -4049,10 +4037,10 @@ export interface MakerNotesTags {
   Shadow?: number
   /** ☆☆☆☆   Example: "On" */
   ShadowCorrection?: string
-  /** ☆☆☆☆ ✔ Example: "0 (normal)" */
-  ShadowTone?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   Shadows?: number
+  /** ☆☆☆☆ ✔ Example: "0 (normal)" */
+  ShadowTone?: string
   /** ☆☆☆☆ ✔ Example: "On but Disabled" */
   ShakeReduction?: string
   /** ☆☆☆☆   Example: "Normal" */
@@ -4165,8 +4153,6 @@ export interface MakerNotesTags {
   SonyExposureTime?: string
   /** ☆☆☆☆ ✔ Example: 8.8 */
   SonyFNumber?: number
-  /** ☆☆☆☆ ✔ Example: 926 */
-  SonyISO?: number
   /** ☆☆☆☆ ✔ Example: 65535 */
   SonyImageHeight?: number
   /** ☆☆☆☆ ✔ Example: 6376 */
@@ -4177,6 +4163,8 @@ export interface MakerNotesTags {
   SonyImageWidth?: number
   /** ☆☆☆☆ ✔ Example: 9568 */
   SonyImageWidthMax?: number
+  /** ☆☆☆☆ ✔ Example: 926 */
+  SonyISO?: number
   /** ☆☆☆☆ ✔ Example: 5.5 */
   SonyMaxAperture?: number
   /** ☆☆☆☆ ✔ Example: 6.4 */
@@ -4213,10 +4201,20 @@ export interface MakerNotesTags {
   SpotFocusPointX?: number
   /** ☆☆☆☆   Example: 960 */
   SpotFocusPointY?: number
-  /** ☆☆☆☆ ✔ Example: "Enable (use active AF point)" */
-  SpotMeterLinkToAFPoint?: string
   /** ★☆☆☆ ✔ Example: "Center" */
   SpotMeteringMode?: string
+  /** ☆☆☆☆ ✔ Example: "Enable (use active AF point)" */
+  SpotMeterLinkToAFPoint?: string
+  /** ☆☆☆☆ ✔ Example: "Yes" */
+  SRActive?: string
+  /** ☆☆☆☆ ✔ Example: "sRAW2 (sRAW)" */
+  SRAWQuality?: string
+  /** ☆☆☆☆ ✔ Example: "97 mm" */
+  SRFocalLength?: string
+  /** ☆☆☆☆ ✔ Example: "4.25 s or longer" */
+  SRHalfPressTime?: string
+  /** ☆☆☆☆ ✔ Example: "Stabilized, Not ready" */
+  SRResult?: string
   /** ☆☆☆☆ ✔ Example: "Tripod high resolution" */
   StackedImage?: string
   /** ☆☆☆☆ ✔ Example: "6 s" */
@@ -4231,6 +4229,16 @@ export interface MakerNotesTags {
   StoreByOrientation?: string
   /** ☆☆☆☆ ✔ Example: "10 Frames" */
   SubDialFrameAdvance?: string
+  /** ☆☆☆☆ ✔ Example: "People" */
+  SubjectDetection?: string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  SubjectDetectionAreaMF?: string
+  /** ☆☆☆☆ ✔ Example: "Steady" */
+  SubjectMotion?: string
+  /** ☆☆☆☆   Example: "None" */
+  SubjectProgram?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
+  SubjectToDetect?: string
   /** ☆☆☆☆ ✔ Example: "Focus Point Selection" */
   SubSelector?: string
   /** ☆☆☆☆ ✔ Example: "Focus Point Selection" */
@@ -4239,18 +4247,10 @@ export interface MakerNotesTags {
   SubSelectorCenter?: string
   /** ☆☆☆☆ ✔ Example: "None" */
   SubSelectorPlusDials?: string
-  /** ☆☆☆☆ ✔ Example: "People" */
-  SubjectDetection?: string
-  /** ☆☆☆☆ ✔ Example: "Steady" */
-  SubjectMotion?: string
-  /** ☆☆☆☆   Example: "None" */
-  SubjectProgram?: string
-  /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
-  SubjectToDetect?: string
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  SuperMacro?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   SuperimposedDisplay?: string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  SuperMacro?: string
   /** ☆☆☆☆ ✔ Example: 100 */
   SvISOSetting?: number
   /** ☆☆☆☆ ✔ Example: "Right" */
@@ -4297,6 +4297,12 @@ export interface MakerNotesTags {
   Time?: ExifTime | string
   /** ☆☆☆☆ ✔ Example: 50336257 */
   TimeLapseShotNumber?: number
+  /** ☆☆☆☆ ✔ Example: "Self-timer" */
+  TimerFunctionButton?: string
+  /** ☆☆☆☆ ✔ Example: "Disable; 6 s: 6; 16 s: 16; After release: 2" */
+  TimerLength?: string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  TimerRecording?: string
   /** ☆☆☆☆ ✔ Example: "01:48:53.63" */
   TimeSincePowerOn?: ExifTime | string
   /** ☆☆☆☆ ✔ Example: "2023:10:13 04:33:41" */
@@ -4309,19 +4315,13 @@ export interface MakerNotesTags {
   TimeZoneCode?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   TimeZoneInfo?: number
-  /** ☆☆☆☆ ✔ Example: "Self-timer" */
-  TimerFunctionButton?: string
-  /** ☆☆☆☆ ✔ Example: "Disable; 6 s: 6; 16 s: 16; After release: 2" */
-  TimerLength?: string
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  TimerRecording?: string
   /** ☆☆☆☆ ✔ Example: "Normal" */
   ToneComp?: string
   /** ☆☆☆☆ ✔ Example: "Standard" */
   ToneCurve?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
   ToneCurveMatching?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1505 bytes, use -b option to extract)" */
   ToneCurveTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0" */
   ToneLevel?: string
@@ -4349,10 +4349,6 @@ export interface MakerNotesTags {
   TriggerMode?: string
   /** ☆☆☆☆ ✔ Example: "1/64" */
   TvExposureTimeSetting?: string
-  /** ☆☆☆☆ ✔ Example: "Enable" */
-  USBPowerDelivery?: string
-  /** ☆☆☆☆ ✔ Example: "Turns on after one-shot AF" */
-  USMLensElectronicMF?: string
   /** ☆☆☆☆ ✔ Example: "7860345b882000641403450101000000170d0f1d0f11827ca3111430d3000000" */
   UniqueID?: string
   /** ☆☆☆☆   Example: "ZME151000007" */
@@ -4365,6 +4361,8 @@ export interface MakerNotesTags {
   UsableMeteringModes?: string
   /** ☆☆☆☆ ✔ Example: "Flags 0x3f" */
   UsableShootingModes?: string
+  /** ☆☆☆☆ ✔ Example: "Enable" */
+  USBPowerDelivery?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
   UserDef1PictureStyle?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
@@ -4375,24 +4373,16 @@ export interface MakerNotesTags {
   UserLabel?: string
   /** ☆☆☆☆   Example: "dpreview  " */
   UserProfile?: string
-  /** ☆☆☆☆ ✔ Example: "Enable" */
-  VFDisplayIllumination?: string
-  /** ★☆☆☆ ✔ Example: 0 */
-  VRDOffset?: number
-  /** ☆☆☆☆ ✔ Example: "0200" */
-  VRInfoVersion?: string
-  /** ☆☆☆☆ ✔ Example: "Sport" */
-  VRMode?: string
-  /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
-  VRType?: string
+  /** ☆☆☆☆ ✔ Example: "Turns on after one-shot AF" */
+  USMLensElectronicMF?: string
   /** ★☆☆☆ ✔ Example: 99 */
   ValidAFPoints?: number
   /** ☆☆☆☆ ✔ Example: "12 0" */
   ValidBits?: string
-  /** ☆☆☆☆ ✔ Example: "Scene Auto" */
-  VariProgram?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   VariableLowPassFilter?: string
+  /** ☆☆☆☆ ✔ Example: "Scene Auto" */
+  VariProgram?: string
   /** ☆☆☆☆ ✔ Example: "Same as AF-On Button" */
   VerticalAFOnButton?: string
   /** ☆☆☆☆ ✔ Example: "Exposure Compensation" */
@@ -4405,6 +4395,8 @@ export interface MakerNotesTags {
   VerticalMovieFuncButton?: string
   /** ☆☆☆☆ ✔ Example: "Same as MultiSelector" */
   VerticalMultiSelector?: string
+  /** ☆☆☆☆ ✔ Example: "Enable" */
+  VFDisplayIllumination?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   VibrationReduction?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
@@ -4413,30 +4405,42 @@ export interface MakerNotesTags {
   VideoBurstResolution?: string
   /** ☆☆☆☆ ✔ Example: "No" */
   VideoPreburst?: string
-  /** ☆☆☆☆ ✔ Example: "Disable" */
-  ViewInfoDuringExposure?: string
   /** ☆☆☆☆ ✔ Example: "Frame Count" */
   ViewfinderDisplay?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   ViewfinderWarning?: string
   /** ☆☆☆☆ ✔ Example: "Monochrome, WB corrected, One-touch image quality, Noise …on, HDR" */
   ViewfinderWarnings?: string
+  /** ☆☆☆☆ ✔ Example: "Disable" */
+  ViewInfoDuringExposure?: string
   /** ☆☆☆☆ ✔ Example: "ViewFinder" */
   ViewingMode?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   VignetteControl?: string
   /** ☆☆☆☆   Example: "Off" */
   Vignetting?: string
+  /** ☆☆☆☆ ✔ Example: "n/a" */
+  VignettingCorrection?: string
   /** ☆☆☆☆ ✔ Example: "36 -17446 -19682 0 15496 -19605 -10627 -28672 187 27452 -… 99 121" */
   VignettingCorrParams?: string
   /** ☆☆☆☆ ✔ Example: 97 */
   VignettingCorrVersion?: number
-  /** ☆☆☆☆ ✔ Example: "n/a" */
-  VignettingCorrection?: string
   /** ☆☆☆☆   Example: "Off" */
   VoiceMemo?: string
+  /** ★☆☆☆ ✔ Example: 0 */
+  VRDOffset?: number
+  /** ☆☆☆☆ ✔ Example: "0200" */
+  VRInfoVersion?: string
+  /** ☆☆☆☆ ✔ Example: "Sport" */
+  VRMode?: string
+  /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
+  VRType?: string
+  /** ☆☆☆☆ ✔ Example: "Off" */
+  WatercolorFilter?: string
   /** ☆☆☆☆ ✔ Example: 9235 */
   WBBlueLevel?: number
+  /** ☆☆☆☆ ✔ Example: "WB Bracketing Disabled" */
+  WBBracketingSteps?: string
   /** ☆☆☆☆ ✔ Example: "Off" */
   WBBracketMode?: string
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -4445,8 +4449,6 @@ export interface MakerNotesTags {
   WBBracketValueAB?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   WBBracketValueGM?: number
-  /** ☆☆☆☆ ✔ Example: "WB Bracketing Disabled" */
-  WBBracketingSteps?: string
   /** ☆☆☆☆ ✔ Example: "Select To Send (PC)" */
   WBButtonPlaybackMode?: string
   /** ☆☆☆☆ ✔ Example: 60416 */
@@ -4465,8 +4467,6 @@ export interface MakerNotesTags {
   WBShiftGM?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   WBShiftIntelligentAuto?: number
-  /** ☆☆☆☆ ✔ Example: "Off" */
-  WatercolorFilter?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   WhiteBalanceAutoAdjustment?: string
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -4491,7 +4491,7 @@ export interface MakerNotesTags {
   WhiteBalanceSetting?: string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceSetup?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 2201 bytes, use -b option to extract)" */
   WhiteBalanceTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceTemperature?: string
@@ -4523,12 +4523,6 @@ export interface MakerNotesTags {
   ZoneMatchingOn?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ZoneMatchingValue?: number
-  /** ★★☆☆ ✔ Example: 768 */
-  ZoomSourceWidth?: number
-  /** ☆☆☆☆ ✔ Example: 8 */
-  ZoomStepCount?: number
-  /** ★★☆☆ ✔ Example: 6000 */
-  ZoomTargetWidth?: number
   /** ☆☆☆☆ ✔ Example: "(Binary data 64581 bytes, use -b option to extract)" */
   ZoomedPreviewImage?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 92592 */
@@ -4537,6 +4531,12 @@ export interface MakerNotesTags {
   ZoomedPreviewSize?: string
   /** ☆☆☆☆ ✔ Example: 4184638 */
   ZoomedPreviewStart?: number
+  /** ★★☆☆ ✔ Example: 768 */
+  ZoomSourceWidth?: number
+  /** ☆☆☆☆ ✔ Example: 8 */
+  ZoomStepCount?: number
+  /** ★★☆☆ ✔ Example: 6000 */
+  ZoomTargetWidth?: number
 }
 
 /**
@@ -4575,8 +4575,6 @@ export interface XMPTags {
   BurstID?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   BurstPrimary?: number
-  /** ☆☆☆☆   Example: 0 */
-  CamReverse?: number
   /** ☆☆☆☆ ✔ Example: "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89" */
   CameraBurstID?: string
   /** ☆☆☆☆   Example: "Front" */
@@ -4587,10 +4585,12 @@ export interface XMPTags {
   CameraProfile?: string
   /** ☆☆☆☆ ✔ Example: "D4FE5D91640D0C5A01B5633EB8061002" */
   CameraProfileDigest?: string
-  /** ☆☆☆☆   Example: "Rear" */
-  CameraUnit?: string
   /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
   Cameras?: Struct[]
+  /** ☆☆☆☆   Example: "Rear" */
+  CameraUnit?: string
+  /** ☆☆☆☆   Example: 0 */
+  CamReverse?: number
   /** ☆☆☆☆ ✔ Example: "Photo" */
   CaptureMode?: string
   /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
@@ -4615,14 +4615,14 @@ export interface XMPTags {
   ColorClass?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ColorLabel?: number
+  /** ☆☆☆☆ ✔ Example: "" */
+  Colorlabels?: string
   /** ☆☆☆☆ ✔ Example: 25 */
   ColorNoiseReduction?: number
   /** ☆☆☆☆ ✔ Example: 50 */
   ColorNoiseReductionDetail?: number
   /** ☆☆☆☆ ✔ Example: 50 */
   ColorNoiseReductionSmoothness?: number
-  /** ☆☆☆☆ ✔ Example: "" */
-  Colorlabels?: string
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
   Comment?: string
   /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
@@ -4645,10 +4645,10 @@ export interface XMPTags {
   CreatorContactInfo?: Struct
   /** ☆☆☆☆   Example: 1 */
   CreatorOpenWithUIOptions?: number
-  /** ☆☆☆☆ ✔ Example: "picnik.com" */
-  CreatorTool?: string
   /** ☆☆☆☆   Example: "Version Ver 1.04 " */
   Creatortool?: string
+  /** ☆☆☆☆ ✔ Example: "picnik.com" */
+  CreatorTool?: string
   /** ☆☆☆☆   Example: 0 */
   CropAngle?: number
   /** ☆☆☆☆   Example: 1 */
@@ -4657,10 +4657,6 @@ export interface XMPTags {
   CropConstrainToWarp?: number
   /** ☆☆☆☆ ✔ Example: "8 0" */
   CropLeft?: string
-  /** ☆☆☆☆   Example: 1 */
-  CropRight?: number
-  /** ☆☆☆☆ ✔ Example: "8 0" */
-  CropTop?: string
   /** ☆☆☆☆ ✔ Example: 3872 */
   CroppedAreaImageHeightPixels?: number
   /** ☆☆☆☆ ✔ Example: 7744 */
@@ -4669,6 +4665,10 @@ export interface XMPTags {
   CroppedAreaLeftPixels?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   CroppedAreaTopPixels?: number
+  /** ☆☆☆☆   Example: 1 */
+  CropRight?: number
+  /** ☆☆☆☆ ✔ Example: "8 0" */
+  CropTop?: string
   /** ☆☆☆☆ ✔ Example: "2014:05:11 13:08:25.659" */
   DateAcquired?: ExifDateTime | string
   /** ☆☆☆☆ ✔ Example: "2023:11:07" */
@@ -4757,8 +4757,6 @@ export interface XMPTags {
   GreenHue?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   GreenSaturation?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 23317 bytes, use -b option to extract)" */
-  HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: false */
   HasCrop?: boolean
   /** ☆☆☆☆ ✔ Example: "F995C3239BC6E6FC1997814864CD2CA2" */
@@ -4767,6 +4765,8 @@ export interface XMPTags {
   HasSettings?: boolean
   /** ☆☆☆☆ ✔ Example: "(Binary data 23388 bytes, use -b option to extract)" */
   HdrPlusMakernote?: BinaryField | string
+  /** ☆☆☆☆ ✔ Example: "(Binary data 23317 bytes, use -b option to extract)" */
+  HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: ["点像F11"] */
   HierarchicalSubject?: string[]
   /** ☆☆☆☆ ✔ Example: [{"Action":"converted","Parameters":"from image/x-canon-c…alse}}] */
@@ -4903,22 +4903,20 @@ export interface XMPTags {
   OriginalDocumentID?: string
   /** ☆☆☆☆ ✔ Example: false */
   OverrideLookVignette?: boolean
-  /** ☆☆☆☆ ✔ Example: "PM6" */
-  PMVersion?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ParametricDarks?: number
-  /** ☆☆☆☆ ✔ Example: 75 */
-  ParametricHighlightSplit?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   ParametricHighlights?: number
+  /** ☆☆☆☆ ✔ Example: 75 */
+  ParametricHighlightSplit?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   ParametricLights?: number
   /** ☆☆☆☆ ✔ Example: 50 */
   ParametricMidtoneSplit?: number
-  /** ☆☆☆☆ ✔ Example: 25 */
-  ParametricShadowSplit?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   ParametricShadows?: number
+  /** ☆☆☆☆ ✔ Example: 25 */
+  ParametricShadowSplit?: number
   /** ☆☆☆☆ ✔ Example: ["John Doe"] */
   PersonInImage?: string[]
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -4943,6 +4941,8 @@ export interface XMPTags {
   PickLabel?: number
   /** ☆☆☆☆ ✔ Example: "01.00" */
   PipelineVersion?: string
+  /** ☆☆☆☆ ✔ Example: "PM6" */
+  PMVersion?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   PortraitVersion?: number
   /** ☆☆☆☆ ✔ Example: 22.5 */
@@ -5114,8 +5114,8 @@ export interface XMPTags {
  * - a checkmark if the tag is used by popular devices (like iPhones), and
  * - an example value, JSON stringified.
  *
- * Autogenerated by "npm run mktags" by ExifTool 12.96 on Sun Oct 06 2024.
- * 2749 unique tags were found in 10128 photo and video files.
+ * Autogenerated by "npm run mktags" by ExifTool 12.97 on Sun Oct 06 2024.
+ * 2752 unique tags were found in 10128 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
  */
