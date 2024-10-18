@@ -11,9 +11,11 @@
 
 1. **Best-of-class cross-platform performance and reliability**.
 
-   This is the module that [PhotoStructure](https://photostructure.com) (and [500+](https://github.com/photostructure/exiftool-vendored.js/network/dependents) other projects) use for photo and video metadata reading and writing.
+   This library enables [PhotoStructure](https://photostructure.com) and [500+](https://github.com/photostructure/exiftool-vendored.js/network/dependents?package_id=UGFja2FnZS0xNjYxNjY2MQ%3D%3D) other projects to read and write metadata in photos and videos.
 
    Expect [an order of magnitude faster performance](#performance) than other Node.js ExifTool modules.
+
+   Thanks to being based on [ExifTool](https://exiftool.org/), it's the state of the art in high quality metadata extraction for thousands of file types.
 
 1. Best-effort extraction of
 
