@@ -21,7 +21,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 12.97 */
+  /** ★★★★ ✔ Example: 12.99 */
   ExifToolVersion?: number
   /** ☆☆☆☆   Example: "path/to/file.jpg" */
   SourceFile?: string
@@ -48,11 +48,11 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: "2024:10:06 17:12:25-07:00" */
+  /** ★★★★ ✔ Example: "2024:10:19 21:33:15-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ☆☆☆☆   Example:  */
   FileCreateDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2024:10:06 13:56:21-07:00" */
+  /** ★★★★ ✔ Example: "2024:10:19 10:23:10-07:00" */
   FileInodeChangeDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2024:06:15 18:39:22-07:00" */
   FileModifyDate?: ExifDateTime | string
@@ -161,7 +161,7 @@ export interface APPTags {
   DCTEncodeVersion?: number
   /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
   DeviceName?: string
-  /** ☆☆☆☆   Example: "(Binary data 275008 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 1998654 bytes, use -b option to extract)" */
   EmbeddedImage?: BinaryField | string
   /** ☆☆☆☆   Example: 960 */
   EmbeddedImageHeight?: number
@@ -709,7 +709,7 @@ export interface EXIFTags {
   ISO?: number
   /** ☆☆☆☆ ✔ Example: 80 */
   ISOSpeed?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 571392 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -865,7 +865,7 @@ export interface EXIFTags {
   SubSecTimeDigitized?: number
   /** ★☆☆☆ ✔ Example: 999 */
   SubSecTimeOriginal?: number
-  /** ★★★★ ✔ Example: "(Binary data 39781 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 8367 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ★★★★ ✔ Example: 9998 */
   ThumbnailLength?: number
@@ -877,7 +877,7 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
@@ -989,7 +989,7 @@ export interface PhotoshopTags {
   PhotoshopFormat?: string
   /** ☆☆☆☆ ✔ Example: 9 */
   PhotoshopQuality?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 5768 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 4291 bytes, use -b option to extract)" */
   PhotoshopThumbnail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "0 0" */
   PrintPosition?: string
@@ -3471,7 +3471,7 @@ export interface MakerNotesTags {
   NEFBitDepth?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (Auto)" */
   NeutralDensityFilter?: string
@@ -4321,7 +4321,7 @@ export interface MakerNotesTags {
   ToneCurve?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
   ToneCurveMatching?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1505 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
   ToneCurveTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0" */
   ToneLevel?: string
@@ -4491,7 +4491,7 @@ export interface MakerNotesTags {
   WhiteBalanceSetting?: string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceSetup?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2201 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
   WhiteBalanceTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceTemperature?: string
@@ -4585,7 +4585,7 @@ export interface XMPTags {
   CameraProfile?: string
   /** ☆☆☆☆ ✔ Example: "D4FE5D91640D0C5A01B5633EB8061002" */
   CameraProfileDigest?: string
-  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
+  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
   Cameras?: Struct[]
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
@@ -4625,7 +4625,7 @@ export interface XMPTags {
   ColorNoiseReductionSmoothness?: number
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
   Comment?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
   Container?: Struct
   /** ☆☆☆☆   Example: "/home/username/pictures" */
   ContainerDirectory?: ContainerDirectoryItem[] | Struct[]
@@ -4765,7 +4765,7 @@ export interface XMPTags {
   HasSettings?: boolean
   /** ☆☆☆☆ ✔ Example: "(Binary data 23388 bytes, use -b option to extract)" */
   HdrPlusMakernote?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 23317 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 49603 bytes, use -b option to extract)" */
   HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: ["点像F11"] */
   HierarchicalSubject?: string[]
@@ -4957,7 +4957,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
+  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
   Profiles?: Struct[]
   /** ☆☆☆☆   Example:  */
   ProgramMode?: string
@@ -5114,7 +5114,7 @@ export interface XMPTags {
  * - a checkmark if the tag is used by popular devices (like iPhones), and
  * - an example value, JSON stringified.
  *
- * Autogenerated by "npm run mktags" by ExifTool 12.97 on Sun Oct 06 2024.
+ * Autogenerated by "npm run mktags" by ExifTool 12.99 on Sat Oct 19 2024.
  * 2752 unique tags were found in 10128 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
