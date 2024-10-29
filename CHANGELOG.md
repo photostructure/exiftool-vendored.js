@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.8.0
+
+**Careful!** ExifTool versions are `NN.NN`: ExifTool's versions that are 0-padded won't parse with the `semver` library.
+
+- 🌱 ExifTool upgraded to version [13.00](https://exiftool.org/history.html#13.00).
+
+- 📦 Added Node.js v23 to the build matrix.
+
 ### v28.7.0
 
 - 🌱 ExifTool upgraded to version [12.99](https://exiftool.org/history.html#12.99)
