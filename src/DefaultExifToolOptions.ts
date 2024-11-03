@@ -69,9 +69,7 @@ export const DefaultExifToolOptions: Omit<
   numericTags: [
     "*Duration*",
     "GPSAltitude",
-    "GPSLatitude",
-    "GPSLongitude",
-    "GPSPosition",
+    "GeolocationPosition",
     "Orientation",
     // NOT Rotation! Rotation can be encoded as degrees rotated clockwise, or a
     // EXIF-Orientation string (!!). If we ask ExifTool for numeric rotations of HEICs,

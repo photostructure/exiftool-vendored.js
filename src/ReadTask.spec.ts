@@ -107,10 +107,7 @@ describe("ReadTask", () => {
         })
       ).to.containSubset({
         GPSLongitude: -114,
-        GPSLongitudeRef: "E",
-        warnings: [
-          "Invalid GPSLongitude or GPSLongitudeRef: expected E GPSLongitude > 0 but got -114",
-        ],
+        GPSLongitudeRef: "W",
       })
     })
     it("positive W lon is negative", () => {
@@ -119,11 +116,8 @@ describe("ReadTask", () => {
           tags: { GPSLongitude: 122, GPSLongitudeRef: "W", GPSLatitude: 1 },
         })
       ).to.containSubset({
-        GPSLongitude: 122,
+        GPSLongitude: -122,
         GPSLongitudeRef: "W",
-        warnings: [
-          "Invalid GPSLongitude or GPSLongitudeRef: expected W GPSLongitude < 0 but got 122",
-        ],
       })
     })
     it("negative W lon is positive", () => {
@@ -191,7 +185,7 @@ describe("ReadTask", () => {
                   GeolocationTimeZone: "Europe/Zurich",
                   GeolocationFeatureCode: "PPL",
                   GeolocationPopulation: 5600,
-                  GeolocationPosition: "47.0653, 8.3613",
+                  GeolocationPosition: "47.0653 8.3613",
                   GeolocationDistance: "1.71 km",
                   GeolocationBearing: 60,
                 })
@@ -201,6 +195,77 @@ describe("ReadTask", () => {
         )
       }
     }
+
+    it("omits all GPS tags if invalid lat/lon", () => {
+      expect(
+        parse({
+          tags: {
+            GPSLatitude: 0,
+            GPSLongitude: 0,
+            GeolocationCity: "Takoradi",
+            GeolocationRegion: "Western",
+            GeolocationSubregion: "Secondi Takoradi",
+            GeolocationCountryCode: "GH",
+            GeolocationCountry: "Ghana",
+            GeolocationTimeZone: "Africa/Accra",
+            GeolocationFeatureCode: "PPL",
+            GeolocationFeatureType: "Populated Place",
+            GeolocationPopulation: 390000,
+            GeolocationPosition: "4.8982, -1.7602",
+            GeolocationDistance: "578.67 km",
+            GeolocationBearing: 340,
+            GPSLatitudeRef: "North",
+            GPSLongitudeRef: "East",
+            GPSPosition: "0 deg 0' 0.00\" N, 0 deg 0' 0.00\" E",
+          },
+          ignoreZeroZeroLatLon: true,
+          geolocation: true,
+        })
+      ).to.eql({
+        SourceFile: "/tmp/example.jpg",
+        errors: [],
+        warnings: [],
+      })
+    })
+    it("extracts GPS tags if valid lat/lon", () => {
+      const tags = {
+        GPSLatitude: "37 deg 48' 3.45\" N",
+        GPSLongitude: "122 deg 23' 55.67\" W",
+        GPSLatitudeRef: "North",
+        GPSLongitudeRef: "West",
+        GPSPosition: "37 deg 48' 3.45\" N, 122 deg 23' 55.67\" W",
+        GeolocationCity: "Chinatown",
+        GeolocationRegion: "California",
+        GeolocationSubregion: "City and County of San Francisco",
+        GeolocationCountryCode: "US",
+        GeolocationCountry: "United States",
+        GeolocationTimeZone: "America/Los_Angeles",
+        GeolocationFeatureCode: "PPLX",
+        GeolocationFeatureType: "Section of Populated Place",
+        GeolocationPopulation: 100000,
+        GeolocationPosition: "37.7966, -122.4086",
+        GeolocationDistance: "1.01 km",
+        GeolocationBearing: 246,
+      }
+      expect(
+        parse({
+          tags,
+          ignoreZeroZeroLatLon: true,
+          geolocation: true,
+        })
+      ).to.eql({
+        ...tags,
+        GPSLatitude: 37.800958,
+        GPSLatitudeRef: "N",
+        GPSLongitude: -122.398797,
+        GPSLongitudeRef: "W",
+        SourceFile: "/tmp/example.jpg",
+        tz: "America/Los_Angeles",
+        tzSource: "GeolocationTimeZone",
+        errors: [],
+        warnings: [],
+      })
+    })
 
     describe("without *Ref fields", () => {
       for (const latSign of [1, -1]) {

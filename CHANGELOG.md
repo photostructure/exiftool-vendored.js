@@ -25,13 +25,25 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v28.9.0
+
+- 🐞/📦 ExifTool sometimes returns `boolean` values for some tags, like `SemanticStylePreset`, but uses "Yes" or "No" values for other tags, like `GPSValid` (TIL!). If the tag name ends in `Valid` and is truthy (1, true, "Yes") or falsy (0, false, "No"), we'll convert it to a boolean for you. Note that this is arguably a breaking API change, but it should be what you were already expecting (so is it a bug fix?). See the diff to the Tags interface in this version to verify what types have changed.
+
+- 🐞/📦 If the encoded GPS location is invalid, all `GPS*` and `Geolocation*` metadata will be omitted from `ExifTool.readTags()`. Prior versions let some values (like `GPSCoordinates`) from invalid values slip by.
+
+- 🐞/📦 GPS Latitude and GPS Longitude values will now respect `GeolocationPosition`'s hemisphere, if the `geolocation` option is enabled. This should address issues from Apple's buggy XMP exporter.
+
+- 🐞/📦 Reading and writing GPS latitude and GPS longitude values is surprisingly tricky, and could fail for some file formats due to inconsistent handling of negative values. Now, within `ExifTool.writeTags()`, we will automatically set `GPSLatitudeRef`, `GPSLongitudeRef`, and `GPSAltitude`. More tests were added to verify this workaround.
+
+- 🐞/📦 `GPSLatitudeRef` and `GPSLongitudeRef` will be backfilled to be correct. Note that they only return `"N" | "S" | "E" | "W"` now, rather than possibly being the full cardinal direction name.
+
 ### v28.8.0
 
 **Important:** ExifTool versions use the format `NN.NN` and do not follow semantic versioning. The version from ExifTool will not parse correctly with the `semver` library (for the next 10 versions) since they are zero- padded.
 
 - 🌱 Upgraded ExifTool to version [13.00](https://exiftool.org/history.html#13.00)
 
-   **Note:** ExifTool version numbers increment by 0.01 and do not follow semantic versioning conventions. The changes between version 12.99 and 13.00 are minor updates without any known breaking changes.
+  **Note:** ExifTool version numbers increment by 0.01 and do not follow semantic versioning conventions. The changes between version 12.99 and 13.00 are minor updates without any known breaking changes.
 
 - 📦 Added Node.js v23 to the build matrix.
 

@@ -1,4 +1,12 @@
 import { existsSync } from "node:fs"
+import {
+  UnicodeTestMessage,
+  assertEqlDateish,
+  expect,
+  randomChars,
+  testFile,
+  testImg,
+} from "./_chai.spec"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool, WriteTaskOptions } from "./ExifTool"
@@ -10,6 +18,7 @@ import {
 import { isFileEmpty } from "./File"
 import { isFileTag } from "./FileTags"
 import { omit } from "./Object"
+import { pick } from "./Pick"
 import { ResourceEvent } from "./ResourceEvent"
 import { isSidecarExt } from "./Sidecars"
 import { stripSuffix } from "./String"
@@ -17,14 +26,6 @@ import { Struct } from "./Struct"
 import { ExifToolTags, FileTags, Tags } from "./Tags"
 import { Version } from "./Version"
 import { WriteTags } from "./WriteTags"
-import {
-  UnicodeTestMessage,
-  assertEqlDateish,
-  expect,
-  randomChars,
-  testFile,
-  testImg,
-} from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
@@ -327,6 +328,11 @@ describe("WriteTask", function () {
                       exiftool.options.ignoreZeroZeroLatLon =
                         ignoreZeroZeroLatLon
                       const f = await dest()
+                      const prior = pick(
+                        (await exiftool.read(f).catch(() => ({}))) as any,
+                        "GPSLatitude",
+                        "GPSLongitude"
+                      )
                       await exiftool.write(f, { GPSLatitude, GPSLongitude })
                       const tags = await exiftool.read(f)
                       if (
@@ -334,8 +340,8 @@ describe("WriteTask", function () {
                         GPSLatitude === 0 &&
                         GPSLongitude === 0
                       ) {
-                        expect(tags.GPSLatitude).to.eql(undefined)
-                        expect(tags.GPSLongitude).to.eql(undefined)
+                        expect(tags.GPSLatitude).to.eql(prior?.GPSLatitude)
+                        expect(tags.GPSLongitude).to.eql(prior?.GPSLongitude)
                       } else {
                         expect(tags.GPSLatitude).to.be.closeTo(
                           GPSLatitude,
@@ -863,5 +869,135 @@ describe("WriteTask", function () {
       const after = await exiftool.read(f)
       expect(after).to.containSubset(regionData)
     })
+  })
+})
+
+describe("WriteTask", () => {
+  const exiftool = new ExifTool()
+  after(() => exiftool.end())
+
+  describe("GPS coordinate writing", () => {
+    // Test coordinates covering all hemispheres:
+    const testCoordinates = [
+      { lat: 37.7749, lon: -122.4194, desc: "NW - San Francisco" },
+      { lat: 40.7128, lon: -74.006, desc: "NW - New York" },
+      { lat: -33.8688, lon: 151.2093, desc: "SE - Sydney" },
+      { lat: -22.9068, lon: -43.1729, desc: "SW - Rio de Janeiro" },
+      { lat: 35.6762, lon: 139.6503, desc: "NE - Tokyo" },
+      { lat: 1.3521, lon: 103.8198, desc: "NE near equator - Singapore" },
+      { lat: -0.1855, lon: -78.4352, desc: "SW near equator - Quito" },
+    ]
+
+    const fileFormats = [
+      { type: "JPEG", getPath: () => testImg({ srcBasename: "noexif.jpg" }) },
+      { type: "MIE", getPath: () => testFile("test.mie") },
+      { type: "XMP", getPath: () => testFile("test.xmp") },
+    ]
+
+    for (const format of fileFormats) {
+      describe(`${format.type} files`, () => {
+        for (const coords of testCoordinates) {
+          const { lat, lon, desc } = coords
+
+          const assertTags = (tags: Tags) => {
+            // Verify latitude
+            expect(tags.GPSLatitude).to.be.closeTo(lat, 0.0001)
+            if (format.type !== "MIE") {
+              // .mie files don't get a Ref tag (!?!)
+              expect(tags.GPSLatitudeRef).to.equal(lat >= 0 ? "N" : "S")
+            }
+
+            // Verify longitude
+            expect(tags.GPSLongitude).to.be.closeTo(lon, 0.0001)
+            if (format.type !== "MIE") {
+              // .mie files don't get a Ref tag (!?!)
+              expect(tags.GPSLongitudeRef).to.equal(lon >= 0 ? "E" : "W")
+            }
+
+            // Verify GPSPosition format
+            const [latStr, lonStr] = tags.GPSPosition!.split(/[, ]/)
+            const parsedLat = parseFloat(latStr!)
+            const parsedLon = parseFloat(lonStr!)
+            expect(parsedLat).to.be.closeTo(lat, 0.0001)
+            expect(parsedLon).to.be.closeTo(lon, 0.0001)
+          }
+
+          it(`writes and reads back coordinates for ${desc}`, async () => {
+            const file = await format.getPath()
+            await exiftool.write(file, {
+              GPSLatitude: lat,
+              GPSLongitude: lon,
+            })
+            assertTags(await exiftool.read(file))
+          })
+
+          it(`writes and reads back GPSPosition for ${desc}`, async () => {
+            const file = await format.getPath()
+            await exiftool.write(file, {
+              GPSPosition: lat + "," + lon,
+            })
+            assertTags(await exiftool.read(file))
+          })
+
+          it(`handles clearing GPS data for ${desc}`, async () => {
+            const file = await format.getPath()
+
+            // First write coordinates
+            await exiftool.write(file, {
+              Title: `Something to avoid "Can't delete all meta information" error`,
+              GPSLatitude: lat,
+              GPSLongitude: lon,
+            })
+
+            // Then clear them
+            await exiftool.write(file, {
+              GPSLatitude: null,
+              GPSLongitude: null,
+            })
+
+            // Verify they're gone
+            const tags = await exiftool.read(file)
+            expect(tags.GPSLatitude).to.eql(undefined)
+            expect(tags.GPSLongitude).to.eql(undefined)
+            expect(tags.GPSLatitudeRef).to.eql(undefined)
+            expect(tags.GPSLongitudeRef).to.eql(undefined)
+            expect(tags.GPSPosition).to.eql(undefined)
+          })
+
+          // Test writing just latitude or longitude
+          xit(`handles writing only latitude for ${desc}`, async () => {
+            const file = await format.getPath()
+            await exiftool.write(file, { GPSLatitude: lat })
+            const tags = await exiftool.read(file)
+            expect(tags.GPSLatitude).to.be.closeTo(lat, 0.0001)
+            expect(tags.GPSLatitudeRef).to.equal(lat >= 0 ? "N" : "S")
+            expect(tags.GPSLongitude).to.eql(undefined)
+            expect(tags.GPSLongitudeRef).to.eql(undefined)
+          })
+
+          xit(`handles writing only longitude for ${desc}`, async () => {
+            const file = await format.getPath()
+            await exiftool.write(file, { GPSLongitude: lon })
+            const tags = await exiftool.read(file)
+            expect(tags.GPSLongitude).to.be.closeTo(lon, 0.0001)
+            expect(tags.GPSLongitudeRef).to.equal(lon >= 0 ? "E" : "W")
+            expect(tags.GPSLatitude).to.eql(undefined)
+            expect(tags.GPSLatitudeRef).to.eql(undefined)
+          })
+        }
+
+        it("rejects invalid latitude values", async () => {
+          const file = await format.getPath()
+          const write = exiftool.write(file, { GPSLatitude: 91 }) // > 90 degrees
+          await expect(write).to.be.rejectedWith(/Invalid GPSLatitude/)
+        })
+
+        it("rejects invalid longitude values", async () => {
+          const file = await format.getPath()
+          const write = exiftool.write(file, { GPSLongitude: 181 }) // > 180 degrees
+          await expect(write).to.be.rejectedWith(/Invalid GPSLongitude/)
+        })
+      })
+    }
   })
 })

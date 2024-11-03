@@ -61,6 +61,7 @@ export const WriteTaskOptionFields = [
   "struct",
   "ignoreMinorErrors",
   "writeArgs",
+  "ignoreZeroZeroLatLon",
 ] as const satisfies (keyof ExifToolOptions)[]
 
 export const DefaultWriteTaskOptions = {
@@ -131,11 +132,54 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     // in EXIF, XMP, and MIE encodings). See
     // https://exiftool.org/forum/index.php?topic=14488.0 and
     // https://github.com/photostructure/exiftool-vendored.js/issues/131
-    if (isNumber(tags.GPSLatitude)) {
-      tags.GPSLatitudeRef ??= tags.GPSLatitude >= 0 ? "N" : "S"
+
+    // See https://exiftool.org/TagNames/GPS.html
+
+    if (
+      options.ignoreZeroZeroLatLon &&
+      tags.GPSLatitude === 0 &&
+      tags.GPSLongitude === 0
+    ) {
+      delete tags.GPSLatitude
+      delete tags.GPSLatitudeRef
+      delete tags.GPSLongitude
+      delete tags.GPSLongitudeRef
     }
+
+    if (isNumber(tags.GPSLatitude)) {
+      if (Math.abs(tags.GPSLatitude) > 90) {
+        throw new Error(
+          `Invalid GPSLatitude: ${tags.GPSLatitude} is out of range`
+        )
+      }
+      // ExifTool will also accept a number when writing GPSLatitudeRef,
+      // positive for north latitudes or negative for south, or a string
+      // containing N, North, S or South)
+      tags.GPSLatitudeRef ??= tags.GPSLatitude as any
+    } else if (tags.GPSLatitude === null) {
+      tags.GPSLatitudeRef ??= null
+    }
+
     if (isNumber(tags.GPSLongitude)) {
-      tags.GPSLongitudeRef ??= tags.GPSLongitude >= 0 ? "E" : "W"
+      if (Math.abs(tags.GPSLongitude) > 180) {
+        throw new Error(
+          `Invalid GPSLongitude: ${tags.GPSLongitude} is out of range`
+        )
+      }
+      // ExifTool will also accept a number when writing this tag, positive
+      // for east longitudes or negative for west, or a string containing E,
+      // East, W or West
+      tags.GPSLongitudeRef ??= tags.GPSLongitude as any
+    } else if (tags.GPSLongitude === null) {
+      tags.GPSLongitudeRef ??= null
+    }
+
+    if (isNumber(tags.GPSAltitude)) {
+      // ExifTool will also accept number when writing this tag, with negative
+      // numbers indicating below sea level
+      tags.GPSAltitudeRef ??= tags.GPSAltitude as any
+    } else if (tags.GPSAltitude === null) {
+      tags.GPSAltitudeRef ??= null
     }
 
     for (const key of keys(tags)) {
