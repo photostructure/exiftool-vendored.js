@@ -31,6 +31,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 📦 Reduced `streamFlushMillis` to `10`. This reduced elapsed time for the full test suite by 2.5x on macOS and 3x on Windows, and drops the upper latency bound substantially. Note that this is at the risk of buffered stream collisions between tasks. The (extensive) test suite on Github Actions (whose virtual machines are notoriously slower than molasses) still runs solidly, but if you see internal errors, please open a Github issue and increase your `streamFlushMillis`.
 
+- 💔 TypeScript now emits ES2022, which requires Node.js 18.
+
 #### GPS improvements
 
 - 🐞/📦 GPS Latitude and GPS Longitude values are now parsed from [DMS notation](<https://en.wikipedia.org/wiki/Degree_(angle)#Subdivisions>), which seems to avoid some incorrectly signed values in some file formats (especially for some problematic XMP exports, like from Apple Photos). Numeric GPSLatitude and GPSLongitude are still accepted: to avoid the new coordinates parsing code, restore `GPSLatitude` and `GPSLongitude` to the `ExifToolOptions.numericTags` array.
