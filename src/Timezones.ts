@@ -374,7 +374,9 @@ export const TimezoneOffsetTagnames = [
   // hours, 2. If present, the time zone offset of ModifyDate (which we
   // ignore) @see https://www.exiftool.org/TagNames/EXIF.html
   "TimeZoneOffset", // number | number[] | string
-  "GeolocationTimeZone",
+  
+  // We DON'T use "GeolocationTimezone" here, as at this layer in the glue
+  // factory we don't have access to the ExifTool option "ignoreZeroZeroLatLon"
 ] as const satisfies readonly (keyof Tags)[]
 
 export function incrementZone(
