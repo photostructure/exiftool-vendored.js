@@ -1,7 +1,7 @@
 import path from "node:path"
 import { ExifDateTime } from "./ExifDateTime"
 import { ExifTool } from "./ExifTool"
-import { expect, testImg } from "./_chai.spec"
+import { end, expect, testImg } from "./_chai.spec"
 
 describe("RewriteAllTagsTask", () => {
   for (const opts of [
@@ -14,7 +14,7 @@ describe("RewriteAllTagsTask", () => {
       const d = new Date()
       d.setMilliseconds(0)
 
-      after(() => exiftool.end())
+      after(() => end(exiftool))
 
       it("throws on missing input", async function () {
         this.slow(500)

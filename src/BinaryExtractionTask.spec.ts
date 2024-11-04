@@ -5,6 +5,7 @@ import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { exiftool } from "./ExifTool"
 import {
   NonAlphaStrings,
+  end,
   expect,
   mkdirp,
   sha1,
@@ -13,7 +14,7 @@ import {
   tmpname,
 } from "./_chai.spec"
 
-after(() => exiftool.end())
+after(() => end(exiftool))
 
 describe("BinaryExtractionTask", () => {
   describe("parser", () => {

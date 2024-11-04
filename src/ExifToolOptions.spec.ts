@@ -2,12 +2,19 @@ import { join } from "path"
 import { ExifDateTime } from "./ExifDateTime"
 import { DefaultExifToolOptions, ExifTool } from "./ExifTool"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
-import { IPTC_JPG, expect, randomChars, testDir, testImg } from "./_chai.spec"
+import {
+  IPTC_JPG,
+  end,
+  expect,
+  randomChars,
+  testDir,
+  testImg,
+} from "./_chai.spec"
 
 describe("ExifToolOptions", () => {
   describe(".struct", () => {
     let et: ExifTool
-    afterEach(() => et.end())
+    afterEach(() => end(et))
 
     for (const struct of ["undef", 0, 2] as const) {
       it(JSON.stringify({ struct }) + " reads and writes flat", async () => {

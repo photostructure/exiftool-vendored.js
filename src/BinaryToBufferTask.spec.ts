@@ -6,6 +6,7 @@ import { BinaryToBufferTask } from "./BinaryToBufferTask"
 import { exiftool } from "./ExifTool"
 import {
   NonAlphaStrings,
+  end,
   expect,
   mkdirp,
   sha1buffer,
@@ -13,7 +14,7 @@ import {
   tmpdir,
 } from "./_chai.spec"
 
-after(() => exiftool.end())
+after(() => end(exiftool))
 
 describe("BinaryToBufferTask", () => {
   describe("parser", () => {

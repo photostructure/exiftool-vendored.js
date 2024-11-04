@@ -4,13 +4,14 @@ import { exiftool } from "./ExifTool"
 import {
   NonAlphaStrings,
   UnicodeTestMessage,
+  end,
   expect,
   mkdirp,
   testDir,
   tmpdir,
 } from "./_chai.spec"
 
-after(() => exiftool.end())
+after(() => end(exiftool))
 
 describe("ReadRawTask", () => {
   describe("non-alphanumeric filenames", () => {

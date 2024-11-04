@@ -2,7 +2,7 @@
 import { Deferred, Log, setLogger } from "batch-cluster"
 import { expect, use } from "chai"
 import eql from "deep-eql"
-import { createHash, randomBytes } from "node:crypto"
+import { createHash, randomInt } from "node:crypto"
 import { createReadStream } from "node:fs"
 import { copyFile, mkdir } from "node:fs/promises"
 import { join } from "node:path"
@@ -10,6 +10,7 @@ import { env } from "node:process"
 import { dirSync } from "tmp"
 import { compact } from "./Array"
 import { DateOrTime, toExifString } from "./DateTime"
+import { ExifTool } from "./ExifTool"
 import { isWin32 } from "./IsWin32"
 import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
@@ -17,6 +18,7 @@ import { fromEntries } from "./Object"
 import { pick } from "./Pick"
 import { isString } from "./String"
 import { Tags } from "./Tags"
+import { times } from "./Times"
 
 use(require("chai-as-promised"))
 
@@ -46,8 +48,20 @@ export { expect } from "chai"
 
 export const testDir = join(__dirname, "..", "test")
 
+const LOWERCASE_A_CHAR_CODE = "a".charCodeAt(0)
+const ALPHABET_LENGTH = "z".charCodeAt(0) - "a".charCodeAt(0) + 1
+
+export async function end(et: ExifTool) {
+  await et?.end()
+  if (et != null) expect(et.batchCluster.internalErrorCount).to.eql(0)
+}
+
+export function randomChar() {
+  return String.fromCharCode(LOWERCASE_A_CHAR_CODE + randomInt(ALPHABET_LENGTH))
+}
+
 export function randomChars(chars = 8) {
-  return randomBytes(chars / 2).toString("hex")
+  return times(chars, randomChar).join("")
 }
 
 export const tmpdir = lazy(() => dirSync().name)

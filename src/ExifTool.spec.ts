@@ -12,7 +12,7 @@ import { fromEntries, keys } from "./Object"
 import { leftPad } from "./String"
 import { Tags } from "./Tags"
 import { times } from "./Times"
-import { expect, renderTagsWithISO, testImg } from "./_chai.spec"
+import { end, expect, renderTagsWithISO, testImg } from "./_chai.spec"
 
 function normalize(tagNames: string[]): string[] {
   return tagNames
@@ -24,7 +24,7 @@ function posixPath(path: string) {
   return path.split(_path.sep).join("/")
 }
 
-after(() => exiftool.end())
+after(() => end(exiftool))
 
 describe("ExifTool", function () {
   this.timeout(15000)
@@ -96,7 +96,7 @@ describe("ExifTool", function () {
                 geolocation,
               }))
           )
-          after(() => et.end())
+          after(() => end(et))
 
           it("returns the correct version", async function () {
             this.slow(500)
@@ -281,7 +281,7 @@ describe("ExifTool", function () {
               maxTasksPerProcess
             )
             assertReasonableTags(tags)
-            await et2.end()
+            await end(et2)
             expect(et2.pids).to.eql([])
             return
           })
@@ -302,7 +302,7 @@ describe("ExifTool", function () {
                   ImageHeight: 3036,
                 })
               )
-              await et2.end()
+              await end(et2)
               expect(et2.pids).to.eql([])
             } finally {
               await et2.end()
@@ -366,10 +366,10 @@ describe("ExifTool", function () {
               ExifImageWidth: 4048,
               ExifImageHeight: 3036,
               // dunes beach:
-              GPSLatitude: 37.4836666666667,
-              GPSLongitude: -122.452094444444,
-              GPSLatitudeRef: "North",
-              GPSLongitudeRef: "West",
+              GPSLatitude: 37.483667,
+              GPSLongitude: -122.452094,
+              GPSLatitudeRef: "N",
+              GPSLongitudeRef: "W",
               GPSAltitude: -47,
               tz: "America/Los_Angeles",
             })
@@ -385,7 +385,7 @@ describe("ExifTool", function () {
                 GeolocationDistance: "2.60 km",
                 GeolocationFeatureCode: "PPL",
                 GeolocationPopulation: 5500,
-                GeolocationPosition: "37.5027, -122.4694",
+                GeolocationPosition: "37.5027 -122.4694",
                 GeolocationRegion: "California",
                 GeolocationSubregion: "San Mateo County",
                 GeolocationTimeZone: "America/Los_Angeles",
@@ -420,8 +420,8 @@ describe("ExifTool", function () {
               DateTimeOriginal: "2016-08-12T13:28:50+08:00",
               Description: "Prior Title",
               FNumber: 1.8,
-              GPSLatitudeRef: "North",
-              GPSLongitudeRef: "East",
+              GPSLatitudeRef: "N",
+              GPSLongitudeRef: "E",
               Make: "Apple",
               MIMEType: "image/jpeg",
               Model: "iPhone 7 Plus",

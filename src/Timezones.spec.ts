@@ -1,5 +1,4 @@
 import { IANAZone, Info } from "luxon"
-import { expect } from "./_chai.spec"
 import { ExifDateTime } from "./ExifDateTime"
 import { Tags } from "./Tags"
 import {
@@ -12,6 +11,7 @@ import {
   offsetMinutesToZoneName,
   validTzOffsetMinutes,
 } from "./Timezones"
+import { expect } from "./_chai.spec"
 
 describe("Timezones", () => {
   describe("UnsetZone", () => {
