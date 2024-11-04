@@ -26,3 +26,28 @@ export function toInt(n: any): Maybe<number> {
     return undefined
   }
 }
+
+/**
+ * Rounds a number to a specified number of decimal places.
+ *
+ * @param value - The number to round
+ * @param precision - The number of decimal places to retain
+ * @returns The rounded number with specified precision
+ *
+ * @example
+ * roundToDecimalPlaces(3.14159, 2) // Returns 3.14
+ * roundToDecimalPlaces(123.456789, 3) // Returns 123.457
+ * roundToDecimalPlaces(0.0001234, 4) // Returns 0.0001
+ */
+export function roundToDecimalPlaces(value: number, precision: number): number {
+  // Handle edge cases
+  if (!isNumber(value)) throw new Error("Value must be a number")
+  if (precision < 0) throw new Error("Precision must be non-negative")
+  if (value === 0) return 0
+
+  const multiplier = Math.pow(10, precision)
+
+  return Math.abs(value) < Number.EPSILON
+    ? 0
+    : Math.round(value * multiplier) / multiplier
+}
