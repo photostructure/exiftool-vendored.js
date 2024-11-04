@@ -29,7 +29,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 💔/🐞/📦 ExifTool sometimes returns `boolean` values for some tags, like `SemanticStylePreset`, but uses "Yes" or "No" values for other tags, like `GPSValid` (TIL!). If the tag name ends in `Valid` and is truthy (1, true, "Yes") or falsy (0, false, "No"), we'll convert it to a boolean for you. Note that this is arguably a breaking API change, but it should be what you were already expecting (so is it a bug fix?). See the diff to the Tags interface in this version to verify what types have changed.
 
-- 📦 Reduced `streamFlushMillis` to `10`. This seems to be sufficient to still see stream coallescion (and no internal errors) on even GitHub Action's terribly slow virtual machines, but different systems may require larger values.
+- 📦 Reduced `streamFlushMillis` to `10`. This reduced elapsed time for the full test suite by 2.5x on macOS and 3x on Windows, and drops the upper latency bound substantially. Note that this is at the risk of buffered stream collisions between tasks. The (extensive) test suite on Github Actions (whose virtual machines are notoriously slower than molasses) still runs solidly, but if you see internal errors, please open a Github issue and increase your `streamFlushMillis`.
 
 #### GPS improvements
 
