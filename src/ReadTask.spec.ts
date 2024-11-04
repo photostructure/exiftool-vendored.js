@@ -2,6 +2,7 @@ import { DateTime } from "luxon"
 import { copyFile } from "node:fs/promises"
 import path, { join } from "node:path"
 import {
+  end,
   expect,
   mkdirp,
   NonAlphaStrings,
@@ -54,7 +55,7 @@ function geo_tz(lat: number, lon: number): string | undefined {
 describe("ReadTask", () => {
   let exiftool: ExifTool
   before(() => (exiftool = new ExifTool()))
-  after(() => exiftool.end())
+  after(() => end(exiftool))
 
   describe("Lat/Lon parsing", () => {
     /* Example:
@@ -107,10 +108,7 @@ describe("ReadTask", () => {
         })
       ).to.containSubset({
         GPSLongitude: -114,
-        GPSLongitudeRef: "E",
-        warnings: [
-          "Invalid GPSLongitude or GPSLongitudeRef: expected E GPSLongitude > 0 but got -114",
-        ],
+        GPSLongitudeRef: "W",
       })
     })
     it("positive W lon is negative", () => {
@@ -119,11 +117,8 @@ describe("ReadTask", () => {
           tags: { GPSLongitude: 122, GPSLongitudeRef: "W", GPSLatitude: 1 },
         })
       ).to.containSubset({
-        GPSLongitude: 122,
+        GPSLongitude: -122,
         GPSLongitudeRef: "W",
-        warnings: [
-          "Invalid GPSLongitude or GPSLongitudeRef: expected W GPSLongitude < 0 but got 122",
-        ],
       })
     })
     it("negative W lon is positive", () => {
@@ -201,6 +196,77 @@ describe("ReadTask", () => {
         )
       }
     }
+
+    it("omits all GPS tags if invalid lat/lon", () => {
+      expect(
+        parse({
+          tags: {
+            GPSLatitude: 0,
+            GPSLongitude: 0,
+            GeolocationCity: "Takoradi",
+            GeolocationRegion: "Western",
+            GeolocationSubregion: "Secondi Takoradi",
+            GeolocationCountryCode: "GH",
+            GeolocationCountry: "Ghana",
+            GeolocationTimeZone: "Africa/Accra",
+            GeolocationFeatureCode: "PPL",
+            GeolocationFeatureType: "Populated Place",
+            GeolocationPopulation: 390000,
+            GeolocationPosition: "4.8982, -1.7602",
+            GeolocationDistance: "578.67 km",
+            GeolocationBearing: 340,
+            GPSLatitudeRef: "North",
+            GPSLongitudeRef: "East",
+            GPSPosition: "0 deg 0' 0.00\" N, 0 deg 0' 0.00\" E",
+          },
+          ignoreZeroZeroLatLon: true,
+          geolocation: true,
+        })
+      ).to.eql({
+        SourceFile: "/tmp/example.jpg",
+        errors: [],
+        warnings: [],
+      })
+    })
+    it("extracts GPS tags if valid lat/lon", () => {
+      const tags = {
+        GPSLatitude: "37 deg 48' 3.45\" N",
+        GPSLongitude: "122 deg 23' 55.67\" W",
+        GPSLatitudeRef: "North",
+        GPSLongitudeRef: "West",
+        GPSPosition: "37 deg 48' 3.45\" N, 122 deg 23' 55.67\" W",
+        GeolocationCity: "Chinatown",
+        GeolocationRegion: "California",
+        GeolocationSubregion: "City and County of San Francisco",
+        GeolocationCountryCode: "US",
+        GeolocationCountry: "United States",
+        GeolocationTimeZone: "America/Los_Angeles",
+        GeolocationFeatureCode: "PPLX",
+        GeolocationFeatureType: "Section of Populated Place",
+        GeolocationPopulation: 100000,
+        GeolocationPosition: "37.7966, -122.4086",
+        GeolocationDistance: "1.01 km",
+        GeolocationBearing: 246,
+      }
+      expect(
+        parse({
+          tags,
+          ignoreZeroZeroLatLon: true,
+          geolocation: true,
+        })
+      ).to.eql({
+        ...tags,
+        GPSLatitude: 37.800958,
+        GPSLatitudeRef: "N",
+        GPSLongitude: -122.398797,
+        GPSLongitudeRef: "W",
+        SourceFile: "/tmp/example.jpg",
+        tz: "America/Los_Angeles",
+        tzSource: "GeolocationTimeZone",
+        errors: [],
+        warnings: [],
+      })
+    })
 
     describe("without *Ref fields", () => {
       for (const latSign of [1, -1]) {
@@ -1336,7 +1402,7 @@ describe("ReadTask", () => {
           },
         }))
     )
-    after(() => et.end())
+    after(() => end(et))
     it("returns the new custom tag", async () => {
       const t: any = await et.read("./test/pixel.jpg")
 
@@ -1562,5 +1628,43 @@ describe("ReadTask", () => {
         )
       }
     }
+  })
+
+  describe("Apple Photos exports", () => {
+    it("parses XMP #1", async () => {
+      const t = await exiftool.read("test/iphone-export-1.xmp", {
+        geolocation: true,
+      })
+      expect(t).to.containSubset({
+        GPSLatitude: 44.646258,
+        GPSLongitude: -63.569717,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "W",
+        GeolocationPosition: "44.6428, -63.5769",
+        GPSPosition: `44 deg 38' 46.53" N, 63 deg 34' 10.98" E`,
+        tz: "America/Halifax",
+        tzSource: "GeolocationTimeZone",
+      })
+    })
+
+    it("parses XMP #2", async () => {
+      const t = await exiftool.read("test/iphone-export-2.xmp", {
+        geolocation: true,
+      })
+      expect(t).to.containSubset({
+        Title: "Title Photos 7 åäöÅÄÖ",
+        Description: "Caption Photos 7 åäöÅÄÖ",
+        Subject: ["Keyword 1 Photos 7 åäöÅÄÖ", "Keyword 2 Photos 7 åäöÅÄÖ"],
+
+        GPSLatitude: -33.451856,
+        GPSLatitudeRef: "S",
+        GPSLongitude: -70.650467,
+        GPSLongitudeRef: "W",
+        GeolocationPosition: "-33.4570, -70.6483",
+        GPSPosition: `33 deg 27' 6.68" N, 70 deg 39' 1.68" E`,
+        tz: "America/Santiago",
+        tzSource: "GeolocationTimeZone",
+      })
+    })
   })
 })

@@ -39,6 +39,7 @@ export const DefaultExifToolOptions: Omit<
   maxProcs: DefaultMaxProcs,
   maxTasksPerProcess: 500,
   spawnTimeoutMillis: 30000,
+  streamFlushMillis: 10,
   // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
   taskTimeoutMillis: 20000,
   onIdleIntervalMillis: 2000,
@@ -69,9 +70,8 @@ export const DefaultExifToolOptions: Omit<
   numericTags: [
     "*Duration*",
     "GPSAltitude",
-    "GPSLatitude",
-    "GPSLongitude",
-    "GPSPosition",
+    
+    
     "Orientation",
     // NOT Rotation! Rotation can be encoded as degrees rotated clockwise, or a
     // EXIF-Orientation string (!!). If we ask ExifTool for numeric rotations of HEICs,

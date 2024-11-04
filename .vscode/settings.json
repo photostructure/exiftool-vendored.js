@@ -7,7 +7,8 @@
     "IPTC",
     "JFIF",
     "modif",
-    "noexif"
+    "noexif",
+    "NSEW"
   ],
   "cSpell.ignoreWords": [
     "automagick",

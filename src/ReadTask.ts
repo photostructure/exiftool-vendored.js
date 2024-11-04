@@ -2,6 +2,7 @@ import { logger } from "batch-cluster"
 import * as _path from "node:path"
 import { toA } from "./Array"
 import { BinaryField } from "./BinaryField"
+import { toBoolean } from "./Boolean"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { errorsAndWarnings } from "./ErrorsAndWarnings"
 import { ExifDate } from "./ExifDate"
@@ -10,21 +11,21 @@ import { ExifTime } from "./ExifTime"
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
 import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
-import { GeolocationTagNames } from "./GeolocationTags"
+import { parseGPSLocation } from "./GPS"
 import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
-import { isNumber, toFloat } from "./Number"
+import { isNumber } from "./Number"
 import { OnlyZerosRE } from "./OnlyZerosRE"
 import { pick } from "./Pick"
-import { blank, isString } from "./String"
+import { isString } from "./String"
 import { Tags } from "./Tags"
 import {
+  TzSrc,
   extractTzOffsetFromDatestamps,
   extractTzOffsetFromTags,
   extractTzOffsetFromTimeStamp,
   extractTzOffsetFromUTCOffset,
   normalizeZone,
-  TzSrc,
 } from "./Timezones"
 
 /**
@@ -166,7 +167,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   #tagName(k: string): string {
-    return this.degroup ? (k.split(":")[1] ?? k) : k
+    return this.degroup ? k.split(":")[1] ?? k : k
   }
 
   #parseTags(): Tags {
@@ -183,6 +184,10 @@ export class ReadTask extends ExifToolTask<Tags> {
     // avoid casting `this.tags as any` for the rest of the function:
     const tags = this.#tags as any
 
+    // Must be run before extracting tz offset, to clear out invalid GPS
+    // GeolocationTimeZone
+    this.#extractGpsMetadata()
+
     const tzSrc = this.#extractTzOffset()
     if (tzSrc) {
       tags.tz = tzSrc.tz
@@ -193,7 +198,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       const k = this.#tagName(key)
       const v = this.#parseTag(k, value)
       // Note that we set `key` (which may include a group prefix):
-      tags[key] = v
+      if (v != null) tags[key] = v
     }
 
     // we could `return {...tags, ...errorsAndWarnings(this, tags)}` but tags is
@@ -206,135 +211,49 @@ export class ReadTask extends ExifToolTask<Tags> {
     return tags
   }
 
-  #lat = lazy<Maybe<number>>(() => this.#extractGpsMetadata()?.lat)
-  #lon = lazy<Maybe<number>>(() => this.#extractGpsMetadata()?.lon)
-  #extractTzOffsetFromGps = lazy<Maybe<TzSrc>>(
-    () => this.#extractGpsMetadata()?.tz
+  #extractGpsMetadata = lazy(() =>
+    parseGPSLocation(this.#rawDegrouped, this.options)
   )
 
-  #extractGpsMetadata = lazy(() => {
-    let lat = this.#parseLocation({
-      tagName: "GPSLatitude",
-      positiveRef: "N",
-      negativeRef: "S",
-      maxValid: 90,
-    })
+  #gpsIsInvalid = lazy<boolean>(
+    () => this.#extractGpsMetadata()?.invalid ?? false
+  )
 
-    let lon = this.#parseLocation({
-      tagName: "GPSLongitude",
-      positiveRef: "E",
-      negativeRef: "W",
-      maxValid: 180,
-    })
+  #gpsResults = lazy<Record<string, unknown>>(() =>
+    this.#gpsIsInvalid() ? {} : this.#extractGpsMetadata()?.result ?? {}
+  )
 
-    let invalid = false
-    if (this.options.ignoreZeroZeroLatLon && lat === 0 && lon === 0) {
-      lat = undefined
-      lon = undefined
-      invalid = true
+  #extractTzOffsetFromGps = lazy<Maybe<TzSrc>>(() => {
+    const gps = this.#extractGpsMetadata()
+    const lat = gps?.result?.GPSLatitude
+    const lon = gps?.result?.GPSLongitude
+    if (gps == null || gps.invalid === true || lat == null || lon == null)
+      return
+    // First try GeolocationTimeZone:
+    const tz = normalizeZone(this.#rawDegrouped.GeolocationTimeZone)
+    if (tz != null) {
+      return {
+        tz: tz.name,
+        src: "GeolocationTimeZone",
+      }
     }
 
-    let tz: Maybe<TzSrc>
-
-    if (!invalid && !blank(this.#rawDegrouped.GeolocationTimeZone)) {
-      const geolocTz = normalizeZone(this.#rawDegrouped.GeolocationTimeZone)
-      if (geolocTz != null) {
-        tz = {
-          tz: geolocTz.name,
-          src: "GeolocationTimeZone",
+    try {
+      const geoTz = this.options.geoTz(lat, lon)
+      const zone = normalizeZone(geoTz)
+      if (zone != null) {
+        return {
+          tz: zone.name,
+          src: "GPSLatitude/GPSLongitude",
         }
-      } else {
-        this.warnings.push(
-          "Failed to determine timezone from GeolocationTimeZone value: " +
-            this.#rawDegrouped.GeolocationTimeZone
-        )
       }
+    } catch (error) {
+      this.warnings.push(
+        "Failed to determine timezone from GPS coordinates: " + error
+      )
     }
-
-    if (tz == null && !invalid && lat != null && lon != null) {
-      try {
-        const geoTz = this.options.geoTz(lat, lon)
-        const zone = normalizeZone(geoTz)
-        if (zone != null) {
-          tz = {
-            tz: zone.name,
-            src: "GPSLatitude/GPSLongitude",
-          }
-        }
-      } catch (error) {
-        this.warnings.push(
-          "Failed to determine timezone from GPS coordinates: " + error
-        )
-        invalid = true
-        lat = undefined
-        lon = undefined
-      }
-    }
-
-    if (this.options.geolocation && invalid) {
-      if (this.#tags.GPSLatitude != null || this.#tags.GPSLongitude != null) {
-        // don't complain unless there was a GPS value:
-        this.warnings.push(
-          "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags."
-        )
-      }
-      for (const key of GeolocationTagNames) {
-        delete this.#tags[key]
-        delete this.#raw[key]
-        delete this.#rawDegrouped[key]
-      }
-    }
-
-    return {
-      lat,
-      lon,
-      invalid,
-      tz,
-    }
+    return
   })
-
-  #parseLocation({
-    tagName,
-    positiveRef,
-    negativeRef,
-    maxValid,
-  }: {
-    tagName: "GPSLatitude" | "GPSLongitude"
-    positiveRef: "N" | "E"
-    negativeRef: "S" | "W"
-    maxValid: 90 | 180
-  }): Maybe<number> {
-    const tagValue = this.#rawDegrouped[tagName]
-    const refKey = tagName + "Ref"
-    const ref = this.#rawDegrouped[refKey]
-    const result = toFloat(tagValue)
-    if (result == null) {
-      return undefined
-    } else if (Math.abs(result) > maxValid) {
-      this.warnings.push(`Invalid ${tagName}: ${JSON.stringify(tagValue)}`)
-      return undefined
-    } else if (blank(ref)) {
-      // Videos may not have a GPSLatitudeRef or GPSLongitudeRef: if this is the case, assume the given sign is correct.
-      return result
-    } else {
-      // See https://github.com/photostructure/exiftool-vendored.js/issues/165
-      // and https://www.exiftool.org/TagNames/GPS.html
-      const expectedPositive =
-        ref.toUpperCase().startsWith(positiveRef) || (isNumber(ref) && ref >= 0)
-      const expectedNegative =
-        ref.toUpperCase().startsWith(negativeRef) || (isNumber(ref) && ref < 0)
-      if (expectedPositive && result < 0) {
-        this.warnings.push(
-          `Invalid ${tagName} or ${refKey}: expected ${ref} ${tagName} > 0 but got ${result}`
-        )
-      } else if (expectedNegative && result > 0) {
-        this.warnings.push(
-          `Invalid ${tagName} or ${refKey}: expected ${ref} ${tagName} < 0 but got ${result}`
-        )
-      }
-      return result
-    }
-  }
 
   #tz = lazy(() => this.#extractTzOffset()?.tz)
 
@@ -374,12 +293,17 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (PassthroughTags.indexOf(tagName) >= 0) {
         return value
       }
-      if (tagName === "GPSLatitude") {
-        return this.#lat()
+      if (tagName.startsWith("GPS") || tagName.startsWith("Geolocation")) {
+        // If it's bad, strip off everything:
+        if (this.#gpsIsInvalid()) return undefined
+
+        // If we parsed out a better value, use that:
+        const parsed = this.#gpsResults()[tagName]
+        if (parsed != null) return parsed
+
+        // Otherwise, parse the raw value like any other tag:
       }
-      if (tagName === "GPSLongitude") {
-        return this.#lon()
-      }
+
       if (Array.isArray(value)) {
         return value.map((ea) => this.#parseTag(tagName, ea))
       }
@@ -393,6 +317,11 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (typeof value === "string") {
         const b = BinaryField.fromRawValue(value)
         if (b != null) return b
+
+        if (/Valid$/.test(tagName)) {
+          const b = toBoolean(value)
+          if (b != null) return b
+        }
 
         if (
           MaybeDateOrTimeRe.test(tagName) &&
@@ -438,6 +367,7 @@ export class ReadTask extends ExifToolTask<Tags> {
           ) {
             return result.setZone(defaultTz)
           }
+
           return result
         }
       }

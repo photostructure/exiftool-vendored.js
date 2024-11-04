@@ -88,8 +88,16 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   FocalLength: { t: "string", grp: "EXIF" },
   GPSAltitude: { t: "number", grp: "EXIF" },
   GPSDateTime: { t: "ExifDateTime | string", grp: "Composite" },
-  GPSLatitude: { t: "number", grp: "EXIF" },
-  GPSLongitude: { t: "number", grp: "EXIF" },
+  GPSLatitude: {
+    t: "number | string",
+    grp: "EXIF",
+    value: "37 deg 46' 29.64\" N",
+  },
+  GPSLongitude: {
+    t: "number | string",
+    grp: "EXIF",
+    value: "122 deg 25' 9.85\" W",
+  },
   History: { t: "ResourceEvent[] | ResourceEvent | string", grp: "XMP" },
   ImageDataMD5: { t: "string", grp: "File" },
   ImageDescription: { t: "string", grp: "EXIF" },
@@ -907,6 +915,9 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     )
     await exiftool.end()
     const bc: BatchCluster = exiftool["batchCluster"]
+    if (bc.internalErrorCount > 0) {
+      console.error("ERROR: " + bc.internalErrorCount + " internal errors.")
+    }
     console.log("Final batch cluster stats", bc.stats())
     return
   })

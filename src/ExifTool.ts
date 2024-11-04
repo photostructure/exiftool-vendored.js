@@ -383,8 +383,6 @@ export class ExifTool {
   ): Promise<WriteTaskResult>
 
   /**
-   * Write the given `tags` to `file`.
-   *
    * @param file an existing file to write `tags` to
    *
    * @param tags the tags to write to `file`.
@@ -403,7 +401,7 @@ export class ExifTool {
    *
    * @deprecated use
    * {@link ExifTool.write(file: string, tags: WriteTags, options?: WriteTaskOptions)}
-   * instead (move `writeArgs` into your `options` hash)
+   * instead: move `writeArgs` into your `options` hash.
    */
   write(
     file: string,
@@ -412,6 +410,26 @@ export class ExifTool {
     options?: WriteTaskOptions
   ): Promise<WriteTaskResult>
 
+  /**
+   * Write the given `tags` to `file`.
+   *
+   * **NOTE: no input validation is done by this library.** ExifTool, however,
+   * is strict about tag names and values in the context of the format of file
+   * being written to.
+   *
+   * @param file an existing file to write `tags` to
+   *
+   * @param tags the tags to write to `file`.
+   *
+   * @param options overrides to the default ExifTool options provided to the
+   * ExifTool constructor.
+   *
+   * @returns Either the promise will be resolved if the tags are written to
+   * successfully, or the promise will be rejected if there are errors or
+   * warnings.
+   *
+   * @see https://exiftool.org/exiftool_pod.html#overwrite_original
+   */
   write(
     file: string,
     tags: WriteTags,

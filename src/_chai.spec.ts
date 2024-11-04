@@ -176,7 +176,7 @@ use(function (chai, utils) {
       for (const key of keys) {
         const a = act[key]
         const e = exp[key]
-        if (a != null && e != null && !eql(a, e)) {
+        if (!eql(a, e)) {
           why.push(JSON.stringify({ key, act: a, exp: e }))
         }
       }

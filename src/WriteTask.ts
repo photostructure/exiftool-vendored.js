@@ -131,11 +131,38 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     // in EXIF, XMP, and MIE encodings). See
     // https://exiftool.org/forum/index.php?topic=14488.0 and
     // https://github.com/photostructure/exiftool-vendored.js/issues/131
+
+    // See https://exiftool.org/TagNames/GPS.html
+
     if (isNumber(tags.GPSLatitude)) {
-      tags.GPSLatitudeRef ??= tags.GPSLatitude >= 0 ? "N" : "S"
+      // ExifTool will also accept a number when writing GPSLatitudeRef,
+      // positive for north latitudes or negative for south, or a string
+      // containing N, North, S or South)
+      tags.GPSLatitudeRef ??= tags.GPSLatitude as any
+    } else if (tags.GPSLatitude === null) {
+      tags.GPSLatitudeRef ??= null
     }
+
     if (isNumber(tags.GPSLongitude)) {
-      tags.GPSLongitudeRef ??= tags.GPSLongitude >= 0 ? "E" : "W"
+      // ExifTool will also accept a number when writing this tag, positive
+      // for east longitudes or negative for west, or a string containing E,
+      // East, W or West
+      tags.GPSLongitudeRef ??= tags.GPSLongitude as any
+    } else if (tags.GPSLongitude === null) {
+      tags.GPSLongitudeRef ??= null
+    }
+
+    if (isNumber(tags.GPSLatitude) && isNumber(tags.GPSLongitude)) {
+      // Also set GPSPosition if both GPSLatitude and GPSLongitude are set to
+      // give ExifTool a hint that we're happy with it figuring out the correct
+      // group for this metadata
+      tags.GPSPosition = tags.GPSLatitude + "," + tags.GPSLongitude
+    }
+
+    if (isNumber(tags.GPSAltitude)) {
+      // ExifTool will also accept number when writing this tag, with negative
+      // numbers indicating below sea level
+      tags.GPSAltitudeRef ??= tags.GPSAltitude as any
     }
 
     for (const key of keys(tags)) {

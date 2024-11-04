@@ -48,11 +48,11 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: "2024:10:29 12:25:32-07:00" */
+  /** ★★★★ ✔ Example: "2024:10:31 17:12:32-07:00" */
   FileAccessDate?: ExifDateTime | string
   /** ☆☆☆☆   Example:  */
   FileCreateDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2024:10:23 16:05:23-07:00" */
+  /** ★★★★ ✔ Example: "2024:10:31 12:39:58-07:00" */
   FileInodeChangeDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2024:06:15 18:39:22-07:00" */
   FileModifyDate?: ExifDateTime | string
@@ -161,7 +161,7 @@ export interface APPTags {
   DCTEncodeVersion?: number
   /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
   DeviceName?: string
-  /** ☆☆☆☆   Example: "(Binary data 1998654 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
   EmbeddedImage?: BinaryField | string
   /** ☆☆☆☆   Example: 960 */
   EmbeddedImageHeight?: number
@@ -221,8 +221,8 @@ export interface APPTags {
   GPSTrack?: number
   /** ☆☆☆☆ ✔ Example: "True North" */
   GPSTrackRef?: string
-  /** ☆☆☆☆   Example: "Yes" */
-  GPSValid?: string
+  /** ☆☆☆☆   Example: true */
+  GPSValid?: boolean
   /** ☆☆☆☆   Example: 2152 */
   GRgain?: number
   /** ☆☆☆☆   Example: 8 */
@@ -303,7 +303,7 @@ export interface APPTags {
   R5100?: number
   /** ☆☆☆☆ ✔ Example: "4_1SEC" */
   Rate?: string
-  /** ☆☆☆☆   Example: "(Binary data 655564 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 614604 bytes, use -b option to extract)" */
   RawThermalImage?: BinaryField | string
   /** ☆☆☆☆   Example: 90 */
   RawThermalImageHeight?: number
@@ -469,7 +469,7 @@ export interface CompositeTags {
  * @see https://exiftool.org/TagNames/FlashPix.html
  */
 export interface FlashPixTags {
-  /** ☆☆☆☆   Example: "(Binary data 18 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 20796 bytes, use -b option to extract)" */
   AudioStream?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Unicode UTF-16, little endian" */
   CodePage?: string
@@ -487,7 +487,7 @@ export interface FlashPixTags {
   ExtensionName?: string
   /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
   ExtensionPersistence?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 57881 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 46285 bytes, use -b option to extract)" */
   ScreenNail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   UsedExtensionNumbers?: number
@@ -635,7 +635,7 @@ export interface EXIFTags {
   Gamma?: number
   /** ★☆☆☆ ✔ Example: 99.8 */
   GPSAltitude?: number
-  /** ☆☆☆☆ ✔ Example: "Unknown (Sea level reference)" */
+  /** ☆☆☆☆ ✔ Example: "Unknown (2.2)" */
   GPSAltitudeRef?: string
   /** ☆☆☆☆ ✔ Example: "府中市郷土の森博物館" */
   GPSAreaInformation?: string
@@ -668,11 +668,11 @@ export interface EXIFTags {
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
   GPSImgDirectionRef?: string
   /** ★☆☆☆ ✔ Example: 48.857748 */
-  GPSLatitude?: number
+  GPSLatitude?: number | string
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
   GPSLatitudeRef?: string
   /** ★☆☆☆ ✔ Example: 2.2918888 */
-  GPSLongitude?: number
+  GPSLongitude?: number | string
   /** ☆☆☆☆ ✔ Example: "West" */
   GPSLongitudeRef?: string
   /** ☆☆☆☆ ✔ Example: "WGS84" */
@@ -691,6 +691,8 @@ export interface EXIFTags {
   GPSStatus?: string
   /** ☆☆☆☆ ✔ Example: "23:59:41.001" */
   GPSTimeStamp?: ExifTime | string
+  /** ★☆☆☆ ✔ Example: "50.51.48.48" */
+  GPSVersionID?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   HighISOMultiplierBlue?: number
   /** ☆☆☆☆ ✔ Example: 1 */
@@ -711,7 +713,7 @@ export interface EXIFTags {
   ISO?: number
   /** ☆☆☆☆ ✔ Example: 80 */
   ISOSpeed?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 772608 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 571392 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -867,7 +869,7 @@ export interface EXIFTags {
   SubSecTimeDigitized?: number
   /** ★☆☆☆ ✔ Example: 999 */
   SubSecTimeOriginal?: number
-  /** ★★★★ ✔ Example: "(Binary data 12652 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 39781 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ★★★★ ✔ Example: 9998 */
   ThumbnailLength?: number
@@ -2663,8 +2665,6 @@ export interface MakerNotesTags {
   FocusContinuous?: string
   /** ☆☆☆☆ ✔ Example: "Enable" */
   FocusDisplayAIServoAndMF?: string
-  /** ★☆☆☆ ✔ Example: "inf" */
-  FocusDistanceLower?: string
   /** ☆☆☆☆ ✔ Example: "7.68 - 36.90 m" */
   FocusDistanceRange?: string
   /** ★☆☆☆ ✔ Example: "inf" */
@@ -3473,7 +3473,7 @@ export interface MakerNotesTags {
   NEFBitDepth?: string
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
   NEFCompression?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
   NEFLinearizationTable?: BinaryField | string
   /** ☆☆☆☆   Example: "Off (Auto)" */
   NeutralDensityFilter?: string
@@ -3713,8 +3713,8 @@ export interface MakerNotesTags {
   PreviewImageSize?: string
   /** ★★☆☆ ✔ Example: 9996 */
   PreviewImageStart?: number
-  /** ☆☆☆☆ ✔ Example: "Yes" */
-  PreviewImageValid?: string
+  /** ☆☆☆☆ ✔ Example: true */
+  PreviewImageValid?: boolean
   /** ☆☆☆☆ ✔ Example: 816 */
   PreviewImageWidth?: number
   /** ☆☆☆☆ ✔ Example: 95 */
@@ -4585,7 +4585,7 @@ export interface XMPTags {
   CameraProfile?: string
   /** ☆☆☆☆ ✔ Example: "D4FE5D91640D0C5A01B5633EB8061002" */
   CameraProfileDigest?: string
-  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
   Cameras?: Struct[]
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
@@ -4625,7 +4625,7 @@ export interface XMPTags {
   ColorNoiseReductionSmoothness?: number
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
   Comment?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
   Container?: Struct
   /** ☆☆☆☆   Example: "/home/username/pictures" */
   ContainerDirectory?: ContainerDirectoryItem[] | Struct[]
@@ -4765,7 +4765,7 @@ export interface XMPTags {
   HasSettings?: boolean
   /** ☆☆☆☆ ✔ Example: "(Binary data 23388 bytes, use -b option to extract)" */
   HdrPlusMakernote?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 23317 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 49603 bytes, use -b option to extract)" */
   HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: ["点像F11"] */
   HierarchicalSubject?: string[]
@@ -4957,7 +4957,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
+  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
   Profiles?: Struct[]
   /** ☆☆☆☆   Example:  */
   ProgramMode?: string
@@ -5114,7 +5114,7 @@ export interface XMPTags {
  * - a checkmark if the tag is used by popular devices (like iPhones), and
  * - an example value, JSON stringified.
  *
- * Autogenerated by "npm run mktags" by ExifTool 13.00 on Tue Oct 29 2024.
+ * Autogenerated by "npm run mktags" by ExifTool 13.00 on Thu Oct 31 2024.
  * 2753 unique tags were found in 10128 photo and video files.
  *
  * @see https://exiftool.org/TagNames/

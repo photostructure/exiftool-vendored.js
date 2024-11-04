@@ -35,9 +35,9 @@ export class ExifDateTime {
       ? exifOrIso // already an ExifDateTime
       : blank(exifOrIso)
         ? undefined // in order of strictness:
-        : (this.fromExifStrict(exifOrIso, defaultZone) ??
+        : this.fromExifStrict(exifOrIso, defaultZone) ??
           this.fromISO(exifOrIso, defaultZone) ??
-          this.fromExifLoose(exifOrIso, defaultZone))
+          this.fromExifLoose(exifOrIso, defaultZone)
   }
 
   static fromISO(
