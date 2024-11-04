@@ -9,12 +9,19 @@ export function isString(o: any): o is string {
 const spaces = times(10, (i) => times(i, () => " ").join(""))
 const zeroes = times(10, (i) => times(i, () => "0").join(""))
 
-export function blank(s: Maybe<any>): s is undefined {
+export function blank(s: unknown): s is undefined {
   return s == null || String(s).trim().length === 0
 }
 
-export function notBlank(s: Maybe<string>): s is string {
+export function notBlank(s: unknown): s is string {
   return !blank(s)
+}
+
+/**
+ * @return true iff `s` is a string with at least one non-whitespace character.
+ */
+export function notBlankString(s: unknown): s is string {
+  return isString(s) && s.trim().length > 0
 }
 
 export function toNotBlank(s: Maybe<string>): Maybe<string> {
