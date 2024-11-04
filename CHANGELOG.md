@@ -29,7 +29,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 💔/🐞/📦 ExifTool sometimes returns `boolean` values for some tags, like `SemanticStylePreset`, but uses "Yes" or "No" values for other tags, like `GPSValid` (TIL!). If the tag name ends in `Valid` and is truthy (1, true, "Yes") or falsy (0, false, "No"), we'll convert it to a boolean for you. Note that this is arguably a breaking API change, but it should be what you were already expecting (so is it a bug fix?). See the diff to the Tags interface in this version to verify what types have changed.
 
-### GPS improvements
+- 📦 Reduced `streamFlushMillis` to `10`. This seems to be sufficient to still see stream coallescion (and no internal errors) on even GitHub Action's terribly slow virtual machines, but different systems may require larger values.
+
+#### GPS improvements
 
 - 🐞/📦 GPS Latitude and GPS Longitude values are now parsed from [DMS notation](<https://en.wikipedia.org/wiki/Degree_(angle)#Subdivisions>), which seems to avoid some incorrectly signed values in some file formats (especially for some problematic XMP exports, like from Apple Photos). Numeric GPSLatitude and GPSLongitude are still accepted: to avoid the new coordinates parsing code, restore `GPSLatitude` and `GPSLongitude` to the `ExifToolOptions.numericTags` array.
 
