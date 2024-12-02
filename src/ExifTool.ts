@@ -4,7 +4,7 @@ import * as _fs from "node:fs"
 import process from "node:process"
 import { ifArr } from "./Array"
 import { retryOnReject } from "./AsyncRetry"
-import { BinaryExtractionTask } from "./BinaryExtractionTask"
+import { BinaryExtractionTask, ExifToolBinaryExtractionTaskOptions } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
 import { ContainerDirectoryItem } from "./ContainerDirectoryItem"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
@@ -543,7 +543,7 @@ export class ExifTool {
     tagname: string,
     src: string,
     dest: string,
-    opts?: ExifToolTaskOptions
+    opts?: ExifToolBinaryExtractionTaskOptions
   ): Promise<void> {
     // BinaryExtractionTask returns a stringified error if the output indicates
     // the task should not be retried.

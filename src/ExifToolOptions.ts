@@ -248,6 +248,15 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
   ignoreMinorErrors: boolean
 
   /**
+   * When writing an extracted tag to a file,
+   * this will overwrite an existing file instead of throwing an error.
+   * Enabling this option is equivalent to `-w!` in ExifTool.
+   *
+   * This defaults to `false`.
+   */
+  forceWrite: boolean
+
+  /**
    * `ExifTool` has a shebang line that assumes a valid `perl` is installed at
    * `/usr/bin/perl`.
    *

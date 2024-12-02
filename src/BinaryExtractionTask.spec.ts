@@ -1,8 +1,8 @@
 import assert from "assert"
-import { copyFile } from "node:fs/promises"
+import { copyFile, unlink } from "node:fs/promises"
 import path from "node:path"
-import { BinaryExtractionTask } from "./BinaryExtractionTask"
-import { exiftool } from "./ExifTool"
+import { BinaryExtractionTask, ExifToolBinaryExtractionTaskOptions } from "./BinaryExtractionTask"
+import { exiftool, ExifToolOptions } from "./ExifTool"
 import {
   NonAlphaStrings,
   end,
@@ -41,7 +41,7 @@ describe("BinaryExtractionTask", () => {
     })
   })
 
-  async function assertExtractThumbnail(str: string) {
+  async function assertExtractThumbnail(str: string, opts?: ExifToolBinaryExtractionTaskOptions) {
     // Make sure the str (which may have non-latin characters) shows up in the
     // directory path and filename:
     const srcDir = path.join(tmpdir(), "src-" + str)
@@ -49,7 +49,7 @@ describe("BinaryExtractionTask", () => {
     const src = path.join(srcDir, str + ".jpg")
     await copyFile(path.join(testDir, "with_thumb.jpg"), src)
     const dest = path.join(tmpdir(), "dest-" + str, str + ".jpg")
-    await exiftool.extractThumbnail(src, dest)
+    await exiftool.extractThumbnail(src, dest, opts as ExifToolOptions)
     // exiftool test/with_thumb.jpg -b -ThumbnailImage | sha1sum
     expect(await sha1(dest)).to.eql("57885e5e16b16599ccf208981a87fe198612d9fb")
   }
@@ -87,5 +87,24 @@ describe("BinaryExtractionTask", () => {
     } catch (err) {
       expect(String(err)).to.match(/Error: 0 output files created/i)
     }
+  })
+
+  it("throws when output file already exists", async function () {
+    this.slow(500)
+    const src = path.join(testDir, "with_thumb.jpg")
+    const dest = tmpname()
+    await copyFile(src, dest)
+    try {
+      await exiftool.extractJpgFromRaw(src, dest)
+      assert.fail("expected error to be thrown")
+    } catch (err) {
+      expect(String(err)).to.match(/Error: 0 output files created/i)
+    } finally {
+      await unlink(dest)
+    }
+  })
+
+  it("does not throw when output file exists if `forceWrite` is true", async function () {
+    assertExtractThumbnail("image", { ignoreMinorErrors: true, forceWrite: true })
   })
 })
