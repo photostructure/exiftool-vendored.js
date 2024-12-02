@@ -1,8 +1,11 @@
 import path from "node:path"
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
+import { ExifToolTask } from "./ExifToolTask"
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
 import { Maybe } from "./Maybe"
 import { toS } from "./String"
+import { ExifToolOptions } from "./ExifToolOptions"
+
+export type ExifToolBinaryExtractionTaskOptions = Pick<ExifToolOptions, "ignoreMinorErrors"> & Partial<Pick<ExifToolOptions, 'forceWrite'>>
 
 const StdoutRe = /\b(\d+) output files? created/i
 
@@ -11,7 +14,7 @@ const StdoutRe = /\b(\d+) output files? created/i
  * everything seems to have worked.
  */
 export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
-  private constructor(args: string[], options?: ExifToolTaskOptions) {
+  private constructor(args: string[], options?: ExifToolBinaryExtractionTaskOptions) {
     super(args, options)
   }
 
@@ -19,13 +22,13 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     tagname: string,
     imgSrc: string,
     imgDest: string,
-    options?: ExifToolTaskOptions
+    options?: ExifToolBinaryExtractionTaskOptions
   ): BinaryExtractionTask {
     const args = [
       ...Utf8FilenameCharsetArgs,
       "-b",
       "-" + tagname,
-      "-w",
+      options?.forceWrite ? "-w!" : "-w",
       // The %0f prevents shell escaping. See
       // https://exiftool.org/exiftool_pod.html#w-EXT-or-FMT--textOut
       "%0f" + path.resolve(imgDest),
