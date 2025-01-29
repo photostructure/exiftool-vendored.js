@@ -21,7 +21,7 @@ import { Version } from "./Version"
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
   Error?: string
-  /** ★★★★ ✔ Example: 13 */
+  /** ★★★★ ✔ Example: 13.16 */
   ExifToolVersion?: number
   /** ☆☆☆☆   Example: "path/to/file.jpg" */
   SourceFile?: string
@@ -48,11 +48,11 @@ export interface FileTags {
   EncodingProcess?: string
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
   ExifByteOrder?: string
-  /** ★★★★ ✔ Example: "2024:10:31 17:12:32-07:00" */
+  /** ★★★★ ✔ Example: "2025:01:29 11:37:49-08:00" */
   FileAccessDate?: ExifDateTime | string
   /** ☆☆☆☆   Example:  */
   FileCreateDate?: ExifDateTime | string
-  /** ★★★★ ✔ Example: "2024:10:31 12:39:58-07:00" */
+  /** ★★★★ ✔ Example: "2025:01:25 21:09:20-08:00" */
   FileInodeChangeDate?: ExifDateTime | string
   /** ★★★★ ✔ Example: "2024:06:15 18:39:22-07:00" */
   FileModifyDate?: ExifDateTime | string
@@ -86,6 +86,96 @@ export interface FileTags {
   Planes?: number
   /** ★★★★ ✔ Example: "YCbCr4:4:4 (1 1)" */
   YCbCrSubSampling?: string
+}
+
+/**
+ * These are tags are derived from the values of one or more other tags.
+ * Only a few are writable directly.
+ * @see https://exiftool.org/TagNames/Composite.html
+ */
+export interface CompositeTags {
+  /** ☆☆☆☆ ✔ Example: "Unknown (49 5)" */
+  AdvancedSceneMode?: string
+  /** ★★★★ ✔ Example: 90 */
+  Aperture?: number
+  /** ☆☆☆☆ ✔ Example: "On" */
+  AutoFocus?: string
+  /** ☆☆☆☆ ✔ Example: "8.7 Mbps" */
+  AvgBitrate?: string
+  /** ★★☆☆ ✔ Example: 46 */
+  BlueBalance?: number
+  /** ☆☆☆☆ ✔ Example: "[Red,Green][Green,Blue]" */
+  CFAPattern?: string
+  /** ★★★★ ✔ Example: "1.030 mm" */
+  CircleOfConfusion?: string
+  /** ☆☆☆☆ ✔ Example: 0 */
+  ConditionalFEC?: number
+  /** ☆☆☆☆ ✔ Example: "2021:03:16 18:14:25" */
+  DigitalCreationDateTime?: ExifDateTime | string
+  /** ★★☆☆ ✔ Example: "inf (9.66 m - inf)" */
+  DOF?: string
+  /** ★★☆☆ ✔ Example: "Unknown (3152)" */
+  DriveMode?: string
+  /** ☆☆☆☆ ✔ Example: "Not attached" */
+  ExtenderStatus?: string
+  /** ☆☆☆☆ ✔ Example: "Optional,TTL" */
+  FlashType?: string
+  /** ★★★★ ✔ Example: "99.7 mm (35 mm equivalent: 554.0 mm)" */
+  FocalLength35efl?: string
+  /** ★★★★ ✔ Example: "97.7 deg" */
+  FOV?: string
+  /** ☆☆☆☆ ✔ Example: "2024:04:21 04:09:51Z" */
+  GPSDateTime?: ExifDateTime | string
+  /** ☆☆☆☆ ✔ Example: "7.196465 134.376806666667" */
+  GPSPosition?: string
+  /** ★★★★ ✔ Example: "Inf m" */
+  HyperfocalDistance?: string
+  /** ★★★★ ✔ Example: "8x8" */
+  ImageSize?: string
+  /** ★★☆☆ ✔ Example: "smc PENTAX-D FA 50mm F2.8 Macro" */
+  Lens?: string
+  /** ★★☆☆ ✔ Example: "9.2 - 92.0 mm (35 mm equivalent: 24.9 - 248.8 mm)" */
+  Lens35efl?: string
+  /** ★★☆☆ ✔ Example: "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" */
+  LensID?: string
+  /** ★★★★ ✔ Example: 9.9 */
+  LightValue?: number
+  /** ★★★★ ✔ Example: 9.5 */
+  Megapixels?: number
+  /** ☆☆☆☆ ✔ Example: "(Binary data 512 bytes, use -b option to extract)" */
+  OriginalDecisionData?: BinaryField | string
+  /** ☆☆☆☆   Example: "9.9 um" */
+  PeakSpectralSensitivity?: string
+  /** ★★★☆ ✔ Example: "(Binary data 37244 bytes, use -b option to extract)" */
+  PreviewImage?: BinaryField
+  /** ★★☆☆ ✔ Example: 38.625 */
+  RedBalance?: number
+  /** ☆☆☆☆ ✔ Example: "On" */
+  RedEyeReduction?: string
+  /** ☆☆☆☆   Example: 11.2 */
+  RicohPitch?: number
+  /** ☆☆☆☆   Example: 1.59 */
+  RicohRoll?: number
+  /** ★☆☆☆ ✔ Example: "Unknown (0)" */
+  Rotation?: number
+  /** ☆☆☆☆ ✔ Example: "9:30:01" */
+  RunTimeSincePowerUp?: string
+  /** ★★★★ ✔ Example: 9.9 */
+  ScaleFactor35efl?: number
+  /** ★★☆☆ ✔ Example: "Unknown (83)" */
+  ShootingMode?: string
+  /** ☆☆☆☆ ✔ Example: "1st-curtain sync" */
+  ShutterCurtainHack?: string
+  /** ★★★★ ✔ Example: "inf" */
+  ShutterSpeed?: string
+  /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
+  SubSecCreateDate?: ExifDateTime | string
+  /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
+  SubSecDateTimeOriginal?: ExifDateTime | string
+  /** ☆☆☆☆   Example:  */
+  SubSecMediaCreateDate?: ExifDateTime | string
+  /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
+  SubSecModifyDate?: ExifDateTime | string
 }
 
 export interface APPTags {
@@ -376,100 +466,10 @@ export interface APPTags {
 }
 
 /**
- * These are tags are derived from the values of one or more other tags.
- * Only a few are writable directly.
- * @see https://exiftool.org/TagNames/Composite.html
- */
-export interface CompositeTags {
-  /** ☆☆☆☆ ✔ Example: "Unknown (49 5)" */
-  AdvancedSceneMode?: string
-  /** ★★★★ ✔ Example: 90 */
-  Aperture?: number
-  /** ☆☆☆☆ ✔ Example: "On" */
-  AutoFocus?: string
-  /** ☆☆☆☆ ✔ Example: "8.7 Mbps" */
-  AvgBitrate?: string
-  /** ★★☆☆ ✔ Example: 46 */
-  BlueBalance?: number
-  /** ☆☆☆☆ ✔ Example: "[Red,Green][Green,Blue]" */
-  CFAPattern?: string
-  /** ★★★★ ✔ Example: "1.030 mm" */
-  CircleOfConfusion?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  ConditionalFEC?: number
-  /** ☆☆☆☆ ✔ Example: "2021:03:16 18:14:25" */
-  DigitalCreationDateTime?: ExifDateTime | string
-  /** ★★☆☆ ✔ Example: "inf (9.66 m - inf)" */
-  DOF?: string
-  /** ★★☆☆ ✔ Example: "Unknown (3152)" */
-  DriveMode?: string
-  /** ☆☆☆☆ ✔ Example: "Not attached" */
-  ExtenderStatus?: string
-  /** ☆☆☆☆ ✔ Example: "Optional,TTL" */
-  FlashType?: string
-  /** ★★★★ ✔ Example: "99.7 mm (35 mm equivalent: 554.0 mm)" */
-  FocalLength35efl?: string
-  /** ★★★★ ✔ Example: "97.7 deg" */
-  FOV?: string
-  /** ☆☆☆☆ ✔ Example: "2024:04:21 04:09:51Z" */
-  GPSDateTime?: ExifDateTime | string
-  /** ☆☆☆☆ ✔ Example: "7.196465 134.376806666667" */
-  GPSPosition?: string
-  /** ★★★★ ✔ Example: "Inf m" */
-  HyperfocalDistance?: string
-  /** ★★★★ ✔ Example: "8x8" */
-  ImageSize?: string
-  /** ★★☆☆ ✔ Example: "smc PENTAX-D FA 50mm F2.8 Macro" */
-  Lens?: string
-  /** ★★☆☆ ✔ Example: "9.2 - 92.0 mm (35 mm equivalent: 24.9 - 248.8 mm)" */
-  Lens35efl?: string
-  /** ★★☆☆ ✔ Example: "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" */
-  LensID?: string
-  /** ★★★★ ✔ Example: 9.9 */
-  LightValue?: number
-  /** ★★★★ ✔ Example: 9.5 */
-  Megapixels?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 512 bytes, use -b option to extract)" */
-  OriginalDecisionData?: BinaryField | string
-  /** ☆☆☆☆   Example: "9.9 um" */
-  PeakSpectralSensitivity?: string
-  /** ★★★☆ ✔ Example: "(Binary data 315546 bytes, use -b option to extract)" */
-  PreviewImage?: BinaryField
-  /** ★★☆☆ ✔ Example: 38.625 */
-  RedBalance?: number
-  /** ☆☆☆☆ ✔ Example: "On" */
-  RedEyeReduction?: string
-  /** ☆☆☆☆   Example: 11.2 */
-  RicohPitch?: number
-  /** ☆☆☆☆   Example: 1.59 */
-  RicohRoll?: number
-  /** ★☆☆☆ ✔ Example: "Unknown (0)" */
-  Rotation?: number
-  /** ☆☆☆☆ ✔ Example: "9:30:01" */
-  RunTimeSincePowerUp?: string
-  /** ★★★★ ✔ Example: 9.9 */
-  ScaleFactor35efl?: number
-  /** ★★☆☆ ✔ Example: "Unknown (83)" */
-  ShootingMode?: string
-  /** ☆☆☆☆ ✔ Example: "1st-curtain sync" */
-  ShutterCurtainHack?: string
-  /** ★★★★ ✔ Example: "inf" */
-  ShutterSpeed?: string
-  /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
-  SubSecCreateDate?: ExifDateTime | string
-  /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
-  SubSecDateTimeOriginal?: ExifDateTime | string
-  /** ☆☆☆☆   Example:  */
-  SubSecMediaCreateDate?: ExifDateTime | string
-  /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
-  SubSecModifyDate?: ExifDateTime | string
-}
-
-/**
  * @see https://exiftool.org/TagNames/FlashPix.html
  */
 export interface FlashPixTags {
-  /** ☆☆☆☆   Example: "(Binary data 20796 bytes, use -b option to extract)" */
+  /** ☆☆☆☆   Example: "(Binary data 18 bytes, use -b option to extract)" */
   AudioStream?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Unicode UTF-16, little endian" */
   CodePage?: string
@@ -487,10 +487,15 @@ export interface FlashPixTags {
   ExtensionName?: string
   /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
   ExtensionPersistence?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46285 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 57881 bytes, use -b option to extract)" */
   ScreenNail?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 1 */
   UsedExtensionNumbers?: number
+}
+
+export interface JPEGTags {
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1458 bytes, use -b option to extract)" */
+  HDRGainCurve?: BinaryField | string
 }
 
 export interface JSONTags {
@@ -506,31 +511,6 @@ export interface JSONTags {
   OpMode?: number
   /** ☆☆☆☆   Example: 1 */
   ZoomMultiple?: number
-}
-
-export interface MPFTags {
-  /** ★★☆☆ ✔ Example: 9697 */
-  DependentImage1EntryNumber?: number
-  /** ★★☆☆ ✔ Example: 960 */
-  DependentImage2EntryNumber?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 66 bytes, use -b option to extract)" */
-  ImageUIDList?: BinaryField | string
-  /** ★★☆☆ ✔ Example: "0100" */
-  MPFVersion?: string
-  /** ★★☆☆ ✔ Example: "Representative image, Dependent parent image" */
-  MPImageFlags?: string
-  /** ★★☆☆ ✔ Example: "Unknown (4)" */
-  MPImageFormat?: string
-  /** ★★☆☆ ✔ Example: 999325 */
-  MPImageLength?: number
-  /** ★★☆☆ ✔ Example: 9999872 */
-  MPImageStart?: number
-  /** ★★☆☆ ✔ Example: "Undefined" */
-  MPImageType?: string
-  /** ★★☆☆ ✔ Example: 3 */
-  NumberOfImages?: number
-  /** ☆☆☆☆ ✔ Example: 1 */
-  TotalFrames?: number
 }
 
 /**
@@ -575,8 +555,6 @@ export interface EXIFTags {
   CompositeImage?: string
   /** ★★★★ ✔ Example: 90 */
   CompressedBitsPerPixel?: number
-  /** ★★★★ ✔ Example: "n/a" */
-  Contrast?: string
   /** ★★★☆ ✔ Example: "© Chuckles McSnortypants, Inc." */
   Copyright?: string
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
@@ -591,8 +569,6 @@ export interface EXIFTags {
   DefaultCropSize?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 0 bytes, use -b option to extract)" */
   DeviceSettingDescription?: BinaryField | string
-  /** ★★★☆ ✔ Example: 8.1319764 */
-  DigitalZoomRatio?: number
   /** ☆☆☆☆ ✔ Example: "1.3.0.0" */
   DNGBackwardVersion?: string
   /** ☆☆☆☆ ✔ Example: "1.4.0.0" */
@@ -605,8 +581,6 @@ export interface EXIFTags {
   ExifImageWidth?: number
   /** ★☆☆☆ ✔ Example: 83 */
   ExposureIndex?: number
-  /** ★★★★ ✔ Example: "Unknown (Auto exposure)" */
-  ExposureMode?: string
   /** ★★★★ ✔ Example: "iAuto+" */
   ExposureProgram?: string
   /** ★★★★ ✔ Example: "inf" */
@@ -635,7 +609,7 @@ export interface EXIFTags {
   Gamma?: number
   /** ★☆☆☆ ✔ Example: 99.8 */
   GPSAltitude?: number
-  /** ☆☆☆☆ ✔ Example: "Unknown (2.2)" */
+  /** ☆☆☆☆ ✔ Example: "Unknown (Sea level reference)" */
   GPSAltitudeRef?: string
   /** ☆☆☆☆ ✔ Example: "府中市郷土の森博物館" */
   GPSAreaInformation?: string
@@ -713,7 +687,7 @@ export interface EXIFTags {
   ISO?: number
   /** ☆☆☆☆ ✔ Example: 80 */
   ISOSpeed?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 571392 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 687616 bytes, use -b option to extract)" */
   JpgFromRaw?: BinaryField
   /** ☆☆☆☆ ✔ Example: 845574 */
   JpgFromRawLength?: number
@@ -823,8 +797,6 @@ export interface EXIFTags {
   RowsPerStrip?: number
   /** ☆☆☆☆ ✔ Example: 3 */
   SamplesPerPixel?: number
-  /** ★★★★ ✔ Example: "n/a" */
-  Saturation?: string
   /** ★★★★ ✔ Example: "Unknown (Standard)" */
   SceneCaptureType?: string
   /** ★★★★ ✔ Example: "Unknown (Directly photographed)" */
@@ -833,8 +805,6 @@ export interface EXIFTags {
   SensingMethod?: string
   /** ★★☆☆ ✔ Example: "Unknown" */
   SensitivityType?: string
-  /** ★★★★ ✔ Example: "n/a" */
-  Sharpness?: string
   /** ★★★☆ ✔ Example: "1/999963365" */
   ShutterSpeedValue?: string
   /** ★★★★ ✔ Example: "https://PhotoStructure.com/" */
@@ -869,7 +839,7 @@ export interface EXIFTags {
   SubSecTimeDigitized?: number
   /** ★☆☆☆ ✔ Example: 999 */
   SubSecTimeOriginal?: number
-  /** ★★★★ ✔ Example: "(Binary data 39781 bytes, use -b option to extract)" */
+  /** ★★★★ ✔ Example: "(Binary data 12652 bytes, use -b option to extract)" */
   ThumbnailImage?: BinaryField
   /** ★★★★ ✔ Example: 9998 */
   ThumbnailLength?: number
@@ -881,7 +851,7 @@ export interface EXIFTags {
   TileByteCounts?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileLength?: number
-  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
   TileOffsets?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: 512 */
   TileWidth?: number
@@ -895,8 +865,6 @@ export interface EXIFTags {
   UserComment?: string
   /** ☆☆☆☆ ✔ Example: 0.1 */
   WaterDepth?: number
-  /** ★★★★ ✔ Example: "White Preset" */
-  WhiteBalance?: string
   /** ☆☆☆☆ ✔ Example: 65535 */
   WhiteLevel?: number
   /** ☆☆☆☆ ✔ Example: "9696 8192 8192 7136" */
@@ -921,6 +889,31 @@ export interface EXIFTags {
   YCbCrPositioning?: string
   /** ★★★★ ✔ Example: 99 */
   YResolution?: number
+}
+
+export interface MPFTags {
+  /** ★★☆☆ ✔ Example: 9697 */
+  DependentImage1EntryNumber?: number
+  /** ★★☆☆ ✔ Example: 960 */
+  DependentImage2EntryNumber?: number
+  /** ☆☆☆☆ ✔ Example: "(Binary data 66 bytes, use -b option to extract)" */
+  ImageUIDList?: BinaryField | string
+  /** ★★☆☆ ✔ Example: "0100" */
+  MPFVersion?: string
+  /** ★★☆☆ ✔ Example: "Representative image, Dependent parent image" */
+  MPImageFlags?: string
+  /** ★★☆☆ ✔ Example: "Unknown (4)" */
+  MPImageFormat?: string
+  /** ★★☆☆ ✔ Example: 999325 */
+  MPImageLength?: number
+  /** ★★☆☆ ✔ Example: 9999872 */
+  MPImageStart?: number
+  /** ★★☆☆ ✔ Example: "Undefined" */
+  MPImageType?: string
+  /** ★★☆☆ ✔ Example: 3 */
+  NumberOfImages?: number
+  /** ☆☆☆☆ ✔ Example: 1 */
+  TotalFrames?: number
 }
 
 export interface MetaTags {
@@ -1183,8 +1176,8 @@ export interface QuickTimeTags {
   VendorID?: string
   /** ☆☆☆☆ ✔ Example: "n/a" */
   VideoFrameRate?: string
-  /** ☆☆☆☆ ✔ Example: 0 */
-  VideoFullRangeFlag?: number
+  /** ☆☆☆☆ ✔ Example: "Limited" */
+  VideoFullRangeFlag?: string
 }
 
 export interface RAFTags {
@@ -1823,7 +1816,7 @@ export interface MakerNotesTags {
   CameraISO?: string
   /** ☆☆☆☆ ✔ Example: "Unknown (155)" */
   CameraOrientation?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 8412 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 8290 bytes, use -b option to extract)" */
   CameraParameters?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "User Defined 3" */
   CameraPictureStyle?: string
@@ -2065,6 +2058,8 @@ export interface MakerNotesTags {
   ContinuousShootingSpeed?: string
   /** ☆☆☆☆ ✔ Example: "Disable; 99 shots" */
   ContinuousShotLimit?: string
+  /** ★★★★ ✔ Example: "n/a" */
+  Contrast?: string
   /** ☆☆☆☆ ✔ Example: 0 */
   ContrastAuto?: number
   /** ☆☆☆☆ ✔ Example: "(Binary data 578 bytes, use -b option to extract)" */
@@ -2225,6 +2220,8 @@ export interface MakerNotesTags {
   DigitalZoom?: string
   /** ☆☆☆☆   Example: "On" */
   DigitalZoomOn?: string
+  /** ★★★☆ ✔ Example: 8.1319764 */
+  DigitalZoomRatio?: number
   /** ☆☆☆☆ ✔ Example: 897 */
   DirectoryIndex?: number
   /** ☆☆☆☆ ✔ Example: 999 */
@@ -2353,6 +2350,8 @@ export interface MakerNotesTags {
   ExposureIndicator?: number
   /** ☆☆☆☆ ✔ Example: "1/3-stop set, 1/3-stop comp." */
   ExposureLevelIncrements?: string
+  /** ★★★★ ✔ Example: "Unknown (Auto exposure)" */
+  ExposureMode?: string
   /** ☆☆☆☆ ✔ Example: "Spot metering" */
   ExposureModeInManual?: string
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -2667,8 +2666,6 @@ export interface MakerNotesTags {
   FocusDisplayAIServoAndMF?: string
   /** ☆☆☆☆ ✔ Example: "7.68 - 36.90 m" */
   FocusDistanceRange?: string
-  /** ★☆☆☆ ✔ Example: "inf" */
-  FocusDistanceUpper?: string
   /** ☆☆☆☆ ✔ Example: "475x476" */
   FocusFrameSize?: string
   /** ☆☆☆☆ ✔ Example: "Focus Hold" */
@@ -3909,6 +3906,8 @@ export interface MakerNotesTags {
   SanyoQuality?: string
   /** ☆☆☆☆   Example: "(Binary data 10313 bytes, use -b option to extract)" */
   SanyoThumbnail?: BinaryField | string
+  /** ★★★★ ✔ Example: "n/a" */
+  Saturation?: string
   /** ☆☆☆☆ ✔ Example: 1 */
   SaturationAdj?: number
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -4047,6 +4046,8 @@ export interface MakerNotesTags {
   ShakeReduction?: string
   /** ☆☆☆☆   Example: "Normal" */
   Sharpening?: string
+  /** ★★★★ ✔ Example: "n/a" */
+  Sharpness?: string
   /** ☆☆☆☆ ✔ Example: 3 */
   SharpnessAuto?: number
   /** ☆☆☆☆ ✔ Example: 768 */
@@ -4323,7 +4324,7 @@ export interface MakerNotesTags {
   ToneCurve?: string
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
   ToneCurveMatching?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1505 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
   ToneCurveTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0" */
   ToneLevel?: string
@@ -4467,6 +4468,8 @@ export interface MakerNotesTags {
   WBShiftGM?: number
   /** ☆☆☆☆ ✔ Example: 0 */
   WBShiftIntelligentAuto?: number
+  /** ★★★★ ✔ Example: "White Preset" */
+  WhiteBalance?: string
   /** ☆☆☆☆ ✔ Example: "On" */
   WhiteBalanceAutoAdjustment?: string
   /** ☆☆☆☆ ✔ Example: 0 */
@@ -4491,7 +4494,7 @@ export interface MakerNotesTags {
   WhiteBalanceSetting?: string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceSetup?: string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2201 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
   WhiteBalanceTable?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: "Auto" */
   WhiteBalanceTemperature?: string
@@ -4585,7 +4588,7 @@ export interface XMPTags {
   CameraProfile?: string
   /** ☆☆☆☆ ✔ Example: "D4FE5D91640D0C5A01B5633EB8061002" */
   CameraProfileDigest?: string
-  /** ☆☆☆☆ ✔ Example: [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}] */
+  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
   Cameras?: Struct[]
   /** ☆☆☆☆   Example: "Rear" */
   CameraUnit?: string
@@ -4625,7 +4628,7 @@ export interface XMPTags {
   ColorNoiseReductionSmoothness?: number
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
   Comment?: string
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]} */
+  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
   Container?: Struct
   /** ☆☆☆☆   Example: "/home/username/pictures" */
   ContainerDirectory?: ContainerDirectoryItem[] | Struct[]
@@ -4765,7 +4768,7 @@ export interface XMPTags {
   HasSettings?: boolean
   /** ☆☆☆☆ ✔ Example: "(Binary data 23388 bytes, use -b option to extract)" */
   HdrPlusMakernote?: BinaryField | string
-  /** ☆☆☆☆ ✔ Example: "(Binary data 49603 bytes, use -b option to extract)" */
+  /** ☆☆☆☆ ✔ Example: "(Binary data 22075 bytes, use -b option to extract)" */
   HDRPMakerNote?: BinaryField | string
   /** ☆☆☆☆ ✔ Example: ["点像F11"] */
   HierarchicalSubject?: string[]
@@ -4957,7 +4960,7 @@ export interface XMPTags {
   PreservedFileName?: string
   /** ☆☆☆☆ ✔ Example: 11 */
   ProcessVersion?: number
-  /** ☆☆☆☆ ✔ Example: [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}] */
+  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
   Profiles?: Struct[]
   /** ☆☆☆☆   Example:  */
   ProgramMode?: string
@@ -5114,8 +5117,8 @@ export interface XMPTags {
  * - a checkmark if the tag is used by popular devices (like iPhones), and
  * - an example value, JSON stringified.
  *
- * Autogenerated by "npm run mktags" by ExifTool 13.00 on Thu Oct 31 2024.
- * 2753 unique tags were found in 10128 photo and video files.
+ * Autogenerated by "npm run mktags" by ExifTool 13.16 on Wed Jan 29 2025.
+ * 2754 unique tags were found in 10128 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
  */
@@ -5133,6 +5136,7 @@ export interface Tags
     IPTCTags,
     ImageDataHashTag,
     JFIFTags,
+    JPEGTags,
     JSONTags,
     MPFTags,
     MWGCollectionsTags,
