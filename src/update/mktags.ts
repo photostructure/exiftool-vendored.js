@@ -1,6 +1,3 @@
-/* eslint-disable regexp/optimal-quantifier-concatenation */
-/* eslint-disable regexp/no-dupe-disjunctions */
-/* eslint-disable @typescript-eslint/no-require-imports */
 require("source-map-support").install()
 
 import { BatchCluster, Log, logger, setLogger } from "batch-cluster"
@@ -297,14 +294,12 @@ setLogger(
   )
 )
 
-process.on("uncaughtException", (error: any) => {
-  console.error("Ack, caught uncaughtException: " + error.stack)
+process.on("uncaughtException", (error: unknown) => {
+  console.error("Caught uncaughtException: " + error)
 })
 
-process.on("unhandledRejection", (reason: any) => {
-  console.error(
-    "Ack, caught unhandledRejection: " + (reason.stack ?? reason.toString)
-  )
+process.on("unhandledRejection", (reason: unknown) => {
+  console.error("Caught unhandledRejection: " + reason)
 })
 
 function usage() {
@@ -343,7 +338,7 @@ if (files.length === 0) {
 
 logger().info("Found " + files.length + " files...", files.slice(0, 7))
 
-function valueType(value: any): Maybe<string> {
+function valueType(value: unknown): Maybe<string> {
   if (value == null) return
   if (Array.isArray(value)) {
     const types = uniq(compact(value.map((ea) => valueType(ea))))
@@ -765,10 +760,8 @@ async function readAndAddToTagMap(file: string) {
 
 const start = Date.now()
 
-process.on("unhandledRejection", (reason: any) => {
-  console.error(
-    "Ack, caught unhandled rejection: " + (reason.stack ?? reason.toString)
-  )
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection: " + reason)
 })
 
 function escapeKey(s: string): string {
