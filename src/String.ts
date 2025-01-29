@@ -2,7 +2,7 @@ import { Maybe } from "./Maybe"
 import { isNumber } from "./Number"
 import { times } from "./Times"
 
-export function isString(o: any): o is string {
+export function isString(o: unknown): o is string {
   return typeof o === "string"
 }
 
@@ -36,16 +36,13 @@ export function compactBlanks(arr: Maybe<string>[]): string[] {
 
 function padding(padChar: "0" | " ", count: number): string {
   if (count <= 0) return ""
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return (padChar === "0" ? zeroes : spaces)[Math.floor(count)]!
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function toS(s: Maybe<any>): string {
+export function toS(s: Maybe<unknown>): string {
   return s == null ? "" : String(s)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function leftPad(
   i: Maybe<number | string>,
   minLen: number,

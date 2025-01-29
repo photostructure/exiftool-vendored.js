@@ -1,10 +1,10 @@
 import { Maybe } from "./Maybe"
 
-export function isNumber(n: any): n is number {
+export function isNumber(n: unknown): n is number {
   return typeof n === "number" && isFinite(n)
 }
 
-export function toFloat(n: any): Maybe<number> {
+export function toFloat(n: unknown): Maybe<number> {
   if (n == null) return
   if (isNumber(n)) return n
   try {
@@ -14,7 +14,7 @@ export function toFloat(n: any): Maybe<number> {
   }
 }
 
-export function toInt(n: any): Maybe<number> {
+export function toInt(n: unknown): Maybe<number> {
   if (n == null) return
   if (isNumber(n)) {
     // we don't round here, because parsing floats also doesn't round.

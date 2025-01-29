@@ -81,12 +81,12 @@ function _parseCoordinates(input: string): Coordinate[] {
     throw new CoordinateParseError("Input string cannot be empty")
   }
 
-  const result = []
+  const result: Coordinate[] = []
   let remainder = input
   do {
     const coord = parseCoordinate(remainder)
     remainder = coord.remainder ?? ""
-    result.push(omit(coord, "remainder"))
+    result.push(omit<Coordinate, "remainder">(coord, "remainder"))
   } while (remainder.length > 0)
   return result
 }
@@ -234,6 +234,8 @@ function toDecimalDegrees(coord: Coordinate): number {
       `Degrees must be between -${maxDegrees} and ${maxDegrees} for ${axis}`
     )
   }
+
+  // Round to 6 decimal places
   // Most consumer devices can only resolve 4-5 decimal places (1m resolution)
   return roundToDecimalPlaces(decimal, 6)
 }

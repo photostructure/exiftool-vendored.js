@@ -71,7 +71,8 @@ export async function exiftoolPath(logger?: Logger): Promise<string> {
   logger?.warn("Failed to find exiftool via " + vendorPackage())
 
   // process.resourcesPath is set by electron-forge:
-  const electronResourcePath = (process as any).resourcesPath
+  const electronResourcePath = (process as { resourcesPath?: string })
+    .resourcesPath
   if (electronResourcePath != null) {
     const forgePath = _path.join(
       electronResourcePath,

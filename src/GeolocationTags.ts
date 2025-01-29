@@ -1,24 +1,27 @@
-export const GeolocationTagNames = [
-  "GeolocationBearing",
-  "GeolocationCity",
-  "GeolocationCountry",
-  "GeolocationCountryCode",
-  "GeolocationDistance",
-  "GeolocationFeatureCode",
-  "GeolocationFeatureType",
-  "GeolocationPopulation",
-  "GeolocationPosition",
-  "GeolocationRegion",
-  "GeolocationSubregion",
-  "GeolocationTimeZone",
-] satisfies (keyof GeolocationTags)[]
+import { keysOf } from "./Object"
+
+export const GeolocationTagNames = keysOf<GeolocationTags>({
+  GeolocationBearing: true,
+  GeolocationCity: true,
+  GeolocationCountry: true,
+  GeolocationCountryCode: true,
+  GeolocationDistance: true,
+  GeolocationFeatureCode: true,
+  GeolocationFeatureType: true,
+  GeolocationPopulation: true,
+  GeolocationPosition: true,
+  GeolocationRegion: true,
+  GeolocationSubregion: true,
+  GeolocationTimeZone: true,
+  GeolocationWarning: true,
+}) satisfies (keyof GeolocationTags)[]
 
 /**
  * Is the given tag name intrinsic to the content of a given file? In other
  * words, is it not an artifact of a metadata field?
  */
 export function isGeolocationTag(name: string): name is keyof GeolocationTags {
-  return GeolocationTagNames.includes(name as any)
+  return GeolocationTagNames.includes(name as keyof GeolocationTags)
 }
 
 /**

@@ -157,7 +157,7 @@ describe("ExifTool", function () {
               Object.entries(await et.read(filename))
                 .filter(([, v]) => v instanceof BinaryField)
                 .map(([k, v]) => [k, v.bytes])
-            )
+            ) as Record<string, number>
           }
 
           it("parses expected binary fields from " + img2, async () => {

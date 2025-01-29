@@ -1,3 +1,5 @@
+import { toError } from "./ErrorsAndWarnings"
+
 export function lazy<T>(thunk: () => T): () => T {
   let invoked = false
   let result: T
@@ -7,8 +9,8 @@ export function lazy<T>(thunk: () => T): () => T {
       try {
         invoked = true
         result = thunk()
-      } catch (e: any) {
-        error = e
+      } catch (e: unknown) {
+        error = toError(e)
         throw e
       }
     }

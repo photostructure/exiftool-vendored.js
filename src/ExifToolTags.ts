@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { keysOf } from "./Object"
 import { ExifToolTags } from "./Tags"
 
@@ -15,5 +13,5 @@ export const ExifToolTagNames = keysOf<ExifToolTags>({
  * words, is it not an artifact of a metadata field?
  */
 export function isExifToolTag(name: string): name is keyof ExifToolTags {
-  return ExifToolTagNames.includes(name as any)
+  return ExifToolTagNames.includes(name as keyof ExifToolTags)
 }

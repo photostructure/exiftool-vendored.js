@@ -15,6 +15,6 @@ export interface Version {
 
 const fields = ["Comments", "Event", "Modifier", "ModifyDate", "Version"]
 
-export function isVersion(obj: any): obj is Version {
+export function isVersion(obj: unknown): obj is Version {
   return obj != null && typeof obj === "object" && fields.every((f) => f in obj)
 }

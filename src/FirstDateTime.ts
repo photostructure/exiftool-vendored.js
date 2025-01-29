@@ -14,7 +14,7 @@ export function firstDateTime(
   dateTimeTags: MaybeReadonly<(keyof Tags)[]> = CapturedAtTagNames
 ): Maybe<ExifDateTime> {
   for (const tag of dateTimeTags) {
-    const dt = tags?.[tag] as any
+    const dt = tags?.[tag]
     if (dt instanceof ExifDateTime) {
       return dt
     } else if (isString(dt)) {

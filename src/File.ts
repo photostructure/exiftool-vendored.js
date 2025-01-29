@@ -16,8 +16,14 @@ export async function isFileEmpty(path: string): Promise<boolean> {
       }
     })
     return s == null || s.size === 0
-  } catch (err: any) {
-    if (err.code === "ENOENT") return true
+  } catch (err: unknown) {
+    if (
+      err &&
+      typeof err === "object" &&
+      "code" in err &&
+      err.code === "ENOENT"
+    )
+      return true
     else throw err
   }
 }

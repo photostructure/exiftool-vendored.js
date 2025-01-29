@@ -2,7 +2,7 @@ import * as bc from "batch-cluster"
 import * as _cp from "node:child_process"
 import * as _fs from "node:fs"
 import process from "node:process"
-import { ifArr } from "./Array"
+import { ifArray } from "./Array"
 import { retryOnReject } from "./AsyncRetry"
 import { BinaryExtractionTask } from "./BinaryExtractionTask"
 import { BinaryToBufferTask } from "./BinaryToBufferTask"
@@ -39,7 +39,7 @@ import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask"
 import { ResourceEvent } from "./ResourceEvent"
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
 import { ShortcutTags } from "./ShortcutTags"
-import { blank, notBlank } from "./String"
+import { blank, isString, notBlank } from "./String"
 import { Struct } from "./Struct"
 import {
   APPTags,
@@ -239,13 +239,11 @@ export class ExifTool {
     this.batchCluster = new bc.BatchCluster(this.options)
   }
 
-  readonly exiftoolPath = lazy(async () => {
-    const o = this.options
-    return (
-      (await (isFunction(o.exiftoolPath)
-        ? o.exiftoolPath(this.options.logger())
-        : o.exiftoolPath)) ?? exiftoolPath(this.options.logger())
-    )
+  readonly exiftoolPath = lazy<Promise<string>>(async () => {
+    const o = await this.options.exiftoolPath
+    if (isString(o) && notBlank(o)) return o
+    if (isFunction(o)) return o(this.options.logger())
+    return exiftoolPath(this.options.logger())
   })
 
   #taskOptions = lazy(() => pick(this.options, "ignoreMinorErrors"))
@@ -253,13 +251,13 @@ export class ExifTool {
   /**
    * Register life cycle event listeners. Delegates to BatchProcess.
    */
-  readonly on: bc.BatchCluster["on"] = (event: any, listener: any) =>
+  readonly on: bc.BatchCluster["on"] = (event, listener) =>
     this.batchCluster.on(event, listener)
 
   /**
    * Unregister life cycle event listeners. Delegates to BatchProcess.
    */
-  readonly off: bc.BatchCluster["off"] = (event: any, listener: any) =>
+  readonly off: bc.BatchCluster["off"] = (event, listener) =>
     this.batchCluster.off(event, listener)
 
   /**
@@ -325,8 +323,8 @@ export class ExifTool {
       ...(isObject(argsOrOptions) ? argsOrOptions : options),
     }
     opts.readArgs =
-      ifArr(argsOrOptions) ?? ifArr(opts.readArgs) ?? this.options.readArgs
-    return this.enqueueTask(() => ReadTask.for(file, opts)) as any // < no way to know at compile time if we're going to get back a T!
+      ifArray(argsOrOptions) ?? ifArray(opts.readArgs) ?? this.options.readArgs
+    return this.enqueueTask(() => ReadTask.for(file, opts)) as Promise<T> // < no way to know at compile time if we're going to get back a T!
   }
 
   /**
@@ -441,8 +439,8 @@ export class ExifTool {
       ...(isObject(writeArgsOrOptions) ? writeArgsOrOptions : options),
     }
     opts.writeArgs =
-      ifArr(writeArgsOrOptions) ??
-      ifArr(opts.writeArgs) ??
+      ifArray(writeArgsOrOptions) ??
+      ifArray(opts.writeArgs) ??
       this.options.writeArgs
 
     // don't retry because writes might not be idempotent (e.g. incrementing
@@ -466,11 +464,11 @@ export class ExifTool {
     file: string,
     opts?: { retain?: (keyof Tags | string)[] } & Partial<ExifToolTaskOptions>
   ): Promise<WriteTaskResult> {
-    const args = [...DeleteAllTagsArgs]
+    const writeArgs = [...DeleteAllTagsArgs]
     for (const ea of opts?.retain ?? []) {
-      args.push(`-${ea}<${ea}`)
+      writeArgs.push(`-${ea}<${ea}`)
     }
-    return this.write(file, {}, args, omit(opts ?? {}, "retain"))
+    return this.write(file, {}, { ...omit(opts ?? {}, "retain"), writeArgs })
   }
 
   /**

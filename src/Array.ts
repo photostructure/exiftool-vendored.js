@@ -1,19 +1,16 @@
 import { Maybe, MaybeNull } from "./Maybe"
+import { isObject } from "./Object"
 import { isString } from "./String"
 
-export function isIterable(obj: any): obj is Iterable<any> {
-  return (
-    obj != null &&
-    typeof obj !== "string" &&
-    typeof obj[Symbol.iterator] === "function"
-  )
+export function isIterable(obj: unknown): obj is Iterable<unknown> {
+  return (isObject(obj) && Symbol.iterator in obj) || Array.isArray(obj)
 }
 
-export function ifArr(arr: unknown): Maybe<any[]> {
+export function ifArray<T = unknown>(arr: T[] | unknown): Maybe<T[]> {
   return Array.isArray(arr) ? arr : undefined
 }
 
-export function toA<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
+export function toArray<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
   return Array.isArray(arr) // < strings are not arrays
     ? (arr as T[])
     : arr == null
@@ -53,7 +50,7 @@ export function uniq<T>(arr: T[]): T[] {
 }
 
 // terrible implementation only for internal use
-export function shallowArrayEql(a: any[], b: any[]): boolean {
+export function shallowArrayEql(a: unknown[], b: unknown[]): boolean {
   return (
     a != null &&
     b != null &&
@@ -75,17 +72,14 @@ export function sortBy<T>(
   arr: Iterable<Maybe<T>> | Maybe<T>[],
   f: (t: T) => Maybe<Comparable>
 ): T[] {
-  return (
-    (toA(arr).filter((ea) => ea != null) as T[])
-      .map((item) => ({
-        item,
-        cmp: f(item),
-      }))
-      .filter((ea) => ea.cmp != null)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      .sort((a, b) => cmp(a.cmp!, b.cmp!))
-      .map((ea) => ea.item)
-  )
+  return (toArray(arr).filter((ea) => ea != null) as T[])
+    .map((item) => ({
+      item,
+      cmp: f(item),
+    }))
+    .filter((ea) => ea.cmp != null)
+    .sort((a, b) => cmp(a.cmp!, b.cmp!))
+    .map((ea) => ea.item)
 }
 
 function cmp(a: Maybe<Comparable>, b: Maybe<Comparable>): number {

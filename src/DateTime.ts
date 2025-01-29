@@ -15,7 +15,7 @@ export const DayMs = 24 * HourMs
 
 export type DateOrTime = ExifDateTime | ExifDate | ExifTime | DateTime
 
-export function isDateOrTime(o: any): o is DateOrTime {
+export function isDateOrTime(o: unknown): o is DateOrTime {
   return (
     o instanceof ExifDateTime ||
     o instanceof ExifDate ||

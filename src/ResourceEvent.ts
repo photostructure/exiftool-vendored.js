@@ -22,6 +22,6 @@ const fields = [
   "When",
 ]
 
-export function isResourceEvent(obj: any): obj is ResourceEvent {
+export function isResourceEvent(obj: unknown): obj is ResourceEvent {
   return obj != null && typeof obj === "object" && fields.every((f) => f in obj)
 }

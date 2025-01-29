@@ -33,5 +33,5 @@ export const ExifToolVendoredTagNames = keysOf<ExifToolVendoredTags>({
 export function isExifToolVendoredTag(
   name: string
 ): name is keyof ExifToolVendoredTags {
-  return ExifToolVendoredTagNames.includes(name as any)
+  return ExifToolVendoredTagNames.includes(name as keyof ExifToolVendoredTags)
 }

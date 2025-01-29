@@ -31,9 +31,10 @@ const FileTagNames = keysOf<FileTags>({
 })
 
 /**
- * Is the given tag name intrinsic to the content of a given file? In other
- * words, is it not an artifact of a metadata field?
+ * Is the given tag name intrinsic to the content of a given file?
+ *
+ * In other words, is it not an artifact of a metadata field?
  */
 export function isFileTag(name: string): name is keyof FileTags {
-  return FileTagNames.includes(name as any)
+  return FileTagNames.includes(name as keyof FileTags)
 }

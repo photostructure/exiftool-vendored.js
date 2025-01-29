@@ -9,7 +9,7 @@ import {
 import { MinuteMs, dateTimeToExif } from "./DateTime"
 import { Maybe, denull } from "./Maybe"
 import { omit } from "./Object"
-import { blank, notBlank } from "./String"
+import { blank, isString, notBlank } from "./String"
 import {
   TimeFormatMeta,
   parseDateTime,
@@ -35,9 +35,9 @@ export class ExifDateTime {
       ? exifOrIso // already an ExifDateTime
       : blank(exifOrIso)
         ? undefined // in order of strictness:
-        : this.fromExifStrict(exifOrIso, defaultZone) ??
+        : (this.fromExifStrict(exifOrIso, defaultZone) ??
           this.fromISO(exifOrIso, defaultZone) ??
-          this.fromExifLoose(exifOrIso, defaultZone)
+          this.fromExifLoose(exifOrIso, defaultZone))
   }
 
   static fromISO(
@@ -104,10 +104,10 @@ export class ExifDateTime {
    * `offsetMinutesToZoneName`.
    */
   static fromExifStrict(
-    text: Maybe<string>,
+    text: unknown,
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
-    if (blank(text)) return undefined
+    if (blank(text) || !isString(text)) return undefined
     return (
       this.#fromPatterns(
         text,
@@ -134,10 +134,10 @@ export class ExifDateTime {
   }
 
   static fromExifLoose(
-    text: Maybe<string>,
+    text: unknown,
     defaultZone?: Maybe<string>
   ): Maybe<ExifDateTime> {
-    return blank(text)
+    return blank(text) || !isString(text)
       ? undefined
       : this.#fromPatterns(text, this.#looseExifFormats(defaultZone))
   }
@@ -201,7 +201,6 @@ export class ExifDateTime {
       dt = dt.setZone(UnsetZone, { keepLocalTime: true })
     }
     // TODO: is there a way to provide an invalid millisecond value?
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.fromDateTime(dt, { rawValue: options.rawValue })!
   }
 

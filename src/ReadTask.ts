@@ -1,6 +1,6 @@
 import { logger } from "batch-cluster"
 import * as _path from "node:path"
-import { toA } from "./Array"
+import { toArray } from "./Array"
 import { BinaryField } from "./BinaryField"
 import { toBoolean } from "./Boolean"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
@@ -15,9 +15,10 @@ import { parseGPSLocation } from "./GPS"
 import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
 import { isNumber } from "./Number"
+import { isObject } from "./Object"
 import { OnlyZerosRE } from "./OnlyZerosRE"
 import { pick } from "./Pick"
-import { isString } from "./String"
+import { isString, notBlank } from "./String"
 import { Tags } from "./Tags"
 import {
   TzSrc,
@@ -62,7 +63,7 @@ export const ReadTaskOptionFields = [
 
 const NullIsh = ["undef", "null", "undefined"]
 
-export function nullish(s: string | undefined): s is undefined {
+export function nullish(s: unknown): s is undefined {
   return s == null || (isString(s) && NullIsh.includes(s.trim()))
 }
 
@@ -76,8 +77,8 @@ const MaybeDateOrTimeRe = /when|date|time|subsec|creat|modif/i
 
 export class ReadTask extends ExifToolTask<Tags> {
   private readonly degroup: boolean
-  #raw: any = {}
-  #rawDegrouped: any = {}
+  #raw: Record<string, unknown> = {}
+  #rawDegrouped: Record<string, unknown> = {}
   readonly #tags: Tags = {}
 
   /**
@@ -103,7 +104,11 @@ export class ReadTask extends ExifToolTask<Tags> {
       ...options,
     })
     const sourceFile = _path.resolve(filename)
-    const args = [...Utf8FilenameCharsetArgs, "-json", ...toA(opts.readArgs)]
+    const args = [
+      ...Utf8FilenameCharsetArgs,
+      "-json",
+      ...toArray(opts.readArgs),
+    ]
     // "-api struct=undef" doesn't work: but it's the same as struct=0:
     args.push("-api", "struct=" + (isNumber(opts.struct) ? opts.struct : "0"))
     if (opts.useMWG) {
@@ -146,13 +151,15 @@ export class ReadTask extends ExifToolTask<Tags> {
       throw err ?? jsonError
     }
     // ExifTool does "humorous" things to paths, like flip path separators. resolve() undoes that.
-    const SourceFile = _path.resolve(this.#raw.SourceFile)
-    // Sanity check that the result is for the file we want:
-    if (SourceFile !== this.sourceFile) {
-      // Throw an error rather than add an errors string because this is *really* bad:
-      throw new Error(
-        `Internal error: unexpected SourceFile of ${this.#raw.SourceFile} for file ${this.sourceFile}`
-      )
+    if (notBlank(this.#raw.SourceFile)) {
+      const SourceFile = _path.resolve(this.#raw.SourceFile)
+      // Sanity check that the result is for the file we want:
+      if (SourceFile !== this.sourceFile) {
+        // Throw an error rather than add an errors string because this is *really* bad:
+        throw new Error(
+          `Internal error: unexpected SourceFile of ${this.#raw.SourceFile} for file ${this.sourceFile}`
+        )
+      }
     }
 
     return this.#parseTags()
@@ -167,7 +174,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   #tagName(k: string): string {
-    return this.degroup ? k.split(":")[1] ?? k : k
+    return this.degroup ? (k.split(":")[1] ?? k) : k
   }
 
   #parseTags(): Tags {
@@ -182,7 +189,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
 
     // avoid casting `this.tags as any` for the rest of the function:
-    const tags = this.#tags as any
+    const tags = this.#tags as Record<string, unknown>
 
     // Must be run before extracting tz offset, to clear out invalid GPS
     // GeolocationTimeZone
@@ -220,7 +227,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   )
 
   #gpsResults = lazy<Record<string, unknown>>(() =>
-    this.#gpsIsInvalid() ? {} : this.#extractGpsMetadata()?.result ?? {}
+    this.#gpsIsInvalid() ? {} : (this.#extractGpsMetadata()?.result ?? {})
   )
 
   #extractTzOffsetFromGps = lazy<Maybe<TzSrc>>(() => {
@@ -286,7 +293,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     )
   })
 
-  #parseTag(tagName: string, value: any): any {
+  #parseTag(tagName: string, value: unknown): unknown {
     if (nullish(value)) return undefined
 
     try {
@@ -307,8 +314,8 @@ export class ReadTask extends ExifToolTask<Tags> {
       if (Array.isArray(value)) {
         return value.map((ea) => this.#parseTag(tagName, ea))
       }
-      if (typeof value === "object") {
-        const result: any = {}
+      if (isObject(value)) {
+        const result: Record<string, unknown> = {}
         for (const [k, v] of Object.entries(value)) {
           result[k] = this.#parseTag(tagName + "." + k, v)
         }

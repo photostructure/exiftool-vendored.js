@@ -1,6 +1,6 @@
 import { uniq } from "./Array"
 import { ExifToolTask } from "./ExifToolTask"
-import { compactBlanks } from "./String"
+import { compactBlanks, toNotBlank, toS } from "./String"
 
 export interface ErrorsAndWarnings {
   /**
@@ -19,11 +19,20 @@ export interface ErrorsAndWarnings {
 }
 
 export function errorsAndWarnings(
-  task: ExifToolTask<any>,
+  task: ExifToolTask<unknown>,
   t?: { Error?: string; Warning?: string }
 ): Required<ErrorsAndWarnings> {
   return {
     errors: uniq(compactBlanks([t?.Error, ...task.errors])),
     warnings: uniq(compactBlanks([t?.Warning, ...task.warnings])),
   }
+}
+
+/**
+ * Convert an unknown value to an Error.
+ */
+export function toError(e: unknown, messageIfBlank = "Unknown error"): Error {
+  return e instanceof Error
+    ? e
+    : new Error(toNotBlank(toS(e)) ?? messageIfBlank)
 }

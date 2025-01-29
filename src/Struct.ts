@@ -4,7 +4,7 @@ export type Struct = {
   [k: string]: number | string | Struct | Array<Struct | number | string>
 }
 
-export function isStruct(o: any): o is Struct {
+export function isStruct(o: unknown): o is Struct {
   return (
     o != null &&
     o.constructor?.name === "Object" &&
