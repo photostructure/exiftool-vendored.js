@@ -359,4 +359,95 @@ describe("Timezones", () => {
       })
     })
   })
+
+  describe("with problematic timezone strings", () => {
+    const invalidTimeZones = [
+      { input: "UTC+25:00", desc: "hours > 24" },
+      { input: "UTC-25:00", desc: "negative hours < -24" },
+      { input: "UTC+10:60", desc: "minutes > 59" },
+      { input: "UTC+10:99", desc: "invalid minutes" },
+      { input: "UTC+:", desc: "missing values" },
+      { input: "UTC++10:00", desc: "double plus" },
+      { input: "UTC--10:00", desc: "double minus" },
+      { input: "UTC+10::00", desc: "double colon" },
+      { input: "UTC10:00", desc: "missing sign" },
+    ]
+
+    invalidTimeZones.forEach(({ input, desc }) => {
+      it(`rejects ${desc}: ${input}`, () => {
+        expect(normalizeZone(input)).to.eql(undefined)
+      })
+    })
+  })
+
+  describe("with fractional offsets", () => {
+    const fractionalCases = [
+      { input: "+05:30", expected: "UTC+5:30" },
+      { input: "+05:45", expected: "UTC+5:45" },
+      { input: "-03:30", expected: "UTC-3:30" },
+      { input: "UTC+05:30", expected: "UTC+5:30" },
+      { input: "UTC+05:45", expected: "UTC+5:45" },
+      { input: "UTC-03:30", expected: "UTC-3:30" },
+    ]
+
+    fractionalCases.forEach(({ input, expected }) => {
+      it(`correctly handles ${input}`, () => {
+        const result = extractZone(input)
+        expect(result?.tz).to.eql(expected)
+      })
+    })
+  })
+
+  describe("timezone equivalence", () => {
+    const equivalentPairs = [
+      { a: "UTC", b: "GMT" },
+      { a: "UTC+0", b: "Z" },
+      { a: "UTC+00:00", b: "Zulu" },
+      { a: "+00:00", b: "GMT" },
+      { a: "UTC+5", b: "UTC+05:00" },
+      { a: "UTC-8", b: "UTC-08:00" },
+    ]
+
+    equivalentPairs.forEach(({ a, b }) => {
+      it(`considers ${a} and ${b} equivalent`, () => {
+        const zoneA = normalizeZone(a)
+        const zoneB = normalizeZone(b)
+        expect(zoneA?.equals(zoneB!)).to.eql(true)
+      })
+    })
+  })
+
+  describe("extractTzOffsetFromTags with complex scenarios", () => {
+    it("handles multiple timezone tags with different values", () => {
+      const tags = {
+        TimeZone: "+09:00",
+        OffsetTime: "+08:00",
+        TimeZoneOffset: "+07:00",
+      }
+      // Should use first valid timezone found in order of precedence
+      expect(extractTzOffsetFromTags(tags)).to.eql({
+        tz: "UTC+9",
+        src: "TimeZone",
+      })
+    })
+
+    it("handles array values in TimeZoneOffset", () => {
+      const tags = {
+        TimeZoneOffset: ["-8", "-7"], // Some cameras provide multiple offsets
+      }
+      expect(extractTzOffsetFromTags(tags as any)).to.eql({
+        tz: "UTC-8",
+        src: "TimeZoneOffset",
+      })
+    })
+
+    it("handles null and undefined values gracefully", () => {
+      const tags = {
+        TimeZone: null as any,
+        OffsetTime: undefined as any,
+        TimeZoneOffset: "",
+      }
+      expect(extractTzOffsetFromTags(tags)).to.eql(undefined)
+    })
+  })
 })
