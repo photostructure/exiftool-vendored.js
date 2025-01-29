@@ -79,7 +79,10 @@ describe("RewriteAllTagsTask", () => {
           await exiftool.write(rewritten, writeTags)
 
           const tags = await exiftool.read(rewritten)
-          expect(tags).to.containSubset({ ...expectedMeta, FNumber: undefined })
+          expect(tags).to.containSubset({
+            ...expectedMeta,
+            FNumber: undefined,
+          })
           expectSameYmdHms(tags.CreateDate as any, d)
         })
       })
