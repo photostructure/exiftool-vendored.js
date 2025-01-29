@@ -126,7 +126,11 @@ describe("WriteTask", function () {
         } as WriteTaskOptions)
         expect(writeResult.warnings).to.eql(
           undefined,
-          JSON.stringify({ writeTags: wt, warnings: writeResult.warnings, writeArgs })
+          JSON.stringify({
+            writeTags: wt,
+            warnings: writeResult.warnings,
+            writeArgs,
+          })
         )
 
         if (fileExists) {
