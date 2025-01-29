@@ -1,13 +1,14 @@
 {
   "reject": [
-    "chai",
+    "// these libraries switched to ESM and we're not quite ready for that",
+    "@types/chai-as-promised",
     "@types/chai",
+    "@types/mocha",
     "chai-as-promised",
+    "chai",
     "deep-eql",
-    "everything above switched to ESM. We're not ready for that.",
-    "eslint",
-    "eslint-why: they broke their own config format and now plugins seem to all be broken",
+    "mocha",
     "rimraf",
-    "rimraf-why: https://github.com/isaacs/rimraf/issues/310"
+    "rimraf-why: https://github.com/isaacs/rimraf/issues/313 (ah, the js ecosystem...)"
   ]
 }
