@@ -5,9 +5,9 @@
  */
 export interface ContainerDirectoryItem {
   Item: {
-    Length?: number
-    Mime?: string
-    Padding?: number
-    Semantic?: string
-  }
+    Length?: number;
+    Mime?: string;
+    Padding?: number;
+    Semantic?: string;
+  };
 }

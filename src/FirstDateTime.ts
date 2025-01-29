@@ -1,9 +1,9 @@
-import { CapturedAtTagNames } from "./CapturedAtTagNames"
-import { ExifDateTime } from "./ExifDateTime"
-import { Maybe } from "./Maybe"
-import { MaybeReadonly } from "./MaybeReadonly"
-import { isString } from "./String"
-import { Tags } from "./Tags"
+import { CapturedAtTagNames } from "./CapturedAtTagNames";
+import { ExifDateTime } from "./ExifDateTime";
+import { Maybe } from "./Maybe";
+import { MaybeReadonly } from "./MaybeReadonly";
+import { isString } from "./String";
+import { Tags } from "./Tags";
 
 /**
  * Returns the first date/time tag in `dateTimeTags` that strictly parses from
@@ -11,18 +11,18 @@ import { Tags } from "./Tags"
  */
 export function firstDateTime(
   tags: Maybe<Tags>,
-  dateTimeTags: MaybeReadonly<(keyof Tags)[]> = CapturedAtTagNames
+  dateTimeTags: MaybeReadonly<(keyof Tags)[]> = CapturedAtTagNames,
 ): Maybe<ExifDateTime> {
   for (const tag of dateTimeTags) {
-    const dt = tags?.[tag]
+    const dt = tags?.[tag];
     if (dt instanceof ExifDateTime) {
-      return dt
+      return dt;
     } else if (isString(dt)) {
-      const edt = ExifDateTime.fromEXIF(dt)
+      const edt = ExifDateTime.fromEXIF(dt);
       if (edt != null) {
-        return edt
+        return edt;
       }
     }
   }
-  return
+  return;
 }

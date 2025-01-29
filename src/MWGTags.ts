@@ -1,10 +1,10 @@
 export interface KeywordInfoStruct {
-  Hierarchy?: KeywordStruct[]
+  Hierarchy?: KeywordStruct[];
 }
 
 export interface KeywordStruct {
-  Children?: KeywordStruct[]
-  Keyword: string
+  Children?: KeywordStruct[];
+  Keyword: string;
 }
 
 /**
@@ -14,18 +14,18 @@ export interface KeywordStruct {
  * @see https://exiftool.org/TagNames/MWG.html#Keywords
  */
 export interface MWGKeywordTags {
-  KeywordInfo?: KeywordInfoStruct[]
-  HierarchicalKeywords?: KeywordStruct[]
+  KeywordInfo?: KeywordInfoStruct[];
+  HierarchicalKeywords?: KeywordStruct[];
 }
 
 export interface CollectionInfo {
-  CollectionName: string
-  CollectionURI: string
+  CollectionName: string;
+  CollectionURI: string;
 }
 
 /**
  * @see https://exiftool.org/TagNames/MWG.html#Collections
  */
 export interface MWGCollectionsTags {
-  Collections?: CollectionInfo[]
+  Collections?: CollectionInfo[];
 }

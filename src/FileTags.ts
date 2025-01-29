@@ -1,5 +1,5 @@
-import { keysOf } from "./Object"
-import { FileTags } from "./Tags"
+import { keysOf } from "./Object";
+import { FileTags } from "./Tags";
 
 const FileTagNames = keysOf<FileTags>({
   BMPVersion: true,
@@ -28,7 +28,7 @@ const FileTagNames = keysOf<FileTags>({
   PixelsPerMeterY: true,
   Planes: true,
   YCbCrSubSampling: true,
-})
+});
 
 /**
  * Is the given tag name intrinsic to the content of a given file?
@@ -36,5 +36,5 @@ const FileTagNames = keysOf<FileTags>({
  * In other words, is it not an artifact of a metadata field?
  */
 export function isFileTag(name: string): name is keyof FileTags {
-  return FileTagNames.includes(name as keyof FileTags)
+  return FileTagNames.includes(name as keyof FileTags);
 }

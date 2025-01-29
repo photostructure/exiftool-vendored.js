@@ -1,18 +1,18 @@
-import * as bc from "batch-cluster"
-import { debuglog } from "node:util"
-import { toBoolean } from "./Boolean"
-import { CapturedAtTagNames } from "./CapturedAtTagNames"
-import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
-import { DefaultMaxProcs } from "./DefaultMaxProcs"
-import { ExifToolOptions } from "./ExifToolOptions"
-import { exiftoolPath } from "./ExiftoolPath"
-import { geoTz } from "./GeoTz"
-import { isWin32 } from "./IsWin32"
-import { Omit } from "./Omit"
-import { Tags } from "./Tags"
-import { VersionTask } from "./VersionTask"
+import * as bc from "batch-cluster";
+import { debuglog } from "node:util";
+import { toBoolean } from "./Boolean";
+import { CapturedAtTagNames } from "./CapturedAtTagNames";
+import { DefaultExiftoolArgs } from "./DefaultExiftoolArgs";
+import { DefaultMaxProcs } from "./DefaultMaxProcs";
+import { ExifToolOptions } from "./ExifToolOptions";
+import { exiftoolPath } from "./ExiftoolPath";
+import { geoTz } from "./GeoTz";
+import { isWin32 } from "./IsWin32";
+import { Omit } from "./Omit";
+import { Tags } from "./Tags";
+import { VersionTask } from "./VersionTask";
 
-const _debuglog = debuglog("exiftool-vendored")
+const _debuglog = debuglog("exiftool-vendored");
 function noop() {}
 
 export const ConsoleLogger: bc.Logger = {
@@ -21,10 +21,10 @@ export const ConsoleLogger: bc.Logger = {
   info: _debuglog,
   warn: console.warn,
   error: console.error,
-}
+};
 
 function logger(): bc.Logger {
-  return debuglog("exiftool-vendored").enabled ? ConsoleLogger : bc.NoLogger
+  return debuglog("exiftool-vendored").enabled ? ConsoleLogger : bc.NoLogger;
 }
 
 /**
@@ -100,18 +100,18 @@ export const DefaultExifToolOptions: Omit<
   adjustTimeZoneIfDaylightSavings: defaultAdjustTimeZoneIfDaylightSavings,
 
   preferTimezoneInferenceFromGps: false, // to retain prior behavior
-})
+});
 
 /**
  * @see https://github.com/photostructure/exiftool-vendored.js/issues/215
  */
 export function defaultAdjustTimeZoneIfDaylightSavings(
-  t: Tags
+  t: Tags,
 ): number | undefined {
   // `DaylightSavings` may be "Yes" or `true`:
   return true === toBoolean(t.DaylightSavings) &&
     // Daggum Nikon likes "FS-Nikon", "Nikon", "NIKON", and "NIKON CORPORATION"
     /\bnikon\b/i.test(String(t.Make))
     ? 60
-    : undefined
+    : undefined;
 }

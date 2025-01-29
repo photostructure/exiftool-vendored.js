@@ -1,7 +1,7 @@
-import * as bc from "batch-cluster"
-import { geoTz } from "./GeoTz"
-import { Maybe } from "./Maybe"
-import { Tags } from "./Tags"
+import * as bc from "batch-cluster";
+import { geoTz } from "./GeoTz";
+import { Maybe } from "./Maybe";
+import { Tags } from "./Tags";
 
 /**
  * Options for the {@link ExifTool} constructor.
@@ -17,7 +17,7 @@ export interface ExifToolOptions
    *
    * Defaults to 1/4 the number of CPUs, minimally 1.
    */
-  maxProcs: number
+  maxProcs: number;
 
   /**
    * The maximum number of requests a given ExifTool process will service
@@ -25,7 +25,7 @@ export interface ExifToolOptions
    *
    * Defaults to 500, to balance performance with memory usage.
    */
-  maxTasksPerProcess: number
+  maxTasksPerProcess: number;
 
   /**
    * Spawning new ExifTool processes must not take longer than
@@ -36,7 +36,7 @@ export interface ExifToolOptions
    *
    * Defaults to 30 seconds, to accommodate slow Windows machines.
    */
-  spawnTimeoutMillis: number
+  spawnTimeoutMillis: number;
 
   /**
    * If requests to ExifTool take longer than this, presume the underlying
@@ -45,7 +45,7 @@ export interface ExifToolOptions
    * unless `taskRetries` is sufficiently large or all writes will be to a
    * fast local disk. Defaults to 10 seconds.
    */
-  taskTimeoutMillis: number
+  taskTimeoutMillis: number;
 
   /**
    * An interval timer is scheduled to do periodic maintenance of underlying
@@ -53,14 +53,14 @@ export interface ExifToolOptions
    *
    * Defaults to 2 seconds.
    */
-  onIdleIntervalMillis: number
+  onIdleIntervalMillis: number;
 
   /**
    * The number of times a task can error or timeout and be retried.
    *
    * Defaults to 1 (every task gets 2 chances).
    */
-  taskRetries: number
+  taskRetries: number;
 
   /**
    * Allows for non-standard paths to ExifTool. Defaults to the perl or
@@ -72,18 +72,18 @@ export interface ExifToolOptions
   exiftoolPath:
     | string
     | Promise<string>
-    | ((logger?: bc.Logger) => string | Promise<string>)
+    | ((logger?: bc.Logger) => string | Promise<string>);
 
   /**
    * Args only passed to exiftool on launch. You probably don't need to change
    * this from the default.
    */
-  exiftoolArgs: string[]
+  exiftoolArgs: string[];
 
   /**
    * Environment variables passed to ExifTool (besides `EXIFTOOL_HOME`)
    */
-  exiftoolEnv: NodeJS.ProcessEnv
+  exiftoolEnv: NodeJS.ProcessEnv;
 
   /**
    * Should ExifTool use MWG (Metadata Working Group) composite tags for
@@ -98,7 +98,7 @@ export interface ExifToolOptions
    *
    * @see https://exiftool.org/TagNames/MWG.html for details
    */
-  useMWG: boolean
+  useMWG: boolean;
 
   /**
    * Tag names (which can have '*' glob matchers) which you want numeric
@@ -111,7 +111,7 @@ export interface ExifToolOptions
    * {@link Tags.GPSLatitude}, {@link Tags.GPSLongitude},
    * {@link Tags.GPSPosition}, and {@link Tags.Orientation}.
    */
-  numericTags: string[]
+  numericTags: string[];
 
   /**
    * If defined, ExifTool will attempt to calculate an "ImageDataHash" tag
@@ -123,12 +123,12 @@ export interface ExifToolOptions
    *
    * This defaults to undefined, as it adds ~20ms of overhead to every read
    */
-  imageHashType: false | "MD5" | "SHA256" | "SHA512"
+  imageHashType: false | "MD5" | "SHA256" | "SHA512";
 
   /**
    * @deprecated Use `imageHashType` instead.
    */
-  includeImageDataMD5: boolean | undefined
+  includeImageDataMD5: boolean | undefined;
 
   /**
    * Video file dates are assumed to be in UTC, rather than using timezone
@@ -136,7 +136,7 @@ export interface ExifToolOptions
    *
    * @see https://github.com/photostructure/exiftool-vendored.js/issues/113
    */
-  defaultVideosToUTC: boolean
+  defaultVideosToUTC: boolean;
 
   /**
    * Should we try to backfill timezones for date-times that don't have them?
@@ -152,7 +152,7 @@ export interface ExifToolOptions
    * As of version 23, this now defaults to `true`, as it's more likely to be
    * what people expect.
    */
-  backfillTimezones: boolean
+  backfillTimezones: boolean;
 
   /**
    * We always look at {@link Tags.TimeZone}, {@link Tags.OffsetTime},
@@ -166,7 +166,7 @@ export interface ExifToolOptions
    * This defaults to false as it both retains prior behavior and means fewer
    * "fuzzy" heuristics are enabled by default.
    */
-  inferTimezoneFromDatestamps: boolean
+  inferTimezoneFromDatestamps: boolean;
 
   /**
    * This is the list of tag names that will be used to infer the timezone as
@@ -179,7 +179,7 @@ export interface ExifToolOptions
    *
    * This defaults to {@link CapturedAtTagNames}
    */
-  inferTimezoneFromDatestampTags: (keyof Tags)[]
+  inferTimezoneFromDatestampTags: (keyof Tags)[];
 
   /**
    * Some cameras (Samsung Galaxy S7, for example) may not always include GPS
@@ -193,7 +193,7 @@ export interface ExifToolOptions
    *
    * @see https://github.com/photostructure/exiftool-vendored.js/issues/209
    */
-  inferTimezoneFromTimeStamp: boolean
+  inferTimezoneFromTimeStamp: boolean;
 
   /**
    * Some software uses a GPS position of (0,0) as a synonym for "unset". If
@@ -206,7 +206,7 @@ export interface ExifToolOptions
    *
    * @see https://en.wikipedia.org/wiki/Null_Island
    */
-  ignoreZeroZeroLatLon: boolean
+  ignoreZeroZeroLatLon: boolean;
 
   /**
    * Override the default geo-to-timezone lookup service. Note that if
@@ -230,7 +230,7 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * @see https://github.com/photostructure/tz-lookup
    * @see https://github.com/evansiroky/node-geo-tz/
    */
-  geoTz: typeof geoTz
+  geoTz: typeof geoTz;
 
   /**
    * When reading metadata, should we enable ExifTool's geolocation features?
@@ -238,14 +238,14 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    *
    * @see https://exiftool.org/geolocation.html
    */
-  geolocation: boolean
+  geolocation: boolean;
 
   /**
    * Should we ignore minor errors when reading metadata?
    *
    * This defaults to `true`, as ExifTool can be quite chatty.
    */
-  ignoreMinorErrors: boolean
+  ignoreMinorErrors: boolean;
 
   /**
    * `ExifTool` has a shebang line that assumes a valid `perl` is installed at
@@ -258,14 +258,14 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * This will default to `true` in those environments as a workaround in these
    * situations. Note also that `perl` will be spawned in a sub-shell.
    */
-  ignoreShebang: boolean
+  ignoreShebang: boolean;
 
   /**
    * Should we check for a readable and executable `perl` file in $PATH? This
    * defaults to false on Windows, and true everywhere else. Set this to false
    * if you know perl is installed.
    */
-  checkPerl: boolean
+  checkPerl: boolean;
 
   /**
    * How should ExifTool handle nested structures?
@@ -280,21 +280,21 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    *
    * @see https://exiftool.org/struct.html
    */
-  struct: "undef" | 0 | 1 | 2
+  struct: "undef" | 0 | 1 | 2;
 
   /**
    * Any additional arguments that should be added by default to all read tasks,
    * like `["-fast", "-api", "largefilesupport=1"]`. The value provided to the
    * ExifTool constructor can be overridden in the call to {@link ExifTool.read()}
    */
-  readArgs: string[]
+  readArgs: string[];
 
   /**
    * Any additional arguments that should be added by default to all write
    * tasks, like `["-overwrite_original"]`. The value provided to the ExifTool
    * constructor can be overridden in the call to {@link ExifTool.write()}.
    */
-  writeArgs: string[]
+  writeArgs: string[];
 
   /**
    * The TimeZone tag normally represents the offset from UTC.
@@ -311,7 +311,7 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    *
    * @see https://github.com/photostructure/exiftool-vendored.js/issues/215
    */
-  adjustTimeZoneIfDaylightSavings: (tags: Tags, tz: string) => Maybe<number>
+  adjustTimeZoneIfDaylightSavings: (tags: Tags, tz: string) => Maybe<number>;
 
   /**
    * Timezone parsing requires a bunch of heuristics due to hardware and
@@ -323,7 +323,7 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * Note that there **are** regions that have had their IANA timezone change
    * over time--this will result incorrect timezones.
    */
-  preferTimezoneInferenceFromGps: boolean
+  preferTimezoneInferenceFromGps: boolean;
 }
 
 export function handleDeprecatedOptions<
@@ -332,7 +332,7 @@ export function handleDeprecatedOptions<
   >,
 >(options: T): T {
   if (options.imageHashType == null && options.includeImageDataMD5 != null) {
-    options.imageHashType = options.includeImageDataMD5 ? "MD5" : false
+    options.imageHashType = options.includeImageDataMD5 ? "MD5" : false;
   }
-  return options
+  return options;
 }

@@ -5,5 +5,5 @@
  * @returns An array containing the results
  */
 export function times<T>(n: number, f: (idx: number) => T): T[] {
-  return Array.from({ length: n }, (_, i) => f(i))
+  return Array.from({ length: n }, (_, i) => f(i));
 }

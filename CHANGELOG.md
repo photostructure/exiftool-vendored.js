@@ -491,11 +491,11 @@ vendored versions of ExifTool match the version that they vendor.
 - ✨ Add support for alternative gps timezone lookup libraries. If you want to use `geo-tz` instead, use something like this:
 
 ```js
-const geoTz = require("geo-tz")
-const { ExifTool } = require("exiftool-vendored")
+const geoTz = require("geo-tz");
+const { ExifTool } = require("exiftool-vendored");
 const exiftool = new ExifTool({
   geoToTz: (lat, lon) => geoTz.find(lat, lon)[0],
-})
+});
 ```
 
 - ✨ If a timezone offset tag is present, _and_ GPS metadata can infer a timezone, _and_ they result in the same offset, `Tags.tz` will use the GPS zone name (like `America/Los_Angeles`).

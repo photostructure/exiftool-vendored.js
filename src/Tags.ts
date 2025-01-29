@@ -1,17 +1,17 @@
-import { BinaryField } from "./BinaryField"
-import { ContainerDirectoryItem } from "./ContainerDirectoryItem"
-import { ExifDate } from "./ExifDate"
-import { ExifDateTime } from "./ExifDateTime"
-import { ExifTime } from "./ExifTime"
-import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
-import { GeolocationTags } from "./GeolocationTags"
-import { ICCProfileTags } from "./ICCProfileTags"
-import { ImageDataHashTag } from "./ImageDataHashTag"
-import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
-import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags"
-import { ResourceEvent } from "./ResourceEvent"
-import { Struct } from "./Struct"
-import { Version } from "./Version"
+import { BinaryField } from "./BinaryField";
+import { ContainerDirectoryItem } from "./ContainerDirectoryItem";
+import { ExifDate } from "./ExifDate";
+import { ExifDateTime } from "./ExifDateTime";
+import { ExifTime } from "./ExifTime";
+import { ExifToolVendoredTags } from "./ExifToolVendoredTags";
+import { GeolocationTags } from "./GeolocationTags";
+import { ICCProfileTags } from "./ICCProfileTags";
+import { ImageDataHashTag } from "./ImageDataHashTag";
+import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";
+import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags";
+import { ResourceEvent } from "./ResourceEvent";
+import { Struct } from "./Struct";
+import { Version } from "./Version";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -20,13 +20,13 @@ import { Version } from "./Version"
  */
 export interface ExifToolTags {
   /** ☆☆☆☆ ✔ Example: "File is empty" */
-  Error?: string
+  Error?: string;
   /** ★★★★ ✔ Example: 13.16 */
-  ExifToolVersion?: number
+  ExifToolVersion?: number;
   /** ☆☆☆☆   Example: "path/to/file.jpg" */
-  SourceFile?: string
+  SourceFile?: string;
   /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */
-  Warning?: string
+  Warning?: string;
 }
 
 /**
@@ -35,57 +35,57 @@ export interface ExifToolTags {
  */
 export interface FileTags {
   /** ★★★★ ✔ Example: 8 */
-  BitsPerSample?: number
+  BitsPerSample?: number;
   /** ☆☆☆☆ ✔ Example: "Windows V3" */
-  BMPVersion?: string
+  BMPVersion?: string;
   /** ★★★★ ✔ Example: 3 */
-  ColorComponents?: number
+  ColorComponents?: number;
   /** ☆☆☆☆ ✔ Example: "ff5978eb5c164fa308177d41e817e08f" */
-  CurrentIPTCDigest?: string
+  CurrentIPTCDigest?: string;
   /** ★★★★ ✔ Example: "/home/username/pictures" */
-  Directory?: string
+  Directory?: string;
   /** ★★★★ ✔ Example: "Progressive DCT, Huffman coding" */
-  EncodingProcess?: string
+  EncodingProcess?: string;
   /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
-  ExifByteOrder?: string
+  ExifByteOrder?: string;
   /** ★★★★ ✔ Example: "2025:01:29 11:37:49-08:00" */
-  FileAccessDate?: ExifDateTime | string
+  FileAccessDate?: ExifDateTime | string;
   /** ☆☆☆☆   Example:  */
-  FileCreateDate?: ExifDateTime | string
+  FileCreateDate?: ExifDateTime | string;
   /** ★★★★ ✔ Example: "2025:01:25 21:09:20-08:00" */
-  FileInodeChangeDate?: ExifDateTime | string
+  FileInodeChangeDate?: ExifDateTime | string;
   /** ★★★★ ✔ Example: "2024:06:15 18:39:22-07:00" */
-  FileModifyDate?: ExifDateTime | string
+  FileModifyDate?: ExifDateTime | string;
   /** ★★★★ ✔ Example: "utc+8_oly.jpg" */
-  FileName?: string
+  FileName?: string;
   /** ★★★★ ✔ Example: "-rwxrwxr-x" */
-  FilePermissions?: string
+  FilePermissions?: string;
   /** ★★★★ ✔ Example: "990 bytes" */
-  FileSize?: string
+  FileSize?: string;
   /** ★★★★ ✔ Example: "RW2" */
-  FileType?: string
+  FileType?: string;
   /** ★★★★ ✔ Example: "rw2" */
-  FileTypeExtension?: string
+  FileTypeExtension?: string;
   /** ☆☆☆☆   Example:  */
-  ImageDataMD5?: string
+  ImageDataMD5?: string;
   /** ★★★★ ✔ Example: 960 */
-  ImageHeight?: number
+  ImageHeight?: number;
   /** ★★★★ ✔ Example: 96 */
-  ImageWidth?: number
+  ImageWidth?: number;
   /** ★★★★ ✔ Example: "video/x-msvideo" */
-  MIMEType?: string
+  MIMEType?: string;
   /** ☆☆☆☆ ✔ Example: "Use BitDepth" */
-  NumColors?: string
+  NumColors?: string;
   /** ☆☆☆☆ ✔ Example: "All" */
-  NumImportantColors?: string
+  NumImportantColors?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PixelsPerMeterX?: number
+  PixelsPerMeterX?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PixelsPerMeterY?: number
+  PixelsPerMeterY?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  Planes?: number
+  Planes?: number;
   /** ★★★★ ✔ Example: "YCbCr4:4:4 (1 1)" */
-  YCbCrSubSampling?: string
+  YCbCrSubSampling?: string;
 }
 
 /**
@@ -95,374 +95,374 @@ export interface FileTags {
  */
 export interface CompositeTags {
   /** ☆☆☆☆ ✔ Example: "Unknown (49 5)" */
-  AdvancedSceneMode?: string
+  AdvancedSceneMode?: string;
   /** ★★★★ ✔ Example: 90 */
-  Aperture?: number
+  Aperture?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AutoFocus?: string
+  AutoFocus?: string;
   /** ☆☆☆☆ ✔ Example: "8.7 Mbps" */
-  AvgBitrate?: string
+  AvgBitrate?: string;
   /** ★★☆☆ ✔ Example: 46 */
-  BlueBalance?: number
+  BlueBalance?: number;
   /** ☆☆☆☆ ✔ Example: "[Red,Green][Green,Blue]" */
-  CFAPattern?: string
+  CFAPattern?: string;
   /** ★★★★ ✔ Example: "1.030 mm" */
-  CircleOfConfusion?: string
+  CircleOfConfusion?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ConditionalFEC?: number
+  ConditionalFEC?: number;
   /** ☆☆☆☆ ✔ Example: "2021:03:16 18:14:25" */
-  DigitalCreationDateTime?: ExifDateTime | string
+  DigitalCreationDateTime?: ExifDateTime | string;
   /** ★★☆☆ ✔ Example: "inf (9.66 m - inf)" */
-  DOF?: string
+  DOF?: string;
   /** ★★☆☆ ✔ Example: "Unknown (3152)" */
-  DriveMode?: string
+  DriveMode?: string;
   /** ☆☆☆☆ ✔ Example: "Not attached" */
-  ExtenderStatus?: string
+  ExtenderStatus?: string;
   /** ☆☆☆☆ ✔ Example: "Optional,TTL" */
-  FlashType?: string
+  FlashType?: string;
   /** ★★★★ ✔ Example: "99.7 mm (35 mm equivalent: 554.0 mm)" */
-  FocalLength35efl?: string
+  FocalLength35efl?: string;
   /** ★★★★ ✔ Example: "97.7 deg" */
-  FOV?: string
+  FOV?: string;
   /** ☆☆☆☆ ✔ Example: "2024:04:21 04:09:51Z" */
-  GPSDateTime?: ExifDateTime | string
+  GPSDateTime?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "7.196465 134.376806666667" */
-  GPSPosition?: string
+  GPSPosition?: string;
   /** ★★★★ ✔ Example: "Inf m" */
-  HyperfocalDistance?: string
+  HyperfocalDistance?: string;
   /** ★★★★ ✔ Example: "8x8" */
-  ImageSize?: string
+  ImageSize?: string;
   /** ★★☆☆ ✔ Example: "smc PENTAX-D FA 50mm F2.8 Macro" */
-  Lens?: string
+  Lens?: string;
   /** ★★☆☆ ✔ Example: "9.2 - 92.0 mm (35 mm equivalent: 24.9 - 248.8 mm)" */
-  Lens35efl?: string
+  Lens35efl?: string;
   /** ★★☆☆ ✔ Example: "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" */
-  LensID?: string
+  LensID?: string;
   /** ★★★★ ✔ Example: 9.9 */
-  LightValue?: number
+  LightValue?: number;
   /** ★★★★ ✔ Example: 9.5 */
-  Megapixels?: number
+  Megapixels?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 512 bytes, use -b option to extract)" */
-  OriginalDecisionData?: BinaryField | string
+  OriginalDecisionData?: BinaryField | string;
   /** ☆☆☆☆   Example: "9.9 um" */
-  PeakSpectralSensitivity?: string
+  PeakSpectralSensitivity?: string;
   /** ★★★☆ ✔ Example: "(Binary data 37244 bytes, use -b option to extract)" */
-  PreviewImage?: BinaryField
+  PreviewImage?: BinaryField;
   /** ★★☆☆ ✔ Example: 38.625 */
-  RedBalance?: number
+  RedBalance?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  RedEyeReduction?: string
+  RedEyeReduction?: string;
   /** ☆☆☆☆   Example: 11.2 */
-  RicohPitch?: number
+  RicohPitch?: number;
   /** ☆☆☆☆   Example: 1.59 */
-  RicohRoll?: number
+  RicohRoll?: number;
   /** ★☆☆☆ ✔ Example: "Unknown (0)" */
-  Rotation?: number
+  Rotation?: number;
   /** ☆☆☆☆ ✔ Example: "9:30:01" */
-  RunTimeSincePowerUp?: string
+  RunTimeSincePowerUp?: string;
   /** ★★★★ ✔ Example: 9.9 */
-  ScaleFactor35efl?: number
+  ScaleFactor35efl?: number;
   /** ★★☆☆ ✔ Example: "Unknown (83)" */
-  ShootingMode?: string
+  ShootingMode?: string;
   /** ☆☆☆☆ ✔ Example: "1st-curtain sync" */
-  ShutterCurtainHack?: string
+  ShutterCurtainHack?: string;
   /** ★★★★ ✔ Example: "inf" */
-  ShutterSpeed?: string
+  ShutterSpeed?: string;
   /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
-  SubSecCreateDate?: ExifDateTime | string
+  SubSecCreateDate?: ExifDateTime | string;
   /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
-  SubSecDateTimeOriginal?: ExifDateTime | string
+  SubSecDateTimeOriginal?: ExifDateTime | string;
   /** ☆☆☆☆   Example:  */
-  SubSecMediaCreateDate?: ExifDateTime | string
+  SubSecMediaCreateDate?: ExifDateTime | string;
   /** ★☆☆☆ ✔ Example: "2024:07:01 09:39:41.09+00:00" */
-  SubSecModifyDate?: ExifDateTime | string
+  SubSecModifyDate?: ExifDateTime | string;
 }
 
 export interface APPTags {
   /** ☆☆☆☆   Example: "59 128 128" */
-  AboveColor?: string
+  AboveColor?: string;
   /** ☆☆☆☆   Example: 388 */
-  Again?: number
+  Again?: number;
   /** ☆☆☆☆   Example: "5.0 C" */
-  AtmosphericTemperature?: string
+  AtmosphericTemperature?: string;
   /** ☆☆☆☆ ✔ Example: 800 */
-  AutoISOMax?: number
+  AutoISOMax?: number;
   /** ☆☆☆☆ ✔ Example: 3200 */
-  AutoISOMin?: number
+  AutoISOMin?: number;
   /** ☆☆☆☆ ✔ Example: "Up" */
-  AutoRotation?: string
+  AutoRotation?: string;
   /** ☆☆☆☆   Example: 3383 */
-  B5100?: number
+  B5100?: number;
   /** ☆☆☆☆   Example: "60 128 128" */
-  BelowColor?: string
+  BelowColor?: string;
   /** ☆☆☆☆   Example: 2438 */
-  Bgain?: number
+  Bgain?: number;
   /** ☆☆☆☆   Example: 255 */
-  BHighLight?: number
+  BHighLight?: number;
   /** ☆☆☆☆   Example: 216 */
-  BHL?: number
+  BHL?: number;
   /** ☆☆☆☆   Example: 33 */
-  Blk0?: number
+  Blk0?: number;
   /** ☆☆☆☆   Example: 32 */
-  Blk1?: number
+  Blk1?: number;
   /** ☆☆☆☆   Example: 86 */
-  BMean?: number
+  BMean?: number;
   /** ☆☆☆☆   Example: 6 */
-  Boff?: number
+  Boff?: number;
   /** ☆☆☆☆   Example: 1 */
-  BSd?: number
+  BSd?: number;
   /** ☆☆☆☆   Example: 3 */
-  BSD?: number
+  BSD?: number;
   /** ☆☆☆☆   Example: 1908 */
-  BStrobe?: number
+  BStrobe?: number;
   /** ☆☆☆☆   Example: "Z-CAMERA" */
-  CameraModel?: string
+  CameraModel?: string;
   /** ☆☆☆☆   Example: "_______________" */
-  CameraPartNumber?: string
+  CameraPartNumber?: string;
   /** ☆☆☆☆ ✔ Example: 8340330 */
-  CameraSerialNumber?: number
+  CameraSerialNumber?: number;
   /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
-  CameraSoftware?: string
+  CameraSoftware?: string;
   /** ☆☆☆☆   Example: 2 */
-  Case?: number
+  Case?: number;
   /** ☆☆☆☆   Example: 2 */
-  CBal?: number
+  CBal?: number;
   /** ☆☆☆☆   Example: 1 */
-  Color?: number
+  Color?: number;
   /** ☆☆☆☆ ✔ Example: 42926626 */
-  COLOR1?: number
+  COLOR1?: number;
   /** ☆☆☆☆ ✔ Example: 32321478 */
-  COLOR2?: number
+  COLOR2?: number;
   /** ☆☆☆☆ ✔ Example: 22701368 */
-  COLOR3?: number
+  COLOR3?: number;
   /** ☆☆☆☆ ✔ Example: 5 */
-  COLOR4?: number
+  COLOR4?: number;
   /** ☆☆☆☆ ✔ Example: "YCbCr" */
-  ColorTransform?: string
+  ColorTransform?: string;
   /** ☆☆☆☆   Example: 45 */
-  Compass?: string
+  Compass?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ContTake?: number
+  ContTake?: number;
   /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
-  CreatorSoftware?: string
+  CreatorSoftware?: string;
   /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
-  DateTimeGenerated?: ExifDateTime | string
+  DateTimeGenerated?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: 100 */
-  DCTEncodeVersion?: number
+  DCTEncodeVersion?: number;
   /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
-  DeviceName?: string
+  DeviceName?: string;
   /** ☆☆☆☆   Example: "(Binary data 1011393 bytes, use -b option to extract)" */
-  EmbeddedImage?: BinaryField | string
+  EmbeddedImage?: BinaryField | string;
   /** ☆☆☆☆   Example: 960 */
-  EmbeddedImageHeight?: number
+  EmbeddedImageHeight?: number;
   /** ☆☆☆☆   Example: "PNG" */
-  EmbeddedImageType?: string
+  EmbeddedImageType?: string;
   /** ☆☆☆☆   Example: 640 */
-  EmbeddedImageWidth?: number
+  EmbeddedImageWidth?: number;
   /** ☆☆☆☆   Example: 1 */
-  Emissivity?: number
+  Emissivity?: number;
   /** ☆☆☆☆ ✔ Example: 8501 */
-  EXP1?: number
+  EXP1?: number;
   /** ☆☆☆☆ ✔ Example: 59 */
-  EXP2?: number
+  EXP2?: number;
   /** ☆☆☆☆ ✔ Example: 237 */
-  EXP3?: number
+  EXP3?: number;
   /** ☆☆☆☆   Example: 0.97 */
-  ExposRatio?: number
+  ExposRatio?: number;
   /** ☆☆☆☆   Example: 3687 */
-  Exposure?: number
+  Exposure?: number;
   /** ☆☆☆☆   Example: "46.1 deg" */
-  FieldOfView?: string
+  FieldOfView?: string;
   /** ☆☆☆☆   Example: "NOF" */
-  FilterModel?: string
+  FilterModel?: string;
   /** ☆☆☆☆   Example: "" */
-  FilterPartNumber?: string
+  FilterPartNumber?: string;
   /** ☆☆☆☆   Example: "00000000" */
-  FilterSerialNumber?: string
+  FilterSerialNumber?: string;
   /** ☆☆☆☆   Example: 1 */
-  FinalRatio?: number
+  FinalRatio?: number;
   /** ☆☆☆☆   Example: 640 */
-  FlashTime?: number
+  FlashTime?: number;
   /** ☆☆☆☆   Example: 192 */
-  FMean?: number
+  FMean?: number;
   /** ☆☆☆☆ ✔ Example: "F2.8" */
-  Fnumber?: string
+  Fnumber?: string;
   /** ☆☆☆☆ ✔ Example: "inf" */
-  FocusDistance?: string
+  FocusDistance?: string;
   /** ☆☆☆☆   Example: 136 */
-  FocusPos?: number
+  FocusPos?: number;
   /** ☆☆☆☆ ✔ Example: 98 */
-  FocusStepCount?: number
+  FocusStepCount?: number;
   /** ☆☆☆☆ ✔ Example: 9 */
-  FrameRate?: number
+  FrameRate?: number;
   /** ☆☆☆☆   Example: 85 */
-  Gain?: number
+  Gain?: number;
   /** ☆☆☆☆   Example: 2152 */
-  GBgain?: number
+  GBgain?: number;
   /** ☆☆☆☆   Example: 8 */
-  GBoff?: number
+  GBoff?: number;
   /** ☆☆☆☆   Example: 255 */
-  GHighLight?: number
+  GHighLight?: number;
   /** ☆☆☆☆   Example: 255 */
-  GHL?: number
+  GHL?: number;
   /** ☆☆☆☆   Example: 52 */
-  GMean?: number
+  GMean?: number;
   /** ☆☆☆☆ ✔ Example: 88.01 */
-  GPSTrack?: number
+  GPSTrack?: number;
   /** ☆☆☆☆ ✔ Example: "True North" */
-  GPSTrackRef?: string
+  GPSTrackRef?: string;
   /** ☆☆☆☆   Example: true */
-  GPSValid?: boolean
+  GPSValid?: boolean;
   /** ☆☆☆☆   Example: 2152 */
-  GRgain?: number
+  GRgain?: number;
   /** ☆☆☆☆   Example: 8 */
-  GRoff?: number
+  GRoff?: number;
   /** ☆☆☆☆   Example: 1 */
-  GSd?: number
+  GSd?: number;
   /** ☆☆☆☆   Example: 4 */
-  GSD?: number
+  GSD?: number;
   /** ☆☆☆☆ ✔ Example: "PDR-M60" */
-  ID?: string
+  ID?: string;
   /** ☆☆☆☆   Example: "7.4 C" */
-  IRWindowTemperature?: string
+  IRWindowTemperature?: string;
   /** ☆☆☆☆   Example: 1 */
-  IRWindowTransmission?: number
+  IRWindowTransmission?: number;
   /** ☆☆☆☆   Example: "99 128 128" */
-  Isotherm1Color?: string
+  Isotherm1Color?: string;
   /** ☆☆☆☆   Example: "92 115 209" */
-  Isotherm2Color?: string
+  Isotherm2Color?: string;
   /** ☆☆☆☆ ✔ Example: 696880 */
-  JPEG1?: number
+  JPEG1?: number;
   /** ☆☆☆☆   Example: "T199104" */
-  LensPartNumber?: string
+  LensPartNumber?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LightS?: number
+  LightS?: number;
   /** ☆☆☆☆ ✔ Example: "AUTO" */
-  MaximumShutterAngle?: string
+  MaximumShutterAngle?: string;
   /** ☆☆☆☆   Example: " 10.6" */
-  Mean?: string
+  Mean?: string;
   /** ☆☆☆☆   Example: 1 */
-  Meas1Label?: number
+  Meas1Label?: number;
   /** ☆☆☆☆   Example: "80 60" */
-  Meas1Params?: string
+  Meas1Params?: string;
   /** ☆☆☆☆   Example: "Spot" */
-  Meas1Type?: string
+  Meas1Type?: string;
   /** ☆☆☆☆   Example: "Sp1" */
-  Meas2Label?: string
+  Meas2Label?: string;
   /** ☆☆☆☆   Example: "213 160 213 160" */
-  Meas2Params?: string
+  Meas2Params?: string;
   /** ☆☆☆☆   Example: "Spot" */
-  Meas2Type?: string
+  Meas2Type?: string;
   /** ☆☆☆☆ ✔ Example: "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000" */
-  MediaUniqueID?: string
+  MediaUniqueID?: string;
   /** ☆☆☆☆ ✔ Example: "7.6.4" */
-  MetadataVersion?: string
+  MetadataVersion?: string;
   /** ☆☆☆☆   Example: 26 */
-  MotorPos?: number
+  MotorPos?: number;
   /** ☆☆☆☆   Example: 4 */
-  Offset?: number
+  Offset?: number;
   /** ☆☆☆☆   Example: "+98" */
-  OffsetX?: string
+  OffsetX?: string;
   /** ☆☆☆☆   Example: "+51" */
-  OffsetY?: string
+  OffsetY?: string;
   /** ☆☆☆☆   Example: "67 216 98" */
-  OverflowColor?: string
+  OverflowColor?: string;
   /** ☆☆☆☆   Example: "(Binary data 672 bytes, use -b option to extract)" */
-  Palette?: BinaryField | string
+  Palette?: BinaryField | string;
   /** ☆☆☆☆   Example: 224 */
-  PaletteColors?: number
+  PaletteColors?: number;
   /** ☆☆☆☆   Example: "iron.pal" */
-  PaletteFileName?: string
+  PaletteFileName?: string;
   /** ☆☆☆☆   Example: 0 */
-  PaletteMethod?: number
+  PaletteMethod?: number;
   /** ☆☆☆☆   Example: "iron" */
-  PaletteName?: string
+  PaletteName?: string;
   /** ☆☆☆☆   Example: 3 */
-  PaletteStretch?: number
+  PaletteStretch?: number;
   /** ☆☆☆☆   Example: ".basicImgData.objectParams.emissivity" */
-  Param0?: string
+  Param0?: string;
   /** ☆☆☆☆ ✔ Example: "12MP_W" */
-  PhotoResolution?: string
+  PhotoResolution?: string;
   /** ☆☆☆☆ ✔ Example: 87648 */
-  PicLen?: number
+  PicLen?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  Protect?: number
+  Protect?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ProTune?: string
+  ProTune?: string;
   /** ☆☆☆☆   Example: 6929 */
-  R5100?: number
+  R5100?: number;
   /** ☆☆☆☆ ✔ Example: "4_1SEC" */
-  Rate?: string
+  Rate?: string;
   /** ☆☆☆☆   Example: "(Binary data 614604 bytes, use -b option to extract)" */
-  RawThermalImage?: BinaryField | string
+  RawThermalImage?: BinaryField | string;
   /** ☆☆☆☆   Example: 90 */
-  RawThermalImageHeight?: number
+  RawThermalImageHeight?: number;
   /** ☆☆☆☆   Example: "TIFF" */
-  RawThermalImageType?: string
+  RawThermalImageType?: string;
   /** ☆☆☆☆   Example: 80 */
-  RawThermalImageWidth?: number
+  RawThermalImageWidth?: number;
   /** ☆☆☆☆   Example: 9392 */
-  RawValueMedian?: number
+  RawValueMedian?: number;
   /** ☆☆☆☆   Example: 993 */
-  RawValueRange?: number
+  RawValueRange?: number;
   /** ☆☆☆☆   Example: 65535 */
-  RawValueRangeMax?: number
+  RawValueRangeMax?: number;
   /** ☆☆☆☆   Example: 8628 */
-  RawValueRangeMin?: number
+  RawValueRangeMin?: number;
   /** ☆☆☆☆   Example: 2.2125397 */
-  Real2IR?: number
+  Real2IR?: number;
   /** ☆☆☆☆   Example: "26.7 C" */
-  ReflectedApparentTemperature?: string
+  ReflectedApparentTemperature?: string;
   /** ☆☆☆☆   Example: "80.0 %" */
-  RelativeHumidity?: string
+  RelativeHumidity?: string;
   /** ☆☆☆☆ ✔ Example: 6 */
-  Resolution?: number
+  Resolution?: number;
   /** ☆☆☆☆ ✔ Example: "DCPT" */
-  REV?: string
+  REV?: string;
   /** ☆☆☆☆   Example: 1887 */
-  Rgain?: number
+  Rgain?: number;
   /** ☆☆☆☆   Example: 255 */
-  RHighLight?: number
+  RHighLight?: number;
   /** ☆☆☆☆   Example: 247 */
-  RHL?: number
+  RHL?: number;
   /** ☆☆☆☆   Example: 32 */
-  RMean?: number
+  RMean?: number;
   /** ☆☆☆☆   Example: 9 */
-  Roff?: number
+  Roff?: number;
   /** ☆☆☆☆   Example: 1 */
-  RSd?: number
+  RSd?: number;
   /** ☆☆☆☆   Example: 4 */
-  RSD?: number
+  RSD?: number;
   /** ☆☆☆☆   Example: 5896 */
-  RStrobe?: number
+  RStrobe?: number;
   /** ☆☆☆☆ ✔ Example: "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7" */
-  S0?: string
+  S0?: string;
   /** ☆☆☆☆   Example: 0 */
-  StrobeTime?: number
+  StrobeTime?: number;
   /** ☆☆☆☆ ✔ Example: "bd1,1,5,2beec,b5,ec15" */
-  T0?: string
+  T0?: string;
   /** ☆☆☆☆ ✔ Example: 357 */
-  TagB?: number
+  TagB?: number;
   /** ☆☆☆☆ ✔ Example: 92 */
-  TagQ?: number
+  TagQ?: number;
   /** ☆☆☆☆ ✔ Example: 243 */
-  TagR?: number
+  TagR?: number;
   /** ☆☆☆☆ ✔ Example: "v" */
-  TagS?: string
+  TagS?: string;
   /** ☆☆☆☆ ✔ Example: 4016 */
-  ThmLen?: number
+  ThmLen?: number;
   /** ☆☆☆☆   Example: "41 110 240" */
-  UnderflowColor?: string
+  UnderflowColor?: string;
   /** ★☆☆☆ ✔ Example: "vf0-3c" */
-  Version?: string
+  Version?: string;
   /** ☆☆☆☆   Example: 4054 */
-  YLevel?: number
+  YLevel?: number;
   /** ☆☆☆☆   Example: 2209 */
-  YTarget?: number
+  YTarget?: number;
   /** ☆☆☆☆ ✔ Example:  */
-  Zoom?: string
+  Zoom?: string;
   /** ☆☆☆☆   Example: 9 */
-  ZoomPos?: number
+  ZoomPos?: number;
 }
 
 /**
@@ -470,47 +470,47 @@ export interface APPTags {
  */
 export interface FlashPixTags {
   /** ☆☆☆☆   Example: "(Binary data 18 bytes, use -b option to extract)" */
-  AudioStream?: BinaryField | string
+  AudioStream?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "Unicode UTF-16, little endian" */
-  CodePage?: string
+  CodePage?: string;
   /** ☆☆☆☆ ✔ Example: "Picoss" */
-  CreatingApplication?: string
+  CreatingApplication?: string;
   /** ☆☆☆☆ ✔ Example: "30020010-C06F-D011-BD01-00609719A180" */
-  ExtensionClassID?: string
+  ExtensionClassID?: string;
   /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
-  ExtensionCreateDate?: ExifDateTime | string
+  ExtensionCreateDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "Presized image for LCD display" */
-  ExtensionDescription?: string
+  ExtensionDescription?: string;
   /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
-  ExtensionModifyDate?: ExifDateTime | string
+  ExtensionModifyDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "Screen nail" */
-  ExtensionName?: string
+  ExtensionName?: string;
   /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
-  ExtensionPersistence?: string
+  ExtensionPersistence?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 57881 bytes, use -b option to extract)" */
-  ScreenNail?: BinaryField | string
+  ScreenNail?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  UsedExtensionNumbers?: number
+  UsedExtensionNumbers?: number;
 }
 
 export interface JPEGTags {
   /** ☆☆☆☆ ✔ Example: "(Binary data 1458 bytes, use -b option to extract)" */
-  HDRGainCurve?: BinaryField | string
+  HDRGainCurve?: BinaryField | string;
 }
 
 export interface JSONTags {
   /** ☆☆☆☆   Example: 0 */
-  AIScene?: number
+  AIScene?: number;
   /** ☆☆☆☆   Example: 66048 */
-  FilterId?: number
+  FilterId?: number;
   /** ☆☆☆☆   Example: "off" */
-  Hdr?: string
+  Hdr?: string;
   /** ☆☆☆☆   Example: false */
-  Mirror?: boolean
+  Mirror?: boolean;
   /** ☆☆☆☆   Example: 36864 */
-  OpMode?: number
+  OpMode?: number;
   /** ☆☆☆☆   Example: 1 */
-  ZoomMultiple?: number
+  ZoomMultiple?: number;
 }
 
 /**
@@ -518,448 +518,448 @@ export interface JSONTags {
  */
 export interface EXIFTags {
   /** ☆☆☆☆ ✔ Example: 988517 */
-  Acceleration?: number
+  Acceleration?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  AntiAliasStrength?: number
+  AntiAliasStrength?: number;
   /** ★★★☆ ✔ Example: 9016997700 */
-  ApertureValue?: number
+  ApertureValue?: number;
   /** ★☆☆☆ ✔ Example: "Arturo DeImage" */
-  Artist?: string
+  Artist?: string;
   /** ☆☆☆☆ ✔ Example: "0.8326394671 1.012145749 0.3512469266" */
-  AsShotNeutral?: string
+  AsShotNeutral?: string;
   /** ☆☆☆☆ ✔ Example: -0.6566481 */
-  BaselineExposure?: number
+  BaselineExposure?: number;
   /** ☆☆☆☆ ✔ Example: "94 95 93 93" */
-  BlackLevel?: string
+  BlackLevel?: string;
   /** ☆☆☆☆ ✔ Example: 130 */
-  BlackLevelBlue?: number
+  BlackLevelBlue?: number;
   /** ☆☆☆☆ ✔ Example: 130 */
-  BlackLevelGreen?: number
+  BlackLevelGreen?: number;
   /** ☆☆☆☆ ✔ Example: 130 */
-  BlackLevelRed?: number
+  BlackLevelRed?: number;
   /** ☆☆☆☆ ✔ Example: "1 1" */
-  BlackLevelRepeatDim?: string
+  BlackLevelRepeatDim?: string;
   /** ★★★☆ ✔ Example: 9.9919505 */
-  BrightnessValue?: number
+  BrightnessValue?: number;
   /** ☆☆☆☆   Example: 6.1 */
-  CameraElevationAngle?: number
+  CameraElevationAngle?: number;
   /** ☆☆☆☆ ✔ Example: "Red,Green,Blue" */
-  CFAPlaneColor?: string
+  CFAPlaneColor?: string;
   /** ☆☆☆☆ ✔ Example: "2 2" */
-  CFARepeatPatternDim?: string
+  CFARepeatPatternDim?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ChromaticAberrationCorrection?: string
+  ChromaticAberrationCorrection?: string;
   /** ★★★★ ✔ Example: "sRGB" */
-  ColorSpace?: string
+  ColorSpace?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown" */
-  CompositeImage?: string
+  CompositeImage?: string;
   /** ★★★★ ✔ Example: 90 */
-  CompressedBitsPerPixel?: number
+  CompressedBitsPerPixel?: number;
   /** ★★★☆ ✔ Example: "© Chuckles McSnortypants, Inc." */
-  Copyright?: string
+  Copyright?: string;
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
-  CreateDate?: ExifDateTime | string
+  CreateDate?: ExifDateTime | string;
   /** ★★★★ ✔ Example: "Unknown (Custom process)" */
-  CustomRendered?: string
+  CustomRendered?: string;
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
-  DateTimeOriginal?: ExifDateTime | string
+  DateTimeOriginal?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "8 8" */
-  DefaultCropOrigin?: string
+  DefaultCropOrigin?: string;
   /** ☆☆☆☆ ✔ Example: "8272 6200" */
-  DefaultCropSize?: string
+  DefaultCropSize?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 0 bytes, use -b option to extract)" */
-  DeviceSettingDescription?: BinaryField | string
+  DeviceSettingDescription?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "1.3.0.0" */
-  DNGBackwardVersion?: string
+  DNGBackwardVersion?: string;
   /** ☆☆☆☆ ✔ Example: "1.4.0.0" */
-  DNGVersion?: string
+  DNGVersion?: string;
   /** ☆☆☆☆   Example: "" */
-  DocumentName?: string
+  DocumentName?: string;
   /** ★★★★ ✔ Example: 990 */
-  ExifImageHeight?: number
+  ExifImageHeight?: number;
   /** ★★★★ ✔ Example: 999 */
-  ExifImageWidth?: number
+  ExifImageWidth?: number;
   /** ★☆☆☆ ✔ Example: 83 */
-  ExposureIndex?: number
+  ExposureIndex?: number;
   /** ★★★★ ✔ Example: "iAuto+" */
-  ExposureProgram?: string
+  ExposureProgram?: string;
   /** ★★★★ ✔ Example: "inf" */
-  ExposureTime?: string
+  ExposureTime?: string;
   /** ★★★★ ✔ Example: "Unknown (DSC)" */
-  FileSource?: string
+  FileSource?: string;
   /** ★★★★ ✔ Example: "Unknown (0xffff)" */
-  Flash?: string
+  Flash?: string;
   /** ☆☆☆☆ ✔ Example: 54 */
-  FlashEnergy?: number
+  FlashEnergy?: number;
   /** ★★★★ ✔ Example: 90 */
-  FNumber?: number
+  FNumber?: number;
   /** ★★★★ ✔ Example: "99.7 mm" */
-  FocalLength?: string
+  FocalLength?: string;
   /** ★★★☆ ✔ Example: "9920 mm" */
-  FocalLengthIn35mmFormat?: string
+  FocalLengthIn35mmFormat?: string;
   /** ★★★☆ ✔ Example: "um" */
-  FocalPlaneResolutionUnit?: string
+  FocalPlaneResolutionUnit?: string;
   /** ★★★☆ ✔ Example: 9941.7476 */
-  FocalPlaneXResolution?: number
+  FocalPlaneXResolution?: number;
   /** ★★★☆ ✔ Example: 9846.1538 */
-  FocalPlaneYResolution?: number
+  FocalPlaneYResolution?: number;
   /** ★★★☆ ✔ Example: "Unknown (8176)" */
-  GainControl?: string
+  GainControl?: string;
   /** ☆☆☆☆ ✔ Example: 2.4921875 */
-  Gamma?: number
+  Gamma?: number;
   /** ★☆☆☆ ✔ Example: 99.8 */
-  GPSAltitude?: number
+  GPSAltitude?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown (Sea level reference)" */
-  GPSAltitudeRef?: string
+  GPSAltitudeRef?: string;
   /** ☆☆☆☆ ✔ Example: "府中市郷土の森博物館" */
-  GPSAreaInformation?: string
+  GPSAreaInformation?: string;
   /** ☆☆☆☆ ✔ Example: "2024:04:21" */
-  GPSDateStamp?: ExifDate | string
+  GPSDateStamp?: ExifDate | string;
   /** ☆☆☆☆ ✔ Example: 86.180049 */
-  GPSDestBearing?: number
+  GPSDestBearing?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
-  GPSDestBearingRef?: string
+  GPSDestBearingRef?: string;
   /** ☆☆☆☆ ✔ Example: 0.030120052 */
-  GPSDestDistance?: number
+  GPSDestDistance?: number;
   /** ☆☆☆☆ ✔ Example: "Kilometers" */
-  GPSDestDistanceRef?: string
+  GPSDestDistanceRef?: string;
   /** ☆☆☆☆ ✔ Example: "43 deg 37' 59.61" N" */
-  GPSDestLatitude?: string
+  GPSDestLatitude?: string;
   /** ☆☆☆☆ ✔ Example: "North" */
-  GPSDestLatitudeRef?: string
+  GPSDestLatitudeRef?: string;
   /** ☆☆☆☆ ✔ Example: "80 deg 23' 16.31" W" */
-  GPSDestLongitude?: string
+  GPSDestLongitude?: string;
   /** ☆☆☆☆ ✔ Example: "West" */
-  GPSDestLongitudeRef?: string
+  GPSDestLongitudeRef?: string;
   /** ☆☆☆☆ ✔ Example: "No Correction" */
-  GPSDifferential?: string
+  GPSDifferential?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  GPSDOP?: number
+  GPSDOP?: number;
   /** ☆☆☆☆ ✔ Example: "8.937059922 m" */
-  GPSHPositioningError?: string
+  GPSHPositioningError?: string;
   /** ☆☆☆☆ ✔ Example: 94.800416 */
-  GPSImgDirection?: number
+  GPSImgDirection?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
-  GPSImgDirectionRef?: string
+  GPSImgDirectionRef?: string;
   /** ★☆☆☆ ✔ Example: 48.857748 */
-  GPSLatitude?: number | string
+  GPSLatitude?: number | string;
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
-  GPSLatitudeRef?: string
+  GPSLatitudeRef?: string;
   /** ★☆☆☆ ✔ Example: 2.2918888 */
-  GPSLongitude?: number | string
+  GPSLongitude?: number | string;
   /** ☆☆☆☆ ✔ Example: "West" */
-  GPSLongitudeRef?: string
+  GPSLongitudeRef?: string;
   /** ☆☆☆☆ ✔ Example: "WGS84" */
-  GPSMapDatum?: string
+  GPSMapDatum?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
-  GPSMeasureMode?: string
+  GPSMeasureMode?: string;
   /** ☆☆☆☆ ✔ Example: "gps" */
-  GPSProcessingMethod?: string
+  GPSProcessingMethod?: string;
   /** ☆☆☆☆ ✔ Example: "??B??" */
-  GPSSatellites?: string
+  GPSSatellites?: string;
   /** ☆☆☆☆ ✔ Example: 5 */
-  GPSSpeed?: number
+  GPSSpeed?: number;
   /** ☆☆☆☆ ✔ Example: "knots" */
-  GPSSpeedRef?: string
+  GPSSpeedRef?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
-  GPSStatus?: string
+  GPSStatus?: string;
   /** ☆☆☆☆ ✔ Example: "23:59:41.001" */
-  GPSTimeStamp?: ExifTime | string
+  GPSTimeStamp?: ExifTime | string;
   /** ★☆☆☆ ✔ Example: "50.51.48.48" */
-  GPSVersionID?: string
+  GPSVersionID?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  HighISOMultiplierBlue?: number
+  HighISOMultiplierBlue?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  HighISOMultiplierGreen?: number
+  HighISOMultiplierGreen?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  HighISOMultiplierRed?: number
+  HighISOMultiplierRed?: number;
   /** ☆☆☆☆ ✔ Example: "iPhone 15 Plus" */
-  HostComputer?: string
+  HostComputer?: string;
   /** ★★★☆ ✔ Example: "untitled" */
-  ImageDescription?: string
+  ImageDescription?: string;
   /** ☆☆☆☆   Example: 0 */
-  ImageTitle?: number
+  ImageTitle?: number;
   /** ★★★★ ✔ Example: "Unknown ([None])" */
-  InteropIndex?: string
+  InteropIndex?: string;
   /** ★★★★ ✔ Example: "undef undef undef" */
-  InteropVersion?: string
+  InteropVersion?: string;
   /** ★★★★ ✔ Example: 993 */
-  ISO?: number
+  ISO?: number;
   /** ☆☆☆☆ ✔ Example: 80 */
-  ISOSpeed?: number
+  ISOSpeed?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 687616 bytes, use -b option to extract)" */
-  JpgFromRaw?: BinaryField
+  JpgFromRaw?: BinaryField;
   /** ☆☆☆☆ ✔ Example: 845574 */
-  JpgFromRawLength?: number
+  JpgFromRawLength?: number;
   /** ☆☆☆☆ ✔ Example: 978944 */
-  JpgFromRawStart?: number
+  JpgFromRawStart?: number;
   /** ★☆☆☆ ✔ Example: "?mm f/?" */
-  LensInfo?: string
+  LensInfo?: string;
   /** ☆☆☆☆ ✔ Example: "ZEISS" */
-  LensMake?: string
+  LensMake?: string;
   /** ★★☆☆ ✔ Example: "smc PENTAX-D FA 50mm F2.8 Macro" */
-  LensModel?: string
+  LensModel?: string;
   /** ★☆☆☆ ✔ Example: "xB?" */
-  LensSerialNumber?: string
+  LensSerialNumber?: string;
   /** ★★★★ ✔ Example: "White Fluorescent" */
-  LightSource?: string
+  LightSource?: string;
   /** ☆☆☆☆ ✔ Example: 4095 */
-  LinearityLimitBlue?: number
+  LinearityLimitBlue?: number;
   /** ☆☆☆☆ ✔ Example: 4095 */
-  LinearityLimitGreen?: number
+  LinearityLimitGreen?: number;
   /** ☆☆☆☆ ✔ Example: 4095 */
-  LinearityLimitRed?: number
+  LinearityLimitRed?: number;
   /** ★★★★ ✔ Example: "samsung" */
-  Make?: string
+  Make?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 3072 bytes, use -b option to extract)" */
-  MakerNoteSamsung1a?: BinaryField | string
+  MakerNoteSamsung1a?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 66 bytes, use -b option to extract)" */
-  MakerNoteUnknownBinary?: BinaryField | string
+  MakerNoteUnknownBinary?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "}:-" */
-  MakerNoteUnknownText?: string
+  MakerNoteUnknownText?: string;
   /** ★★★★ ✔ Example: 9.1 */
-  MaxApertureValue?: number
+  MaxApertureValue?: number;
   /** ★★★★ ✔ Example: "Unknown (Center-weighted average)" */
-  MeteringMode?: string
+  MeteringMode?: string;
   /** ★★★★ ✔ Example: "x530" */
-  Model?: string
+  Model?: string;
   /** ☆☆☆☆ ✔ Example: "K520C-01044" */
-  Model2?: string
+  Model2?: string;
   /** ★★★★ ✔ Example: "2216:02:28 03:49:50" */
-  ModifyDate?: ExifDateTime | string
+  ModifyDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: 6 */
-  Noise?: number
+  Noise?: number;
   /** ☆☆☆☆ ✔ Example: "0.00627371 0.0011865" */
-  NoiseProfile?: string
+  NoiseProfile?: string;
   /** ☆☆☆☆ ✔ Example: "5 100 4 4 4 200 8 8 8 400 16 16 16 800 32 32 32 1600 64 64 64" */
-  NoiseReductionParams?: string
+  NoiseReductionParams?: string;
   /** ☆☆☆☆ ✔ Example: 58 */
-  OffsetSchema?: number
+  OffsetSchema?: number;
   /** ☆☆☆☆ ✔ Example: "-09:00" */
-  OffsetTime?: string
+  OffsetTime?: string;
   /** ☆☆☆☆ ✔ Example: "-09:00" */
-  OffsetTimeDigitized?: string
+  OffsetTimeDigitized?: string;
   /** ☆☆☆☆ ✔ Example: "-09:00" */
-  OffsetTimeOriginal?: string
+  OffsetTimeOriginal?: string;
   /** ★★★★ ✔ Example: 8 */
-  Orientation?: number
+  Orientation?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 4798 bytes, use -b option to extract)" */
-  OtherImage?: BinaryField | string
+  OtherImage?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 941265 */
-  OtherImageLength?: number
+  OtherImageLength?: number;
   /** ☆☆☆☆ ✔ Example: 755 */
-  OtherImageStart?: number
+  OtherImageStart?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 2060 bytes, use -b option to extract)" */
-  Padding?: BinaryField | string
+  Padding?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "Reflective" */
-  PageName?: string
+  PageName?: string;
   /** ☆☆☆☆ ✔ Example: "0350" */
-  PanasonicRawVersion?: string
+  PanasonicRawVersion?: string;
   /** ☆☆☆☆   Example: 0 */
-  Photographer?: number
+  Photographer?: number;
   /** ☆☆☆☆ ✔ Example: "YCbCr" */
-  PhotometricInterpretation?: string
+  PhotometricInterpretation?: string;
   /** ☆☆☆☆ ✔ Example: "Chunky" */
-  PlanarConfiguration?: string
+  PlanarConfiguration?: string;
   /** ☆☆☆☆ ✔ Example: 1022 */
-  Pressure?: number
+  Pressure?: number;
   /** ☆☆☆☆ ✔ Example: "2015:06:02 09:56:01" */
-  PreviewDateTime?: ExifDateTime | string
+  PreviewDateTime?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 4665816 bytes, use -b option to extract)" */
-  PreviewTIFF?: BinaryField | string
+  PreviewTIFF?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "0.64 0.33 0.3 0.6 0.15 0.06" */
-  PrimaryChromaticities?: string
+  PrimaryChromaticities?: string;
   /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
-  ProcessingSoftware?: string
+  ProcessingSoftware?: string;
   /** ☆☆☆☆ ✔ Example: 928768 */
-  RawDataOffset?: number
+  RawDataOffset?: number;
   /** ☆☆☆☆ ✔ Example: "30353330394431333030303032383242" */
-  RawDataUniqueID?: string
+  RawDataUniqueID?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  RawFormat?: number
+  RawFormat?: number;
   /** ☆☆☆☆ ✔ Example: "3 1440 1440" */
-  RawImageSegmentation?: string
+  RawImageSegmentation?: string;
   /** ☆☆☆☆ ✔ Example: 800 */
-  RecommendedExposureIndex?: number
+  RecommendedExposureIndex?: number;
   /** ☆☆☆☆ ✔ Example: "0 255 128 255 128 255" */
-  ReferenceBlackWhite?: string
+  ReferenceBlackWhite?: string;
   /** ☆☆☆☆   Example: "JPEG Exif Ver 2.2" */
-  RelatedImageFileFormat?: string
+  RelatedImageFileFormat?: string;
   /** ★★☆☆ ✔ Example: 960 */
-  RelatedImageHeight?: number
+  RelatedImageHeight?: number;
   /** ★★☆☆ ✔ Example: 800 */
-  RelatedImageWidth?: number
+  RelatedImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: "xxx.avi" */
-  RelatedSoundFile?: string
+  RelatedSoundFile?: string;
   /** ★★★★ ✔ Example: "inches" */
-  ResolutionUnit?: string
+  ResolutionUnit?: string;
   /** ☆☆☆☆ ✔ Example: 96 */
-  RowsPerStrip?: number
+  RowsPerStrip?: number;
   /** ☆☆☆☆ ✔ Example: 3 */
-  SamplesPerPixel?: number
+  SamplesPerPixel?: number;
   /** ★★★★ ✔ Example: "Unknown (Standard)" */
-  SceneCaptureType?: string
+  SceneCaptureType?: string;
   /** ★★★★ ✔ Example: "Unknown (Directly photographed)" */
-  SceneType?: string
+  SceneType?: string;
   /** ★★★☆ ✔ Example: "Unknown (One-chip color area sensor)" */
-  SensingMethod?: string
+  SensingMethod?: string;
   /** ★★☆☆ ✔ Example: "Unknown" */
-  SensitivityType?: string
+  SensitivityType?: string;
   /** ★★★☆ ✔ Example: "1/999963365" */
-  ShutterSpeedValue?: string
+  ShutterSpeedValue?: string;
   /** ★★★★ ✔ Example: "https://PhotoStructure.com/" */
-  Software?: string
+  Software?: string;
   /** ☆☆☆☆ ✔ Example: "Sony Uncompressed 12-bit RAW" */
-  SonyRawFileType?: string
+  SonyRawFileType?: string;
   /** ☆☆☆☆ ✔ Example: "8000 10400 12900 14100" */
-  SonyToneCurve?: string
+  SonyToneCurve?: string;
   /** ☆☆☆☆ ✔ Example: 668058300 */
-  SpatialFrequencyResponse?: number
+  SpatialFrequencyResponse?: number;
   /** ☆☆☆☆ ✔ Example: 4 */
-  SRawType?: number
+  SRawType?: number;
   /** ☆☆☆☆ ✔ Example: 800 */
-  StandardOutputSensitivity?: number
+  StandardOutputSensitivity?: number;
   /** ☆☆☆☆ ✔ Example: 9600 */
-  StripByteCounts?: number
+  StripByteCounts?: number;
   /** ☆☆☆☆ ✔ Example: 986 */
-  StripOffsets?: number
+  StripOffsets?: number;
   /** ☆☆☆☆ ✔ Example: "Reduced-resolution image" */
-  SubfileType?: string
+  SubfileType?: string;
   /** ☆☆☆☆ ✔ Example: "967 967 1425 851" */
-  SubjectArea?: string
+  SubjectArea?: string;
   /** ☆☆☆☆ ✔ Example: "99.99 m" */
-  SubjectDistance?: string
+  SubjectDistance?: string;
   /** ★★★☆ ✔ Example: "Unknown (Macro)" */
-  SubjectDistanceRange?: string
+  SubjectDistanceRange?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  SubjectLocation?: number
+  SubjectLocation?: number;
   /** ★☆☆☆ ✔ Example: 996 */
-  SubSecTime?: number
+  SubSecTime?: number;
   /** ★☆☆☆ ✔ Example: 996 */
-  SubSecTimeDigitized?: number
+  SubSecTimeDigitized?: number;
   /** ★☆☆☆ ✔ Example: 999 */
-  SubSecTimeOriginal?: number
+  SubSecTimeOriginal?: number;
   /** ★★★★ ✔ Example: "(Binary data 12652 bytes, use -b option to extract)" */
-  ThumbnailImage?: BinaryField
+  ThumbnailImage?: BinaryField;
   /** ★★★★ ✔ Example: 9998 */
-  ThumbnailLength?: number
+  ThumbnailLength?: number;
   /** ★★★★ ✔ Example: 998 */
-  ThumbnailOffset?: number
+  ThumbnailOffset?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 57816 bytes, use -b option to extract)" */
-  ThumbnailTIFF?: BinaryField
+  ThumbnailTIFF?: BinaryField;
   /** ☆☆☆☆ ✔ Example: "(Binary data 447 bytes, use -b option to extract)" */
-  TileByteCounts?: BinaryField | string
+  TileByteCounts?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 512 */
-  TileLength?: number
+  TileLength?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 507 bytes, use -b option to extract)" */
-  TileOffsets?: BinaryField | string
+  TileOffsets?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 512 */
-  TileWidth?: number
+  TileWidth?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  TimeZoneOffset?: number | string
+  TimeZoneOffset?: number | string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 3636 bytes, use -b option to extract)" */
-  TransferFunction?: BinaryField | string
+  TransferFunction?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "motorola XT1254" */
-  UniqueCameraModel?: string
+  UniqueCameraModel?: string;
   /** ★★★☆ ✔ Example: "This is a comment." */
-  UserComment?: string
+  UserComment?: string;
   /** ☆☆☆☆ ✔ Example: 0.1 */
-  WaterDepth?: number
+  WaterDepth?: number;
   /** ☆☆☆☆ ✔ Example: 65535 */
-  WhiteLevel?: number
+  WhiteLevel?: number;
   /** ☆☆☆☆ ✔ Example: "9696 8192 8192 7136" */
-  WhitePoint?: string
+  WhitePoint?: string;
   /** ☆☆☆☆   Example: "Redmi 9T" */
-  XiaomiModel?: string
+  XiaomiModel?: string;
   /** ☆☆☆☆ ✔ Example: "Norm De Plume" */
-  XPAuthor?: string
+  XPAuthor?: string;
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
-  XPComment?: string
+  XPComment?: string;
   /** ☆☆☆☆ ✔ Example: "v01.40.0002;0.0.1;v1.0.0" */
-  XPKeywords?: string
+  XPKeywords?: string;
   /** ☆☆☆☆ ✔ Example: "image thermique, thermal image" */
-  XPSubject?: string
+  XPSubject?: string;
   /** ☆☆☆☆ ✔ Example: "楆慮⁬敤琠牡敤攠⁭汉慨䈠汥Ⅱ" */
-  XPTitle?: string
+  XPTitle?: string;
   /** ★★★★ ✔ Example: 99 */
-  XResolution?: number
+  XResolution?: number;
   /** ☆☆☆☆ ✔ Example: "0.299 0.587 0.114" */
-  YCbCrCoefficients?: string
+  YCbCrCoefficients?: string;
   /** ★★★★ ✔ Example: "Unknown (512)" */
-  YCbCrPositioning?: string
+  YCbCrPositioning?: string;
   /** ★★★★ ✔ Example: 99 */
-  YResolution?: number
+  YResolution?: number;
 }
 
 export interface MPFTags {
   /** ★★☆☆ ✔ Example: 9697 */
-  DependentImage1EntryNumber?: number
+  DependentImage1EntryNumber?: number;
   /** ★★☆☆ ✔ Example: 960 */
-  DependentImage2EntryNumber?: number
+  DependentImage2EntryNumber?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 66 bytes, use -b option to extract)" */
-  ImageUIDList?: BinaryField | string
+  ImageUIDList?: BinaryField | string;
   /** ★★☆☆ ✔ Example: "0100" */
-  MPFVersion?: string
+  MPFVersion?: string;
   /** ★★☆☆ ✔ Example: "Representative image, Dependent parent image" */
-  MPImageFlags?: string
+  MPImageFlags?: string;
   /** ★★☆☆ ✔ Example: "Unknown (4)" */
-  MPImageFormat?: string
+  MPImageFormat?: string;
   /** ★★☆☆ ✔ Example: 999325 */
-  MPImageLength?: number
+  MPImageLength?: number;
   /** ★★☆☆ ✔ Example: 9999872 */
-  MPImageStart?: number
+  MPImageStart?: number;
   /** ★★☆☆ ✔ Example: "Undefined" */
-  MPImageType?: string
+  MPImageType?: string;
   /** ★★☆☆ ✔ Example: 3 */
-  NumberOfImages?: number
+  NumberOfImages?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  TotalFrames?: number
+  TotalFrames?: number;
 }
 
 export interface MetaTags {
   /** ☆☆☆☆   Example: 1 */
-  BorderID?: number
+  BorderID?: number;
   /** ☆☆☆☆   Example: 0 */
-  BorderLocation?: number
+  BorderLocation?: number;
   /** ☆☆☆☆   Example: "None" */
-  BorderName?: string
+  BorderName?: string;
   /** ☆☆☆☆   Example: "1 0 0 0" */
-  BordersVersion?: string
+  BordersVersion?: string;
   /** ☆☆☆☆   Example: 0 */
-  BorderType?: number
+  BorderType?: number;
   /** ☆☆☆☆   Example: "KODAK DC5000 ZOOM DIGITAL CAMERA" */
-  CameraOwner?: string
+  CameraOwner?: string;
   /** ☆☆☆☆   Example: 1 */
-  CaptureConditionsPAR?: number
+  CaptureConditionsPAR?: number;
   /** ☆☆☆☆   Example: "None" */
-  DigitalEffectsName?: string
+  DigitalEffectsName?: string;
   /** ☆☆☆☆   Example: 0 */
-  DigitalEffectsType?: number
+  DigitalEffectsType?: number;
   /** ☆☆☆☆   Example: "1 0 0 0" */
-  DigitalEffectsVersion?: string
+  DigitalEffectsVersion?: string;
   /** ☆☆☆☆   Example: 1 */
-  EditTagArray?: number
+  EditTagArray?: number;
   /** ☆☆☆☆   Example: 2 */
-  FilmGencode?: number
+  FilmGencode?: number;
   /** ☆☆☆☆   Example: 43 */
-  FilmProductCode?: number
+  FilmProductCode?: number;
   /** ☆☆☆☆   Example: 1 */
-  FilmSize?: number
+  FilmSize?: number;
   /** ☆☆☆☆   Example: 6 */
-  ImageSourceEK?: number
+  ImageSourceEK?: number;
   /** ☆☆☆☆ ✔ Example: "0110" */
-  MetadataNumber?: string
+  MetadataNumber?: string;
   /** ☆☆☆☆   Example: "Version 9" */
-  ModelAndVersion?: string
+  ModelAndVersion?: string;
   /** ☆☆☆☆   Example: 3 */
-  WatermarkType?: number
+  WatermarkType?: number;
 }
 
 export interface PanasonicRawTags {
   /** ☆☆☆☆ ✔ Example: 1 */
-  DistortionScale?: number
+  DistortionScale?: number;
   /** ☆☆☆☆ ✔ Example: 7 */
-  NumWBEntries?: number
+  NumWBEntries?: number;
 }
 
 /**
@@ -967,271 +967,271 @@ export interface PanasonicRawTags {
  */
 export interface PhotoshopTags {
   /** ☆☆☆☆ ✔ Example: true */
-  CopyrightFlag?: boolean
+  CopyrightFlag?: boolean;
   /** ☆☆☆☆ ✔ Example: "inches" */
-  DisplayedUnitsX?: string
+  DisplayedUnitsX?: string;
   /** ☆☆☆☆ ✔ Example: "inches" */
-  DisplayedUnitsY?: string
+  DisplayedUnitsY?: string;
   /** ☆☆☆☆ ✔ Example: 30 */
-  GlobalAltitude?: number
+  GlobalAltitude?: number;
   /** ☆☆☆☆ ✔ Example: 90 */
-  GlobalAngle?: number
+  GlobalAngle?: number;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  HasRealMergedData?: string
+  HasRealMergedData?: string;
   /** ☆☆☆☆ ✔ Example: "fd826cdf97ac15335b426a20d23c1041" */
-  IPTCDigest?: string
+  IPTCDigest?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  NumSlices?: number
+  NumSlices?: number;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  PhotoshopFormat?: string
+  PhotoshopFormat?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  PhotoshopQuality?: number
+  PhotoshopQuality?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 5768 bytes, use -b option to extract)" */
-  PhotoshopThumbnail?: BinaryField | string
+  PhotoshopThumbnail?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "0 0" */
-  PrintPosition?: string
+  PrintPosition?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  PrintScale?: number
+  PrintScale?: number;
   /** ☆☆☆☆ ✔ Example: "Centered" */
-  PrintStyle?: string
+  PrintStyle?: string;
   /** ☆☆☆☆ ✔ Example: "Adobe Photoshop CS" */
-  ReaderName?: string
+  ReaderName?: string;
   /** ☆☆☆☆ ✔ Example: "panasonic_lumix_dmc_lx15_02" */
-  SlicesGroupName?: string
+  SlicesGroupName?: string;
   /** ☆☆☆☆ ✔ Example: "Adobe Photoshop" */
-  WriterName?: string
+  WriterName?: string;
 }
 
 export interface PrintIMTags {
   /** ★★★☆ ✔ Example: "0300" */
-  PrintIMVersion?: string
+  PrintIMVersion?: string;
 }
 
 export interface QuickTimeTags {
   /** ☆☆☆☆ ✔ Example: 60 */
-  AndroidCaptureFPS?: number
+  AndroidCaptureFPS?: number;
   /** ☆☆☆☆ ✔ Example: 7.1 */
-  AndroidVersion?: number
+  AndroidVersion?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 4 bytes, use -b option to extract)" */
-  AndroidVideoTemporalLayersCount?: BinaryField | string
+  AndroidVideoTemporalLayersCount?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 8 */
-  AudioBitsPerSample?: number
+  AudioBitsPerSample?: number;
   /** ☆☆☆☆ ✔ Example: 3 */
-  AudioChannels?: number
+  AudioChannels?: number;
   /** ☆☆☆☆ ✔ Example: "sowt" */
-  AudioFormat?: string
+  AudioFormat?: string;
   /** ☆☆☆☆ ✔ Example: 8000 */
-  AudioSampleRate?: number
+  AudioSampleRate?: number;
   /** ☆☆☆☆ ✔ Example: "Panasonic" */
-  AudioVendorID?: string
+  AudioVendorID?: string;
   /** ☆☆☆☆ ✔ Example: "Norm De Plume" */
-  Author?: string
+  Author?: string;
   /** ☆☆☆☆ ✔ Example: "65535 65535 65535" */
-  BackgroundColor?: string
+  BackgroundColor?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  Balance?: number
+  Balance?: number;
   /** ☆☆☆☆ ✔ Example: 8 */
-  BitDepth?: number
+  BitDepth?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ChapterListTrackID?: number
+  ChapterListTrackID?: number;
   /** ☆☆☆☆ ✔ Example: "3840x2160" */
-  CleanApertureDimensions?: string
+  CleanApertureDimensions?: string;
   /** ☆☆☆☆ ✔ Example: "BT.709" */
-  ColorPrimaries?: string
+  ColorPrimaries?: string;
   /** ☆☆☆☆ ✔ Example: "nclx" */
-  ColorProfiles?: string
+  ColorProfiles?: string;
   /** ☆☆☆☆ ✔ Example: ["qt  "] */
-  CompatibleBrands?: string[]
+  CompatibleBrands?: string[];
   /** ☆☆☆☆ ✔ Example: "jpeg" */
-  CompressorID?: string
+  CompressorID?: string;
   /** ☆☆☆☆ ✔ Example: "Photo - JPEG" */
-  CompressorName?: string
+  CompressorName?: string;
   /** ☆☆☆☆ ✔ Example: "Track 1" */
-  ContentDescribes?: string
+  ContentDescribes?: string;
   /** ☆☆☆☆ ✔ Example: "2023:06:11 14:30:35+01:00" */
-  CreationDate?: ExifDateTime | string
+  CreationDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "0 s" */
-  CurrentTime?: string
+  CurrentTime?: string;
   /** ☆☆☆☆ ✔ Example: 9.5095 */
-  Duration?: number
+  Duration?: number;
   /** ☆☆☆☆ ✔ Example: "3840x2160" */
-  EncodedPixelsDimensions?: string
+  EncodedPixelsDimensions?: string;
   /** ☆☆☆☆ ✔ Example: "Helvetica" */
-  FontName?: string
+  FontName?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  GenBalance?: number
+  GenBalance?: number;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  GenFlags?: string
+  GenFlags?: string;
   /** ☆☆☆☆ ✔ Example: "ditherCopy" */
-  GenGraphicsMode?: string
+  GenGraphicsMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  GenMediaVersion?: number
+  GenMediaVersion?: number;
   /** ☆☆☆☆ ✔ Example: "32768 32768 32768" */
-  GenOpColor?: string
+  GenOpColor?: string;
   /** ☆☆☆☆ ✔ Example: "51 deg 6' 13.32" N, 0 deg 52' 23.52" W, 99.22 m Above Sea Level" */
-  GPSCoordinates?: string
+  GPSCoordinates?: string;
   /** ☆☆☆☆ ✔ Example: "srcCopy" */
-  GraphicsMode?: string
+  GraphicsMode?: string;
   /** ☆☆☆☆ ✔ Example: "Data Handler" */
-  HandlerClass?: string
+  HandlerClass?: string;
   /** ☆☆☆☆ ✔ Example: "SoundHandle" */
-  HandlerDescription?: string
+  HandlerDescription?: string;
   /** ☆☆☆☆ ✔ Example: "Metadata Tags" */
-  HandlerType?: string
+  HandlerType?: string;
   /** ☆☆☆☆ ✔ Example: "Panasonic" */
-  HandlerVendorID?: string
+  HandlerVendorID?: string;
   /** ☆☆☆☆ ✔ Example: 4.798027 */
-  LocationAccuracyHorizontal?: number
+  LocationAccuracyHorizontal?: number;
   /** ☆☆☆☆ ✔ Example: "MP4 v2 [ISO 14496-14]" */
-  MajorBrand?: string
+  MajorBrand?: string;
   /** ☆☆☆☆ ✔ Example: "BT.709" */
-  MatrixCoefficients?: string
+  MatrixCoefficients?: string;
   /** ☆☆☆☆ ✔ Example: "1 0 0 0 1 0 0 0 1" */
-  MatrixStructure?: string
+  MatrixStructure?: string;
   /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:35" */
-  MediaCreateDate?: ExifDateTime | string
+  MediaCreateDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: 98304 */
-  MediaDataOffset?: number
+  MediaDataOffset?: number;
   /** ☆☆☆☆ ✔ Example: 9790496 */
-  MediaDataSize?: number
+  MediaDataSize?: number;
   /** ☆☆☆☆ ✔ Example: 9.52 */
-  MediaDuration?: number
+  MediaDuration?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  MediaHeaderVersion?: number
+  MediaHeaderVersion?: number;
   /** ☆☆☆☆ ✔ Example: "und" */
-  MediaLanguageCode?: string
+  MediaLanguageCode?: string;
   /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:46" */
-  MediaModifyDate?: ExifDateTime | string
+  MediaModifyDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: 8000 */
-  MediaTimeScale?: number
+  MediaTimeScale?: number;
   /** ☆☆☆☆ ✔ Example: "mebx" */
-  MetaFormat?: string
+  MetaFormat?: string;
   /** ☆☆☆☆ ✔ Example: "2011.7.0" */
-  MinorVersion?: string
+  MinorVersion?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  MovieHeaderVersion?: number
+  MovieHeaderVersion?: number;
   /** ☆☆☆☆ ✔ Example: 6 */
-  NextTrackID?: number
+  NextTrackID?: number;
   /** ☆☆☆☆ ✔ Example: "32768 32768 32768" */
-  OpColor?: string
+  OpColor?: string;
   /** ☆☆☆☆ ✔ Example: "tmcd" */
-  OtherFormat?: string
+  OtherFormat?: string;
   /** ☆☆☆☆ ✔ Example: 59.94006 */
-  PlaybackFrameRate?: number
+  PlaybackFrameRate?: number;
   /** ☆☆☆☆ ✔ Example: "SEQ_PLAY" */
-  PlayMode?: string
+  PlayMode?: string;
   /** ☆☆☆☆ ✔ Example: "0 s" */
-  PosterTime?: string
+  PosterTime?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  PreferredRate?: number
+  PreferredRate?: number;
   /** ☆☆☆☆ ✔ Example: "99.61%" */
-  PreferredVolume?: string
+  PreferredVolume?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PreviewDuration?: number
+  PreviewDuration?: number;
   /** ☆☆☆☆ ✔ Example: "0 s" */
-  PreviewTime?: string
+  PreviewTime?: string;
   /** ☆☆☆☆ ✔ Example: "3840x2160" */
-  ProductionApertureDimensions?: string
+  ProductionApertureDimensions?: string;
   /** ☆☆☆☆ ✔ Example: "mp4a" */
-  PurchaseFileFormat?: string
+  PurchaseFileFormat?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SelectionDuration?: number
+  SelectionDuration?: number;
   /** ☆☆☆☆ ✔ Example: "0 s" */
-  SelectionTime?: string
+  SelectionTime?: string;
   /** ☆☆☆☆ ✔ Example: "43333139313032343731363032300000" */
-  SerialNumberHash?: string
+  SerialNumberHash?: string;
   /** ☆☆☆☆ ✔ Example: 720 */
-  SourceImageHeight?: number
+  SourceImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 640 */
-  SourceImageWidth?: number
+  SourceImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  TextColor?: string
+  TextColor?: string;
   /** ☆☆☆☆ ✔ Example: "Plain" */
-  TextFace?: string
+  TextFace?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (21)" */
-  TextFont?: string
+  TextFont?: string;
   /** ☆☆☆☆ ✔ Example: 10 */
-  TextSize?: number
+  TextSize?: number;
   /** ☆☆☆☆ ✔ Example: 3 */
-  TimeCode?: number
+  TimeCode?: number;
   /** ☆☆☆☆ ✔ Example: 90000 */
-  TimeScale?: number
+  TimeScale?: number;
   /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:35" */
-  TrackCreateDate?: ExifDateTime | string
+  TrackCreateDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: 9.5095 */
-  TrackDuration?: number
+  TrackDuration?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  TrackHeaderVersion?: number
+  TrackHeaderVersion?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  TrackID?: number
+  TrackID?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  TrackLayer?: number
+  TrackLayer?: number;
   /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:46" */
-  TrackModifyDate?: ExifDateTime | string
+  TrackModifyDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "0.00%" */
-  TrackVolume?: string
+  TrackVolume?: string;
   /** ☆☆☆☆ ✔ Example: "BT.709" */
-  TransferCharacteristics?: string
+  TransferCharacteristics?: string;
   /** ☆☆☆☆ ✔ Example: "Panasonic" */
-  VendorID?: string
+  VendorID?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  VideoFrameRate?: string
+  VideoFrameRate?: string;
   /** ☆☆☆☆ ✔ Example: "Limited" */
-  VideoFullRangeFlag?: string
+  VideoFullRangeFlag?: string;
 }
 
 export interface RAFTags {
   /** ☆☆☆☆ ✔ Example: "294.2 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 6.8e-05 0.000….001464" */
-  ChromaticAberrationParams?: string
+  ChromaticAberrationParams?: string;
   /** ☆☆☆☆ ✔ Example: "12 12 12 12" */
-  FujiLayout?: string
+  FujiLayout?: string;
   /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 0 0 0…5 0.488" */
-  GeometricDistortionParams?: string
+  GeometricDistortionParams?: string;
   /** ☆☆☆☆ ✔ Example: "Uncompressed" */
-  RAFCompression?: string
+  RAFCompression?: string;
   /** ☆☆☆☆ ✔ Example: -1.7 */
-  RawExposureBias?: number
+  RawExposureBias?: number;
   /** ☆☆☆☆ ✔ Example: "4896x3264" */
-  RawImageCroppedSize?: string
+  RawImageCroppedSize?: string;
   /** ☆☆☆☆ ✔ Example: "6 16" */
-  RawImageCropTopLeft?: string
+  RawImageCropTopLeft?: string;
   /** ☆☆☆☆ ✔ Example: 3296 */
-  RawImageFullHeight?: number
+  RawImageFullHeight?: number;
   /** ☆☆☆☆ ✔ Example: "5120x3288" */
-  RawImageFullSize?: string
+  RawImageFullSize?: string;
   /** ☆☆☆☆ ✔ Example: 5120 */
-  RawImageFullWidth?: number
+  RawImageFullWidth?: number;
   /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 100 9…3 94.11" */
-  VignettingParams?: string
+  VignettingParams?: string;
   /** ☆☆☆☆ ✔ Example: "GRBGBR BGGRGG RGGBGG GBRGRB RGGBGG BGGRGG" */
-  XTransLayout?: string
+  XTransLayout?: string;
 }
 
 export interface RIFFTags {
   /** ☆☆☆☆ ✔ Example: "" */
-  AudioCodec?: string
+  AudioCodec?: string;
   /** ☆☆☆☆ ✔ Example: 285154 */
-  AudioSampleCount?: number
+  AudioSampleCount?: number;
   /** ☆☆☆☆ ✔ Example: 11024 */
-  AvgBytesPerSec?: number
+  AvgBytesPerSec?: number;
   /** ☆☆☆☆ ✔ Example: "Microsoft PCM" */
-  Encoding?: string
+  Encoding?: string;
   /** ☆☆☆☆ ✔ Example: 388 */
-  FrameCount?: number
+  FrameCount?: number;
   /** ☆☆☆☆ ✔ Example: "478.6 kB/s" */
-  MaxDataRate?: string
+  MaxDataRate?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  NumChannels?: number
+  NumChannels?: number;
   /** ☆☆☆☆ ✔ Example: 11024 */
-  SampleRate?: number
+  SampleRate?: number;
   /** ☆☆☆☆ ✔ Example: "Variable" */
-  SampleSize?: string
+  SampleSize?: string;
   /** ☆☆☆☆ ✔ Example: 2 */
-  StreamCount?: number
+  StreamCount?: number;
   /** ☆☆☆☆ ✔ Example: "mjpg" */
-  VideoCodec?: string
+  VideoCodec?: string;
   /** ☆☆☆☆ ✔ Example: 388 */
-  VideoFrameCount?: number
+  VideoFrameCount?: number;
 }
 
 /**
@@ -1239,3307 +1239,3307 @@ export interface RIFFTags {
  */
 export interface IPTCTags {
   /** ☆☆☆☆ ✔ Example: 4 */
-  ApplicationRecordVersion?: number
+  ApplicationRecordVersion?: number;
   /** ☆☆☆☆   Example:  */
-  "Caption-Abstract"?: string
+  "Caption-Abstract"?: string;
   /** ☆☆☆☆ ✔ Example: "Other" */
-  Category?: string
+  Category?: string;
   /** ☆☆☆☆ ✔ Example: "TEDDINGTON" */
-  City?: string
+  City?: string;
   /** ☆☆☆☆ ✔ Example: "UTF8" */
-  CodedCharacterSet?: string
+  CodedCharacterSet?: string;
   /** ☆☆☆☆ ✔ Example: "Donna Ringmanumba" */
-  Contact?: string
+  Contact?: string;
   /** ☆☆☆☆ ✔ Example: "Creative Commons Attribution 4.0 International" */
-  CopyrightNotice?: string
+  CopyrightNotice?: string;
   /** ☆☆☆☆ ✔ Example: "photo by Jenny Snapsalot" */
-  Credit?: string
+  Credit?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  DateSent?: string
+  DateSent?: string;
   /** ☆☆☆☆ ✔ Example: "2023:11:07 14:10:21-05:00" */
-  DateTimeCreated?: ExifDateTime | string
+  DateTimeCreated?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "" */
-  Destination?: string
+  Destination?: string;
   /** ☆☆☆☆ ✔ Example: "2021:03:16" */
-  DigitalCreationDate?: ExifDate | string
+  DigitalCreationDate?: ExifDate | string;
   /** ☆☆☆☆ ✔ Example: "20:25:15" */
-  DigitalCreationTime?: ExifTime | string
+  DigitalCreationTime?: ExifTime | string;
   /** ☆☆☆☆ ✔ Example: "" */
-  EnvelopeNumber?: string
+  EnvelopeNumber?: string;
   /** ☆☆☆☆ ✔ Example: "5 (normal urgency)" */
-  EnvelopePriority?: string
+  EnvelopePriority?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  EnvelopeRecordVersion?: number
+  EnvelopeRecordVersion?: number;
   /** ☆☆☆☆ ✔ Example: 2 */
-  FileVersion?: number
+  FileVersion?: number;
   /** ☆☆☆☆ ✔ Example: "" */
-  Headline?: string
+  Headline?: string;
   /** ☆☆☆☆ ✔ Example: ["red","car"] */
-  Keywords?: string | string[]
+  Keywords?: string | string[];
   /** ☆☆☆☆ ✔ Example: "Artist deep into to wine and flower" */
-  ObjectName?: string
+  ObjectName?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  OriginalTransmissionReference?: string
+  OriginalTransmissionReference?: string;
   /** ☆☆☆☆ ✔ Example: "digiKam" */
-  OriginatingProgram?: string
+  OriginatingProgram?: string;
   /** ☆☆☆☆ ✔ Example: "Tagged:1, ColorClass:2, Rating:0, FrameNum:000940" */
-  Prefs?: string
+  Prefs?: string;
   /** ☆☆☆☆ ✔ Example: "4.13.0" */
-  ProgramVersion?: string
+  ProgramVersion?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  ServiceIdentifier?: string
+  ServiceIdentifier?: string;
   /** ☆☆☆☆ ✔ Example: "Shutterfly McShutterface" */
-  Source?: string
+  Source?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  SpecialInstructions?: string
+  SpecialInstructions?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  SupplementalCategories?: string
+  SupplementalCategories?: string;
   /** ☆☆☆☆ ✔ Example: "23:59:46.92" */
-  TimeCreated?: ExifTime | string
+  TimeCreated?: ExifTime | string;
   /** ☆☆☆☆ ✔ Example: "" */
-  TimeSent?: string
+  TimeSent?: string;
   /** ☆☆☆☆ ✔ Example: "1 (most urgent)" */
-  Urgency?: string
+  Urgency?: string;
 }
 
 export interface JFIFTags {
   /** ★★★☆ ✔ Example: 1.02 */
-  JFIFVersion?: number
+  JFIFVersion?: number;
 }
 
 export interface MakerNotesTags {
   /** ☆☆☆☆ ✔ Example: 2 */
-  AccelerationTracking?: number
+  AccelerationTracking?: number;
   /** ☆☆☆☆ ✔ Example: "0.9421226483 0.0351725654 -0.3452420701" */
-  AccelerationVector?: string
+  AccelerationVector?: string;
   /** ☆☆☆☆   Example: "358.3 11.2" */
-  Accelerometer?: string
+  Accelerometer?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  AccelerometerX?: number
+  AccelerometerX?: number;
   /** ☆☆☆☆ ✔ Example: 80 */
-  AccelerometerY?: number
+  AccelerometerY?: number;
   /** ☆☆☆☆ ✔ Example: 56 */
-  AccelerometerZ?: number
+  AccelerometerZ?: number;
   /** ☆☆☆☆ ✔ Example: "00:00" */
-  AccessorySerialNumber?: string
+  AccessorySerialNumber?: string;
   /** ☆☆☆☆ ✔ Example: "NO-ACCESSORY" */
-  AccessoryType?: string
+  AccessoryType?: string;
   /** ☆☆☆☆   Example: "+0.0" */
-  ActualCompensation?: string
+  ActualCompensation?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  AddAspectRatioInfo?: string
+  AddAspectRatioInfo?: string;
   /** ☆☆☆☆ ✔ Example: "Disable" */
-  AddIPTCInformation?: string
+  AddIPTCInformation?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AddOriginalDecisionData?: string
+  AddOriginalDecisionData?: string;
   /** ☆☆☆☆   Example: "(Binary data 1024 bytes, use -b option to extract)" */
-  ADJDebugInfo?: BinaryField | string
+  ADJDebugInfo?: BinaryField | string;
   /** ☆☆☆☆   Example: "X3F Setting Mode" */
-  AdjustmentMode?: string
+  AdjustmentMode?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ADLBracketingStep?: string
+  ADLBracketingStep?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ADLBracketingType?: string
+  ADLBracketingType?: string;
   /** ☆☆☆☆ ✔ Example: "Toy Camera" */
-  AdvancedFilter?: string
+  AdvancedFilter?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  AdvancedSceneType?: number
+  AdvancedSceneType?: number;
   /** ☆☆☆☆ ✔ Example: 9.9 */
-  AEAperture?: number
+  AEAperture?: number;
   /** ☆☆☆☆ ✔ Example: 8 */
-  AEApertureSteps?: number
+  AEApertureSteps?: number;
   /** ☆☆☆☆ ✔ Example: 90 */
-  AEAverage?: number
+  AEAverage?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AEBAutoCancel?: string
+  AEBAutoCancel?: string;
   /** ★★☆☆ ✔ Example: 0 */
-  AEBBracketValue?: number
+  AEBBracketValue?: number;
   /** ☆☆☆☆ ✔ Example: "AE Bracketing Disabled" */
-  AEBracketingSteps?: string
+  AEBracketingSteps?: string;
   /** ☆☆☆☆ ✔ Example: "0,-,+" */
-  AEBSequence?: string
+  AEBSequence?: string;
   /** ☆☆☆☆ ✔ Example: "0,-,+/Enabled" */
-  AEBSequenceAutoCancel?: string
+  AEBSequenceAutoCancel?: string;
   /** ☆☆☆☆ ✔ Example: "7 shots" */
-  AEBShotCount?: string
+  AEBShotCount?: string;
   /** ☆☆☆☆ ✔ Example: 0.5 */
-  AEBXv?: number
+  AEBXv?: number;
   /** ☆☆☆☆   Example: "(Binary data 256 bytes, use -b option to extract)" */
-  AEDebugInfo?: BinaryField | string
+  AEDebugInfo?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "1/965" */
-  AEExposureTime?: string
+  AEExposureTime?: string;
   /** ☆☆☆☆   Example: "(Binary data 4096 bytes, use -b option to extract)" */
-  AEHistogramInfo?: BinaryField | string
+  AEHistogramInfo?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "Hold" */
-  AELButton?: string
+  AELButton?: string;
   /** ☆☆☆☆ ✔ Example: "Not Indicated" */
-  AELExposureIndicator?: string
+  AELExposureIndicator?: string;
   /** ☆☆☆☆   Example: "(Binary data 4096 bytes, use -b option to extract)" */
-  AELiveViewHistogramInfo?: BinaryField | string
+  AELiveViewHistogramInfo?: BinaryField | string;
   /** ☆☆☆☆   Example: "(Binary data 2048 bytes, use -b option to extract)" */
-  AELiveViewLocalHistogram?: BinaryField | string
+  AELiveViewLocalHistogram?: BinaryField | string;
   /** ☆☆☆☆   Example: "(Binary data 2048 bytes, use -b option to extract)" */
-  AELocalHistogram?: BinaryField | string
+  AELocalHistogram?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AELock?: string
+  AELock?: string;
   /** ☆☆☆☆ ✔ Example: "AF Lock Only" */
-  AELockButton?: string
+  AELockButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  AELockButtonPlusDials?: string
+  AELockButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "Evaluative" */
-  AELockMeterModeAfterFocus?: string
+  AELockMeterModeAfterFocus?: string;
   /** ☆☆☆☆ ✔ Example: 5.7 */
-  AEMaxAperture?: number
+  AEMaxAperture?: number;
   /** ☆☆☆☆ ✔ Example: "[1], [2]" */
-  AEMeteringMode?: string
+  AEMeteringMode?: string;
   /** ☆☆☆☆ ✔ Example: "9.8 9.4 7.9 8.6 9.2 8.5 9.4 8.9 8.1 8.6 8.0 10.4 8.5 10.6…9.5 9.5" */
-  AEMeteringSegments?: string
+  AEMeteringSegments?: string;
   /** ☆☆☆☆ ✔ Example: "Enable; 0; 8; 0" */
-  AEMicroadjustment?: string
+  AEMicroadjustment?: string;
   /** ☆☆☆☆ ✔ Example: 38 */
-  AEMinAperture?: number
+  AEMinAperture?: number;
   /** ☆☆☆☆ ✔ Example: "1/7723" */
-  AEMinExposureTime?: string
+  AEMinExposureTime?: string;
   /** ☆☆☆☆ ✔ Example: "Sv or Green Mode" */
-  AEProgramMode?: string
+  AEProgramMode?: string;
   /** ★☆☆☆ ✔ Example: "Normal AE" */
-  AESetting?: string
+  AESetting?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  AEStable?: string
+  AEStable?: string;
   /** ☆☆☆☆ ✔ Example: 89 */
-  AETarget?: number
+  AETarget?: number;
   /** ☆☆☆☆   Example: "Daylight Fluorescent" */
-  AEWhiteBalance?: string
+  AEWhiteBalance?: string;
   /** ☆☆☆☆ ✔ Example: 0.5 */
-  AEXv?: number
+  AEXv?: number;
   /** ☆☆☆☆ ✔ Example: 127 */
-  AFAccelDecelTracking?: number
+  AFAccelDecelTracking?: number;
   /** ☆☆☆☆ ✔ Example: "Shutter/AF-On" */
-  AFActivation?: string
+  AFActivation?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  AFAdjustment?: number
+  AFAdjustment?: number;
   /** ☆☆☆☆ ✔ Example: "Metering start" */
-  AFAndMeteringButtons?: string
+  AFAndMeteringButtons?: string;
   /** ☆☆☆☆ ✔ Example: 5.8 */
-  AFAperture?: number
+  AFAperture?: number;
   /** ☆☆☆☆ ✔ Example: 840 */
-  AFAreaHeight?: number
+  AFAreaHeight?: number;
   /** ★☆☆☆ ✔ Example: "994 18 18 18 18 18 18 18 18" */
-  AFAreaHeights?: string
+  AFAreaHeights?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  AFAreaIllumination?: string
+  AFAreaIllumination?: string;
   /** ★★★☆ ✔ Example: "Zone AF" */
-  AFAreaMode?: string
+  AFAreaMode?: string;
   /** ☆☆☆☆ ✔ Example: "Wide" */
-  AFAreaModeSetting?: string
+  AFAreaModeSetting?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  AFAreaPointSize?: string
+  AFAreaPointSize?: string;
   /** ☆☆☆☆ ✔ Example: "none" */
-  AFAreas?: string
+  AFAreas?: string;
   /** ☆☆☆☆ ✔ Example: "Main Dial" */
-  AFAreaSelectionMethod?: string
+  AFAreaSelectionMethod?: string;
   /** ☆☆☆☆ ✔ Example: "AF area selection button" */
-  AFAreaSelectMethod?: string
+  AFAreaSelectMethod?: string;
   /** ☆☆☆☆ ✔ Example: 996 */
-  AFAreaWidth?: number
+  AFAreaWidth?: number;
   /** ★☆☆☆ ✔ Example: "994 18 18 18 18 18 18 18 18" */
-  AFAreaWidths?: string
+  AFAreaWidths?: string;
   /** ☆☆☆☆ ✔ Example: 4388 */
-  AFAreaXPosition?: number
+  AFAreaXPosition?: number;
   /** ☆☆☆☆ ✔ Example: 744 */
-  AFAreaYPosition?: number
+  AFAreaYPosition?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  AFAreaZoneSize?: string
+  AFAreaZoneSize?: string;
   /** ☆☆☆☆ ✔ Example: "Only ext. flash emits/Fires" */
-  AFAssist?: string
+  AFAssist?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
-  AFAssistBeam?: string
+  AFAssistBeam?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (5)" */
-  AFAssistLamp?: string
+  AFAssistLamp?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  AFButtonPressed?: string
+  AFButtonPressed?: string;
   /** ☆☆☆☆ ✔ Example: 8 */
-  AFConfidence?: number
+  AFConfidence?: number;
   /** ☆☆☆☆ ✔ Example: "Case 11" */
-  AFConfigTool?: string
+  AFConfigTool?: string;
   /** ☆☆☆☆   Example: "(Binary data 256 bytes, use -b option to extract)" */
-  AFDebugInfo?: BinaryField | string
+  AFDebugInfo?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  AFDefocus?: number
+  AFDefocus?: number;
   /** ☆☆☆☆ ✔ Example: "Quick mode" */
-  AFDuringLiveView?: string
+  AFDuringLiveView?: string;
   /** ☆☆☆☆ ✔ Example: "On (2)" */
-  AFFineTune?: string
+  AFFineTune?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  AFFineTuneAdj?: string
+  AFFineTuneAdj?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  AFFineTuneAdjTele?: number
+  AFFineTuneAdjTele?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  AFFineTuneIndex?: string
+  AFFineTuneIndex?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  AFIlluminator?: string
+  AFIlluminator?: string;
   /** ☆☆☆☆ ✔ Example: "0401" */
-  AFInfo2Version?: string
+  AFInfo2Version?: string;
   /** ☆☆☆☆ ✔ Example: "90 ms" */
-  AFIntegrationTime?: string
+  AFIntegrationTime?: string;
   /** ☆☆☆☆ ✔ Example: 489 */
-  AFMeasuredDepth?: number
+  AFMeasuredDepth?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  AFMicroAdj?: number
+  AFMicroAdj?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown (3)" */
-  AFMicroAdjMode?: string
+  AFMicroAdjMode?: string;
   /** ☆☆☆☆ ✔ Example: 2 */
-  AFMicroAdjRegisteredLenses?: number
+  AFMicroAdjRegisteredLenses?: number;
   /** ☆☆☆☆ ✔ Example: "Disable; 0; 0; 0; 84" */
-  AFMicroadjustment?: string
+  AFMicroadjustment?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  AFMicroAdjValue?: number
+  AFMicroAdjValue?: number;
   /** ★☆☆☆ ✔ Example: "Zone" */
-  AFMode?: string
+  AFMode?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  AFModeRestrictions?: string
+  AFModeRestrictions?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  AFOnAELockButtonSwitch?: string
+  AFOnAELockButtonSwitch?: string;
   /** ☆☆☆☆ ✔ Example: "AF-On" */
-  AFOnButton?: string
+  AFOnButton?: string;
   /** ☆☆☆☆ ✔ Example: "682 1 53" */
-  AFPerformance?: string
+  AFPerformance?: string;
   /** ★★☆☆ ✔ Example: "Upper-right" */
-  AFPoint?: string
+  AFPoint?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  AFPointActivationArea?: string
+  AFPointActivationArea?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  AFPointAreaExpansion?: string
+  AFPointAreaExpansion?: string;
   /** ☆☆☆☆ ✔ Example: "Left (vertical)" */
-  AFPointAtShutterRelease?: string
+  AFPointAtShutterRelease?: string;
   /** ☆☆☆☆ ✔ Example: "Control-direct:disable/Main:enable" */
-  AFPointAutoSelection?: string
+  AFPointAutoSelection?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  AFPointBrightness?: string
+  AFPointBrightness?: string;
   /** ☆☆☆☆ ✔ Example: 897 */
-  AFPointDetails?: number
+  AFPointDetails?: number;
   /** ☆☆☆☆ ✔ Example: "Selected (pre-AF, focused)" */
-  AFPointDisplayDuringFocus?: string
+  AFPointDisplayDuringFocus?: string;
   /** ☆☆☆☆ ✔ Example: "On in Continuous Shooting and Manual Focusing" */
-  AFPointIllumination?: string
+  AFPointIllumination?: string;
   /** ☆☆☆☆ ✔ Example: "Left (vertical)" */
-  AFPointInFocus?: string
+  AFPointInFocus?: string;
   /** ☆☆☆☆ ✔ Example: "[2]" */
-  AFPointMode?: string
+  AFPointMode?: string;
   /** ☆☆☆☆ ✔ Example: "none" */
-  AFPointPosition?: string
+  AFPointPosition?: string;
   /** ☆☆☆☆ ✔ Example: "Center" */
-  AFPointRegistration?: string
+  AFPointRegistration?: string;
   /** ☆☆☆☆   Example: "Center" */
-  AFPoints?: string
+  AFPoints?: string;
   /** ☆☆☆☆ ✔ Example: "Use Half" */
-  AFPointSel?: string
+  AFPointSel?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  AFPointSelected?: string
+  AFPointSelected?: string;
   /** ☆☆☆☆ ✔ Example: "H=AF+Main/V=AF+Command" */
-  AFPointSelection?: string
+  AFPointSelection?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (1046 1046)" */
-  AFPointSelectionMethod?: string
+  AFPointSelectionMethod?: string;
   /** ☆☆☆☆ ✔ Example: "Lower-right" */
-  AFPointSetting?: string
+  AFPointSetting?: string;
   /** ★★☆☆ ✔ Example: "Upper-right, Top" */
-  AFPointsInFocus?: string
+  AFPointsInFocus?: string;
   /** ☆☆☆☆ ✔ Example: "C6 (C6)" */
-  AFPointsInFocus1D?: string
+  AFPointsInFocus1D?: string;
   /** ☆☆☆☆ ✔ Example: "Center" */
-  AFPointsInFocus5D?: string
+  AFPointsInFocus5D?: string;
   /** ☆☆☆☆ ✔ Example: "9/Active AF point" */
-  AFPointSpotMetering?: string
+  AFPointSpotMetering?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  AFPointsSelected?: number
+  AFPointsSelected?: number;
   /** ☆☆☆☆   Example: 17 */
-  AFPointsSpecial?: number
+  AFPointsSpecial?: number;
   /** ☆☆☆☆ ✔ Example: "Top" */
-  AFPointsUsed?: string
+  AFPointsUsed?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  AFPointSwitching?: number
+  AFPointSwitching?: number;
   /** ☆☆☆☆ ✔ Example: 903 */
-  AFPredictor?: number
+  AFPredictor?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  AFTracking?: string
+  AFTracking?: string;
   /** ☆☆☆☆ ✔ Example: 127 */
-  AFTrackingSensitivity?: number
+  AFTrackingSensitivity?: number;
   /** ☆☆☆☆ ✔ Example: "79-point" */
-  AFType?: string
+  AFType?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AFWithShutter?: string
+  AFWithShutter?: string;
   /** ☆☆☆☆ ✔ Example: "Shooting not possible without focus" */
-  AIServoContinuousShooting?: string
+  AIServoContinuousShooting?: string;
   /** ☆☆☆☆ ✔ Example: "Focus Priority" */
-  AIServoFirstImage?: string
+  AIServoFirstImage?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
-  AIServoFirstImagePriority?: string
+  AIServoFirstImagePriority?: string;
   /** ☆☆☆☆ ✔ Example: "1: AF, 2: Tracking" */
-  AIServoImagePriority?: string
+  AIServoImagePriority?: string;
   /** ☆☆☆☆ ✔ Example: "Focus Priority" */
-  AIServoSecondImage?: string
+  AIServoSecondImage?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
-  AIServoSecondImagePriority?: string
+  AIServoSecondImagePriority?: string;
   /** ☆☆☆☆ ✔ Example: "Main focus point priority" */
-  AIServoTrackingMethod?: string
+  AIServoTrackingMethod?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  AIServoTrackingSensitivity?: string
+  AIServoTrackingSensitivity?: string;
   /** ☆☆☆☆ ✔ Example: "Off; Object Not Found" */
-  AISubjectTrackingMode?: string
+  AISubjectTrackingMode?: string;
   /** ☆☆☆☆ ✔ Example: "91 m" */
-  Altitude?: string
+  Altitude?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  AmbienceSelection?: string
+  AmbienceSelection?: string;
   /** ☆☆☆☆ ✔ Example: "40 C" */
-  AmbientTemperature?: string
+  AmbientTemperature?: string;
   /** ☆☆☆☆   Example: "95 F" */
-  AmbientTemperatureFahrenheit?: string
+  AmbientTemperatureFahrenheit?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AntiFlicker?: string
+  AntiFlicker?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ApertureLock?: string
+  ApertureLock?: string;
   /** ☆☆☆☆ ✔ Example: "Manual: Closed 64; Open 1; Auto: Closed 31; Open 6.3" */
-  ApertureRange?: string
+  ApertureRange?: string;
   /** ☆☆☆☆ ✔ Example: "Prohibited" */
-  ApertureRingUse?: string
+  ApertureRingUse?: string;
   /** ☆☆☆☆ ✔ Example: 9.1 */
-  ApertureSetting?: number
+  ApertureSetting?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ApplySettingsToLiveView?: string
+  ApplySettingsToLiveView?: string;
   /** ☆☆☆☆ ✔ Example: "Enable; 1; 2; 1; 128; 48; 0; 1" */
-  ApplyShootingMeteringMode?: string
+  ApplyShootingMeteringMode?: string;
   /** ☆☆☆☆   Example: 8 */
-  ApproximateFNumber?: number
+  ApproximateFNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Soft Focus; 1280; 0; 0" */
-  ArtFilter?: string
+  ArtFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Off; 0; 0; Partial Color 0; No Effect; 0; No Color Filter…0; 0; 0" */
-  ArtFilterEffect?: string
+  ArtFilterEffect?: string;
   /** ☆☆☆☆   Example: "Unknown (8305)" */
-  ArtMode?: string
+  ArtMode?: string;
   /** ☆☆☆☆   Example: "0 0 0" */
-  ArtModeParameters?: string
+  ArtModeParameters?: string;
   /** ☆☆☆☆ ✔ Example: "0 192 4607 3263" */
-  AspectFrame?: string
+  AspectFrame?: string;
   /** ★☆☆☆ ✔ Example: "Unknown (942874672)" */
-  AspectRatio?: string
+  AspectRatio?: string;
   /** ☆☆☆☆ ✔ Example: "Auto Bracketing" */
-  AssignBktButton?: string
+  AssignBktButton?: string;
   /** ☆☆☆☆ ✔ Example: "LCD brightness" */
-  AssignFuncButton?: string
+  AssignFuncButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  AssignMovieFunc1ButtonPlusDials?: string
+  AssignMovieFunc1ButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  AssignMovieFunc2Button?: string
+  AssignMovieFunc2Button?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  AssignMoviePreviewButtonPlusDials?: string
+  AssignMoviePreviewButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "Shutter/Aperture Lock" */
-  AssignMovieRecordButton?: string
+  AssignMovieRecordButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  AssignMovieRecordButtonPlusDials?: string
+  AssignMovieRecordButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
-  AssignMovieSubselector?: string
+  AssignMovieSubselector?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  AssignMovieSubselectorPlusDials?: string
+  AssignMovieSubselectorPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  AssignRemoteFnButton?: string
+  AssignRemoteFnButton?: string;
   /** ☆☆☆☆ ✔ Example: "Select Home Position" */
-  AssistButtonFunction?: string
+  AssistButtonFunction?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  Audio?: string
+  Audio?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  AudioCompression?: string
+  AudioCompression?: string;
   /** ☆☆☆☆ ✔ Example: "On-Shot AF only" */
-  AutoAFPointColorTracking?: string
+  AutoAFPointColorTracking?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  AutoAFPointSelEOSiTRAF?: string
+  AutoAFPointSelEOSiTRAF?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AutoAperture?: string
+  AutoAperture?: string;
   /** ☆☆☆☆   Example: "None" */
-  AutoBracket?: string
+  AutoBracket?: string;
   /** ★☆☆☆ ✔ Example: "On" */
-  AutoBracketing?: string
+  AutoBracketing?: string;
   /** ☆☆☆☆ ✔ Example: "Flash/Speed" */
-  AutoBracketingMode?: string
+  AutoBracketingMode?: string;
   /** ☆☆☆☆ ✔ Example: "AE Only" */
-  AutoBracketingSet?: string
+  AutoBracketingSet?: string;
   /** ☆☆☆☆ ✔ Example: "Flash/Speed" */
-  AutoBracketModeM?: string
+  AutoBracketModeM?: string;
   /** ☆☆☆☆ ✔ Example: "0,-,+" */
-  AutoBracketOrder?: string
+  AutoBracketOrder?: string;
   /** ☆☆☆☆ ✔ Example: "Exposure" */
-  AutoBracketSet?: string
+  AutoBracketSet?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  AutoDistortionControl?: string
+  AutoDistortionControl?: string;
   /** ☆☆☆☆ ✔ Example: "400%" */
-  AutoDynamicRange?: string
+  AutoDynamicRange?: string;
   /** ★★☆☆ ✔ Example: "On" */
-  AutoExposureBracketing?: string
+  AutoExposureBracketing?: string;
   /** ☆☆☆☆ ✔ Example: "Subject and Background" */
-  AutoFlashISOSensitivity?: string
+  AutoFlashISOSensitivity?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  AutoFP?: string
+  AutoFP?: string;
   /** ★★☆☆ ✔ Example: 96 */
-  AutoISO?: number
+  AutoISO?: number;
   /** ☆☆☆☆ ✔ Example: "1/30 s" */
-  AutoISOMinShutterSpeed?: string
+  AutoISOMinShutterSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  AutoLightingOptimizer?: string
+  AutoLightingOptimizer?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  AutoPortraitFramed?: string
+  AutoPortraitFramed?: string;
   /** ★☆☆☆ ✔ Example: "Rotate 90 CW" */
-  AutoRotate?: string
+  AutoRotate?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  AuxiliaryLens?: string
+  AuxiliaryLens?: string;
   /** ☆☆☆☆ ✔ Example: 6.7 */
-  AvApertureSetting?: number
+  AvApertureSetting?: number;
   /** ☆☆☆☆ ✔ Example: "513 513 513 513" */
-  AverageBlackLevel?: string
+  AverageBlackLevel?: string;
   /** ☆☆☆☆ ✔ Example: 9.875 */
-  AverageLV?: number
+  AverageLV?: number;
   /** ☆☆☆☆ ✔ Example: "Disable" */
-  AvSettingWithoutLens?: string
+  AvSettingWithoutLens?: string;
   /** ☆☆☆☆ ✔ Example: "99:99:99 00:00:00" */
-  BabyAge?: string
+  BabyAge?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  BabyName?: string
+  BabyName?: string;
   /** ☆☆☆☆ ✔ Example: "R0000148" */
-  Barcode?: string
+  Barcode?: string;
   /** ☆☆☆☆ ✔ Example: "0100" */
-  BarometerInfoVersion?: string
+  BarometerInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  BaseExposureCompensation?: number
+  BaseExposureCompensation?: number;
   /** ★★☆☆ ✔ Example: 800 */
-  BaseISO?: number
+  BaseISO?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  BatteryLevel?: string
+  BatteryLevel?: string;
   /** ☆☆☆☆ ✔ Example: "MB-D12 First" */
-  BatteryOrder?: string
+  BatteryOrder?: string;
   /** ☆☆☆☆ ✔ Example: "Sufficient Power Remaining" */
-  BatteryState?: string
+  BatteryState?: string;
   /** ☆☆☆☆ ✔ Example: "50.6 C" */
-  BatteryTemperature?: string
+  BatteryTemperature?: string;
   /** ☆☆☆☆ ✔ Example: "NB-13L" */
-  BatteryType?: string
+  BatteryType?: string;
   /** ☆☆☆☆   Example: "8.52 V" */
-  BatteryVoltage?: string
+  BatteryVoltage?: string;
   /** ☆☆☆☆   Example: "Unknown (0)" */
-  BayerPattern?: string
+  BayerPattern?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  Beep?: string
+  Beep?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  BeepPitch?: string
+  BeepPitch?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  BeepVolume?: string
+  BeepVolume?: string;
   /** ☆☆☆☆   Example: "Sports CS" */
-  BestShotMode?: string
+  BestShotMode?: string;
   /** ☆☆☆☆ ✔ Example: "128 128 128 128" */
-  BlackLevels?: string
+  BlackLevels?: string;
   /** ☆☆☆☆ ✔ Example: 2209 */
-  BlackMaskBottomBorder?: number
+  BlackMaskBottomBorder?: number;
   /** ☆☆☆☆ ✔ Example: 14 */
-  BlackMaskLeftBorder?: number
+  BlackMaskLeftBorder?: number;
   /** ☆☆☆☆ ✔ Example: 55 */
-  BlackMaskRightBorder?: number
+  BlackMaskRightBorder?: number;
   /** ☆☆☆☆ ✔ Example: 162 */
-  BlackMaskTopBorder?: number
+  BlackMaskTopBorder?: number;
   /** ☆☆☆☆ ✔ Example: "7 104 106 6" */
-  BlackPoint?: string
+  BlackPoint?: string;
   /** ☆☆☆☆   Example: "n/a" */
-  BleachBypassToning?: string
+  BleachBypassToning?: string;
   /** ☆☆☆☆   Example: "5C" */
-  BlueGain?: string
+  BlueGain?: string;
   /** ☆☆☆☆   Example: "Off; 0; 0; 0" */
-  BlurControl?: string
+  BlurControl?: string;
   /** ★☆☆☆ ✔ Example: "None" */
-  BlurWarning?: string
+  BlurWarning?: string;
   /** ☆☆☆☆ ✔ Example: "28 C" */
-  BoardTemperature?: string
+  BoardTemperature?: string;
   /** ☆☆☆☆ ✔ Example: 165 */
-  BodyBatteryADLoad?: number
+  BodyBatteryADLoad?: number;
   /** ☆☆☆☆ ✔ Example: 199 */
-  BodyBatteryADNoLoad?: number
+  BodyBatteryADNoLoad?: number;
   /** ☆☆☆☆ ✔ Example: "Running Low" */
-  BodyBatteryState?: string
+  BodyBatteryState?: string;
   /** ☆☆☆☆   Example: "RS1 :V01500000 " */
-  BodyFirmware?: string
+  BodyFirmware?: string;
   /** ☆☆☆☆ ✔ Example: 81 */
-  BodyFirmwareVersion?: number
+  BodyFirmwareVersion?: number;
   /** ☆☆☆☆   Example: "SID:14101105   " */
-  BodySerialNumber?: string
+  BodySerialNumber?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  BracketIncrement?: number
+  BracketIncrement?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  BracketMode?: string
+  BracketMode?: string;
   /** ☆☆☆☆ ✔ Example: "Disabled" */
-  BracketProgram?: string
+  BracketProgram?: string;
   /** ☆☆☆☆   Example: "0 0" */
-  BracketSequence?: string
+  BracketSequence?: string;
   /** ☆☆☆☆ ✔ Example: "AE/Flash" */
-  BracketSet?: string
+  BracketSet?: string;
   /** ☆☆☆☆ ✔ Example: "No Bracket" */
-  BracketSettings?: string
+  BracketSettings?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  BracketShotNumber?: number
+  BracketShotNumber?: number;
   /** ☆☆☆☆   Example: "Unknown (429458713)" */
-  BracketStep?: string
+  BracketStep?: string;
   /** ☆☆☆☆ ✔ Example: 12 */
-  BracketValue?: number
+  BracketValue?: number;
   /** ☆☆☆☆ ✔ Example: 9.25 */
-  Brightness?: number
+  Brightness?: number;
   /** ☆☆☆☆   Example: "SU6-7" */
-  BuildNumber?: string
+  BuildNumber?: string;
   /** ★★☆☆ ✔ Example: 0 */
-  BulbDuration?: number
+  BulbDuration?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  BurstGroupID?: number
+  BurstGroupID?: number;
   /** ☆☆☆☆ ✔ Example: "Unlimited" */
-  BurstMode?: string
+  BurstMode?: string;
   /** ☆☆☆☆   Example: 3 */
-  BurstShot?: number
+  BurstShot?: number;
   /** ☆☆☆☆ ✔ Example: 9 */
-  BurstSpeed?: number
+  BurstSpeed?: number;
   /** ☆☆☆☆ ✔ Example: "460727F2-20CF-4031-957B-7E04D567DF1F" */
-  BurstUUID?: string
+  BurstUUID?: string;
   /** ☆☆☆☆ ✔ Example: "Normal (enable)" */
-  ButtonFunctionControlOff?: string
+  ButtonFunctionControlOff?: string;
   /** ☆☆☆☆   Example: 8 */
-  BWFilter?: number
+  BWFilter?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  BWMode?: string
+  BWMode?: string;
   /** ☆☆☆☆   Example: "Starting calibration file for SD14F13_Rev3; S/N C75_00001…8:16:34" */
-  Calibration?: string
+  Calibration?: string;
   /** ☆☆☆☆   Example: "2216/02/28 03:49:48" */
-  CameraDateTime?: string
+  CameraDateTime?: string;
   /** ★☆☆☆ ✔ Example: "h Company Ltd." */
-  CameraID?: string
+  CameraID?: string;
   /** ★★☆☆ ✔ Example: "n/a" */
-  CameraISO?: string
+  CameraISO?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (155)" */
-  CameraOrientation?: string
+  CameraOrientation?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 8290 bytes, use -b option to extract)" */
-  CameraParameters?: BinaryField | string
+  CameraParameters?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "User Defined 3" */
-  CameraPictureStyle?: string
+  CameraPictureStyle?: string;
   /** ☆☆☆☆   Example: -90 */
-  CameraPitch?: number
+  CameraPitch?: number;
   /** ☆☆☆☆   Example: "+0.00" */
-  CameraRoll?: string
+  CameraRoll?: string;
   /** ☆☆☆☆ ✔ Example: "0100" */
-  CameraSettingsVersion?: string
+  CameraSettingsVersion?: string;
   /** ★★☆☆ ✔ Example: "uD800,S800" */
-  CameraType?: string
+  CameraType?: string;
   /** ☆☆☆☆   Example: "+90.80" */
-  CameraYaw?: string
+  CameraYaw?: string;
   /** ★★☆☆ ✔ Example: "Unknown (-1)" */
-  CanonExposureMode?: string
+  CanonExposureMode?: string;
   /** ☆☆☆☆ ✔ Example: "Full automatic mode" */
-  CanonFileDescription?: string
+  CanonFileDescription?: string;
   /** ☆☆☆☆ ✔ Example: 3794598 */
-  CanonFileLength?: number
+  CanonFileLength?: number;
   /** ★★☆☆ ✔ Example: "Firmware version 1.00" */
-  CanonFirmwareVersion?: string
+  CanonFirmwareVersion?: string;
   /** ★★☆☆ ✔ Example: "n/a" */
-  CanonFlashMode?: string
+  CanonFlashMode?: string;
   /** ★★☆☆ ✔ Example: "n/a" */
-  CanonImageSize?: string
+  CanonImageSize?: string;
   /** ★★☆☆ ✔ Example: "PIC:DC50 JPEG" */
-  CanonImageType?: string
+  CanonImageType?: string;
   /** ★★☆☆ ✔ Example: "XH A1S" */
-  CanonModelID?: string
+  CanonModelID?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  CardShutterLock?: string
+  CardShutterLock?: string;
   /** ★☆☆☆ ✔ Example: "People" */
-  Categories?: string
+  Categories?: string;
   /** ☆☆☆☆   Example: 2 */
-  CCDBoardVersion?: number
+  CCDBoardVersion?: number;
   /** ☆☆☆☆ ✔ Example: "Interlaced" */
-  CCDScanMode?: string
+  CCDScanMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CCDSensitivity?: number
+  CCDSensitivity?: number;
   /** ☆☆☆☆   Example: 0 */
-  CCDVersion?: number
+  CCDVersion?: number;
   /** ☆☆☆☆ ✔ Example: "Normal Zone" */
-  CenterAFArea?: string
+  CenterAFArea?: string;
   /** ☆☆☆☆ ✔ Example: "Normal Zone" */
-  CenterFocusPoint?: string
+  CenterFocusPoint?: string;
   /** ☆☆☆☆ ✔ Example: "Small" */
-  CenterWeightedAreaSize?: string
+  CenterWeightedAreaSize?: string;
   /** ☆☆☆☆ ✔ Example: "9 fps" */
-  CHModeShootingSpeed?: string
+  CHModeShootingSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ChromaticAberrationCorr?: string
+  ChromaticAberrationCorr?: string;
   /** ☆☆☆☆ ✔ Example: "9758 13871 16956 16964 14142 9776 30 9502 13101 15416 151…1 15949" */
-  ChromaticAberrationCorrParams?: string
+  ChromaticAberrationCorrParams?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ChromaticAberrationSetting?: string
+  ChromaticAberrationSetting?: string;
   /** ☆☆☆☆   Example: "+0.500" */
-  ChrominanceNoiseReduction?: string
+  ChrominanceNoiseReduction?: string;
   /** ☆☆☆☆ ✔ Example: "San Francisco" */
-  City2?: string
+  City2?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  Clarity?: number
+  Clarity?: number;
   /** ☆☆☆☆   Example: "Off" */
-  ClarityControl?: string
+  ClarityControl?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ClearRetouch?: string
+  ClearRetouch?: string;
   /** ☆☆☆☆ ✔ Example: "6 fps" */
-  CLModeShootingSpeed?: string
+  CLModeShootingSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "Sub-command Dial" */
-  CmdDialsApertureSetting?: string
+  CmdDialsApertureSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Autofocus Off, Exposure Off" */
-  CmdDialsChangeMainSub?: string
+  CmdDialsChangeMainSub?: string;
   /** ☆☆☆☆ ✔ Example: "On (Image Review Excluded)" */
-  CmdDialsMenuAndPlayback?: string
+  CmdDialsMenuAndPlayback?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  CmdDialsReverseRotation?: string
+  CmdDialsReverseRotation?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CmdDialsReverseRotExposureComp?: number
+  CmdDialsReverseRotExposureComp?: number;
   /** ☆☆☆☆   Example: "0 0 0" */
-  ColorAdjustment?: string
+  ColorAdjustment?: string;
   /** ☆☆☆☆   Example: "Off" */
-  ColorAdjustmentMode?: string
+  ColorAdjustmentMode?: string;
   /** ☆☆☆☆   Example: 256 */
-  ColorBalanceBlue?: number
+  ColorBalanceBlue?: number;
   /** ☆☆☆☆   Example: 65792 */
-  ColorBalanceGreen?: number
+  ColorBalanceGreen?: number;
   /** ☆☆☆☆   Example: 2.4960938 */
-  ColorBalanceRed?: number
+  ColorBalanceRed?: number;
   /** ☆☆☆☆ ✔ Example: "R01," */
-  ColorBalanceVersion?: string
+  ColorBalanceVersion?: string;
   /** ☆☆☆☆ ✔ Example: 24 */
-  ColorBitDepth?: number
+  ColorBitDepth?: number;
   /** ☆☆☆☆ ✔ Example: 257 */
-  ColorBW?: number
+  ColorBW?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ColorChromeEffect?: string
+  ColorChromeEffect?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ColorChromeFXBlue?: string
+  ColorChromeFXBlue?: string;
   /** ☆☆☆☆ ✔ Example: 8 */
-  ColorCompensationFilter?: number
+  ColorCompensationFilter?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ColorCompensationFilterCustom?: number
+  ColorCompensationFilterCustom?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ColorCompensationFilterSet?: number
+  ColorCompensationFilterSet?: number;
   /** ☆☆☆☆ ✔ Example: "96 4096 3072 4096 16 256" */
-  ColorControl?: string
+  ColorControl?: string;
   /** ☆☆☆☆ ✔ Example: "Color 0; 0; 29; Strength 0; -4; 3" */
-  ColorCreatorEffect?: string
+  ColorCreatorEffect?: string;
   /** ☆☆☆☆ ✔ Example: "9 (60D/1100D)" */
-  ColorDataVersion?: string
+  ColorDataVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Warm" */
-  ColorEffect?: string
+  ColorEffect?: string;
   /** ☆☆☆☆   Example: "Off" */
-  ColorFilter?: string
+  ColorFilter?: string;
   /** ☆☆☆☆ ✔ Example: "0.00 0.00 0.00" */
-  ColorGain?: string
+  ColorGain?: string;
   /** ☆☆☆☆ ✔ Example: "Mode3a" */
-  ColorHue?: string
+  ColorHue?: string;
   /** ☆☆☆☆ ✔ Example: "600 -236 -108 -52 404 -96 -20 -140 416" */
-  ColorMatrix?: string
+  ColorMatrix?: string;
   /** ☆☆☆☆   Example: "1.66016 -0.66016 0.00000 -0.20703 1.52734 -0.32031 -0.132…1.42969" */
-  ColorMatrixA?: string
+  ColorMatrixA?: string;
   /** ☆☆☆☆   Example: "1.12793 -0.03674 -0.09119 -0.20703 1.52734 -0.32031 -0.13…1.35791" */
-  ColorMatrixB?: string
+  ColorMatrixB?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  ColorMatrixNumber?: number
+  ColorMatrixNumber?: number;
   /** ★★☆☆ ✔ Example: "n/a" */
-  ColorMode?: string
+  ColorMode?: string;
   /** ☆☆☆☆ ✔ Example: "Min -5; Max 5; Yellow 0; Orange 0; Orange-red 0; Red 0; M…green 0" */
-  ColorProfileSettings?: string
+  ColorProfileSettings?: string;
   /** ☆☆☆☆ ✔ Example: 8059 */
-  ColorTempAsShot?: number
+  ColorTempAsShot?: number;
   /** ☆☆☆☆ ✔ Example: 7397 */
-  ColorTempAuto?: number
+  ColorTempAuto?: number;
   /** ☆☆☆☆ ✔ Example: 7103 */
-  ColorTempCloudy?: number
+  ColorTempCloudy?: number;
   /** ☆☆☆☆ ✔ Example: 5210 */
-  ColorTempCustom?: number
+  ColorTempCustom?: number;
   /** ☆☆☆☆ ✔ Example: 6071 */
-  ColorTempDaylight?: number
+  ColorTempDaylight?: number;
   /** ★☆☆☆ ✔ Example: 9900 */
-  ColorTemperature?: number
+  ColorTemperature?: number;
   /** ☆☆☆☆ ✔ Example: 7820 */
-  ColorTemperatureAuto?: number
+  ColorTemperatureAuto?: number;
   /** ☆☆☆☆ ✔ Example: "6300 K" */
-  ColorTemperatureCustom?: string
+  ColorTemperatureCustom?: string;
   /** ☆☆☆☆ ✔ Example: "7200 K" */
-  ColorTemperatureSet?: string
+  ColorTemperatureSet?: string;
   /** ☆☆☆☆ ✔ Example: "Temperature" */
-  ColorTemperatureSetting?: string
+  ColorTemperatureSetting?: string;
   /** ☆☆☆☆ ✔ Example: 9826 */
-  ColorTempFlash?: number
+  ColorTempFlash?: number;
   /** ☆☆☆☆ ✔ Example: 4607 */
-  ColorTempFluorescent?: number
+  ColorTempFluorescent?: number;
   /** ☆☆☆☆ ✔ Example: 8001 */
-  ColorTempKelvin?: number
+  ColorTempKelvin?: number;
   /** ☆☆☆☆ ✔ Example: 7397 */
-  ColorTempMeasured?: number
+  ColorTempMeasured?: number;
   /** ☆☆☆☆ ✔ Example: 7830 */
-  ColorTempShade?: number
+  ColorTempShade?: number;
   /** ☆☆☆☆ ✔ Example: 3212 */
-  ColorTempTungsten?: number
+  ColorTempTungsten?: number;
   /** ☆☆☆☆   Example: 5 */
-  ColorTint?: number
+  ColorTint?: number;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  ColorTone?: string
+  ColorTone?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ColorToneAuto?: number
+  ColorToneAuto?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ColorToneFaithful?: number
+  ColorToneFaithful?: number;
   /** ☆☆☆☆ ✔ Example: 11 */
-  ColorToneLandscape?: number
+  ColorToneLandscape?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ColorToneNeutral?: number
+  ColorToneNeutral?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ColorTonePortrait?: number
+  ColorTonePortrait?: number;
   /** ☆☆☆☆ ✔ Example: 15663191 */
-  ColorToneStandard?: number
+  ColorToneStandard?: number;
   /** ☆☆☆☆ ✔ Example: "Standard (Main Shutter, Sub Aperture)" */
-  CommandDials?: string
+  CommandDials?: string;
   /** ☆☆☆☆ ✔ Example: "Sub-command Dial" */
-  CommandDialsApertureSetting?: string
+  CommandDialsApertureSetting?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  CommandDialsChangeMainSub?: string
+  CommandDialsChangeMainSub?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  CommandDialsMenuAndPlayback?: string
+  CommandDialsMenuAndPlayback?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  CommandDialsReverseRotation?: string
+  CommandDialsReverseRotation?: string;
   /** ☆☆☆☆ ✔ Example: 3 */
-  CommanderChannel?: number
+  CommanderChannel?: number;
   /** ☆☆☆☆ ✔ Example: "Full" */
-  CommanderGroupAManualOutput?: string
+  CommanderGroupAManualOutput?: string;
   /** ☆☆☆☆ ✔ Example: "TTL" */
-  CommanderGroupAMode?: string
+  CommanderGroupAMode?: string;
   /** ☆☆☆☆ ✔ Example: "Full" */
-  CommanderGroupBManualOutput?: string
+  CommanderGroupBManualOutput?: string;
   /** ☆☆☆☆ ✔ Example: "TTL" */
-  CommanderGroupBMode?: string
+  CommanderGroupBMode?: string;
   /** ☆☆☆☆ ✔ Example: "TTL" */
-  CommanderInternalFlash?: string
+  CommanderInternalFlash?: string;
   /** ☆☆☆☆ ✔ Example: "Full" */
-  CommanderInternalManualOutput?: string
+  CommanderInternalManualOutput?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CommanderInternalTTLComp?: number
+  CommanderInternalTTLComp?: number;
   /** ☆☆☆☆ ✔ Example: -3 */
-  CommanderInternalTTLCompBuiltin?: number
+  CommanderInternalTTLCompBuiltin?: number;
   /** ☆☆☆☆ ✔ Example: -3 */
-  CommanderInternalTTLCompGroupA?: number
+  CommanderInternalTTLCompGroupA?: number;
   /** ☆☆☆☆ ✔ Example: -3 */
-  CommanderInternalTTLCompGroupB?: number
+  CommanderInternalTTLCompGroupB?: number;
   /** ☆☆☆☆ ✔ Example: 8 */
-  ComponentBitDepth?: number
+  ComponentBitDepth?: number;
   /** ☆☆☆☆ ✔ Example: "Component version 1.00" */
-  ComponentVersion?: string
+  ComponentVersion?: string;
   /** ☆☆☆☆   Example: "Off" */
-  CompositionAdjust?: string
+  CompositionAdjust?: string;
   /** ☆☆☆☆   Example: 8 */
-  CompositionAdjustRotation?: number
+  CompositionAdjustRotation?: number;
   /** ☆☆☆☆   Example: 4 */
-  CompositionAdjustX?: number
+  CompositionAdjustX?: number;
   /** ☆☆☆☆   Example: 1 */
-  CompositionAdjustY?: number
+  CompositionAdjustY?: number;
   /** ☆☆☆☆ ✔ Example: 98047 */
-  CompressedImageSize?: number
+  CompressedImageSize?: number;
   /** ☆☆☆☆ ✔ Example: 8 */
-  CompressionFactor?: number
+  CompressionFactor?: number;
   /** ☆☆☆☆ ✔ Example: 8 */
-  CompressionRatio?: number
+  CompressionRatio?: number;
   /** ☆☆☆☆ ✔ Example: "FFCBAC24-E547-4BBC-AF47-38B1A3D845E3" */
-  ContentIdentifier?: string
+  ContentIdentifier?: string;
   /** ☆☆☆☆ ✔ Example: "Low" */
-  ContinuousBracketing?: string
+  ContinuousBracketing?: string;
   /** ★★☆☆ ✔ Example: "Unknown (11)" */
-  ContinuousDrive?: string
+  ContinuousDrive?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ContinuousModeDisplay?: string
+  ContinuousModeDisplay?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ContinuousModeLiveView?: string
+  ContinuousModeLiveView?: string;
   /** ☆☆☆☆ ✔ Example: "Hi 0; Cont 14; Lo 3; Soft 5; Soft LS 3" */
-  ContinuousShootingSpeed?: string
+  ContinuousShootingSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "Disable; 99 shots" */
-  ContinuousShotLimit?: string
+  ContinuousShotLimit?: string;
   /** ★★★★ ✔ Example: "n/a" */
-  Contrast?: string
+  Contrast?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ContrastAuto?: number
+  ContrastAuto?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 578 bytes, use -b option to extract)" */
-  ContrastCurve?: BinaryField | string
+  ContrastCurve?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "On (2)" */
-  ContrastDetectAF?: string
+  ContrastDetectAF?: string;
   /** ☆☆☆☆   Example: "496 184 48 48" */
-  ContrastDetectAFArea?: string
+  ContrastDetectAFArea?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  ContrastDetectAFInFocus?: string
+  ContrastDetectAFInFocus?: string;
   /** ☆☆☆☆ ✔ Example: 6553600 */
-  ContrastFaithful?: number
+  ContrastFaithful?: number;
   /** ☆☆☆☆   Example: 0 */
-  ContrastHighlight?: number
+  ContrastHighlight?: number;
   /** ☆☆☆☆   Example: "On" */
-  ContrastHighlightShadowAdj?: string
+  ContrastHighlightShadowAdj?: string;
   /** ☆☆☆☆ ✔ Example: 6553600 */
-  ContrastLandscape?: number
+  ContrastLandscape?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown (19)" */
-  ContrastMode?: string
+  ContrastMode?: string;
   /** ☆☆☆☆ ✔ Example: 524288 */
-  ContrastMonochrome?: number
+  ContrastMonochrome?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ContrastNeutral?: number
+  ContrastNeutral?: number;
   /** ☆☆☆☆ ✔ Example: 9699328 */
-  ContrastPortrait?: number
+  ContrastPortrait?: number;
   /** ☆☆☆☆ ✔ Example: "1 (min -5, max 5)" */
-  ContrastSetting?: string
+  ContrastSetting?: string;
   /** ☆☆☆☆   Example: 0 */
-  ContrastShadow?: number
+  ContrastShadow?: number;
   /** ☆☆☆☆ ✔ Example: 12058626 */
-  ContrastStandard?: number
+  ContrastStandard?: number;
   /** ☆☆☆☆ ✔ Example: "Shutter Speed" */
-  ControlDialSet?: string
+  ControlDialSet?: string;
   /** ☆☆☆☆   Example: 0 */
-  ControllerBoardVersion?: number
+  ControllerBoardVersion?: number;
   /** ★★☆☆ ✔ Example: "n/a" */
-  ControlMode?: string
+  ControlMode?: string;
   /** ☆☆☆☆ ✔ Example: "High" */
-  ControlRingResponse?: string
+  ControlRingResponse?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  ControlRingRotation?: string
+  ControlRingRotation?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  ConversionLens?: string
+  ConversionLens?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  Converter?: number
+  Converter?: number;
   /** ☆☆☆☆ ✔ Example: 72 */
-  CoringFilter?: number
+  CoringFilter?: number;
   /** ☆☆☆☆   Example: 6807 */
-  CorrelatedColorTemp?: number
+  CorrelatedColorTemp?: number;
   /** ☆☆☆☆ ✔ Example: "1.02.00.06" */
-  CPUFirmwareVersion?: string
+  CPUFirmwareVersion?: string;
   /** ☆☆☆☆   Example: "d, 2009:09:04 03:19:07" */
-  CPUVersions?: string
+  CPUVersions?: string;
   /** ☆☆☆☆ ✔ Example: "Vivid" */
-  CreativeStyle?: string
+  CreativeStyle?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  CreativeStyleSetting?: string
+  CreativeStyleSetting?: string;
   /** ☆☆☆☆ ✔ Example: 48 */
-  CropBottomMargin?: number
+  CropBottomMargin?: number;
   /** ☆☆☆☆ ✔ Example: 7776 */
-  CropHeight?: number
+  CropHeight?: number;
   /** ☆☆☆☆ ✔ Example: "Off (7424x4924 cropped to 7424x4924 at pixel 0,0)" */
-  CropHiSpeed?: string
+  CropHiSpeed?: string;
   /** ☆☆☆☆ ✔ Example: 8240 */
-  CropLeftMargin?: number
+  CropLeftMargin?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  CropMode?: string
+  CropMode?: string;
   /** ☆☆☆☆ ✔ Example: 5792 */
-  CroppedImageHeight?: number
+  CroppedImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 3153968 */
-  CroppedImageLeft?: number
+  CroppedImageLeft?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CroppedImageTop?: number
+  CroppedImageTop?: number;
   /** ☆☆☆☆ ✔ Example: 8688 */
-  CroppedImageWidth?: number
+  CroppedImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: 8240 */
-  CropRightMargin?: number
+  CropRightMargin?: number;
   /** ☆☆☆☆ ✔ Example: 8240 */
-  CropTopMargin?: number
+  CropTopMargin?: number;
   /** ☆☆☆☆ ✔ Example: 5184 */
-  CropWidth?: number
+  CropWidth?: number;
   /** ☆☆☆☆   Example: "Off" */
-  CrossProcess?: string
+  CrossProcess?: string;
   /** ☆☆☆☆ ✔ Example: "20 0 19 2 0 65535 65535 65535 2 2 0 65535 65535 65535 18 … 4 5 31" */
-  CustomControls?: string
+  CustomControls?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 1 30 31 0 0 0 0 0 0 2 30 31 0 0 0 0 0 0 5 30 31 0 0 0…1 1 1 0" */
-  CustomizeDials?: string
+  CustomizeDials?: string;
   /** ☆☆☆☆ ✔ Example: "P-STUDIO" */
-  CustomPictureStyleFileName?: string
+  CustomPictureStyleFileName?: string;
   /** ☆☆☆☆ ✔ Example: "CS3 (min CS0, max CS4)" */
-  CustomSaturation?: string
+  CustomSaturation?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  CustomSettingsAllDefault?: string
+  CustomSettingsAllDefault?: string;
   /** ☆☆☆☆ ✔ Example: "B" */
-  CustomSettingsBank?: string
+  CustomSettingsBank?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CustomWBBlueLevel?: number
+  CustomWBBlueLevel?: number;
   /** ☆☆☆☆ ✔ Example: "OK" */
-  CustomWBError?: string
+  CustomWBError?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CustomWBGreenLevel?: number
+  CustomWBGreenLevel?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CustomWBRedLevel?: number
+  CustomWBRedLevel?: number;
   /** ☆☆☆☆ ✔ Example: "Setup" */
-  CustomWBSetting?: string
+  CustomWBSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  DarkFocusEnvironment?: string
+  DarkFocusEnvironment?: string;
   /** ★★☆☆ ✔ Example: "(Binary data 280 bytes, use -b option to extract)" */
-  DataDump?: BinaryField | string
+  DataDump?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 8289 */
-  DataScaling?: number
+  DataScaling?: number;
   /** ☆☆☆☆ ✔ Example: "2021:05:03" */
-  Date?: ExifDate | string
+  Date?: ExifDate | string;
   /** ☆☆☆☆ ✔ Example: "Y/M/D" */
-  DateDisplayFormat?: string
+  DateDisplayFormat?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  DateImprint?: string
+  DateImprint?: string;
   /** ★★☆☆ ✔ Example: "Off" */
-  DateStampMode?: string
+  DateStampMode?: string;
   /** ☆☆☆☆   Example: "Off" */
-  DateTimeStamp?: string
+  DateTimeStamp?: string;
   /** ☆☆☆☆ ✔ Example: "2023:10:17 14:59:23" */
-  DateTimeUTC?: ExifDateTime | string
+  DateTimeUTC?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  DaylightSavings?: string
+  DaylightSavings?: string;
   /** ☆☆☆☆   Example: "Unknown (27471)" */
-  DECPosition?: string
+  DECPosition?: string;
   /** ☆☆☆☆ ✔ Example: "Erase selected" */
-  DefaultEraseOption?: string
+  DefaultEraseOption?: string;
   /** ☆☆☆☆ ✔ Example: 3 */
-  DeletedImageCount?: number
+  DeletedImageCount?: number;
   /** ☆☆☆☆ ✔ Example: "Warsaw" */
-  DestinationCity?: string
+  DestinationCity?: string;
   /** ☆☆☆☆   Example: "    " */
-  DestinationCityCode?: string
+  DestinationCityCode?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  DestinationDST?: string
+  DestinationDST?: string;
   /** ☆☆☆☆ ✔ Example: "SMX Video Camera" */
-  DeviceType?: string
+  DeviceType?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  DialDirectionTvAv?: string
+  DialDirectionTvAv?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  DiffractionCompensation?: string
+  DiffractionCompensation?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  DiffractionCorrection?: string
+  DiffractionCorrection?: string;
   /** ☆☆☆☆   Example: "Vivid" */
-  DigitalFilter?: string
+  DigitalFilter?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  DigitalGain?: number
+  DigitalGain?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  DigitalICE?: string
+  DigitalICE?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  DigitalLensOptimizer?: string
+  DigitalLensOptimizer?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  DigitalLensOptimizerSetting?: string
+  DigitalLensOptimizerSetting?: string;
   /** ★★★☆ ✔ Example: "undef.0" */
-  DigitalZoom?: string
+  DigitalZoom?: string;
   /** ☆☆☆☆   Example: "On" */
-  DigitalZoomOn?: string
+  DigitalZoomOn?: string;
   /** ★★★☆ ✔ Example: 8.1319764 */
-  DigitalZoomRatio?: number
+  DigitalZoomRatio?: number;
   /** ☆☆☆☆ ✔ Example: 897 */
-  DirectoryIndex?: number
+  DirectoryIndex?: number;
   /** ☆☆☆☆ ✔ Example: 999 */
-  DirectoryNumber?: number
+  DirectoryNumber?: number;
   /** ☆☆☆☆ ✔ Example: "DISP - Cycle Information Display (shooting)" */
-  DispButton?: string
+  DispButton?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  DisplayAllAFPoints?: string
+  DisplayAllAFPoints?: string;
   /** ☆☆☆☆ ✔ Example: 9.5 */
-  DisplayAperture?: number
+  DisplayAperture?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  DistortionControl?: string
+  DistortionControl?: string;
   /** ★☆☆☆ ✔ Example: "Unknown (60)" */
-  DistortionCorrection?: string
+  DistortionCorrection?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  DistortionCorrectionSetting?: string
+  DistortionCorrectionSetting?: string;
   /** ☆☆☆☆ ✔ Example: 100 */
-  DistortionCorrectionValue?: number
+  DistortionCorrectionValue?: number;
   /** ☆☆☆☆ ✔ Example: "88 0 -136 -288 -480 -696 -944 -1200 -1480 -1752 -2040 0 0 0 0 0" */
-  DistortionCorrParams?: string
+  DistortionCorrParams?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  DistortionCorrParamsNumber?: string
+  DistortionCorrParamsNumber?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  DistortionCorrParamsPresent?: string
+  DistortionCorrParamsPresent?: string;
   /** ☆☆☆☆ ✔ Example: "Single Frame" */
-  DriveModeSetting?: string
+  DriveModeSetting?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  DriveSpeed?: string
+  DriveSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "100.00.00.00" */
-  DSPFirmwareVersion?: string
+  DSPFirmwareVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  DualPixelRaw?: string
+  DualPixelRaw?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 1024 bytes, use -b option to extract)" */
-  DustRemovalData?: BinaryField | string
+  DustRemovalData?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  DXCropAlert?: string
+  DXCropAlert?: string;
   /** ☆☆☆☆ ✔ Example: "9 Points" */
-  DynamicAFArea?: string
+  DynamicAFArea?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  DynamicAreaAFAssist?: string
+  DynamicAreaAFAssist?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  DynamicAreaAFDisplay?: string
+  DynamicAreaAFDisplay?: string;
   /** ☆☆☆☆ ✔ Example: "Wide" */
-  DynamicRange?: string
+  DynamicRange?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  DynamicRangeBoost?: string
+  DynamicRangeBoost?: string;
   /** ☆☆☆☆ ✔ Example: "On; Enabled; 0; 0" */
-  DynamicRangeExpansion?: string
+  DynamicRangeExpansion?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  DynamicRangeOptimizer?: string
+  DynamicRangeOptimizer?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  DynamicRangeOptimizerBracket?: string
+  DynamicRangeOptimizerBracket?: string;
   /** ☆☆☆☆ ✔ Example: 5 */
-  DynamicRangeOptimizerLevel?: number
+  DynamicRangeOptimizerLevel?: number;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  DynamicRangeOptimizerMode?: string
+  DynamicRangeOptimizerMode?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  DynamicRangeOptimizerSetting?: string
+  DynamicRangeOptimizerSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Manual" */
-  DynamicRangeSetting?: string
+  DynamicRangeSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  EasyExposureComp?: string
+  EasyExposureComp?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  EasyExposureCompensation?: string
+  EasyExposureCompensation?: string;
   /** ★★☆☆ ✔ Example: "Unknown (83)" */
-  EasyMode?: string
+  EasyMode?: string;
   /** ☆☆☆☆ ✔ Example: 9.8 */
-  EffectiveLV?: number
+  EffectiveLV?: number;
   /** ☆☆☆☆ ✔ Example: 5.7 */
-  EffectiveMaxAperture?: number
+  EffectiveMaxAperture?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ElectronicFrontCurtainShutter?: string
+  ElectronicFrontCurtainShutter?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  EnergySavingMode?: string
+  EnergySavingMode?: string;
   /** ☆☆☆☆   Example: "Off" */
-  Enhancement?: string
+  Enhancement?: string;
   /** ☆☆☆☆ ✔ Example: 960 */
-  Enhancer?: number
+  Enhancer?: number;
   /** ☆☆☆☆   Example: 480 */
-  EpsonImageHeight?: number
+  EpsonImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 640 */
-  EpsonImageWidth?: number
+  EpsonImageWidth?: number;
   /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
-  EpsonSoftware?: string
+  EpsonSoftware?: string;
   /** ☆☆☆☆ ✔ Example: "0100" */
-  EquipmentVersion?: string
+  EquipmentVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Evaluative" */
-  ETTLII?: string
+  ETTLII?: string;
   /** ☆☆☆☆   Example: 89 */
-  EventNumber?: number
+  EventNumber?: number;
   /** ☆☆☆☆ ✔ Example: "1/3 EV Steps" */
-  EVSteps?: string
+  EVSteps?: string;
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  EVStepSize?: string
+  EVStepSize?: string;
   /** ☆☆☆☆ ✔ Example: "97.5 mm" */
-  ExitPupilPosition?: string
+  ExitPupilPosition?: string;
   /** ☆☆☆☆ ✔ Example: "Not Indicated" */
-  ExposureBracketingIndicatorLast?: string
+  ExposureBracketingIndicatorLast?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureBracketShotNumber?: number
+  ExposureBracketShotNumber?: number;
   /** ☆☆☆☆ ✔ Example: 0.5 */
-  ExposureBracketStepSize?: number
+  ExposureBracketStepSize?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureBracketValue?: number
+  ExposureBracketValue?: number;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  ExposureCompAutoCancel?: string
+  ExposureCompAutoCancel?: string;
   /** ☆☆☆☆ ✔ Example: "Ambient and Flash" */
-  ExposureCompensationMode?: string
+  ExposureCompensationMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureCompensationSet?: number
+  ExposureCompensationSet?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureCompensationSetting?: number
+  ExposureCompensationSetting?: number;
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ExposureCompStepSize?: string
+  ExposureCompStepSize?: string;
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ExposureControlStep?: string
+  ExposureControlStep?: string;
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ExposureControlStepSize?: string
+  ExposureControlStepSize?: string;
   /** ★☆☆☆ ✔ Example: 1 */
-  ExposureCount?: number
+  ExposureCount?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ExposureDelayMode?: string
+  ExposureDelayMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureDifference?: number
+  ExposureDifference?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureIndicator?: number
+  ExposureIndicator?: number;
   /** ☆☆☆☆ ✔ Example: "1/3-stop set, 1/3-stop comp." */
-  ExposureLevelIncrements?: string
+  ExposureLevelIncrements?: string;
   /** ★★★★ ✔ Example: "Unknown (Auto exposure)" */
-  ExposureMode?: string
+  ExposureMode?: string;
   /** ☆☆☆☆ ✔ Example: "Spot metering" */
-  ExposureModeInManual?: string
+  ExposureModeInManual?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureShift?: number
+  ExposureShift?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureStandardAdjustment?: number
+  ExposureStandardAdjustment?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExposureTuning?: number
+  ExposureTuning?: number;
   /** ★☆☆☆ ✔ Example: "Good" */
-  ExposureWarning?: string
+  ExposureWarning?: string;
   /** ☆☆☆☆ ✔ Example: "Manual" */
-  EXRAuto?: string
+  EXRAuto?: string;
   /** ☆☆☆☆ ✔ Example: "HR (High Resolution)" */
-  EXRMode?: string
+  EXRMode?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ExtendedMenuBanks?: string
+  ExtendedMenuBanks?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ExtendedShutterSpeeds?: string
+  ExtendedShutterSpeeds?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ExtendedWBDetect?: string
+  ExtendedWBDetect?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  Extender?: string
+  Extender?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExtenderFirmwareVersion?: number
+  ExtenderFirmwareVersion?: number;
   /** ☆☆☆☆ ✔ Example: "" */
-  ExtenderModel?: string
+  ExtenderModel?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  ExtenderSerialNumber?: string
+  ExtenderSerialNumber?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ExternalFlash?: string
+  ExternalFlash?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ExternalFlashBounce?: string
+  ExternalFlashBounce?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExternalFlashCompensation?: number
+  ExternalFlashCompensation?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExternalFlashExposureComp?: number
+  ExternalFlashExposureComp?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ExternalFlashFirmware?: string
+  ExternalFlashFirmware?: string;
   /** ☆☆☆☆ ✔ Example: "(none)" */
-  ExternalFlashFlags?: string
+  ExternalFlashFlags?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ExternalFlashGuideNumber?: string
+  ExternalFlashGuideNumber?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ExternalFlashGValue?: number
+  ExternalFlashGValue?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  ExternalFlashMode?: number
+  ExternalFlashMode?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ExternalFlashReadyState?: string
+  ExternalFlashReadyState?: string;
   /** ☆☆☆☆ ✔ Example: "Flash Not Attached" */
-  ExternalFlashStatus?: string
+  ExternalFlashStatus?: string;
   /** ☆☆☆☆ ✔ Example: 54 */
-  ExternalFlashZoom?: number
+  ExternalFlashZoom?: number;
   /** ☆☆☆☆ ✔ Example: "No" */
-  ExternalFlashZoomOverride?: string
+  ExternalFlashZoomOverride?: string;
   /** ☆☆☆☆   Example: 9.14 */
-  ExternalSensorBrightnessValue?: number
+  ExternalSensorBrightnessValue?: number;
   /** ☆☆☆☆ ✔ Example: "0.2.0.0" */
-  ExtraInfoVersion?: string
+  ExtraInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  EyeDetection?: string
+  EyeDetection?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  EyeStartAF?: string
+  EyeStartAF?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (II*)" */
-  FaceDetect?: string
+  FaceDetect?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 383 bytes, use -b option to extract)" */
-  FaceDetectArea?: BinaryField | string
+  FaceDetectArea?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "0 26 640 428 0 26 640 428 0 0 0 0" */
-  FaceDetectFrameCrop?: string
+  FaceDetectFrameCrop?: string;
   /** ★☆☆☆ ✔ Example: "720 480" */
-  FaceDetectFrameSize?: string
+  FaceDetectFrameSize?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  FaceDetection?: string
+  FaceDetection?: string;
   /** ☆☆☆☆ ✔ Example: "918 1058 1959 2101" */
-  FaceElementPositions?: string
+  FaceElementPositions?: string;
   /** ☆☆☆☆ ✔ Example: "892 917 2131 2135" */
-  FaceElementSelected?: string
+  FaceElementSelected?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (4096)" */
-  FaceElementTypes?: string
+  FaceElementTypes?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  FaceInfoLength?: number
+  FaceInfoLength?: number;
   /** ☆☆☆☆ ✔ Example: 94 */
-  FaceInfoOffset?: number
+  FaceInfoOffset?: number;
   /** ☆☆☆☆ ✔ Example: "" */
-  FaceName?: string
+  FaceName?: string;
   /** ☆☆☆☆   Example: "67 23" */
-  FacePosition?: string
+  FacePosition?: string;
   /** ☆☆☆☆ ✔ Example: "918 1058 1959 2101" */
-  FacePositions?: string
+  FacePositions?: string;
   /** ★★★☆ ✔ Example: 65535 */
-  FacesDetected?: number
+  FacesDetected?: number;
   /** ☆☆☆☆ ✔ Example: 12336 */
-  FacesRecognized?: number
+  FacesRecognized?: number;
   /** ☆☆☆☆ ✔ Example: 35 */
-  FaceWidth?: number
+  FaceWidth?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  Fade?: number
+  Fade?: number;
   /** ☆☆☆☆ ✔ Example: "Enable; 0; 8; 0" */
-  FEMicroadjustment?: string
+  FEMicroadjustment?: string;
   /** ☆☆☆☆ ✔ Example: "X3F" */
-  FileFormat?: string
+  FileFormat?: string;
   /** ☆☆☆☆ ✔ Example: 9984 */
-  FileIndex?: number
+  FileIndex?: number;
   /** ☆☆☆☆ ✔ Example: "0100" */
-  FileInfoVersion?: string
+  FileInfoVersion?: string;
   /** ★★☆☆ ✔ Example: "986-8698" */
-  FileNumber?: string
+  FileNumber?: string;
   /** ☆☆☆☆   Example: "Unknown (65537)" */
-  FileNumberMemory?: string
+  FileNumberMemory?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  FileNumberSequence?: string
+  FileNumberSequence?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  FillFlashAutoReduction?: string
+  FillFlashAutoReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FilmGrainEffect?: string
+  FilmGrainEffect?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FilmMode?: string
+  FilmMode?: string;
   /** ☆☆☆☆ ✔ Example: "NEGATIVE(MONO) " */
-  FilmType?: string
+  FilmType?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FilterEffect?: string
+  FilterEffect?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FilterEffectAuto?: string
+  FilterEffectAuto?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0x10000)" */
-  FilterEffectMonochrome?: string
+  FilterEffectMonochrome?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  FinderDisplayDuringExposure?: string
+  FinderDisplayDuringExposure?: string;
   /** ☆☆☆☆ ✔ Example: "On; Normal" */
-  FineSharpness?: string
+  FineSharpness?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FineTuneOptCenterWeighted?: number
+  FineTuneOptCenterWeighted?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FineTuneOptHighlightWeighted?: number
+  FineTuneOptHighlightWeighted?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FineTuneOptMatrixMetering?: number
+  FineTuneOptMatrixMetering?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FineTuneOptSpotMetering?: number
+  FineTuneOptSpotMetering?: number;
   /** ☆☆☆☆   Example: "2015:11:09 08:38" */
-  FirmwareDate?: ExifDateTime | string
+  FirmwareDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "NX1_000000" */
-  FirmwareName?: string
+  FirmwareName?: string;
   /** ★☆☆☆ ✔ Example: "Rev01500000" */
-  FirmwareRevision?: string
+  FirmwareRevision?: string;
   /** ★☆☆☆ ✔ Example: "v2.2.16" */
-  FirmwareVersion?: string
+  FirmwareVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FisheyeFilter?: string
+  FisheyeFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Fired" */
-  FlashAction?: string
+  FlashAction?: string;
   /** ☆☆☆☆ ✔ Example: "Did not fire" */
-  FlashActionExternal?: string
+  FlashActionExternal?: string;
   /** ☆☆☆☆ ✔ Example: 255 */
-  FlashActivity?: number
+  FlashActivity?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FlashBatteryLevel?: string
+  FlashBatteryLevel?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashBias?: number
+  FlashBias?: number;
   /** ★★☆☆ ✔ Example: "Manual, External" */
-  FlashBits?: string
+  FlashBits?: string;
   /** ☆☆☆☆ ✔ Example: "Raise built-in flash" */
-  FlashButtonFunction?: string
+  FlashButtonFunction?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashChargeLevel?: number
+  FlashChargeLevel?: number;
   /** ☆☆☆☆ ✔ Example: "None" */
-  FlashColorFilter?: string
+  FlashColorFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashCommanderMode?: string
+  FlashCommanderMode?: string;
   /** ☆☆☆☆ ✔ Example: "Pre-flash TTL" */
-  FlashControl?: string
+  FlashControl?: string;
   /** ☆☆☆☆ ✔ Example: "iTTL-BL" */
-  FlashControlMode?: string
+  FlashControlMode?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FlashCurtain?: string
+  FlashCurtain?: string;
   /** ☆☆☆☆ ✔ Example: "Fill Flash" */
-  FlashDefault?: string
+  FlashDefault?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0 0)" */
-  FlashDevice?: string
+  FlashDevice?: string;
   /** ☆☆☆☆   Example: 53 */
-  FlashDistance?: number
+  FlashDistance?: number;
   /** ☆☆☆☆ ✔ Example: 0.3 */
-  FlashExposureBracketValue?: number
+  FlashExposureBracketValue?: number;
   /** ★★★☆ ✔ Example: 10 */
-  FlashExposureComp?: number
+  FlashExposureComp?: number;
   /** ☆☆☆☆ ✔ Example: "Entire frame" */
-  FlashExposureCompArea?: string
+  FlashExposureCompArea?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashExposureCompSet?: number
+  FlashExposureCompSet?: number;
   /** ☆☆☆☆ ✔ Example: "Not Indicated" */
-  FlashExposureIndicator?: string
+  FlashExposureIndicator?: string;
   /** ☆☆☆☆ ✔ Example: "Not Indicated" */
-  FlashExposureIndicatorLast?: string
+  FlashExposureIndicatorLast?: string;
   /** ☆☆☆☆ ✔ Example: "Not Indicated" */
-  FlashExposureIndicatorNext?: string
+  FlashExposureIndicatorNext?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashExposureLock?: string
+  FlashExposureLock?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  FlashFired?: string
+  FlashFired?: string;
   /** ☆☆☆☆ ✔ Example: "Fires" */
-  FlashFiring?: string
+  FlashFiring?: string;
   /** ☆☆☆☆ ✔ Example: 1.005 */
-  FlashFirmwareVersion?: number
+  FlashFirmwareVersion?: number;
   /** ☆☆☆☆ ✔ Example: "12 mm" */
-  FlashFocalLength?: string
+  FlashFocalLength?: string;
   /** ☆☆☆☆ ✔ Example: "No flash" */
-  FlashFunction?: string
+  FlashFunction?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashGNDistance?: number
+  FlashGNDistance?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashGroupACompensation?: number
+  FlashGroupACompensation?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashGroupAControlMode?: string
+  FlashGroupAControlMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashGroupBCompensation?: number
+  FlashGroupBCompensation?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashGroupBControlMode?: string
+  FlashGroupBControlMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashGroupCCompensation?: number
+  FlashGroupCCompensation?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashGroupCControlMode?: string
+  FlashGroupCControlMode?: string;
   /** ★★☆☆ ✔ Example: 9 */
-  FlashGuideNumber?: number
+  FlashGuideNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  FlashIlluminationPattern?: string
+  FlashIlluminationPattern?: string;
   /** ☆☆☆☆ ✔ Example: "0301" */
-  FlashInfoVersion?: string
+  FlashInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: "n/a (x4)" */
-  FlashIntensity?: string
+  FlashIntensity?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FlashLevel?: string
+  FlashLevel?: string;
   /** ☆☆☆☆ ✔ Example: "TTL" */
-  FlashMasterControlMode?: string
+  FlashMasterControlMode?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (65797)" */
-  FlashMetering?: string
+  FlashMetering?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashMeteringMode?: string
+  FlashMeteringMode?: string;
   /** ☆☆☆☆ ✔ Example: "18.0 18.5 20.0 20.0 20.0 20.0 20.0 20.0 20.0 18.6 18.0 18….2 19.0" */
-  FlashMeteringSegments?: string
+  FlashMeteringSegments?: string;
   /** ★★☆☆ ✔ Example: "Unknown (c2)" */
-  FlashMode?: string
+  FlashMode?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  FlashModel?: string
+  FlashModel?: string;
   /** ☆☆☆☆ ✔ Example: "Red-eye reduction" */
-  FlashOptions?: string
+  FlashOptions?: string;
   /** ★☆☆☆ ✔ Example: 94 */
-  FlashOutput?: number
+  FlashOutput?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashRemoteControl?: string
+  FlashRemoteControl?: string;
   /** ☆☆☆☆ ✔ Example: "01114671" */
-  FlashSerialNumber?: string
+  FlashSerialNumber?: string;
   /** ★☆☆☆ ✔ Example: "Uw-Normal" */
-  FlashSetting?: string
+  FlashSetting?: string;
   /** ☆☆☆☆ ✔ Example: "1/64" */
-  FlashShutterSpeed?: string
+  FlashShutterSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  FlashSource?: string
+  FlashSource?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlashStatus?: string
+  FlashStatus?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  FlashStatusExternal?: string
+  FlashStatusExternal?: string;
   /** ☆☆☆☆   Example: "Front curtain" */
-  FlashSyncMode?: string
+  FlashSyncMode?: string;
   /** ☆☆☆☆ ✔ Example: "1/250 s (auto FP)" */
-  FlashSyncSpeed?: string
+  FlashSyncSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  FlashSyncSpeedAv?: string
+  FlashSyncSpeedAv?: string;
   /** ☆☆☆☆ ✔ Example: 8.5 */
-  FlashThreshold?: number
+  FlashThreshold?: number;
   /** ☆☆☆☆ ✔ Example: "Yes (flash required but disabled)" */
-  FlashWarning?: string
+  FlashWarning?: string;
   /** ☆☆☆☆ ✔ Example: "320 262" */
-  FlexibleSpotPosition?: string
+  FlexibleSpotPosition?: string;
   /** ☆☆☆☆ ✔ Example: "Left to Right" */
-  FlickAdvanceDirection?: string
+  FlickAdvanceDirection?: string;
   /** ☆☆☆☆   Example: "On" */
-  FlickerReduce?: string
+  FlickerReduce?: string;
   /** ☆☆☆☆ ✔ Example: "Off (0x3223)" */
-  FlickerReduction?: string
+  FlickerReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlickerReductionIndicator?: string
+  FlickerReductionIndicator?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FlickerReductionShooting?: string
+  FlickerReductionShooting?: string;
   /** ☆☆☆☆   Example: "1321,81,37" */
-  FlightDegree?: string
+  FlightDegree?: string;
   /** ☆☆☆☆   Example: "9,0,0" */
-  FlightSpeed?: string
+  FlightSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "70.0 mm" */
-  FocalLengthTeleZoom?: string
+  FocalLengthTeleZoom?: string;
   /** ☆☆☆☆ ✔ Example: "640 428" */
-  FocalPlaneAFPointArea?: string
+  FocalPlaneAFPointArea?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  FocalPlaneAFPointsUsed?: number
+  FocalPlaneAFPointsUsed?: number;
   /** ★☆☆☆ ✔ Example: "9.45 mm" */
-  FocalPlaneDiagonal?: string
+  FocalPlaneDiagonal?: string;
   /** ★☆☆☆ ✔ Example: "9.02 mm" */
-  FocalPlaneXSize?: string
+  FocalPlaneXSize?: string;
   /** ★☆☆☆ ✔ Example: "8.10 mm" */
-  FocalPlaneYSize?: string
+  FocalPlaneYSize?: string;
   /** ★☆☆☆ ✔ Example: "Zoom" */
-  FocalType?: string
+  FocalType?: string;
   /** ★★☆☆ ✔ Example: "32/mm" */
-  FocalUnits?: string
+  FocalUnits?: string;
   /** ☆☆☆☆   Example: "Wide Focus (normal)" */
-  FocusArea?: string
+  FocusArea?: string;
   /** ☆☆☆☆ ✔ Example: "No Wrap" */
-  FocusAreaSelection?: string
+  FocusAreaSelection?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FocusBracket?: number
+  FocusBracket?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FocusBracketStepSize?: number
+  FocusBracketStepSize?: number;
   /** ★☆☆☆ ✔ Example: "Single" */
-  FocusContinuous?: string
+  FocusContinuous?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  FocusDisplayAIServoAndMF?: string
+  FocusDisplayAIServoAndMF?: string;
   /** ☆☆☆☆ ✔ Example: "7.68 - 36.90 m" */
-  FocusDistanceRange?: string
+  FocusDistanceRange?: string;
   /** ☆☆☆☆ ✔ Example: "475x476" */
-  FocusFrameSize?: string
+  FocusFrameSize?: string;
   /** ☆☆☆☆ ✔ Example: "Focus Hold" */
-  FocusHoldButton?: string
+  FocusHoldButton?: string;
   /** ☆☆☆☆ ✔ Example: "0100" */
-  FocusInfoVersion?: string
+  FocusInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Eh-A" */
-  FocusingScreen?: string
+  FocusingScreen?: string;
   /** ☆☆☆☆ ✔ Example: "9504 6336 6029 2587" */
-  FocusLocation?: string
+  FocusLocation?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  FocusLocked?: string
+  FocusLocked?: string;
   /** ★★★☆ ✔ Example: "Unknown (860272)" */
-  FocusMode?: string
+  FocusMode?: string;
   /** ☆☆☆☆ ✔ Example: "Manual" */
-  FocusModeSetting?: string
+  FocusModeSetting?: string;
   /** ☆☆☆☆ ✔ Example: "AF" */
-  FocusModeSwitch?: string
+  FocusModeSwitch?: string;
   /** ☆☆☆☆ ✔ Example: "Red" */
-  FocusPeakingHighlightColor?: string
+  FocusPeakingHighlightColor?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FocusPeakingLevel?: string
+  FocusPeakingLevel?: string;
   /** ★☆☆☆ ✔ Example: "972 1296" */
-  FocusPixel?: string
+  FocusPixel?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  FocusPointPersistence?: string
+  FocusPointPersistence?: string;
   /** ☆☆☆☆   Example: "Normal" */
-  FocusPointSelectionSpeed?: string
+  FocusPointSelectionSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "Wrap" */
-  FocusPointWrap?: string
+  FocusPointWrap?: string;
   /** ☆☆☆☆ ✔ Example: 999 */
-  FocusPosition?: number
+  FocusPosition?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FocusPositionHorizontal?: string
+  FocusPositionHorizontal?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  FocusPositionVertical?: string
+  FocusPositionVertical?: string;
   /** ☆☆☆☆ ✔ Example: "AF Used; 96" */
-  FocusProcess?: string
+  FocusProcess?: string;
   /** ★★☆☆ ✔ Example: "Unknown (2)" */
-  FocusRange?: string
+  FocusRange?: string;
   /** ☆☆☆☆ ✔ Example: 5 */
-  FocusRangeIndex?: number
+  FocusRangeIndex?: number;
   /** ☆☆☆☆ ✔ Example: "Focus" */
-  FocusResult?: string
+  FocusResult?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  FocusRingRotation?: string
+  FocusRingRotation?: string;
   /** ☆☆☆☆   Example: "M" */
-  FocusSetting?: string
+  FocusSetting?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  FocusShiftExposureLock?: string
+  FocusShiftExposureLock?: string;
   /** ☆☆☆☆ ✔ Example: "3 Seconds" */
-  FocusShiftInterval?: string
+  FocusShiftInterval?: string;
   /** ☆☆☆☆ ✔ Example: 5 */
-  FocusShiftNumberShots?: number
+  FocusShiftNumberShots?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FocusShiftShooting?: string
+  FocusShiftShooting?: string;
   /** ☆☆☆☆ ✔ Example: 5 */
-  FocusShiftStepWidth?: number
+  FocusShiftStepWidth?: number;
   /** ☆☆☆☆ ✔ Example: "Not confirmed, Tracking" */
-  FocusStatus?: string
+  FocusStatus?: string;
   /** ☆☆☆☆ ✔ Example: 9713 */
-  FocusStepInfinity?: number
+  FocusStepInfinity?: number;
   /** ☆☆☆☆ ✔ Example: 9804 */
-  FocusStepNear?: number
+  FocusStepNear?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FocusTrackingLockOn?: string
+  FocusTrackingLockOn?: string;
   /** ★☆☆☆ ✔ Example: "Out of focus" */
-  FocusWarning?: string
+  FocusWarning?: string;
   /** ☆☆☆☆   Example: "Standard Form" */
-  FolderName?: string
+  FolderName?: string;
   /** ☆☆☆☆ ✔ Example: 373 */
-  FolderNumber?: number
+  FolderNumber?: number;
   /** ☆☆☆☆ ✔ Example: 849 */
-  FrameNumber?: number
+  FrameNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  FramingGridDisplay?: string
+  FramingGridDisplay?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 12 bytes, use -b option to extract)" */
-  FreeBytes?: BinaryField | string
+  FreeBytes?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 805 */
-  FreeMemoryCardImages?: number
+  FreeMemoryCardImages?: number;
   /** ★☆☆☆ ✔ Example: "Red-eye reduction" */
-  FujiFlashMode?: string
+  FujiFlashMode?: string;
   /** ☆☆☆☆ ✔ Example: "X100V_0100" */
-  FujiModel?: string
+  FujiModel?: string;
   /** ☆☆☆☆ ✔ Example: "9504x6336" */
-  FullImageSize?: string
+  FullImageSize?: string;
   /** ☆☆☆☆   Example: "Off" */
-  FullPressSnap?: string
+  FullPressSnap?: string;
   /** ☆☆☆☆ ✔ Example: "Zoom (High)" */
-  Func1Button?: string
+  Func1Button?: string;
   /** ☆☆☆☆ ✔ Example: "Choose Image Area (DX/1.3x)" */
-  Func1ButtonPlusDials?: string
+  Func1ButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "Virtual Horizon" */
-  Func2Button?: string
+  Func2Button?: string;
   /** ☆☆☆☆   Example: "Voice Memo" */
-  Func3Button?: string
+  Func3Button?: string;
   /** ☆☆☆☆ ✔ Example: "Virtual Horizon" */
-  FuncButton?: string
+  FuncButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  FuncButtonPlusDials?: string
+  FuncButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "ISO Display" */
-  FunctionButton?: string
+  FunctionButton?: string;
   /** ☆☆☆☆ ✔ Example: 256 */
-  GainBase?: number
+  GainBase?: number;
   /** ☆☆☆☆   Example: "4320x3240" */
-  GEImageSize?: string
+  GEImageSize?: string;
   /** ☆☆☆☆   Example: "GEDSC DIGITAL CAMERA           " */
-  GEMake?: string
+  GEMake?: string;
   /** ☆☆☆☆   Example: "J1470S" */
-  GEModel?: string
+  GEModel?: string;
   /** ☆☆☆☆   Example: "1279,-900,0" */
-  GimbalDegree?: string
+  GimbalDegree?: string;
   /** ☆☆☆☆ ✔ Example: "n/a; User-Selected" */
-  Gradation?: string
+  Gradation?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  GrainEffectRoughness?: string
+  GrainEffectRoughness?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  GrainEffectSize?: string
+  GrainEffectSize?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  GrainyBWFilter?: string
+  GrainyBWFilter?: string;
   /** ☆☆☆☆   Example: "2E" */
-  GreenGain?: string
+  GreenGain?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  GridDisplay?: string
+  GridDisplay?: string;
   /** ☆☆☆☆ ✔ Example: 157 */
-  GripBatteryADLoad?: number
+  GripBatteryADLoad?: number;
   /** ☆☆☆☆ ✔ Example: 5 */
-  GripBatteryADNoLoad?: number
+  GripBatteryADNoLoad?: number;
   /** ☆☆☆☆ ✔ Example: "Empty or Missing" */
-  GripBatteryState?: string
+  GripBatteryState?: string;
   /** ☆☆☆☆ ✔ Example: "Squares" */
-  GroupAreaAFIllumination?: string
+  GroupAreaAFIllumination?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (5)" */
-  HDMIBitDepth?: string
+  HDMIBitDepth?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  HDMIExternalRecorder?: string
+  HDMIExternalRecorder?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  HDMIOutputRange?: string
+  HDMIOutputRange?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  HDMIOutputResolution?: string
+  HDMIOutputResolution?: string;
   /** ★☆☆☆ ✔ Example: "On (normal)" */
-  HDR?: string
+  HDR?: string;
   /** ☆☆☆☆ ✔ Example: "Natural" */
-  HDREffect?: string
+  HDREffect?: string;
   /** ☆☆☆☆ ✔ Example: 1.7904162 */
-  HDRGain?: number
+  HDRGain?: number;
   /** ☆☆☆☆ ✔ Example: 1.568873 */
-  HDRHeadroom?: number
+  HDRHeadroom?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
-  HDRImageType?: string
+  HDRImageType?: string;
   /** ☆☆☆☆ ✔ Example: "0200" */
-  HDRInfoVersion?: string
+  HDRInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  HDRLevel?: string
+  HDRLevel?: string;
   /** ☆☆☆☆ ✔ Example: "On (Manual)" */
-  HDRSetting?: string
+  HDRSetting?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  HDRSmoothing?: string
+  HDRSmoothing?: string;
   /** ☆☆☆☆   Example: 53248 */
-  HiddenDataLength?: number
+  HiddenDataLength?: number;
   /** ☆☆☆☆   Example: 7995392 */
-  HiddenDataOffset?: number
+  HiddenDataOffset?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  HighFrameRate?: string
+  HighFrameRate?: string;
   /** ★☆☆☆ ✔ Example: "n/a" */
-  HighISONoiseReduction?: string
+  HighISONoiseReduction?: string;
   /** ☆☆☆☆   Example: 0.1 */
-  Highlight?: number
+  Highlight?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  Highlights?: number
+  Highlights?: number;
   /** ☆☆☆☆ ✔ Example: "0 0" */
-  HighlightShadow?: string
+  HighlightShadow?: string;
   /** ☆☆☆☆ ✔ Example: "0 (normal)" */
-  HighlightTone?: string
+  HighlightTone?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  HighlightTonePriority?: string
+  HighlightTonePriority?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  HighlightWarning?: string
+  HighlightWarning?: string;
   /** ☆☆☆☆   Example: 4 */
-  HighLowKeyAdj?: number
+  HighLowKeyAdj?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  HighSpeedSync?: string
+  HighSpeedSync?: string;
   /** ☆☆☆☆   Example: "disable, " */
-  Histogram?: string
+  Histogram?: string;
   /** ☆☆☆☆ ✔ Example: "ndon" */
-  HometownCity?: string
+  HometownCity?: string;
   /** ☆☆☆☆   Example: "NYC " */
-  HometownCityCode?: string
+  HometownCityCode?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  HometownDST?: string
+  HometownDST?: string;
   /** ☆☆☆☆   Example: 2 */
-  HostSoftwareExportVersion?: number
+  HostSoftwareExportVersion?: number;
   /** ☆☆☆☆   Example: "Unknown (4 4)" */
-  HostSoftwareRendering?: string
+  HostSoftwareRendering?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  Hue?: string
+  Hue?: string;
   /** ☆☆☆☆   Example: "Off" */
-  HueAdjust?: string
+  HueAdjust?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  HueAdjustment?: string
+  HueAdjustment?: string;
   /** ☆☆☆☆   Example: "(Binary data 8 bytes, use -b option to extract)" */
-  HyperlapsDebugInfo?: BinaryField | string
+  HyperlapsDebugInfo?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  Illumination?: string
+  Illumination?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  ImageAdjustment?: string
+  ImageAdjustment?: string;
   /** ☆☆☆☆ ✔ Example: "FX (36x24)" */
-  ImageArea?: string
+  ImageArea?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ImageAuthentication?: string
+  ImageAuthentication?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 8256 5504" */
-  ImageBoundary?: string
+  ImageBoundary?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (5)" */
-  ImageCaptureType?: string
+  ImageCaptureType?: string;
   /** ☆☆☆☆ ✔ Example: 994 */
-  ImageCount?: number
+  ImageCount?: number;
   /** ☆☆☆☆ ✔ Example: 9927271 */
-  ImageDataSize?: number
+  ImageDataSize?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  ImageEditCount?: number
+  ImageEditCount?: number;
   /** ☆☆☆☆ ✔ Example: "Red-eye Correction" */
-  ImageEditing?: string
+  ImageEditing?: string;
   /** ☆☆☆☆   Example: "Standard" */
-  ImageEffects?: string
+  ImageEffects?: string;
   /** ☆☆☆☆ ✔ Example: "Re-developed from RAW" */
-  ImageGeneration?: string
+  ImageGeneration?: string;
   /** ☆☆☆☆   Example: 912 */
-  ImageIDNumber?: number
+  ImageIDNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  ImageOptimization?: string
+  ImageOptimization?: string;
   /** ☆☆☆☆ ✔ Example: "Red Eye Ruduction ;" */
-  ImageProcessing?: string
+  ImageProcessing?: string;
   /** ☆☆☆☆ ✔ Example: "0112" */
-  ImageProcessingVersion?: string
+  ImageProcessingVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Very High" */
-  ImageQuality?: string
+  ImageQuality?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ImageReview?: string
+  ImageReview?: string;
   /** ☆☆☆☆ ✔ Example: "4 s" */
-  ImageReviewMonitorOffTime?: string
+  ImageReviewMonitorOffTime?: string;
   /** ☆☆☆☆ ✔ Example: "4 s" */
-  ImageReviewTime?: string
+  ImageReviewTime?: string;
   /** ☆☆☆☆   Example: "No" */
-  ImageRotated?: string
+  ImageRotated?: string;
   /** ☆☆☆☆ ✔ Example: "Small" */
-  ImageSizeRAW?: string
+  ImageSizeRAW?: string;
   /** ★★★☆ ✔ Example: "n/a" */
-  ImageStabilization?: string
+  ImageStabilization?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ImageStabilizationSetting?: string
+  ImageStabilizationSetting?: string;
   /** ☆☆☆☆ ✔ Example: "StyleBox2" */
-  ImageStyle?: string
+  ImageStyle?: string;
   /** ☆☆☆☆   Example: 94 */
-  ImageTemperatureMax?: number
+  ImageTemperatureMax?: number;
   /** ☆☆☆☆   Example: 86 */
-  ImageTemperatureMin?: number
+  ImageTemperatureMin?: number;
   /** ☆☆☆☆ ✔ Example: "Vibrant" */
-  ImageTone?: string
+  ImageTone?: string;
   /** ★☆☆☆ ✔ Example: "fefafc6093e2c1470ac8dfa06ef26990" */
-  ImageUniqueID?: string
+  ImageUniqueID?: string;
   /** ☆☆☆☆ ✔ Example: "Displays shooting functions" */
-  InfoButtonWhenShooting?: string
+  InfoButtonWhenShooting?: string;
   /** ☆☆☆☆   Example: "On" */
-  InfraredIlluminator?: string
+  InfraredIlluminator?: string;
   /** ☆☆☆☆ ✔ Example: "Manual AF point" */
-  InitialAFPointAIServoAF?: string
+  InitialAFPointAIServoAF?: string;
   /** ☆☆☆☆ ✔ Example: "Initial AF Point Selected" */
-  InitialAFPointInServo?: string
+  InitialAFPointInServo?: string;
   /** ☆☆☆☆ ✔ Example: "Low Magnification" */
-  InitialZoomLiveView?: string
+  InitialZoomLiveView?: string;
   /** ☆☆☆☆ ✔ Example: "Medium Magnification" */
-  InitialZoomSetting?: string
+  InitialZoomSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Image Only" */
-  InstantPlaybackSetup?: string
+  InstantPlaybackSetup?: string;
   /** ☆☆☆☆ ✔ Example: "5 s" */
-  InstantPlaybackTime?: string
+  InstantPlaybackTime?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  IntelligentAuto?: string
+  IntelligentAuto?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  IntelligentContrast?: string
+  IntelligentContrast?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  IntelligentExposure?: string
+  IntelligentExposure?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  IntelligentResolution?: string
+  IntelligentResolution?: string;
   /** ☆☆☆☆ ✔ Example: "TTL" */
-  InternalFlash?: string
+  InternalFlash?: string;
   /** ☆☆☆☆ ✔ Example: "Did not fire, Red-eye reduction" */
-  InternalFlashMode?: string
+  InternalFlashMode?: string;
   /** ☆☆☆☆ ✔ Example: 63 */
-  InternalFlashStrength?: number
+  InternalFlashStrength?: number;
   /** ☆☆☆☆ ✔ Example: 95 */
-  InternalFlashTable?: number
+  InternalFlashTable?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  InternalNDFilter?: number
+  InternalNDFilter?: number;
   /** ★★☆☆ ✔ Example: "fdfec409" */
-  InternalSerialNumber?: string
+  InternalSerialNumber?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  IntervalDurationHours?: number
+  IntervalDurationHours?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  IntervalDurationMinutes?: number
+  IntervalDurationMinutes?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  IntervalDurationSeconds?: number
+  IntervalDurationSeconds?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  IntervalExposureSmoothing?: string
+  IntervalExposureSmoothing?: string;
   /** ☆☆☆☆   Example: 65542 */
-  IntervalLength?: number
+  IntervalLength?: number;
   /** ☆☆☆☆   Example: "Still Image" */
-  IntervalMode?: string
+  IntervalMode?: string;
   /** ☆☆☆☆   Example: 65797 */
-  IntervalNumber?: number
+  IntervalNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  IntervalPriority?: string
+  IntervalPriority?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  Intervals?: number
+  Intervals?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  IntervalShooting?: string
+  IntervalShooting?: string;
   /** ☆☆☆☆ ✔ Example: 800 */
-  ISO2?: number
+  ISO2?: number;
   /** ☆☆☆☆   Example: "On" */
-  ISOAuto?: string
+  ISOAuto?: string;
   /** ☆☆☆☆ ✔ Example: "Same As Without Flash" */
-  ISOAutoFlashLimit?: string
+  ISOAutoFlashLimit?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0x6)" */
-  ISOAutoHiLimit?: string
+  ISOAutoHiLimit?: string;
   /** ☆☆☆☆ ✔ Example: 800 */
-  ISOAutoMax?: number
+  ISOAutoMax?: number;
   /** ☆☆☆☆ ✔ Example: 80 */
-  ISOAutoMin?: number
+  ISOAutoMin?: number;
   /** ☆☆☆☆   Example: "Shutter Speed Control; 1/32" */
-  ISOAutoMinSpeed?: string
+  ISOAutoMinSpeed?: string;
   /** ☆☆☆☆ ✔ Example: "Auto (Faster)" */
-  ISOAutoShutterTime?: string
+  ISOAutoShutterTime?: string;
   /** ☆☆☆☆ ✔ Example: "Show Frame Count" */
-  ISODisplay?: string
+  ISODisplay?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ISOExpansion?: string
+  ISOExpansion?: string;
   /** ☆☆☆☆ ✔ Example: 800 */
-  ISOFloor?: number
+  ISOFloor?: number;
   /** ☆☆☆☆   Example: "Auto" */
-  ISOSelected?: string
+  ISOSelected?: string;
   /** ☆☆☆☆ ✔ Example: "Manual" */
-  ISOSelection?: string
+  ISOSelection?: string;
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ISOSensitivityStep?: string
+  ISOSensitivityStep?: string;
   /** ☆☆☆☆ ✔ Example: 90 */
-  ISOSetting?: number
+  ISOSetting?: number;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  ISOSpeedExpansion?: string
+  ISOSpeedExpansion?: string;
   /** ☆☆☆☆ ✔ Example: "1/3 Stop" */
-  ISOSpeedIncrements?: string
+  ISOSpeedIncrements?: string;
   /** ☆☆☆☆ ✔ Example: "Enable; Max 3200; Min 1" */
-  ISOSpeedRange?: string
+  ISOSpeedRange?: string;
   /** ☆☆☆☆ ✔ Example: "1/3 EV" */
-  ISOStepSize?: string
+  ISOStepSize?: string;
   /** ☆☆☆☆ ✔ Example: 79.44 */
-  ISOValue?: number
+  ISOValue?: number;
   /** ☆☆☆☆ ✔ Example: "n/a (Movie)" */
-  JPEGQuality?: string
+  JPEGQuality?: string;
   /** ☆☆☆☆ ✔ Example: "Size Priority" */
-  JPGCompression?: string
+  JPGCompression?: string;
   /** ☆☆☆☆ ✔ Example: "10 MP" */
-  JpgRecordedPixels?: string
+  JpgRecordedPixels?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  KeepExposure?: string
+  KeepExposure?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  KeystoneCompensation?: string
+  KeystoneCompensation?: string;
   /** ☆☆☆☆ ✔ Example: "Vertical" */
-  KeystoneDirection?: string
+  KeystoneDirection?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  KeystoneValue?: string
+  KeystoneValue?: string;
   /** ☆☆☆☆   Example: 864 */
-  KodakImageHeight?: number
+  KodakImageHeight?: number;
   /** ☆☆☆☆   Example: 800 */
-  KodakImageWidth?: number
+  KodakImageWidth?: number;
   /** ☆☆☆☆   Example: "SKodakCommonInfo Jaguar7" */
-  KodakInfoType?: string
+  KodakInfoType?: string;
   /** ☆☆☆☆   Example: "Kodak                           " */
-  KodakMake?: string
+  KodakMake?: string;
   /** ☆☆☆☆   Example: "PENTAX" */
-  KodakMaker?: string
+  KodakMaker?: string;
   /** ☆☆☆☆   Example: "Z760    " */
-  KodakModel?: string
+  KodakModel?: string;
   /** ☆☆☆☆   Example: "1.0.0.0" */
-  KodakVersion?: string
+  KodakVersion?: string;
   /** ☆☆☆☆ ✔ Example: "English" */
-  Language?: string
+  Language?: string;
   /** ☆☆☆☆   Example: 92 */
-  LastFileNumber?: number
+  LastFileNumber?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  LateralChromaticAberration?: string
+  LateralChromaticAberration?: string;
   /** ☆☆☆☆ ✔ Example: "Retain power off status" */
-  LCDDisplayAtPowerOn?: string
+  LCDDisplayAtPowerOn?: string;
   /** ☆☆☆☆ ✔ Example: "With Shutter Button only" */
-  LCDDisplayReturnToShoot?: string
+  LCDDisplayReturnToShoot?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  LCDIllumination?: string
+  LCDIllumination?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  LCDIlluminationDuringBulb?: string
+  LCDIlluminationDuringBulb?: string;
   /** ☆☆☆☆ ✔ Example: "Remain. shots/File no." */
-  LCDPanels?: string
+  LCDPanels?: string;
   /** ☆☆☆☆   Example: "4.0 to 22" */
-  LensApertureRange?: string
+  LensApertureRange?: string;
   /** ☆☆☆☆ ✔ Example: "None (Disabled)" */
-  LensControlRing?: string
+  LensControlRing?: string;
   /** ☆☆☆☆ ✔ Example: "0802" */
-  LensDataVersion?: string
+  LensDataVersion?: string;
   /** ☆☆☆☆ ✔ Example: "97 154 172 70 104 114" */
-  LensDistortionParams?: string
+  LensDistortionParams?: string;
   /** ☆☆☆☆ ✔ Example: "Focus search on" */
-  LensDriveNoAF?: string
+  LensDriveNoAF?: string;
   /** ☆☆☆☆ ✔ Example: "Continue Focus Search" */
-  LensDriveWhenAFImpossible?: string
+  LensDriveWhenAFImpossible?: string;
   /** ☆☆☆☆   Example: "RL8 :V01390000 " */
-  LensFirmware?: string
+  LensFirmware?: string;
   /** ☆☆☆☆ ✔ Example: "Ver.04.000" */
-  LensFirmwareVersion?: string
+  LensFirmwareVersion?: string;
   /** ☆☆☆☆ ✔ Example: "70.0 mm" */
-  LensFocalLength?: string
+  LensFocalLength?: string;
   /** ☆☆☆☆   Example: "50 to 50" */
-  LensFocalRange?: string
+  LensFocalRange?: string;
   /** ☆☆☆☆ ✔ Example: "AF Lock Only" */
-  LensFocusFunctionButtons?: string
+  LensFocusFunctionButtons?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (72)" */
-  LensFormat?: string
+  LensFormat?: string;
   /** ☆☆☆☆ ✔ Example: 8.67 */
-  LensFStops?: number
+  LensFStops?: number;
   /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
-  LensFunc1Button?: string
+  LensFunc1Button?: string;
   /** ☆☆☆☆ ✔ Example: "AF-On" */
-  LensFunc2Button?: string
+  LensFunc2Button?: string;
   /** ☆☆☆☆ ✔ Example: 93 */
-  LensIDNumber?: number
+  LensIDNumber?: number;
   /** ☆☆☆☆   Example: "4 to 4" */
-  LensMaxApertureRange?: string
+  LensMaxApertureRange?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  LensModulationOptimizer?: string
+  LensModulationOptimizer?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (74)" */
-  LensMount?: string
+  LensMount?: string;
   /** ☆☆☆☆ ✔ Example: "Z-mount" */
-  LensMountType?: string
+  LensMountType?: string;
   /** ☆☆☆☆ ✔ Example: 91 */
-  LensPositionAbsolute?: number
+  LensPositionAbsolute?: number;
   /** ☆☆☆☆ ✔ Example: "0xe253" */
-  LensProperties?: string
+  LensProperties?: string;
   /** ☆☆☆☆   Example: "Xcenter=1456 Ycenter=1068  GainMax=16" */
-  LensShading?: string
+  LensShading?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  LensShutterLock?: string
+  LensShutterLock?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (00 0 0 0 0 00)" */
-  LensSpec?: string
+  LensSpec?: string;
   /** ☆☆☆☆ ✔ Example: "ZA SSM II" */
-  LensSpecFeatures?: string
+  LensSpecFeatures?: string;
   /** ☆☆☆☆ ✔ Example: 35 */
-  LensTemperature?: number
+  LensTemperature?: number;
   /** ★★☆☆ ✔ Example: "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" */
-  LensType?: string
+  LensType?: string;
   /** ☆☆☆☆   Example:  */
-  LensType2?: string
+  LensType2?: string;
   /** ☆☆☆☆   Example:  */
-  LensType3?: string
+  LensType3?: string;
   /** ☆☆☆☆ ✔ Example: 2 */
-  LensTypeMake?: number
+  LensTypeMake?: number;
   /** ☆☆☆☆ ✔ Example: "41 10" */
-  LensTypeModel?: string
+  LensTypeModel?: string;
   /** ☆☆☆☆ ✔ Example: "98%" */
-  LensZoomPosition?: string
+  LensZoomPosition?: string;
   /** ☆☆☆☆   Example: 250 */
-  LevelIndicator?: number
+  LevelIndicator?: number;
   /** ☆☆☆☆   Example: "n/a" */
-  LevelOrientation?: string
+  LevelOrientation?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  LightCondition?: number
+  LightCondition?: number;
   /** ☆☆☆☆   Example: "Shadow Enhance Low" */
-  LightingMode?: string
+  LightingMode?: string;
   /** ☆☆☆☆   Example: 8 */
-  LightReading?: number
+  LightReading?: number;
   /** ☆☆☆☆   Example: "Unknown (512)" */
-  LightSourceSpecial?: string
+  LightSourceSpecial?: string;
   /** ☆☆☆☆ ✔ Example: "LCD Backlight and Shooting Information" */
-  LightSwitch?: string
+  LightSwitch?: string;
   /** ☆☆☆☆ ✔ Example: 8.546875 */
-  LightValueCenter?: number
+  LightValueCenter?: number;
   /** ☆☆☆☆ ✔ Example: 7.796875 */
-  LightValuePeriphery?: number
+  LightValuePeriphery?: number;
   /** ☆☆☆☆ ✔ Example: "No Restrictions" */
-  LimitAFAreaModeSelection?: string
+  LimitAFAreaModeSelection?: string;
   /** ☆☆☆☆ ✔ Example: 12735 */
-  LinearityUpperMargin?: number
+  LinearityUpperMargin?: number;
   /** ☆☆☆☆   Example: "Off" */
-  LinkAEToAFPoint?: string
+  LinkAEToAFPoint?: string;
   /** ☆☆☆☆ ✔ Example: 8595224600 */
-  LivePhotoVideoIndex?: number
+  LivePhotoVideoIndex?: number;
   /** ☆☆☆☆   Example: "On" */
-  LiveView?: string
+  LiveView?: string;
   /** ☆☆☆☆ ✔ Example: "Wide Area" */
-  LiveViewAF?: string
+  LiveViewAF?: string;
   /** ☆☆☆☆ ✔ Example: "Face-Priority" */
-  LiveViewAFAreaMode?: string
+  LiveViewAFAreaMode?: string;
   /** ☆☆☆☆ ✔ Example: "Phase-detect AF" */
-  LiveViewAFMethod?: string
+  LiveViewAFMethod?: string;
   /** ☆☆☆☆ ✔ Example: "AF-C" */
-  LiveViewAFMode?: string
+  LiveViewAFMode?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  LiveViewButtonOptions?: string
+  LiveViewButtonOptions?: string;
   /** ☆☆☆☆ ✔ Example: "Enable (simulates exposure)" */
-  LiveViewExposureSimulation?: string
+  LiveViewExposureSimulation?: string;
   /** ☆☆☆☆ ✔ Example: "Manual" */
-  LiveViewFocusMode?: string
+  LiveViewFocusMode?: string;
   /** ☆☆☆☆ ✔ Example: "40 Segment" */
-  LiveViewMetering?: string
+  LiveViewMetering?: string;
   /** ☆☆☆☆ ✔ Example: "3 min" */
-  LiveViewMonitorOffTime?: string
+  LiveViewMonitorOffTime?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  LiveViewShooting?: string
+  LiveViewShooting?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  LocalLocationName?: string
+  LocalLocationName?: string;
   /** ☆☆☆☆ ✔ Example: ":99:99 00:00:00" */
-  Location?: string
+  Location?: string;
   /** ☆☆☆☆ ✔ Example: "0100" */
-  LocationInfoVersion?: string
+  LocationInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  LocationName?: string
+  LocationName?: string;
   /** ☆☆☆☆ ✔ Example: "Protect (hold:record memo); 31" */
-  LockMicrophoneButton?: string
+  LockMicrophoneButton?: string;
   /** ★☆☆☆ ✔ Example: "n/a" */
-  LongExposureNoiseReduction?: string
+  LongExposureNoiseReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  LongExposureNRUsed?: string
+  LongExposureNRUsed?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  LowLightAF?: string
+  LowLightAF?: string;
   /** ☆☆☆☆ ✔ Example: 0.014752804 */
-  LuminanceNoiseAmplitude?: number
+  LuminanceNoiseAmplitude?: number;
   /** ☆☆☆☆   Example: "+0.500" */
-  LuminanceNoiseReduction?: string
+  LuminanceNoiseReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Masked" */
-  LVShootingAreaDisplay?: string
+  LVShootingAreaDisplay?: string;
   /** ☆☆☆☆   Example: 0 */
-  M16CVersion?: number
+  M16CVersion?: number;
   /** ★★☆☆ ✔ Example: "Unknown (3)" */
-  Macro?: string
+  Macro?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MacroLED?: string
+  MacroLED?: string;
   /** ★★☆☆ ✔ Example: "Unknown (852023)" */
-  MacroMode?: string
+  MacroMode?: string;
   /** ☆☆☆☆ ✔ Example: "Soft Focus 2; 1280; 0; 0" */
-  MagicFilter?: string
+  MagicFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Image playback only" */
-  MagnifiedView?: string
+  MagnifiedView?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MainDialExposureComp?: string
+  MainDialExposureComp?: string;
   /** ☆☆☆☆   Example: 916 */
-  MakerNoteOffset?: number
+  MakerNoteOffset?: number;
   /** ☆☆☆☆   Example: "Rdc" */
-  MakerNoteType?: string
+  MakerNoteType?: string;
   /** ★★☆☆ ✔ Example: "mlt0" */
-  MakerNoteVersion?: string
+  MakerNoteVersion?: string;
   /** ☆☆☆☆ ✔ Example: "98 kPa" */
-  ManometerPressure?: string
+  ManometerPressure?: string;
   /** ☆☆☆☆ ✔ Example: "400 m, 1320 ft" */
-  ManometerReading?: string
+  ManometerReading?: string;
   /** ☆☆☆☆ ✔ Example: "Stops at AF area edges" */
-  ManualAFPointSelectPattern?: string
+  ManualAFPointSelectPattern?: string;
   /** ☆☆☆☆ ✔ Example: "Stops at AF Area Edges" */
-  ManualAFPointSelPattern?: string
+  ManualAFPointSelPattern?: string;
   /** ☆☆☆☆ ✔ Example: "On (1/64 strength)" */
-  ManualFlash?: string
+  ManualFlash?: string;
   /** ★★☆☆ ✔ Example: "n/a" */
-  ManualFlashOutput?: string
+  ManualFlashOutput?: string;
   /** ☆☆☆☆ ✔ Example: "n/a (x4)" */
-  ManualFlashStrength?: string
+  ManualFlashStrength?: string;
   /** ☆☆☆☆ ✔ Example: "inf" */
-  ManualFocusDistance?: string
+  ManualFocusDistance?: string;
   /** ☆☆☆☆ ✔ Example: "On During Focus Point Selection Only" */
-  ManualFocusPointIllumination?: string
+  ManualFocusPointIllumination?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ManualFocusRingInAFMode?: string
+  ManualFocusRingInAFMode?: string;
   /** ☆☆☆☆ ✔ Example: "Tv=Main/Av=Control" */
-  ManualTv?: string
+  ManualTv?: string;
   /** ☆☆☆☆ ✔ Example: "2021:03:17" */
-  ManufactureDate?: ExifDate | string
+  ManufactureDate?: ExifDate | string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  MasterGain?: number
+  MasterGain?: number;
   /** ☆☆☆☆ ✔ Example: "Face Detection On" */
-  MatrixMetering?: string
+  MatrixMetering?: string;
   /** ★★☆☆ ✔ Example: 7.3 */
-  MaxAperture?: number
+  MaxAperture?: number;
   /** ☆☆☆☆ ✔ Example: 6.7 */
-  MaxApertureAtMaxFocal?: number
+  MaxApertureAtMaxFocal?: number;
   /** ☆☆☆☆ ✔ Example: 5.7 */
-  MaxApertureAtMinFocal?: number
+  MaxApertureAtMinFocal?: number;
   /** ☆☆☆☆ ✔ Example: 200 */
-  MaxContinuousRelease?: number
+  MaxContinuousRelease?: number;
   /** ☆☆☆☆ ✔ Example: "8 8 8" */
-  MaxFaces?: string
+  MaxFaces?: string;
   /** ★★☆☆ ✔ Example: "96.2 mm" */
-  MaxFocalLength?: string
+  MaxFocalLength?: string;
   /** ☆☆☆☆ ✔ Example: "Bulgaria (284)" */
-  MCCData?: string
+  MCCData?: string;
   /** ☆☆☆☆ ✔ Example: 99 */
-  MCUVersion?: number
+  MCUVersion?: number;
   /** ★★☆☆ ✔ Example: 9.97 */
-  MeasuredEV?: number
+  MeasuredEV?: number;
   /** ☆☆☆☆ ✔ Example: 9.375 */
-  MeasuredLV?: number
+  MeasuredLV?: number;
   /** ☆☆☆☆ ✔ Example: "988 1024 1024 636" */
-  MeasuredRGGB?: string
+  MeasuredRGGB?: string;
   /** ☆☆☆☆ ✔ Example: "6653 9252 9606 4468" */
-  MeasuredRGGBData?: string
+  MeasuredRGGBData?: string;
   /** ☆☆☆☆ ✔ Example: 7 */
-  MechanicalShutterCount?: number
+  MechanicalShutterCount?: number;
   /** ☆☆☆☆ ✔ Example: "High (48 kHz)" */
-  MemoAudioQuality?: string
+  MemoAudioQuality?: string;
   /** ☆☆☆☆ ✔ Example: "SD card in use, MemoryStick slot empty" */
-  MemoryCardConfiguration?: string
+  MemoryCardConfiguration?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  MemoryCardNumber?: number
+  MemoryCardNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Previous (top if power off)" */
-  MenuButtonDisplayPosition?: string
+  MenuButtonDisplayPosition?: string;
   /** ☆☆☆☆ ✔ Example: "Top" */
-  MenuButtonReturn?: string
+  MenuButtonReturn?: string;
   /** ☆☆☆☆ ✔ Example: "20 s" */
-  MenuMonitorOffTime?: string
+  MenuMonitorOffTime?: string;
   /** ☆☆☆☆ ✔ Example: 5 */
-  MergedImages?: number
+  MergedImages?: number;
   /** ☆☆☆☆ ✔ Example: "THm211000000000" */
-  MetaVersion?: string
+  MetaVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Matrix" */
-  Metering?: string
+  Metering?: string;
   /** ☆☆☆☆ ✔ Example: "Within Range" */
-  MeteringOffScaleIndicator?: string
+  MeteringOffScaleIndicator?: string;
   /** ☆☆☆☆ ✔ Example: "8 s" */
-  MeteringTime?: string
+  MeteringTime?: string;
   /** ☆☆☆☆   Example: "Matrix metering" */
-  MeterMode?: string
+  MeterMode?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  MidRangeSharpness?: string
+  MidRangeSharpness?: string;
   /** ★★☆☆ ✔ Example: 9.8 */
-  MinAperture?: number
+  MinAperture?: number;
   /** ★★☆☆ ✔ Example: "90.0 mm" */
-  MinFocalLength?: string
+  MinFocalLength?: string;
   /** ☆☆☆☆ ✔ Example: "2.0 m" */
-  MinFocusDistance?: string
+  MinFocusDistance?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MiniatureFilter?: string
+  MiniatureFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (-1)" */
-  MiniatureFilterOrientation?: string
+  MiniatureFilterOrientation?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  MiniatureFilterParameter?: number
+  MiniatureFilterParameter?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  MiniatureFilterPosition?: number
+  MiniatureFilterPosition?: number;
   /** ☆☆☆☆ ✔ Example: 200 */
-  MinimumISO?: number
+  MinimumISO?: number;
   /** ☆☆☆☆   Example: "2004:07:05" */
-  MinoltaDate?: ExifDate | string
+  MinoltaDate?: ExifDate | string;
   /** ☆☆☆☆   Example: "Unknown (768)" */
-  MinoltaImageSize?: string
+  MinoltaImageSize?: string;
   /** ☆☆☆☆   Example: "DiMAGE S404" */
-  MinoltaModelID?: string
+  MinoltaModelID?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  MinoltaQuality?: string
+  MinoltaQuality?: string;
   /** ☆☆☆☆   Example: "20:16:39" */
-  MinoltaTime?: ExifTime | string
+  MinoltaTime?: ExifTime | string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  MirrorLockup?: string
+  MirrorLockup?: string;
   /** ☆☆☆☆ ✔ Example: "Manual" */
-  ModeDialPosition?: string
+  ModeDialPosition?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ModelingFlash?: string
+  ModelingFlash?: string;
   /** ☆☆☆☆ ✔ Example: 2018 */
-  ModelReleaseYear?: number
+  ModelReleaseYear?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedColorTemp?: number
+  ModifiedColorTemp?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedDigitalGain?: number
+  ModifiedDigitalGain?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedParamFlag?: number
+  ModifiedParamFlag?: number;
   /** ☆☆☆☆ ✔ Example: "None" */
-  ModifiedPictureStyle?: string
+  ModifiedPictureStyle?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ModifiedSaturation?: string
+  ModifiedSaturation?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedSensorBlueLevel?: number
+  ModifiedSensorBlueLevel?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedSensorRedLevel?: number
+  ModifiedSensorRedLevel?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedSharpness?: number
+  ModifiedSharpness?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ModifiedSharpnessFreq?: string
+  ModifiedSharpnessFreq?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  ModifiedToneCurve?: string
+  ModifiedToneCurve?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  ModifiedWhiteBalance?: string
+  ModifiedWhiteBalance?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedWhiteBalanceBlue?: number
+  ModifiedWhiteBalanceBlue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ModifiedWhiteBalanceRed?: number
+  ModifiedWhiteBalanceRed?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  MonitorBrightness?: number
+  MonitorBrightness?: number;
   /** ☆☆☆☆ ✔ Example: "Automatic" */
-  MonitorDisplayOff?: string
+  MonitorDisplayOff?: string;
   /** ☆☆☆☆ ✔ Example: "8 s" */
-  MonitorOffTime?: string
+  MonitorOffTime?: string;
   /** ☆☆☆☆ ✔ Example: "(none)" */
-  MonochromeColor?: string
+  MonochromeColor?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MonochromeGrainEffect?: string
+  MonochromeGrainEffect?: string;
   /** ☆☆☆☆ ✔ Example: "No Filter; 0; 8; Strength 2; 0; 3" */
-  MonochromeProfileSettings?: string
+  MonochromeProfileSettings?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  MonochromeToning?: string
+  MonochromeToning?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  MonochromeVignetting?: number
+  MonochromeVignetting?: number;
   /** ☆☆☆☆   Example: "12:19" */
-  MonthDayCreated?: string
+  MonthDayCreated?: string;
   /** ☆☆☆☆   Example: "Old Crescent" */
-  MoonPhase?: string
+  MoonPhase?: string;
   /** ☆☆☆☆   Example: 100 */
-  MotionSensitivity?: number
+  MotionSensitivity?: number;
   /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
-  MovieAELockButtonAssignment?: string
+  MovieAELockButtonAssignment?: string;
   /** ☆☆☆☆ ✔ Example: "Single" */
-  MovieAFAreaMode?: string
+  MovieAFAreaMode?: string;
   /** ☆☆☆☆ ✔ Example: "4 (Normal)" */
-  MovieAFTrackingSensitivity?: string
+  MovieAFTrackingSensitivity?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  MovieFlickerReduction?: string
+  MovieFlickerReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Zoom (Low)" */
-  MovieFunc1Button?: string
+  MovieFunc1Button?: string;
   /** ☆☆☆☆ ✔ Example: "Zoom (1:1)" */
-  MovieFunc2Button?: string
+  MovieFunc2Button?: string;
   /** ☆☆☆☆   Example: "None" */
-  MovieFunc3Button?: string
+  MovieFunc3Button?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  MovieFunctionButton?: string
+  MovieFunctionButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  MovieFunctionButtonPlusDials?: string
+  MovieFunctionButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MovieHighlightDisplayPattern?: string
+  MovieHighlightDisplayPattern?: string;
   /** ☆☆☆☆ ✔ Example: 248 */
-  MovieHighlightDisplayThreshold?: number
+  MovieHighlightDisplayThreshold?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  MovieISOAutoControlManualMode?: string
+  MovieISOAutoControlManualMode?: string;
   /** ☆☆☆☆ ✔ Example: "ISO 6400" */
-  MovieISOAutoHiLimit?: string
+  MovieISOAutoHiLimit?: string;
   /** ☆☆☆☆ ✔ Example: "Power Aperture" */
-  MovieLensControlRing?: string
+  MovieLensControlRing?: string;
   /** ☆☆☆☆ ✔ Example: "Center Focus Point" */
-  MovieMultiSelector?: string
+  MovieMultiSelector?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  MoviePreviewButton?: string
+  MoviePreviewButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  MoviePreviewButtonPlusDials?: string
+  MoviePreviewButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "Take Photo" */
-  MovieShutterButton?: string
+  MovieShutterButton?: string;
   /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
-  MovieSubSelectorAssignment?: string
+  MovieSubSelectorAssignment?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  MovieSubSelectorAssignmentPlusDials?: string
+  MovieSubSelectorAssignmentPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "H.265 10-bit (MOV)" */
-  MovieType?: string
+  MovieType?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  MovieWhiteBalanceSameAsPhoto?: string
+  MovieWhiteBalanceSameAsPhoto?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MultiControllerWhileMetering?: string
+  MultiControllerWhileMetering?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  MultiExposure?: string
+  MultiExposure?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MultiExposureAutoGain?: string
+  MultiExposureAutoGain?: string;
   /** ☆☆☆☆ ✔ Example: "Bright (comparative)" */
-  MultiExposureControl?: string
+  MultiExposureControl?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  MultiExposureMode?: string
+  MultiExposureMode?: string;
   /** ☆☆☆☆ ✔ Example: "Add" */
-  MultiExposureOverlayMode?: string
+  MultiExposureOverlayMode?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  MultiExposureShots?: number
+  MultiExposureShots?: number;
   /** ☆☆☆☆ ✔ Example: "0103" */
-  MultiExposureVersion?: string
+  MultiExposureVersion?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  MultiFrameNoiseReduction?: string
+  MultiFrameNoiseReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  MultiFrameNREffect?: string
+  MultiFrameNREffect?: string;
   /** ☆☆☆☆ ✔ Example: "On (quick control dial)" */
-  MultiFunctionLock?: string
+  MultiFunctionLock?: string;
   /** ☆☆☆☆ ✔ Example: "On (2 frames); 1" */
-  MultipleExposureMode?: string
+  MultipleExposureMode?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (15)" */
-  MultipleExposureSet?: string
+  MultipleExposureSet?: string;
   /** ☆☆☆☆ ✔ Example: "Reset Meter-off Delay" */
-  MultiSelector?: string
+  MultiSelector?: string;
   /** ☆☆☆☆ ✔ Example: "Start Movie Recording" */
-  MultiSelectorLiveView?: string
+  MultiSelectorLiveView?: string;
   /** ☆☆☆☆ ✔ Example: "Zoom On/Off" */
-  MultiSelectorPlaybackMode?: string
+  MultiSelectorPlaybackMode?: string;
   /** ☆☆☆☆ ✔ Example: "Select Center Focus Point (Reset)" */
-  MultiSelectorShootMode?: string
+  MultiSelectorShootMode?: string;
   /** ★☆☆☆ ✔ Example: "Vivid" */
-  MyColorMode?: string
+  MyColorMode?: string;
   /** ★★☆☆ ✔ Example: "n/a" */
-  NDFilter?: string
+  NDFilter?: string;
   /** ☆☆☆☆ ✔ Example: "n/a (JPEG)" */
-  NEFBitDepth?: string
+  NEFBitDepth?: string;
   /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
-  NEFCompression?: string
+  NEFCompression?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 624 bytes, use -b option to extract)" */
-  NEFLinearizationTable?: BinaryField | string
+  NEFLinearizationTable?: BinaryField | string;
   /** ☆☆☆☆   Example: "Off (Auto)" */
-  NeutralDensityFilter?: string
+  NeutralDensityFilter?: string;
   /** ☆☆☆☆ ✔ Example: "ViewNX 2.8 M" */
-  NikonCaptureVersion?: string
+  NikonCaptureVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Large (10.0 M)" */
-  NikonImageSize?: string
+  NikonImageSize?: string;
   /** ☆☆☆☆ ✔ Example: "Matrix" */
-  NikonMeteringMode?: string
+  NikonMeteringMode?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  NoiseFilter?: string
+  NoiseFilter?: string;
   /** ★★☆☆ ✔ Example: "[4]" */
-  NoiseReduction?: string
+  NoiseReduction?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  NoiseReductionStrength?: number
+  NoiseReductionStrength?: number;
   /** ☆☆☆☆ ✔ Example: "Release Locked" */
-  NoMemoryCard?: string
+  NoMemoryCard?: string;
   /** ☆☆☆☆ ✔ Example: 5.7 */
-  NominalMaxAperture?: number
+  NominalMaxAperture?: number;
   /** ☆☆☆☆ ✔ Example: 7 */
-  NominalMinAperture?: number
+  NominalMinAperture?: number;
   /** ☆☆☆☆ ✔ Example: 16383 */
-  NormalWhiteLevel?: number
+  NormalWhiteLevel?: number;
   /** ☆☆☆☆ ✔ Example: "55 Points" */
-  NumberOfFocusPoints?: string
+  NumberOfFocusPoints?: string;
   /** ☆☆☆☆ ✔ Example: 32 */
-  NumberOffsets?: number
+  NumberOffsets?: number;
   /** ☆☆☆☆ ✔ Example: 3 */
-  NumFaceElements?: number
+  NumFaceElements?: number;
   /** ☆☆☆☆ ✔ Example: 65535 */
-  NumFacePositions?: number
+  NumFacePositions?: number;
   /** ☆☆☆☆   Example: "inf" */
-  ObjectDistance?: string
+  ObjectDistance?: string;
   /** ☆☆☆☆ ✔ Example: 5 */
-  OISMode?: number
+  OISMode?: number;
   /** ☆☆☆☆ ✔ Example: "Select Center Focus Point" */
-  OKButton?: string
+  OKButton?: string;
   /** ☆☆☆☆ ✔ Example: 960 */
-  OlympusImageHeight?: number
+  OlympusImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 3648 */
-  OlympusImageWidth?: number
+  OlympusImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown ()" */
-  OneTouchWB?: string
+  OneTouchWB?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  OpticalVR?: string
+  OpticalVR?: string;
   /** ☆☆☆☆   Example: 3 */
-  OpticalZoom?: number
+  OpticalZoom?: number;
   /** ★★☆☆ ✔ Example: 94 */
-  OpticalZoomCode?: number
+  OpticalZoomCode?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  OpticalZoomMode?: string
+  OpticalZoomMode?: string;
   /** ☆☆☆☆   Example: "On" */
-  OpticalZoomOn?: string
+  OpticalZoomOn?: string;
   /** ☆☆☆☆ ✔ Example: 668058300 */
-  OrderNumber?: number
+  OrderNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Separate Vert/Horiz Points" */
-  OrientationLinkedAF?: string
+  OrientationLinkedAF?: string;
   /** ☆☆☆☆ ✔ Example: "Same for vertical and horizontal" */
-  OrientationLinkedAFPoint?: string
+  OrientationLinkedAFPoint?: string;
   /** ☆☆☆☆   Example: "/home/username/pictures" */
-  OriginalDirectory?: string
+  OriginalDirectory?: string;
   /** ☆☆☆☆ ✔ Example: "L9997698.JPG" */
-  OriginalFileName?: string
+  OriginalFileName?: string;
   /** ☆☆☆☆ ✔ Example: 4000 */
-  OriginalImageHeight?: number
+  OriginalImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 6000 */
-  OriginalImageWidth?: number
+  OriginalImageWidth?: number;
   /** ☆☆☆☆   Example: ["Sensor Upgraded","PREPRODUCTION CAMERA"] */
-  OtherInfo?: string[]
+  OtherInfo?: string[];
   /** ☆☆☆☆ ✔ Example: "(Binary data 864 bytes, use -b option to extract)" */
-  OutputLUT?: BinaryField | string
+  OutputLUT?: BinaryField | string;
   /** ★★☆☆ ✔ Example: "Itsa Myowna" */
-  OwnerName?: string
+  OwnerName?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  PaintingFilter?: string
+  PaintingFilter?: string;
   /** ☆☆☆☆ ✔ Example: "2023:01:19 22:32:42.04" */
-  PanasonicDateTime?: ExifDateTime | string
+  PanasonicDateTime?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "0421" */
-  PanasonicExifVersion?: string
+  PanasonicExifVersion?: string;
   /** ☆☆☆☆ ✔ Example: 5584 */
-  PanasonicImageHeight?: number
+  PanasonicImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 8368 */
-  PanasonicImageWidth?: number
+  PanasonicImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: 360 */
-  PanoramaAngle?: number
+  PanoramaAngle?: number;
   /** ☆☆☆☆ ✔ Example: 1080 */
-  PanoramaCropBottom?: number
+  PanoramaCropBottom?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PanoramaCropLeft?: number
+  PanoramaCropLeft?: number;
   /** ☆☆☆☆ ✔ Example: 11520 */
-  PanoramaCropRight?: number
+  PanoramaCropRight?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PanoramaCropTop?: number
+  PanoramaCropTop?: number;
   /** ☆☆☆☆ ✔ Example: "Right or Down" */
-  PanoramaDirection?: string
+  PanoramaDirection?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PanoramaFrameHeight?: number
+  PanoramaFrameHeight?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PanoramaFrameWidth?: number
+  PanoramaFrameWidth?: number;
   /** ☆☆☆☆ ✔ Example: 1080 */
-  PanoramaFullHeight?: number
+  PanoramaFullHeight?: number;
   /** ☆☆☆☆ ✔ Example: 11520 */
-  PanoramaFullWidth?: number
+  PanoramaFullWidth?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  PanoramaMode?: string
+  PanoramaMode?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  PanoramaSize3D?: string
+  PanoramaSize3D?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PanoramaSourceHeight?: number
+  PanoramaSourceHeight?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PanoramaSourceWidth?: number
+  PanoramaSourceWidth?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown (6)" */
-  PentaxImageSize?: string
+  PentaxImageSize?: string;
   /** ☆☆☆☆ ✔ Example: "X90" */
-  PentaxModelID?: string
+  PentaxModelID?: string;
   /** ☆☆☆☆ ✔ Example: 6 */
-  PentaxModelType?: number
+  PentaxModelType?: number;
   /** ☆☆☆☆ ✔ Example: "9.1.2.0" */
-  PentaxVersion?: string
+  PentaxVersion?: string;
   /** ☆☆☆☆ ✔ Example: "513 513 513 513" */
-  PerChannelBlackLevel?: string
+  PerChannelBlackLevel?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (3)" */
-  PeripheralIlluminationCorr?: string
+  PeripheralIlluminationCorr?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  PeripheralLighting?: string
+  PeripheralLighting?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  PeripheralLightingSetting?: string
+  PeripheralLightingSetting?: string;
   /** ☆☆☆☆ ✔ Example: 70 */
-  PeripheralLightingValue?: number
+  PeripheralLightingValue?: number;
   /** ☆☆☆☆ ✔ Example: "On (81-point)" */
-  PhaseDetectAF?: string
+  PhaseDetectAF?: string;
   /** ☆☆☆☆ ✔ Example: "Vivid" */
-  PhotoEffect?: string
+  PhotoEffect?: string;
   /** ☆☆☆☆ ✔ Example: "F7248739-9D7D-45ED-8B0C-63530491EEA8" */
-  PhotoIdentifier?: string
+  PhotoIdentifier?: string;
   /** ☆☆☆☆ ✔ Example: "Info Up-down, Playback Left-right" */
-  PhotoInfoPlayback?: string
+  PhotoInfoPlayback?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  PhotosAppFeatureFlags?: number
+  PhotosAppFeatureFlags?: number;
   /** ☆☆☆☆ ✔ Example: "A" */
-  PhotoShootingMenuBank?: string
+  PhotoShootingMenuBank?: string;
   /** ☆☆☆☆ ✔ Example: "FX (36x24)" */
-  PhotoShootingMenuBankImageArea?: string
+  PhotoShootingMenuBankImageArea?: string;
   /** ☆☆☆☆ ✔ Example: "Vivid" */
-  PhotoStyle?: string
+  PhotoStyle?: string;
   /** ☆☆☆☆ ✔ Example: "Quick Adjust" */
-  PictureControlAdjust?: string
+  PictureControlAdjust?: string;
   /** ☆☆☆☆ ✔ Example: "Vivid" */
-  PictureControlBase?: string
+  PictureControlBase?: string;
   /** ☆☆☆☆ ✔ Example: "Vivid" */
-  PictureControlName?: string
+  PictureControlName?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  PictureControlQuickAdjust?: string
+  PictureControlQuickAdjust?: string;
   /** ☆☆☆☆ ✔ Example: "0310" */
-  PictureControlVersion?: string
+  PictureControlVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  PictureEffect?: string
+  PictureEffect?: string;
   /** ☆☆☆☆   Example: "Natural" */
-  PictureFinish?: string
+  PictureFinish?: string;
   /** ★★☆☆ ✔ Example: "i-Enhance; 2" */
-  PictureMode?: string
+  PictureMode?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  PictureModeBWFilter?: string
+  PictureModeBWFilter?: string;
   /** ☆☆☆☆ ✔ Example: "1 (min -2, max 2)" */
-  PictureModeContrast?: string
+  PictureModeContrast?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  PictureModeEffect?: string
+  PictureModeEffect?: string;
   /** ☆☆☆☆ ✔ Example: "0 (min -2, max 2)" */
-  PictureModeSaturation?: string
+  PictureModeSaturation?: string;
   /** ☆☆☆☆ ✔ Example: "2 (min -2, max 2)" */
-  PictureModeSharpness?: string
+  PictureModeSharpness?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  PictureModeTone?: string
+  PictureModeTone?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
-  PictureProfile?: string
+  PictureProfile?: string;
   /** ☆☆☆☆ ✔ Example: "User Def. 3" */
-  PictureStyle?: string
+  PictureStyle?: string;
   /** ☆☆☆☆ ✔ Example: "n/a; n/a; n/a" */
-  PictureStylePC?: string
+  PictureStylePC?: string;
   /** ☆☆☆☆ ✔ Example: "Standard; Standard; Standard" */
-  PictureStyleUserDef?: string
+  PictureStyleUserDef?: string;
   /** ☆☆☆☆ ✔ Example: "Low" */
-  Pitch?: string
+  Pitch?: string;
   /** ☆☆☆☆ ✔ Example: 8.3 */
-  PitchAngle?: number
+  PitchAngle?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  PixelAspectRatio?: number
+  PixelAspectRatio?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  PixelShiftInfo?: string
+  PixelShiftInfo?: string;
   /** ☆☆☆☆   Example: "On" */
-  PixelShiftResolution?: string
+  PixelShiftResolution?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  PixelShiftShooting?: string
+  PixelShiftShooting?: string;
   /** ☆☆☆☆ ✔ Example: "5 min" */
-  PlaybackMenusTime?: string
+  PlaybackMenusTime?: string;
   /** ☆☆☆☆ ✔ Example: "20 s" */
-  PlaybackMonitorOffTime?: string
+  PlaybackMonitorOffTime?: string;
   /** ☆☆☆☆ ✔ Example: "Use Separate Zoom Buttons" */
-  PlaybackZoom?: string
+  PlaybackZoom?: string;
   /** ☆☆☆☆ ✔ Example: "Auto Rotate" */
-  PlayDisplay?: string
+  PlayDisplay?: string;
   /** ☆☆☆☆ ✔ Example: 3 */
-  POILevel?: number
+  POILevel?: number;
   /** ☆☆☆☆   Example: "Off" */
-  PopupFlash?: string
+  PopupFlash?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  PortraitImpressionBalance?: string
+  PortraitImpressionBalance?: string;
   /** ☆☆☆☆   Example: "Off" */
-  PortraitRefiner?: string
+  PortraitRefiner?: string;
   /** ☆☆☆☆ ✔ Example: "Post Focus Auto Merging or None" */
-  PostFocusMerging?: string
+  PostFocusMerging?: string;
   /** ☆☆☆☆ ✔ Example: "Max" */
-  PostReleaseBurstLength?: string
+  PostReleaseBurstLength?: string;
   /** ☆☆☆☆ ✔ Example: "External Power Supply" */
-  PowerSource?: string
+  PowerSource?: string;
   /** ☆☆☆☆ ✔ Example: "2024:07:01 09:23:16" */
-  PowerUpTime?: ExifDateTime | string
+  PowerUpTime?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  PreAF?: string
+  PreAF?: string;
   /** ☆☆☆☆ ✔ Example: 3.2996109 */
-  PreCaptureFrames?: number
+  PreCaptureFrames?: number;
   /** ☆☆☆☆ ✔ Example: "None" */
-  PreReleaseBurstLength?: string
+  PreReleaseBurstLength?: string;
   /** ☆☆☆☆ ✔ Example: "Daylight" */
-  PresetWhiteBalance?: string
+  PresetWhiteBalance?: string;
   /** ☆☆☆☆ ✔ Example: "Preview" */
-  PreviewButton?: string
+  PreviewButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  PreviewButtonPlusDials?: string
+  PreviewButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "28 28 0 0" */
-  PreviewImageBorders?: string
+  PreviewImageBorders?: string;
   /** ☆☆☆☆ ✔ Example: 976 */
-  PreviewImageHeight?: number
+  PreviewImageHeight?: number;
   /** ★★☆☆ ✔ Example: 9983 */
-  PreviewImageLength?: number
+  PreviewImageLength?: number;
   /** ★☆☆☆ ✔ Example: "816x459" */
-  PreviewImageSize?: string
+  PreviewImageSize?: string;
   /** ★★☆☆ ✔ Example: 9996 */
-  PreviewImageStart?: number
+  PreviewImageStart?: number;
   /** ☆☆☆☆ ✔ Example: true */
-  PreviewImageValid?: boolean
+  PreviewImageValid?: boolean;
   /** ☆☆☆☆ ✔ Example: 816 */
-  PreviewImageWidth?: number
+  PreviewImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: 95 */
-  PreviewQuality?: number
+  PreviewQuality?: number;
   /** ★☆☆☆ ✔ Example: 8 */
-  PrimaryAFPoint?: number
+  PrimaryAFPoint?: number;
   /** ☆☆☆☆ ✔ Example: "XQD Card" */
-  PrimarySlot?: string
+  PrimarySlot?: string;
   /** ☆☆☆☆ ✔ Example: "AF" */
-  PrioritySetupShutterRelease?: string
+  PrioritySetupShutterRelease?: string;
   /** ☆☆☆☆ ✔ Example: 9.987 */
-  ProductionCode?: number
+  ProductionCode?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ProgramISO?: string
+  ProgramISO?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  ProgramLine?: string
+  ProgramLine?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ProgramShift?: number
+  ProgramShift?: number;
   /** ★★★☆ ✔ Example: "Unknown (5)" */
-  Quality?: string
+  Quality?: string;
   /** ☆☆☆☆ ✔ Example: "Exposure comp/Aperture" */
-  QuickControlDialInMeter?: string
+  QuickControlDialInMeter?: string;
   /** ☆☆☆☆   Example: "Off" */
-  QuickShot?: string
+  QuickShot?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  RangeFinder?: string
+  RangeFinder?: string;
   /** ☆☆☆☆ ✔ Example: "RAW+Small/Normal" */
-  RawAndJpgRecording?: string
+  RawAndJpgRecording?: string;
   /** ☆☆☆☆ ✔ Example: "Little-endian (Intel, II)" */
-  RawDataByteOrder?: string
+  RawDataByteOrder?: string;
   /** ☆☆☆☆ ✔ Example: "Unchanged" */
-  RawDataCFAPattern?: string
+  RawDataCFAPattern?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RawDataLength?: number
+  RawDataLength?: number;
   /** ☆☆☆☆ ✔ Example: "Off; 0; 0; 0" */
-  RawDevArtFilter?: string
+  RawDevArtFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  RawDevAutoGradation?: string
+  RawDevAutoGradation?: string;
   /** ☆☆☆☆ ✔ Example: "sRGB" */
-  RawDevColorSpace?: string
+  RawDevColorSpace?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  RawDevContrastValue?: string
+  RawDevContrastValue?: string;
   /** ☆☆☆☆ ✔ Example: "Original" */
-  RawDevEditStatus?: string
+  RawDevEditStatus?: string;
   /** ☆☆☆☆   Example: "9 (Q)" */
-  RawDevelopmentProcess?: string
+  RawDevelopmentProcess?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
-  RawDevEngine?: string
+  RawDevEngine?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RawDevExposureBiasValue?: number
+  RawDevExposureBiasValue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RawDevGradation?: number
+  RawDevGradation?: number;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  RawDevGrayPoint?: string
+  RawDevGrayPoint?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RawDevMemoryColorEmphasis?: number
+  RawDevMemoryColorEmphasis?: number;
   /** ☆☆☆☆ ✔ Example: "Noise Filter" */
-  RawDevNoiseReduction?: string
+  RawDevNoiseReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Natural" */
-  RawDevPictureMode?: string
+  RawDevPictureMode?: string;
   /** ☆☆☆☆ ✔ Example: "0 -2 2" */
-  RawDevPMContrast?: string
+  RawDevPMContrast?: string;
   /** ☆☆☆☆ ✔ Example: "2 0 -2 1" */
-  RawDevPMNoiseFilter?: string
+  RawDevPMNoiseFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  RawDevPMPictureTone?: string
+  RawDevPMPictureTone?: string;
   /** ☆☆☆☆ ✔ Example: "0 -2 2" */
-  RawDevPMSaturation?: string
+  RawDevPMSaturation?: string;
   /** ☆☆☆☆ ✔ Example: "0 -2 2" */
-  RawDevPMSharpness?: string
+  RawDevPMSharpness?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  RawDevSaturationEmphasis?: string
+  RawDevSaturationEmphasis?: string;
   /** ☆☆☆☆ ✔ Example: "(none)" */
-  RawDevSettings?: string
+  RawDevSettings?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 0" */
-  RawDevSharpnessValue?: string
+  RawDevSharpnessValue?: string;
   /** ☆☆☆☆ ✔ Example: "0100" */
-  RawDevVersion?: string
+  RawDevVersion?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RawDevWBFineAdjustment?: number
+  RawDevWBFineAdjustment?: number;
   /** ☆☆☆☆ ✔ Example: "Unknown (3)" */
-  RawDevWhiteBalance?: string
+  RawDevWhiteBalance?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RawDevWhiteBalanceValue?: number
+  RawDevWhiteBalanceValue?: number;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  RAWFileType?: string
+  RAWFileType?: string;
   /** ☆☆☆☆ ✔ Example: "3712 2462" */
-  RawImageCenter?: string
+  RawImageCenter?: string;
   /** ☆☆☆☆ ✔ Example: 3296 */
-  RawImageHeight?: number
+  RawImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 4952 */
-  RawImageWidth?: number
+  RawImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: "RAW" */
-  RawJpgQuality?: string
+  RawJpgQuality?: string;
   /** ☆☆☆☆ ✔ Example: "Large" */
-  RawJpgSize?: string
+  RawJpgSize?: string;
   /** ☆☆☆☆ ✔ Example: "95215 190283 189698 116484" */
-  RawMeasuredRGGB?: string
+  RawMeasuredRGGB?: string;
   /** ☆☆☆☆ ✔ Example: "ISO" */
-  RearDisplay?: string
+  RearDisplay?: string;
   /** ☆☆☆☆ ✔ Example: "Auto Rotate" */
-  RecordDisplay?: string
+  RecordDisplay?: string;
   /** ☆☆☆☆ ✔ Example: 58 */
-  RecordID?: number
+  RecordID?: number;
   /** ☆☆☆☆   Example: "JPEG" */
-  RecordingFormat?: string
+  RecordingFormat?: string;
   /** ☆☆☆☆   Example: "Auto" */
-  RecordingMode?: string
+  RecordingMode?: string;
   /** ★★☆☆ ✔ Example: "TIF+JPEG" */
-  RecordMode?: string
+  RecordMode?: string;
   /** ☆☆☆☆   Example: "Record while down" */
-  RecordShutterRelease?: string
+  RecordShutterRelease?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  RedEyeRemoval?: string
+  RedEyeRemoval?: string;
   /** ☆☆☆☆   Example: "8D" */
-  RedGain?: string
+  RedGain?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  ReleaseButtonToUseDial?: string
+  ReleaseButtonToUseDial?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (7)" */
-  ReleaseMode?: string
+  ReleaseMode?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  RemoteFuncButton?: string
+  RemoteFuncButton?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RemoteOnDuration?: number
+  RemoteOnDuration?: number;
   /** ☆☆☆☆ ✔ Example: 10 */
-  RepeatingFlashCount?: number
+  RepeatingFlashCount?: number;
   /** ☆☆☆☆ ✔ Example: "1/32" */
-  RepeatingFlashOutput?: string
+  RepeatingFlashOutput?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  RepeatingFlashOutputExternal?: number
+  RepeatingFlashOutputExternal?: number;
   /** ☆☆☆☆ ✔ Example: "10 Hz" */
-  RepeatingFlashRate?: string
+  RepeatingFlashRate?: string;
   /** ☆☆☆☆   Example: "No" */
-  Resaved?: string
+  Resaved?: string;
   /** ☆☆☆☆   Example: "MED" */
-  ResolutionMode?: string
+  ResolutionMode?: string;
   /** ☆☆☆☆ ✔ Example: "Flags 0x77" */
-  RestrictDriveModes?: string
+  RestrictDriveModes?: string;
   /** ★☆☆☆ ✔ Example: "Unknown ()" */
-  RetouchHistory?: string
+  RetouchHistory?: string;
   /** ☆☆☆☆ ✔ Example: "0200" */
-  RetouchInfoVersion?: string
+  RetouchInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  RetouchNEFProcessing?: string
+  RetouchNEFProcessing?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  RetractLensOnPowerOff?: string
+  RetractLensOnPowerOff?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  ReverseExposureCompDial?: string
+  ReverseExposureCompDial?: string;
   /** ☆☆☆☆ ✔ Example: "Not Reversed" */
-  ReverseFocusRing?: string
+  ReverseFocusRing?: string;
   /** ☆☆☆☆ ✔ Example: "- 0 +" */
-  ReverseIndicators?: string
+  ReverseIndicators?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  ReverseShutterSpeedAperture?: string
+  ReverseShutterSpeedAperture?: string;
   /** ☆☆☆☆ ✔ Example: "Varies With Rotation Speed" */
-  RFLensMFFocusRingSensitivity?: string
+  RFLensMFFocusRingSensitivity?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  RFLensType?: string
+  RFLensType?: string;
   /** ☆☆☆☆   Example: "2012:03:29 18:17:52" */
-  RicohDate?: ExifDateTime | string
+  RicohDate?: ExifDateTime | string;
   /** ☆☆☆☆   Example: 960 */
-  RicohImageHeight?: number
+  RicohImageHeight?: number;
   /** ☆☆☆☆   Example: 640 */
-  RicohImageWidth?: number
+  RicohImageWidth?: number;
   /** ☆☆☆☆   Example: "XG-1Pentax" */
-  RicohMake?: string
+  RicohMake?: string;
   /** ☆☆☆☆   Example: "RICOH WG-M1" */
-  RicohModel?: string
+  RicohModel?: string;
   /** ☆☆☆☆   Example: 150.43 */
-  Roll?: number
+  Roll?: number;
   /** ☆☆☆☆ ✔ Example: 90 */
-  RollAngle?: number
+  RollAngle?: number;
   /** ☆☆☆☆ ✔ Example: "USA" */
-  ROMOperationMode?: string
+  ROMOperationMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RunTimeEpoch?: number
+  RunTimeEpoch?: number;
   /** ☆☆☆☆ ✔ Example: "Valid" */
-  RunTimeFlags?: string
+  RunTimeFlags?: string;
   /** ☆☆☆☆ ✔ Example: 1000000000 */
-  RunTimeScale?: number
+  RunTimeScale?: number;
   /** ☆☆☆☆ ✔ Example: 987823130000000 */
-  RunTimeValue?: number
+  RunTimeValue?: number;
   /** ☆☆☆☆ ✔ Example: "Enable (Tv/Av)" */
-  SafetyShift?: string
+  SafetyShift?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  SafetyShiftInAvOrTv?: string
+  SafetyShiftInAvOrTv?: string;
   /** ☆☆☆☆ ✔ Example: "Disable" */
-  SameExposureForNewAperture?: string
+  SameExposureForNewAperture?: string;
   /** ☆☆☆☆ ✔ Example: "WP10 / VLUU WP10 / AQ100" */
-  SamsungModelID?: string
+  SamsungModelID?: string;
   /** ☆☆☆☆   Example: "Unknown (0x211)" */
-  SanyoQuality?: string
+  SanyoQuality?: string;
   /** ☆☆☆☆   Example: "(Binary data 10313 bytes, use -b option to extract)" */
-  SanyoThumbnail?: BinaryField | string
+  SanyoThumbnail?: BinaryField | string;
   /** ★★★★ ✔ Example: "n/a" */
-  Saturation?: string
+  Saturation?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  SaturationAdj?: number
+  SaturationAdj?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAuto?: number
+  SaturationAuto?: number;
   /** ☆☆☆☆ ✔ Example: 655360 */
-  SaturationFaithful?: number
+  SaturationFaithful?: number;
   /** ☆☆☆☆ ✔ Example: 8650752 */
-  SaturationLandscape?: number
+  SaturationLandscape?: number;
   /** ☆☆☆☆ ✔ Example: 6619136 */
-  SaturationNeutral?: number
+  SaturationNeutral?: number;
   /** ☆☆☆☆ ✔ Example: 6553609 */
-  SaturationPortrait?: number
+  SaturationPortrait?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationSetting?: number
+  SaturationSetting?: number;
   /** ☆☆☆☆ ✔ Example: 3 */
-  SaturationStandard?: number
+  SaturationStandard?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  SaveFocus?: string
+  SaveFocus?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ScanImageEnhancer?: string
+  ScanImageEnhancer?: string;
   /** ☆☆☆☆ ✔ Example: "Two-Shot" */
-  SceneAssist?: string
+  SceneAssist?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  SceneDetect?: number
+  SceneDetect?: number;
   /** ★★☆☆ ✔ Example: "n/a" */
-  SceneMode?: string
+  SceneMode?: string;
   /** ☆☆☆☆   Example: "Unknown (9)" */
-  SceneModeUsed?: string
+  SceneModeUsed?: string;
   /** ☆☆☆☆ ✔ Example: "Unrecognized" */
-  SceneRecognition?: string
+  SceneRecognition?: string;
   /** ☆☆☆☆   Example: "User 1" */
-  SceneSelect?: string
+  SceneSelect?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ScreenTips?: string
+  ScreenTips?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
-  SecondarySlotFunction?: string
+  SecondarySlotFunction?: string;
   /** ☆☆☆☆ ✔ Example: "45 points" */
-  SelectableAFPoint?: string
+  SelectableAFPoint?: string;
   /** ☆☆☆☆ ✔ Example: "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], […], [14]" */
-  SelectAFAreaSelectionMode?: string
+  SelectAFAreaSelectionMode?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (87)" */
-  SelectAFAreaSelectMode?: string
+  SelectAFAreaSelectMode?: string;
   /** ★★☆☆ ✔ Example: "Self-timer 5 or 10 s" */
-  SelfTimer?: string
+  SelfTimer?: string;
   /** ☆☆☆☆ ✔ Example: "0.5 s" */
-  SelfTimerInterval?: string
+  SelfTimerInterval?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  SelfTimerShotCount?: number
+  SelfTimerShotCount?: number;
   /** ☆☆☆☆ ✔ Example: "1 s" */
-  SelfTimerShotInterval?: string
+  SelfTimerShotInterval?: string;
   /** ☆☆☆☆ ✔ Example: "2 s" */
-  SelfTimerTime?: string
+  SelfTimerTime?: string;
   /** ☆☆☆☆ ✔ Example: {"_0":1,"_1":0,"_2":0,"_3":0} */
-  SemanticStyle?: Struct
+  SemanticStyle?: Struct;
   /** ☆☆☆☆   Example: true */
-  SemanticStylePreset?: boolean
+  SemanticStylePreset?: boolean;
   /** ☆☆☆☆   Example: true */
-  SemanticStyleRenderingVer?: boolean
+  SemanticStyleRenderingVer?: boolean;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SensitivityAdjust?: number
+  SensitivityAdjust?: number;
   /** ☆☆☆☆ ✔ Example: "As EV Steps" */
-  SensitivitySteps?: string
+  SensitivitySteps?: string;
   /** ☆☆☆☆   Example: "front-main-mot_s5k5e9" */
-  Sensor?: string
+  Sensor?: string;
   /** ☆☆☆☆   Example: 14 */
-  SensorBitDepth?: number
+  SensorBitDepth?: number;
   /** ☆☆☆☆ ✔ Example: 4214 */
-  SensorBlueLevel?: number
+  SensorBlueLevel?: number;
   /** ☆☆☆☆ ✔ Example: 5893 */
-  SensorBottomBorder?: number
+  SensorBottomBorder?: number;
   /** ☆☆☆☆ ✔ Example: "4095 646" */
-  SensorCalibration?: string
+  SensorCalibration?: string;
   /** ☆☆☆☆ ✔ Example: "Disable" */
-  SensorCleaning?: string
+  SensorCleaning?: string;
   /** ☆☆☆☆   Example: 2472 */
-  SensorFullHeight?: number
+  SensorFullHeight?: number;
   /** ☆☆☆☆   Example: 3288 */
-  SensorFullWidth?: number
+  SensorFullWidth?: number;
   /** ☆☆☆☆ ✔ Example: 5920 */
-  SensorHeight?: number
+  SensorHeight?: number;
   /** ☆☆☆☆   Example: "1TCTJ8803BJ07G" */
-  SensorID?: string
+  SensorID?: string;
   /** ☆☆☆☆ ✔ Example: 88 */
-  SensorLeftBorder?: number
+  SensorLeftBorder?: number;
   /** ☆☆☆☆ ✔ Example: "9.4 x 9.4 um" */
-  SensorPixelSize?: string
+  SensorPixelSize?: string;
   /** ☆☆☆☆ ✔ Example: 4370 */
-  SensorRedLevel?: number
+  SensorRedLevel?: number;
   /** ☆☆☆☆ ✔ Example: 8883 */
-  SensorRightBorder?: number
+  SensorRightBorder?: number;
   /** ☆☆☆☆ ✔ Example: "7.576 x 5.682 mm" */
-  SensorSize?: string
+  SensorSize?: string;
   /** ☆☆☆☆ ✔ Example: "80.9 C" */
-  SensorTemperature?: string
+  SensorTemperature?: string;
   /** ☆☆☆☆ ✔ Example: 96 */
-  SensorTopBorder?: number
+  SensorTopBorder?: number;
   /** ☆☆☆☆ ✔ Example: "rear" */
-  SensorType?: string
+  SensorType?: string;
   /** ☆☆☆☆ ✔ Example: 8896 */
-  SensorWidth?: number
+  SensorWidth?: number;
   /** ☆☆☆☆   Example: "5 of 5" */
-  Sequence?: string
+  Sequence?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  SequenceFileNumber?: number
+  SequenceFileNumber?: number;
   /** ☆☆☆☆ ✔ Example: 4 */
-  SequenceImageNumber?: number
+  SequenceImageNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Continuous" */
-  SequenceLength?: string
+  SequenceLength?: string;
   /** ★★★☆ ✔ Example: 6 */
-  SequenceNumber?: number
+  SequenceNumber?: number;
   /** ☆☆☆☆   Example: "5 frames/s" */
-  SequenceShotInterval?: string
+  SequenceShotInterval?: string;
   /** ☆☆☆☆   Example: "Unknown (28928)" */
-  SequentialShot?: string
+  SequentialShot?: string;
   /** ★★☆☆ ✔ Example: "sw02028104 " */
-  SerialNumber?: string
+  SerialNumber?: string;
   /** ☆☆☆☆ ✔ Example: "Format 2" */
-  SerialNumberFormat?: string
+  SerialNumberFormat?: string;
   /** ☆☆☆☆ ✔ Example: "Set: Picture Style" */
-  SetButtonCrossKeysFunc?: string
+  SetButtonCrossKeysFunc?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (37 0)" */
-  SetButtonWhenShooting?: string
+  SetButtonWhenShooting?: string;
   /** ☆☆☆☆ ✔ Example: "Default (no function)" */
-  SetFunctionWhenShooting?: string
+  SetFunctionWhenShooting?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ShadingCompensation?: string
+  ShadingCompensation?: string;
   /** ☆☆☆☆   Example: 0 */
-  Shadow?: number
+  Shadow?: number;
   /** ☆☆☆☆   Example: "On" */
-  ShadowCorrection?: string
+  ShadowCorrection?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  Shadows?: number
+  Shadows?: number;
   /** ☆☆☆☆ ✔ Example: "0 (normal)" */
-  ShadowTone?: string
+  ShadowTone?: string;
   /** ☆☆☆☆ ✔ Example: "On but Disabled" */
-  ShakeReduction?: string
+  ShakeReduction?: string;
   /** ☆☆☆☆   Example: "Normal" */
-  Sharpening?: string
+  Sharpening?: string;
   /** ★★★★ ✔ Example: "n/a" */
-  Sharpness?: string
+  Sharpness?: string;
   /** ☆☆☆☆ ✔ Example: 3 */
-  SharpnessAuto?: number
+  SharpnessAuto?: number;
   /** ☆☆☆☆ ✔ Example: 768 */
-  SharpnessFactor?: number
+  SharpnessFactor?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SharpnessFaithful?: number
+  SharpnessFaithful?: number;
   /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" */
-  SharpnessFreqTable?: string
+  SharpnessFreqTable?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  SharpnessFrequency?: string
+  SharpnessFrequency?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  SharpnessLandscape?: number
+  SharpnessLandscape?: number;
   /** ☆☆☆☆ ✔ Example: 3 */
-  SharpnessMonochrome?: number
+  SharpnessMonochrome?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SharpnessNeutral?: number
+  SharpnessNeutral?: number;
   /** ☆☆☆☆ ✔ Example: 2752758 */
-  SharpnessPortrait?: number
+  SharpnessPortrait?: number;
   /** ☆☆☆☆ ✔ Example: "+3" */
-  SharpnessRange?: string
+  SharpnessRange?: string;
   /** ☆☆☆☆ ✔ Example: "3 (min -3, max 5)" */
-  SharpnessSetting?: string
+  SharpnessSetting?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  SharpnessStandard?: number
+  SharpnessStandard?: number;
   /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" */
-  SharpnessTable?: string
+  SharpnessTable?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  ShootingInfoDisplay?: string
+  ShootingInfoDisplay?: string;
   /** ☆☆☆☆ ✔ Example: "4 s" */
-  ShootingInfoMonitorOffTime?: string
+  ShootingInfoMonitorOffTime?: string;
   /** ☆☆☆☆ ✔ Example: "Continuous" */
-  ShootingModeSetting?: string
+  ShootingModeSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Itsa Myowna" */
-  ShortOwnerName?: string
+  ShortOwnerName?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  ShortReleaseTimeLag?: string
+  ShortReleaseTimeLag?: string;
   /** ☆☆☆☆ ✔ Example: "0809" */
-  ShotInfoVersion?: string
+  ShotInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: 9 */
-  ShotNumberSincePowerUp?: number
+  ShotNumberSincePowerUp?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  ShotsPerInterval?: number
+  ShotsPerInterval?: number;
   /** ☆☆☆☆ ✔ Example: "Silent / Electronic (0 0 0)" */
-  Shutter?: string
+  Shutter?: string;
   /** ☆☆☆☆ ✔ Example: "AF/AE lock stop" */
-  ShutterAELButton?: string
+  ShutterAELButton?: string;
   /** ☆☆☆☆ ✔ Example: "Metering start/Meter + AF start" */
-  ShutterButtonAFOnButton?: string
+  ShutterButtonAFOnButton?: string;
   /** ☆☆☆☆ ✔ Example: 998 */
-  ShutterCount?: number
+  ShutterCount?: number;
   /** ☆☆☆☆   Example:  */
-  ShutterCount2?: number
+  ShutterCount2?: number;
   /** ☆☆☆☆   Example:  */
-  ShutterCount3?: number
+  ShutterCount3?: number;
   /** ☆☆☆☆ ✔ Example: "2nd-curtain sync" */
-  ShutterCurtainSync?: string
+  ShutterCurtainSync?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
-  ShutterMode?: string
+  ShutterMode?: string;
   /** ☆☆☆☆ ✔ Example: "Single Shot" */
-  ShutterReleaseMethod?: string
+  ShutterReleaseMethod?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  ShutterReleaseNoCFCard?: string
+  ShutterReleaseNoCFCard?: string;
   /** ☆☆☆☆ ✔ Example: "Priority on focus" */
-  ShutterReleaseTiming?: string
+  ShutterReleaseTiming?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  ShutterReleaseWithoutLens?: string
+  ShutterReleaseWithoutLens?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ShutterSpeedLock?: string
+  ShutterSpeedLock?: string;
   /** ☆☆☆☆ ✔ Example: "Manual: Hi 1/8123; Lo 31.9; Auto: Hi 1/8123; Lo 31.9" */
-  ShutterSpeedRange?: string
+  ShutterSpeedRange?: string;
   /** ☆☆☆☆ ✔ Example: "1/91" */
-  ShutterSpeedSetting?: string
+  ShutterSpeedSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  ShutterType?: string
+  ShutterType?: string;
   /** ☆☆☆☆ ✔ Example: 63.176895 */
-  SignalToNoiseRatio?: number
+  SignalToNoiseRatio?: number;
   /** ☆☆☆☆ ✔ Example: "On" */
-  SilentPhotography?: string
+  SilentPhotography?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  SingleFrame?: number
+  SingleFrame?: number;
   /** ☆☆☆☆ ✔ Example: "Low" */
-  SingleFrameBracketing?: string
+  SingleFrameBracketing?: string;
   /** ☆☆☆☆   Example: "Off" */
-  SkinToneCorrection?: string
+  SkinToneCorrection?: string;
   /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0…0 0 0 0" */
-  SlaveFlashMeteringSegments?: string
+  SlaveFlashMeteringSegments?: string;
   /** ★★☆☆ ✔ Example: "n/a" */
-  SlowShutter?: string
+  SlowShutter?: string;
   /** ★☆☆☆ ✔ Example: "On" */
-  SlowSync?: string
+  SlowSync?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  SmartAlbumColor?: string
+  SmartAlbumColor?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  SmileShutter?: string
+  SmileShutter?: string;
   /** ☆☆☆☆ ✔ Example: "Slight Smile" */
-  SmileShutterMode?: string
+  SmileShutterMode?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  SoftFocusFilter?: string
+  SoftFocusFilter?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  SoftSkinEffect?: string
+  SoftSkinEffect?: string;
   /** ☆☆☆☆ ✔ Example: "2024:06:12 18:00:20" */
-  SonyDateTime?: ExifDateTime | string
+  SonyDateTime?: ExifDateTime | string;
   /** ☆☆☆☆   Example:  */
-  SonyDateTime2?: ExifDateTime | string
+  SonyDateTime2?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "1/82" */
-  SonyExposureTime?: string
+  SonyExposureTime?: string;
   /** ☆☆☆☆ ✔ Example: 8.8 */
-  SonyFNumber?: number
+  SonyFNumber?: number;
   /** ☆☆☆☆ ✔ Example: 65535 */
-  SonyImageHeight?: number
+  SonyImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 6376 */
-  SonyImageHeightMax?: number
+  SonyImageHeightMax?: number;
   /** ☆☆☆☆ ✔ Example: "Small (3:2)" */
-  SonyImageSize?: string
+  SonyImageSize?: string;
   /** ☆☆☆☆ ✔ Example: 9504 */
-  SonyImageWidth?: number
+  SonyImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: 9568 */
-  SonyImageWidthMax?: number
+  SonyImageWidthMax?: number;
   /** ☆☆☆☆ ✔ Example: 926 */
-  SonyISO?: number
+  SonyISO?: number;
   /** ☆☆☆☆ ✔ Example: 5.5 */
-  SonyMaxAperture?: number
+  SonyMaxAperture?: number;
   /** ☆☆☆☆ ✔ Example: 6.4 */
-  SonyMaxApertureValue?: number
+  SonyMaxApertureValue?: number;
   /** ☆☆☆☆ ✔ Example: 34 */
-  SonyMinAperture?: number
+  SonyMinAperture?: number;
   /** ☆☆☆☆ ✔ Example: "ZV-E10" */
-  SonyModelID?: string
+  SonyModelID?: string;
   /** ☆☆☆☆ ✔ Example: "Fine" */
-  SonyQuality?: string
+  SonyQuality?: string;
   /** ☆☆☆☆ ✔ Example:  */
-  SonyTimeMinSec?: string
+  SonyTimeMinSec?: string;
   /** ☆☆☆☆   Example: 100 */
-  SourceDirectoryIndex?: number
+  SourceDirectoryIndex?: number;
   /** ☆☆☆☆   Example: 60 */
-  SourceFileIndex?: number
+  SourceFileIndex?: number;
   /** ☆☆☆☆   Example: 24576 */
-  SpecialEffectLevel?: number
+  SpecialEffectLevel?: number;
   /** ☆☆☆☆   Example: "Off" */
-  SpecialEffectMode?: string
+  SpecialEffectMode?: string;
   /** ☆☆☆☆   Example: "Unknown (15)" */
-  SpecialEffectSetting?: string
+  SpecialEffectSetting?: string;
   /** ★☆☆☆ ✔ Example: "Unknown (962), Sequence: 0, Panorama: (none)" */
-  SpecialMode?: string
+  SpecialMode?: string;
   /** ☆☆☆☆ ✔ Example: 9966 */
-  SpecularWhiteLevel?: number
+  SpecularWhiteLevel?: number;
   /** ☆☆☆☆   Example: "+0.10" */
-  SpeedX?: string
+  SpeedX?: string;
   /** ☆☆☆☆   Example: "+6.10" */
-  SpeedY?: string
+  SpeedY?: string;
   /** ☆☆☆☆   Example: "+0.00" */
-  SpeedZ?: string
+  SpeedZ?: string;
   /** ☆☆☆☆   Example: 1632 */
-  SpotFocusPointX?: number
+  SpotFocusPointX?: number;
   /** ☆☆☆☆   Example: 960 */
-  SpotFocusPointY?: number
+  SpotFocusPointY?: number;
   /** ★☆☆☆ ✔ Example: "Center" */
-  SpotMeteringMode?: string
+  SpotMeteringMode?: string;
   /** ☆☆☆☆ ✔ Example: "Enable (use active AF point)" */
-  SpotMeterLinkToAFPoint?: string
+  SpotMeterLinkToAFPoint?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  SRActive?: string
+  SRActive?: string;
   /** ☆☆☆☆ ✔ Example: "sRAW2 (sRAW)" */
-  SRAWQuality?: string
+  SRAWQuality?: string;
   /** ☆☆☆☆ ✔ Example: "97 mm" */
-  SRFocalLength?: string
+  SRFocalLength?: string;
   /** ☆☆☆☆ ✔ Example: "4.25 s or longer" */
-  SRHalfPressTime?: string
+  SRHalfPressTime?: string;
   /** ☆☆☆☆ ✔ Example: "Stabilized, Not ready" */
-  SRResult?: string
+  SRResult?: string;
   /** ☆☆☆☆ ✔ Example: "Tripod high resolution" */
-  StackedImage?: string
+  StackedImage?: string;
   /** ☆☆☆☆ ✔ Example: "6 s" */
-  StandbyMonitorOffTime?: string
+  StandbyMonitorOffTime?: string;
   /** ☆☆☆☆ ✔ Example: "6 s" */
-  StandbyTimer?: string
+  StandbyTimer?: string;
   /** ☆☆☆☆ ✔ Example: "Default (from LV)" */
-  StartMovieShooting?: string
+  StartMovieShooting?: string;
   /** ☆☆☆☆ ✔ Example: 8 */
-  StopsAboveBaseISO?: number
+  StopsAboveBaseISO?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  StoreByOrientation?: string
+  StoreByOrientation?: string;
   /** ☆☆☆☆ ✔ Example: "10 Frames" */
-  SubDialFrameAdvance?: string
+  SubDialFrameAdvance?: string;
   /** ☆☆☆☆ ✔ Example: "People" */
-  SubjectDetection?: string
+  SubjectDetection?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  SubjectDetectionAreaMF?: string
+  SubjectDetectionAreaMF?: string;
   /** ☆☆☆☆ ✔ Example: "Steady" */
-  SubjectMotion?: string
+  SubjectMotion?: string;
   /** ☆☆☆☆   Example: "None" */
-  SubjectProgram?: string
+  SubjectProgram?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
-  SubjectToDetect?: string
+  SubjectToDetect?: string;
   /** ☆☆☆☆ ✔ Example: "Focus Point Selection" */
-  SubSelector?: string
+  SubSelector?: string;
   /** ☆☆☆☆ ✔ Example: "Focus Point Selection" */
-  SubSelectorAssignment?: string
+  SubSelectorAssignment?: string;
   /** ☆☆☆☆ ✔ Example: "Virtual Horizon" */
-  SubSelectorCenter?: string
+  SubSelectorCenter?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  SubSelectorPlusDials?: string
+  SubSelectorPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  SuperimposedDisplay?: string
+  SuperimposedDisplay?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  SuperMacro?: string
+  SuperMacro?: string;
   /** ☆☆☆☆ ✔ Example: 100 */
-  SvISOSetting?: number
+  SvISOSetting?: number;
   /** ☆☆☆☆ ✔ Example: "Right" */
-  SweepPanoramaDirection?: string
+  SweepPanoramaDirection?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SweepPanoramaFieldOfView?: number
+  SweepPanoramaFieldOfView?: number;
   /** ☆☆☆☆ ✔ Example: "Wide" */
-  SweepPanoramaSize?: string
+  SweepPanoramaSize?: string;
   /** ☆☆☆☆ ✔ Example: "Disable" */
-  SwitchToRegisteredAFPoint?: string
+  SwitchToRegisteredAFPoint?: string;
   /** ☆☆☆☆ ✔ Example: "Sync" */
-  SyncReleaseMode?: string
+  SyncReleaseMode?: string;
   /** ★★☆☆ ✔ Example: 9 */
-  TargetAperture?: number
+  TargetAperture?: number;
   /** ☆☆☆☆ ✔ Example: 4 */
-  TargetCompressionRatio?: number
+  TargetCompressionRatio?: number;
   /** ☆☆☆☆ ✔ Example: "476 mm" */
-  TargetDistanceSetting?: string
+  TargetDistanceSetting?: string;
   /** ★★☆☆ ✔ Example: "1/813" */
-  TargetExposureTime?: string
+  TargetExposureTime?: string;
   /** ☆☆☆☆ ✔ Example: "Real-world Subject" */
-  TargetImageType?: string
+  TargetImageType?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  Teleconverter?: string
+  Teleconverter?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  TextEncoding?: string
+  TextEncoding?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  TextStamp?: string
+  TextStamp?: string;
   /** ☆☆☆☆ ✔ Example: "THM_0043.JPG" */
-  ThumbnailFileName?: string
+  ThumbnailFileName?: string;
   /** ☆☆☆☆ ✔ Example: 120 */
-  ThumbnailHeight?: number
+  ThumbnailHeight?: number;
   /** ★★☆☆ ✔ Example: "0 159 7 112" */
-  ThumbnailImageValidArea?: string
+  ThumbnailImageValidArea?: string;
   /** ☆☆☆☆ ✔ Example: 160 */
-  ThumbnailWidth?: number
+  ThumbnailWidth?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 7404 bytes, use -b option to extract)" */
-  TiffMeteringImage?: BinaryField | string
+  TiffMeteringImage?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 30 */
-  TiffMeteringImageHeight?: number
+  TiffMeteringImageHeight?: number;
   /** ☆☆☆☆ ✔ Example: 44 */
-  TiffMeteringImageWidth?: number
+  TiffMeteringImageWidth?: number;
   /** ☆☆☆☆ ✔ Example: "23:50:41" */
-  Time?: ExifTime | string
+  Time?: ExifTime | string;
   /** ☆☆☆☆ ✔ Example: 50336257 */
-  TimeLapseShotNumber?: number
+  TimeLapseShotNumber?: number;
   /** ☆☆☆☆ ✔ Example: "Self-timer" */
-  TimerFunctionButton?: string
+  TimerFunctionButton?: string;
   /** ☆☆☆☆ ✔ Example: "Disable; 6 s: 6; 16 s: 16; After release: 2" */
-  TimerLength?: string
+  TimerLength?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  TimerRecording?: string
+  TimerRecording?: string;
   /** ☆☆☆☆ ✔ Example: "01:48:53.63" */
-  TimeSincePowerOn?: ExifTime | string
+  TimeSincePowerOn?: ExifTime | string;
   /** ☆☆☆☆ ✔ Example: "2023:10:13 04:33:41" */
-  TimeStamp?: ExifDateTime | string
+  TimeStamp?: ExifDateTime | string;
   /** ★☆☆☆ ✔ Example: "-09:00" */
-  TimeZone?: string
+  TimeZone?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  TimeZoneCity?: string
+  TimeZoneCity?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  TimeZoneCode?: number
+  TimeZoneCode?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  TimeZoneInfo?: number
+  TimeZoneInfo?: number;
   /** ☆☆☆☆ ✔ Example: "Normal" */
-  ToneComp?: string
+  ToneComp?: string;
   /** ☆☆☆☆ ✔ Example: "Standard" */
-  ToneCurve?: string
+  ToneCurve?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
-  ToneCurveMatching?: BinaryField | string
+  ToneCurveMatching?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
-  ToneCurveTable?: BinaryField | string
+  ToneCurveTable?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0" */
-  ToneLevel?: string
+  ToneLevel?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ToningEffect?: string
+  ToningEffect?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ToningEffectAuto?: string
+  ToningEffectAuto?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  ToningEffectMonochrome?: string
+  ToningEffectMonochrome?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  ToningSaturation?: string
+  ToningSaturation?: string;
   /** ☆☆☆☆   Example: 5 */
-  TotalZoom?: number
+  TotalZoom?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  TouchAE?: string
+  TouchAE?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ToyCameraFilter?: string
+  ToyCameraFilter?: string;
   /** ☆☆☆☆   Example: "Off" */
-  Transform?: string
+  Transform?: string;
   /** ☆☆☆☆ ✔ Example: "Normal (set center AF point)" */
-  TrashButtonFunction?: string
+  TrashButtonFunction?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  TravelDay?: string
+  TravelDay?: string;
   /** ☆☆☆☆   Example: "Motion Detection" */
-  TriggerMode?: string
+  TriggerMode?: string;
   /** ☆☆☆☆ ✔ Example: "1/64" */
-  TvExposureTimeSetting?: string
+  TvExposureTimeSetting?: string;
   /** ☆☆☆☆ ✔ Example: "7860345b882000641403450101000000170d0f1d0f11827ca3111430d3000000" */
-  UniqueID?: string
+  UniqueID?: string;
   /** ☆☆☆☆   Example: "ZME151000007" */
-  UnknownNumber?: string
+  UnknownNumber?: string;
   /** ☆☆☆☆ ✔ Example: 4 */
-  UnsharpMaskFineness?: number
+  UnsharpMaskFineness?: number;
   /** ☆☆☆☆ ✔ Example: 4 */
-  UnsharpMaskThreshold?: number
+  UnsharpMaskThreshold?: number;
   /** ☆☆☆☆ ✔ Example: "Flags 0xf0" */
-  UsableMeteringModes?: string
+  UsableMeteringModes?: string;
   /** ☆☆☆☆ ✔ Example: "Flags 0x3f" */
-  UsableShootingModes?: string
+  UsableShootingModes?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  USBPowerDelivery?: string
+  USBPowerDelivery?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
-  UserDef1PictureStyle?: string
+  UserDef1PictureStyle?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  UserDef2PictureStyle?: string
+  UserDef2PictureStyle?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
-  UserDef3PictureStyle?: string
+  UserDef3PictureStyle?: string;
   /** ☆☆☆☆   Example: "PC900 COVERT PRO" */
-  UserLabel?: string
+  UserLabel?: string;
   /** ☆☆☆☆   Example: "dpreview  " */
-  UserProfile?: string
+  UserProfile?: string;
   /** ☆☆☆☆ ✔ Example: "Turns on after one-shot AF" */
-  USMLensElectronicMF?: string
+  USMLensElectronicMF?: string;
   /** ☆☆☆☆ ✔ Example: "12 0" */
-  ValidBits?: string
+  ValidBits?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  VariableLowPassFilter?: string
+  VariableLowPassFilter?: string;
   /** ☆☆☆☆ ✔ Example: "Scene Auto" */
-  VariProgram?: string
+  VariProgram?: string;
   /** ☆☆☆☆ ✔ Example: "Same as AF-On Button" */
-  VerticalAFOnButton?: string
+  VerticalAFOnButton?: string;
   /** ☆☆☆☆ ✔ Example: "Exposure Compensation" */
-  VerticalFuncButton?: string
+  VerticalFuncButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  VerticalFuncButtonPlusDials?: string
+  VerticalFuncButtonPlusDials?: string;
   /** ☆☆☆☆ ✔ Example: "Same as AF-On" */
-  VerticalMovieAFOnButton?: string
+  VerticalMovieAFOnButton?: string;
   /** ☆☆☆☆ ✔ Example: "None" */
-  VerticalMovieFuncButton?: string
+  VerticalMovieFuncButton?: string;
   /** ☆☆☆☆ ✔ Example: "Same as MultiSelector" */
-  VerticalMultiSelector?: string
+  VerticalMultiSelector?: string;
   /** ☆☆☆☆ ✔ Example: "Enable" */
-  VFDisplayIllumination?: string
+  VFDisplayIllumination?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  VibrationReduction?: string
+  VibrationReduction?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  VideoBurstMode?: string
+  VideoBurstMode?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
-  VideoBurstResolution?: string
+  VideoBurstResolution?: string;
   /** ☆☆☆☆ ✔ Example: "No" */
-  VideoPreburst?: string
+  VideoPreburst?: string;
   /** ☆☆☆☆ ✔ Example: "Frame Count" */
-  ViewfinderDisplay?: string
+  ViewfinderDisplay?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  ViewfinderWarning?: string
+  ViewfinderWarning?: string;
   /** ☆☆☆☆ ✔ Example: "Monochrome, WB corrected, One-touch image quality, Noise …on, HDR" */
-  ViewfinderWarnings?: string
+  ViewfinderWarnings?: string;
   /** ☆☆☆☆ ✔ Example: "Disable" */
-  ViewInfoDuringExposure?: string
+  ViewInfoDuringExposure?: string;
   /** ☆☆☆☆ ✔ Example: "ViewFinder" */
-  ViewingMode?: string
+  ViewingMode?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  VignetteControl?: string
+  VignetteControl?: string;
   /** ☆☆☆☆   Example: "Off" */
-  Vignetting?: string
+  Vignetting?: string;
   /** ☆☆☆☆ ✔ Example: "n/a" */
-  VignettingCorrection?: string
+  VignettingCorrection?: string;
   /** ☆☆☆☆ ✔ Example: "36 -17446 -19682 0 15496 -19605 -10627 -28672 187 27452 -… 99 121" */
-  VignettingCorrParams?: string
+  VignettingCorrParams?: string;
   /** ☆☆☆☆ ✔ Example: 97 */
-  VignettingCorrVersion?: number
+  VignettingCorrVersion?: number;
   /** ☆☆☆☆   Example: "Off" */
-  VoiceMemo?: string
+  VoiceMemo?: string;
   /** ★☆☆☆ ✔ Example: 0 */
-  VRDOffset?: number
+  VRDOffset?: number;
   /** ☆☆☆☆ ✔ Example: "0200" */
-  VRInfoVersion?: string
+  VRInfoVersion?: string;
   /** ☆☆☆☆ ✔ Example: "Sport" */
-  VRMode?: string
+  VRMode?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
-  VRType?: string
+  VRType?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  WatercolorFilter?: string
+  WatercolorFilter?: string;
   /** ☆☆☆☆ ✔ Example: 9235 */
-  WBBlueLevel?: number
+  WBBlueLevel?: number;
   /** ☆☆☆☆ ✔ Example: "WB Bracketing Disabled" */
-  WBBracketingSteps?: string
+  WBBracketingSteps?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  WBBracketMode?: string
+  WBBracketMode?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WBBracketShotNumber?: number
+  WBBracketShotNumber?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WBBracketValueAB?: number
+  WBBracketValueAB?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WBBracketValueGM?: number
+  WBBracketValueGM?: number;
   /** ☆☆☆☆ ✔ Example: "Select To Send (PC)" */
-  WBButtonPlaybackMode?: string
+  WBButtonPlaybackMode?: string;
   /** ☆☆☆☆ ✔ Example: 60416 */
-  WBGreenLevel?: number
+  WBGreenLevel?: number;
   /** ☆☆☆☆ ✔ Example: "Rear LCD panel" */
-  WBMediaImageSizeSetting?: string
+  WBMediaImageSizeSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Unknown (1 1)" */
-  WBMode?: string
+  WBMode?: string;
   /** ☆☆☆☆ ✔ Example: 834 */
-  WBRedLevel?: number
+  WBRedLevel?: number;
   /** ☆☆☆☆ ✔ Example: 7 */
-  WBShiftAB?: number
+  WBShiftAB?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WBShiftCreativeControl?: number
+  WBShiftCreativeControl?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WBShiftGM?: number
+  WBShiftGM?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WBShiftIntelligentAuto?: number
+  WBShiftIntelligentAuto?: number;
   /** ★★★★ ✔ Example: "White Preset" */
-  WhiteBalance?: string
+  WhiteBalance?: string;
   /** ☆☆☆☆ ✔ Example: "On" */
-  WhiteBalanceAutoAdjustment?: string
+  WhiteBalanceAutoAdjustment?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WhiteBalanceBias?: number
+  WhiteBalanceBias?: number;
   /** ☆☆☆☆ ✔ Example: 796 */
-  WhiteBalanceBlue?: number
+  WhiteBalanceBlue?: number;
   /** ★☆☆☆ ✔ Example: "0 0" */
-  WhiteBalanceBracket?: string
+  WhiteBalanceBracket?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  WhiteBalanceBracketing?: string
+  WhiteBalanceBracketing?: string;
   /** ★☆☆☆ ✔ Example: 3 */
-  WhiteBalanceFineTune?: number
+  WhiteBalanceFineTune?: number;
   /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" */
-  WhiteBalanceMatching?: string
+  WhiteBalanceMatching?: string;
   /** ☆☆☆☆ ✔ Example: "User-Selected" */
-  WhiteBalanceMode?: string
+  WhiteBalanceMode?: string;
   /** ☆☆☆☆ ✔ Example: 642 */
-  WhiteBalanceRed?: number
+  WhiteBalanceRed?: number;
   /** ☆☆☆☆ ✔ Example: "Tungsten" */
-  WhiteBalanceSet?: string
+  WhiteBalanceSet?: string;
   /** ☆☆☆☆ ✔ Example: "Custom 1" */
-  WhiteBalanceSetting?: string
+  WhiteBalanceSetting?: string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  WhiteBalanceSetup?: string
+  WhiteBalanceSetup?: string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
-  WhiteBalanceTable?: BinaryField | string
+  WhiteBalanceTable?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "Auto" */
-  WhiteBalanceTemperature?: string
+  WhiteBalanceTemperature?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  WhiteBoard?: number
+  WhiteBoard?: number;
   /** ☆☆☆☆   Example: "Not Attached" */
-  WideAdapter?: string
+  WideAdapter?: string;
   /** ☆☆☆☆   Example: "Unknown (9)" */
-  WideFocusZone?: string
+  WideFocusZone?: string;
   /** ☆☆☆☆   Example: "Off" */
-  WideRange?: string
+  WideRange?: string;
   /** ☆☆☆☆ ✔ Example: "Hometown" */
-  WorldTimeLocation?: string
+  WorldTimeLocation?: string;
   /** ☆☆☆☆   Example: 0.2 */
-  X3FillLight?: number
+  X3FillLight?: number;
   /** ☆☆☆☆   Example: "(Binary data 512 bytes, use -b option to extract)" */
-  Xidiri?: BinaryField | string
+  Xidiri?: BinaryField | string;
   /** ☆☆☆☆   Example: 0.83734368 */
-  Yaw?: number
+  Yaw?: number;
   /** ☆☆☆☆ ✔ Example: 99 */
-  YawAngle?: number
+  YawAngle?: number;
   /** ☆☆☆☆   Example: 2006 */
-  YearCreated?: number
+  YearCreated?: number;
   /** ☆☆☆☆ ✔ Example: "ISO Setting Used" */
-  ZoneMatching?: string
+  ZoneMatching?: string;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  ZoneMatchingMode?: string
+  ZoneMatchingMode?: string;
   /** ☆☆☆☆   Example: "Unknown (7040)" */
-  ZoneMatchingOn?: string
+  ZoneMatchingOn?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ZoneMatchingValue?: number
+  ZoneMatchingValue?: number;
   /** ☆☆☆☆ ✔ Example: "(Binary data 64581 bytes, use -b option to extract)" */
-  ZoomedPreviewImage?: BinaryField | string
+  ZoomedPreviewImage?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: 92592 */
-  ZoomedPreviewLength?: number
+  ZoomedPreviewLength?: number;
   /** ☆☆☆☆ ✔ Example: "736 544" */
-  ZoomedPreviewSize?: string
+  ZoomedPreviewSize?: string;
   /** ☆☆☆☆ ✔ Example: 4184638 */
-  ZoomedPreviewStart?: number
+  ZoomedPreviewStart?: number;
   /** ★★☆☆ ✔ Example: 768 */
-  ZoomSourceWidth?: number
+  ZoomSourceWidth?: number;
   /** ☆☆☆☆ ✔ Example: 8 */
-  ZoomStepCount?: number
+  ZoomStepCount?: number;
   /** ★★☆☆ ✔ Example: 6000 */
-  ZoomTargetWidth?: number
+  ZoomTargetWidth?: number;
 }
 
 /**
@@ -4547,559 +4547,559 @@ export interface MakerNotesTags {
  */
 export interface XMPTags {
   /** ☆☆☆☆ ✔ Example: "uuid:faf5bdd5-ba3d-11da-ad31-d33d75182f1b" */
-  About?: string
+  About?: string;
   /** ☆☆☆☆   Example: "+823.75" */
-  AbsoluteAltitude?: string
+  AbsoluteAltitude?: string;
   /** ☆☆☆☆   Example: "Twilight Dreams" */
-  Album?: string
+  Album?: string;
   /** ☆☆☆☆ ✔ Example: true */
-  AlreadyApplied?: boolean
+  AlreadyApplied?: boolean;
   /** ☆☆☆☆ ✔ Example: 5.01 */
-  ApproximateFocusDistance?: number
+  ApproximateFocusDistance?: number;
   /** ☆☆☆☆   Example: 0 */
-  AsrClimaxDuration?: number
+  AsrClimaxDuration?: number;
   /** ☆☆☆☆   Example: "None" */
-  AsrClimaxScene?: string
+  AsrClimaxScene?: string;
   /** ☆☆☆☆   Example: 0 */
-  AsrIsMacroRange?: number
+  AsrIsMacroRange?: number;
   /** ☆☆☆☆   Example: "Stable" */
-  AsrSceneCondition?: string
+  AsrSceneCondition?: string;
   /** ☆☆☆☆   Example: "NightPortrait" */
-  AsrSceneMode?: string
+  AsrSceneMode?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  AutoLateralCA?: number
+  AutoLateralCA?: number;
   /** ☆☆☆☆   Example: ["LWIR"] */
-  BandName?: string[]
+  BandName?: string[];
   /** ☆☆☆☆ ✔ Example: 0 */
-  BlueHue?: number
+  BlueHue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  BlueSaturation?: number
+  BlueSaturation?: number;
   /** ☆☆☆☆ ✔ Example: "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89" */
-  BurstID?: string
+  BurstID?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  BurstPrimary?: number
+  BurstPrimary?: number;
   /** ☆☆☆☆ ✔ Example: "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89" */
-  CameraBurstID?: string
+  CameraBurstID?: string;
   /** ☆☆☆☆   Example: "Front" */
-  CameraFacing?: string
+  CameraFacing?: string;
   /** ☆☆☆☆ ✔ Example: "" */
-  CameraModelID?: string
+  CameraModelID?: string;
   /** ☆☆☆☆ ✔ Example: "Embedded" */
-  CameraProfile?: string
+  CameraProfile?: string;
   /** ☆☆☆☆ ✔ Example: "D4FE5D91640D0C5A01B5633EB8061002" */
-  CameraProfileDigest?: string
+  CameraProfileDigest?: string;
   /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
-  Cameras?: Struct[]
+  Cameras?: Struct[];
   /** ☆☆☆☆   Example: "Rear" */
-  CameraUnit?: string
+  CameraUnit?: string;
   /** ☆☆☆☆   Example: 0 */
-  CamReverse?: number
+  CamReverse?: number;
   /** ☆☆☆☆ ✔ Example: "Photo" */
-  CaptureMode?: string
+  CaptureMode?: string;
   /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
-  CaptureSoftware?: string
+  CaptureSoftware?: string;
   /** ☆☆☆☆ ✔ Example: ["Subjekt|Natur|Pflanzen","Ort|Deutschland|Rangsdorf"] */
-  CatalogSets?: string[]
+  CatalogSets?: string[];
   /** ☆☆☆☆   Example: "240-8-330-901211" */
-  CellGlobalID?: string
+  CellGlobalID?: string;
   /** ☆☆☆☆   Example: 5 */
-  CellR?: number
+  CellR?: number;
   /** ☆☆☆☆   Example: 901211 */
-  CellTowerID?: number
+  CellTowerID?: number;
   /** ☆☆☆☆   Example: 45 */
-  CentralTemperature?: number
+  CentralTemperature?: number;
   /** ☆☆☆☆   Example: [10000] */
-  CentralWavelength?: number[]
+  CentralWavelength?: number[];
   /** ☆☆☆☆ ✔ Example: ["tag,2011-07-26T05:44:01Z,0,c"] */
-  Changes?: string[]
+  Changes?: string[];
   /** ☆☆☆☆ ✔ Example: [{"CorrectionActive":true,"CorrectionAmount":1,"Correctio…tion"}] */
-  CircularGradientBasedCorrections?: Struct[]
+  CircularGradientBasedCorrections?: Struct[];
   /** ☆☆☆☆ ✔ Example: "3 (Superior)" */
-  ColorClass?: string
+  ColorClass?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ColorLabel?: number
+  ColorLabel?: number;
   /** ☆☆☆☆ ✔ Example: "" */
-  Colorlabels?: string
+  Colorlabels?: string;
   /** ☆☆☆☆ ✔ Example: 25 */
-  ColorNoiseReduction?: number
+  ColorNoiseReduction?: number;
   /** ☆☆☆☆ ✔ Example: 50 */
-  ColorNoiseReductionDetail?: number
+  ColorNoiseReductionDetail?: number;
   /** ☆☆☆☆ ✔ Example: 50 */
-  ColorNoiseReductionSmoothness?: number
+  ColorNoiseReductionSmoothness?: number;
   /** ☆☆☆☆ ✔ Example: "This is a comment." */
-  Comment?: string
+  Comment?: string;
   /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
-  Container?: Struct
+  Container?: Struct;
   /** ☆☆☆☆   Example: "/home/username/pictures" */
-  ContainerDirectory?: ContainerDirectoryItem[] | Struct[]
+  ContainerDirectory?: ContainerDirectoryItem[] | Struct[];
   /** ☆☆☆☆ ✔ Example: false */
-  ConvertToGrayscale?: boolean
+  ConvertToGrayscale?: boolean;
   /** ☆☆☆☆ ✔ Example: "United States" */
-  Country?: string
+  Country?: string;
   /** ☆☆☆☆ ✔ Example: "ir" */
-  CountryCode?: string
+  CountryCode?: string;
   /** ☆☆☆☆   Example:  */
-  CreationTime?: ExifDateTime | string
+  CreationTime?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: ["daniel@woss.io"] */
-  Creator?: string[]
+  Creator?: string[];
   /** ☆☆☆☆   Example: "{2d7e7fd6-2942-4d77-9842-389c3f62b14d}" */
-  CreatorAppID?: string
+  CreatorAppID?: string;
   /** ☆☆☆☆ ✔ Example: {"CiAdrCity":"Amsterdam","CiAdrCtry":"Netherlands","CiAdr…73 CH"} */
-  CreatorContactInfo?: Struct
+  CreatorContactInfo?: Struct;
   /** ☆☆☆☆   Example: 1 */
-  CreatorOpenWithUIOptions?: number
+  CreatorOpenWithUIOptions?: number;
   /** ☆☆☆☆   Example: "Version Ver 1.04 " */
-  Creatortool?: string
+  Creatortool?: string;
   /** ☆☆☆☆ ✔ Example: "picnik.com" */
-  CreatorTool?: string
+  CreatorTool?: string;
   /** ☆☆☆☆   Example: 0 */
-  CropAngle?: number
+  CropAngle?: number;
   /** ☆☆☆☆   Example: 1 */
-  CropBottom?: number
+  CropBottom?: number;
   /** ☆☆☆☆   Example: 0 */
-  CropConstrainToWarp?: number
+  CropConstrainToWarp?: number;
   /** ☆☆☆☆ ✔ Example: "8 0" */
-  CropLeft?: string
+  CropLeft?: string;
   /** ☆☆☆☆ ✔ Example: 3872 */
-  CroppedAreaImageHeightPixels?: number
+  CroppedAreaImageHeightPixels?: number;
   /** ☆☆☆☆ ✔ Example: 7744 */
-  CroppedAreaImageWidthPixels?: number
+  CroppedAreaImageWidthPixels?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CroppedAreaLeftPixels?: number
+  CroppedAreaLeftPixels?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  CroppedAreaTopPixels?: number
+  CroppedAreaTopPixels?: number;
   /** ☆☆☆☆   Example: 1 */
-  CropRight?: number
+  CropRight?: number;
   /** ☆☆☆☆ ✔ Example: "8 0" */
-  CropTop?: string
+  CropTop?: string;
   /** ☆☆☆☆ ✔ Example: "2014:05:11 13:08:25.659" */
-  DateAcquired?: ExifDateTime | string
+  DateAcquired?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "2023:11:07" */
-  DateCreated?: ExifDateTime | string
+  DateCreated?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "2017:08:13 12:38:30" */
-  DateTime?: ExifDateTime | string
+  DateTime?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "2017:08:13 12:38:30" */
-  DateTimeDigitized?: ExifDateTime | string
+  DateTimeDigitized?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "2015:06:02 09:56:01" */
-  DateUTC?: ExifDateTime | string
+  DateUTC?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  DefringeGreenAmount?: number
+  DefringeGreenAmount?: number;
   /** ☆☆☆☆ ✔ Example: 60 */
-  DefringeGreenHueHi?: number
+  DefringeGreenHueHi?: number;
   /** ☆☆☆☆ ✔ Example: 40 */
-  DefringeGreenHueLo?: number
+  DefringeGreenHueLo?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  DefringePurpleAmount?: number
+  DefringePurpleAmount?: number;
   /** ☆☆☆☆ ✔ Example: 70 */
-  DefringePurpleHueHi?: number
+  DefringePurpleHueHi?: number;
   /** ☆☆☆☆ ✔ Example: 30 */
-  DefringePurpleHueLo?: number
+  DefringePurpleHueLo?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  Dehaze?: number
+  Dehaze?: number;
   /** ☆☆☆☆ ✔ Example:  */
-  DerivedFrom?: string
+  DerivedFrom?: string;
   /** ☆☆☆☆ ✔ Example: "nfd" */
-  Description?: string
+  Description?: string;
   /** ☆☆☆☆ ✔ Example: ["Animation","Collage"] */
-  DisableAutoCreation?: string[]
+  DisableAutoCreation?: string[];
   /** ☆☆☆☆ ✔ Example: "xmp.did:7bf80ec8-c5cf-4881-b631-5ac83ae65ce2" */
-  DocumentID?: string
+  DocumentID?: string;
   /** ☆☆☆☆   Example: [{"FaceAnglePitch":0.009265,"FaceAngleRoll":-0.021281,"Fa…re":4}] */
-  Face?: Struct[]
+  Face?: Struct[];
   /** ☆☆☆☆   Example: 1 */
-  FaceNum?: number
+  FaceNum?: number;
   /** ☆☆☆☆   Example: 0 */
-  FaceSelectedIndex?: number
+  FaceSelectedIndex?: number;
   /** ☆☆☆☆   Example: 8 */
-  Far?: number
+  Far?: number;
   /** ☆☆☆☆ ✔ Example: "u77" */
-  Firmware?: string
+  Firmware?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  FlashCompensation?: number
+  FlashCompensation?: number;
   /** ☆☆☆☆ ✔ Example: "Example flash make" */
-  FlashManufacturer?: string
+  FlashManufacturer?: string;
   /** ☆☆☆☆ ✔ Example: "FlashPix Version 1.0" */
-  FlashPixVersion?: string
+  FlashPixVersion?: string;
   /** ☆☆☆☆   Example: 3.8 */
-  FlightPitchDegree?: number
+  FlightPitchDegree?: number;
   /** ☆☆☆☆   Example: 4.5 */
-  FlightRollDegree?: number
+  FlightRollDegree?: number;
   /** ☆☆☆☆   Example: 88.699997 */
-  FlightYawDegree?: number
+  FlightYawDegree?: number;
   /** ☆☆☆☆   Example: 6553500 */
-  FocusAreaHeight?: number
+  FocusAreaHeight?: number;
   /** ☆☆☆☆   Example: 1 */
-  FocusAreaNum?: number
+  FocusAreaNum?: number;
   /** ☆☆☆☆   Example: 6553500 */
-  FocusAreaWidth?: number
+  FocusAreaWidth?: number;
   /** ☆☆☆☆   Example: 0 */
-  FocusIsLensMoving?: number
+  FocusIsLensMoving?: number;
   /** ☆☆☆☆   Example: 3372647 */
-  FocusPosX?: number
+  FocusPosX?: number;
   /** ☆☆☆☆   Example: 936214 */
-  FocusPosY?: number
+  FocusPosY?: number;
   /** ☆☆☆☆   Example: "Inactive" */
-  FocusState?: string
+  FocusState?: string;
   /** ☆☆☆☆ ✔ Example: "image/jpg" */
-  Format?: string
+  Format?: string;
   /** ☆☆☆☆ ✔ Example: 3872 */
-  FullPanoHeightPixels?: number
+  FullPanoHeightPixels?: number;
   /** ☆☆☆☆ ✔ Example: 7744 */
-  FullPanoWidthPixels?: number
+  FullPanoWidthPixels?: number;
   /** ☆☆☆☆   Example: -90 */
-  GimbalPitchDegree?: number
+  GimbalPitchDegree?: number;
   /** ☆☆☆☆   Example: 0 */
-  GimbalReverse?: number
+  GimbalReverse?: number;
   /** ☆☆☆☆   Example: "+0.00" */
-  GimbalRollDegree?: string
+  GimbalRollDegree?: string;
   /** ☆☆☆☆   Example: "+90.80" */
-  GimbalYawDegree?: string
+  GimbalYawDegree?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  GrainAmount?: number
+  GrainAmount?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  GreenHue?: number
+  GreenHue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  GreenSaturation?: number
+  GreenSaturation?: number;
   /** ☆☆☆☆ ✔ Example: false */
-  HasCrop?: boolean
+  HasCrop?: boolean;
   /** ☆☆☆☆ ✔ Example: "F995C3239BC6E6FC1997814864CD2CA2" */
-  HasExtendedXMP?: string
+  HasExtendedXMP?: string;
   /** ☆☆☆☆ ✔ Example: true */
-  HasSettings?: boolean
+  HasSettings?: boolean;
   /** ☆☆☆☆ ✔ Example: "(Binary data 23388 bytes, use -b option to extract)" */
-  HdrPlusMakernote?: BinaryField | string
+  HdrPlusMakernote?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: "(Binary data 22075 bytes, use -b option to extract)" */
-  HDRPMakerNote?: BinaryField | string
+  HDRPMakerNote?: BinaryField | string;
   /** ☆☆☆☆ ✔ Example: ["点像F11"] */
-  HierarchicalSubject?: string[]
+  HierarchicalSubject?: string[];
   /** ☆☆☆☆ ✔ Example: [{"Action":"converted","Parameters":"from image/x-canon-c…alse}}] */
-  History?: ResourceEvent[] | ResourceEvent | string
+  History?: ResourceEvent[] | ResourceEvent | string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentAqua?: number
+  HueAdjustmentAqua?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentBlue?: number
+  HueAdjustmentBlue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentGreen?: number
+  HueAdjustmentGreen?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentMagenta?: number
+  HueAdjustmentMagenta?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentOrange?: number
+  HueAdjustmentOrange?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentPurple?: number
+  HueAdjustmentPurple?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentRed?: number
+  HueAdjustmentRed?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  HueAdjustmentYellow?: number
+  HueAdjustmentYellow?: number;
   /** ☆☆☆☆ ✔ Example: "sRGB IEC61966-2.1" */
-  ICCProfileName?: string
+  ICCProfileName?: string;
   /** ☆☆☆☆ ✔ Example: 4048 */
-  ImageLength?: number
+  ImageLength?: number;
   /** ☆☆☆☆ ✔ Example: 9956 */
-  ImageNumber?: number
+  ImageNumber?: number;
   /** ☆☆☆☆ ✔ Example: 180 */
-  InitialViewHeadingDegrees?: number
+  InitialViewHeadingDegrees?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  InitialViewPitchDegrees?: number
+  InitialViewPitchDegrees?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  InitialViewRollDegrees?: number
+  InitialViewRollDegrees?: number;
   /** ☆☆☆☆ ✔ Example: "xmp.iid:f9edd04d-34a3-41cc-909f-5a49fc5b8154" */
-  InstanceID?: string
+  InstanceID?: string;
   /** ☆☆☆☆ ✔ Example: "N" */
-  InteroperabilityIndex?: string
+  InteroperabilityIndex?: string;
   /** ☆☆☆☆ ✔ Example: "18, 25, 24.96" */
-  InteroperabilityVersion?: string
+  InteroperabilityVersion?: string;
   /** ☆☆☆☆ ✔ Example: true */
-  IsBokehActive?: boolean
+  IsBokehActive?: boolean;
   /** ☆☆☆☆ ✔ Example: true */
-  IsHDRActive?: boolean
+  IsHDRActive?: boolean;
   /** ☆☆☆☆ ✔ Example: false */
-  IsNightModeActive?: boolean
+  IsNightModeActive?: boolean;
   /** ☆☆☆☆ ✔ Example: "選択" */
-  Label?: string
+  Label?: string;
   /** ☆☆☆☆ ✔ Example: ["red fish","bluefish"] */
-  LastKeywordXMP?: string[]
+  LastKeywordXMP?: string[];
   /** ☆☆☆☆ ✔ Example: "F351B7C76CEF50C906DB9B78A92FB1B4" */
-  LegacyIPTCDigest?: string
+  LegacyIPTCDigest?: string;
   /** ☆☆☆☆ ✔ Example: "Back" */
-  LensFacing?: string
+  LensFacing?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LensManualDistortionAmount?: number
+  LensManualDistortionAmount?: number;
   /** ☆☆☆☆ ✔ Example: "Example lens make" */
-  LensManufacturer?: string
+  LensManufacturer?: string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  LensProfileEnable?: number
+  LensProfileEnable?: number;
   /** ☆☆☆☆   Example: "Camera Settings" */
-  LensProfileName?: string
+  LensProfileName?: string;
   /** ☆☆☆☆ ✔ Example: "LensDefaults" */
-  LensProfileSetup?: string
+  LensProfileSetup?: string;
   /** ☆☆☆☆   Example: 37087 */
-  LocationAreaCode?: number
+  LocationAreaCode?: number;
   /** ☆☆☆☆ ✔ Example: {"Amount":1,"Group":"Profiles","Name":"Adobe Color","Para…A7077"} */
-  Look?: Struct
+  Look?: Struct;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentAqua?: number
+  LuminanceAdjustmentAqua?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentBlue?: number
+  LuminanceAdjustmentBlue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentGreen?: number
+  LuminanceAdjustmentGreen?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentMagenta?: number
+  LuminanceAdjustmentMagenta?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentOrange?: number
+  LuminanceAdjustmentOrange?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentPurple?: number
+  LuminanceAdjustmentPurple?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentRed?: number
+  LuminanceAdjustmentRed?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceAdjustmentYellow?: number
+  LuminanceAdjustmentYellow?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  LuminanceSmoothing?: number
+  LuminanceSmoothing?: number;
   /** ☆☆☆☆ ✔ Example: "4577 bytes undefined data" */
-  MakerNote?: string
+  MakerNote?: string;
   /** ☆☆☆☆ ✔ Example: true */
-  Marked?: boolean
+  Marked?: boolean;
   /** ☆☆☆☆ ✔ Example: "" */
-  Mask?: string
+  Mask?: string;
   /** ☆☆☆☆ ✔ Example: "2024:10:02 15:51:50-07:00" */
-  MetadataDate?: ExifDateTime | string
+  MetadataDate?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: 1 */
-  MicroVideo?: number
+  MicroVideo?: number;
   /** ☆☆☆☆ ✔ Example: 2448784 */
-  MicroVideoOffset?: number
+  MicroVideoOffset?: number;
   /** ☆☆☆☆ ✔ Example: 366563 */
-  MicroVideoPresentationTimestampUs?: number
+  MicroVideoPresentationTimestampUs?: number;
   /** ☆☆☆☆ ✔ Example: 1 */
-  MicroVideoVersion?: number
+  MicroVideoVersion?: number;
   /** ☆☆☆☆   Example: "image/jpeg" */
-  Mime?: string
+  Mime?: string;
   /** ☆☆☆☆   Example: 240 */
-  MobileCountryCode?: number
+  MobileCountryCode?: number;
   /** ☆☆☆☆   Example: 8 */
-  MobileNetworkCode?: number
+  MobileNetworkCode?: number;
   /** ☆☆☆☆ ✔ Example: "2015:06:02 09:56:01" */
-  ModificationDate?: ExifDateTime | string
+  ModificationDate?: ExifDateTime | string;
   /** ☆☆☆☆   Example: 1 */
-  MotionPhoto?: number
+  MotionPhoto?: number;
   /** ☆☆☆☆   Example: 717986 */
-  MotionPhotoPresentationTimestampUs?: number
+  MotionPhotoPresentationTimestampUs?: number;
   /** ☆☆☆☆   Example: 1 */
-  MotionPhotoVersion?: number
+  MotionPhotoVersion?: number;
   /** ☆☆☆☆   Example: "36864,40960,40961,37121,37122,40962,40963,37510,40964,368…B0A1251" */
-  NativeDigest?: string
+  NativeDigest?: string;
   /** ☆☆☆☆   Example: 115.4 */
-  Near?: number
+  Near?: number;
   /** ☆☆☆☆   Example: "Album description" */
-  Notes?: string
+  Notes?: string;
   /** ☆☆☆☆   Example: 561 */
-  ObjectAreaHeight?: number
+  ObjectAreaHeight?: number;
   /** ☆☆☆☆   Example: 884 */
-  ObjectAreaWidth?: number
+  ObjectAreaWidth?: number;
   /** ☆☆☆☆   Example: 1 */
-  ObjectNum?: number
+  ObjectNum?: number;
   /** ☆☆☆☆   Example: 1890 */
-  ObjectPosX?: number
+  ObjectPosX?: number;
   /** ☆☆☆☆   Example: 1796 */
-  ObjectPosY?: number
+  ObjectPosY?: number;
   /** ☆☆☆☆   Example:  */
-  OriginalCreateDateTime?: ExifDateTime | string
+  OriginalCreateDateTime?: ExifDateTime | string;
   /** ☆☆☆☆ ✔ Example: "xmp.did:7bf80ec8-c5cf-4881-b631-5ac83ae65ce2" */
-  OriginalDocumentID?: string
+  OriginalDocumentID?: string;
   /** ☆☆☆☆ ✔ Example: false */
-  OverrideLookVignette?: boolean
+  OverrideLookVignette?: boolean;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ParametricDarks?: number
+  ParametricDarks?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ParametricHighlights?: number
+  ParametricHighlights?: number;
   /** ☆☆☆☆ ✔ Example: 75 */
-  ParametricHighlightSplit?: number
+  ParametricHighlightSplit?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ParametricLights?: number
+  ParametricLights?: number;
   /** ☆☆☆☆ ✔ Example: 50 */
-  ParametricMidtoneSplit?: number
+  ParametricMidtoneSplit?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ParametricShadows?: number
+  ParametricShadows?: number;
   /** ☆☆☆☆ ✔ Example: 25 */
-  ParametricShadowSplit?: number
+  ParametricShadowSplit?: number;
   /** ☆☆☆☆ ✔ Example: ["John Doe"] */
-  PersonInImage?: string[]
+  PersonInImage?: string[];
   /** ☆☆☆☆ ✔ Example: 0 */
-  PerspectiveAspect?: number
+  PerspectiveAspect?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PerspectiveHorizontal?: number
+  PerspectiveHorizontal?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PerspectiveRotate?: number
+  PerspectiveRotate?: number;
   /** ☆☆☆☆ ✔ Example: 100 */
-  PerspectiveScale?: number
+  PerspectiveScale?: number;
   /** ☆☆☆☆ ✔ Example: "Off" */
-  PerspectiveUpright?: string
+  PerspectiveUpright?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PerspectiveVertical?: number
+  PerspectiveVertical?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PerspectiveX?: number
+  PerspectiveX?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PerspectiveY?: number
+  PerspectiveY?: number;
   /** ☆☆☆☆ ✔ Example: 80 */
-  PhotographicSensitivity?: number
+  PhotographicSensitivity?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PickLabel?: number
+  PickLabel?: number;
   /** ☆☆☆☆ ✔ Example: "01.00" */
-  PipelineVersion?: string
+  PipelineVersion?: string;
   /** ☆☆☆☆ ✔ Example: "PM6" */
-  PMVersion?: string
+  PMVersion?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PortraitVersion?: number
+  PortraitVersion?: number;
   /** ☆☆☆☆ ✔ Example: 22.5 */
-  PoseHeadingDegrees?: number
+  PoseHeadingDegrees?: number;
   /** ☆☆☆☆ ✔ Example: 11.2 */
-  PosePitchDegrees?: number
+  PosePitchDegrees?: number;
   /** ☆☆☆☆ ✔ Example: 1.6 */
-  PoseRollDegrees?: number
+  PoseRollDegrees?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  PostCropVignetteAmount?: number
+  PostCropVignetteAmount?: number;
   /** ☆☆☆☆ ✔ Example: "DSCF0722.JPG" */
-  PreservedFileName?: string
+  PreservedFileName?: string;
   /** ☆☆☆☆ ✔ Example: 11 */
-  ProcessVersion?: number
+  ProcessVersion?: number;
   /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
-  Profiles?: Struct[]
+  Profiles?: Struct[];
   /** ☆☆☆☆   Example:  */
-  ProgramMode?: string
+  ProgramMode?: string;
   /** ☆☆☆☆ ✔ Example: "equirectangular" */
-  ProjectionType?: string
+  ProjectionType?: string;
   /** ★★☆☆ ✔ Example: 5 */
-  Rating?: number
+  Rating?: number;
   /** ☆☆☆☆ ✔ Example: 50 */
-  RatingPercent?: number
+  RatingPercent?: number;
   /** ☆☆☆☆ ✔ Example: "P2030414.jpg" */
-  RawFileName?: string
+  RawFileName?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RedHue?: number
+  RedHue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  RedSaturation?: number
+  RedSaturation?: number;
   /** ☆☆☆☆ ✔ Example: {"AppliedToDimensions":{"H":3552,"W":2000},"RegionList":[…ace"}]} */
-  RegionInfo?: Struct
+  RegionInfo?: Struct;
   /** ☆☆☆☆ ✔ Example: {"Regions":""} */
-  RegionInfoMP?: Struct
+  RegionInfoMP?: Struct;
   /** ☆☆☆☆ ✔ Example: [{"RegItemId":"Number1","RegOrgId":"TestName1"},{"RegItem…ame3"}] */
-  RegistryID?: Struct[]
+  RegistryID?: Struct[];
   /** ☆☆☆☆   Example: "+90.80" */
-  RelativeAltitude?: string
+  RelativeAltitude?: string;
   /** ☆☆☆☆ ✔ Example: "Kawp E. Reite Houldre" */
-  Rights?: string
+  Rights?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentAqua?: number
+  SaturationAdjustmentAqua?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentBlue?: number
+  SaturationAdjustmentBlue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentGreen?: number
+  SaturationAdjustmentGreen?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentMagenta?: number
+  SaturationAdjustmentMagenta?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentOrange?: number
+  SaturationAdjustmentOrange?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentPurple?: number
+  SaturationAdjustmentPurple?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentRed?: number
+  SaturationAdjustmentRed?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SaturationAdjustmentYellow?: number
+  SaturationAdjustmentYellow?: number;
   /** ☆☆☆☆ ✔ Example: "AutoHDR" */
-  Scene?: string
+  Scene?: string;
   /** ☆☆☆☆ ✔ Example: "[0.997883, 0.92984027]" */
-  SceneDetectResultConfidences?: string
+  SceneDetectResultConfidences?: string;
   /** ☆☆☆☆ ✔ Example: "[901, 60, 0]" */
-  SceneDetectResultIds?: string
+  SceneDetectResultIds?: string;
   /** ☆☆☆☆   Example: "Undefined" */
-  SelfData?: string
+  SelfData?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  ShadowTint?: number
+  ShadowTint?: number;
   /** ☆☆☆☆ ✔ Example: 25 */
-  SharpenDetail?: number
+  SharpenDetail?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SharpenEdgeMasking?: number
+  SharpenEdgeMasking?: number;
   /** ☆☆☆☆ ✔ Example: "+1.0" */
-  SharpenRadius?: string
+  SharpenRadius?: string;
   /** ☆☆☆☆ ✔ Example: 2 */
-  SourcePhotosCount?: number
+  SourcePhotosCount?: number;
   /** ☆☆☆☆ ✔ Example: ["com.google.android.apps.camera.gallery.specialtype.Spec…TRAIT"] */
-  SpecialTypeID?: string[]
+  SpecialTypeID?: string[];
   /** ☆☆☆☆ ✔ Example: 0 */
-  SplitToningBalance?: number
+  SplitToningBalance?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SplitToningHighlightHue?: number
+  SplitToningHighlightHue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SplitToningHighlightSaturation?: number
+  SplitToningHighlightSaturation?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SplitToningShadowHue?: number
+  SplitToningShadowHue?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  SplitToningShadowSaturation?: number
+  SplitToningShadowSaturation?: number;
   /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
-  StitchingSoftware?: string
+  StitchingSoftware?: string;
   /** ☆☆☆☆ ✔ Example: 3 */
-  StreamType?: number
+  StreamType?: number;
   /** ☆☆☆☆ ✔ Example: ["点像F11"] */
-  Subject?: string[]
+  Subject?: string[];
   /** ☆☆☆☆ ✔ Example: 296185 */
-  SubsecTime?: number
+  SubsecTime?: number;
   /** ☆☆☆☆ ✔ Example: "#MB%:{9C0B071B-5553-4D89-B252-934C9EC1E04D}GBMB1:%MB#" */
-  Tag?: string
+  Tag?: string;
   /** ☆☆☆☆ ✔ Example: "Yes" */
-  Tagged?: string
+  Tagged?: string;
   /** ☆☆☆☆ ✔ Example: ["Subjekt/Natur/Pflanzen","Ort/Deutschland/Rangsdorf"] */
-  TagsList?: string[]
+  TagsList?: string[];
   /** ☆☆☆☆ ✔ Example: "+5" */
-  Tint?: string
+  Tint?: string;
   /** ☆☆☆☆ ✔ Example: "Very Blank" */
-  Title?: string
+  Title?: string;
   /** ☆☆☆☆   Example: 0 */
-  TlinearGain?: number
+  TlinearGain?: number;
   /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
-  ToneCurveBlue?: string[]
+  ToneCurveBlue?: string[];
   /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
-  ToneCurveGreen?: string[]
+  ToneCurveGreen?: string[];
   /** ☆☆☆☆ ✔ Example: "Medium Contrast" */
-  ToneCurveName?: string
+  ToneCurveName?: string;
   /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
-  ToneCurvePV2012Blue?: string[]
+  ToneCurvePV2012Blue?: string[];
   /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
-  ToneCurvePV2012Green?: string[]
+  ToneCurvePV2012Green?: string[];
   /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
-  ToneCurvePV2012Red?: string[]
+  ToneCurvePV2012Red?: string[];
   /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
-  ToneCurveRed?: string[]
+  ToneCurveRed?: string[];
   /** ☆☆☆☆ ✔ Example: 0 */
-  ToneMapStrength?: number
+  ToneMapStrength?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  UprightCenterMode?: number
+  UprightCenterMode?: number;
   /** ☆☆☆☆ ✔ Example: 0.5 */
-  UprightCenterNormX?: number
+  UprightCenterNormX?: number;
   /** ☆☆☆☆ ✔ Example: 0.5 */
-  UprightCenterNormY?: number
+  UprightCenterNormY?: number;
   /** ☆☆☆☆ ✔ Example: 35 */
-  UprightFocalLength35mm?: number
+  UprightFocalLength35mm?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  UprightFocalMode?: number
+  UprightFocalMode?: number;
   /** ☆☆☆☆ ✔ Example: 0 */
-  UprightFourSegmentsCount?: number
+  UprightFourSegmentsCount?: number;
   /** ☆☆☆☆ ✔ Example: false */
-  UprightPreview?: boolean
+  UprightPreview?: boolean;
   /** ☆☆☆☆ ✔ Example: 6 */
-  UprightTransformCount?: number
+  UprightTransformCount?: number;
   /** ☆☆☆☆ ✔ Example: 151388160 */
-  UprightVersion?: number
+  UprightVersion?: number;
   /** ☆☆☆☆ ✔ Example: true */
-  UsePanoramaViewer?: boolean
+  UsePanoramaViewer?: boolean;
   /** ☆☆☆☆   Example:  */
-  Versions?: Version[] | Version | string
+  Versions?: Version[] | Version | string;
   /** ☆☆☆☆ ✔ Example: "+21" */
-  Vibrance?: string
+  Vibrance?: string;
   /** ☆☆☆☆ ✔ Example: 0 */
-  VignetteAmount?: number
+  VignetteAmount?: number;
   /** ☆☆☆☆   Example: [4500] */
-  WavelengthFWHM?: number[]
+  WavelengthFWHM?: number[];
   /** ☆☆☆☆   Example: "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><…="0" />" */
-  XMPMeta?: string
+  XMPMeta?: string;
   /** ☆☆☆☆ ✔ Example: "XMP toolkit 3.0-28, framework 1.6" */
-  XMPToolkit?: string
+  XMPToolkit?: string;
 }
 
 /**

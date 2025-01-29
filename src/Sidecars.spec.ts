@@ -1,5 +1,5 @@
-import { isSidecarExt } from "./Sidecars"
-import { expect } from "./_chai.spec"
+import { isSidecarExt } from "./Sidecars";
+import { expect } from "./_chai.spec";
 
 describe("Sidecars", () => {
   describe("isSidecarExt", () => {
@@ -13,8 +13,8 @@ describe("Sidecars", () => {
       { p: "tiff.XMP", exp: true },
     ]) {
       it(`(${p}) -> ${exp}`, () => {
-        expect(isSidecarExt(p)).to.eql(exp)
-      })
+        expect(isSidecarExt(p)).to.eql(exp);
+      });
     }
-  })
-})
+  });
+});

@@ -1,5 +1,5 @@
-import { isWarning } from "./IsWarning"
-import { expect } from "./_chai.spec"
+import { isWarning } from "./IsWarning";
+import { expect } from "./_chai.spec";
 
 describe("IsWarning", () => {
   for (const msg of [
@@ -10,12 +10,12 @@ describe("IsWarning", () => {
     "Nothing to do.",
   ]) {
     it(`accepts ${msg}`, () => {
-      expect(isWarning(msg)).to.eql(true)
-    })
+      expect(isWarning(msg)).to.eql(true);
+    });
   }
   for (const msg of ["Error: File not found - nonexistant.jpg"]) {
     it(`rejects ${msg}`, () => {
-      expect(isWarning(msg)).to.eql(false)
-    })
+      expect(isWarning(msg)).to.eql(false);
+    });
   }
-})
+});

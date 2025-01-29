@@ -1,5 +1,5 @@
-import { pad2, pad3 } from "./String"
-import { expect } from "./_chai.spec"
+import { pad2, pad3 } from "./String";
+import { expect } from "./_chai.spec";
 
 describe("String", () => {
   const examples = [
@@ -15,19 +15,19 @@ describe("String", () => {
     { i: 99, pad2: "99", pad3: "099" },
     { i: 100, pad2: "100", pad3: "100" },
     { i: 1999, pad2: "1999", pad3: "1999" },
-  ]
+  ];
   describe("pad2()", () => {
     examples.forEach((e) => {
       it(e.i + " => " + e.pad2, () => {
-        expect(pad2(e.i)).to.eql([e.pad2])
-      })
-    })
-  })
+        expect(pad2(e.i)).to.eql([e.pad2]);
+      });
+    });
+  });
   describe("pad3()", () => {
     examples.forEach((e) => {
       it(e.i + " => " + e.pad3, () => {
-        expect(pad3(e.i)).to.eql([e.pad3])
-      })
-    })
-  })
-})
+        expect(pad3(e.i)).to.eql([e.pad3]);
+      });
+    });
+  });
+});

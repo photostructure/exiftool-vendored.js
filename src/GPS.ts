@@ -2,13 +2,13 @@ import {
   parseCoordinate,
   parseCoordinates,
   processCoordinate,
-} from "./CoordinateParser"
-import { ExifToolOptions } from "./ExifToolOptions"
-import { lazy } from "./Lazy"
-import { Maybe } from "./Maybe"
-import { isNumber } from "./Number"
-import { keysOf } from "./Object"
-import { blank } from "./String"
+} from "./CoordinateParser";
+import { ExifToolOptions } from "./ExifToolOptions";
+import { lazy } from "./Lazy";
+import { Maybe } from "./Maybe";
+import { isNumber } from "./Number";
+import { keysOf } from "./Object";
+import { blank } from "./String";
 
 // Like all metadata, this is a mess. Here's what we know:
 
@@ -35,13 +35,13 @@ import { blank } from "./String"
 // and https://github.com/immich-app/immich/issues/13053
 
 export type GpsLocationTags = {
-  GPSLatitude?: number
-  GPSLatitudeRef?: string
-  GPSLongitude?: number
-  GPSLongitudeRef?: string
-  GPSPosition?: string
-  GeolocationPosition?: string
-}
+  GPSLatitude?: number;
+  GPSLatitudeRef?: string;
+  GPSLongitude?: number;
+  GPSLongitudeRef?: string;
+  GPSPosition?: string;
+  GeolocationPosition?: string;
+};
 
 export const GpsLocationTagNames = keysOf<GpsLocationTags>({
   GPSLatitude: true,
@@ -50,83 +50,83 @@ export const GpsLocationTagNames = keysOf<GpsLocationTags>({
   GPSLongitudeRef: true,
   GPSPosition: true,
   GeolocationPosition: true,
-})
+});
 
 export interface GpsParseResult {
-  result: GpsLocationTags
-  details: string
-  invalid: boolean
-  warnings: string[]
+  result: GpsLocationTags;
+  details: string;
+  invalid: boolean;
+  warnings: string[];
 }
 
 // local function that handles more input types:
 function _parseCoordinate(v: Maybe<string | number>) {
-  return blank(v) ? undefined : isNumber(v) ? v : parseCoordinate(v).decimal
+  return blank(v) ? undefined : isNumber(v) ? v : parseCoordinate(v).decimal;
 }
 
 function _parseCoordinates(v: Maybe<string>) {
-  return blank(v) ? undefined : parseCoordinates(v)
+  return blank(v) ? undefined : parseCoordinates(v);
 }
 
 export function parseGPSLocation(
   tags: GpsLocationTags,
-  opts: Pick<ExifToolOptions, "ignoreZeroZeroLatLon">
+  opts: Pick<ExifToolOptions, "ignoreZeroZeroLatLon">,
 ): Maybe<Partial<GpsParseResult>> {
-  const warnings: string[] = []
+  const warnings: string[] = [];
 
   try {
     // Parse primary coordinates with error capturing
-    let latitude = undefined
-    let longitude = undefined
+    let latitude = undefined;
+    let longitude = undefined;
 
     try {
-      latitude = _parseCoordinate(tags.GPSLatitude)
+      latitude = _parseCoordinate(tags.GPSLatitude);
     } catch (e) {
-      warnings.push(`Error parsing GPSLatitude: ${e}`)
+      warnings.push(`Error parsing GPSLatitude: ${e}`);
     }
 
     try {
-      longitude = _parseCoordinate(tags.GPSLongitude)
+      longitude = _parseCoordinate(tags.GPSLongitude);
     } catch (e) {
-      warnings.push(`Error parsing GPSLongitude: ${e}`)
+      warnings.push(`Error parsing GPSLongitude: ${e}`);
     }
 
     // If either coordinate is missing, try GPSPosition
     if (latitude == null || longitude == null) {
       const gpsPos = lazy(() => {
         try {
-          return _parseCoordinates(tags.GPSPosition)
+          return _parseCoordinates(tags.GPSPosition);
         } catch (e) {
-          warnings.push(`Error parsing GPSPosition: ${e}`)
-          return undefined
+          warnings.push(`Error parsing GPSPosition: ${e}`);
+          return undefined;
         }
-      })
+      });
 
       if (latitude == null) {
-        latitude = gpsPos()?.latitude
+        latitude = gpsPos()?.latitude;
       }
       if (longitude == null) {
-        longitude = gpsPos()?.longitude
+        longitude = gpsPos()?.longitude;
       }
     }
 
     // If we still don't have both coordinates, return early
     if (latitude == null || longitude == null) {
-      return { invalid: false, warnings }
+      return { invalid: false, warnings };
     }
 
     // Check for zero coordinates if configured
     if (opts.ignoreZeroZeroLatLon && latitude === 0 && longitude === 0) {
-      warnings.push("Ignoring zero coordinates from GPSLatitude/GPSLongitude")
-      return { invalid: true, warnings }
+      warnings.push("Ignoring zero coordinates from GPSLatitude/GPSLongitude");
+      return { invalid: true, warnings };
     }
 
     // Get geolocation reference values for sign validation
-    let geoPos = undefined
+    let geoPos = undefined;
     try {
-      geoPos = _parseCoordinates(tags.GeolocationPosition)
+      geoPos = _parseCoordinates(tags.GeolocationPosition);
     } catch (e) {
-      warnings.push(`Error parsing GeolocationPosition: ${e}`)
+      warnings.push(`Error parsing GeolocationPosition: ${e}`);
     }
 
     // Process coordinates with validation and sign correction
@@ -140,8 +140,8 @@ export function parseGPSLocation(
         max: 90,
         coordinateType: "Latitude",
       },
-      warnings
-    )
+      warnings,
+    );
 
     const lonResult = processCoordinate(
       {
@@ -153,11 +153,11 @@ export function parseGPSLocation(
         max: 180,
         coordinateType: "Longitude",
       },
-      warnings
-    )
+      warnings,
+    );
 
     if (latResult.isInvalid || lonResult.isInvalid) {
-      return { invalid: true, warnings }
+      return { invalid: true, warnings };
     }
 
     return {
@@ -169,9 +169,9 @@ export function parseGPSLocation(
       },
       invalid: false,
       warnings,
-    }
+    };
   } catch (e) {
-    warnings.push(`Error parsing coordinates: ${e}`)
-    return { invalid: true, warnings }
+    warnings.push(`Error parsing coordinates: ${e}`);
+    return { invalid: true, warnings };
   }
 }

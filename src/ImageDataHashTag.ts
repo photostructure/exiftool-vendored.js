@@ -9,5 +9,5 @@ export interface ImageDataHashTag {
    * @see ExifToolOptions.imageHashType
    * @see https://exiftool.org/ExifTool.html#ImageHashType
    */
-  ImageDataHash?: string
+  ImageDataHash?: string;
 }

@@ -1,8 +1,8 @@
-import { parse } from "node:path"
+import { parse } from "node:path";
 
-export const SidecarExts = [".exif", ".exv", ".mie", ".xmp"]
+export const SidecarExts = [".exif", ".exv", ".mie", ".xmp"];
 
 export function isSidecarExt(filename: string) {
-  const p = parse(filename)
-  return SidecarExts.includes(String(p.ext).toLowerCase())
+  const p = parse(filename);
+  return SidecarExts.includes(String(p.ext).toLowerCase());
 }

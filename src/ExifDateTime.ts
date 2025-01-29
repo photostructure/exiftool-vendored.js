@@ -5,23 +5,23 @@ import {
   ToISOTimeOptions,
   Zone,
   ZoneOptions,
-} from "luxon"
-import { MinuteMs, dateTimeToExif } from "./DateTime"
-import { Maybe, denull } from "./Maybe"
-import { omit } from "./Object"
-import { blank, isString, notBlank } from "./String"
+} from "luxon";
+import { MinuteMs, dateTimeToExif } from "./DateTime";
+import { Maybe, denull } from "./Maybe";
+import { omit } from "./Object";
+import { blank, isString, notBlank } from "./String";
 import {
   TimeFormatMeta,
   parseDateTime,
   setZone,
   timeFormats,
-} from "./TimeParsing"
+} from "./TimeParsing";
 import {
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
   getZoneName,
-} from "./Timezones"
+} from "./Timezones";
 
 /**
  * Encodes an ExifDateTime with an optional tz offset in minutes.
@@ -29,7 +29,7 @@ import {
 export class ExifDateTime {
   static from(
     exifOrIso: Maybe<string | ExifDateTime>,
-    defaultZone?: Maybe<string>
+    defaultZone?: Maybe<string>,
   ): Maybe<ExifDateTime> {
     return exifOrIso instanceof ExifDateTime
       ? exifOrIso // already an ExifDateTime
@@ -37,14 +37,14 @@ export class ExifDateTime {
         ? undefined // in order of strictness:
         : (this.fromExifStrict(exifOrIso, defaultZone) ??
           this.fromISO(exifOrIso, defaultZone) ??
-          this.fromExifLoose(exifOrIso, defaultZone))
+          this.fromExifLoose(exifOrIso, defaultZone));
   }
 
   static fromISO(
     iso: string,
-    defaultZone?: Maybe<string>
+    defaultZone?: Maybe<string>,
   ): Maybe<ExifDateTime> {
-    if (blank(iso) || null != iso.match(/^\d+$/)) return undefined
+    if (blank(iso) || null != iso.match(/^\d+$/)) return undefined;
     // Unfortunately, DateTime.fromISO() is happy to parse a date with no time,
     // so we have to do this ourselves:
     return this.#fromPatterns(
@@ -52,8 +52,8 @@ export class ExifDateTime {
       timeFormats({
         formatPrefixes: ["y-MM-dd'T'", "y-MM-dd ", "y-M-d "],
         defaultZone,
-      })
-    )
+      }),
+    );
   }
 
   /**
@@ -68,28 +68,28 @@ export class ExifDateTime {
    */
   static fromEXIF(
     text: string,
-    defaultZone?: Maybe<string>
+    defaultZone?: Maybe<string>,
   ): Maybe<ExifDateTime> {
-    if (blank(text)) return undefined
+    if (blank(text)) return undefined;
     return (
       // .fromExifStrict() uses .fromISO() as a backstop
       this.fromExifStrict(text, defaultZone) ??
       this.fromExifLoose(text, defaultZone)
-    )
+    );
   }
 
   static #fromPatterns(
     text: string,
-    fmts: Iterable<TimeFormatMeta>
+    fmts: Iterable<TimeFormatMeta>,
   ): Maybe<ExifDateTime> {
-    const result = parseDateTime(text, fmts)
+    const result = parseDateTime(text, fmts);
     return result == null
       ? undefined
       : ExifDateTime.fromDateTime(result.dt, {
           rawValue: text,
           unsetMilliseconds: result.unsetMilliseconds,
           inferredZone: result.inferredZone,
-        })
+        });
   }
 
   /**
@@ -105,18 +105,18 @@ export class ExifDateTime {
    */
   static fromExifStrict(
     text: unknown,
-    defaultZone?: Maybe<string>
+    defaultZone?: Maybe<string>,
   ): Maybe<ExifDateTime> {
-    if (blank(text) || !isString(text)) return undefined
+    if (blank(text) || !isString(text)) return undefined;
     return (
       this.#fromPatterns(
         text,
-        timeFormats({ formatPrefixes: ["y:MM:dd ", "y:M:d "], defaultZone })
+        timeFormats({ formatPrefixes: ["y:MM:dd ", "y:M:d "], defaultZone }),
       ) ??
       // Not found yet? Maybe it's in ISO format? See
       // https://github.com/photostructure/exiftool-vendored.js/issues/71
       this.fromISO(text, defaultZone)
-    )
+    );
   }
 
   static *#looseExifFormats(defaultZone?: Maybe<string>) {
@@ -126,32 +126,32 @@ export class ExifDateTime {
       "MMM d y, HH:mm:ss",
       // Thu Oct 13 00:12:27 2016:
       "ccc MMM d HH:mm:ss y",
-    ]
-    const zone = notBlank(defaultZone) ? defaultZone : UnsetZone
+    ];
+    const zone = notBlank(defaultZone) ? defaultZone : UnsetZone;
     for (const fmt of formats) {
-      yield { fmt: fmt, zone, inferredZone: true }
+      yield { fmt: fmt, zone, inferredZone: true };
     }
   }
 
   static fromExifLoose(
     text: unknown,
-    defaultZone?: Maybe<string>
+    defaultZone?: Maybe<string>,
   ): Maybe<ExifDateTime> {
     return blank(text) || !isString(text)
       ? undefined
-      : this.#fromPatterns(text, this.#looseExifFormats(defaultZone))
+      : this.#fromPatterns(text, this.#looseExifFormats(defaultZone));
   }
 
   static fromDateTime(
     dt: Maybe<DateTime>,
     opts?: {
-      rawValue?: Maybe<string>
-      unsetMilliseconds?: boolean
-      inferredZone?: Maybe<boolean>
-    }
+      rawValue?: Maybe<string>;
+      unsetMilliseconds?: boolean;
+      inferredZone?: Maybe<boolean>;
+    },
   ): Maybe<ExifDateTime> {
     if (dt == null || !dt.isValid || dt.year === 0 || dt.year === 1) {
-      return undefined
+      return undefined;
     }
     return new ExifDateTime(
       dt.year,
@@ -168,8 +168,8 @@ export class ExifDateTime {
       dt.zoneName == null || dt.zone?.name === UnsetZone.name
         ? undefined
         : dt.zoneName,
-      opts?.inferredZone
-    )
+      opts?.inferredZone,
+    );
   }
 
   /**
@@ -186,32 +186,32 @@ export class ExifDateTime {
    */
   static fromMillis(
     millis: number,
-    options: DateTimeJSOptions & { rawValue?: string } = {}
+    options: DateTimeJSOptions & { rawValue?: string } = {},
   ) {
     if (
       options.zone == null ||
       [UnsetZoneName, UnsetZone].includes(options.zone)
     ) {
-      delete options.zone
+      delete options.zone;
     }
     let dt = DateTime.fromMillis(millis, {
       ...omit(options, "rawValue"),
-    })
+    });
     if (options.zone == null) {
-      dt = dt.setZone(UnsetZone, { keepLocalTime: true })
+      dt = dt.setZone(UnsetZone, { keepLocalTime: true });
     }
     // TODO: is there a way to provide an invalid millisecond value?
-    return this.fromDateTime(dt, { rawValue: options.rawValue })!
+    return this.fromDateTime(dt, { rawValue: options.rawValue })!;
   }
 
   static now(
-    opts: DateTimeJSOptions & { rawValue?: string } = {}
+    opts: DateTimeJSOptions & { rawValue?: string } = {},
   ): ExifDateTime {
-    return this.fromMillis(Date.now(), opts)
+    return this.fromMillis(Date.now(), opts);
   }
 
-  #dt?: DateTime
-  readonly zone: Maybe<string>
+  #dt?: DateTime;
+  readonly zone: Maybe<string>;
 
   constructor(
     readonly year: number,
@@ -224,38 +224,38 @@ export class ExifDateTime {
     readonly tzoffsetMinutes?: number,
     readonly rawValue?: string,
     readonly zoneName?: string,
-    readonly inferredZone?: boolean
+    readonly inferredZone?: boolean,
   ) {
-    this.zone = getZoneName({ zoneName, tzoffsetMinutes })
+    this.zone = getZoneName({ zoneName, tzoffsetMinutes });
   }
 
   get millis() {
-    return this.millisecond
+    return this.millisecond;
   }
 
   get hasZone(): boolean {
-    return this.zone != null
+    return this.zone != null;
   }
 
   get unsetMilliseconds(): boolean {
-    return this.millisecond == null
+    return this.millisecond == null;
   }
 
   setZone(
     zone: string | Zone,
-    opts?: ZoneOptions & { inferredZone?: boolean }
+    opts?: ZoneOptions & { inferredZone?: boolean },
   ): Maybe<ExifDateTime> {
     const dt = setZone({
       zone,
       src: this.toDateTime(),
       srcHasZone: this.hasZone,
       opts,
-    })
+    });
     return ExifDateTime.fromDateTime(dt, {
       rawValue: this.rawValue,
       unsetMilliseconds: this.millisecond == null,
       inferredZone: opts?.inferredZone ?? true,
-    })
+    });
   }
 
   /**
@@ -275,16 +275,16 @@ export class ExifDateTime {
       },
       {
         zone: overrideZone ?? this.zone,
-      }
-    ))
+      },
+    ));
   }
 
   toEpochSeconds(overrideZone?: Maybe<string>) {
-    return this.toDateTime(overrideZone).toUnixInteger()
+    return this.toDateTime(overrideZone).toUnixInteger();
   }
 
   toDate(): Date {
-    return this.toDateTime().toJSDate()
+    return this.toDateTime().toJSDate();
   }
 
   toISOString(options: ToISOTimeOptions = {}): Maybe<string> {
@@ -293,30 +293,30 @@ export class ExifDateTime {
         suppressMilliseconds:
           options.suppressMilliseconds ?? this.millisecond == null,
         includeOffset: this.hasZone && options.includeOffset !== false,
-      })
-    )
+      }),
+    );
   }
 
   toExifString() {
     return dateTimeToExif(this.toDateTime(), {
       includeOffset: this.hasZone,
       includeMilliseconds: this.millisecond != null,
-    })
+    });
   }
 
   toString() {
-    return this.toISOString()
+    return this.toISOString();
   }
 
   /**
    * @return the epoch milliseconds of this
    */
   toMillis() {
-    return this.toDateTime().toMillis()
+    return this.toDateTime().toMillis();
   }
 
   get isValid() {
-    return this.toDateTime().isValid
+    return this.toDateTime().isValid;
   }
 
   toJSON() {
@@ -333,14 +333,14 @@ export class ExifDateTime {
       rawValue: this.rawValue,
       zoneName: this.zoneName,
       inferredZone: this.inferredZone,
-    }
+    };
   }
 
   /**
    * @return a new ExifDateTime from the given JSON. Note that this instance **may not be valid**.
    */
   static fromJSON(
-    json: Omit<ReturnType<ExifDateTime["toJSON"]>, "_ctor">
+    json: Omit<ReturnType<ExifDateTime["toJSON"]>, "_ctor">,
   ): ExifDateTime {
     return new ExifDateTime(
       json.year,
@@ -353,42 +353,42 @@ export class ExifDateTime {
       json.tzoffsetMinutes,
       json.rawValue,
       json.zoneName,
-      json.inferredZone
-    )
+      json.inferredZone,
+    );
   }
 
   maybeMatchZone(
     target: ExifDateTime,
-    maxDeltaMs = 14 * MinuteMs
+    maxDeltaMs = 14 * MinuteMs,
   ): Maybe<ExifDateTime> {
-    const targetZone = target.zone
-    if (targetZone == null || !target.hasZone) return
+    const targetZone = target.zone;
+    if (targetZone == null || !target.hasZone) return;
     return (
       this.setZone(targetZone, { keepLocalTime: false })?.ifClose(
         target,
-        maxDeltaMs
+        maxDeltaMs,
       ) ??
       this.setZone(targetZone, { keepLocalTime: true })?.ifClose(
         target,
-        maxDeltaMs
+        maxDeltaMs,
       )
-    )
+    );
   }
 
   private ifClose(
     target: ExifDateTime,
-    maxDeltaMs = 14 * MinuteMs
+    maxDeltaMs = 14 * MinuteMs,
   ): Maybe<ExifDateTime> {
-    const ts = this.toMillis()
-    const targetTs = target.toMillis()
-    return Math.abs(ts - targetTs) <= maxDeltaMs ? this : undefined
+    const ts = this.toMillis();
+    const targetTs = target.toMillis();
+    return Math.abs(ts - targetTs) <= maxDeltaMs ? this : undefined;
   }
 
   plus(duration: DurationLike) {
-    let dt = this.toDateTime().plus(duration)
+    let dt = this.toDateTime().plus(duration);
     if (!this.hasZone) {
-      dt = dt.setZone(UnsetZone, { keepLocalTime: true })
+      dt = dt.setZone(UnsetZone, { keepLocalTime: true });
     }
-    return ExifDateTime.fromDateTime(dt, this)
+    return ExifDateTime.fromDateTime(dt, this);
   }
 }

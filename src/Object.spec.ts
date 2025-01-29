@@ -1,5 +1,5 @@
-import { fromEntries, omit } from "./Object"
-import { expect } from "./_chai.spec"
+import { fromEntries, omit } from "./Object";
+import { expect } from "./_chai.spec";
 
 describe("Object", () => {
   describe(".fromEntries()", () => {
@@ -13,10 +13,10 @@ describe("Object", () => {
           ["e", null],
           [] as any,
           ["f", { neat: true }],
-        ])
-      ).to.eql({ a: "string", b: 2, c: false, e: null, f: { neat: true } })
-    })
-  })
+        ]),
+      ).to.eql({ a: "string", b: 2, c: false, e: null, f: { neat: true } });
+    });
+  });
 
   describe(".omit", () => {
     for (const { o, arr, exp } of [
@@ -39,10 +39,10 @@ describe("Object", () => {
       },
     ]) {
       it(`(${JSON.stringify(o)}, ${arr.join(", ")}) -> ${JSON.stringify(
-        exp
+        exp,
       )}`, () => {
-        expect(omit(o as any, ...arr)).to.eql(exp)
-      })
+        expect(omit(o as any, ...arr)).to.eql(exp);
+      });
     }
-  })
-})
+  });
+});

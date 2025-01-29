@@ -1,7 +1,7 @@
-import { join } from "path"
-import { ExifDateTime } from "./ExifDateTime"
-import { DefaultExifToolOptions, ExifTool } from "./ExifTool"
-import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
+import { join } from "path";
+import { ExifDateTime } from "./ExifDateTime";
+import { DefaultExifToolOptions, ExifTool } from "./ExifTool";
+import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
 import {
   IPTC_JPG,
   end,
@@ -9,30 +9,30 @@ import {
   randomChars,
   testDir,
   testImg,
-} from "./_chai.spec"
+} from "./_chai.spec";
 
 describe("ExifToolOptions", () => {
   describe(".struct", () => {
-    let et: ExifTool
-    afterEach(() => end(et))
+    let et: ExifTool;
+    afterEach(() => end(et));
 
     for (const struct of ["undef", 0, 2] as const) {
       it(JSON.stringify({ struct }) + " reads and writes flat", async () => {
-        et = new ExifTool({ struct })
-        await assertFlatRead()
-        await assertFlatWrite()
-      })
+        et = new ExifTool({ struct });
+        await assertFlatRead();
+        await assertFlatWrite();
+      });
     }
     for (const struct of [1, 2] as const) {
       it(JSON.stringify({ struct }) + " reads and writes trees", async () => {
-        et = new ExifTool({ struct })
-        await assertTreeRead()
-        await assertTreeWrite()
-      })
+        et = new ExifTool({ struct });
+        await assertTreeRead();
+        await assertTreeWrite();
+      });
     }
 
     async function assertFlatRead() {
-      const t = await et.read(join(testDir, IPTC_JPG))
+      const t = await et.read(join(testDir, IPTC_JPG));
       const exp = {
         Headline: "IPTC CORE : HEADLINE",
         Instructions: "IPTC CORE: INSTRUCTIONS",
@@ -76,12 +76,12 @@ describe("ExifToolOptions", () => {
         ].map((ea) => ExifDateTime.fromEXIF(ea)),
         InstanceID: "xmp.iid:84f506e5-c3f8-4b7f-b42c-4eb4f2824ca1",
         OriginalDocumentID: "A6E51ECEABAD128BF18F740237B2B651",
-      }
-      expect(t).to.containSubset(exp)
+      };
+      expect(t).to.containSubset(exp);
     }
 
     async function assertFlatWrite() {
-      const img = await testImg({ srcBasename: IPTC_JPG })
+      const img = await testImg({ srcBasename: IPTC_JPG });
       const exp = {
         Headline: "IPTC CORE : HEADLINE: " + randomChars(),
         Instructions: "IPTC CORE: INSTRUCTIONS: " + randomChars(),
@@ -90,14 +90,14 @@ describe("ExifToolOptions", () => {
         CopyrightOwnerName: "IPTC EXT: COPYRIGHT OWNER NAME: " + randomChars(),
         ImageCreatorName: "IPTC EXT: CREATOR NAME: " + randomChars(),
         LicensorName: "IPTC EXT: LICENSOR NAME: " + randomChars(),
-      }
-      await et.write(img, exp)
-      const t = await et.read(img)
-      expect(t).to.containSubset(exp)
+      };
+      await et.write(img, exp);
+      const t = await et.read(img);
+      expect(t).to.containSubset(exp);
     }
 
     async function assertTreeRead() {
-      const t = await et.read(join(testDir, IPTC_JPG))
+      const t = await et.read(join(testDir, IPTC_JPG));
       expect(t).to.containSubset({
         Headline: "IPTC CORE : HEADLINE",
         Instructions: "IPTC CORE: INSTRUCTIONS",
@@ -157,11 +157,11 @@ describe("ExifToolOptions", () => {
             When: ExifDateTime.fromEXIF("2024:06:07 12:04:31+01:00"),
           },
         ],
-      })
+      });
     }
 
     async function assertTreeWrite() {
-      const img = await testImg({ srcBasename: IPTC_JPG })
+      const img = await testImg({ srcBasename: IPTC_JPG });
       const exp = {
         Headline: "IPTC CORE : HEADLINE: " + randomChars(),
         Instructions: "IPTC CORE: INSTRUCTIONS: " + randomChars(),
@@ -187,12 +187,12 @@ describe("ExifToolOptions", () => {
             LicensorName: "IPTC EXT: LICENSOR NAME: " + randomChars(),
           },
         ],
-      }
-      await et.write(img, exp)
-      const t = await et.read(img)
-      expect(t).to.containSubset(exp)
+      };
+      await et.write(img, exp);
+      const t = await et.read(img);
+      expect(t).to.containSubset(exp);
     }
-  })
+  });
 
   describe("handleDeprecatedOptions", () => {
     for (const imageHashType of [
@@ -209,17 +209,17 @@ describe("ExifToolOptions", () => {
       ]) {
         const args: Partial<
           Pick<ExifToolOptions, "includeImageDataMD5" | "imageHashType">
-        > = { includeImageDataMD5: opts.includeImageDataMD5 }
-        if (imageHashType != null) args.imageHashType = imageHashType
-        const expected = imageHashType ?? opts.expected
+        > = { includeImageDataMD5: opts.includeImageDataMD5 };
+        if (imageHashType != null) args.imageHashType = imageHashType;
+        const expected = imageHashType ?? opts.expected;
         it(`(${JSON.stringify(args)}) -> ${expected}`, () => {
-          expect(handleDeprecatedOptions(args).imageHashType).to.eql(expected)
-          const et = new ExifTool(args)
+          expect(handleDeprecatedOptions(args).imageHashType).to.eql(expected);
+          const et = new ExifTool(args);
           expect(et.options.imageHashType).to.eql(
-            expected ?? DefaultExifToolOptions.imageHashType
-          )
-        })
+            expected ?? DefaultExifToolOptions.imageHashType,
+          );
+        });
       }
     }
-  })
-})
+  });
+});

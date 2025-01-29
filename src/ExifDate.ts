@@ -1,11 +1,11 @@
-import { DateTime } from "luxon"
+import { DateTime } from "luxon";
 
-import { HourMs, validDateTime } from "./DateTime"
-import { Maybe, firstDefinedThunk } from "./Maybe"
-import { blank, pad2, toS } from "./String"
+import { HourMs, validDateTime } from "./DateTime";
+import { Maybe, firstDefinedThunk } from "./Maybe";
+import { blank, pad2, toS } from "./String";
 
-const StrictExifRE = /^\d{1,4}:\d{1,2}:\d{1,2}|\d{1,4}-\d{1,2}-\d{1,2}$/
-const LooseExifRE = /^\S+\s+\S+\s+\S+$/
+const StrictExifRE = /^\d{1,4}:\d{1,2}:\d{1,2}|\d{1,4}-\d{1,2}-\d{1,2}$/;
+const LooseExifRE = /^\S+\s+\S+\s+\S+$/;
 
 /**
  * Encodes an ExifDate
@@ -17,24 +17,24 @@ export class ExifDate {
       this.fromExifStrict(exifOrIso) ??
       this.fromISO(exifOrIso) ??
       this.fromExifLoose(exifOrIso)
-    )
+    );
   }
   static fromISO(text: string): Maybe<ExifDate> {
     return StrictExifRE.test(toS(text).trim())
       ? this.fromDateTime(DateTime.fromISO(text), text)
-      : undefined
+      : undefined;
   }
 
   private static fromPatterns(text: string, fmts: string[]) {
-    if (blank(text)) return
-    text = toS(text).trim()
+    if (blank(text)) return;
+    text = toS(text).trim();
     for (const fmt of fmts) {
-      const dt = DateTime.fromFormat(text, fmt)
+      const dt = DateTime.fromFormat(text, fmt);
       if (validDateTime(dt)) {
-        return this.fromDateTime(dt, text)
+        return this.fromDateTime(dt, text);
       }
     }
-    return
+    return;
   }
 
   // These are all formats I've seen in the wild from exiftool's output.
@@ -46,7 +46,7 @@ export class ExifDate {
   static fromExifStrict(text: string): Maybe<ExifDate> {
     return StrictExifRE.test(toS(text).trim())
       ? this.fromPatterns(text, ["y:MM:dd", "y-MM-dd", "y:M:d"])
-      : undefined
+      : undefined;
   }
 
   static fromExifLoose(text: string): Maybe<ExifDate> {
@@ -54,31 +54,31 @@ export class ExifDate {
     // three non-blank strings parts, reject.
     return LooseExifRE.test(toS(text).trim())
       ? this.fromPatterns(text, ["MMM d y", "MMMM d y"])
-      : undefined
+      : undefined;
   }
 
   static fromEXIF(text: string): Maybe<ExifDate> {
     return firstDefinedThunk([
       () => this.fromExifStrict(text),
       () => this.fromExifLoose(text),
-    ])
+    ]);
   }
 
   static fromDateTime(dt: DateTime, rawValue?: string): Maybe<ExifDate> {
     return validDateTime(dt)
       ? new ExifDate(dt.year, dt.month, dt.day, rawValue)
-      : undefined
+      : undefined;
   }
 
   constructor(
     readonly year: number, // full year (probably 2019-ish, but maybe Japanese 30-ish). See https://ericasadun.com/2018/12/25/iso-8601-yyyy-yyyy-and-why-your-year-may-be-wrong/
     readonly month: number, // 1-12, (no crazy 0-11 nonsense from Date!)
     readonly day: number, // 1-31
-    readonly rawValue?: string
+    readonly rawValue?: string,
   ) {}
 
   toDate(): Date {
-    return new Date(this.year, this.month - 1, this.day)
+    return new Date(this.year, this.month - 1, this.day);
   }
 
   /**
@@ -87,19 +87,19 @@ export class ExifDate {
    * @return the epoch milliseconds for this day in UTC, plus `deltaMs` milliseconds.
    */
   toMillis(deltaMs = 12 * HourMs) {
-    return this.toDate().getTime() + deltaMs
+    return this.toDate().getTime() + deltaMs;
   }
 
   toISOString(): string {
-    return this.toString("-")
+    return this.toString("-");
   }
 
   toExifString(): string {
-    return this.toString(":")
+    return this.toString(":");
   }
 
   toString(sep = "-"): string {
-    return `${this.year}${sep}${pad2(this.month, this.day).join(sep)}`
+    return `${this.year}${sep}${pad2(this.month, this.day).join(sep)}`;
   }
 
   toJSON() {
@@ -109,10 +109,10 @@ export class ExifDate {
       month: this.month,
       day: this.day,
       rawValue: this.rawValue,
-    }
+    };
   }
 
   static fromJSON(json: ReturnType<ExifDate["toJSON"]>): ExifDate {
-    return new ExifDate(json.year, json.month, json.day, json.rawValue)
+    return new ExifDate(json.year, json.month, json.day, json.rawValue);
   }
 }

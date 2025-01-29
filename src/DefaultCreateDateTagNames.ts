@@ -1,6 +1,6 @@
-import { CapturedAtTagNames } from "./CapturedAtTagNames"
+import { CapturedAtTagNames } from "./CapturedAtTagNames";
 
 /**
  * @deprecated use {@link CapturedAtTagNames} instead.
  */
-export const DefaultCreateDateTagNames = CapturedAtTagNames
+export const DefaultCreateDateTagNames = CapturedAtTagNames;

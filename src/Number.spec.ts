@@ -5,8 +5,8 @@ import {
   roundToDecimalPlaces,
   toFloat,
   toInt,
-} from "./Number"
-import { expect } from "./_chai.spec"
+} from "./Number";
+import { expect } from "./_chai.spec";
 
 describe("Number", () => {
   const examples = [
@@ -74,81 +74,81 @@ describe("Number", () => {
       i: 567,
       f: 567.89,
     },
-  ]
+  ];
   describe("isNumber()", () => {
     examples.forEach(({ n, isNum }) => {
       it(JSON.stringify(n) + " => " + isNum, () =>
-        expect(isNumber(n)).to.eql(isNum)
-      )
-    })
-  })
+        expect(isNumber(n)).to.eql(isNum),
+      );
+    });
+  });
   describe("toInt()", () => {
     examples.forEach(({ n, i }) => {
-      it(JSON.stringify(n) + " => " + i, () => expect(toInt(n)).to.eql(i))
-    })
-  })
+      it(JSON.stringify(n) + " => " + i, () => expect(toInt(n)).to.eql(i));
+    });
+  });
   describe("toFloat()", () => {
     examples.forEach(({ n, f }) => {
-      it(JSON.stringify(n) + " => " + f, () => expect(toFloat(n)).to.eql(f))
-    })
-  })
+      it(JSON.stringify(n) + " => " + f, () => expect(toFloat(n)).to.eql(f));
+    });
+  });
 
   describe("isInteger()", () => {
     examples.forEach(({ n, isInt }) => {
       it(JSON.stringify(n) + " => " + isInt, () =>
-        expect(isInteger(n)).to.eql(isInt)
-      )
-    })
-  })
+        expect(isInteger(n)).to.eql(isInt),
+      );
+    });
+  });
 
   describe("isFloat()", () => {
     examples.forEach(({ n, isFractional }) => {
       it(JSON.stringify(n) + " => " + isFloat, () =>
-        expect(isFloat(n)).to.eql(isFractional)
-      )
-    })
-  })
+        expect(isFloat(n)).to.eql(isFractional),
+      );
+    });
+  });
 
   describe("roundToDecimalPlaces", () => {
     describe("input validation", () => {
       it("should throw error for non-numeric values", () => {
-        const invalidInputs = [null, undefined, "123", [], {}, NaN]
+        const invalidInputs = [null, undefined, "123", [], {}, NaN];
 
         invalidInputs.forEach((input) => {
           expect(() => roundToDecimalPlaces(input as any, 2)).to.throw(
-            "Value must be a number"
-          )
-        })
-      })
+            "Value must be a number",
+          );
+        });
+      });
 
       it("should throw error for negative precision", () => {
         expect(() => roundToDecimalPlaces(123.456, -1)).to.throw(
-          "Precision must be non-negative"
-        )
-      })
-    })
+          "Precision must be non-negative",
+        );
+      });
+    });
 
     describe("edge cases", () => {
       it("should handle zero correctly", () => {
-        expect(roundToDecimalPlaces(0, 2)).to.eql(0)
-        expect(roundToDecimalPlaces(-0, 4)).to.eql(0)
-      })
+        expect(roundToDecimalPlaces(0, 2)).to.eql(0);
+        expect(roundToDecimalPlaces(-0, 4)).to.eql(0);
+      });
 
       it("should handle very small numbers near epsilon", () => {
-        expect(roundToDecimalPlaces(Number.EPSILON / 2, 20)).to.eql(0)
-        expect(roundToDecimalPlaces(-Number.EPSILON / 2, 20)).to.eql(0)
-      })
+        expect(roundToDecimalPlaces(Number.EPSILON / 2, 20)).to.eql(0);
+        expect(roundToDecimalPlaces(-Number.EPSILON / 2, 20)).to.eql(0);
+      });
 
       it("should handle very large numbers", () => {
-        const largeNumber = 1e15
-        expect(roundToDecimalPlaces(largeNumber, 2)).to.eql(largeNumber)
-      })
+        const largeNumber = 1e15;
+        expect(roundToDecimalPlaces(largeNumber, 2)).to.eql(largeNumber);
+      });
 
       it("should handle very small decimal numbers", () => {
-        expect(roundToDecimalPlaces(0.0000001, 5)).to.eql(0)
-        expect(roundToDecimalPlaces(0.0000001, 7)).to.eql(0.0000001)
-      })
-    })
+        expect(roundToDecimalPlaces(0.0000001, 5)).to.eql(0);
+        expect(roundToDecimalPlaces(0.0000001, 7)).to.eql(0.0000001);
+      });
+    });
 
     describe("normal operations", () => {
       it("should round to specified decimal places", () => {
@@ -160,44 +160,44 @@ describe("Number", () => {
           { value: 123.456, precision: 0, expected: 123 },
           { value: 123.456, precision: 1, expected: 123.5 },
           { value: 123.456, precision: 3, expected: 123.456 },
-        ]
+        ];
 
         testCases.forEach(({ value, precision, expected }) => {
-          expect(roundToDecimalPlaces(value, precision)).to.eql(expected)
-        })
-      })
+          expect(roundToDecimalPlaces(value, precision)).to.eql(expected);
+        });
+      });
 
       it("should handle rounding up at midpoint", () => {
-        expect(roundToDecimalPlaces(0.5, 0)).to.eql(1)
-        expect(roundToDecimalPlaces(1.5, 0)).to.eql(2)
-        expect(roundToDecimalPlaces(2.5, 0)).to.eql(3)
-      })
+        expect(roundToDecimalPlaces(0.5, 0)).to.eql(1);
+        expect(roundToDecimalPlaces(1.5, 0)).to.eql(2);
+        expect(roundToDecimalPlaces(2.5, 0)).to.eql(3);
+      });
 
       it("should maintain precision for whole numbers", () => {
         const testCases = [
           { value: 100, precision: 2, expected: 100 },
           { value: 1000, precision: 3, expected: 1000 },
           { value: -500, precision: 1, expected: -500 },
-        ]
+        ];
 
         testCases.forEach(({ value, precision, expected }) => {
-          expect(roundToDecimalPlaces(value, precision)).to.eql(expected)
-        })
-      })
-    })
+          expect(roundToDecimalPlaces(value, precision)).to.eql(expected);
+        });
+      });
+    });
 
     describe("precision handling", () => {
       it("should handle different precision levels correctly", () => {
-        const value = 123.456789
-        expect(roundToDecimalPlaces(value, 0)).to.equal(123)
-        expect(roundToDecimalPlaces(value, 1)).to.equal(123.5)
-        expect(roundToDecimalPlaces(value, 2)).to.equal(123.46)
-        expect(roundToDecimalPlaces(value, 3)).to.equal(123.457)
-        expect(roundToDecimalPlaces(value, 4)).to.equal(123.4568)
-        expect(roundToDecimalPlaces(value, 5)).to.equal(123.45679)
-        expect(roundToDecimalPlaces(value, 6)).to.equal(123.456789)
-      })
-    })
+        const value = 123.456789;
+        expect(roundToDecimalPlaces(value, 0)).to.equal(123);
+        expect(roundToDecimalPlaces(value, 1)).to.equal(123.5);
+        expect(roundToDecimalPlaces(value, 2)).to.equal(123.46);
+        expect(roundToDecimalPlaces(value, 3)).to.equal(123.457);
+        expect(roundToDecimalPlaces(value, 4)).to.equal(123.4568);
+        expect(roundToDecimalPlaces(value, 5)).to.equal(123.45679);
+        expect(roundToDecimalPlaces(value, 6)).to.equal(123.456789);
+      });
+    });
 
     describe("GPS coordinate handling", () => {
       it("should correctly round GPS coordinates to 6 decimal places", () => {
@@ -208,17 +208,17 @@ describe("Number", () => {
           { value: -63.57691666666667, expected: -63.576917 },
           { value: 0.000001234567, expected: 0.000001 },
           { value: -0.000001234567, expected: -0.000001 },
-        ]
+        ];
 
         testCases.forEach(({ value, expected }) => {
-          expect(roundToDecimalPlaces(value, 6)).to.equal(expected)
-        })
-      })
+          expect(roundToDecimalPlaces(value, 6)).to.equal(expected);
+        });
+      });
 
       it("should preserve sign for small negative values", () => {
-        expect(roundToDecimalPlaces(-0.0000001, 6)).to.equal(0)
-        expect(roundToDecimalPlaces(-0.000001, 6)).to.equal(-0.000001)
-      })
-    })
-  })
-})
+        expect(roundToDecimalPlaces(-0.0000001, 6)).to.equal(0);
+        expect(roundToDecimalPlaces(-0.000001, 6)).to.equal(-0.000001);
+      });
+    });
+  });
+});

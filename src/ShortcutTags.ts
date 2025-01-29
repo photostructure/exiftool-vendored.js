@@ -9,5 +9,5 @@ export interface ShortcutTags {
    *
    * Only used by `write`. This tag is not returned by `read`.
    */
-  AllDates?: string
+  AllDates?: string;
 }

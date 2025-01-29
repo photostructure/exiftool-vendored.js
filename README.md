@@ -77,7 +77,7 @@ string array, and things should "just work" **for the main process**.
 
 ```ts
 "./node_modules/exiftool-vendored." +
-  (process.platform === "win32" ? "exe" : "pl")
+  (process.platform === "win32" ? "exe" : "pl");
 ```
 
 **If your main process forks any node subprocesses, `process.resourcesPath` _will
@@ -135,12 +135,12 @@ it.
 
 ```js
 // We're using the singleton here for convenience:
-const exiftool = require("exiftool-vendored").exiftool
+const exiftool = require("exiftool-vendored").exiftool;
 
 // And to verify everything is working:
 exiftool
   .version()
-  .then((version) => console.log(`We're running ExifTool v${version}`))
+  .then((version) => console.log(`We're running ExifTool v${version}`));
 ```
 
 If the default [ExifTool constructor
@@ -148,8 +148,8 @@ parameters](https://photostructure.github.io/exiftool-vendored.js/interfaces/Exi
 wont' work for you, it's just a class that takes an options hash:
 
 ```js
-const ExifTool = require("exiftool-vendored").ExifTool
-const exiftool = new ExifTool({ taskTimeoutMillis: 5000 })
+const ExifTool = require("exiftool-vendored").ExifTool;
+const exiftool = new ExifTool({ taskTimeoutMillis: 5000 });
 ```
 
 You should only use the exported default `exiftool` singleton, or only create one instance of `ExifTool` as a singleton.
@@ -220,10 +220,10 @@ exiftool
   .read("path/to/image.jpg")
   .then((tags /*: Tags */) =>
     console.log(
-      `Make: ${tags.Make}, Model: ${tags.Model}, Errors: ${tags.errors}`
-    )
+      `Make: ${tags.Make}, Model: ${tags.Model}, Errors: ${tags.errors}`,
+    ),
   )
-  .catch((err) => console.error("Something terrible happened: ", err))
+  .catch((err) => console.error("Something terrible happened: ", err));
 ```
 
 ### Extracting embedded images
@@ -233,19 +233,19 @@ Extract the low-resolution thumbnail in `path/to/image.jpg`, write it to
 when the image is extracted:
 
 ```js
-exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg")
+exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg");
 ```
 
 Extract the `Preview` image (only found in some images):
 
 ```js
-exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg")
+exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg");
 ```
 
 Extract the `JpgFromRaw` image (found in some RAW images):
 
 ```js
-exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg")
+exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
 ```
 
 Extract the binary value from "tagname" tag in `path/to/image.jpg`
@@ -253,7 +253,7 @@ and write it to `dest.bin` (which cannot exist already
 and whose parent directory must already exist):
 
 ```js
-exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin")
+exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
 ```
 
 ### Writing tags
@@ -271,7 +271,7 @@ To write a comment to the given file so it shows up in the Windows Explorer
 Properties panel:
 
 ```js
-exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" })
+exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" });
 ```
 
 To change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
@@ -279,7 +279,7 @@ To change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
 shortcut) to 4:56pm UTC on February 6, 2016:
 
 ```js
-exiftool.write("path/to/file.jpg", { AllDates: "2016-02-06T16:56:00" })
+exiftool.write("path/to/file.jpg", { AllDates: "2016-02-06T16:56:00" });
 ```
 
 To write to a specific metadata group's tag, just prefix the tag name with the group.
@@ -288,13 +288,13 @@ To write to a specific metadata group's tag, just prefix the tag name with the g
 ```js
 exiftool.write("path/to/file.jpg", {
   "IPTC:CopyrightNotice": "© 2021 PhotoStructure, Inc.",
-})
+});
 ```
 
 To delete a tag, use `null` as the value.
 
 ```js
-exiftool.write("path/to/file.jpg", { UserComment: null })
+exiftool.write("path/to/file.jpg", { UserComment: null });
 ```
 
 The above example removes any value associated with the `UserComment` tag.
@@ -322,7 +322,7 @@ details about this functionality.
 errors.
 
 ```js
-exiftool.rewriteAllTags("problematic.jpg", "rewritten.jpg")
+exiftool.rewriteAllTags("problematic.jpg", "rewritten.jpg");
 ```
 
 ### ExifTool configuration support (`.ExifTool_config`)
@@ -365,7 +365,7 @@ and can be solved by adding an `after` block that shuts down the instance
 of ExifTool that your tests are using:
 
 ```js
-after(() => exiftool.end()) // assuming your singleton is called `exiftool`
+after(() => exiftool.end()); // assuming your singleton is called `exiftool`
 ```
 
 ## Dates
@@ -447,15 +447,15 @@ The `Tags` object returned by `ExifTool.read()` can be serialized to JSON with `
 To reconstitute, use the `parseJSON()` method.
 
 ```ts
-import { exiftool, parseJSON } from "exiftool-vendored"
+import { exiftool, parseJSON } from "exiftool-vendored";
 
-const tags: Tags = await exiftool.read("/path/to/file.jpg")
-const str: string = JSON.stringify(tags)
+const tags: Tags = await exiftool.read("/path/to/file.jpg");
+const str: string = JSON.stringify(tags);
 
 // parseJSON doesn't validate the input, so we don't assert that it's a Tags
 // instance, but you can cast it (unsafely...)
 
-const tags2: Tags = parseJSON(str) as Tags
+const tags2: Tags = parseJSON(str) as Tags;
 ```
 
 ## Performance

@@ -1,55 +1,55 @@
-import { Maybe } from "./Maybe"
+import { Maybe } from "./Maybe";
 
 export function isObject(obj: unknown): obj is object {
-  return typeof obj === "object" && obj !== null
+  return typeof obj === "object" && obj !== null;
 }
 
 export function keys<T extends object, K extends string & keyof T>(o: T): K[] {
   return o == null
     ? []
     : (Object.keys(o).filter((ea) =>
-        ({}).propertyIsEnumerable.call(o, ea)
-      ) as K[])
+        ({}).propertyIsEnumerable.call(o, ea),
+      ) as K[]);
 }
 
 export function isFunction(
-  obj: unknown
+  obj: unknown,
 ): obj is (...args: unknown[]) => unknown {
-  return typeof obj === "function"
+  return typeof obj === "function";
 }
 
 export function fromEntries(
   arr: Maybe<[Maybe<string>, unknown]>[],
-  obj?: Record<string, unknown>
+  obj?: Record<string, unknown>,
 ): Record<string, unknown> {
-  if (arr == null || arr.length === 0) return obj ?? {}
+  if (arr == null || arr.length === 0) return obj ?? {};
   // don't use Object.create(null), json stringify will break!
   for (const ea of arr.filter((ea) => ea != null)) {
     if (ea != null && Array.isArray(ea)) {
-      const [k, v] = ea
+      const [k, v] = ea;
       // allow NULL fields:
       if (k != null && v !== undefined) {
-        if (!isObject(obj)) obj = {}
-        obj[k] = v
+        if (!isObject(obj)) obj = {};
+        obj[k] = v;
       }
     }
   }
-  return obj ?? {}
+  return obj ?? {};
 }
 
-export type Unpick<T, U> = { [P in keyof T]: P extends U ? never : T[P] }
+export type Unpick<T, U> = { [P in keyof T]: P extends U ? never : T[P] };
 
 export function omit<T extends object, S extends string>(
   t: T,
   ...keysToOmit: S[]
 ): Unpick<T, S> {
-  const result = {} as T
+  const result = {} as T;
   for (const k of keys(t).filter(
-    (ea) => !(keysToOmit as string[]).includes(ea)
+    (ea) => !(keysToOmit as string[]).includes(ea),
   ) as (keyof T)[]) {
-    result[k] = t[k]
+    result[k] = t[k];
   }
-  return result as Unpick<T, S>
+  return result as Unpick<T, S>;
 }
 
 /**
@@ -62,7 +62,7 @@ export function omit<T extends object, S extends string>(
  * `true`, which ensures the returned key array is unique.
  */
 export function keysOf<T>(t: Required<Record<keyof T, true>>): (keyof T)[] {
-  return Object.keys(t) as (keyof T)[]
+  return Object.keys(t) as (keyof T)[];
 }
 
 // This also doesn't enforce that all keys are present:

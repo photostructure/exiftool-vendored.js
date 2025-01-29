@@ -1,4 +1,4 @@
-import { keysOf } from "./Object"
+import { keysOf } from "./Object";
 
 export const GeolocationTagNames = keysOf<GeolocationTags>({
   GeolocationBearing: true,
@@ -14,14 +14,14 @@ export const GeolocationTagNames = keysOf<GeolocationTags>({
   GeolocationSubregion: true,
   GeolocationTimeZone: true,
   GeolocationWarning: true,
-}) satisfies (keyof GeolocationTags)[]
+}) satisfies (keyof GeolocationTags)[];
 
 /**
  * Is the given tag name intrinsic to the content of a given file? In other
  * words, is it not an artifact of a metadata field?
  */
 export function isGeolocationTag(name: string): name is keyof GeolocationTags {
-  return GeolocationTagNames.includes(name as keyof GeolocationTags)
+  return GeolocationTagNames.includes(name as keyof GeolocationTags);
 }
 
 /**
@@ -32,36 +32,36 @@ export function isGeolocationTag(name: string): name is keyof GeolocationTags {
  */
 export interface GeolocationTags {
   /** ☆☆☆☆ ✔ Example: 99 */
-  GeolocationBearing?: number
+  GeolocationBearing?: number;
   /** ☆☆☆☆ ✔ Example: "Zürich" */
-  GeolocationCity?: string
+  GeolocationCity?: string;
   /** ☆☆☆☆ ✔ Example: "United States" */
-  GeolocationCountry?: string
+  GeolocationCountry?: string;
   /** ☆☆☆☆ ✔ Example: "US" */
-  GeolocationCountryCode?: string
+  GeolocationCountryCode?: string;
   /** ☆☆☆☆ ✔ Example: "9.60 km" */
-  GeolocationDistance?: string
+  GeolocationDistance?: string;
   /**
    * ☆☆☆☆ ✔ Example: "PPLL"
    * @see http://www.geonames.org/export/codes.html#P
    */
-  GeolocationFeatureCode?: string
+  GeolocationFeatureCode?: string;
   /** ☆☆☆☆ ✔ Example: "Populated Place" */
-  GeolocationFeatureType?: string
+  GeolocationFeatureType?: string;
   /** ☆☆☆☆ ✔ Example: 95000 */
-  GeolocationPopulation?: number
+  GeolocationPopulation?: number;
   /** ☆☆☆☆ ✔ Example: "7.3397, 134.4733" */
-  GeolocationPosition?: string
+  GeolocationPosition?: string;
   /** ☆☆☆☆ ✔ Example: "Île-de-France" */
-  GeolocationRegion?: string
+  GeolocationRegion?: string;
   /** ☆☆☆☆ ✔ Example: "Yokohama Shi" */
-  GeolocationSubregion?: string
+  GeolocationSubregion?: string;
   /** ☆☆☆☆ ✔ Example: "Pacific/Saipan"
    *
    * IANA time zone name
    *
    * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
    */
-  GeolocationTimeZone?: string
-  GeolocationWarning?: string
+  GeolocationTimeZone?: string;
+  GeolocationWarning?: string;
 }

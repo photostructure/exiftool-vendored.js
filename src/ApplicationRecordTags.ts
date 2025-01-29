@@ -1,6 +1,6 @@
-import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
+import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";
 
 /**
  * @deprecated Use {@link IPTCApplicationRecordTags} instead
  */
-export type ApplicationRecordTags = IPTCApplicationRecordTags
+export type ApplicationRecordTags = IPTCApplicationRecordTags;

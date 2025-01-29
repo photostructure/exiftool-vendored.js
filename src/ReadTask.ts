@@ -1,25 +1,25 @@
-import { logger } from "batch-cluster"
-import * as _path from "node:path"
-import { toArray } from "./Array"
-import { BinaryField } from "./BinaryField"
-import { toBoolean } from "./Boolean"
-import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
-import { errorsAndWarnings } from "./ErrorsAndWarnings"
-import { ExifDate } from "./ExifDate"
-import { ExifDateTime } from "./ExifDateTime"
-import { ExifTime } from "./ExifTime"
-import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
-import { ExifToolTask } from "./ExifToolTask"
-import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs"
-import { parseGPSLocation } from "./GPS"
-import { lazy } from "./Lazy"
-import { Maybe } from "./Maybe"
-import { isNumber } from "./Number"
-import { isObject } from "./Object"
-import { OnlyZerosRE } from "./OnlyZerosRE"
-import { pick } from "./Pick"
-import { isString, notBlank } from "./String"
-import { Tags } from "./Tags"
+import { logger } from "batch-cluster";
+import * as _path from "node:path";
+import { toArray } from "./Array";
+import { BinaryField } from "./BinaryField";
+import { toBoolean } from "./Boolean";
+import { DefaultExifToolOptions } from "./DefaultExifToolOptions";
+import { errorsAndWarnings } from "./ErrorsAndWarnings";
+import { ExifDate } from "./ExifDate";
+import { ExifDateTime } from "./ExifDateTime";
+import { ExifTime } from "./ExifTime";
+import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
+import { ExifToolTask } from "./ExifToolTask";
+import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
+import { parseGPSLocation } from "./GPS";
+import { lazy } from "./Lazy";
+import { Maybe } from "./Maybe";
+import { isNumber } from "./Number";
+import { isObject } from "./Object";
+import { OnlyZerosRE } from "./OnlyZerosRE";
+import { pick } from "./Pick";
+import { isString, notBlank } from "./String";
+import { Tags } from "./Tags";
 import {
   TzSrc,
   extractTzOffsetFromDatestamps,
@@ -27,7 +27,7 @@ import {
   extractTzOffsetFromTimeStamp,
   extractTzOffsetFromUTCOffset,
   normalizeZone,
-} from "./Timezones"
+} from "./Timezones";
 
 /**
  * tag names we don't need to muck with, but name conventions (like including
@@ -39,7 +39,7 @@ const PassthroughTags = [
   "Sharpness",
   "Firmware",
   "DateDisplayFormat",
-]
+];
 
 export const ReadTaskOptionFields = [
   "backfillTimezones",
@@ -59,27 +59,27 @@ export const ReadTaskOptionFields = [
   "readArgs",
   "adjustTimeZoneIfDaylightSavings",
   "preferTimezoneInferenceFromGps",
-] as const satisfies (keyof ExifToolOptions)[]
+] as const satisfies (keyof ExifToolOptions)[];
 
-const NullIsh = ["undef", "null", "undefined"]
+const NullIsh = ["undef", "null", "undefined"];
 
 export function nullish(s: unknown): s is undefined {
-  return s == null || (isString(s) && NullIsh.includes(s.trim()))
+  return s == null || (isString(s) && NullIsh.includes(s.trim()));
 }
 
 export const DefaultReadTaskOptions = {
   ...pick(DefaultExifToolOptions, ...ReadTaskOptionFields),
-} as const satisfies Partial<ExifToolOptions>
+} as const satisfies Partial<ExifToolOptions>;
 
-export type ReadTaskOptions = Partial<typeof DefaultReadTaskOptions>
+export type ReadTaskOptions = Partial<typeof DefaultReadTaskOptions>;
 
-const MaybeDateOrTimeRe = /when|date|time|subsec|creat|modif/i
+const MaybeDateOrTimeRe = /when|date|time|subsec|creat|modif/i;
 
 export class ReadTask extends ExifToolTask<Tags> {
-  private readonly degroup: boolean
-  #raw: Record<string, unknown> = {}
-  #rawDegrouped: Record<string, unknown> = {}
-  readonly #tags: Tags = {}
+  private readonly degroup: boolean;
+  #raw: Record<string, unknown> = {};
+  #rawDegrouped: Record<string, unknown> = {};
+  readonly #tags: Tags = {};
 
   /**
    * @param sourceFile the file to read
@@ -89,201 +89,201 @@ export class ReadTask extends ExifToolTask<Tags> {
   constructor(
     readonly sourceFile: string,
     override readonly args: string[],
-    override options: Required<ReadTaskOptions>
+    override options: Required<ReadTaskOptions>,
   ) {
-    super(args, options)
+    super(args, options);
     // See https://github.com/photostructure/exiftool-vendored.js/issues/147#issuecomment-1642580118
-    this.degroup = this.args.includes("-G")
-    this.#tags = { SourceFile: sourceFile } as Tags
-    this.#tags.errors = this.errors
+    this.degroup = this.args.includes("-G");
+    this.#tags = { SourceFile: sourceFile } as Tags;
+    this.#tags.errors = this.errors;
   }
 
   static for(filename: string, options: ReadTaskOptions): ReadTask {
     const opts: Required<ReadTaskOptions> = handleDeprecatedOptions({
       ...DefaultReadTaskOptions,
       ...options,
-    })
-    const sourceFile = _path.resolve(filename)
+    });
+    const sourceFile = _path.resolve(filename);
     const args = [
       ...Utf8FilenameCharsetArgs,
       "-json",
       ...toArray(opts.readArgs),
-    ]
+    ];
     // "-api struct=undef" doesn't work: but it's the same as struct=0:
-    args.push("-api", "struct=" + (isNumber(opts.struct) ? opts.struct : "0"))
+    args.push("-api", "struct=" + (isNumber(opts.struct) ? opts.struct : "0"));
     if (opts.useMWG) {
-      args.push("-use", "MWG")
+      args.push("-use", "MWG");
     }
     if (opts.imageHashType != null && opts.imageHashType !== false) {
       // See https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218
-      args.push("-api", "requesttags=imagedatahash")
-      args.push("-api", "imagehashtype=" + opts.imageHashType)
+      args.push("-api", "requesttags=imagedatahash");
+      args.push("-api", "imagehashtype=" + opts.imageHashType);
     }
     if (true === opts.geolocation) {
-      args.push("-api", "geolocation")
+      args.push("-api", "geolocation");
     }
     // IMPORTANT: "-all" must be after numeric tag references, as the first
     // reference in wins
-    args.push(...opts.numericTags.map((ea) => "-" + ea + "#"))
+    args.push(...opts.numericTags.map((ea) => "-" + ea + "#"));
     // We have to add a -all or else we'll only get the numericTags. sad.
 
     // TODO: Do you need -xmp:all, -all, or -all:all? Is -* better?
-    args.push("-all", sourceFile)
+    args.push("-all", sourceFile);
 
-    return new ReadTask(sourceFile, args, opts)
+    return new ReadTask(sourceFile, args, opts);
   }
 
   override toString(): string {
-    return "ReadTask" + this.sourceFile + ")"
+    return "ReadTask" + this.sourceFile + ")";
   }
 
   // only exposed for tests
   parse(data: string, err?: Error): Tags {
     try {
-      this.#raw = JSON.parse(data)[0]
+      this.#raw = JSON.parse(data)[0];
     } catch (jsonError) {
       // TODO: should restart exiftool?
       logger().warn("ExifTool.ReadTask(): Invalid JSON", {
         data,
         err,
         jsonError,
-      })
-      throw err ?? jsonError
+      });
+      throw err ?? jsonError;
     }
     // ExifTool does "humorous" things to paths, like flip path separators. resolve() undoes that.
     if (notBlank(this.#raw.SourceFile)) {
-      const SourceFile = _path.resolve(this.#raw.SourceFile)
+      const SourceFile = _path.resolve(this.#raw.SourceFile);
       // Sanity check that the result is for the file we want:
       if (SourceFile !== this.sourceFile) {
         // Throw an error rather than add an errors string because this is *really* bad:
         throw new Error(
-          `Internal error: unexpected SourceFile of ${this.#raw.SourceFile} for file ${this.sourceFile}`
-        )
+          `Internal error: unexpected SourceFile of ${this.#raw.SourceFile} for file ${this.sourceFile}`,
+        );
       }
     }
 
-    return this.#parseTags()
+    return this.#parseTags();
   }
 
   #isVideo(): boolean {
-    return String(this.#rawDegrouped?.MIMEType).startsWith("video/")
+    return String(this.#rawDegrouped?.MIMEType).startsWith("video/");
   }
 
   #defaultToUTC(): boolean {
-    return this.#isVideo() && this.options.defaultVideosToUTC
+    return this.#isVideo() && this.options.defaultVideosToUTC;
   }
 
   #tagName(k: string): string {
-    return this.degroup ? (k.split(":")[1] ?? k) : k
+    return this.degroup ? (k.split(":")[1] ?? k) : k;
   }
 
   #parseTags(): Tags {
     if (this.degroup) {
-      this.#rawDegrouped = {}
+      this.#rawDegrouped = {};
       for (const [key, value] of Object.entries(this.#raw)) {
-        const k = this.#tagName(key)
-        this.#rawDegrouped[k] = value
+        const k = this.#tagName(key);
+        this.#rawDegrouped[k] = value;
       }
     } else {
-      this.#rawDegrouped = this.#raw
+      this.#rawDegrouped = this.#raw;
     }
 
     // avoid casting `this.tags as any` for the rest of the function:
-    const tags = this.#tags as Record<string, unknown>
+    const tags = this.#tags as Record<string, unknown>;
 
     // Must be run before extracting tz offset, to repair possibly-invalid
     // GeolocationTimeZone
-    this.#extractGpsMetadata()
+    this.#extractGpsMetadata();
 
-    const tzSrc = this.#extractTzOffset()
+    const tzSrc = this.#extractTzOffset();
     if (tzSrc) {
-      tags.tz = tzSrc.tz
-      tags.tzSource = tzSrc.src
+      tags.tz = tzSrc.tz;
+      tags.tzSource = tzSrc.src;
     }
 
     for (const [key, value] of Object.entries(this.#raw)) {
-      const k = this.#tagName(key)
+      const k = this.#tagName(key);
       // Did something already set this? (like GPS tags)
-      if (key in tags) continue
-      const v = this.#parseTag(k, value)
+      if (key in tags) continue;
+      const v = this.#parseTag(k, value);
       // Note that we set `key` (which may include a group prefix):
       if (v == null) {
-        delete tags[key]
+        delete tags[key];
       } else {
-        tags[key] = v
+        tags[key] = v;
       }
     }
 
     // we could `return {...tags, ...errorsAndWarnings(this, tags)}` but tags is
     // a chonky monster, and we don't want to double the work for the poor
     // garbage collector.
-    const { errors, warnings } = errorsAndWarnings(this, tags)
-    tags.errors = errors
-    tags.warnings = warnings
+    const { errors, warnings } = errorsAndWarnings(this, tags);
+    tags.errors = errors;
+    tags.warnings = warnings;
 
-    return tags
+    return tags;
   }
 
   #extractGpsMetadata = lazy(() => {
-    const result = parseGPSLocation(this.#rawDegrouped, this.options)
+    const result = parseGPSLocation(this.#rawDegrouped, this.options);
     if (result?.warnings != null && (result.warnings.length ?? 0) > 0) {
-      this.warnings.push(...result.warnings)
+      this.warnings.push(...result.warnings);
     }
     if (result?.invalid !== true) {
       for (const [k, v] of Object.entries(result?.result ?? {})) {
-        ;(this.#tags as Record<string, unknown>)[k] = v
+        (this.#tags as Record<string, unknown>)[k] = v;
       }
     }
-    return result
-  })
+    return result;
+  });
 
   #gpsIsInvalid = lazy<boolean>(
-    () => this.#extractGpsMetadata()?.invalid ?? false
-  )
+    () => this.#extractGpsMetadata()?.invalid ?? false,
+  );
 
   #gpsResults = lazy<Record<string, unknown>>(() =>
-    this.#gpsIsInvalid() ? {} : (this.#extractGpsMetadata()?.result ?? {})
-  )
+    this.#gpsIsInvalid() ? {} : (this.#extractGpsMetadata()?.result ?? {}),
+  );
 
   #extractTzOffsetFromGps = lazy<Maybe<TzSrc>>(() => {
-    const gps = this.#extractGpsMetadata()
-    const lat = gps?.result?.GPSLatitude
-    const lon = gps?.result?.GPSLongitude
+    const gps = this.#extractGpsMetadata();
+    const lat = gps?.result?.GPSLatitude;
+    const lon = gps?.result?.GPSLongitude;
     if (gps == null || gps.invalid === true || lat == null || lon == null)
-      return
+      return;
     // First try GeolocationTimeZone:
-    const tz = normalizeZone(this.#rawDegrouped.GeolocationTimeZone)
+    const tz = normalizeZone(this.#rawDegrouped.GeolocationTimeZone);
     if (tz != null) {
       return {
         tz: tz.name,
         src: "GeolocationTimeZone",
-      }
+      };
     }
 
     try {
-      const geoTz = this.options.geoTz(lat, lon)
-      const zone = normalizeZone(geoTz)
+      const geoTz = this.options.geoTz(lat, lon);
+      const zone = normalizeZone(geoTz);
       if (zone != null) {
         return {
           tz: zone.name,
           src: "GPSLatitude/GPSLongitude",
-        }
+        };
       }
     } catch (error) {
       this.warnings.push(
-        "Failed to determine timezone from GPS coordinates: " + error
-      )
+        "Failed to determine timezone from GPS coordinates: " + error,
+      );
     }
-    return
-  })
+    return;
+  });
 
-  #tz = lazy(() => this.#extractTzOffset()?.tz)
+  #tz = lazy(() => this.#extractTzOffset()?.tz);
 
   #extractTzOffset = lazy<Maybe<TzSrc>>(() => {
     if (true === this.options.preferTimezoneInferenceFromGps) {
-      const fromGps = this.#extractTzOffsetFromGps()
+      const fromGps = this.#extractTzOffsetFromGps();
       if (fromGps != null) {
-        return fromGps
+        return fromGps;
       }
     }
     return (
@@ -305,44 +305,44 @@ export class ReadTask extends ExifToolTask<Tags> {
       extractTzOffsetFromUTCOffset(this.#rawDegrouped) ??
       // No, really, this is the even worse than UTC offset heuristics:
       extractTzOffsetFromTimeStamp(this.#rawDegrouped, this.options)
-    )
-  })
+    );
+  });
 
   #parseTag(tagName: string, value: unknown): unknown {
-    if (nullish(value)) return undefined
+    if (nullish(value)) return undefined;
 
     try {
       if (PassthroughTags.indexOf(tagName) >= 0) {
-        return value
+        return value;
       }
       if (tagName.startsWith("GPS") || tagName.startsWith("Geolocation")) {
-        if (this.#gpsIsInvalid()) return undefined
+        if (this.#gpsIsInvalid()) return undefined;
 
         // If we parsed out a better value, use that:
-        const parsed = this.#gpsResults()[tagName]
-        if (parsed != null) return parsed
+        const parsed = this.#gpsResults()[tagName];
+        if (parsed != null) return parsed;
 
         // Otherwise, parse the raw value like any other tag: (It might be
         // something like "GPSTimeStamp"):
       }
 
       if (Array.isArray(value)) {
-        return value.map((ea) => this.#parseTag(tagName, ea))
+        return value.map((ea) => this.#parseTag(tagName, ea));
       }
       if (isObject(value)) {
-        const result: Record<string, unknown> = {}
+        const result: Record<string, unknown> = {};
         for (const [k, v] of Object.entries(value)) {
-          result[k] = this.#parseTag(tagName + "." + k, v)
+          result[k] = this.#parseTag(tagName + "." + k, v);
         }
-        return result
+        return result;
       }
       if (typeof value === "string") {
-        const b = BinaryField.fromRawValue(value)
-        if (b != null) return b
+        const b = BinaryField.fromRawValue(value);
+        if (b != null) return b;
 
         if (/Valid$/.test(tagName)) {
-          const b = toBoolean(value)
-          if (b != null) return b
+          const b = toBoolean(value);
+          if (b != null) return b;
         }
 
         if (
@@ -359,12 +359,12 @@ export class ReadTask extends ExifToolTask<Tags> {
               ? "UTC"
               : this.options.backfillTimezones
                 ? this.#tz()
-                : undefined
+                : undefined;
 
           // Time-only tags have "time" but not "date" in their name:
-          const keyIncludesTime = /subsec|time/i.test(tagName)
-          const keyIncludesDate = /date/i.test(tagName)
-          const keyIncludesWhen = /when/i.test(tagName) // < ResourceEvent.When
+          const keyIncludesTime = /subsec|time/i.test(tagName);
+          const keyIncludesDate = /date/i.test(tagName);
+          const keyIncludesWhen = /when/i.test(tagName); // < ResourceEvent.When
           const result =
             (keyIncludesTime || keyIncludesDate || keyIncludesWhen
               ? ExifDateTime.from(value, tz)
@@ -375,9 +375,9 @@ export class ReadTask extends ExifToolTask<Tags> {
             (keyIncludesDate || keyIncludesWhen
               ? ExifDate.from(value)
               : undefined) ??
-            value
+            value;
 
-          const defaultTz = this.#tz()
+          const defaultTz = this.#tz();
           if (
             this.options.backfillTimezones &&
             result != null &&
@@ -387,23 +387,23 @@ export class ReadTask extends ExifToolTask<Tags> {
             !isUtcTagName(tagName) &&
             true === result.inferredZone
           ) {
-            return result.setZone(defaultTz)
+            return result.setZone(defaultTz);
           }
 
-          return result
+          return result;
         }
       }
       // Trust that ExifTool rendered the value with the correct type in JSON:
-      return value
+      return value;
     } catch (e) {
       this.warnings.push(
-        `Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`
-      )
-      return value
+        `Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`,
+      );
+      return value;
     }
   }
 }
 
 function isUtcTagName(tagName: string): boolean {
-  return tagName.includes("UTC") || tagName.startsWith("GPS")
+  return tagName.includes("UTC") || tagName.startsWith("GPS");
 }

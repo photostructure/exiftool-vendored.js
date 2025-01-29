@@ -1,38 +1,38 @@
-import { Maybe } from "./Maybe"
-import { roundToDecimalPlaces, toFloat } from "./Number"
-import { blank, toS } from "./String"
+import { Maybe } from "./Maybe";
+import { roundToDecimalPlaces, toFloat } from "./Number";
+import { blank, toS } from "./String";
 
 // Constants
-const MAX_LATITUDE_DEGREES = 90
-const MAX_LONGITUDE_DEGREES = 180
+const MAX_LATITUDE_DEGREES = 90;
+const MAX_LONGITUDE_DEGREES = 180;
 
-type Direction = "N" | "S" | "E" | "W"
-type CoordinateFormat = "DMS" | "DM" | "D"
+type Direction = "N" | "S" | "E" | "W";
+type CoordinateFormat = "DMS" | "DM" | "D";
 
 interface Coordinate {
-  decimal: number
-  degrees: number
-  minutes: number | undefined
-  seconds: number | undefined
-  direction: Direction | undefined
-  format: CoordinateFormat
-  remainder: string | undefined
+  decimal: number;
+  degrees: number;
+  minutes: number | undefined;
+  seconds: number | undefined;
+  direction: Direction | undefined;
+  format: CoordinateFormat;
+  remainder: string | undefined;
 }
 
 class CoordinateParseError extends Error {
   constructor(message: string) {
-    super(message)
-    this.name = "CoordinateParseError"
+    super(message);
+    this.name = "CoordinateParseError";
   }
 }
 
 export interface CoordinateResult {
-  latitude: number
-  longitude: number
+  latitude: number;
+  longitude: number;
 }
 
 // Regex to match simple decimal coordinates, like "37.5, -122.5"
-const DecimalCoordsRE = /^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/
+const DecimalCoordsRE = /^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/;
 
 /**
  * Parses a string containing both latitude and longitude coordinates.
@@ -41,52 +41,52 @@ const DecimalCoordsRE = /^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/
  * @throws CoordinateParseError if the input format is invalid
  */
 export function parseCoordinates(input: string): CoordinateResult {
-  input = toS(input).trim()
+  input = toS(input).trim();
   if (input.length === 0) {
-    throw new CoordinateParseError("Input string cannot be empty")
+    throw new CoordinateParseError("Input string cannot be empty");
   }
 
   if (DecimalCoordsRE.test(input)) {
-    const split = input.split(/[\s,]+/)
+    const split = input.split(/[\s,]+/);
     const [latitude, longitude] = split
       .map(toFloat)
-      .map((ea) => (ea == null ? null : roundGpsDecimal(ea)))
+      .map((ea) => (ea == null ? null : roundGpsDecimal(ea)));
     if (latitude == null || longitude == null) {
-      throw new CoordinateParseError("Failed to parse decimal coordinates")
+      throw new CoordinateParseError("Failed to parse decimal coordinates");
     }
-    return { latitude, longitude }
+    return { latitude, longitude };
   }
 
-  let latitude: number | undefined
-  let longitude: number | undefined
+  let latitude: number | undefined;
+  let longitude: number | undefined;
 
   for (const coord of parseStringCoordinates(input)) {
     if (!coord.direction) {
       throw new CoordinateParseError(
-        "Direction is required for position parsing"
-      )
+        "Direction is required for position parsing",
+      );
     }
 
     if (coord.direction === "S" || coord.direction === "N") {
       if (latitude !== undefined) {
-        throw new CoordinateParseError("Multiple latitude values found")
+        throw new CoordinateParseError("Multiple latitude values found");
       }
-      latitude = toDecimalDegrees(coord)
+      latitude = toDecimalDegrees(coord);
     } else {
       if (longitude != null) {
-        throw new CoordinateParseError("Multiple longitude values found")
+        throw new CoordinateParseError("Multiple longitude values found");
       }
-      longitude = toDecimalDegrees(coord)
+      longitude = toDecimalDegrees(coord);
     }
   }
-  const missing = []
-  if (latitude == null) missing.push("latitude")
-  if (longitude == null) missing.push("longitude")
+  const missing = [];
+  if (latitude == null) missing.push("latitude");
+  if (longitude == null) missing.push("longitude");
 
   if (latitude == null || longitude == null) {
-    throw new CoordinateParseError(`Missing ${missing.join(" and ")}`)
+    throw new CoordinateParseError(`Missing ${missing.join(" and ")}`);
   } else {
-    return { latitude, longitude }
+    return { latitude, longitude };
   }
 }
 
@@ -97,15 +97,15 @@ export function parseCoordinates(input: string): CoordinateResult {
  */
 function parseStringCoordinates(input: string): [Coordinate, Coordinate] {
   if (!input?.trim()) {
-    throw new CoordinateParseError("Input string cannot be empty")
+    throw new CoordinateParseError("Input string cannot be empty");
   }
 
-  const lat = parseCoordinate(input, true)
-  const remainders = lat.remainder
+  const lat = parseCoordinate(input, true);
+  const remainders = lat.remainder;
   if (blank(remainders)) {
-    throw new CoordinateParseError("Expected multiple coordinates")
+    throw new CoordinateParseError("Expected multiple coordinates");
   }
-  return [lat, parseCoordinate(remainders)]
+  return [lat, parseCoordinate(remainders)];
 }
 
 /**
@@ -115,23 +115,23 @@ function parseStringCoordinates(input: string): [Coordinate, Coordinate] {
  * @throws CoordinateParseError if the format is not decimal degrees or direction is missing
  */
 export function parseDecimalCoordinate(
-  input: string
+  input: string,
 ): { decimal: number; direction: Direction } | undefined {
   if (!input?.trim()) {
-    throw new CoordinateParseError("Input string cannot be empty")
+    throw new CoordinateParseError("Input string cannot be empty");
   }
 
-  const coord = parseCoordinate(input)
+  const coord = parseCoordinate(input);
   if (coord.format !== "D") {
-    throw new CoordinateParseError("Expected decimal degrees format")
+    throw new CoordinateParseError("Expected decimal degrees format");
   }
   if (!coord.direction) {
-    throw new CoordinateParseError("Missing direction")
+    throw new CoordinateParseError("Missing direction");
   }
-  return { decimal: toDecimalDegrees(coord), direction: coord.direction }
+  return { decimal: toDecimalDegrees(coord), direction: coord.direction };
 }
 
-const DecimalCoordRE = /^(-?\d+(?:\.\d+)?)$/
+const DecimalCoordRE = /^(-?\d+(?:\.\d+)?)$/;
 
 /**
  * Parses a single coordinate string into its components.
@@ -142,19 +142,19 @@ const DecimalCoordRE = /^(-?\d+(?:\.\d+)?)$/
  */
 export function parseCoordinate(
   input: string,
-  expectRemainders = false
+  expectRemainders = false,
 ): Coordinate {
-  input = toS(input).trim()
+  input = toS(input).trim();
   if (input.length === 0) {
-    throw new CoordinateParseError("Input string cannot be empty")
+    throw new CoordinateParseError("Input string cannot be empty");
   }
 
   if (DecimalCoordRE.test(input)) {
-    const f = toFloat(input)
+    const f = toFloat(input);
     if (f == null) {
-      throw new CoordinateParseError("Failed to parse decimal coordinate")
+      throw new CoordinateParseError("Failed to parse decimal coordinate");
     }
-    const r = roundGpsDecimal(f)
+    const r = roundGpsDecimal(f);
     return {
       degrees: r,
       decimal: r,
@@ -163,27 +163,27 @@ export function parseCoordinate(
       minutes: undefined,
       seconds: undefined,
       remainder: "",
-    }
+    };
   }
 
   const dmsPattern =
-    /^(?<degrees>-?\d+)\s*(?:°|DEG)\s*(?<minutes>\d+)\s*['′]\s*(?<seconds>\d+(?:\.\d+)?)\s*["″]\s?(?<direction>[NSEW])?[\s,]{0,3}(?<remainder>.*)$/i
+    /^(?<degrees>-?\d+)\s*(?:°|DEG)\s*(?<minutes>\d+)\s*['′]\s*(?<seconds>\d+(?:\.\d+)?)\s*["″]\s?(?<direction>[NSEW])?[\s,]{0,3}(?<remainder>.*)$/i;
   const dmPattern =
-    /^(?<degrees>-?\d+)\s*(?:°|DEG)\s*(?<minutes>\d+(?:\.\d+)?)\s?['′]\s?(?<direction>[NSEW])?(?<remainder>.*)$/i
+    /^(?<degrees>-?\d+)\s*(?:°|DEG)\s*(?<minutes>\d+(?:\.\d+)?)\s?['′]\s?(?<direction>[NSEW])?(?<remainder>.*)$/i;
   const dPattern =
-    /^(?<degrees>-?\d+(?:\.\d+)?)\s*(?:°|DEG)\s?(?<direction>[NSEW])?(?<remainder>.*)$/i
+    /^(?<degrees>-?\d+(?:\.\d+)?)\s*(?:°|DEG)\s?(?<direction>[NSEW])?(?<remainder>.*)$/i;
 
-  const trimmedInput = input.trimStart()
+  const trimmedInput = input.trimStart();
 
-  let match: RegExpMatchArray | null
-  let format: CoordinateFormat | null = null
+  let match: RegExpMatchArray | null;
+  let format: CoordinateFormat | null = null;
 
   if ((match = trimmedInput.match(dmsPattern))) {
-    format = "DMS"
+    format = "DMS";
   } else if ((match = trimmedInput.match(dmPattern))) {
-    format = "DM"
+    format = "DM";
   } else if ((match = trimmedInput.match(dPattern))) {
-    format = "D"
+    format = "D";
   }
 
   if (
@@ -196,12 +196,12 @@ export function parseCoordinate(
         "  DDD° MM' SS.S\" k (deg/min/sec)\n" +
         "  DDD° MM.MMM' k (deg/decimal minutes)\n" +
         "  DDD.DDDDD° (decimal degrees)\n" +
-        "  (where k indicates direction: N, S, E, or W)"
-    )
+        "  (where k indicates direction: N, S, E, or W)",
+    );
   }
 
   if (!match.groups) {
-    throw new CoordinateParseError("Failed to parse coordinate components")
+    throw new CoordinateParseError("Failed to parse coordinate components");
   }
 
   const {
@@ -210,41 +210,41 @@ export function parseCoordinate(
     seconds: secondsStr,
     direction: directionStr,
     remainder,
-  } = match.groups
+  } = match.groups;
 
-  const direction = directionStr?.toUpperCase() as Direction | undefined
+  const direction = directionStr?.toUpperCase() as Direction | undefined;
 
-  const degrees = parseFloat(degreesStr!)
-  let minutes: number | undefined
-  let seconds: number | undefined
+  const degrees = parseFloat(degreesStr!);
+  let minutes: number | undefined;
+  let seconds: number | undefined;
 
   if (format === "DMS") {
-    minutes = parseInt(minutesStr!, 10)
-    seconds = parseFloat(secondsStr!)
+    minutes = parseInt(minutesStr!, 10);
+    seconds = parseFloat(secondsStr!);
 
     if (minutes >= 60) {
-      throw new CoordinateParseError("Minutes must be between 0 and 59")
+      throw new CoordinateParseError("Minutes must be between 0 and 59");
     }
     if (seconds >= 60) {
-      throw new CoordinateParseError("Seconds must be between 0 and 59.999...")
+      throw new CoordinateParseError("Seconds must be between 0 and 59.999...");
     }
   } else if (format === "DM") {
-    minutes = parseFloat(minutesStr!)
+    minutes = parseFloat(minutesStr!);
 
     if (minutes >= 60) {
-      throw new CoordinateParseError("Minutes must be between 0 and 59.999...")
+      throw new CoordinateParseError("Minutes must be between 0 and 59.999...");
     }
   }
 
   const maxDegrees =
     direction === "N" || direction === "S"
       ? MAX_LATITUDE_DEGREES
-      : MAX_LONGITUDE_DEGREES
+      : MAX_LONGITUDE_DEGREES;
 
   if (Math.abs(degrees) > maxDegrees) {
     throw new CoordinateParseError(
-      `Degrees must be between -${maxDegrees} and ${maxDegrees} for ${direction} direction`
-    )
+      `Degrees must be between -${maxDegrees} and ${maxDegrees} for ${direction} direction`,
+    );
   }
 
   const coords = {
@@ -254,104 +254,104 @@ export function parseCoordinate(
     direction,
     format,
     remainder: remainder?.trim(),
-  }
-  const decimal = toDecimalDegrees(coords)
+  };
+  const decimal = toDecimalDegrees(coords);
   return {
     ...coords,
     decimal,
-  }
+  };
 }
 
 function toDecimalDegrees(coord: Omit<Coordinate, "decimal">): number {
-  const degrees = toFloat(coord.degrees) ?? 0
-  const sign = Math.sign(degrees)
-  let decimal = Math.abs(degrees)
+  const degrees = toFloat(coord.degrees) ?? 0;
+  const sign = Math.sign(degrees);
+  let decimal = Math.abs(degrees);
 
-  decimal += Math.abs(toFloat(coord.minutes) ?? 0) / 60.0
-  decimal += Math.abs(toFloat(coord.seconds) ?? 0) / 3600.0
+  decimal += Math.abs(toFloat(coord.minutes) ?? 0) / 60.0;
+  decimal += Math.abs(toFloat(coord.seconds) ?? 0) / 3600.0;
 
   if (coord.direction === "S" || coord.direction === "W" || sign < 0) {
-    decimal = -decimal
+    decimal = -decimal;
   }
 
   const maxDegrees =
     coord.direction === "N" || coord.direction === "S"
       ? MAX_LATITUDE_DEGREES
-      : MAX_LONGITUDE_DEGREES
+      : MAX_LONGITUDE_DEGREES;
   const axis =
     coord.direction === "N" || coord.direction === "S"
       ? "latitude"
-      : "longitude"
+      : "longitude";
 
   if (Math.abs(decimal) > maxDegrees) {
     throw new CoordinateParseError(
-      `Degrees must be between -${maxDegrees} and ${maxDegrees} for ${axis}`
-    )
+      `Degrees must be between -${maxDegrees} and ${maxDegrees} for ${axis}`,
+    );
   }
 
   // Round to 6 decimal places
   // Most consumer devices can only resolve 4-5 decimal places (1m resolution)
-  return roundGpsDecimal(decimal)
+  return roundGpsDecimal(decimal);
 }
 
-export type CoordinateType = "Latitude" | "Longitude"
+export type CoordinateType = "Latitude" | "Longitude";
 
 export interface CoordinateConfig {
-  value: number
-  ref: string | undefined
-  geoValue: number | undefined
-  expectedRefPositive: "N" | "E"
-  expectedRefNegative: "S" | "W"
-  max: 90 | 180
-  coordinateType: CoordinateType
+  value: number;
+  ref: string | undefined;
+  geoValue: number | undefined;
+  expectedRefPositive: "N" | "E";
+  expectedRefNegative: "S" | "W";
+  max: 90 | 180;
+  coordinateType: CoordinateType;
 }
-const MAX_LAT_LON_DIFF = 1
+const MAX_LAT_LON_DIFF = 1;
 
 export function roundGpsDecimal(decimal: number): number {
-  return roundToDecimalPlaces(decimal, 6)
+  return roundToDecimalPlaces(decimal, 6);
 }
 
 export function parsePosition(
-  position: Maybe<string>
+  position: Maybe<string>,
 ): Maybe<[number, number]> {
-  if (blank(position)) return
-  const [lat, lon] = toS(position).split(/[, ]+/).map(toFloat)
-  return lat != null && lon != null ? [lat, lon] : undefined
+  if (blank(position)) return;
+  const [lat, lon] = toS(position).split(/[, ]+/).map(toFloat);
+  return lat != null && lon != null ? [lat, lon] : undefined;
 }
 export function processCoordinate(
   config: CoordinateConfig,
-  warnings: string[]
+  warnings: string[],
 ): { value: number; ref: string; isInvalid: boolean } {
-  let { value, ref } = config
-  const { geoValue, coordinateType } = config
-  const { expectedRefPositive, expectedRefNegative, max } = config
-  let isInvalid = false
+  let { value, ref } = config;
+  const { geoValue, coordinateType } = config;
+  const { expectedRefPositive, expectedRefNegative, max } = config;
+  let isInvalid = false;
 
   // Validate ref is reasonable -- it should either start with
   // expectedRefPositive or expectedRefNegative:
 
-  ref = toS(ref).trim().toUpperCase().slice(0, 1)
+  ref = toS(ref).trim().toUpperCase().slice(0, 1);
   if (
     !blank(config.ref) &&
     ref !== expectedRefPositive &&
     ref !== expectedRefNegative
   ) {
     warnings.push(
-      `Invalid GPS${coordinateType}Ref: ${JSON.stringify(config.ref)}.`
-    )
-    ref = value < 0 ? expectedRefNegative : expectedRefPositive
+      `Invalid GPS${coordinateType}Ref: ${JSON.stringify(config.ref)}.`,
+    );
+    ref = value < 0 ? expectedRefNegative : expectedRefPositive;
   }
 
   // Check range
   if (Math.abs(value) > max) {
-    isInvalid = true
-    warnings.push(`Invalid GPS${coordinateType}: ${value} is out of range`)
-    return { value, ref, isInvalid }
+    isInvalid = true;
+    warnings.push(`Invalid GPS${coordinateType}: ${value} is out of range`);
+    return { value, ref, isInvalid };
   }
 
   // Apply hemisphere reference
   if (ref === expectedRefNegative) {
-    value = -Math.abs(value)
+    value = -Math.abs(value);
   }
 
   // Check for mismatched signs with GeolocationPosition
@@ -360,32 +360,33 @@ export function processCoordinate(
     Math.abs(Math.abs(geoValue) - Math.abs(value)) < MAX_LAT_LON_DIFF
   ) {
     if (Math.sign(geoValue) !== Math.sign(value)) {
-      value = -value
+      value = -value;
       warnings.push(
-        `Corrected GPS${coordinateType} sign based on GeolocationPosition`
-      )
+        `Corrected GPS${coordinateType} sign based on GeolocationPosition`,
+      );
     }
 
     // Force ref to correct value
-    const expectedRef = geoValue < 0 ? expectedRefNegative : expectedRefPositive
+    const expectedRef =
+      geoValue < 0 ? expectedRefNegative : expectedRefPositive;
     if (ref !== expectedRef) {
-      ref = expectedRef
+      ref = expectedRef;
       if (!blank(config.ref)) {
         warnings.push(
-          `Corrected GPS${coordinateType}Ref to ${expectedRef} based on GeolocationPosition`
-        )
+          `Corrected GPS${coordinateType}Ref to ${expectedRef} based on GeolocationPosition`,
+        );
       }
     }
   }
 
   // Ensure ref matches coordinate sign
-  const expectedRef = value < 0 ? expectedRefNegative : expectedRefPositive
+  const expectedRef = value < 0 ? expectedRefNegative : expectedRefPositive;
   if (ref != null && ref !== expectedRef && !blank(config.ref)) {
     warnings.push(
-      `Corrected GPS${coordinateType}Ref to ${ref} to match coordinate sign`
-    )
+      `Corrected GPS${coordinateType}Ref to ${ref} to match coordinate sign`,
+    );
   }
-  ref = expectedRef
+  ref = expectedRef;
 
-  return { value: roundGpsDecimal(value), ref, isInvalid }
+  return { value: roundGpsDecimal(value), ref, isInvalid };
 }

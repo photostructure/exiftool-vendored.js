@@ -1,4 +1,4 @@
-import { Tags } from "./Tags"
+import { Tags } from "./Tags";
 
 export const CapturedAtTagNames = [
   "SubSecDateTimeOriginal",
@@ -10,4 +10,4 @@ export const CapturedAtTagNames = [
   "CreationDate", // < Found in some transcoded Apple movies
   "DateTimeCreated",
   "TimeCreated", // < may not have the date
-] as const satisfies readonly (keyof Tags)[]
+] as const satisfies readonly (keyof Tags)[];

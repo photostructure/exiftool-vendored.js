@@ -1,46 +1,46 @@
-import * as bc from "batch-cluster"
-import * as _cp from "node:child_process"
-import * as _fs from "node:fs"
-import process from "node:process"
-import { ifArray } from "./Array"
-import { retryOnReject } from "./AsyncRetry"
-import { BinaryExtractionTask } from "./BinaryExtractionTask"
-import { BinaryToBufferTask } from "./BinaryToBufferTask"
-import { ContainerDirectoryItem } from "./ContainerDirectoryItem"
-import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
-import { Defined, DefinedOrNullValued } from "./Defined"
-import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs"
-import { ErrorsAndWarnings } from "./ErrorsAndWarnings"
-import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions"
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask"
-import { ExifToolVendoredTags } from "./ExifToolVendoredTags"
-import { exiftoolPath } from "./ExiftoolPath"
-import { GeolocationTags } from "./GeolocationTags"
-import { ICCProfileTags } from "./ICCProfileTags"
-import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"
-import { ImageDataHashTag } from "./ImageDataHashTag"
-import { isWin32 } from "./IsWin32"
-import { lazy } from "./Lazy"
+import * as bc from "batch-cluster";
+import * as _cp from "node:child_process";
+import * as _fs from "node:fs";
+import process from "node:process";
+import { ifArray } from "./Array";
+import { retryOnReject } from "./AsyncRetry";
+import { BinaryExtractionTask } from "./BinaryExtractionTask";
+import { BinaryToBufferTask } from "./BinaryToBufferTask";
+import { ContainerDirectoryItem } from "./ContainerDirectoryItem";
+import { DefaultExifToolOptions } from "./DefaultExifToolOptions";
+import { Defined, DefinedOrNullValued } from "./Defined";
+import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs";
+import { ErrorsAndWarnings } from "./ErrorsAndWarnings";
+import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
+import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
+import { ExifToolVendoredTags } from "./ExifToolVendoredTags";
+import { exiftoolPath } from "./ExiftoolPath";
+import { GeolocationTags } from "./GeolocationTags";
+import { ICCProfileTags } from "./ICCProfileTags";
+import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";
+import { ImageDataHashTag } from "./ImageDataHashTag";
+import { isWin32 } from "./IsWin32";
+import { lazy } from "./Lazy";
 import {
   CollectionInfo,
   KeywordInfoStruct,
   KeywordStruct,
   MWGCollectionsTags,
   MWGKeywordTags,
-} from "./MWGTags"
-import { Maybe } from "./Maybe"
-import { isFunction, isObject, omit } from "./Object"
-import { Omit } from "./Omit"
-import { pick } from "./Pick"
-import { PreviewTag } from "./PreviewTag"
-import { Json, Literal, RawTags } from "./RawTags"
-import { ReadRawTask } from "./ReadRawTask"
-import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask"
-import { ResourceEvent } from "./ResourceEvent"
-import { RewriteAllTagsTask } from "./RewriteAllTagsTask"
-import { ShortcutTags } from "./ShortcutTags"
-import { blank, isString, notBlank } from "./String"
-import { Struct } from "./Struct"
+} from "./MWGTags";
+import { Maybe } from "./Maybe";
+import { isFunction, isObject, omit } from "./Object";
+import { Omit } from "./Omit";
+import { pick } from "./Pick";
+import { PreviewTag } from "./PreviewTag";
+import { Json, Literal, RawTags } from "./RawTags";
+import { ReadRawTask } from "./ReadRawTask";
+import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask";
+import { ResourceEvent } from "./ResourceEvent";
+import { RewriteAllTagsTask } from "./RewriteAllTagsTask";
+import { ShortcutTags } from "./ShortcutTags";
+import { blank, isString, notBlank } from "./String";
+import { Struct } from "./Struct";
 import {
   APPTags,
   CompositeTags,
@@ -61,37 +61,37 @@ import {
   RIFFTags,
   Tags,
   XMPTags,
-} from "./Tags"
-import { Version } from "./Version"
-import { VersionTask } from "./VersionTask"
-import { which } from "./Which"
+} from "./Tags";
+import { Version } from "./Version";
+import { VersionTask } from "./VersionTask";
+import { which } from "./Which";
 import {
   AdditionalWriteTags,
   ExpandedDateTags,
   MutableTags,
   StructAppendTags,
   WriteTags,
-} from "./WriteTags"
+} from "./WriteTags";
 import {
   WriteTask,
   WriteTaskOptionFields,
   WriteTaskOptions,
   WriteTaskResult,
-} from "./WriteTask"
+} from "./WriteTask";
 
-export { BinaryField } from "./BinaryField"
-export { CapturedAtTagNames } from "./CapturedAtTagNames"
-export { DefaultExifToolOptions } from "./DefaultExifToolOptions"
-export { DefaultExiftoolArgs } from "./DefaultExiftoolArgs"
-export { DefaultMaxProcs } from "./DefaultMaxProcs"
-export { ExifDate } from "./ExifDate"
-export { ExifDateTime } from "./ExifDateTime"
-export { ExifTime } from "./ExifTime"
-export { ExifToolTask } from "./ExifToolTask"
-export { exiftoolPath } from "./ExiftoolPath"
-export { isGeolocationTag } from "./GeolocationTags"
-export { parseJSON } from "./JSON"
-export { DefaultReadTaskOptions } from "./ReadTask"
+export { BinaryField } from "./BinaryField";
+export { CapturedAtTagNames } from "./CapturedAtTagNames";
+export { DefaultExifToolOptions } from "./DefaultExifToolOptions";
+export { DefaultExiftoolArgs } from "./DefaultExiftoolArgs";
+export { DefaultMaxProcs } from "./DefaultMaxProcs";
+export { ExifDate } from "./ExifDate";
+export { ExifDateTime } from "./ExifDateTime";
+export { ExifTime } from "./ExifTime";
+export { ExifToolTask } from "./ExifToolTask";
+export { exiftoolPath } from "./ExiftoolPath";
+export { isGeolocationTag } from "./GeolocationTags";
+export { parseJSON } from "./JSON";
+export { DefaultReadTaskOptions } from "./ReadTask";
 export {
   TimezoneOffsetTagnames,
   UnsetZone,
@@ -99,8 +99,8 @@ export {
   UnsetZoneOffsetMinutes,
   defaultVideosToUTC,
   offsetMinutesToZoneName,
-} from "./Timezones"
-export { DefaultWriteTaskOptions } from "./WriteTask"
+} from "./Timezones";
+export { DefaultWriteTaskOptions } from "./WriteTask";
 export type {
   APPTags,
   AdditionalWriteTags,
@@ -156,28 +156,28 @@ export type {
   WriteTaskOptions,
   WriteTaskResult,
   XMPTags,
-}
+};
 
 /**
  * This is the hardcoded path in the exiftool shebang line
  */
-const PERL = "/usr/bin/perl"
+const PERL = "/usr/bin/perl";
 
 /**
  * Is the #!/usr/bin/perl shebang line in exiftool-vendored.pl going to fail? If
  * so, we need to find `perl` ourselves, and ignore the shebang line.
  */
-const _ignoreShebang = lazy(() => !isWin32() && !_fs.existsSync(PERL))
+const _ignoreShebang = lazy(() => !isWin32() && !_fs.existsSync(PERL));
 
 const whichPerl = lazy(async () => {
-  const result = await which(PERL)
+  const result = await which(PERL);
   if (result == null) {
     throw new Error(
-      "Perl must be installed. Please add perl to your $PATH and try again."
-    )
+      "Perl must be installed. Please add perl to your $PATH and try again.",
+    );
   }
-  return result
-})
+  return result;
+});
 
 /**
  * Manages delegating calls to a cluster of ExifTool child processes.
@@ -196,75 +196,75 @@ const whichPerl = lazy(async () => {
  * @see https://photostructure.github.io/exiftool-vendored.js/ for more documentation.
  */
 export class ExifTool {
-  readonly options: ExifToolOptions
-  readonly batchCluster: bc.BatchCluster
+  readonly options: ExifToolOptions;
+  readonly batchCluster: bc.BatchCluster;
 
   constructor(options: Partial<ExifToolOptions> = {}) {
     if (options != null && typeof options !== "object") {
       throw new Error(
-        "Please update caller to the new ExifTool constructor API"
-      )
+        "Please update caller to the new ExifTool constructor API",
+      );
     }
     const o = handleDeprecatedOptions({
       ...DefaultExifToolOptions,
       ...options,
-    })
+    });
 
-    const ignoreShebang = o.ignoreShebang ?? _ignoreShebang()
+    const ignoreShebang = o.ignoreShebang ?? _ignoreShebang();
 
-    const env: NodeJS.ProcessEnv = { ...o.exiftoolEnv, LANG: "C" }
+    const env: NodeJS.ProcessEnv = { ...o.exiftoolEnv, LANG: "C" };
     if (notBlank(process.env.EXIFTOOL_HOME) && blank(env.EXIFTOOL_HOME)) {
-      env.EXIFTOOL_HOME = process.env.EXIFTOOL_HOME
+      env.EXIFTOOL_HOME = process.env.EXIFTOOL_HOME;
     }
     const spawnOpts: _cp.SpawnOptions = {
       stdio: "pipe",
       shell: false,
       detached: false, // < no orphaned exiftool procs, please
       env,
-    }
+    };
     const processFactory = async () =>
       ignoreShebang
         ? _cp.spawn(
             await whichPerl(),
             [await this.exiftoolPath(), ...o.exiftoolArgs],
-            spawnOpts
+            spawnOpts,
           )
-        : _cp.spawn(await this.exiftoolPath(), o.exiftoolArgs, spawnOpts)
+        : _cp.spawn(await this.exiftoolPath(), o.exiftoolArgs, spawnOpts);
 
     this.options = {
       ...o,
       ignoreShebang,
       processFactory,
-    }
-    this.batchCluster = new bc.BatchCluster(this.options)
+    };
+    this.batchCluster = new bc.BatchCluster(this.options);
   }
 
   readonly exiftoolPath = lazy<Promise<string>>(async () => {
-    const o = await this.options.exiftoolPath
-    if (isString(o) && notBlank(o)) return o
-    if (isFunction(o)) return o(this.options.logger())
-    return exiftoolPath(this.options.logger())
-  })
+    const o = await this.options.exiftoolPath;
+    if (isString(o) && notBlank(o)) return o;
+    if (isFunction(o)) return o(this.options.logger());
+    return exiftoolPath(this.options.logger());
+  });
 
-  #taskOptions = lazy(() => pick(this.options, "ignoreMinorErrors"))
+  #taskOptions = lazy(() => pick(this.options, "ignoreMinorErrors"));
 
   /**
    * Register life cycle event listeners. Delegates to BatchProcess.
    */
   readonly on: bc.BatchCluster["on"] = (event, listener) =>
-    this.batchCluster.on(event, listener)
+    this.batchCluster.on(event, listener);
 
   /**
    * Unregister life cycle event listeners. Delegates to BatchProcess.
    */
   readonly off: bc.BatchCluster["off"] = (event, listener) =>
-    this.batchCluster.off(event, listener)
+    this.batchCluster.off(event, listener);
 
   /**
    * @return a promise holding the version number of the vendored ExifTool
    */
   version(): Promise<string> {
-    return this.enqueueTask(() => new VersionTask(this.options))
+    return this.enqueueTask(() => new VersionTask(this.options));
   }
 
   /**
@@ -280,8 +280,8 @@ export class ExifTool {
    */
   read<T extends Tags = Tags>(
     file: string,
-    options?: ReadTaskOptions
-  ): Promise<T>
+    options?: ReadTaskOptions,
+  ): Promise<T>;
 
   /**
    * Read the tags in `file`.
@@ -310,21 +310,21 @@ export class ExifTool {
   read<T extends Tags = Tags>(
     file: string,
     readArgs?: string[],
-    options?: ReadTaskOptions
-  ): Promise<T>
+    options?: ReadTaskOptions,
+  ): Promise<T>;
 
   read<T extends Tags = Tags>(
     file: string,
     argsOrOptions?: string[] | ReadTaskOptions,
-    options?: ReadTaskOptions
+    options?: ReadTaskOptions,
   ): Promise<T> {
     const opts = {
       ...pick(this.options, ...ReadTaskOptionFields),
       ...(isObject(argsOrOptions) ? argsOrOptions : options),
-    }
+    };
     opts.readArgs =
-      ifArray(argsOrOptions) ?? ifArray(opts.readArgs) ?? this.options.readArgs
-    return this.enqueueTask(() => ReadTask.for(file, opts)) as Promise<T> // < no way to know at compile time if we're going to get back a T!
+      ifArray(argsOrOptions) ?? ifArray(opts.readArgs) ?? this.options.readArgs;
+    return this.enqueueTask(() => ReadTask.for(file, opts)) as Promise<T>; // < no way to know at compile time if we're going to get back a T!
   }
 
   /**
@@ -354,8 +354,8 @@ export class ExifTool {
    */
   readRaw(file: string, args: string[] = []): Promise<RawTags> {
     return this.enqueueTask(() =>
-      ReadRawTask.for(file, args, this.#taskOptions())
-    )
+      ReadRawTask.for(file, args, this.#taskOptions()),
+    );
   }
 
   /**
@@ -377,8 +377,8 @@ export class ExifTool {
   write(
     file: string,
     tags: WriteTags,
-    options?: WriteTaskOptions
-  ): Promise<WriteTaskResult>
+    options?: WriteTaskOptions,
+  ): Promise<WriteTaskResult>;
 
   /**
    * @param file an existing file to write `tags` to
@@ -405,8 +405,8 @@ export class ExifTool {
     file: string,
     tags: WriteTags,
     writeArgs?: string[],
-    options?: WriteTaskOptions
-  ): Promise<WriteTaskResult>
+    options?: WriteTaskOptions,
+  ): Promise<WriteTaskResult>;
 
   /**
    * Write the given `tags` to `file`.
@@ -432,21 +432,21 @@ export class ExifTool {
     file: string,
     tags: WriteTags,
     writeArgsOrOptions?: string[] | WriteTaskOptions,
-    options?: WriteTaskOptions
+    options?: WriteTaskOptions,
   ): Promise<WriteTaskResult> {
     const opts = {
       ...pick(this.options, ...WriteTaskOptionFields),
       ...(isObject(writeArgsOrOptions) ? writeArgsOrOptions : options),
-    }
+    };
     opts.writeArgs =
       ifArray(writeArgsOrOptions) ??
       ifArray(opts.writeArgs) ??
-      this.options.writeArgs
+      this.options.writeArgs;
 
     // don't retry because writes might not be idempotent (e.g. incrementing
     // timestamps by an hour)
-    const retriable = false
-    return this.enqueueTask(() => WriteTask.for(file, tags, opts), retriable)
+    const retriable = false;
+    return this.enqueueTask(() => WriteTask.for(file, tags, opts), retriable);
   }
 
   /**
@@ -462,13 +462,13 @@ export class ExifTool {
    */
   deleteAllTags(
     file: string,
-    opts?: { retain?: (keyof Tags | string)[] } & Partial<ExifToolTaskOptions>
+    opts?: { retain?: (keyof Tags | string)[] } & Partial<ExifToolTaskOptions>,
   ): Promise<WriteTaskResult> {
-    const writeArgs = [...DeleteAllTagsArgs]
+    const writeArgs = [...DeleteAllTagsArgs];
     for (const ea of opts?.retain ?? []) {
-      writeArgs.push(`-${ea}<${ea}`)
+      writeArgs.push(`-${ea}<${ea}`);
     }
-    return this.write(file, {}, { ...omit(opts ?? {}, "retain"), writeArgs })
+    return this.write(file, {}, { ...omit(opts ?? {}, "retain"), writeArgs });
   }
 
   /**
@@ -483,14 +483,14 @@ export class ExifTool {
   extractThumbnail(
     imageFile: string,
     thumbnailFile: string,
-    opts?: ExifToolOptions
+    opts?: ExifToolOptions,
   ): Promise<void> {
     return this.extractBinaryTag(
       "ThumbnailImage",
       imageFile,
       thumbnailFile,
-      opts
-    )
+      opts,
+    );
   }
 
   /**
@@ -506,9 +506,9 @@ export class ExifTool {
   extractPreview(
     imageFile: string,
     previewFile: string,
-    opts?: ExifToolOptions
+    opts?: ExifToolOptions,
   ): Promise<void> {
-    return this.extractBinaryTag("PreviewImage", imageFile, previewFile, opts)
+    return this.extractBinaryTag("PreviewImage", imageFile, previewFile, opts);
   }
 
   /**
@@ -524,9 +524,9 @@ export class ExifTool {
   extractJpgFromRaw(
     imageFile: string,
     outputFile: string,
-    opts?: ExifToolOptions
+    opts?: ExifToolOptions,
   ): Promise<void> {
-    return this.extractBinaryTag("JpgFromRaw", imageFile, outputFile, opts)
+    return this.extractBinaryTag("JpgFromRaw", imageFile, outputFile, opts);
   }
 
   /**
@@ -541,7 +541,7 @@ export class ExifTool {
     tagname: string,
     src: string,
     dest: string,
-    opts?: ExifToolTaskOptions
+    opts?: ExifToolTaskOptions,
   ): Promise<void> {
     // BinaryExtractionTask returns a stringified error if the output indicates
     // the task should not be retried.
@@ -549,10 +549,10 @@ export class ExifTool {
       BinaryExtractionTask.for(tagname, src, dest, {
         ...this.#taskOptions(),
         ...opts,
-      })
-    )
+      }),
+    );
     if (maybeError != null) {
-      throw new Error(maybeError)
+      throw new Error(maybeError);
     }
   }
 
@@ -568,22 +568,22 @@ export class ExifTool {
   async extractBinaryTagToBuffer(
     tagname: PreviewTag,
     imageFile: string,
-    opts?: ExifToolTaskOptions
+    opts?: ExifToolTaskOptions,
   ): Promise<Buffer> {
     const result = await this.enqueueTask(() =>
       BinaryToBufferTask.for(tagname, imageFile, {
         ...this.#taskOptions(),
         ...opts,
-      })
-    )
+      }),
+    );
     if (Buffer.isBuffer(result)) {
-      return result
+      return result;
     } else if (result instanceof Error) {
-      throw result
+      throw result;
     } else {
       throw new Error(
-        "Unexpected result from BinaryToBufferTask: " + JSON.stringify(result)
-      )
+        "Unexpected result from BinaryToBufferTask: " + JSON.stringify(result),
+      );
     }
   }
   /**
@@ -607,15 +607,15 @@ export class ExifTool {
   rewriteAllTags(
     inputFile: string,
     outputFile: string,
-    opts?: { allowMakerNoteRepair?: boolean } & ExifToolTaskOptions
+    opts?: { allowMakerNoteRepair?: boolean } & ExifToolTaskOptions,
   ): Promise<void> {
     return this.enqueueTask(() =>
       RewriteAllTagsTask.for(inputFile, outputFile, {
         allowMakerNoteRepair: false,
         ...this.#taskOptions(),
         ...opts,
-      })
-    )
+      }),
+    );
   }
 
   /**
@@ -626,23 +626,23 @@ export class ExifTool {
    * scripts for them to exit cleanly.
    */
   end(gracefully = true): Promise<void> {
-    return this.batchCluster.end(gracefully).promise
+    return this.batchCluster.end(gracefully).promise;
   }
 
   /**
    * @return true if `.end()` has been invoked
    */
   get ended() {
-    return this.batchCluster.ended
+    return this.batchCluster.ended;
   }
 
   // calling whichPerl through this lazy() means we only do that task once per
   // instance.
   readonly #checkForPerl = lazy(async () => {
     if (this.options.checkPerl) {
-      await whichPerl() // < throws if perl is missing
+      await whichPerl(); // < throws if perl is missing
     }
-  })
+  });
 
   /**
    * Most users will not need to use `enqueueTask` directly. This method
@@ -654,10 +654,10 @@ export class ExifTool {
    */
   enqueueTask<T>(task: () => ExifToolTask<T>, retriable = true): Promise<T> {
     const f = async () => {
-      await this.#checkForPerl()
-      return this.batchCluster.enqueueTask(task())
-    }
-    return retriable ? retryOnReject(f, this.options.taskRetries) : f()
+      await this.#checkForPerl();
+      return this.batchCluster.enqueueTask(task());
+    };
+    return retriable ? retryOnReject(f, this.options.taskRetries) : f();
   }
 
   /**
@@ -667,35 +667,35 @@ export class ExifTool {
    * integration tests that verify processes are cleaned up properly.
    */
   get pids(): number[] {
-    return this.batchCluster.pids()
+    return this.batchCluster.pids();
   }
 
   /**
    * @return the number of pending (not currently worked on) tasks
    */
   get pendingTasks(): number {
-    return this.batchCluster.pendingTaskCount
+    return this.batchCluster.pendingTaskCount;
   }
 
   /**
    * @return the total number of child processes created by this instance
    */
   get spawnedProcs(): number {
-    return this.batchCluster.spawnedProcCount
+    return this.batchCluster.spawnedProcCount;
   }
 
   /**
    * @return the current number of child processes currently servicing tasks
    */
   get busyProcs(): number {
-    return this.batchCluster.busyProcCount
+    return this.batchCluster.busyProcCount;
   }
 
   /**
    * @return report why child processes were recycled
    */
   childEndCounts() {
-    return this.batchCluster.childEndCounts
+    return this.batchCluster.childEndCounts;
   }
 
   /**
@@ -703,7 +703,7 @@ export class ExifTool {
    * be started automatically to handle new tasks.
    */
   closeChildProcesses(gracefully = true) {
-    return this.batchCluster.closeChildProcesses(gracefully)
+    return this.batchCluster.closeChildProcesses(gracefully);
   }
 }
 
@@ -724,4 +724,4 @@ export class ExifTool {
  * See the source of {@link DefaultExifToolOptions} for more details about how
  * this instance is configured.
  */
-export const exiftool = new ExifTool()
+export const exiftool = new ExifTool();

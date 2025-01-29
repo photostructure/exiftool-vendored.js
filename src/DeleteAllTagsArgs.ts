@@ -1,1 +1,1 @@
-export const DeleteAllTagsArgs = ["-all="]
+export const DeleteAllTagsArgs = ["-all="];

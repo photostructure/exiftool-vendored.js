@@ -1,19 +1,19 @@
 export function retryOnReject<T>(
   f: () => T | Promise<T>,
-  maxRetries: number
+  maxRetries: number,
 ): Promise<T> {
-  let retries = 0
+  let retries = 0;
   const g: () => Promise<T> = async () => {
     try {
-      return await f()
+      return await f();
     } catch (err) {
       if (retries < maxRetries) {
-        retries++
-        return g()
+        retries++;
+        return g();
       } else {
-        throw err
+        throw err;
       }
     }
-  }
-  return g()
+  };
+  return g();
 }

@@ -1,4 +1,4 @@
-import { isWin32 } from "./IsWin32"
+import { isWin32 } from "./IsWin32";
 
 /**
  * Tells ExifTool to handle UTF-8-encoded filenames on Windows.
@@ -17,4 +17,4 @@ import { isWin32 } from "./IsWin32"
  */
 export const Utf8FilenameCharsetArgs = isWin32()
   ? ["-charset", "filename=utf8"]
-  : []
+  : [];
