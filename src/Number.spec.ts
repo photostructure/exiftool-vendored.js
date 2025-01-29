@@ -1,4 +1,11 @@
-import { isNumber, roundToDecimalPlaces, toFloat, toInt } from "./Number"
+import {
+  isFloat,
+  isInteger,
+  isNumber,
+  roundToDecimalPlaces,
+  toFloat,
+  toInt,
+} from "./Number"
 import { expect } from "./_chai.spec"
 
 describe("Number", () => {
@@ -6,48 +13,64 @@ describe("Number", () => {
     {
       n: null,
       isNum: false,
+      isInt: false,
+      isFractional: false,
       i: undefined,
       f: undefined,
     },
     {
       n: 0,
       isNum: true,
+      isInt: true,
+      isFractional: false,
       i: 0,
       f: 0,
     },
     {
       n: 1,
       isNum: true,
+      isInt: true,
+      isFractional: false,
       i: 1,
       f: 1,
     },
     {
       n: 1.3,
       isNum: true,
+      isInt: false,
+      isFractional: true,
       i: 1,
       f: 1.3,
     },
     {
       n: 1.5,
       isNum: true,
+      isInt: false,
+      isFractional: true,
       i: 1,
       f: 1.5,
     },
     {
       n: "123",
       isNum: false,
+      isInt: false,
+      isFractional: false,
       i: 123,
       f: 123,
     },
     {
       n: "123.5",
       isNum: false,
+      isInt: false,
+      isFractional: false,
       i: 123,
       f: 123.5,
     },
     {
       n: " 567.890 W 21431",
       isNum: false,
+      isInt: false,
+      isFractional: false,
       i: 567,
       f: 567.89,
     },
@@ -67,6 +90,22 @@ describe("Number", () => {
   describe("toFloat()", () => {
     examples.forEach(({ n, f }) => {
       it(JSON.stringify(n) + " => " + f, () => expect(toFloat(n)).to.eql(f))
+    })
+  })
+
+  describe("isInteger()", () => {
+    examples.forEach(({ n, isInt }) => {
+      it(JSON.stringify(n) + " => " + isInt, () =>
+        expect(isInteger(n)).to.eql(isInt)
+      )
+    })
+  })
+
+  describe("isFloat()", () => {
+    examples.forEach(({ n, isFractional }) => {
+      it(JSON.stringify(n) + " => " + isFloat, () =>
+        expect(isFloat(n)).to.eql(isFractional)
+      )
     })
   })
 
@@ -150,13 +189,35 @@ describe("Number", () => {
     describe("precision handling", () => {
       it("should handle different precision levels correctly", () => {
         const value = 123.456789
-        expect(roundToDecimalPlaces(value, 0)).to.eql(123)
-        expect(roundToDecimalPlaces(value, 1)).to.eql(123.5)
-        expect(roundToDecimalPlaces(value, 2)).to.eql(123.46)
-        expect(roundToDecimalPlaces(value, 3)).to.eql(123.457)
-        expect(roundToDecimalPlaces(value, 4)).to.eql(123.4568)
-        expect(roundToDecimalPlaces(value, 5)).to.eql(123.45679)
-        expect(roundToDecimalPlaces(value, 6)).to.eql(123.456789)
+        expect(roundToDecimalPlaces(value, 0)).to.equal(123)
+        expect(roundToDecimalPlaces(value, 1)).to.equal(123.5)
+        expect(roundToDecimalPlaces(value, 2)).to.equal(123.46)
+        expect(roundToDecimalPlaces(value, 3)).to.equal(123.457)
+        expect(roundToDecimalPlaces(value, 4)).to.equal(123.4568)
+        expect(roundToDecimalPlaces(value, 5)).to.equal(123.45679)
+        expect(roundToDecimalPlaces(value, 6)).to.equal(123.456789)
+      })
+    })
+
+    describe("GPS coordinate handling", () => {
+      it("should correctly round GPS coordinates to 6 decimal places", () => {
+        const testCases = [
+          { value: 40.4461111111111, expected: 40.446111 },
+          { value: -79.9822222222222, expected: -79.982222 },
+          { value: 44.64283333333333, expected: 44.642833 },
+          { value: -63.57691666666667, expected: -63.576917 },
+          { value: 0.000001234567, expected: 0.000001 },
+          { value: -0.000001234567, expected: -0.000001 },
+        ]
+
+        testCases.forEach(({ value, expected }) => {
+          expect(roundToDecimalPlaces(value, 6)).to.equal(expected)
+        })
+      })
+
+      it("should preserve sign for small negative values", () => {
+        expect(roundToDecimalPlaces(-0.0000001, 6)).to.equal(0)
+        expect(roundToDecimalPlaces(-0.000001, 6)).to.equal(-0.000001)
       })
     })
   })

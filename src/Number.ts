@@ -4,11 +4,20 @@ export function isNumber(n: unknown): n is number {
   return typeof n === "number" && isFinite(n)
 }
 
+export function isInteger(n: unknown): n is number {
+  return isNumber(n) && Number.isInteger(n)
+}
+
+export function isFloat(n: unknown): n is number {
+  return isNumber(n) && !Number.isInteger(n)
+}
+
 export function toFloat(n: unknown): Maybe<number> {
   if (n == null) return
   if (isNumber(n)) return n
   try {
-    return parseFloat(String(n).trim())
+    const f = parseFloat(String(n).trim())
+    return isNumber(f) ? f : undefined
   } catch {
     return undefined
   }
