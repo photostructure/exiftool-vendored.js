@@ -13,8 +13,6 @@ import { ResourceEvent } from "./ResourceEvent";
 import { Struct } from "./Struct";
 import { Version } from "./Version";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 /**
  * These tags are added by `exiftool`.
  */

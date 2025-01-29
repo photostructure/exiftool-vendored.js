@@ -799,8 +799,6 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { Struct } from "./Struct"',
         'import { Version } from "./Version"',
         "",
-        "/* eslint-disable @typescript-eslint/no-explicit-any */",
-        "",
       ].join("\n"),
     );
     const groupedTags = tagMap.groupedTags;
