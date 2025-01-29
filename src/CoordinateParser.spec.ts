@@ -3,10 +3,28 @@ import {
   parseCoordinate,
   parseCoordinates,
   parseDecimalCoordinate,
+  parsePosition,
 } from "./CoordinateParser"
 
 describe("Coordinate Parser", () => {
   describe("parsePosition", () => {
+    it("should parse valid position string", () => {
+      const result = parsePosition("37.7749, -122.4194")
+      expect(result).to.eql([37.7749, -122.4194])
+    })
+
+    it("should handle spaces instead of commas", () => {
+      const result = parsePosition("37.7749 -122.4194")
+      expect(result).to.eql([37.7749, -122.4194])
+    })
+
+    it("should return undefined for invalid input", () => {
+      expect(parsePosition("")).to.be.undefined
+      expect(parsePosition("invalid")).to.be.undefined
+      expect(parsePosition("37.7749")).to.be.undefined
+      expect(parsePosition("37.7749, invalid")).to.be.undefined
+    })
+
     it("should parse valid DMS coordinates", () => {
       const input = "40° 26' 46\" N 79° 58' 56\" W"
       const result = parseCoordinates(input)
@@ -60,7 +78,7 @@ describe("Coordinate Parser", () => {
     it("should parse valid decimal coordinate", () => {
       const result = parseDecimalCoordinate("40.44611° N")
       expect(result).to.eql({
-        degrees: 40.44611,
+        decimal: 40.44611,
         direction: "N",
       })
     })
@@ -73,6 +91,22 @@ describe("Coordinate Parser", () => {
   })
 
   describe("parseCoordinates", () => {
+    it("should handle decimal coordinates separated with a comma", () => {
+      const input = "37.123, -122.987"
+      const result = parseCoordinates(input)
+      expect(result).to.eql({
+        latitude: 37.123,
+        longitude: -122.987,
+      })
+    })
+    it("should handle decimal coordinates separated by a space", () => {
+      const input = "44.6428 -63.5769"
+      const result = parseCoordinates(input)
+      expect(result).to.eql({
+        latitude: 44.6428,
+        longitude: -63.5769,
+      })
+    })
     it("should parse multiple coordinates", () => {
       const input = "40° N 79° W"
       const result = parseCoordinates(input)
@@ -96,6 +130,7 @@ describe("Coordinate Parser", () => {
     it("should parse DMS format", () => {
       const result = parseCoordinate("40° 26' 46\" N")
       expect(result).to.eql({
+        decimal: 40.446111,
         degrees: 40,
         minutes: 26,
         seconds: 46,
@@ -108,6 +143,7 @@ describe("Coordinate Parser", () => {
     it("should parse DM format", () => {
       const result = parseCoordinate("40° 26.767' N")
       expect(result).to.eql({
+        decimal: 40.446117,
         degrees: 40,
         minutes: 26.767,
         seconds: undefined,
@@ -118,9 +154,10 @@ describe("Coordinate Parser", () => {
     })
 
     it("should parse decimal format", () => {
-      const result = parseCoordinate("40.44611° N")
+      const result = parseCoordinate("40.987654321° N")
       expect(result).to.eql({
-        degrees: 40.44611,
+        decimal: 40.987654,
+        degrees: 40.987654321,
         minutes: undefined,
         seconds: undefined,
         direction: "N",
@@ -135,7 +172,7 @@ describe("Coordinate Parser", () => {
     })
 
     it("should handle remainder text", () => {
-      const result = parseCoordinate("40° N Additional Text")
+      const result = parseCoordinate("40° N Additional Text", true)
       expect(result.remainder).to.eql("Additional Text")
     })
 
@@ -161,6 +198,39 @@ describe("Coordinate Parser", () => {
       expect(() => parseCoordinate("181° E")).to.throw(
         "Degrees must be between -180 and 180"
       )
+    })
+  })
+
+  describe("Coordinate validation", () => {
+    it("should handle edge case coordinates", () => {
+      expect(() => parseCoordinate("90° N")).not.to.throw()
+      expect(() => parseCoordinate("180° E")).not.to.throw()
+      expect(() => parseCoordinate("-90° S")).not.to.throw()
+      expect(() => parseCoordinate("-180° W")).not.to.throw()
+    })
+
+    it("should reject coordinates exceeding limits", () => {
+      expect(() => parseCoordinate("90.1° N")).to.throw()
+      expect(() => parseCoordinate("180.1° E")).to.throw()
+      expect(() => parseCoordinate("-90.1° S")).to.throw()
+      expect(() => parseCoordinate("-180.1° W")).to.throw()
+    })
+
+    it("should handle various decimal precisions", () => {
+      const result = parseCoordinate("12.123456789° N")
+      expect(result.decimal).to.eql(12.123457) // Rounds to 6 decimal places
+    })
+
+    it("should handle malformed inputs", () => {
+      expect(() => parseCoordinate("° N")).to.throw()
+      expect(() => parseCoordinate("abc° N")).to.throw()
+      expect(() => parseCoordinate("12° abc' N")).to.throw()
+      expect(() => parseCoordinate("12° 34' abc\" N")).to.throw()
+    })
+
+    it("should handle mixed format signs", () => {
+      const result = parseCoordinate("-12° 34' 56\" S")
+      expect(result.decimal).to.eql(-12.582222) // Sign from both degree and direction
     })
   })
 })

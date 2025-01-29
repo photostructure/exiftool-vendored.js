@@ -10,6 +10,7 @@ import {
   renderTagsWithRawValues,
   testDir,
   tmpdir,
+  tmpname,
   UnicodeTestMessage,
 } from "./_chai.spec"
 import { hms } from "./DateTime"
@@ -174,9 +175,19 @@ describe("ReadTask", () => {
 
               if (geolocation) {
                 const actualGeoKeys = Object.keys(t)
-                  .filter((ea) => ea.startsWith("Geolocation"))
+                  .filter(
+                    (ea) =>
+                      ea.startsWith("Geolocation") &&
+                      ea !== "GeolocationWarning"
+                  )
                   .sort()
-                expect(actualGeoKeys).to.eql(GeolocationTagNames)
+
+                expect(actualGeoKeys).to.have.members(
+                  GeolocationTagNames.filter(
+                    (ea) => ea !== "GeolocationWarning"
+                  )
+                )
+
                 expect(t).to.containSubset({
                   GeolocationCity: "Adligenswil",
                   GeolocationRegion: "Lucerne",
@@ -186,7 +197,7 @@ describe("ReadTask", () => {
                   GeolocationTimeZone: "Europe/Zurich",
                   GeolocationFeatureCode: "PPL",
                   GeolocationPopulation: 5600,
-                  GeolocationPosition: "47.0653, 8.3613",
+                  GeolocationPosition: "47.0653 8.3613",
                   GeolocationDistance: "1.71 km",
                   GeolocationBearing: 60,
                 })
@@ -225,7 +236,7 @@ describe("ReadTask", () => {
       ).to.eql({
         SourceFile: "/tmp/example.jpg",
         errors: [],
-        warnings: [],
+        warnings: ["Ignoring zero coordinates from GPSLatitude/GPSLongitude"],
       })
     })
     it("extracts GPS tags if valid lat/lon", () => {
@@ -312,7 +323,7 @@ describe("ReadTask", () => {
 
   describe("date and time parsing", () => {
     for (const includeMilliseconds of [true, false]) {
-      for (const key of ["GPSTimeStamp", "Time", "DateTimeStamp"]) {
+      for (const key of ["Time", "DateTimeStamp"]) {
         describe(JSON.stringify({ key, includeMilliseconds }), () => {
           it("extracts a valid timestamp", () => {
             const exp = hms(DateTime.now(), { includeMilliseconds })
@@ -341,7 +352,10 @@ describe("ReadTask", () => {
           })
           it("rejects a 00 timestamp", () => {
             const exp = "00"
-            const tags: any = {}
+            const tags: any = {
+              GPSLatitude: 43.7767593,
+              GPSLongitude: 11.2593329,
+            }
             tags[key] = exp
             const t = parse({ tags }) as any
             expect(t[key]).to.equal(exp)
@@ -869,6 +883,8 @@ describe("ReadTask", () => {
           GPSAltitudeRef: 0,
           GPSLatitude: 51.1037,
           GPSLongitude: -0.8732,
+          GPSLatitudeRef: "N",
+          GPSLongitudeRef: "W",
           errors: [],
           warnings: [],
         })
@@ -1045,6 +1061,9 @@ describe("ReadTask", () => {
           GPSDateStamp: "2020-12-29",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
+          GPSLatitudeRef: "N",
+          GPSLongitudeRef: "W",
+
           OffsetTime: "-05:00",
           OffsetTimeDigitized: "-05:00",
           OffsetTimeOriginal: "-05:00",
@@ -1070,6 +1089,9 @@ describe("ReadTask", () => {
           CreateDate: "2020-12-29T14:24:45-05:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
+          GPSLatitudeRef: "N",
+          GPSLongitudeRef: "W",
+
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1094,6 +1116,9 @@ describe("ReadTask", () => {
           CreateDate: "2022-08-30T20:32:06-04:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
+          GPSLatitudeRef: "N",
+          GPSLongitudeRef: "W",
+
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1116,6 +1141,9 @@ describe("ReadTask", () => {
           CreateDate: "2022-08-31T00:32:06-04:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
+          GPSLatitudeRef: "N",
+          GPSLongitudeRef: "W",
+
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1135,6 +1163,8 @@ describe("ReadTask", () => {
           CreateDate: "2022-08-31T00:32:06-04:00",
           GPSLatitude: 34.15,
           GPSLongitude: -84.73,
+          GPSLatitudeRef: "N",
+          GPSLongitudeRef: "W",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1630,6 +1660,25 @@ describe("ReadTask", () => {
     }
   })
 
+  describe("GPS coordinate parsing", () => {
+    it("should parse valid GPS coordinates", () => {
+      const src = tmpname()
+      const t = ReadTask.for(src, {})
+      const result = t.parse(
+        JSON.stringify([
+          {
+            SourceFile: src,
+            GPSPosition: "37 deg 46' 29.64\" N, 122 deg 25' 9.84\" W",
+          },
+        ])
+      )
+      expect(result).to.containSubset({
+        GPSLatitude: 37.7749,
+        GPSLongitude: -122.4194,
+      })
+    })
+  })
+
   describe("Apple Photos exports", () => {
     it("parses XMP #1", async () => {
       const t = await exiftool.read("test/iphone-export-1.xmp", {
@@ -1640,8 +1689,8 @@ describe("ReadTask", () => {
         GPSLongitude: -63.569717,
         GPSLatitudeRef: "N",
         GPSLongitudeRef: "W",
-        GeolocationPosition: "44.6428, -63.5769",
-        GPSPosition: `44 deg 38' 46.53" N, 63 deg 34' 10.98" E`,
+        GeolocationPosition: "44.6428 -63.5769",
+        GPSPosition: "44.6462583333333 63.5697166666667",
         tz: "America/Halifax",
         tzSource: "GeolocationTimeZone",
       })
@@ -1658,10 +1707,10 @@ describe("ReadTask", () => {
 
         GPSLatitude: -33.451856,
         GPSLatitudeRef: "S",
-        GPSLongitude: -70.650467,
+        GPSLongitude: -70.650466,
         GPSLongitudeRef: "W",
-        GeolocationPosition: "-33.4570, -70.6483",
-        GPSPosition: `33 deg 27' 6.68" N, 70 deg 39' 1.68" E`,
+        GeolocationPosition: "-33.4570 -70.6483",
+        GPSPosition: "33.4518558 70.6504661",
         tz: "America/Santiago",
         tzSource: "GeolocationTimeZone",
       })

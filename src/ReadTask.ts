@@ -191,7 +191,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     // avoid casting `this.tags as any` for the rest of the function:
     const tags = this.#tags as Record<string, unknown>
 
-    // Must be run before extracting tz offset, to clear out invalid GPS
+    // Must be run before extracting tz offset, to repair possibly-invalid
     // GeolocationTimeZone
     this.#extractGpsMetadata()
 
@@ -203,9 +203,15 @@ export class ReadTask extends ExifToolTask<Tags> {
 
     for (const [key, value] of Object.entries(this.#raw)) {
       const k = this.#tagName(key)
+      // Did something already set this? (like GPS tags)
+      if (key in tags) continue
       const v = this.#parseTag(k, value)
       // Note that we set `key` (which may include a group prefix):
-      if (v != null) tags[key] = v
+      if (v == null) {
+        delete tags[key]
+      } else {
+        tags[key] = v
+      }
     }
 
     // we could `return {...tags, ...errorsAndWarnings(this, tags)}` but tags is
@@ -218,9 +224,18 @@ export class ReadTask extends ExifToolTask<Tags> {
     return tags
   }
 
-  #extractGpsMetadata = lazy(() =>
-    parseGPSLocation(this.#rawDegrouped, this.options)
-  )
+  #extractGpsMetadata = lazy(() => {
+    const result = parseGPSLocation(this.#rawDegrouped, this.options)
+    if (result?.warnings != null && (result.warnings.length ?? 0) > 0) {
+      this.warnings.push(...result.warnings)
+    }
+    if (result?.invalid !== true) {
+      for (const [k, v] of Object.entries(result?.result ?? {})) {
+        ;(this.#tags as Record<string, unknown>)[k] = v
+      }
+    }
+    return result
+  })
 
   #gpsIsInvalid = lazy<boolean>(
     () => this.#extractGpsMetadata()?.invalid ?? false
@@ -301,14 +316,14 @@ export class ReadTask extends ExifToolTask<Tags> {
         return value
       }
       if (tagName.startsWith("GPS") || tagName.startsWith("Geolocation")) {
-        // If it's bad, strip off everything:
         if (this.#gpsIsInvalid()) return undefined
 
         // If we parsed out a better value, use that:
         const parsed = this.#gpsResults()[tagName]
         if (parsed != null) return parsed
 
-        // Otherwise, parse the raw value like any other tag:
+        // Otherwise, parse the raw value like any other tag: (It might be
+        // something like "GPSTimeStamp"):
       }
 
       if (Array.isArray(value)) {

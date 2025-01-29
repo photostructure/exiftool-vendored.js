@@ -385,7 +385,7 @@ describe("ExifTool", function () {
                 GeolocationDistance: "2.60 km",
                 GeolocationFeatureCode: "PPL",
                 GeolocationPopulation: 5500,
-                GeolocationPosition: "37.5027, -122.4694",
+                GeolocationPosition: "37.5027 -122.4694",
                 GeolocationRegion: "California",
                 GeolocationSubregion: "San Mateo County",
                 GeolocationTimeZone: "America/Los_Angeles",

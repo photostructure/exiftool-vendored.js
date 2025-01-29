@@ -1,4 +1,14 @@
 import { existsSync } from "node:fs"
+import {
+  UnicodeTestMessage,
+  assertEqlDateish,
+  end,
+  expect,
+  randomChars,
+  testFile,
+  testImg,
+} from "./_chai.spec"
+import { toArray } from "./Array"
 import { parseCoordinates } from "./CoordinateParser"
 import { ExifDate } from "./ExifDate"
 import { ExifDateTime } from "./ExifDateTime"
@@ -18,15 +28,6 @@ import { Struct } from "./Struct"
 import { ExifToolTags, FileTags, Tags } from "./Tags"
 import { Version } from "./Version"
 import { WriteTags } from "./WriteTags"
-import {
-  UnicodeTestMessage,
-  assertEqlDateish,
-  end,
-  expect,
-  randomChars,
-  testFile,
-  testImg,
-} from "./_chai.spec"
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
@@ -39,6 +40,25 @@ describe("WriteTask", function () {
     describe(`new ExifTool(${JSON.stringify(opts)})`, () => {
       const exiftool = new ExifTool(opts)
       after(() => end(exiftool))
+
+      describe("with empty WriteTags", () => {
+        it("resolves with no options", async () => {
+          const f = await testImg()
+          const result = await exiftool.write(f, {})
+          expect(toArray(result.warnings)).to.eql([])
+          expect(result.unchanged).to.eql(1)
+        })
+        it("resolves writeArgs: -overwrite_original", async () => {
+          const f = await testImg()
+          const result = await exiftool.write(
+            f,
+            {},
+            { writeArgs: ["-overwrite_original"] }
+          )
+          expect(toArray(result.warnings)).to.eql([])
+          expect(result.unchanged).to.eql(1)
+        })
+      })
 
       describe("MWG composite tags", () => {
         it("round-trips Creator", async () => {
@@ -106,7 +126,7 @@ describe("WriteTask", function () {
         } as WriteTaskOptions)
         expect(writeResult.warnings).to.eql(
           undefined,
-          JSON.stringify({ warnings: writeResult.warnings })
+          JSON.stringify({ writeTags: wt, warnings: writeResult.warnings, writeArgs })
         )
 
         if (fileExists) {
@@ -329,11 +349,15 @@ describe("WriteTask", function () {
                       exiftool.options.ignoreZeroZeroLatLon =
                         ignoreZeroZeroLatLon
                       const f = await dest()
-                      await exiftool.write(f, { GPSLatitude, GPSLongitude })
+                      const result = await exiftool.write(f, {
+                        GPSLatitude,
+                        GPSLongitude,
+                        Title: "title",
+                      })
+                      expect(result.created + result.updated).to.eql(1)
                       const tags = await exiftool.read(f, {
                         ignoreZeroZeroLatLon,
                       })
-
                       if (
                         ignoreZeroZeroLatLon &&
                         GPSLatitude === 0 &&
@@ -838,8 +862,6 @@ describe("WriteTask", function () {
       const after = await exiftool.read(img)
       assertMissingGeneralTags(after)
       expect(after).to.containSubset(exp)
-      // const missing = Object.keys(before).filter((k) => !(k in after))
-      // console.log({ missing })
     })
 
     it("supports creating arrays in structs", async () => {
@@ -871,7 +893,7 @@ describe("WriteTask", function () {
   })
 })
 
-describe("WriteTask", () => {
+describe("WriteTask (simpler)", () => {
   const exiftool = new ExifTool()
   after(() => end(exiftool))
 

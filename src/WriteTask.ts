@@ -1,5 +1,6 @@
 import { encode } from "he"
 import * as _path from "node:path"
+import { toArray } from "./Array"
 import { isDateOrTime, toExifString } from "./DateTime"
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions"
 import { errorsAndWarnings } from "./ErrorsAndWarnings"
@@ -27,7 +28,7 @@ export function htmlEncode(s: string): string {
   )
 }
 
-function enc(o: any, structValue = false): Maybe<string> {
+function enc(o: unknown, structValue = false): Maybe<string> {
   if (o == null) {
     return ""
   } else if (isNumber(o)) {
@@ -111,6 +112,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     const sourceFile = _path.resolve(filename)
 
     const args: string[] = [
+      // ensure exiftool thinks this is a write command:
       ...Utf8FilenameCharsetArgs,
       `-sep`,
       `${sep}`,
@@ -138,7 +140,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
       // ExifTool will also accept a number when writing GPSLatitudeRef,
       // positive for north latitudes or negative for south, or a string
       // containing N, North, S or South)
-      tags.GPSLatitudeRef ??= tags.GPSLatitude as any
+      tags.GPSLatitudeRef ??= tags.GPSLatitude
     } else if (tags.GPSLatitude === null) {
       tags.GPSLatitudeRef ??= null
     }
@@ -147,7 +149,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
       // ExifTool will also accept a number when writing this tag, positive
       // for east longitudes or negative for west, or a string containing E,
       // East, W or West
-      tags.GPSLongitudeRef ??= tags.GPSLongitude as any
+      tags.GPSLongitudeRef ??= tags.GPSLongitude
     } else if (tags.GPSLongitude === null) {
       tags.GPSLongitudeRef ??= null
     }
@@ -162,16 +164,28 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     if (isNumber(tags.GPSAltitude)) {
       // ExifTool will also accept number when writing this tag, with negative
       // numbers indicating below sea level
-      tags.GPSAltitudeRef ??= tags.GPSAltitude as any
+      tags.GPSAltitudeRef ??= tags.GPSAltitude
+    } else if (tags.GPSAltitude === null) {
+      tags.GPSAltitudeRef ??= null
     }
+
+    const fieldsToSet = []
 
     for (const key of keys(tags)) {
       const val = tags[key]
-      args.push(`-${key}=${enc(val)}`)
+      fieldsToSet.push(`-${key}=${enc(val)}`)
     }
 
-    if (options.writeArgs != null) args.push(...options.writeArgs)
-    args.push(sourceFile)
+    if (fieldsToSet.length === 0) {
+      // This is a hack to prevent ExifTool from thinking it should be in "read"
+      // mode, and not "write" mode. It _should_ be a no-op, but there are some
+      // cases that this can cause ExifTool to behave oddly, so we only apply it
+      // if we have no other fields to set.
+      fieldsToSet.push("-FileName<FileName")
+    }
+
+    args.push(...fieldsToSet, ...toArray(options.writeArgs), sourceFile)
+
     return new WriteTask(sourceFile, args, options)
   }
 
@@ -227,7 +241,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   }
 }
 
-// "0 files created" | "0 file created" | "1 image files created"
+// "0 files created" | "0 file created" | "    1 image files created"
 const CreatedRE = /(?<count>\d{1,5}) [\w ]{1,12}\bcreated$/i
 
 const UnchangedRE =

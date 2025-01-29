@@ -1,9 +1,14 @@
-import { parseCoordinate, parseCoordinates } from "./CoordinateParser"
+import {
+  parseCoordinate,
+  parseCoordinates,
+  processCoordinate,
+} from "./CoordinateParser"
 import { ExifToolOptions } from "./ExifToolOptions"
+import { lazy } from "./Lazy"
 import { Maybe } from "./Maybe"
-import { isNumber, toFloat } from "./Number"
-import { pick } from "./Pick"
-import { blank, notBlankString, toS } from "./String"
+import { isNumber } from "./Number"
+import { keysOf } from "./Object"
+import { blank } from "./String"
 
 // Like all metadata, this is a mess. Here's what we know:
 
@@ -27,6 +32,7 @@ import { blank, notBlankString, toS } from "./String"
 // values to make sure we're in the right hemisphere.
 
 // See https://www.exiftool.org/TagNames/GPS.html
+// and https://github.com/immich-app/immich/issues/13053
 
 export type GpsLocationTags = {
   GPSLatitude?: number
@@ -37,181 +43,98 @@ export type GpsLocationTags = {
   GeolocationPosition?: string
 }
 
-export type CoordinateType = "Latitude" | "Longitude"
+export const GpsLocationTagNames = keysOf<GpsLocationTags>({
+  GPSLatitude: true,
+  GPSLatitudeRef: true,
+  GPSLongitude: true,
+  GPSLongitudeRef: true,
+  GPSPosition: true,
+  GeolocationPosition: true,
+})
 
-export interface CoordinateConfig {
-  value: number
-  ref: string | undefined
-  geoValue: number | undefined
-  expectedRefPositive: "N" | "E"
-  expectedRefNegative: "S" | "W"
-  max: 90 | 180
-  coordinateType: CoordinateType
-}
-
-const MAX_LAT_LON_DIFF = 1
-
-function parsePosition(position: Maybe<string>): Maybe<[number, number]> {
-  if (blank(position)) return
-  const [lat, lon] = toS(position).split(/[, ]+/).map(toFloat)
-  return lat != null && lon != null ? [lat, lon] : undefined
-}
-
-function processCoordinate(
-  config: CoordinateConfig,
+export interface GpsParseResult {
+  result: GpsLocationTags
+  details: string
+  invalid: boolean
   warnings: string[]
-): { value: number; ref: string; isInvalid: boolean } {
-  let { value, ref } = config
-  const { geoValue, coordinateType } = config
-  const { expectedRefPositive, expectedRefNegative, max } = config
-  let isInvalid = false
+}
 
-  ref =
-    ref?.trim().toUpperCase().slice(0, 1) ??
-    (value < 0 ? expectedRefNegative : expectedRefPositive)
+// local function that handles more input types:
+function _parseCoordinate(v: Maybe<string | number>) {
+  return blank(v) ? undefined : isNumber(v) ? v : parseCoordinate(v).decimal
+}
 
-  // Check range
-  if (Math.abs(value) > max) {
-    isInvalid = true
-    warnings.push(`Invalid GPS${coordinateType}: ${value} is out of range`)
-    return { value, ref, isInvalid }
-  }
-
-  // Apply hemisphere reference
-  if (ref === expectedRefNegative) {
-    value = -Math.abs(value)
-  }
-
-  // Check for mismatched signs with GeolocationPosition
-  if (
-    geoValue != null &&
-    Math.abs(Math.abs(geoValue) - Math.abs(value)) < MAX_LAT_LON_DIFF
-  ) {
-    if (Math.sign(geoValue) !== Math.sign(value)) {
-      value = -value
-      warnings.push(
-        `Corrected GPS${coordinateType} sign based on GeolocationPosition`
-      )
-    }
-
-    // Force ref to correct value
-    const expectedRef = geoValue < 0 ? expectedRefNegative : expectedRefPositive
-    if (ref !== expectedRef) {
-      ref = expectedRef
-      warnings.push(
-        `Corrected GPS${coordinateType}Ref to ${expectedRef} based on GeolocationPosition`
-      )
-    }
-  }
-
-  // Ensure ref matches coordinate sign
-  const expectedRef = value < 0 ? expectedRefNegative : expectedRefPositive
-  if (ref != null && ref !== expectedRef) {
-    warnings.push(
-      `Corrected GPS${coordinateType}Ref to ${ref} to match coordinate sign`
-    )
-  }
-  ref = expectedRef
-
-  return { value, ref, isInvalid }
+function _parseCoordinates(v: Maybe<string>) {
+  return blank(v) ? undefined : parseCoordinates(v)
 }
 
 export function parseGPSLocation(
   tags: GpsLocationTags,
   opts: Pick<ExifToolOptions, "ignoreZeroZeroLatLon">
-): Partial<{
-  result: GpsLocationTags
-  invalid: boolean
-  warnings: string[]
-}> {
-  let parsed = false
+): Maybe<Partial<GpsParseResult>> {
   const warnings: string[] = []
-  const result: GpsLocationTags = pick(
-    tags,
-    "GPSLatitude",
-    "GPSLatitudeRef",
-    "GPSLongitude",
-    "GPSLongitudeRef"
-  )
 
-  if (notBlankString(tags.GPSPosition)) {
+  try {
+    // Parse primary coordinates with error capturing
+    let latitude = undefined
+    let longitude = undefined
+
     try {
-      const pos = parseCoordinates(tags.GPSPosition)
-      if (
-        opts.ignoreZeroZeroLatLon === true &&
-        pos.latitude === 0 &&
-        pos.longitude === 0
-      ) {
-        warnings.push("Ignoring zero coordinates from GPSPosition")
-      } else {
-        parsed = true
-        result.GPSLatitude = pos.latitude
-        result.GPSLongitude = pos.longitude
-        result.GPSLatitudeRef = pos.latitude < 0 ? "S" : "N"
-        result.GPSLongitudeRef = pos.longitude < 0 ? "W" : "E"
-      }
+      latitude = _parseCoordinate(tags.GPSLatitude)
     } catch (e) {
-      warnings.push("Error parsing GPSPosition: " + e)
+      warnings.push(`Error parsing GPSLatitude: ${e}`)
     }
-  }
 
-  // Are both GPSLatitude and GPSLongitude available?
-  if (
-    !parsed &&
-    notBlankString(tags.GPSLatitude) &&
-    notBlankString(tags.GPSLongitude)
-  ) {
     try {
-      const lat = parseCoordinate(tags.GPSLatitude)
-      const lon = parseCoordinate(tags.GPSLongitude)
-      if (
-        opts.ignoreZeroZeroLatLon === true &&
-        lat.degrees === 0 &&
-        lon.degrees === 0
-      ) {
-        warnings.push("Ignoring zero coordinates from GPSLatitude/GPSLongitude")
-        return { invalid: true, warnings }
-      } else {
-        result.GPSLatitude = lat.degrees
-        result.GPSLongitude = lon.degrees
-        result.GPSLatitudeRef = lat.direction!
-        result.GPSLongitudeRef = lon.direction!
-      }
+      longitude = _parseCoordinate(tags.GPSLongitude)
     } catch (e) {
-      warnings.push(`Error parsing GPSLatitude or GPSLongitude: ` + e)
+      warnings.push(`Error parsing GPSLongitude: ${e}`)
     }
-  }
 
-  // Early return if no GPS data
-  if (!isNumber(result.GPSLatitude) && !isNumber(result.GPSLongitude)) {
-    return {}
-  }
+    // If either coordinate is missing, try GPSPosition
+    if (latitude == null || longitude == null) {
+      const gpsPos = lazy(() => {
+        try {
+          return _parseCoordinates(tags.GPSPosition)
+        } catch (e) {
+          warnings.push(`Error parsing GPSPosition: ${e}`)
+          return undefined
+        }
+      })
 
-  // Check for zero coordinates when ignoreZeroZeroLatLon is true
-  if (
-    opts.ignoreZeroZeroLatLon === true &&
-    result.GPSLatitude === 0 &&
-    result.GPSLongitude === 0
-  ) {
-    warnings.push("Ignoring zero GPSLatitude and GPSLongitude")
-    return { invalid: true, warnings }
-  }
+      if (latitude == null) {
+        latitude = gpsPos()?.latitude
+      }
+      if (longitude == null) {
+        longitude = gpsPos()?.longitude
+      }
+    }
 
-  // Parse GeolocationPosition
-  const [geoLat, geoLon] = parsePosition(tags.GeolocationPosition) ?? [
-    undefined,
-    undefined,
-  ]
+    // If we still don't have both coordinates, return early
+    if (latitude == null || longitude == null) {
+      return { invalid: false, warnings }
+    }
 
-  let isInvalid = false
+    // Check for zero coordinates if configured
+    if (opts.ignoreZeroZeroLatLon && latitude === 0 && longitude === 0) {
+      warnings.push("Ignoring zero coordinates from GPSLatitude/GPSLongitude")
+      return { invalid: true, warnings }
+    }
 
-  // Process latitude
-  if (isNumber(result.GPSLatitude)) {
-    const latitudeResult = processCoordinate(
+    // Get geolocation reference values for sign validation
+    let geoPos = undefined
+    try {
+      geoPos = _parseCoordinates(tags.GeolocationPosition)
+    } catch (e) {
+      warnings.push(`Error parsing GeolocationPosition: ${e}`)
+    }
+
+    // Process coordinates with validation and sign correction
+    const latResult = processCoordinate(
       {
-        value: result.GPSLatitude,
-        ref: result.GPSLatitudeRef,
-        geoValue: geoLat,
+        value: latitude,
+        ref: tags.GPSLatitudeRef,
+        geoValue: geoPos?.latitude,
         expectedRefPositive: "N",
         expectedRefNegative: "S",
         max: 90,
@@ -220,18 +143,11 @@ export function parseGPSLocation(
       warnings
     )
 
-    result.GPSLatitude = latitudeResult.value
-    result.GPSLatitudeRef = latitudeResult.ref
-    isInvalid = isInvalid || latitudeResult.isInvalid
-  }
-
-  // Process longitude
-  if (isNumber(result.GPSLongitude)) {
-    const longitudeResult = processCoordinate(
+    const lonResult = processCoordinate(
       {
-        value: result.GPSLongitude,
-        ref: result.GPSLongitudeRef,
-        geoValue: geoLon,
+        value: longitude,
+        ref: tags.GPSLongitudeRef,
+        geoValue: geoPos?.longitude,
         expectedRefPositive: "E",
         expectedRefNegative: "W",
         max: 180,
@@ -240,12 +156,22 @@ export function parseGPSLocation(
       warnings
     )
 
-    result.GPSLongitude = longitudeResult.value
-    result.GPSLongitudeRef = longitudeResult.ref
-    isInvalid = isInvalid || longitudeResult.isInvalid
-  }
+    if (latResult.isInvalid || lonResult.isInvalid) {
+      return { invalid: true, warnings }
+    }
 
-  return isInvalid
-    ? { invalid: true, warnings }
-    : { result, invalid: false, warnings }
+    return {
+      result: {
+        GPSLatitude: latResult.value,
+        GPSLongitude: lonResult.value,
+        GPSLatitudeRef: latResult.ref,
+        GPSLongitudeRef: lonResult.ref,
+      },
+      invalid: false,
+      warnings,
+    }
+  } catch (e) {
+    warnings.push(`Error parsing coordinates: ${e}`)
+    return { invalid: true, warnings }
+  }
 }

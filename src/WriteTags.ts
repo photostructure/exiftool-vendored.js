@@ -44,6 +44,18 @@ export type ExpandedDateTags = {
     | string
 }
 
-export type WriteTags = DefinedOrNullValued<
-  ShortcutTags & AdditionalWriteTags & ExpandedDateTags & StructAppendTags
->
+// ExifTool allows these to be numeric, and then it figures out the correct
+// "east", "west", "north", "south" values:
+export type WritableGPSRefs = {
+  GPSAltitudeRef?: string | number | null
+  GPSLatitudeRef?: string | number | null
+  GPSLongitudeRef?: string | number | null
+}
+
+export type WriteTags = Omit<
+  DefinedOrNullValued<
+    ShortcutTags & AdditionalWriteTags & ExpandedDateTags & StructAppendTags
+  >,
+  keyof WritableGPSRefs
+> &
+  WritableGPSRefs
