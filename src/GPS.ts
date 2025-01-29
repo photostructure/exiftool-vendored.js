@@ -156,7 +156,11 @@ export function parseGPSLocation(
   }
 
   // Are both GPSLatitude and GPSLongitude available?
-  if (!parsed && notBlankString(tags.GPSLatitude) && notBlankString(tags.GPSLongitude)) {
+  if (
+    !parsed &&
+    notBlankString(tags.GPSLatitude) &&
+    notBlankString(tags.GPSLongitude)
+  ) {
     try {
       const lat = parseCoordinate(tags.GPSLatitude)
       const lon = parseCoordinate(tags.GPSLongitude)
