@@ -70,6 +70,7 @@ import {
   ExpandedDateTags,
   MutableTags,
   StructAppendTags,
+  WritableGPSRefs,
   WriteTags,
 } from "./WriteTags";
 import {
@@ -152,6 +153,7 @@ export type {
   StructAppendTags,
   Tags,
   Version,
+  WritableGPSRefs,
   WriteTags,
   WriteTaskOptions,
   WriteTaskResult,
