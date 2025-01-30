@@ -25,6 +25,20 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v29.1.0
+
+- 🌱 Upgraded ExifTool to version [13.17](https://exiftool.org/history.html#13.17). Note that this release includes **seventeen** ExifTool version bumps (from November 2024 through January 2025--Phil Harvey has been _busy_!). Although I haven't seen any breaking changes in the Tags generation or test suite with the new versions, please do your own validation.
+
+- ✨ Thanks to [Mert](https://github.com/mertalev) for [adding forceWrite to binary tag extraction](https://github.com/photostructure/exiftool-vendored.js/pull/222).
+
+ ✨ ExifTool's Geolocation feature seems to work around some obscure GPS encoding issues where the decimal sign gets ignored. This project now leverages that "corrected" GPS location by adopting the hemisphere signs, which seems to [fix this issue](https://github.com/immich-app/immich/issues/13053).
+
+- 🐞 Removed `OffsetTime` from the list of Timezone offset tags we infer tz from. Thanks for the [heads-up](https://github.com/photostructure/exiftool-vendored.js/issues/220), [Carsten Otto](https://github.com/C-Otto)!
+
+- 📦 Updated to the latest `eslint`, which required rewriting the config, and delinting the new nits
+
+- 📦 Deleted most of the `prettier` config to accept their defaults. This created a huge [no-op commit](https://github.com/photostructure/exiftool-vendored.js/commit/622e8a814e22697c25efeb911215855753a97892) but now it's over.
+
 ### v29.0.0
 
 - 💔/🐞/📦 ExifTool sometimes returns `boolean` values for some tags, like `SemanticStylePreset`, but uses "Yes" or "No" values for other tags, like `GPSValid` (TIL!). If the tag name ends in `Valid` and is truthy (1, true, "Yes") or falsy (0, false, "No"), we'll convert it to a boolean for you. Note that this is arguably a breaking API change, but it should be what you were already expecting (so is it a bug fix?). See the diff to the Tags interface in this version to verify what types have changed.
