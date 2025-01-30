@@ -389,7 +389,9 @@ export function extractZone(
 
 export const TimezoneOffsetTagnames = [
   "TimeZone",
-  "OffsetTime",
+  
+  // We **don't** look at "OffsetTime", as that is the offset for `ModifyDate`,
+  // which is the _file_ modification time.
 
   // time zone for DateTimeOriginal, "-08:00"
   "OffsetTimeOriginal",
