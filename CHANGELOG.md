@@ -31,7 +31,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ Thanks to [Mert](https://github.com/mertalev) for [adding forceWrite to binary tag extraction](https://github.com/photostructure/exiftool-vendored.js/pull/222).
 
- ✨ ExifTool's Geolocation feature seems to work around some obscure GPS encoding issues where the decimal sign gets ignored. This project now leverages that "corrected" GPS location by adopting the hemisphere signs, which seems to [fix this issue](https://github.com/immich-app/immich/issues/13053).
+- ✨ ExifTool's Geolocation feature seems to work around some obscure GPS encoding issues where the decimal sign gets ignored. This project now leverages that "corrected" GPS location by adopting the hemisphere signs, which seems to [fix this issue](https://github.com/immich-app/immich/issues/13053).
 
 - 🐞 Removed `OffsetTime` from the list of Timezone offset tags we infer tz from. Thanks for the [heads-up](https://github.com/photostructure/exiftool-vendored.js/issues/220), [Carsten Otto](https://github.com/C-Otto)!
 
