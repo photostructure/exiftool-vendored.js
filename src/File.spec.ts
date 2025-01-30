@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { expect, tmpname } from "./_chai.spec";
 import { compareFilePaths, isFileEmpty, isPlatformCaseSensitive } from "./File";
+import { isWin32 } from "./IsWin32";
 
 describe("File", () => {
   describe("isFileEmpty()", () => {
@@ -49,19 +50,19 @@ describe("File", () => {
       expect(compareFilePaths("/path/to/file", "/path/to/file")).to.eql(true);
     });
 
-    it("returns false for case-insensitive paths on Linux", () => {
+    it("returns !isPlatformCaseSensitive() for case-insensitive-matching paths", () => {
       expect(compareFilePaths("/PATH/TO/FILE", "/path/to/file")).to.eql(
-        isPlatformCaseSensitive(),
+        !isPlatformCaseSensitive(),
       );
     });
 
-    it("returns true for case-insensitive paths on non-Linux", () => {
-      expect(compareFilePaths("/PATH/TO/FILE", "/path/to/file")).to.eql(true);
-    });
-
-    it("handles different path separators", () => {
-      expect(compareFilePaths("/path/to/file", "\\path\\to/file")).to.eql(true);
-    });
+    if (isWin32()) {
+      it("handles different path separators on Windows", () => {
+        expect(compareFilePaths("/path/to/file", "\\path\\to/file")).to.eql(
+          true,
+        );
+      });
+    }
 
     it("returns false for different paths", () => {
       expect(compareFilePaths("/path/to/file1", "/path/to/file2")).to.eql(
