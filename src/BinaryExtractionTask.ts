@@ -38,7 +38,15 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
       ...Utf8FilenameCharsetArgs,
       "-b", // -binary
       "-" + tagname,
-      // capital W allows destination files to not have a pattern:
+      // Capital W allows destination files to not have a pattern. See
+      // https://exiftool.org/exiftool_pod.html#W-FMT--tagOut
+      //
+      // Prior code used -w with %0f "to avoid shell expansion", but as this
+      // command gets sent directly to exiftool thanks to stay_open mode, we
+      // don't need to worry about shell expansion.
+      //
+      // I also tried `-out` instead of `-W`, and that didn't work at least on
+      // ExifTool 13.17.
       forceWrite ? "-W!" : "-W",
       path.resolve(imgDest),
       path.resolve(imgSrc),
