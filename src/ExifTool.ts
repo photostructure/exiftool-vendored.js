@@ -4,7 +4,10 @@ import * as _fs from "node:fs";
 import process from "node:process";
 import { ifArray } from "./Array";
 import { retryOnReject } from "./AsyncRetry";
-import { BinaryExtractionTask } from "./BinaryExtractionTask";
+import {
+  BinaryExtractionTask,
+  BinaryExtractionTaskOptions,
+} from "./BinaryExtractionTask";
 import { BinaryToBufferTask } from "./BinaryToBufferTask";
 import { ContainerDirectoryItem } from "./ContainerDirectoryItem";
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions";
@@ -474,18 +477,19 @@ export class ExifTool {
   }
 
   /**
-   * Extract the low-resolution thumbnail in `path/to/image.jpg`
-   * and write it to `path/to/thumbnail.jpg`.
+   * Extract the low-resolution thumbnail in `path/to/image.jpg` and write it to
+   * `path/to/thumbnail.jpg`.
    *
    * Note that these images can be less than .1 megapixels in size.
    *
-   * @return a `Promise<void>`. An `Error` is raised if
-   * the file could not be read or the output not written.
+   * @return a `Promise<void>`
+   *
+   * @throws if the file could not be read or the output not written
    */
   extractThumbnail(
     imageFile: string,
     thumbnailFile: string,
-    opts?: ExifToolOptions,
+    opts?: BinaryExtractionTaskOptions,
   ): Promise<void> {
     return this.extractBinaryTag(
       "ThumbnailImage",
@@ -496,19 +500,20 @@ export class ExifTool {
   }
 
   /**
-   * Extract the "preview" image in `path/to/image.jpg`
-   * and write it to `path/to/preview.jpg`.
+   * Extract the "preview" image in `path/to/image.jpg` and write it to
+   * `path/to/preview.jpg`.
    *
    * The size of these images varies widely, and is present in dSLR images.
    * Canon, Fuji, Olympus, and Sony use this tag.
    *
-   * @return a `Promise<void>`. An `Error` is raised if
-   * the file could not be read or the output not written.
+   * @return a `Promise<void>`
+   *
+   * @throws if the file could not be read or the output not written
    */
   extractPreview(
     imageFile: string,
     previewFile: string,
-    opts?: ExifToolOptions,
+    opts?: BinaryExtractionTaskOptions,
   ): Promise<void> {
     return this.extractBinaryTag("PreviewImage", imageFile, previewFile, opts);
   }
@@ -520,13 +525,14 @@ export class ExifTool {
    * This size of these images varies widely, and is not present in all RAW
    * images. Nikon and Panasonic use this tag.
    *
-   * @return a `Promise<void>`. The promise will be rejected if the file could
-   * not be read or the output not written.
+   * @return a `Promise<void>`
+   *
+   * @throws if the file could not be read or the output not written.
    */
   extractJpgFromRaw(
     imageFile: string,
     outputFile: string,
-    opts?: ExifToolOptions,
+    opts?: BinaryExtractionTaskOptions,
   ): Promise<void> {
     return this.extractBinaryTag("JpgFromRaw", imageFile, outputFile, opts);
   }
@@ -536,14 +542,15 @@ export class ExifTool {
    * `path/to/image.jpg` and write it to `dest` (which cannot exist and whose
    * directory must already exist).
    *
-   * @return a `Promise<void>`. The promise will be rejected if the binary
-   * output not be written to `dest`.
+   * @return a `Promise<void>`
+   *
+   * @throws if the binary output not be written to `dest`.
    */
   async extractBinaryTag(
     tagname: string,
     src: string,
     dest: string,
-    opts?: ExifToolTaskOptions,
+    opts?: BinaryExtractionTaskOptions,
   ): Promise<void> {
     // BinaryExtractionTask returns a stringified error if the output indicates
     // the task should not be retried.
@@ -564,8 +571,9 @@ export class ExifTool {
    * a file, but if the payload associated to `tagname` is large, this can cause
    * out-of-memory errors.
    *
-   * @return a `Promise<Buffer>`. The promise will be rejected if the file or
-   * tag is missing.
+   * @return a `Promise<Buffer>`
+   *
+   * @throws if the file or tag is missing.
    */
   async extractBinaryTagToBuffer(
     tagname: PreviewTag,
@@ -604,7 +612,7 @@ export class ExifTool {
    * @param {boolean} opts.allowMakerNoteRepair if there are problems with MakerNote
    * tags, allow ExifTool to apply heuristics to recover corrupt tags. See
    * exiftool's `-F` flag.
-   * @return {Promise<void>} resolved when outputFile has been written.
+   * @return {Promise<void>} resolved after the outputFile has been written.
    */
   rewriteAllTags(
     inputFile: string,

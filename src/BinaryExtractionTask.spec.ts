@@ -1,13 +1,17 @@
 import assert from "assert";
-import { copyFile } from "node:fs/promises";
+import { copyFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { BinaryExtractionTask } from "./BinaryExtractionTask";
+import {
+  BinaryExtractionTask,
+  BinaryExtractionTaskOptions,
+} from "./BinaryExtractionTask";
 import { exiftool } from "./ExifTool";
 import {
   NonAlphaStrings,
   end,
   expect,
   mkdirp,
+  randomChars,
   sha1,
   testDir,
   tmpdir,
@@ -41,23 +45,24 @@ describe("BinaryExtractionTask", () => {
     });
   });
 
-  async function assertExtractThumbnail(str: string) {
+  async function assertExtractThumbnail(
+    str: string,
+    opts?: BinaryExtractionTaskOptions,
+  ) {
+    const dir = path.join(tmpdir(), "binary-" + randomChars());
     // Make sure the str (which may have non-latin characters) shows up in the
     // directory path and filename:
-    const srcDir = path.join(tmpdir(), "src-" + str);
+    const srcDir = path.join(dir, "src");
     await mkdirp(srcDir);
     const src = path.join(srcDir, str + ".jpg");
     await copyFile(path.join(testDir, "with_thumb.jpg"), src);
-    const dest = path.join(tmpdir(), "dest-" + str, str + ".jpg");
-    await exiftool.extractThumbnail(src, dest);
+    const dest = path.join(dir, "dest", str + ".jpg");
+    await exiftool.extractThumbnail(src, dest, opts);
     // exiftool test/with_thumb.jpg -b -ThumbnailImage | sha1sum
     expect(await sha1(dest)).to.eql("57885e5e16b16599ccf208981a87fe198612d9fb");
   }
 
-  it("extracts expected thumb", async function () {
-    this.slow(500);
-    await assertExtractThumbnail("image");
-  });
+  it("extracts expected thumb", () => assertExtractThumbnail("image"));
 
   for (const { str, desc } of NonAlphaStrings) {
     it("extracts expected thumb with " + desc + " characters", () =>
@@ -87,5 +92,21 @@ describe("BinaryExtractionTask", () => {
     } catch (err) {
       expect(String(err)).to.match(/Error: 0 output files created/i);
     }
+  });
+
+  it("throws when output file already exists", async () => {
+    const src = path.join(testDir, "with_thumb.jpg");
+    const dest = tmpname();
+    await writeFile(dest, "existing file");
+    expect(exiftool.extractJpgFromRaw(src, dest)).to.be.rejectedWith(
+      /already exists/i,
+    );
+  });
+
+  it("does not throw when output file exists if `forceWrite` is true", async () => {
+    return assertExtractThumbnail("image", {
+      ignoreMinorErrors: true,
+      forceWrite: true,
+    });
   });
 });

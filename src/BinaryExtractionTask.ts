@@ -1,8 +1,16 @@
+import { mkdirSync } from "node:fs";
 import path from "node:path";
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
+import { ExifToolOptions } from "./ExifToolOptions";
+import { ExifToolTask } from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { Maybe } from "./Maybe";
 import { toS } from "./String";
+
+export type BinaryExtractionTaskOptions = Pick<
+  ExifToolOptions,
+  "ignoreMinorErrors"
+> &
+  Partial<Pick<ExifToolOptions, "forceWrite">>;
 
 const StdoutRe = /\b(\d+) output files? created/i;
 
@@ -11,7 +19,7 @@ const StdoutRe = /\b(\d+) output files? created/i;
  * everything seems to have worked.
  */
 export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
-  private constructor(args: string[], options?: ExifToolTaskOptions) {
+  private constructor(args: string[], options?: BinaryExtractionTaskOptions) {
     super(args, options);
   }
 
@@ -19,16 +27,20 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     tagname: string,
     imgSrc: string,
     imgDest: string,
-    options?: ExifToolTaskOptions,
+    options?: BinaryExtractionTaskOptions,
   ): BinaryExtractionTask {
+    // Ensure the destination directory exists:
+    mkdirSync(path.dirname(imgDest), { recursive: true });
+
+    const forceWrite = options?.forceWrite ?? false;
+
     const args = [
       ...Utf8FilenameCharsetArgs,
-      "-b",
+      "-b", // -binary
       "-" + tagname,
-      "-w",
-      // The %0f prevents shell escaping. See
-      // https://exiftool.org/exiftool_pod.html#w-EXT-or-FMT--textOut
-      "%0f" + path.resolve(imgDest),
+      // capital W allows destination files to not have a pattern:
+      forceWrite ? "-W!" : "-W",
+      path.resolve(imgDest),
       path.resolve(imgSrc),
     ];
     return new BinaryExtractionTask(args, options);
