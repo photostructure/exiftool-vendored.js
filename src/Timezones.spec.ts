@@ -143,10 +143,10 @@ describe("Timezones", () => {
             src: "TimeZone",
           });
         });
-        it(`({ OffsetTime: ${tzo}}) => ${exp}`, () => {
-          expect(extractTzOffsetFromTags({ OffsetTime: tzo })).to.eql({
+        it(`({ OffsetTimeOriginal: ${tzo}}) => ${exp}`, () => {
+          expect(extractTzOffsetFromTags({ OffsetTimeOriginal: tzo })).to.eql({
             tz: exp,
-            src: "OffsetTime",
+            src: "OffsetTimeOriginal",
           });
         });
         it(`({ TimeZoneOffset: ${tzo}}) => ${exp}`, () => {
@@ -421,7 +421,6 @@ describe("Timezones", () => {
     it("handles multiple timezone tags with different values", () => {
       const tags = {
         TimeZone: "+09:00",
-        OffsetTime: "+08:00",
         TimeZoneOffset: "+07:00",
       };
       // Should use first valid timezone found in order of precedence
@@ -444,7 +443,6 @@ describe("Timezones", () => {
     it("handles null and undefined values gracefully", () => {
       const tags = {
         TimeZone: null as any,
-        OffsetTime: undefined as any,
         TimeZoneOffset: "",
       };
       expect(extractTzOffsetFromTags(tags)).to.eql(undefined);

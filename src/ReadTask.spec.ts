@@ -390,7 +390,7 @@ describe("ReadTask", () => {
       // this is not UTC, but it is used for "Atlantic/Reykjavik" and other zones
       const t = parse({
         tags: {
-          OffsetTime: "+00:00",
+          OffsetTimeOriginal: "+00:00",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       });
@@ -483,10 +483,10 @@ describe("ReadTask", () => {
       });
     });
 
-    it("respects positive HH:MM OffsetTime", () => {
+    it("respects positive HH:MM OffsetTimeOriginal", () => {
       const t = parse({
         tags: {
-          OffsetTime: "+03:30",
+          OffsetTimeOriginal: "+03:30",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       });
@@ -497,10 +497,10 @@ describe("ReadTask", () => {
       });
     });
 
-    it("respects positive HH OffsetTime", () => {
+    it("respects positive HH OffsetTimeOriginal", () => {
       const t = parse({
         tags: {
-          OffsetTime: "+07",
+          OffsetTimeOriginal: "+07",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       });
@@ -511,16 +511,16 @@ describe("ReadTask", () => {
       });
     });
 
-    it("respects negative HH:MM OffsetTime", () => {
+    it("respects negative HH:MM OffsetTimeOriginal", () => {
       const t = parse({
         tags: {
-          OffsetTime: "-09:30",
+          OffsetTimeOriginal: "-09:30",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       });
       expect(t).to.containSubset({
         tz: "UTC-9:30",
-        tzSource: "OffsetTime",
+        tzSource: "OffsetTimeOriginal",
       });
       expect(t.DateTimeOriginal).to.containSubset({
         tzoffsetMinutes: -(9 * 60 + 30),
@@ -537,28 +537,28 @@ describe("ReadTask", () => {
       });
     });
 
-    it("respects negative H OffsetTime", () => {
+    it("respects negative H OffsetTimeOriginal", () => {
       const t = parse({
         tags: {
-          OffsetTime: "-9",
+          OffsetTimeOriginal: "-9",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       });
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60);
       expect(t.tz).to.eql("UTC-9");
-      expect(t.tzSource).to.eql("OffsetTime");
+      expect(t.tzSource).to.eql("OffsetTimeOriginal");
     });
 
-    it("respects negative HH OffsetTime", () => {
+    it("respects negative HH OffsetTimeOriginal", () => {
       const t = parse({
         tags: {
-          OffsetTime: "-09",
+          OffsetTimeOriginal: "-09",
           DateTimeOriginal: "2016:08:12 13:28:50",
         },
       });
       expect((t.DateTimeOriginal as any).tzoffsetMinutes).to.eql(-9 * 60);
       expect(t.tz).to.eql("UTC-9");
-      expect(t.tzSource).to.eql("OffsetTime");
+      expect(t.tzSource).to.eql("OffsetTimeOriginal");
     });
 
     it("determines timezone offset from GPS (specifically, Landscape Arch!)", () => {
@@ -1074,7 +1074,7 @@ describe("ReadTask", () => {
           SubSecTimeDigitized: 700,
           SubSecTimeOriginal: 700,
           tz: "UTC-5",
-          tzSource: "OffsetTime",
+          tzSource: "OffsetTimeOriginal",
           errors: [],
           warnings: [],
         });
@@ -1176,7 +1176,7 @@ describe("ReadTask", () => {
         });
       });
 
-      it("normalizes when in EST with only OffsetTime", () => {
+      it("normalizes when in EST with only OffsetTimeOriginal", () => {
         const t = parse({
           tags: {
             CreateDate: "2020:12:29 14:24:45", // < no zone
@@ -1207,7 +1207,7 @@ describe("ReadTask", () => {
           SubSecTimeDigitized: 700,
           SubSecTimeOriginal: 700,
           tz: "UTC-5",
-          tzSource: "OffsetTime",
+          tzSource: "OffsetTimeOriginal",
           errors: [],
           warnings: [],
         });
