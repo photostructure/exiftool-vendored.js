@@ -1,4 +1,6 @@
 import { stat, Stats } from "node:fs";
+import { normalize } from "node:path";
+import { lazy } from "./Lazy";
 import { blank } from "./String";
 
 export async function isFileEmpty(path: string): Promise<boolean> {
@@ -26,4 +28,16 @@ export async function isFileEmpty(path: string): Promise<boolean> {
       return true;
     else throw err;
   }
+}
+
+export const isPlatformCaseSensitive = lazy(
+  () => process.platform !== "win32" && process.platform !== "darwin",
+);
+
+export function compareFilePaths(a: string, b: string): boolean {
+  const aNorm = normalize(a);
+  const bNorm = normalize(b);
+  return isPlatformCaseSensitive()
+    ? aNorm === bNorm
+    : aNorm.localeCompare(bNorm, undefined, { sensitivity: "base" }) === 0;
 }

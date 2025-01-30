@@ -16,7 +16,7 @@ import {
 import { hms } from "./DateTime";
 import { ExifDateTime } from "./ExifDateTime";
 import { defaultVideosToUTC, ExifTime, ExifTool } from "./ExifTool";
-import { GeolocationTagNames } from "./GeolocationTags";
+import { GeolocationTagNames, GeolocationTags } from "./GeolocationTags";
 import { omit } from "./Object";
 import { pick } from "./Pick";
 import { ReadTask, ReadTaskOptions } from "./ReadTask";
@@ -26,6 +26,8 @@ import { isUTC } from "./Timezones";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const gt = require("geo-tz");
 
+const SourceFile = join(tmpdir(), "example.jpg");
+
 function parse(
   args: {
     tags: object;
@@ -33,8 +35,7 @@ function parse(
     SourceFile?: string;
   } & Partial<ReadTaskOptions>,
 ): Tags {
-  const SourceFile = args.SourceFile ?? "/tmp/example.jpg";
-  const tt = ReadTask.for(SourceFile, {
+  const tt = ReadTask.for(args.SourceFile ?? SourceFile, {
     defaultVideosToUTC: true,
     backfillTimezones: true,
     includeImageDataMD5: true,
@@ -212,6 +213,7 @@ describe("ReadTask", () => {
       expect(
         parse({
           tags: {
+            SourceFile,
             GPSLatitude: 0,
             GPSLongitude: 0,
             GeolocationCity: "Takoradi",
@@ -234,13 +236,14 @@ describe("ReadTask", () => {
           geolocation: true,
         }),
       ).to.eql({
-        SourceFile: "/tmp/example.jpg",
+        SourceFile,
         errors: [],
         warnings: ["Ignoring zero coordinates from GPSLatitude/GPSLongitude"],
       });
     });
     it("extracts GPS tags if valid lat/lon", () => {
       const tags = {
+        SourceFile,
         GPSLatitude: "37 deg 48' 3.45\" N",
         GPSLongitude: "122 deg 23' 55.67\" W",
         GPSLatitudeRef: "North",
@@ -258,7 +261,7 @@ describe("ReadTask", () => {
         GeolocationPosition: "37.7966, -122.4086",
         GeolocationDistance: "1.01 km",
         GeolocationBearing: 246,
-      };
+      } satisfies Tags & Required<Omit<GeolocationTags, "GeolocationWarning">>;
       expect(
         parse({
           tags,
@@ -271,7 +274,6 @@ describe("ReadTask", () => {
         GPSLatitudeRef: "N",
         GPSLongitude: -122.398797,
         GPSLongitudeRef: "W",
-        SourceFile: "/tmp/example.jpg",
         tz: "America/Los_Angeles",
         tzSource: "GeolocationTimeZone",
         errors: [],

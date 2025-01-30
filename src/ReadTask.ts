@@ -10,6 +10,7 @@ import { ExifDateTime } from "./ExifDateTime";
 import { ExifTime } from "./ExifTime";
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
 import { ExifToolTask } from "./ExifToolTask";
+import { compareFilePaths } from "./File";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { parseGPSLocation } from "./GPS";
 import { lazy } from "./Lazy";
@@ -152,10 +153,8 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
     // ExifTool does "humorous" things to paths, like flip path separators. resolve() undoes that.
     if (notBlank(this.#raw.SourceFile)) {
-      const SourceFile = _path.resolve(this.#raw.SourceFile);
-      // Sanity check that the result is for the file we want:
-      if (SourceFile !== this.sourceFile) {
-        // Throw an error rather than add an errors string because this is *really* bad:
+      if (!compareFilePaths(this.#raw.SourceFile, this.sourceFile)) {
+        // this would indicate a bug in batch-cluster:
         throw new Error(
           `Internal error: unexpected SourceFile of ${this.#raw.SourceFile} for file ${this.sourceFile}`,
         );
