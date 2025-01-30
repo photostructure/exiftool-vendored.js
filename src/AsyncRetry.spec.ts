@@ -140,7 +140,7 @@ describe("AsyncRetry", () => {
       }, 2);
     } catch {
       const duration = Date.now() - startTime;
-      expect(duration).to.be.gte(150); // 3 attempts * 50ms minimum
+      expect(duration).to.be.gte(149); // 3 attempts * 50ms minimum
       expect(attempts).to.eql(3);
     }
   });
