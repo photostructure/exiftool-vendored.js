@@ -784,20 +784,20 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     const tagWriter = fs.createWriteStream(destFile);
     tagWriter.write(
       [
-        'import { BinaryField } from "./BinaryField"',
-        'import { ContainerDirectoryItem } from "./ContainerDirectoryItem"',
-        'import { ExifDate } from "./ExifDate"',
-        'import { ExifDateTime } from "./ExifDateTime"',
-        'import { ExifTime } from "./ExifTime"',
-        'import { ExifToolVendoredTags } from "./ExifToolVendoredTags"',
-        'import { GeolocationTags } from "./GeolocationTags"',
-        'import { ICCProfileTags } from "./ICCProfileTags"',
-        'import { ImageDataHashTag } from "./ImageDataHashTag"',
-        'import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags"',
-        'import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags"',
-        'import { ResourceEvent } from "./ResourceEvent"',
-        'import { Struct } from "./Struct"',
-        'import { Version } from "./Version"',
+        'import { BinaryField } from "./BinaryField";',
+        'import { ContainerDirectoryItem } from "./ContainerDirectoryItem";',
+        'import { ExifDate } from "./ExifDate";',
+        'import { ExifDateTime } from "./ExifDateTime";',
+        'import { ExifTime } from "./ExifTime";',
+        'import { ExifToolVendoredTags } from "./ExifToolVendoredTags";',
+        'import { GeolocationTags } from "./GeolocationTags";',
+        'import { ICCProfileTags } from "./ICCProfileTags";',
+        'import { ImageDataHashTag } from "./ImageDataHashTag";',
+        'import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";',
+        'import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags";',
+        'import { ResourceEvent } from "./ResourceEvent";',
+        'import { Struct } from "./Struct";',
+        'import { Version } from "./Version";',
         "",
       ].join("\n"),
     );
@@ -840,7 +840,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
           tagWriter.write(
             `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`,
           );
-          tagWriter.write(`  ${escapeKey(tag.base)}?: ${tag.valueType}\n`);
+          tagWriter.write(`  ${escapeKey(tag.base)}?: ${tag.valueType};\n`);
         }
         tagWriter.write(`}\n`);
       }
