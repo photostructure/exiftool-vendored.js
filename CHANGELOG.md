@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v29.2.0
+
+- 🌱 Upgraded ExifTool to version [13.25](https://exiftool.org/history.html#13.25).
+
+- ✨ [ExifTool.write](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#write) now supports `boolean` field values. Thanks for the [suggestion](https://github.com/photostructure/exiftool-vendored.js/issues/228), [Kira-Kitsune](https://github.com/Kira-Kitsune).
+
 ### v29.1.0
 
 - 🌱 Upgraded ExifTool to version [13.17](https://exiftool.org/history.html#13.17). Note that this release includes **seventeen** ExifTool version bumps (from November 2024 through January 2025--Phil Harvey has been _busy_!). Although I haven't seen any breaking changes in the Tags generation or test suite with the new versions, please do your own validation.
@@ -189,7 +195,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v25.0.0
 
-- 🌱/✨ ExifTool upgraded to [v12.80](https://exiftool.org/history.html#v12.80), which **adds support for reverse-geo lookups** and [several other geolocation features](https://exiftool.org/geolocation.html
+- 🌱/✨ ExifTool upgraded to [v12.80](https://exiftool.org/history.html#v12.80), which **adds support for reverse-geo lookups** and [several other geolocation features](https://exiftool.org/geolocation.html)
 
 - ✨ If no vendored version of `exiftool` is available, we'll try to make do with whatever is available in the `PATH`.
 
@@ -1041,7 +1047,7 @@ const exiftool = new ExifTool({
 
 ### v9.1.0
 
-- ✨ Aded `ExifTool.deleteAllTags`.
+- ✨ Added `ExifTool.deleteAllTags`.
 
 ### v9.0.0
 
@@ -1412,7 +1418,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 
 ### v6.0.0
 
-- 💔 `ExifTool`'s many constructor parameters turned out to be quite unweildy.
+- 💔 `ExifTool`'s many constructor parameters turned out to be quite unwieldy.
   Version 6's [constructor](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#constructor) now takes an [options
   hash](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html).
   If you used the defaults, those haven't changed, and your code won't need to
@@ -1471,7 +1477,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 🌱 ExifTool upgraded to
   [v11.02](https://exiftool.org/history.html#v11.02).
 - 📦 taskRetries default is now 1, which should allow recovery of the rare
-  RPC/fork error, but actual corrupt files and realy errors can be rejected
+  RPC/fork error, but actual corrupt files and real errors can be rejected
   sooner.
 - 📦 Pull in latest dependencies, include new batch-cluster.
 
@@ -1591,7 +1597,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 
 - 🌱 ExifTool upgraded to
   [v10.70](https://exiftool.org/history.html#v10.70)
-- 📦 Replace tslint and tsfmt with prettier
+- 📦 Replace `tslint` and `tsfmt` with `prettier`
 - 📦 Add test coverage report
 
 (due to buggy interactions between `yarn` and `np`, v4.13.0 was published in
