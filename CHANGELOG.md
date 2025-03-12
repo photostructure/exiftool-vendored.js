@@ -31,6 +31,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ [ExifTool.write](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#write) now supports `boolean` field values. Thanks for the [suggestion](https://github.com/photostructure/exiftool-vendored.js/issues/228), [Kira-Kitsune](https://github.com/Kira-Kitsune).
 
+- 📦 Updated the default for [maxProcs](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#maxprocs) to use [availableParallelism](https://nodejs.org/api/os.html#osavailableparallelism) where available.
+
 ### v29.1.0
 
 - 🌱 Upgraded ExifTool to version [13.17](https://exiftool.org/history.html#13.17). Note that this release includes **seventeen** ExifTool version bumps (from November 2024 through January 2025--Phil Harvey has been _busy_!). Although I haven't seen any breaking changes in the Tags generation or test suite with the new versions, please do your own validation.
@@ -1650,7 +1652,7 @@ an incomplete state and subsequently unpublished)
 - 🌱 ExifTool upgraded to
   [v10.66](https://exiftool.org/history.html#v10.66)
 - ✨ Pull in new `batch-cluster` with more aggressive child process management
-  (uses `taskkill` on win32 platforms and `kill -9` on unixish platforms)
+  (uses `taskkill` on win32 platforms and `kill -9` on unix-ish platforms)
 - ✨ ExifTool constructor defaults were relaxed to handle slow NAS
 - ✨ Upgraded to Mocha 4.0. Added calls to `exiftool.end()` in test `after`
   blocks and the README so `--exit` isn't necessary.
