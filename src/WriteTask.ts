@@ -33,13 +33,14 @@ function enc(o: unknown, structValue = false): Maybe<string> {
     return "";
   } else if (isNumber(o)) {
     return String(o);
+  } else if (typeof o === "boolean") {
+    return o ? "True" : "False";
   } else if (isString(o)) {
     // Structs need their own escaping here.
     // See https://exiftool.org/struct.html#Serialize
     return htmlEncode(
       structValue ? o.replace(/[,[\]{}|]/g, (ea) => "|" + ea) : o,
     );
-    // const s = htmlEncode(String(o))
   } else if (isDateOrTime(o)) {
     return toExifString(o);
   } else if (Array.isArray(o)) {

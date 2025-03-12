@@ -33,6 +33,14 @@ import { WriteTags } from "./WriteTags";
 
 describe("WriteTask", function () {
   this.slow(1); // always show timings
+
+  const ImageExifData = {
+    UserComment: "This is a user comment added by exiftool.",
+    Artist: "Arturo DeImage",
+    Copyright: "© Chuckles McSnortypants, Inc.",
+    Credit: "photo by Jenny Snapsalot",
+  };
+
   for (const opts of [
     { maxProcs: 1, maxRetries: 0, useMWG: true },
     { maxProcs: 3, maxRetries: 3, useMWG: false },
@@ -101,7 +109,7 @@ describe("WriteTask", function () {
         });
       });
 
-      type InputValue = string | number | Struct | ResourceEvent;
+      type InputValue = string | number | Struct | ResourceEvent | boolean;
 
       async function assertRoundTrip({
         dest,
@@ -324,6 +332,28 @@ describe("WriteTask", function () {
           return;
         });
 
+        it("round-trips a boolean true value", async () => {
+          const file = await dest();
+          // Using a native boolean tag
+          return assertRoundTrip({
+            dest: file,
+            tagName: "AlreadyApplied",
+            inputValue: true,
+            expectedValue: true,
+          });
+        });
+
+        it("round-trips a boolean false value", async () => {
+          const file = await dest();
+          // Using a native boolean tag
+          return assertRoundTrip({
+            dest: file,
+            tagName: "AlreadyApplied",
+            inputValue: false,
+            expectedValue: false,
+          });
+        });
+
         function randomFloat(min: number, max: number) {
           return Math.random() * (max - min) + min;
         }
@@ -418,6 +448,17 @@ describe("WriteTask", function () {
           ).to.match(/Value below int16u minimum/i);
         });
 
+        it("rejects an invalid string Orientation", async () => {
+          const src = await dest();
+          expect(
+            (
+              await exiftool.write(src, {
+                Orientation: "this isn't a valid orientation",
+              })
+            ).warnings?.join("\n"),
+          ).to.be.match(/Can't convert IFD0:Orientation/i);
+        });
+
         it("tags case-insensitively", async () => {
           const src = await dest();
           await exiftool.write(src, { rating: 12 } as any, [
@@ -439,17 +480,6 @@ describe("WriteTask", function () {
               } as any)
             ).warnings?.join("\n"),
           ).to.match(/ImageOffset is not writable/i);
-        });
-
-        it("rejects an invalid string Orientation", async () => {
-          const src = await dest();
-          expect(
-            (
-              await exiftool.write(src, {
-                Orientation: "this isn't a valid orientation",
-              })
-            ).warnings?.join("\n"),
-          ).to.be.match(/Can't convert IFD0:Orientation/i);
         });
 
         it("handles deleting tags from empty files", async () => {
@@ -757,13 +787,6 @@ describe("WriteTask", function () {
     const exiftool = new ExifTool();
     after(() => end(exiftool));
 
-    const exp = {
-      UserComment: "This is a user comment added by exiftool.",
-      Artist: "Arturo DeImage",
-      Copyright: "© Chuckles McSnortypants, Inc.",
-      Credit: "photo by Jenny Snapsalot",
-    };
-
     const expectedDefinedTags = [
       "Make",
       "Model",
@@ -820,13 +843,14 @@ describe("WriteTask", function () {
     it("deletes all tags by default", async () => {
       const img = await testImg({ srcBasename: "oly.jpg" });
       const before = await exiftool.read(img);
-      expect(before).to.containSubset(exp);
+
+      expect(before).to.containSubset(ImageExifData);
       assertDefinedGeneralTags(before);
       await exiftool.deleteAllTags(img);
       const after = await exiftool.read(img);
       assertMissingGeneralTags(after);
-      expect(after).to.not.containSubset(exp);
-      for (const k in exp) {
+      expect(after).to.not.containSubset(ImageExifData);
+      for (const k in ImageExifData) {
         expect(after).to.not.haveOwnProperty(k);
       }
       // And make sure everything else is gone:
@@ -840,17 +864,17 @@ describe("WriteTask", function () {
       }
     });
 
-    for (const key in exp) {
+    for (const key in ImageExifData) {
       it(`deletes all tags except ${key}`, async () => {
         const img = await testImg({ srcBasename: "oly.jpg" });
         const before = await exiftool.read(img);
-        expect(before).to.containSubset(exp);
+        expect(before).to.containSubset(ImageExifData);
         assertDefinedGeneralTags(before);
         await exiftool.deleteAllTags(img, { retain: [key] });
         const after = await exiftool.read(img);
         assertMissingGeneralTags(after);
         expect(after).to.haveOwnProperty(key);
-        for (const k in Object.keys(exp)) {
+        for (const k in Object.keys(ImageExifData)) {
           if (k !== key) {
             expect(after).to.not.haveOwnProperty(k);
           }
@@ -860,12 +884,12 @@ describe("WriteTask", function () {
     it("supports deleting everything-except (issue #178)", async () => {
       const img = await testImg({ srcBasename: "oly.jpg" });
       const before = await exiftool.read(img);
-      expect(before).to.containSubset(exp);
+      expect(before).to.containSubset(ImageExifData);
       assertDefinedGeneralTags(before);
-      await exiftool.deleteAllTags(img, { retain: Object.keys(exp) });
+      await exiftool.deleteAllTags(img, { retain: Object.keys(ImageExifData) });
       const after = await exiftool.read(img);
       assertMissingGeneralTags(after);
-      expect(after).to.containSubset(exp);
+      expect(after).to.containSubset(ImageExifData);
     });
 
     it("supports creating arrays in structs", async () => {
