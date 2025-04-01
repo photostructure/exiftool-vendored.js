@@ -93,7 +93,7 @@ export { ExifDateTime } from "./ExifDateTime";
 export { ExifTime } from "./ExifTime";
 export { ExifToolTask } from "./ExifToolTask";
 export { exiftoolPath } from "./ExiftoolPath";
-export { isGeolocationTag } from "./GeolocationTags";
+export { GeolocationTagNames, isGeolocationTag } from "./GeolocationTags";
 export { parseJSON } from "./JSON";
 export { DefaultReadTaskOptions } from "./ReadTask";
 export {
