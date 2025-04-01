@@ -24,7 +24,22 @@ import {
 } from "./Timezones";
 
 /**
- * Encodes an ExifDateTime with an optional tz offset in minutes.
+ * Encapsulates encoding and decoding EXIF date and time strings,
+ * along with timezone handling functionality.
+ *
+ * Key features:
+ * - Parses datetime strings in various formats (EXIF strict/loose, ISO)
+ * - Supports timezone inference, conversion, and matching between dates
+ * - Preserves original string representations when available
+ * - Provides conversion to/from multiple datetime formats (Luxon DateTime, JS
+ *   Date, ISO strings)
+ * - Supports serialization/deserialization via JSON (see
+ *   {@link ExifDateTime.fromJSON})
+ *
+ * EXIF datetime strings don't typically include timezone information. This
+ * class provides mechanisms to associate timezone data from other EXIF tags
+ * (like GPS position or timezone offset), and distinguishes between explicitly
+ * set and inferred timezone information.
  */
 export class ExifDateTime {
   static from(
@@ -321,7 +336,7 @@ export class ExifDateTime {
 
   toJSON() {
     return {
-      _ctor: "ExifDateTime",
+      _ctor: "ExifDateTime", // < magick field used by the JSON parser
       year: this.year,
       month: this.month,
       day: this.day,

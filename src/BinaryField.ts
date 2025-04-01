@@ -8,6 +8,13 @@ const BinaryFieldRE =
   // `js/polynomial-redos` eslint rule.
   /Binary(?: data)? (\d{1,10}) bytes/i;
 
+/**
+ * Represents a binary field in the Exif data.
+ *
+ * These fields can be used to store images (including thumbnails and full-sized
+ * images), audio, and other binary data. The size of the field is specified in
+ * bytes.
+ */
 export class BinaryField {
   constructor(
     readonly bytes: number,
