@@ -19,6 +19,7 @@
     "mktags": "node dist/update/mktags.js",
     "prelint": "npm run compile",
     "prepare": "npm run compile",
+    "#lint": "the node.js GitHub Action will run `lint` on one node before running `test` with the matrix",
     "lint": "eslint",
     "fmt": "prettier --write src/*.ts src/**/*.ts **/*.yml **/*.json **/*.md",
     "pretest": "npm run compile",
