@@ -104,12 +104,13 @@ export {
   defaultVideosToUTC,
   offsetMinutesToZoneName,
 } from "./Timezones";
-export { DefaultWriteTaskOptions } from "./WriteTask";
+export { DefaultWriteTaskOptions, WriteTaskOptionFields } from "./WriteTask";
 export type {
   APPTags,
   AdditionalWriteTags,
   // For backwards compatibility:
   IPTCApplicationRecordTags as ApplicationRecordTags,
+  BinaryExtractionTaskOptions,
   CollectionInfo,
   CompositeTags,
   ContainerDirectoryItem,
@@ -603,7 +604,7 @@ export class ExifTool {
    * be lost in the process.
    *
    * This should only be applied as a last resort to images whose metadata is
-   * not readable via {@link ExifTool.read()}.
+   * not readable via {@link ExifTool.read}.
    *
    * @see https://exiftool.org/faq.html#Q20
    *
