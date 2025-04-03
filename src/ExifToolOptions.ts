@@ -294,14 +294,14 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
   /**
    * Any additional arguments that should be added by default to all read tasks,
    * like `["-fast", "-api", "largefilesupport=1"]`. The value provided to the
-   * ExifTool constructor can be overridden in the call to {@link ExifTool.read()}
+   * ExifTool constructor can be overridden in the call to {@link ExifTool.read}
    */
   readArgs: string[];
 
   /**
    * Any additional arguments that should be added by default to all write
    * tasks, like `["-overwrite_original"]`. The value provided to the ExifTool
-   * constructor can be overridden in the call to {@link ExifTool.write()}.
+   * constructor can be overridden in the call to {@link ExifTool.write}.
    */
   writeArgs: string[];
 
