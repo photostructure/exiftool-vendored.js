@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v29.3.0
+
+- 🌱 Upgraded ExifTool to version [13.26](https://exiftool.org/history.html#13.26).
+
+- ✨ Added support for [keepUTCTime](https://exiftool.org/ExifTool.html#KeepUTCTime) to ExifToolOptions. This is a new ExifTool feature specifically for unixtime-encoded datetimes, but seems to be rarely applicable as unixtime is not a valid encoding format for most datetime tags.
+
 ### v29.2.0
 
 - 🌱 Upgraded ExifTool to version [13.25](https://exiftool.org/history.html#13.25).

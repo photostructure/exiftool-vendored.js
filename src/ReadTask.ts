@@ -43,6 +43,7 @@ const PassthroughTags = [
 ];
 
 export const ReadTaskOptionFields = [
+  "adjustTimeZoneIfDaylightSavings",
   "backfillTimezones",
   "defaultVideosToUTC",
   "geolocation",
@@ -54,12 +55,12 @@ export const ReadTaskOptionFields = [
   "inferTimezoneFromDatestamps",
   "inferTimezoneFromDatestampTags",
   "inferTimezoneFromTimeStamp",
+  "keepUTCTime",
   "numericTags",
-  "useMWG",
-  "struct",
-  "readArgs",
-  "adjustTimeZoneIfDaylightSavings",
   "preferTimezoneInferenceFromGps",
+  "readArgs",
+  "struct",
+  "useMWG",
 ] as const satisfies (keyof ExifToolOptions)[];
 
 const NullIsh = ["undef", "null", "undefined"];
@@ -122,6 +123,9 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
     if (true === opts.geolocation) {
       args.push("-api", "geolocation");
+    }
+    if (true === opts.keepUTCTime) {
+      args.push("-api", "keepUTCTime");
     }
     // IMPORTANT: "-all" must be after numeric tag references, as the first
     // reference in wins

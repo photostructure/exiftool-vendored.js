@@ -101,6 +101,8 @@ export const DefaultExifToolOptions: Omit<
   adjustTimeZoneIfDaylightSavings: defaultAdjustTimeZoneIfDaylightSavings,
 
   preferTimezoneInferenceFromGps: false, // to retain prior behavior
+
+  keepUTCTime: true,
 });
 
 /**

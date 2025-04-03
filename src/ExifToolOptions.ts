@@ -237,6 +237,7 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * Note that this requires ExifTool version 12.78 or later.
    *
    * @see https://exiftool.org/geolocation.html
+   * @see {@link GeolocationTags}
    */
   geolocation: boolean;
 
@@ -333,6 +334,21 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * over time--this will result incorrect timezones.
    */
   preferTimezoneInferenceFromGps: boolean;
+
+  /**
+   * Should ExifTool keep times that are stored as seconds since UTC epoch as
+   * UTC times? If false, ExifTool will use local time instead of UTC/Zulu.
+   *
+   * We default to `true` to ensure we don't unintentionally adopt local
+   * timezones.
+   *
+   * Please note: when trying to validate this option, I **could not find a
+   * single example** that had a unixtime-encoded datetime, so I suspect this is
+   * irrelevant for most use cases and files.
+   *
+   * @see https://exiftool.org/ExifTool.html#KeepUTCTime
+   */
+  keepUTCTime: boolean;
 }
 
 export function handleDeprecatedOptions<
