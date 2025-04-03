@@ -27,7 +27,7 @@
    1. `cd ../exiftool-vendored.js`
    1. `npm run u`
    1. `npm run mktags ../test-images` # < assumes `../test-images` has the full ExifTool sample image suite
-   1. `npm run prettier && npm run lint && npm run docs`
+   1. `npm run fmt && npm run lint && npm run docs`
    1. Verify docs were rebuilt successfully at <http://localhost:3000/index.html>
    1. `npm run test`
    1. Verify diffs are reasonable, `git commit` and `git push`
