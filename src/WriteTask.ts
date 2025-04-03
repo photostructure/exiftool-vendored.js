@@ -65,11 +65,21 @@ export const WriteTaskOptionFields = [
   "writeArgs",
 ] as const satisfies (keyof ExifToolOptions)[];
 
+/**
+ * Options for {@link ExifTool.write}
+ *
+ * @see {@link ExifToolOptions#useMWG}
+ * @see {@link ExifToolOptions#struct}
+ * @see {@link ExifToolOptions#ignoreMinorErrors}
+ * @see {@link ExifToolOptions#writeArgs}
+ */
+export type WriteTaskOptions = Partial<
+  Pick<ExifToolOptions, (typeof WriteTaskOptionFields)[number]>
+>;
+
 export const DefaultWriteTaskOptions = {
   ...pick(DefaultExifToolOptions, ...WriteTaskOptionFields),
-} as const satisfies Partial<ExifToolOptions>;
-
-export type WriteTaskOptions = Partial<typeof DefaultWriteTaskOptions>;
+} as const satisfies Required<WriteTaskOptions>;
 
 export interface WriteTaskResult {
   /**
