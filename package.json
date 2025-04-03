@@ -80,7 +80,7 @@
     "@types/globule": "^1.1.9",
     "@types/he": "^1.2.3",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.13.14",
+    "@types/node": "^22.14.0",
     "@types/progress": "^2.0.7",
     "@types/tmp": "^0.2.6",
     "@types/xmldom": "^0.1.34",
