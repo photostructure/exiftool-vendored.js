@@ -1,4 +1,4 @@
-import { Maybe, MaybeNull } from "./Maybe";
+import { Maybe, Nullable } from "./Maybe";
 import { isObject } from "./Object";
 import { isString } from "./String";
 
@@ -22,7 +22,7 @@ export function toArray<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
           : [arr as T];
 }
 
-export function compact<T>(array: MaybeNull<T>[]): T[] {
+export function compact<T>(array: Nullable<T>[]): T[] {
   return array.filter((elem) => elem != null) as T[];
 }
 
