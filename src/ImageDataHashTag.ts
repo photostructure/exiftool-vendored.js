@@ -1,3 +1,5 @@
+import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
+
 export interface ImageDataHashTag {
   /**
    * This is calculated by ExifTool to be the MD5, SHA256, or SHA512 hash of
@@ -10,4 +12,16 @@ export interface ImageDataHashTag {
    * @see https://exiftool.org/ExifTool.html#ImageHashType
    */
   ImageDataHash?: string;
+}
+
+export const ImageDataHashTagNames = strEnum("ImageDataHash") satisfies StrEnum<
+  keyof ImageDataHashTag
+>;
+
+export type ImageDataHashTagName = StrEnumKeys<typeof ImageDataHashTagNames>;
+
+export function isImageDataHashTag(
+  name: string,
+): name is keyof ImageDataHashTag {
+  return ImageDataHashTagNames.includes(name);
 }

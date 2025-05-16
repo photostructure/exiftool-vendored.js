@@ -1,28 +1,4 @@
-import { keysOf } from "./Object";
-
-export const GeolocationTagNames = keysOf<GeolocationTags>({
-  GeolocationBearing: true,
-  GeolocationCity: true,
-  GeolocationCountry: true,
-  GeolocationCountryCode: true,
-  GeolocationDistance: true,
-  GeolocationFeatureCode: true,
-  GeolocationFeatureType: true,
-  GeolocationPopulation: true,
-  GeolocationPosition: true,
-  GeolocationRegion: true,
-  GeolocationSubregion: true,
-  GeolocationTimeZone: true,
-  GeolocationWarning: true,
-}) satisfies (keyof GeolocationTags)[];
-
-/**
- * Is the given tag name intrinsic to the content of a given file? In other
- * words, is it not an artifact of a metadata field?
- */
-export function isGeolocationTag(name: string): name is keyof GeolocationTags {
-  return GeolocationTagNames.includes(name as keyof GeolocationTags);
-}
+import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 
 /**
  * These tags are only available if {@link ExifToolOptions.geolocation} is true
@@ -64,4 +40,26 @@ export interface GeolocationTags {
    */
   GeolocationTimeZone?: string;
   GeolocationWarning?: string;
+}
+
+export const GeolocationTagNames = strEnum(
+  "GeolocationBearing",
+  "GeolocationCity",
+  "GeolocationCountry",
+  "GeolocationCountryCode",
+  "GeolocationDistance",
+  "GeolocationFeatureCode",
+  "GeolocationFeatureType",
+  "GeolocationPopulation",
+  "GeolocationPosition",
+  "GeolocationRegion",
+  "GeolocationSubregion",
+  "GeolocationTimeZone",
+  "GeolocationWarning",
+) satisfies StrEnum<keyof GeolocationTags>;
+
+export type GeolocationTagName = StrEnumKeys<typeof GeolocationTagNames>;
+
+export function isGeolocationTag(name: string): name is keyof GeolocationTags {
+  return GeolocationTagNames.includes(name);
 }

@@ -1,6 +1,7 @@
 import { ExifDate } from "./ExifDate";
 import { ExifDateTime } from "./ExifDateTime";
 import { ExifTime } from "./ExifTime";
+import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 
 /**
  * IPTC (International Press Telecommunications Council) defines a set of
@@ -79,4 +80,82 @@ export interface IPTCApplicationRecordTags {
   DocumentNotes?: string;
   DocumentHistory?: string;
   ExifCameraInfo?: string;
+}
+
+export const IPTCApplicationRecordTagNames = strEnum(
+  "ApplicationRecordVersion",
+  "ObjectTypeReference",
+  "ObjectAttributeReference",
+  "ObjectName",
+  "EditStatus",
+  "EditorialUpDate",
+  "Urgency",
+  "SubjectReference",
+  "Category",
+  "SupplementalCategories",
+  "FixtureIdentifier",
+  "ContentLocationCode",
+  "ContentLocationName",
+  "ReleaseDate",
+  "ReleaseTime",
+  "ExpirationDate",
+  "ExpirationTime",
+  "SpecialInstructions",
+  "ActionAdvised",
+  "ReferenceService",
+  "ReferenceDate",
+  "ReferenceNumber",
+  "OriginatingProgram",
+  "ProgramVersion",
+  "ObjectCycle",
+  "By-line",
+  "By-lineTitle",
+  "City",
+  "Sub-location",
+  "Province-State",
+  "Country-PrimaryLocationCode",
+  "Country-PrimaryLocationName",
+  "OriginalTransmissionReference",
+  "Headline",
+  "Credit",
+  "Source",
+  "CopyrightNotice",
+  "Contact",
+  "Caption-Abstract",
+  "LocalCaption",
+  "Writer-Editor",
+  "ImageType",
+  "ImageOrientation",
+  "LanguageIdentifier",
+  "AudioType",
+  "AudioSamplingRate",
+  "AudioSamplingResolution",
+  "AudioDuration",
+  "AudioOutcue",
+  "JobID",
+  "MasterDocumentID",
+  "ShortDocumentID",
+  "UniqueDocumentID",
+  "OwnerID",
+  "ObjectPreviewFileFormat",
+  "ObjectPreviewFileVersion",
+  "Prefs",
+  "ClassifyState",
+  "SimilarityIndex",
+  "DocumentNotes",
+  "DocumentHistory",
+  "ExifCameraInfo",
+) satisfies StrEnum<keyof IPTCApplicationRecordTags>;
+
+export type IPTCApplicationRecordTagName = StrEnumKeys<
+  typeof IPTCApplicationRecordTagNames
+>;
+
+/**
+ * Is the given tag name an IPTC application record tag?
+ */
+export function isIPTCApplicationRecordTag(
+  name: string,
+): name is keyof IPTCApplicationRecordTags {
+  return IPTCApplicationRecordTagNames.includes(name);
 }

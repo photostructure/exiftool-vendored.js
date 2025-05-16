@@ -1,3 +1,5 @@
+import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
+
 /**
  * Subset of <https://exiftool.org/TagNames/ICC_Profile.html>.
  *
@@ -22,4 +24,22 @@ export interface ICCProfileTags {
   Luminance?: string;
   /** ☆☆☆☆ ✔ Example: "sRGB v1.31 (Canon)" */
   ProfileDescription?: string;
+}
+
+export const ICCProfileTagNames = strEnum(
+  "ColorSpaceData",
+  "ConnectionSpaceIlluminant",
+  "DeviceAttributes",
+  "DeviceManufacturer",
+  "DeviceMfgDesc",
+  "DeviceModel",
+  "DeviceModelDesc",
+  "Luminance",
+  "ProfileDescription",
+) satisfies StrEnum<keyof ICCProfileTags>;
+
+export type ICCProfileTagName = StrEnumKeys<typeof ICCProfileTagNames>;
+
+export function isICCProfileTag(name: string): name is keyof ICCProfileTags {
+  return ICCProfileTagNames.includes(name);
 }

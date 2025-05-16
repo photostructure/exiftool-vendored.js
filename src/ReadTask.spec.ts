@@ -184,7 +184,7 @@ describe("ReadTask", () => {
                   .sort();
 
                 expect(actualGeoKeys).to.have.members(
-                  GeolocationTagNames.filter(
+                  GeolocationTagNames.values.filter(
                     (ea) => ea !== "GeolocationWarning",
                   ),
                 );
