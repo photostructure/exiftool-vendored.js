@@ -15,6 +15,7 @@ import { ExifDateTime } from "./ExifDateTime";
 import { ExifTool, WriteTaskOptions } from "./ExifTool";
 import { isExifToolTag } from "./ExifToolTags";
 import {
+  ExifToolVendoredTagNames,
   ExifToolVendoredTags,
   isExifToolVendoredTag,
 } from "./ExifToolVendoredTags";
@@ -25,7 +26,7 @@ import { ResourceEvent } from "./ResourceEvent";
 import { isSidecarExt } from "./Sidecars";
 import { stripSuffix } from "./String";
 import { Struct } from "./Struct";
-import { ExifToolTags, FileTags, Tags } from "./Tags";
+import { ExifToolTags, FileTags, FileTagsNames, Tags } from "./Tags";
 import { Version } from "./Version";
 import { WriteTags } from "./WriteTags";
 
@@ -830,13 +831,8 @@ describe("WriteTask", function () {
       return [
         "CurrentIPTCDigest",
         "ExifByteOrder",
-        "FileAccessDate",
-        "FileCreateDate",
-        "FileModifyDate",
-        "FileInodeChangeDate",
-        "FileSize",
-        "tz",
-        "tzSource",
+        ...FileTagsNames.values,
+        ...ExifToolVendoredTagNames.values,
       ].includes(k);
     }
 

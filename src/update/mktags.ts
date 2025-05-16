@@ -35,7 +35,7 @@ import { times } from "../Times";
 //
 
 // Avoid error TS2590: Expression produces a union type that is too complex to represent
-const MAX_TAGS = 2250; // TypeScript 4.2 crashes with 3100+. Remember to count the 8-odd static intefaces we're also including.
+const MAX_TAGS = 2500; // TypeScript 4.2 crashes with 3100+. Remember to count the 8-odd static intefaces we're also including.
 
 // These tags are common enough that we want to ensure they're always in the
 // final Tags interface:
@@ -152,6 +152,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   SubSecTimeDigitized: { t: "number", grp: "EXIF" },
   ThumbnailImage: { t: "BinaryField", grp: "EXIF" },
   ThumbnailTIFF: { t: "BinaryField", grp: "EXIF" },
+  TimeStamp: { t: "ExifDateTime | string", grp: "MakerNotes" },
   TimeZone: { t: "string", grp: "MakerNotes" },
   TimeZoneOffset: { t: "number | string", grp: "EXIF" },
   Title: { t: "string", grp: "XMP" },
@@ -789,13 +790,14 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         'import { ExifDate } from "./ExifDate";',
         'import { ExifDateTime } from "./ExifDateTime";',
         'import { ExifTime } from "./ExifTime";',
-        'import { ExifToolVendoredTags } from "./ExifToolVendoredTags";',
-        'import { GeolocationTags } from "./GeolocationTags";',
-        'import { ICCProfileTags } from "./ICCProfileTags";',
-        'import { ImageDataHashTag } from "./ImageDataHashTag";',
-        'import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";',
-        'import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags";',
+        'import { ExifToolVendoredTags, ExifToolVendoredTagNames } from "./ExifToolVendoredTags";',
+        'import { GeolocationTags, GeolocationTagNames } from "./GeolocationTags";',
+        'import { ICCProfileTags, ICCProfileTagNames } from "./ICCProfileTags";',
+        'import { ImageDataHashTag, ImageDataHashTagNames } from "./ImageDataHashTag";',
+        'import { IPTCApplicationRecordTags, IPTCApplicationRecordTagNames } from "./IPTCApplicationRecordTags";',
+        'import { MWGCollectionsTags, MWGKeywordTags, MWGCollectionsTagNames, MWGKeywordTagNames } from "./MWGTags";',
         'import { ResourceEvent } from "./ResourceEvent";',
+        'import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";',
         'import { Struct } from "./Struct";',
         'import { Version } from "./Version";',
         "",
@@ -834,6 +836,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
           tagWriter.write(` */`);
         }
         tagWriter.write(`\nexport interface ${interfaceName} {\n`);
+        const tagNamesForGroup: string[] = [];
         for (const tag of sortBy(tagsForGroup, (tag) =>
           tag.base.toLowerCase(),
         )) {
@@ -841,8 +844,20 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
             `  /** ${tag.popIcon(files.length)} ${tag.example()} */\n`,
           );
           tagWriter.write(`  ${escapeKey(tag.base)}?: ${tag.valueType};\n`);
+          tagNamesForGroup.push(tag.base);
         }
         tagWriter.write(`}\n`);
+
+        // Generate strEnum for this interface
+        tagWriter.write(`\nexport const ${interfaceName}Names = strEnum(\n`);
+        tagWriter.write(
+          tagNamesForGroup.map((name) => `  "${name}"`).join(",\n"),
+        );
+        tagWriter.write(`\n) satisfies StrEnum<keyof ${interfaceName}>;\n`);
+
+        tagWriter.write(
+          `\nexport type ${interfaceName.slice(0, -1)} = StrEnumKeys<typeof ${interfaceName}Names>;\n`,
+        );
       }
     }
     const interfaceNames = [
@@ -883,6 +898,34 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         "",
       ].join("\n"),
     );
+
+    // Generate the concatenated TagNames strEnum
+    const allTagNameVariables = [
+      ...tagGroups.map((s) => s + "TagsNames"),
+      "ExifToolVendoredTagNames",
+      "GeolocationTagNames",
+      "ImageDataHashTagNames",
+      "ICCProfileTagNames",
+      "IPTCApplicationRecordTagNames",
+      "MWGCollectionsTagNames",
+      "MWGKeywordTagNames",
+    ];
+
+    tagWriter.write(
+      [
+        "",
+        "/**",
+        " * All tag names combined from all interfaces",
+        " */",
+        "export const TagNames = strEnum(",
+        `  ...${allTagNameVariables.map((name) => `${name}.values`).join(",\n  ...")}`,
+        ") satisfies StrEnum<keyof Tags>;",
+        "",
+        "export type TagName = StrEnumKeys<typeof TagNames>;",
+        "",
+      ].join("\n"),
+    );
+
     tagWriter.end();
 
     // Let's look at tag distributions:
