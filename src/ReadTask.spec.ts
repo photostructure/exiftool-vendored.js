@@ -274,6 +274,7 @@ describe("ReadTask", () => {
         GPSLatitudeRef: "N",
         GPSLongitude: -122.398797,
         GPSLongitudeRef: "W",
+        zone: "America/Los_Angeles",
         tz: "America/Los_Angeles",
         tzSource: "GeolocationTimeZone",
         errors: [],
@@ -663,6 +664,7 @@ describe("ReadTask", () => {
         DateTimeOriginal: "2016-12-13T09:05:27-08:00",
         GPSDateTime: "2016-12-13T17:05:25Z",
         SubSecDateTimeOriginal: "2016-12-13T09:05:27.120-08:00",
+        zone: "UTC-8",
         tz: "UTC-8",
         tzSource: "offset between SubSecDateTimeOriginal and GPSDateTime",
         errors: [],
@@ -729,6 +731,7 @@ describe("ReadTask", () => {
           DateTimeOriginal: "2020-08-03T15:00:19Z",
           TimeStamp: "2020-08-03T15:00:19.010Z",
 
+          zone: "UTC",
           tz: "UTC",
           tzSource: "TimeZone",
           TimeZone: "+00:00",
@@ -785,6 +788,7 @@ describe("ReadTask", () => {
           }),
         );
         expect(t).to.eql({
+          zone: "UTC",
           tz: "UTC",
           tzSource: "defaultVideosToUTC",
           MIMEType: "video/quicktime",
@@ -827,6 +831,7 @@ describe("ReadTask", () => {
           }),
         );
         expect(t).to.eql({
+          zone: "UTC+1",
           tz: "UTC+1",
           tzSource: "CreationDate",
           MIMEType: "video/quicktime",
@@ -871,6 +876,7 @@ describe("ReadTask", () => {
         );
         expect(t).to.eql({
           MIMEType: "video/quicktime",
+          zone: "Europe/London",
           tz: "Europe/London",
           tzSource: "GPSLatitude/GPSLongitude",
           FileModifyDate: "2023-07-19T15:38:32-07:00",
@@ -905,6 +911,7 @@ describe("ReadTask", () => {
           // ALL DATES ARE IN ZULU!
           MIMEType: "video/mp4",
           CreateDate: "2014-07-17T08:46:27Z",
+          zone: "UTC",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
           errors: [],
@@ -922,6 +929,7 @@ describe("ReadTask", () => {
           // ALL DATES ARE IN ZULU!
           MIMEType: "video/mp4",
           CreateDate: "2014-07-17T08:46:27-05:00",
+          zone: "UTC",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
           errors: [],
@@ -947,6 +955,7 @@ describe("ReadTask", () => {
 
           TimeZone: "+01:00",
           TimeZoneCity: "Rome",
+          zone: "UTC+1",
           tz: "UTC+1",
           tzSource: "TimeZone",
           errors: [],
@@ -977,6 +986,7 @@ describe("ReadTask", () => {
 
           TimeZone: "+01:00",
           TimeZoneCity: "Rome",
+          zone: "UTC+1",
           tz: "UTC+1",
           tzSource: "TimeZone",
 
@@ -1002,6 +1012,7 @@ describe("ReadTask", () => {
           DateTimeOriginal: "2020-08-03T15:00:19Z",
           TimeStamp: "2020-08-03T15:00:19.010Z",
 
+          zone: "UTC",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
 
@@ -1073,6 +1084,7 @@ describe("ReadTask", () => {
           OffsetTimeOriginal: "-05:00",
           SubSecTimeDigitized: 700,
           SubSecTimeOriginal: 700,
+          zone: "UTC-5",
           tz: "UTC-5",
           tzSource: "OffsetTimeOriginal",
           errors: [],
@@ -1096,6 +1108,7 @@ describe("ReadTask", () => {
           GPSLatitudeRef: "N",
           GPSLongitudeRef: "W",
 
+          zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1123,6 +1136,7 @@ describe("ReadTask", () => {
           GPSLatitudeRef: "N",
           GPSLongitudeRef: "W",
 
+          zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1147,7 +1161,7 @@ describe("ReadTask", () => {
           GPSLongitude: -84.73,
           GPSLatitudeRef: "N",
           GPSLongitudeRef: "W",
-
+          zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1169,6 +1183,7 @@ describe("ReadTask", () => {
           GPSLongitude: -84.73,
           GPSLatitudeRef: "N",
           GPSLongitudeRef: "W",
+          zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
           errors: [],
@@ -1206,6 +1221,7 @@ describe("ReadTask", () => {
           OffsetTimeOriginal: "-05:00",
           SubSecTimeDigitized: 700,
           SubSecTimeOriginal: 700,
+          zone: "UTC-5",
           tz: "UTC-5",
           tzSource: "OffsetTimeOriginal",
           errors: [],

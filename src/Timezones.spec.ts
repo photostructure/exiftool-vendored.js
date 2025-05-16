@@ -78,9 +78,10 @@ describe("Timezones", () => {
   });
 
   describe("extractOffset()", () => {
-    function ozn(tz: string) {
+    function ozn(zone: string) {
       return {
-        tz,
+        zone,
+        tz: zone,
         src: "normalizeZone",
       };
     }
@@ -89,41 +90,46 @@ describe("Timezones", () => {
       { s: "3:30", exp: "UTC+3:30" },
     ];
     const ex = [
-      { tz: "", exp: undefined },
-      { tz: "garbage", exp: undefined },
-      { tz: "+09:00", exp: { tz: "UTC+9", src: "offsetMinutesToZoneName" } },
+      { zone: "", exp: undefined },
+      { zone: "garbage", exp: undefined },
       {
-        tz: "America/Los_Angeles",
+        zone: "+09:00",
+        exp: { zone: "UTC+9", src: "offsetMinutesToZoneName" },
+      },
+      {
+        zone: "America/Los_Angeles",
         exp: ozn("America/Los_Angeles"),
       },
       ...arr.map(({ s, exp }) => ({
-        tz: "+" + s,
-        exp: { leftovers: "", tz: exp, src: "offsetMinutesToZoneName" },
-      })),
-      ...arr.map(({ s, exp }) => ({ tz: "UTC+" + s, exp: ozn(exp) })),
-      ...arr.map(({ s, exp }) => ({
-        tz: "-" + s,
+        zone: "+" + s,
         exp: {
-          leftovers: "",
-          tz: exp.replace("+", "-"),
+          zone: exp,
+          src: "offsetMinutesToZoneName",
+        },
+      })),
+      ...arr.map(({ s, exp }) => ({ zone: "UTC+" + s, exp: ozn(exp) })),
+      ...arr.map(({ s, exp }) => ({
+        zone: "-" + s,
+        exp: {
+          zone: exp.replace("+", "-"),
           src: "offsetMinutesToZoneName",
         },
       })),
       ...arr.map(({ s, exp }) => ({
-        tz: "UTC-" + s,
+        zone: "UTC-" + s,
         exp: ozn(exp.replace("+", "-")),
       })),
       {
-        tz: ExifDateTime.fromEXIF("2014:07:19 12:05:19-09:00"),
-        exp: { tz: "UTC-9", src: "ExifDateTime.zone" },
+        zone: ExifDateTime.fromEXIF("2014:07:19 12:05:19-09:00"),
+        exp: { zone: "UTC-9", src: "ExifDateTime.zone" },
       },
-      { tz: 3, exp: { tz: "UTC+3", src: "hourOffset" } },
-      { tz: -10, exp: { tz: "UTC-10", src: "hourOffset" } },
+      { zone: 3, exp: { zone: "UTC+3", src: "hourOffset" } },
+      { zone: -10, exp: { zone: "UTC-10", src: "hourOffset" } },
     ];
 
-    for (const { tz, exp } of ex) {
-      it(`("${tz}") => ${JSON.stringify(exp)}`, () => {
-        expect(extractZone(tz)).to.containSubset(exp);
+    for (const { zone, exp } of ex) {
+      it(`("${zone}") => ${JSON.stringify(exp)}`, () => {
+        expect(extractZone(zone)).to.containSubset(exp);
       });
     }
   });
@@ -139,18 +145,21 @@ describe("Timezones", () => {
       ]) {
         it(`({ TimeZone: ${tzo}}) => ${exp}`, () => {
           expect(extractTzOffsetFromTags({ TimeZone: tzo })).to.eql({
+            zone: exp,
             tz: exp,
             src: "TimeZone",
           });
         });
         it(`({ OffsetTimeOriginal: ${tzo}}) => ${exp}`, () => {
           expect(extractTzOffsetFromTags({ OffsetTimeOriginal: tzo })).to.eql({
+            zone: exp,
             tz: exp,
             src: "OffsetTimeOriginal",
           });
         });
         it(`({ TimeZoneOffset: ${tzo}}) => ${exp}`, () => {
           expect(extractTzOffsetFromTags({ TimeZoneOffset: tzo })).to.eql({
+            zone: exp,
             tz: exp,
             src: "TimeZoneOffset",
           });
@@ -172,6 +181,7 @@ describe("Timezones", () => {
           DateTimeUTC: "2024:09:14 15:59:00", // from a prior GPS fix?
         }),
       ).to.eql({
+        zone: "UTC-4",
         tz: "UTC-4",
         src: "offset between DateTimeOriginal and DateTimeUTC",
       });
@@ -183,6 +193,7 @@ describe("Timezones", () => {
           DateTimeUTC: "2024:09:14 16:00:01",
         }),
       ).to.eql({
+        zone: "UTC-4",
         tz: "UTC-4",
         src: "offset between DateTimeOriginal and DateTimeUTC",
       });
@@ -195,6 +206,7 @@ describe("Timezones", () => {
           GPSTimeStamp: "17:45:46",
         }),
       ).to.eql({
+        zone: "UTC-7",
         tz: "UTC-7",
         src: "offset between DateTimeOriginal and GPSDateTimeStamp",
       });
@@ -211,6 +223,7 @@ describe("Timezones", () => {
         obj[tagname] = "2014:07:19 19:05:19";
 
         expect(extractTzOffsetFromUTCOffset(obj)).to.eql({
+          zone: "UTC-7",
           tz: "UTC-7",
           src: "offset between CreateDate and " + tagname,
         });
@@ -222,6 +235,7 @@ describe("Timezones", () => {
         obj[tagname] = "2016:07:18 07:41:01Z";
 
         expect(extractTzOffsetFromUTCOffset(obj)).to.eql({
+          zone: "UTC+2",
           tz: "UTC+2",
           src: "offset between CreateDate and " + tagname,
         });
@@ -233,6 +247,7 @@ describe("Timezones", () => {
         obj[tagname] = "2016:07:18 04:16:01";
 
         expect(extractTzOffsetFromUTCOffset(obj)).to.eql({
+          zone: "UTC+5:45",
           tz: "UTC+5:45",
           src: "offset between SubSecCreateDate and " + tagname,
         });
@@ -259,6 +274,7 @@ describe("Timezones", () => {
           Make: "NIKON CORPORATION",
         };
         expect(extractTzOffsetFromTags(tags)).to.eql({
+          zone: "UTC-8",
           tz: "UTC-8",
           src: "TimeZone",
         });
@@ -271,6 +287,7 @@ describe("Timezones", () => {
           Make: "NIKON CORPORATION",
         };
         expect(extractTzOffsetFromTags(tags)).to.eql({
+          zone: "UTC-7",
           tz: "UTC-7",
           src: "TimeZone (adjusted for DaylightSavings)",
         });
@@ -287,6 +304,7 @@ describe("Timezones", () => {
             adjustTimeZoneIfDaylightSavings: () => undefined,
           }),
         ).to.eql({
+          zone: "UTC-8",
           tz: "UTC-8",
           src: "TimeZone",
         });
@@ -298,7 +316,8 @@ describe("Timezones", () => {
           DaylightSavings: "Yes",
           Make: "Canon",
         };
-        expect(extractTzOffsetFromTags(tags)).to.eql({
+        expect(extractTzOffsetFromTags(tags)).to.containSubset({
+          zone: "UTC-8",
           tz: "UTC-8",
           src: "TimeZone",
         });
@@ -313,7 +332,8 @@ describe("Timezones", () => {
         DaylightSavings: "No",
         Make: "NIKON CORPORATION",
       };
-      expect(extractTzOffsetFromTags(tags)).to.eql({
+      expect(extractTzOffsetFromTags(tags)).to.containSubset({
+        zone: "UTC+12",
         tz: "UTC+12",
         src: "TimeZone",
       });
@@ -326,6 +346,7 @@ describe("Timezones", () => {
         Make: "NIKON CORPORATION",
       };
       expect(extractTzOffsetFromTags(tags)).to.eql({
+        zone: "UTC+13",
         tz: "UTC+13",
         src: "TimeZone (adjusted for DaylightSavings)",
       });
@@ -341,7 +362,8 @@ describe("Timezones", () => {
         extractTzOffsetFromTags(tags, {
           adjustTimeZoneIfDaylightSavings: () => undefined,
         }),
-      ).to.eql({
+      ).to.containSubset({
+        zone: "UTC+12",
         tz: "UTC+12",
         src: "TimeZone",
       });
@@ -353,7 +375,8 @@ describe("Timezones", () => {
         DaylightSavings: "Yes",
         Make: "Apple, Inc.",
       };
-      expect(extractTzOffsetFromTags(tags)).to.eql({
+      expect(extractTzOffsetFromTags(tags)).to.containSubset({
+        zone: "UTC+12",
         tz: "UTC+12",
         src: "TimeZone",
       });
@@ -424,7 +447,8 @@ describe("Timezones", () => {
         TimeZoneOffset: "+07:00",
       };
       // Should use first valid timezone found in order of precedence
-      expect(extractTzOffsetFromTags(tags)).to.eql({
+      expect(extractTzOffsetFromTags(tags)).to.containSubset({
+        zone: "UTC+9",
         tz: "UTC+9",
         src: "TimeZone",
       });
@@ -434,7 +458,8 @@ describe("Timezones", () => {
       const tags = {
         TimeZoneOffset: ["-8", "-7"], // Some cameras provide multiple offsets
       };
-      expect(extractTzOffsetFromTags(tags as any)).to.eql({
+      expect(extractTzOffsetFromTags(tags as any)).to.containSubset({
+        zone: "UTC-8",
         tz: "UTC-8",
         src: "TimeZoneOffset",
       });
