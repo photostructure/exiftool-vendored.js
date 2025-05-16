@@ -405,7 +405,7 @@ export function extractZone(
         zone: "UTC",
         tz: "UTC",
         src: "Z",
-        leftovers,
+        ...(blank(leftovers) ? {} : { leftovers }),
       };
     const offsetMinutes =
       (capturedGroups.sign === "-" ? -1 : 1) *
@@ -413,7 +413,12 @@ export function extractZone(
         parseInt(capturedGroups.minutes ?? "0"));
     const zone = offsetMinutesToZoneName(offsetMinutes);
     if (zone != null) {
-      return { zone, tz: zone, src: "offsetMinutesToZoneName", leftovers };
+      return {
+        zone,
+        tz: zone,
+        src: "offsetMinutesToZoneName",
+        ...(blank(leftovers) ? {} : { leftovers }),
+      };
     }
   }
   return;
@@ -562,7 +567,7 @@ export function inferLikelyOffsetMinutes(deltaMinutes: number): Maybe<number> {
 /**
  * Convert blank strings to undefined.
  */
-function blankToNull<T>(x: Maybe<T>): Maybe<T> {
+function toNotBlank<T>(x: Maybe<T>): Maybe<T> {
   return x == null || (typeof x === "string" && blank(x)) ? undefined : x;
 }
 
@@ -580,8 +585,8 @@ export function extractTzOffsetFromUTCOffset(
   const utcSources = {
     ...pick(t, "GPSDateTime", "DateTimeUTC", "SonyDateTime2"),
     GPSDateTimeStamp: map2(
-      blankToNull(t.GPSDateStamp), // Example: "2022:04:13"
-      blankToNull(t.GPSTimeStamp), // Example: "23:59:41.001"
+      toNotBlank(t.GPSDateStamp), // Example: "2022:04:13"
+      toNotBlank(t.GPSTimeStamp), // Example: "23:59:41.001"
       (a, b) => a + " " + b,
     ),
   };
