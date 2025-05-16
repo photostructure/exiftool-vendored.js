@@ -1,13 +1,14 @@
 export type Maybe<T> = T | undefined;
-export type MaybeNull<T> = Maybe<T> | null;
+export type Nullable<T> = T | undefined | null;
+export type MaybeNull<T> = Nullable<T>; // for backwards compatibility
 
-export function map<T, U>(maybeT: MaybeNull<T>, f: (t: T) => U): Maybe<U> {
+export function map<T, U>(maybeT: Nullable<T>, f: (t: T) => U): Maybe<U> {
   return maybeT == null ? undefined : f(maybeT);
 }
 
 export function map2<A, B, U>(
-  a: MaybeNull<A>,
-  b: MaybeNull<B>,
+  a: Nullable<A>,
+  b: Nullable<B>,
   f: (a: A, b: B) => U,
 ): Maybe<U> {
   return a == null || b == null ? undefined : f(a, b);
