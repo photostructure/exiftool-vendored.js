@@ -200,6 +200,7 @@ export class ReadTask extends ExifToolTask<Tags> {
 
     const tzSrc = this.#extractTzOffset();
     if (tzSrc) {
+      tags.zone = tzSrc.zone;
       tags.tz = tzSrc.tz;
       tags.tzSource = tzSrc.src;
     }
@@ -255,10 +256,11 @@ export class ReadTask extends ExifToolTask<Tags> {
     if (gps == null || gps.invalid === true || lat == null || lon == null)
       return;
     // First try GeolocationTimeZone:
-    const tz = normalizeZone(this.#rawDegrouped.GeolocationTimeZone);
-    if (tz != null) {
+    const geolocZone = normalizeZone(this.#rawDegrouped.GeolocationTimeZone);
+    if (geolocZone != null) {
       return {
-        tz: tz.name,
+        zone: geolocZone.name,
+        tz: geolocZone.name,
         src: "GeolocationTimeZone",
       };
     }
@@ -268,6 +270,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       const zone = normalizeZone(geoTz);
       if (zone != null) {
         return {
+          zone: zone.name,
           tz: zone.name,
           src: "GPSLatitude/GPSLongitude",
         };
@@ -299,6 +302,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       // timezone offset in their datetime stamps.
       (this.#defaultToUTC()
         ? {
+            zone: "UTC",
             tz: "UTC",
             src: "defaultVideosToUTC",
           }

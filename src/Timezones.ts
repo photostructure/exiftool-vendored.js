@@ -15,6 +15,13 @@ import { pick } from "./Pick";
 import { blank, isString, pad2 } from "./String";
 import { Tags } from "./Tags";
 
+// When should we use "tz" vs "zone"?
+// 1. "tz" refers to the entire database/system - the "tz database" (also called
+//    tzdata or zoneinfo)
+// 2. "zone" refers to a specific time zone entry within that database
+
+// So... we really should be using "zone" everywhere, not "tz".
+
 // Unique values from
 // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones, excluding those
 // that have not been used for at least 50 years.
@@ -135,14 +142,23 @@ export function isUTC(zone: unknown): boolean {
   return false;
 }
 
+export function isZoneUnset(zone: Zone): boolean {
+  return zone.isUniversal && zone.offset(0) === UnsetZoneOffsetMinutes;
+}
+
 export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
   return (
-    zone != null && zone.isValid && Math.abs(zone.offset(Date.now())) < 14 * 60
+    zone != null &&
+    zone.isValid &&
+    !isZoneUnset(zone) &&
+    Math.abs(zone.offset(Date.now())) < 14 * 60
   );
 }
 
 export function isZone(zone: unknown): zone is Zone {
-  return isObject(zone) && zone instanceof Zone;
+  return (
+    isObject(zone) && (zone instanceof Zone || zone.constructor.name === "Zone")
+  );
 }
 
 /**
@@ -271,6 +287,16 @@ const tzRe =
   /(?<Z>Z)|((UTC)?(?<sign>[+-])(?<hours>\d\d?)(?::(?<minutes>\d\d))?)$/;
 
 export interface TzSrc {
+  /**
+   * The timezone name, e.g. "America/New_York", "UTC+2", or "Z"
+   * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+   */
+  zone: string;
+  /**
+   * The timezone name, e.g. "America/New_York", "UTC+2", or "Z"
+   * @deprecated use `zone` instead
+   * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+   */
   tz: string;
   /**
    * If given a string, this is the remaining string left after extracting the
@@ -284,8 +310,9 @@ function extractOffsetFromHours(
   hourOffset: Maybe<number | number[]>,
 ): Maybe<TzSrc> {
   return isNumber(hourOffset)
-    ? map(tzHourToOffset(hourOffset), (tz) => ({
-        tz,
+    ? map(tzHourToOffset(hourOffset), (zone) => ({
+        zone,
+        tz: zone,
         src: "hourOffset",
       }))
     : Array.isArray(hourOffset)
@@ -322,7 +349,11 @@ export function extractZone(
   if (value instanceof ExifDateTime || value instanceof ExifTime) {
     return value.zone == null
       ? undefined
-      : { tz: value.zone, src: value.constructor.name + ".zone" };
+      : {
+          zone: value.zone,
+          tz: value.zone,
+          src: value.constructor.name + ".zone",
+        };
   }
 
   if (isNumber(value)) {
@@ -339,7 +370,7 @@ export function extractZone(
     // If value is a proper timezone name, this may be easy!
     const z = normalizeZone(value);
     if (z != null) {
-      return { tz: z.name, src: "normalizeZone" };
+      return { zone: z.name, tz: z.name, src: "normalizeZone" };
     }
   }
 
@@ -360,7 +391,7 @@ export function extractZone(
     if (blank(str)) return;
     const z = normalizeZone(str);
     if (z != null) {
-      return { tz: z.name, src: "normalizeZone" };
+      return { zone: z.name, tz: z.name, src: "normalizeZone" };
     }
   }
 
@@ -371,6 +402,7 @@ export function extractZone(
     const leftovers = str.slice(0, match.index);
     if (capturedGroups.Z === "Z")
       return {
+        zone: "UTC",
         tz: "UTC",
         src: "Z",
         leftovers,
@@ -379,9 +411,9 @@ export function extractZone(
       (capturedGroups.sign === "-" ? -1 : 1) *
       (parseInt(capturedGroups.hours ?? "0") * 60 +
         parseInt(capturedGroups.minutes ?? "0"));
-    const tz = offsetMinutesToZoneName(offsetMinutes);
-    if (tz != null) {
-      return { tz, src: "offsetMinutesToZoneName", leftovers };
+    const zone = offsetMinutesToZoneName(offsetMinutes);
+    if (zone != null) {
+      return { zone, tz: zone, src: "offsetMinutesToZoneName", leftovers };
     }
   }
   return;
@@ -440,13 +472,14 @@ export function extractTzOffsetFromTags(
       const adjustedZone = incrementZone(offset.tz, minutes);
       if (adjustedZone != null)
         return {
+          zone: adjustedZone.name,
           tz: adjustedZone.name,
           src: tagName + " (adjusted for DaylightSavings)",
         };
     }
 
     // No fancy adjustments needed, just return the extracted zone:
-    return { tz: offset.tz, src: tagName };
+    return { ...offset, src: tagName };
   }
   return;
 }
@@ -468,7 +501,7 @@ export function extractTzOffsetFromDatestamps(
         // spurious "+00:00" timezone offset to random datestamp tags, so
         // ignore UTC offsets here.
         if (offset != null && !isUTC(offset.tz)) {
-          return { tz: offset.tz, src: tagName };
+          return { ...offset, src: tagName };
         }
       }
     }
@@ -494,15 +527,19 @@ export function extractTzOffsetFromTimeStamp(
     const ea = ExifDateTime.from(v);
     if (ea == null) continue;
     if (ea.zone != null) {
-      return { tz: ea.zone, src: tagName };
+      return { zone: ea.zone, tz: ea.zone, src: tagName };
     }
     const deltaMinutes = Math.floor(
       (ea.toEpochSeconds("UTC") - ts.toEpochSeconds()) / 60,
     );
     const likelyOffsetZone = inferLikelyOffsetMinutes(deltaMinutes);
-    const tz = offsetMinutesToZoneName(likelyOffsetZone);
-    if (tz != null) {
-      return { tz, src: "offset between " + tagName + " and TimeStamp" };
+    const zone = offsetMinutesToZoneName(likelyOffsetZone);
+    if (zone != null) {
+      return {
+        zone,
+        tz: zone,
+        src: "offset between " + tagName + " and TimeStamp",
+      };
     }
   }
   return;
@@ -594,8 +631,9 @@ export function extractTzOffsetFromUTCOffset(
   if (dt == null) return;
   const diffSeconds = dt.s - utc.s;
   const offsetMinutes = inferLikelyOffsetMinutes(diffSeconds / 60);
-  return map(offsetMinutesToZoneName(offsetMinutes), (tz) => ({
-    tz,
+  return map(offsetMinutesToZoneName(offsetMinutes), (zone) => ({
+    zone,
+    tz: zone,
     src: `offset between ${dt.tagName} and ${utc.tagName}`,
   }));
 }
