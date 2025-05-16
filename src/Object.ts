@@ -1,4 +1,4 @@
-import { Maybe } from "./Maybe";
+import { Nullable } from "./Maybe";
 
 export function isObject(obj: unknown): obj is object {
   return typeof obj === "object" && obj !== null;
@@ -18,23 +18,25 @@ export function isFunction(
   return typeof obj === "function";
 }
 
-export function fromEntries(
-  arr: Maybe<[Maybe<string>, unknown]>[],
-  obj?: Record<string, unknown>,
-): Record<string, unknown> {
-  if (arr == null || arr.length === 0) return obj ?? {};
+/**
+ * Turns an array of `[key, value]` pairs into an object.
+ *
+ *  • Pairs whose key is `null | undefined` **or** value is `undefined` are skipped.
+ *  • If `base` is provided it is mutated and returned (handy for “extend” use‑cases).
+ */
+export function fromEntries<K extends PropertyKey, V = unknown>(
+  pairs: Nullable<Nullable<[Nullable<K>, V]>[]>,
+  base: Record<K, V> = {} as Record<K, V>,
+): Record<K, V> {
   // don't use Object.create(null), json stringify will break!
-  for (const ea of arr.filter((ea) => ea != null)) {
-    if (ea != null && Array.isArray(ea)) {
-      const [k, v] = ea;
-      // allow NULL fields:
-      if (k != null && v !== undefined) {
-        if (!isObject(obj)) obj = {};
-        obj[k] = v;
-      }
+  if (pairs == null || pairs.length === 0) return base ?? {};
+
+  for (const pair of pairs) {
+    if (pair != null && pair[0] != null && pair[1] !== undefined) {
+      base[pair[0] as K] = pair[1] as V;
     }
   }
-  return obj ?? {};
+  return base;
 }
 
 export type Unpick<T, U> = { [P in keyof T]: P extends U ? never : T[P] };
