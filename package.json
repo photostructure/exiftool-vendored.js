@@ -17,6 +17,7 @@
     "compile:watch": "npm run precompile && tsc --watch",
     "premktags": "npm run compile",
     "mktags": "node dist/update/mktags.js",
+    "postmktags": "npm run fmt",
     "prelint": "npm run compile",
     "prepare": "npm run compile",
     "#lint": "the node.js GitHub Action will run `lint` on one node before running `test` with the matrix",
@@ -109,6 +110,7 @@
     "serve": "^14.2.4",
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.3",
+    "ts-node": "^10.9.2",
     "typedoc": "^0.28.4",
     "typescript": "^5.8.3",
     "xpath": "^0.0.34"
