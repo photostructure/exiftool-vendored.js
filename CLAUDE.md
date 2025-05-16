@@ -121,3 +121,11 @@ Tests use Mocha with Chai assertions:
 - Tag interfaces are not comprehensive - less common tags may exist in returned objects
 - The library uses batch processing for performance, managing process pools automatically
 - TypeScript's union type limits require careful tag selection to avoid compilation errors
+
+## Important TypeScript Hygiene
+
+- You MUST use `if (x != null)` to test for `null` or `undefined` values.
+  DO NOT use `if (x)`: this is problematic (especially when handling boolean values).
+
+- You MUST use `??` for nullish coalescing.
+  DO NOT use `||`: this is problematic (especially when handling boolean values).
