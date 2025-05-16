@@ -6,6 +6,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
+import ProgressBar from "progress";
 import { compact, filterInPlace, uniq } from "../Array";
 import { ExifTool } from "../ExifTool";
 import { ExifToolVendoredTagNames } from "../ExifToolVendoredTags";
@@ -14,7 +15,6 @@ import { isNumber } from "../Number";
 import { nullish } from "../ReadTask";
 import { blank, isString, leftPad } from "../String";
 import { times } from "../Times";
-import ProgressBar = require("progress");
 
 // ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
 // ☠☠                            AHOY                              ☠☠
@@ -35,7 +35,7 @@ import ProgressBar = require("progress");
 //
 
 // Avoid error TS2590: Expression produces a union type that is too complex to represent
-const MAX_TAGS = 2500; // TypeScript 4.2 crashes with 3100+
+const MAX_TAGS = 2250; // TypeScript 4.2 crashes with 3100+. Remember to count the 8-odd static intefaces we're also including.
 
 // These tags are common enough that we want to ensure they're always in the
 // final Tags interface:
@@ -211,7 +211,7 @@ const ExcludedTagRe = new RegExp(
     "DayltConv",
     "DefConv",
     "DefCor",
-    ...[...ExifToolVendoredTagNames].map((ea) => "^" + ea + "$"),
+    ...[...ExifToolVendoredTagNames.values].map((ea) => "^" + ea + "$"),
     "Face\\d",
     "FCS\\d",
     "HJR",
