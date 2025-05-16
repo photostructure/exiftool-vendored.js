@@ -1,3 +1,4 @@
+import { uniq } from "./Array";
 import { Maybe, Nullable } from "./Maybe";
 import { fromEntries } from "./Object";
 
@@ -43,7 +44,7 @@ function lessThan(a: Maybe<number>, b: Maybe<number>) {
 }
 
 export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
-  const values = Object.freeze(o) as T[];
+  const values = Object.freeze(uniq(o)) as T[];
   // toLowerCase() is safe because we know all strEnum values are latin ASCII:
   const lcToValue = new Map<string, T>(
     values.map((ea) => [ea.toLowerCase(), ea]),
