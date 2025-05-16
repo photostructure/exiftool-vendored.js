@@ -53,7 +53,7 @@ export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
     values.map((ea, idx) => [ea as string, idx]),
   );
 
-  const dict: StrEnumType<T> = {} as any;
+  const dict: StrEnumType<T> = {} as StrEnumType<T>;
   for (const ea of values) {
     dict[ea] = ea;
   }
@@ -69,9 +69,11 @@ export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
 
   const includes = (s: Nullable<string>): s is T => indexOf(s) != null;
 
-  const pick = (...t: T[]) => values.filter((ea) => t.includes(ea)) as any;
+  const pick = <O extends T>(...t: O[]): Extract<T, O>[] => 
+    values.filter((ea): ea is Extract<T, O> => t.includes(ea as O));
 
-  const omit = (...t: T[]) => values.filter((ea) => !t.includes(ea)) as any;
+  const omit = <O extends T>(...t: O[]): Exclude<T, O>[] => 
+    values.filter((ea): ea is Exclude<T, O> => !t.includes(ea as O));
 
   const toValid = (s: Nullable<string>): Maybe<T> =>
     s == null ? undefined : includes(s) ? s : getCI(s);
