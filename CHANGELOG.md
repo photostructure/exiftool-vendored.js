@@ -25,13 +25,17 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v29.4.0
+### v30.0.0
+
+- 💔 Dropped support for Node v18, whose End-of-Life was 2025-04-30.
 
 - 🌱 Upgraded ExifTool to version [13.29](https://exiftool.org/history.html#13.29).
 
-- ✨ Added new `TagNames` string enumeration with the most popular 2,500(ish) tag field names that is automatically updated by `mktags`.
+- ✨ Added new `TagNames` string enumeration with the most popular 2,500(ish) tag field names that is automatically updated by `mktags`. As a reminder: the `Tags` interface _is not comprehensive_. If we're missing any of your favorite fields, open an issue with an attached example media file and I look into promoting it to a "guaranteed" status (like we've done with several hundred fields already).
 
 - 📦 Renamed the `.tz` field in `Tags` to `.zone`. Note that for the next few releases, `.tz` will be kept, but marked as deprecated. After doing a bit of research, it turns out the correct term for identifiers like `America/Los_Angeles` within the IANA Time Zone Database is "zone." The "tz" term commonly refers to the entire Time Zone Database, or "tz database" (also called tzdata or zoneinfo).
+
+- ✨ Updating to new versions of ExifTool is now fully automated via GitHub Actions.
 
 ### v29.3.0
 
