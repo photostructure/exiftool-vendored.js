@@ -115,6 +115,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "progress": "^2.0.3",
+    "release-it": "^19.0.2",
     "rimraf": "^5.0.9",
     "serve": "^14.2.4",
     "source-map-support": "^0.5.21",
