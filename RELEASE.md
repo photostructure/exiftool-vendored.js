@@ -11,9 +11,9 @@
 
 4. On POSIX, in `../exiftool-vendored.pl`:
 
-   1. `git stash -u && git fetch && git checkout main && npm install && npm run update && npm run test`
-   1. Verify diffs are reasonable, and commit
-   1. `npx release-it --only-version`
+   1. Run the "check-updates" GitHub Action. If there is a pending update, a PR is generated.
+   1. Verify and merge the PR
+   1. Run the "release" GitHub Action.
 
 5. On Windows, in `...\exiftool-vendored.exe\`:
    (The terminal built into vscode plays with `ncu` and `release-it` a bit nicer than CMD or Windows for Git's terminal)
