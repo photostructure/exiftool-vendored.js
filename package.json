@@ -29,7 +29,8 @@
     "docs:3": "cp .serve.json docs/serve.json",
     "docs:4": "touch docs/.nojekyll",
     "docs:5": "serve docs",
-    "docs": "run-s docs:*"
+    "docs": "run-s docs:*",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
@@ -44,8 +45,16 @@
       "commitArgs": "-S",
       "tagArgs": "-S"
     },
+    "git": {
+      "requireBranch": "main",
+      "commitMessage": "Release ${version}",
+      "tagName": "${version}"
+    },
     "github": {
       "release": true
+    },
+    "npm": {
+      "publish": true
     }
   },
   "keywords": [
