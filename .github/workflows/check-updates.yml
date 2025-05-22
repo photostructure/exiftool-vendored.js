@@ -46,7 +46,7 @@ jobs:
               echo ""
               echo '```diff'
               # Show the diff in a readable format
-              diff -u package.json.backup package.json | grep "^[-+]" | grep -E "(exiftool-vendored|dependencies)"
+              diff -u package.json.backup package.json | grep "^[-+]" | grep -v "^[-+][-+][-+]"
               echo '```'
               echo 'EOF'
             } >> $GITHUB_OUTPUT
