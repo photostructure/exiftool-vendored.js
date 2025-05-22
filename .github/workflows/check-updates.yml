@@ -1,4 +1,4 @@
-name: Check for ExifTool Updates
+name: Update Dependencies
 
 on:
   schedule:
