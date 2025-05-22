@@ -25,6 +25,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v30.1.0
+
+- 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).
+
+
 ### v30.0.0
 
 - 💔 Dropped support for Node v18, whose End-of-Life was 2025-04-30.
