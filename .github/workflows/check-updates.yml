@@ -44,8 +44,10 @@ jobs:
               echo 'update_summary<<EOF'
               echo "Updated dependencies to their latest versions:"
               echo ""
+              echo '```diff'
               # Show the diff in a readable format
-              diff -u package.json.backup package.json | grep "^[-+]" | grep -E "(exiftool-vendored|dependencies)" | sed 's/^-/  - /' | sed 's/^+/  + /'
+              diff -u package.json.backup package.json | grep "^[-+]" | grep -E "(exiftool-vendored|dependencies)"
+              echo '```'
               echo 'EOF'
             } >> $GITHUB_OUTPUT
           else
