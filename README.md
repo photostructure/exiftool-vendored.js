@@ -11,7 +11,7 @@
 
 1. **Best-of-class cross-platform performance and reliability**.
 
-   This library enables [PhotoStructure](https://photostructure.com) and [500+](https://github.com/photostructure/exiftool-vendored.js/network/dependents?package_id=UGFja2FnZS0xNjYxNjY2MQ%3D%3D) other projects to read and write metadata in photos and videos.
+   This library enables [PhotoStructure](https://photostructure.com) and [over 1,000](https://github.com/photostructure/exiftool-vendored.js/network/dependents?package_id=UGFja2FnZS0xNjYxNjY2MQ%3D%3D) other projects to read and write metadata in photos and videos.
 
    Expect [an order of magnitude faster performance](#performance) than other Node.js ExifTool modules.
 
