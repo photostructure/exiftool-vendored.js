@@ -6,9 +6,21 @@ and POSIX
 [exiftool-vendored.pl](https://github.com/photostructure/exiftool-vendored.pl)
 vendored versions of ExifTool are updated and released automatically.
 
+## Automated Dependency Updates
+
+A GitHub Actions workflow automatically checks for dependency updates (including ExifTool packages) periodically and creates pull requests when updates are available. The workflow:
+
+- Updates all dependencies using `npm-check-updates`
+- Creates a pull request with signed commits
+- Includes a detailed diff of changes
+- Allows manual approval and merging
+- Can also be triggered manually via the Actions tab
+
+## Manual Release Process
+
 1. `git clone` this repo,
 1. `npm install`
-1. `npm run u` # although this should be a no-op, thanks to Dependabot
+1. `npm run u` # should be a no-op if automated updates are working
 1. `npm run mktags ../test-images` # < assumes `../test-images` has the full ExifTool sample image suite
 1. `npm run fmt && npm run lint && npm run docs`
 1. Verify docs were rebuilt successfully at <http://localhost:3000/index.html>
