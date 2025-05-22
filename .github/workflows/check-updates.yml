@@ -66,13 +66,20 @@ jobs:
         if: steps.update.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
-          # Use PAT instead of GITHUB_TOKEN to allow CI workflows to trigger on the created PR
+          # Use bot account PAT instead of GITHUB_TOKEN to allow CI workflows to trigger on the created PR
           # PRs created with GITHUB_TOKEN don't trigger other workflows (GitHub security feature)
-          # Requires a Personal Access Token stored as DEPENDENCY_UPDATE_PAT secret with:
-          # - Classic PAT: 'repo' scope (recommended - simpler and more reliable)
-          # - Fine-grained PAT: Contents (Write), Metadata (Read), Pull requests (Write), Actions (Write)
-          #   Note: Fine-grained PATs may have issues with PR creation, classic PAT preferred
+          # Additionally, using a bot account allows the repo owner to approve PRs (can't approve your own PRs)
+          # 
+          # Setup required:
+          # 1. Create a dedicated bot GitHub account (e.g., 'yourname-bot')
+          # 2. Add bot as repository collaborator with "Write" role (not just write access)
+          # 3. Create PAT on bot account with 'repo' scope (classic PAT recommended)
+          # 4. Store bot's PAT as DEPENDENCY_UPDATE_PAT repository secret
+          # 
+          # Note: Bot must have "Write" role, not just write access to specific files
           token: ${{ secrets.DEPENDENCY_UPDATE_PAT || secrets.GITHUB_TOKEN }}
+          # Force bot account as author (replace 'yourbot' with actual bot username)
+          author: PhotoStructure-Bot <PhotoStructure-Bot@users.noreply.github.com>
           sign-commits: true
           commit-message: "chore(deps): update dependencies"
           title: "Update dependencies"
