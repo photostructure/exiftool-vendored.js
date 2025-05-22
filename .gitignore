@@ -5,6 +5,7 @@
 coverage/
 dist/
 dl/
+docs/
 node_modules/
 snyk-linux
 yarn.lock

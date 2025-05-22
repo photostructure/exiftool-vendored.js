@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Generate documentation
-        run: npm run docs:1
+        run: npm run docs:build
 
       - name: Prepare docs for deployment
         run: |
