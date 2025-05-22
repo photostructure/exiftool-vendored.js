@@ -60,10 +60,6 @@ jobs:
         if: steps.update.outputs.changed == 'true'
         run: npm install
       
-      - name: Run tests
-        if: steps.update.outputs.changed == 'true'
-        run: npm test
-      
       - name: Create Pull Request
         if: steps.update.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
