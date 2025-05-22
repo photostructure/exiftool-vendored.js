@@ -80,7 +80,7 @@ jobs:
             After merging this PR, consider creating a new release to publish the updated dependencies.
             
             Please review the changes and merge if everything looks good.
-          branch: update-exiftool-deps
+          branch: update-dependencies-${{ github.run_id }}
           delete-branch: true
           labels: |
             dependencies
