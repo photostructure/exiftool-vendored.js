@@ -69,10 +69,10 @@ export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
 
   const includes = (s: Nullable<string>): s is T => indexOf(s) != null;
 
-  const pick = <O extends T>(...t: O[]): Extract<T, O>[] => 
+  const pick = <O extends T>(...t: O[]): Extract<T, O>[] =>
     values.filter((ea): ea is Extract<T, O> => t.includes(ea as O));
 
-  const omit = <O extends T>(...t: O[]): Exclude<T, O>[] => 
+  const omit = <O extends T>(...t: O[]): Exclude<T, O>[] =>
     values.filter((ea): ea is Exclude<T, O> => !t.includes(ea as O));
 
   const toValid = (s: Nullable<string>): Maybe<T> =>
