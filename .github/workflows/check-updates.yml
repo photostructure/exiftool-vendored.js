@@ -76,9 +76,6 @@ jobs:
             ## Changes
             ${{ steps.update.outputs.update_summary }}
             
-            ## Testing
-            - ✅ Tests passed successfully
-            
             ## Next Steps
             After merging this PR, consider creating a new release to publish the updated dependencies.
             
