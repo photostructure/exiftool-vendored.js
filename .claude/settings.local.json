@@ -4,7 +4,8 @@
       "Bash(npm run compile:*)",
       "Bash(grep:*)",
       "WebFetch(domain:github.com)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebFetch(domain:docs.github.com)"
     ],
     "deny": []
   }
