@@ -29,10 +29,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).
 
-- 🐞 Fixed `ExifToolVersion` to be a `string`. Prior versions used `exiftool`'s
-  JSON representation, which rendered a numeric float. This caused versions like "12.3"
-  and "12.30" to appear identical. We now preserve the exact version string to
-  enable proper version comparisons.
+- 🐞 Fixed `ExifToolVersion` to be a `string`. Prior versions used `exiftool`'s JSON representation, which rendered a numeric float. This caused versions like "12.3" and "12.30" to appear identical. We now preserve the exact version string to enable proper version comparisons.
 
 ### v30.0.0
 
