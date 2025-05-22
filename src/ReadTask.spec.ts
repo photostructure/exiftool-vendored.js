@@ -1740,28 +1740,37 @@ describe("ReadTask", () => {
   });
 
   describe("ExifToolVersion parsing", () => {
+    // We can't use our parse() function here, because we need specific control
+    // of the JSON formatting (ExifTool outputs significant trailing zeros in
+    // the version string!)
     it("preserves version string with single decimal place", () => {
-      const t = parse({
-        tags: { ExifToolVersion: 12.3 },
-      });
-      expect(t.ExifToolVersion).to.be.a("string");
-      expect(t.ExifToolVersion).to.eql("12.3");
+      const src = tmpname();
+      const tt = ReadTask.for(src, {});
+      const json = `[{"SourceFile":"${src}","ExifToolVersion":12.3}]`;
+      const result = tt.parse(json);
+
+      expect(result.ExifToolVersion).to.be.a("string");
+      expect(result.ExifToolVersion).to.eql("12.3");
     });
 
     it("preserves version string with two decimal places", () => {
-      const t = parse({
-        tags: { ExifToolVersion: 12.3 },
-      });
-      expect(t.ExifToolVersion).to.be.a("string");
-      expect(t.ExifToolVersion).to.eql("12.30");
+      const src = tmpname();
+      const tt = ReadTask.for(src, {});
+      const json = `[{"SourceFile":"${src}","ExifToolVersion":12.30}]`;
+      const result = tt.parse(json);
+
+      expect(result.ExifToolVersion).to.be.a("string");
+      expect(result.ExifToolVersion).to.eql("12.30");
     });
 
     it("handles version with no decimal places", () => {
-      const t = parse({
-        tags: { ExifToolVersion: 12 },
-      });
-      expect(t.ExifToolVersion).to.be.a("string");
-      expect(t.ExifToolVersion).to.eql("12");
+      const src = tmpname();
+      const tt = ReadTask.for(src, {});
+      const json = `[{"SourceFile":"${src}","ExifToolVersion":12}]`;
+      const result = tt.parse(json);
+
+      expect(result.ExifToolVersion).to.be.a("string");
+      expect(result.ExifToolVersion).to.eql("12");
     });
 
     it("matches version from exiftool.version() method", async () => {

@@ -5,7 +5,9 @@
       "Bash(grep:*)",
       "WebFetch(domain:github.com)",
       "Bash(mkdir:*)",
-      "WebFetch(domain:docs.github.com)"
+      "WebFetch(domain:docs.github.com)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run fmt:*)"
     ],
     "deny": []
   }
