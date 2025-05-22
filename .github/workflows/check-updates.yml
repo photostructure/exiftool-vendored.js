@@ -42,25 +42,33 @@ jobs:
           
           # Check if updates are available
           UPDATES_AVAILABLE=false
-          UPDATE_SUMMARY=""
           
           if [ "$CURRENT_PL_VERSION" != "$LATEST_PL_VERSION" ]; then
             echo "exiftool-vendored.pl update available: $CURRENT_PL_VERSION -> $LATEST_PL_VERSION"
             UPDATES_AVAILABLE=true
-            UPDATE_SUMMARY="${UPDATE_SUMMARY}- exiftool-vendored.pl: $CURRENT_PL_VERSION → $LATEST_PL_VERSION\n"
           fi
           
           if [ "$CURRENT_EXE_VERSION" != "$LATEST_EXE_VERSION" ]; then
             echo "exiftool-vendored.exe update available: $CURRENT_EXE_VERSION -> $LATEST_EXE_VERSION"
             UPDATES_AVAILABLE=true
-            UPDATE_SUMMARY="${UPDATE_SUMMARY}- exiftool-vendored.exe: $CURRENT_EXE_VERSION → $LATEST_EXE_VERSION\n"
           fi
           
           if [ "$UPDATES_AVAILABLE" = true ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "pl_version=$LATEST_PL_VERSION" >> $GITHUB_OUTPUT
             echo "exe_version=$LATEST_EXE_VERSION" >> $GITHUB_OUTPUT
-            echo -e "update_summary=$UPDATE_SUMMARY" >> $GITHUB_OUTPUT
+            
+            # Create multiline update summary using heredoc
+            {
+              echo 'update_summary<<EOF'
+              if [ "$CURRENT_PL_VERSION" != "$LATEST_PL_VERSION" ]; then
+                echo "- exiftool-vendored.pl: $CURRENT_PL_VERSION → $LATEST_PL_VERSION"
+              fi
+              if [ "$CURRENT_EXE_VERSION" != "$LATEST_EXE_VERSION" ]; then
+                echo "- exiftool-vendored.exe: $CURRENT_EXE_VERSION → $LATEST_EXE_VERSION"
+              fi
+              echo 'EOF'
+            } >> $GITHUB_OUTPUT
             
             # Update package.json with new versions
             npm pkg set optionalDependencies.exiftool-vendored.pl=$LATEST_PL_VERSION
