@@ -1,0 +1,110 @@
+name: Check for ExifTool Updates
+
+on:
+  schedule:
+    - cron: '0 6 * * MON' # Run every Monday at 6 AM UTC
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Check for ExifTool updates
+        id: update
+        run: |
+          # Get current versions from package.json
+          CURRENT_PL_VERSION=$(node -p "require('./package.json').optionalDependencies['exiftool-vendored.pl']")
+          CURRENT_EXE_VERSION=$(node -p "require('./package.json').optionalDependencies['exiftool-vendored.exe']")
+          
+          echo "Current exiftool-vendored.pl version: $CURRENT_PL_VERSION"
+          echo "Current exiftool-vendored.exe version: $CURRENT_EXE_VERSION"
+          
+          # Check latest versions from npm
+          LATEST_PL_VERSION=$(npm view exiftool-vendored.pl version)
+          LATEST_EXE_VERSION=$(npm view exiftool-vendored.exe version)
+          
+          echo "Latest exiftool-vendored.pl version: $LATEST_PL_VERSION"
+          echo "Latest exiftool-vendored.exe version: $LATEST_EXE_VERSION"
+          
+          # Check if updates are available
+          UPDATES_AVAILABLE=false
+          UPDATE_SUMMARY=""
+          
+          if [ "$CURRENT_PL_VERSION" != "$LATEST_PL_VERSION" ]; then
+            echo "exiftool-vendored.pl update available: $CURRENT_PL_VERSION -> $LATEST_PL_VERSION"
+            UPDATES_AVAILABLE=true
+            UPDATE_SUMMARY="${UPDATE_SUMMARY}- exiftool-vendored.pl: $CURRENT_PL_VERSION → $LATEST_PL_VERSION\n"
+          fi
+          
+          if [ "$CURRENT_EXE_VERSION" != "$LATEST_EXE_VERSION" ]; then
+            echo "exiftool-vendored.exe update available: $CURRENT_EXE_VERSION -> $LATEST_EXE_VERSION"
+            UPDATES_AVAILABLE=true
+            UPDATE_SUMMARY="${UPDATE_SUMMARY}- exiftool-vendored.exe: $CURRENT_EXE_VERSION → $LATEST_EXE_VERSION\n"
+          fi
+          
+          if [ "$UPDATES_AVAILABLE" = true ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "pl_version=$LATEST_PL_VERSION" >> $GITHUB_OUTPUT
+            echo "exe_version=$LATEST_EXE_VERSION" >> $GITHUB_OUTPUT
+            echo -e "update_summary=$UPDATE_SUMMARY" >> $GITHUB_OUTPUT
+            
+            # Update package.json with new versions
+            npm pkg set optionalDependencies.exiftool-vendored.pl=$LATEST_PL_VERSION
+            npm pkg set optionalDependencies.exiftool-vendored.exe=$LATEST_EXE_VERSION
+            
+            echo "Updated package.json with new versions"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No updates available"
+          fi
+      
+      - name: Install updated dependencies
+        if: steps.update.outputs.changed == 'true'
+        run: npm install
+      
+      - name: Run tests
+        if: steps.update.outputs.changed == 'true'
+        run: npm test
+      
+      - name: Create Pull Request
+        if: steps.update.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          sign-commits: true
+          commit-message: "chore(deps): update ExifTool dependencies"
+          title: "Update ExifTool dependencies"
+          body: |
+            Updates ExifTool optional dependencies to their latest versions.
+            
+            This is an automated update created by the check-updates workflow.
+            
+            ## Changes
+            ${{ steps.update.outputs.update_summary }}
+            
+            ## Testing
+            - ✅ Tests passed successfully
+            
+            ## Next Steps
+            After merging this PR, consider creating a new release to publish the updated dependencies.
+            
+            Please review the changes and merge if everything looks good.
+          branch: update-exiftool-deps
+          delete-branch: true
+          labels: |
+            dependencies
+            automated

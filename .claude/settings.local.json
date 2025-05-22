@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm run compile:*)",
       "Bash(grep:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }
