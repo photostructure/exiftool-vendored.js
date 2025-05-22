@@ -1746,7 +1746,7 @@ describe("ReadTask", () => {
     it("preserves version string with single decimal place", () => {
       const src = tmpname();
       const tt = ReadTask.for(src, {});
-      const json = `[{"SourceFile":"${src}","ExifToolVersion":12.3}]`;
+      const json = `[{"SourceFile":${JSON.stringify(src)},"ExifToolVersion":12.3}]`;
       const result = tt.parse(json);
 
       expect(result.ExifToolVersion).to.be.a("string");
@@ -1756,7 +1756,7 @@ describe("ReadTask", () => {
     it("preserves version string with two decimal places", () => {
       const src = tmpname();
       const tt = ReadTask.for(src, {});
-      const json = `[{"SourceFile":"${src}","ExifToolVersion":12.30}]`;
+      const json = `[{"SourceFile":${JSON.stringify(src)},"ExifToolVersion":12.30}]`;
       const result = tt.parse(json);
 
       expect(result.ExifToolVersion).to.be.a("string");
@@ -1766,7 +1766,7 @@ describe("ReadTask", () => {
     it("handles version with no decimal places", () => {
       const src = tmpname();
       const tt = ReadTask.for(src, {});
-      const json = `[{"SourceFile":"${src}","ExifToolVersion":12}]`;
+      const json = `[{"SourceFile":${JSON.stringify(src)},"ExifToolVersion":12}]`;
       const result = tt.parse(json);
 
       expect(result.ExifToolVersion).to.be.a("string");
@@ -1796,7 +1796,7 @@ describe("ReadTask", () => {
       ];
 
       testCases.forEach((jsonStr) => {
-        const fullJson = `[${jsonStr.replace("}", ',"SourceFile":"' + src + '"}')}]`;
+        const fullJson = `[${jsonStr.replace("}", ',"SourceFile":' + JSON.stringify(src) + '}')}]`;
         const result = tt.parse(fullJson);
         expect(result.ExifToolVersion).to.be.a("string");
         expect(result.ExifToolVersion).to.eql("12.3");
