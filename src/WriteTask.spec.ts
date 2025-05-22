@@ -13,7 +13,6 @@ import { parseCoordinates } from "./CoordinateParser";
 import { ExifDate } from "./ExifDate";
 import { ExifDateTime } from "./ExifDateTime";
 import { ExifTool, WriteTaskOptions } from "./ExifTool";
-import { isExifToolTag } from "./ExifToolTags";
 import {
   ExifToolVendoredTagNames,
   ExifToolVendoredTags,
@@ -26,7 +25,13 @@ import { ResourceEvent } from "./ResourceEvent";
 import { isSidecarExt } from "./Sidecars";
 import { stripSuffix } from "./String";
 import { Struct } from "./Struct";
-import { ExifToolTags, FileTags, FileTagsNames, Tags } from "./Tags";
+import {
+  ExifToolTags,
+  ExifToolTagsNames,
+  FileTags,
+  FileTagsNames,
+  Tags,
+} from "./Tags";
 import { Version } from "./Version";
 import { WriteTags } from "./WriteTags";
 
@@ -821,7 +826,7 @@ describe("WriteTask", function () {
     ): k is keyof (FileTags | ExifToolTags | ExifToolVendoredTags) {
       return (
         isFileTag(k) ||
-        isExifToolTag(k) ||
+        ExifToolTagsNames.includes(k) ||
         isExifToolVendoredTag(k) ||
         ["ImageSize", "Megapixels"].includes(k)
       );

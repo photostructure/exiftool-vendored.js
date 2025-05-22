@@ -1738,4 +1738,60 @@ describe("ReadTask", () => {
       });
     });
   });
+
+  describe("ExifToolVersion parsing", () => {
+    it("preserves version string with single decimal place", () => {
+      const t = parse({
+        tags: { ExifToolVersion: 12.3 },
+      });
+      expect(t.ExifToolVersion).to.be.a("string");
+      expect(t.ExifToolVersion).to.eql("12.3");
+    });
+
+    it("preserves version string with two decimal places", () => {
+      const t = parse({
+        tags: { ExifToolVersion: 12.3 },
+      });
+      expect(t.ExifToolVersion).to.be.a("string");
+      expect(t.ExifToolVersion).to.eql("12.30");
+    });
+
+    it("handles version with no decimal places", () => {
+      const t = parse({
+        tags: { ExifToolVersion: 12 },
+      });
+      expect(t.ExifToolVersion).to.be.a("string");
+      expect(t.ExifToolVersion).to.eql("12");
+    });
+
+    it("matches version from exiftool.version() method", async () => {
+      const tags = await exiftool.read(join(testDir, "img.jpg"));
+      const version = await exiftool.version();
+
+      // Both should be strings and match
+      expect(tags.ExifToolVersion).to.be.a("string");
+      expect(version).to.be.a("string");
+      expect(tags.ExifToolVersion).to.eql(version);
+    });
+
+    it("handles different JSON whitespace formatting", () => {
+      const src = tmpname();
+      const tt = ReadTask.for(src, {});
+
+      // Test different whitespace scenarios
+      const testCases = [
+        '{"ExifToolVersion":12.3}',
+        '{"ExifToolVersion": 12.3}',
+        '{"ExifToolVersion" : 12.3}',
+        '{"ExifToolVersion"    :    12.3}',
+      ];
+
+      testCases.forEach((jsonStr) => {
+        const fullJson = `[${jsonStr.replace("}", ',"SourceFile":"' + src + '"}')}]`;
+        const result = tt.parse(fullJson);
+        expect(result.ExifToolVersion).to.be.a("string");
+        expect(result.ExifToolVersion).to.eql("12.3");
+      });
+    });
+  });
 });

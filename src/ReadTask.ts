@@ -145,7 +145,12 @@ export class ReadTask extends ExifToolTask<Tags> {
   // only exposed for tests
   parse(data: string, err?: Error): Tags {
     try {
-      this.#raw = JSON.parse(data)[0];
+      // Fix ExifToolVersion to be a string to preserve version distinctions like 12.3 vs 12.30
+      const versionFixedData = data.replace(
+        /"ExifToolVersion"\s*:\s*(\d+(?:\.\d+)?)/,
+        '"ExifToolVersion":"$1"',
+      );
+      this.#raw = JSON.parse(versionFixedData)[0];
     } catch (jsonError) {
       // TODO: should restart exiftool?
       logger().warn("ExifTool.ReadTask(): Invalid JSON", {

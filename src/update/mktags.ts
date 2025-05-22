@@ -40,6 +40,7 @@ const MAX_TAGS = 2500; // TypeScript 4.2 crashes with 3100+. Remember to count t
 // These tags are common enough that we want to ensure they're always in the
 // final Tags interface:
 const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
+  ExifToolVersion: { t: "string", grp: "ExifTool" }, // < ExifTool stores the version as a float (!!) which causes 12.30 to become 12.3.
   Album: { t: "string", grp: "XMP", value: "Twilight Dreams" },
   Aperture: { t: "number", grp: "Composite" },
   ApertureValue: { t: "number", grp: "EXIF" },
