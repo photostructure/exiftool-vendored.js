@@ -21,8 +21,8 @@ export function isFunction(
 /**
  * Turns an array of `[key, value]` pairs into an object.
  *
- *  • Pairs whose key is `null | undefined` **or** value is `undefined` are skipped.
- *  • If `base` is provided it is mutated and returned (handy for “extend” use‑cases).
+ *  - Pairs whose key is `null | undefined` **or** value is `undefined` are skipped.
+ *  - If `base` is provided it is mutated and returned (handy for “extend” use‑cases).
  */
 export function fromEntries<K extends PropertyKey, V = unknown>(
   pairs: Nullable<Nullable<[Nullable<K>, V]>[]>,
