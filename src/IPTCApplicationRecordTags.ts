@@ -150,12 +150,3 @@ export const IPTCApplicationRecordTagNames = strEnum(
 export type IPTCApplicationRecordTagName = StrEnumKeys<
   typeof IPTCApplicationRecordTagNames
 >;
-
-/**
- * Is the given tag name an IPTC application record tag?
- */
-export function isIPTCApplicationRecordTag(
-  name: string,
-): name is keyof IPTCApplicationRecordTags {
-  return IPTCApplicationRecordTagNames.includes(name);
-}

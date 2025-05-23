@@ -19,9 +19,3 @@ export const ImageDataHashTagNames = strEnum("ImageDataHash") satisfies StrEnum<
 >;
 
 export type ImageDataHashTagName = StrEnumKeys<typeof ImageDataHashTagNames>;
-
-export function isImageDataHashTag(
-  name: string,
-): name is keyof ImageDataHashTag {
-  return ImageDataHashTagNames.includes(name);
-}

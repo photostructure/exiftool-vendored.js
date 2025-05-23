@@ -60,6 +60,6 @@ export const GeolocationTagNames = strEnum(
 
 export type GeolocationTagName = StrEnumKeys<typeof GeolocationTagNames>;
 
-export function isGeolocationTag(name: string): name is keyof GeolocationTags {
-  return GeolocationTagNames.includes(name);
+export function isGeolocationTag(tag: string): tag is GeolocationTagName {
+  return GeolocationTagNames.has(tag);
 }

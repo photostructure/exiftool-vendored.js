@@ -7,7 +7,7 @@ import { ExifToolOptions } from "./ExifToolOptions";
 import { lazy } from "./Lazy";
 import { Maybe } from "./Maybe";
 import { isNumber } from "./Number";
-import { keysOf } from "./Object";
+import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 import { blank } from "./String";
 
 // Like all metadata, this is a mess. Here's what we know:
@@ -43,14 +43,15 @@ export type GpsLocationTags = {
   GeolocationPosition?: string;
 };
 
-export const GpsLocationTagNames = keysOf<GpsLocationTags>({
-  GPSLatitude: true,
-  GPSLatitudeRef: true,
-  GPSLongitude: true,
-  GPSLongitudeRef: true,
-  GPSPosition: true,
-  GeolocationPosition: true,
-});
+export const GpsLocationTagNames = strEnum(
+  "GPSLatitude",
+  "GPSLatitudeRef",
+  "GPSLongitude",
+  "GPSLongitudeRef",
+  "GPSPosition",
+  "GeolocationPosition",
+) satisfies StrEnum<keyof GpsLocationTags>;
+export type GpsLocationTagName = StrEnumKeys<typeof GpsLocationTagNames>;
 
 export interface GpsParseResult {
   result: GpsLocationTags;
@@ -102,12 +103,8 @@ export function parseGPSLocation(
         }
       });
 
-      if (latitude == null) {
-        latitude = gpsPos()?.latitude;
-      }
-      if (longitude == null) {
-        longitude = gpsPos()?.longitude;
-      }
+      latitude ??= gpsPos()?.latitude;
+      longitude ??= gpsPos()?.longitude;
     }
 
     // If we still don't have both coordinates, return early

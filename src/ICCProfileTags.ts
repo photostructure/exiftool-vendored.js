@@ -39,7 +39,3 @@ export const ICCProfileTagNames = strEnum(
 ) satisfies StrEnum<keyof ICCProfileTags>;
 
 export type ICCProfileTagName = StrEnumKeys<typeof ICCProfileTagNames>;
-
-export function isICCProfileTag(name: string): name is keyof ICCProfileTags {
-  return ICCProfileTagNames.includes(name);
-}

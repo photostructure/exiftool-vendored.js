@@ -45,9 +45,3 @@ export const ExifToolVendoredTagNames = strEnum(
 export type ExifToolVendoredTagName = StrEnumKeys<
   typeof ExifToolVendoredTagNames
 >;
-
-export function isExifToolVendoredTag(
-  name: string,
-): name is keyof ExifToolVendoredTags {
-  return ExifToolVendoredTagNames.includes(name);
-}
