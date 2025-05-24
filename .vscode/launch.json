@@ -13,9 +13,7 @@
         "--colors",
         "${workspaceFolder}/dist/ReadTask.spec.js"
       ],
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "protocol": "inspector"
@@ -23,13 +21,9 @@
     {
       "name": "mktags",
       "program": "${workspaceFolder}/dist/update/mktags.js",
-      "args": [
-        "../test-images"
-      ],
+      "args": ["../test-images"],
       "request": "launch",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "type": "pwa-node"
     },
     {

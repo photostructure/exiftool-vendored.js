@@ -6,8 +6,17 @@
       "WebFetch(domain:github.com)",
       "Bash(mkdir:*)",
       "WebFetch(domain:docs.github.com)",
-      "Bash(npm run lint:*)",
-      "Bash(npm run fmt:*)"
+      "Bash(npm run lint*)",
+      "Bash(npm run fmt:*)",
+      "Bash(npm install:*)",
+      "Bash(sed:*)",
+      "Bash(npm test)",
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)",
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "Bash(npx eslint:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
