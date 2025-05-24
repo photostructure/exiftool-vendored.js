@@ -1,34 +1,53 @@
 // eslint.config.mjs
-import tsPlugin from "@typescript-eslint/eslint-plugin"
-import tsParser from "@typescript-eslint/parser"
+import eslint from "@eslint/js";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-export default [
+export default tseslint.config(
+  {
+    ignores: ["dist/", "node_modules/", "**/*.d.ts", "coverage/", "docs/"],
+  },
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.strict,
   {
     files: ["src/**/*.ts"],
     languageOptions: {
-      parser: tsParser,
+      parser: tseslint.parser,
       parserOptions: {
+        project: "./tsconfig.json",
         ecmaVersion: "latest",
         sourceType: "module",
-        project: "./tsconfig.json",
       },
-    },
-    plugins: {
-      "@typescript-eslint": tsPlugin,
+      globals: globals.node,
     },
     rules: {
-      ...tsPlugin.configs.recommended.rules,
-      // Add or override rules as needed
-      // 'semi': ['error', 'always'],
+      // Enable strict rules for main library code
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/prefer-nullish-coalescing": "error",
+      "@typescript-eslint/prefer-optional-chain": "error",
     },
   },
   {
-    ignores: [
-      "**/*js",
-      "**/*.spec.ts",
-      "**/update/*.ts",
-      "**/*.d.ts",
-      "**/node_modules/**",
-    ],
+    files: ["src/**/*.spec.ts", "src/update/**/*.ts"],
+    rules: {
+      // Relax rules for test files and build scripts
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+    },
   },
-]
+  {
+    files: ["**/*.js", "**/*.mjs"],
+    languageOptions: {
+      globals: globals.node,
+    },
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+);
