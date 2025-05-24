@@ -1,3 +1,4 @@
+import gt from "geo-tz";
 import { DateTime } from "luxon";
 import { copyFile } from "node:fs/promises";
 import path, { join } from "node:path";
@@ -22,9 +23,6 @@ import { pick } from "./Pick";
 import { ReadTask, ReadTaskOptions } from "./ReadTask";
 import { Tags } from "./Tags";
 import { isUTC } from "./Timezones";
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const gt = require("geo-tz");
 
 const SourceFile = join(tmpdir(), "example.jpg");
 
@@ -1796,7 +1794,7 @@ describe("ReadTask", () => {
       ];
 
       testCases.forEach((jsonStr) => {
-        const fullJson = `[${jsonStr.replace("}", ',"SourceFile":' + JSON.stringify(src) + '}')}]`;
+        const fullJson = `[${jsonStr.replace("}", ',"SourceFile":' + JSON.stringify(src) + "}")}]`;
         const result = tt.parse(fullJson);
         expect(result.ExifToolVersion).to.be.a("string");
         expect(result.ExifToolVersion).to.eql("12.3");

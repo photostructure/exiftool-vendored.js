@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import { Deferred, Log, setLogger } from "batch-cluster";
 import { expect, use } from "chai";
+import chaiAsPromised from "chai-as-promised";
 import eql from "deep-eql";
 import { createHash, randomInt } from "node:crypto";
 import { createReadStream } from "node:fs";
@@ -20,7 +20,7 @@ import { isString } from "./String";
 import { Tags } from "./Tags";
 import { times } from "./Times";
 
-use(require("chai-as-promised"));
+use(chaiAsPromised);
 
 export function mkdirp(dir: string) {
   return mkdir(dir, { recursive: true });

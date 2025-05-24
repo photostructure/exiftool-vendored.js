@@ -1,4 +1,5 @@
-require("source-map-support").install();
+import sourceMapSupport from "source-map-support";
+sourceMapSupport.install();
 
 import { BatchCluster, Log, logger, setLogger } from "batch-cluster";
 import globule from "globule";
@@ -245,18 +246,16 @@ function sortBy<T>(
   arr: T[],
   f: (t: T, index: number) => Maybe<string | number>,
 ): T[] {
-  return (
-    arr
-      .filter((ea) => ea != null)
-      .map((item, idx) => ({
-        item,
-        cmp: map(f(item, idx), (ea) => [ea, idx]),
-      }))
-      .filter((ea) => ea.cmp != null)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      .sort((a, b) => cmp(a.cmp!, b.cmp!))
-      .map((ea) => ea.item)
-  );
+  return arr
+    .filter((ea) => ea != null)
+    .map((item, idx) => ({
+      item,
+      cmp: map(f(item, idx), (ea) => [ea, idx]),
+    }))
+    .filter((ea) => ea.cmp != null)
+
+    .sort((a, b) => cmp(a.cmp!, b.cmp!))
+    .map((ea) => ea.item);
 }
 
 // Benchmark on 3900X: 53s for 10778 files with defaults
@@ -307,7 +306,7 @@ process.on("unhandledRejection", (reason: unknown) => {
 function usage() {
   console.log("Usage: `npm run mktags IMG_DIR`");
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.");
-  // eslint-disable-next-line no-process-exit
+
   process.exit(1);
 }
 
@@ -825,7 +824,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     });
     for (const group of groupNames) {
       const interfaceName = group + "Tags";
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       const tagsForGroup = groupedTags.get(group)!;
       if (tagsForGroup.length > 0) {
         tagGroups.push(group);

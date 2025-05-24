@@ -9,16 +9,16 @@ function vendorPackage() {
   return "exiftool-vendored." + (isWin32() ? "exe" : "pl");
 }
 
-function tryRequire({
+async function tryImport({
   prefix = "",
   logger,
-}: { prefix?: string; logger?: Maybe<Logger> } = {}): Maybe<string> {
+}: { prefix?: string; logger?: Maybe<Logger> } = {}): Promise<Maybe<string>> {
   const id = prefix + vendorPackage();
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require(id);
+    const module = await import(id);
+    return module.default ?? module;
   } catch (error) {
-    logger?.warn(id + "not found: ", error);
+    logger?.warn(id + " not found: ", error);
     return;
   }
 }
@@ -50,7 +50,7 @@ function tryRequire({
  * node_modules.
  */
 export async function exiftoolPath(logger?: Logger): Promise<string> {
-  const path = tryRequire({ prefix: "", logger });
+  const path = await tryImport({ prefix: "", logger });
   // This s/app.asar/app.asar.unpacked/ path switch adds support for Electron
   // apps whose modules are ASAR-packed (like by electron-builder).
 

@@ -1,4 +1,5 @@
 import { BatchCluster } from "batch-cluster";
+import * as _fs from "node:fs";
 import * as _path from "node:path";
 import { BinaryField } from "./BinaryField";
 import { DefaultMaxProcs } from "./DefaultMaxProcs";
@@ -37,8 +38,9 @@ describe("ExifTool", function () {
   const img3 = _path.join(__dirname, "..", "test", "with_thumb.jpg");
   const nonEnglishImg = _path.join(__dirname, "..", "test", "中文.jpg");
 
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const packageJson = require("../package.json");
+  const packageJson = JSON.parse(
+    _fs.readFileSync(_path.join(__dirname, "..", "package.json"), "utf8"),
+  );
 
   function expectedExiftoolVersion(flavor: "exe" | "pl" = "pl"): string {
     const vendorVersion: string =

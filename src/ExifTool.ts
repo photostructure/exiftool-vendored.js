@@ -23,6 +23,7 @@ import { ICCProfileTags } from "./ICCProfileTags";
 import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";
 import { ImageDataHashTag } from "./ImageDataHashTag";
 import { isWin32 } from "./IsWin32";
+import { Json, Literal } from "./JSON";
 import { lazy } from "./Lazy";
 import {
   CollectionInfo,
@@ -36,7 +37,7 @@ import { isFunction, isObject, omit } from "./Object";
 import { Omit } from "./Omit";
 import { pick } from "./Pick";
 import { PreviewTag } from "./PreviewTag";
-import { Json, Literal, RawTags } from "./RawTags";
+import { RawTags } from "./RawTags";
 import { ReadRawTask } from "./ReadRawTask";
 import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask";
 import { ResourceEvent } from "./ResourceEvent";
@@ -165,7 +166,18 @@ export type {
 };
 
 /**
- * This is the hardcoded path in the exiftool shebang line
+ * This is the hardcoded path in the exiftool shebang line (#!/usr/bin/perl).
+ *
+ * ExifTool's vendored Perl script uses this standard shebang path, which works
+ * on most Unix-like systems. However, this may fail on systems where Perl is
+ * installed elsewhere (e.g., via Homebrew on macOS: /opt/homebrew/bin/perl).
+ *
+ * When this hardcoded path doesn't exist, the library automatically falls back
+ * to using `which perl` to locate the Perl interpreter and ignores the shebang
+ * line by explicitly invoking Perl with the script as an argument.
+ *
+ * @see _ignoreShebang for the fallback logic
+ * @see whichPerl for the dynamic Perl detection
  */
 const PERL = "/usr/bin/perl";
 

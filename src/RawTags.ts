@@ -1,7 +1,5 @@
 import { ErrorsAndWarnings } from "./ErrorsAndWarnings";
-
-export type Literal = string | number | boolean;
-export type Json = Literal | { [key: string]: Json } | Json[];
+import { Json } from "./JSON";
 
 /**
  * Loosely typed raw result from ExifTool
