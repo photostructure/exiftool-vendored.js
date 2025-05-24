@@ -58,7 +58,7 @@ export function parseDateTime(
       setZone: true,
       zone: extractedZone?.tz ?? ea.zone ?? UnsetZone,
     });
-    if (dt == null || !dt.isValid) continue;
+    if (dt?.isValid !== true) continue;
     const unsetZone =
       extractedZone?.tz == null && (dt.zone == null || dt.zone === UnsetZone);
     let inferredZone =

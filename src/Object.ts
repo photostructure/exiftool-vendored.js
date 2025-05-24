@@ -29,10 +29,10 @@ export function fromEntries<K extends PropertyKey, V = unknown>(
   base: Record<K, V> = {} as Record<K, V>,
 ): Record<K, V> {
   // don't use Object.create(null), json stringify will break!
-  if (pairs == null || pairs.length === 0) return base ?? {};
+  if (pairs == null || pairs.length === 0) return base ?? ({} as Record<K, V>);
 
   for (const pair of pairs) {
-    if (pair != null && pair[0] != null && pair[1] !== undefined) {
+    if (pair?.[0] != null && pair[1] !== undefined) {
       base[pair[0] as K] = pair[1] as V;
     }
   }

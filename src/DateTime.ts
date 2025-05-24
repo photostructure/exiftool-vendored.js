@@ -5,7 +5,7 @@ import { ExifTime } from "./ExifTime";
 import { Maybe } from "./Maybe";
 
 export function validDateTime(dt: Maybe<DateTime>): dt is DateTime {
-  return dt != null && dt.isValid;
+  return dt?.isValid === true;
 }
 
 export const SecondMs = 1000;

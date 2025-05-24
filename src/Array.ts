@@ -78,7 +78,7 @@ export function sortBy<T>(
       cmp: f(item),
     }))
     .filter((ea) => ea.cmp != null)
-    .sort((a, b) => cmp(a.cmp!, b.cmp!))
+    .sort((a, b) => cmp(a.cmp as Comparable, b.cmp as Comparable))
     .map((ea) => ea.item);
 }
 
@@ -117,5 +117,5 @@ export function leastBy<T>(
       result = ea;
     }
   }
-  return result!;
+  return result;
 }

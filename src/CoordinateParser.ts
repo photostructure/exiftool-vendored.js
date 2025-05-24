@@ -214,13 +214,21 @@ export function parseCoordinate(
 
   const direction = directionStr?.toUpperCase() as Direction | undefined;
 
-  const degrees = parseFloat(degreesStr!);
+  if (degreesStr == null) {
+    throw new CoordinateParseError("Missing degrees in coordinate");
+  }
+  const degrees = parseFloat(degreesStr);
   let minutes: number | undefined;
   let seconds: number | undefined;
 
   if (format === "DMS") {
-    minutes = parseInt(minutesStr!, 10);
-    seconds = parseFloat(secondsStr!);
+    if (minutesStr == null || secondsStr == null) {
+      throw new CoordinateParseError(
+        "Missing minutes or seconds in DMS coordinate",
+      );
+    }
+    minutes = parseInt(minutesStr, 10);
+    seconds = parseFloat(secondsStr);
 
     if (minutes >= 60) {
       throw new CoordinateParseError("Minutes must be between 0 and 59");
@@ -229,7 +237,10 @@ export function parseCoordinate(
       throw new CoordinateParseError("Seconds must be between 0 and 59.999...");
     }
   } else if (format === "DM") {
-    minutes = parseFloat(minutesStr!);
+    if (minutesStr == null) {
+      throw new CoordinateParseError("Missing minutes in DM coordinate");
+    }
+    minutes = parseFloat(minutesStr);
 
     if (minutes >= 60) {
       throw new CoordinateParseError("Minutes must be between 0 and 59.999...");

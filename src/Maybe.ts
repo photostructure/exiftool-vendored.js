@@ -39,5 +39,5 @@ export function firstDefinedThunk<T>(iter: Iterable<() => Maybe<T>>): Maybe<T> {
  * Convert functions that return `type | null` to `type | undefined`
  */
 export function denull<T>(t: T | null): Maybe<T> {
-  return t == null ? undefined : t;
+  return t ?? undefined;
 }

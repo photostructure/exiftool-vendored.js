@@ -217,7 +217,8 @@ export class ReadTask extends ExifToolTask<Tags> {
       const v = this.#parseTag(k, value);
       // Note that we set `key` (which may include a group prefix):
       if (v == null) {
-        delete tags[key];
+        // Use Reflect.deleteProperty for dynamic keys
+        Reflect.deleteProperty(tags, key);
       } else {
         tags[key] = v;
       }

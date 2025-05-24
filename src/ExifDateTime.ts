@@ -216,7 +216,11 @@ export class ExifDateTime {
       dt = dt.setZone(UnsetZone, { keepLocalTime: true });
     }
     // TODO: is there a way to provide an invalid millisecond value?
-    return this.fromDateTime(dt, { rawValue: options.rawValue })!;
+    const result = this.fromDateTime(dt, { rawValue: options.rawValue });
+    if (result == null) {
+      throw new Error(`Failed to create ExifDateTime from millis: ${millis}`);
+    }
+    return result;
   }
 
   static now(

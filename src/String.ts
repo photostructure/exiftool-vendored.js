@@ -1,13 +1,9 @@
 import { Maybe } from "./Maybe";
 import { isNumber } from "./Number";
-import { times } from "./Times";
 
 export function isString(o: unknown): o is string {
   return typeof o === "string";
 }
-
-const spaces = times(10, (i) => times(i, () => " ").join(""));
-const zeroes = times(10, (i) => times(i, () => "0").join(""));
 
 export function blank(s: unknown): s is undefined {
   return s == null || String(s).trim().length === 0;
@@ -35,8 +31,7 @@ export function compactBlanks(arr: Maybe<string>[]): string[] {
 }
 
 function padding(padChar: "0" | " ", count: number): string {
-  if (count <= 0) return "";
-  return (padChar === "0" ? zeroes : spaces)[Math.floor(count)]!;
+  return count <= 0 ? "" : padChar.repeat(count);
 }
 
 export function toS(s: Maybe<unknown>): string {

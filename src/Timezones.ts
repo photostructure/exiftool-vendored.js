@@ -559,9 +559,11 @@ const LikelyOffsetMinutes = ValidTimezoneOffsets.map(offsetToMinutes);
 export function inferLikelyOffsetMinutes(deltaMinutes: number): Maybe<number> {
   const nearest = leastBy(LikelyOffsetMinutes, (ea) =>
     Math.abs(ea - deltaMinutes),
-  )!;
+  );
   // Reject timezone offsets more than 30 minutes away from the nearest:
-  return Math.abs(nearest - deltaMinutes) < 30 ? nearest : undefined;
+  return nearest != null && Math.abs(nearest - deltaMinutes) < 30
+    ? nearest
+    : undefined;
 }
 
 /**
