@@ -57,7 +57,7 @@ export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
 const B64Prefix = "base64:";
 
 function decode(data: Maybe<string>): Maybe<Buffer> {
-  return data == null || !data.startsWith(B64Prefix)
+  return !data?.startsWith(B64Prefix)
     ? undefined
     : Buffer.from(data.substring(B64Prefix.length), "base64");
 }
