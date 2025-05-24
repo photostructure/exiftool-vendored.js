@@ -4,7 +4,6 @@ import { ExifDateTime } from "./ExifDateTime";
 import { omit } from "./Object";
 import { expect, randomChars } from "./_chai.spec";
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 describe("ExifDateTime", () => {
   for (const ea of [
     {

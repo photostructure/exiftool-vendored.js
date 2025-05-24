@@ -96,7 +96,7 @@ describe("StrEnum", () => {
 
   it(".ordinal()", () => {
     for (const { v, idx } of fixtures) {
-      const expected = idx !== undefined ? idx : Examples.values.length;
+      const expected = idx ?? Examples.values.length;
       expect(Examples.ordinal(v)).to.eql(expected);
     }
   });

@@ -1,4 +1,6 @@
 import { existsSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   UnicodeTestMessage,
   assertEqlDateish,
@@ -16,10 +18,8 @@ import { ExifTool, WriteTaskOptions } from "./ExifTool";
 import {
   ExifToolVendoredTagNames,
   ExifToolVendoredTags,
-  isExifToolVendoredTag,
 } from "./ExifToolVendoredTags";
 import { isFileEmpty } from "./File";
-import { isFileTag } from "./FileTags";
 import { omit } from "./Object";
 import { ResourceEvent } from "./ResourceEvent";
 import { isSidecarExt } from "./Sidecars";
@@ -34,8 +34,6 @@ import {
 } from "./Tags";
 import { Version } from "./Version";
 import { WriteTags } from "./WriteTags";
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 describe("WriteTask", function () {
   this.slow(1); // always show timings
@@ -570,7 +568,7 @@ describe("WriteTask", function () {
 
         it("rejects unknown files", () => {
           return expect(
-            exiftool.write("/tmp/.nonexistant-" + Date.now(), {
+            exiftool.write(join(tmpdir(), ".nonexistant-" + Date.now()), {
               Comment: "boom",
             }),
           ).to.be.rejectedWith(/ENOENT|File not found/i);
@@ -825,9 +823,9 @@ describe("WriteTask", function () {
       k: string,
     ): k is keyof (FileTags | ExifToolTags | ExifToolVendoredTags) {
       return (
-        isFileTag(k) ||
+        FileTagsNames.includes(k) ||
         ExifToolTagsNames.includes(k) ||
-        isExifToolVendoredTag(k) ||
+        ExifToolVendoredTagNames.includes(k) ||
         ["ImageSize", "Megapixels"].includes(k)
       );
     }

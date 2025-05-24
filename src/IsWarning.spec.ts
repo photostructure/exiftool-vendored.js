@@ -1,3 +1,5 @@
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { isWarning } from "./IsWarning";
 import { expect } from "./_chai.spec";
 
@@ -6,7 +8,7 @@ describe("IsWarning", () => {
     "Warning: Duplicate MakerNoteUnknown tag in ExifIFD",
     "Warning: ICC_Profile deleted. Image colors may be affected",
     "Warning: Tag 'INVALID_TAG_NAME' is not defined",
-    "Error: Nothing to write - /tmp/test.xmp",
+    `Error: Nothing to write - ${join(tmpdir(), "test.xmp")}`,
     "Nothing to do.",
   ]) {
     it(`accepts ${msg}`, () => {
