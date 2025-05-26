@@ -59,7 +59,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   Copyright: { t: "string", grp: "EXIF" },
   Country: { t: "string", grp: "XMP" },
   CountryCode: { t: "string", grp: "XMP" },
-  CreateDate: { t: "ExifDateTime | string", grp: "EXIF" },
+  CreateDate: { t: "ExifDateTime | ExifDate | string | number", grp: "EXIF" },
   CreationTime: { t: "ExifDateTime | string", grp: "XMP" },
   DateCreated: { t: "ExifDateTime | string", grp: "XMP" },
   DateTime: { t: "ExifDateTime | string", grp: "XMP" },

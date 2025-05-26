@@ -90,6 +90,12 @@ export { DefaultExifToolOptions } from "./DefaultExifToolOptions";
 export { DefaultExiftoolArgs } from "./DefaultExiftoolArgs";
 export { DefaultMaxProcs } from "./DefaultMaxProcs";
 export { ExifDate } from "./ExifDate";
+export type {
+  ExifDateFull,
+  ExifDatePartial,
+  ExifDateYearMonth,
+  ExifDateYearOnly,
+} from "./ExifDate";
 export { ExifDateTime } from "./ExifDateTime";
 export { ExifTime } from "./ExifTime";
 export { ExifToolTask } from "./ExifToolTask";
@@ -381,7 +387,11 @@ export class ExifTool {
    *
    * @param file an existing file to write `tags` to
    *
-   * @param tags the tags to write to `file`
+   * @param tags the tags to write to `file`.
+   *
+   * **IMPORTANT:** Partial dates (year-only or year-month) are only supported
+   * for XMP tags. Use group-prefixed tag names like `"XMP:CreateDate"` for
+   * partial date support. EXIF tags require complete dates.
    *
    * @param options overrides to the default ExifTool options provided to the
    * ExifTool constructor.
@@ -432,6 +442,10 @@ export class ExifTool {
    * **NOTE: no input validation is done by this library.** ExifTool, however,
    * is strict about tag names and values in the context of the format of file
    * being written to.
+   *
+   * **IMPORTANT:** Partial dates (year-only or year-month) are only supported
+   * for XMP tags. Use group-prefixed tag names like `"XMP:CreateDate"` for
+   * partial date support. EXIF tags require complete dates.
    *
    * @param file an existing file to write `tags` to
    *

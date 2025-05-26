@@ -38,10 +38,11 @@ export type MutableTags = Omit<
 // exiftool expects numeric tags to be numbers, but everything else is a string:
 export type ExpandedDateTags = {
   [K in keyof MutableTags]:
-    | (MutableTags[K] extends ExifDateTime
-        ? ExifDate | ExifDateTime
+    | (MutableTags[K] extends ExifDateTime | string
+        ? ExifDate | ExifDateTime | number
         : MutableTags[K])
-    | string;
+    | string
+    | number;
 };
 
 // ExifTool allows these to be numeric, and then it figures out the correct
@@ -52,10 +53,33 @@ export type WritableGPSRefs = {
   GPSLongitudeRef?: string | number | null;
 };
 
+// XMP date tags that support partial dates (year-only, year-month)
+// See https://exiftool.org/TagNames/XMP.html
+type XMPPartialDateTags = {
+  "XMP:CreateDate"?: ExifDate | ExifDateTime | string | number;
+  "XMP:MetadataDate"?: ExifDate | ExifDateTime | string | number;
+  "XMP:ModifyDate"?: ExifDate | ExifDateTime | string | number;
+  "XMP:DateCreated"?: ExifDate | ExifDateTime | string | number;
+  "XMP:DateTimeOriginal"?: ExifDate | ExifDateTime | string | number;
+  "XMP:DateTimeDigitized"?: ExifDate | ExifDateTime | string | number;
+};
+
+// EXIF date tags that do NOT support partial dates (must be full dates)
+type EXIFStrictDateTags = {
+  "EXIF:CreateDate"?: ExifDateTime | string;
+  "EXIF:DateTimeOriginal"?: ExifDateTime | string;
+  "EXIF:ModifyDate"?: ExifDateTime | string;
+  "EXIF:DateTimeDigitized"?: ExifDateTime | string;
+};
+
+// Combined group-prefixed tags
+type GroupPrefixedTags = XMPPartialDateTags & EXIFStrictDateTags;
+
 export type WriteTags = Omit<
   DefinedOrNullValued<
     ShortcutTags & AdditionalWriteTags & ExpandedDateTags & StructAppendTags
   >,
   keyof WritableGPSRefs
 > &
-  WritableGPSRefs;
+  WritableGPSRefs &
+  GroupPrefixedTags;

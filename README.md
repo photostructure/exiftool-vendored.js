@@ -299,6 +299,35 @@ exiftool.write("path/to/file.jpg", { UserComment: null });
 
 The above example removes any value associated with the `UserComment` tag.
 
+### Partial Date Support
+
+**NEW in v30.2.0:** XMP date tags now support partial dates (year-only or year-month):
+
+```js
+// Year-only dates
+exiftool.write("path/to/file.jpg", { "XMP:CreateDate": 1980 });
+// or
+exiftool.write("path/to/file.jpg", {
+  "XMP:CreateDate": ExifDate.fromYear(1980),
+});
+
+// Year-month dates (EXIF format)
+exiftool.write("path/to/file.jpg", { "XMP:CreateDate": "1980:08" });
+// Year-month dates (ISO format)
+exiftool.write("path/to/file.jpg", { "XMP:CreateDate": "1980-08" });
+// or
+exiftool.write("path/to/file.jpg", {
+  "XMP:CreateDate": ExifDate.fromYearMonth("1980-08"),
+});
+```
+
+**⚠️ IMPORTANT:** Partial dates are only supported for [XMP
+tags](https://exiftool.org/TagNames/XMP.html) (like `XMP:CreateDate`,
+`XMP:MetadataDate`). [EXIF tags](https://exiftool.org/TagNames/EXIF.html), like
+`EXIF:CreateDate`, require **complete** (year, month, and day) dates. Always use
+the group-prefixed tag names (e.g., `"XMP:CreateDate"`) when working with
+partial dates.
+
 ### Always Beware: Timezones
 
 If you edit a timestamp tag, realize that the difference between the

@@ -16,7 +16,9 @@
       "Bash(find:*)",
       "Bash(rg:*)",
       "Bash(npx eslint:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npx mocha:*)",
+      "Bash(npm run lint)"
     ],
     "deny": []
   }

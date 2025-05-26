@@ -890,7 +890,7 @@ export interface EXIFTags {
   /** ★★★☆ ✔ Example: "© Chuckles McSnortypants, Inc." */
   Copyright?: string;
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
-  CreateDate?: ExifDateTime | string;
+  CreateDate?: ExifDateTime | ExifDate | string | number;
   /** ★★★★ ✔ Example: "Unknown (Custom process)" */
   CustomRendered?: string;
   /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */

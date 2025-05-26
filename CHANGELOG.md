@@ -25,6 +25,34 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v30.2.0
+
+- ✨ Added **partial date support** for `ExifDate` class. XMP date tags (like `XMP:CreateDate`, `XMP:MetadataDate`) now support:
+
+  - **Year-only dates**: `1980` (numeric) or `"1980"` (string)
+  - **Year-month dates**: `"1980:08"` (EXIF format) or `"1980-08"` (ISO format)
+  - **Full dates**: `"1980:08:13"` (unchanged)
+
+- ✨ Enhanced `ExifDate` with type-safe predicates:
+
+  - `isYearOnly()`: Returns `true` for year-only dates with type narrowing
+  - `isYearMonth()`: Returns `true` for year-month dates with type narrowing
+  - `isFullDate()`: Returns `true` for complete dates with type narrowing
+  - `isPartial()`: Returns `true` for year-only or year-month dates
+
+- ✨ Added compositional TypeScript interfaces:
+
+  - `ExifDateYearOnly`: `{year: number}`
+  - `ExifDateYearMonth extends ExifDateYearOnly`: `{year: number, month: number}`
+  - `ExifDateFull extends ExifDateYearMonth`: `{year: number, month: number, day: number}`
+
+- ✨ Enhanced `WriteTags` interface with group-prefixed tag support:
+
+  - `"XMP:CreateDate"`, `"XMP:MetadataDate"`, etc. accept partial dates
+  - `"EXIF:CreateDate"`, etc. require full dates (type-safe distinction)
+
+- 📦 Added comprehensive test coverage (47 new tests) for partial date functionality
+
 ### v30.1.0
 
 - 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).

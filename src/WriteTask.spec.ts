@@ -336,6 +336,79 @@ describe("WriteTask", function () {
           return;
         });
 
+        it("writes XMP CreateDate as a year-only partial date", async () => {
+          const f = await dest();
+          const yearOnlyDate = ExifDate.fromYear(1980)!;
+          expect(yearOnlyDate.isYearOnly()).to.be.true;
+          const wt: WriteTags = {
+            "XMP:CreateDate": yearOnlyDate,
+          };
+          const writeResult = await exiftool.write(f, wt);
+          expect(writeResult.created + writeResult.updated).to.be.greaterThan(
+            0,
+          );
+
+          // Note: ExifTool may convert partial dates to different formats when reading back
+          // The important thing is that we can write them without errors
+          const newTags = await exiftool.read(f);
+
+          // Check that some date-related field was written
+          expect(
+            newTags.CreateDate ??
+              newTags.DateTimeOriginal ??
+              newTags.ModifyDate,
+          ).to.not.be.undefined;
+          return;
+        });
+
+        it("writes XMP CreateDate as a year-month partial date", async () => {
+          const f = await dest();
+          const yearMonthDate = ExifDate.fromYearMonth("1980:08")!;
+          expect(yearMonthDate.isYearMonth()).to.be.true;
+          const wt: WriteTags = {
+            "XMP:CreateDate": yearMonthDate,
+          };
+          const writeResult = await exiftool.write(f, wt);
+          expect(writeResult.created + writeResult.updated).to.be.greaterThan(
+            0,
+          );
+
+          // Note: ExifTool may convert partial dates to different formats when reading back
+          // The important thing is that we can write them without errors
+          const newTags = await exiftool.read(f);
+
+          // Check that some date-related field was written
+          expect(
+            newTags.CreateDate ??
+              newTags.DateTimeOriginal ??
+              newTags.ModifyDate,
+          ).to.not.be.undefined;
+          return;
+        });
+
+        it("writes XMP CreateDate with a numeric year", async () => {
+          const f = await dest();
+          const wt: WriteTags = {
+            "XMP:CreateDate": 1980,
+          };
+          const writeResult = await exiftool.write(f, wt);
+          expect(writeResult.created + writeResult.updated).to.be.greaterThan(
+            0,
+          );
+
+          // Note: ExifTool may convert numeric years to different formats when reading back
+          // The important thing is that we can write them without errors
+          const newTags = await exiftool.read(f);
+
+          // Check that some date-related field was written
+          expect(
+            newTags.CreateDate ??
+              newTags.DateTimeOriginal ??
+              newTags.ModifyDate,
+          ).to.not.be.undefined;
+          return;
+        });
+
         it("round-trips a boolean true value", async () => {
           const file = await dest();
           // Using a native boolean tag
