@@ -28,4 +28,4 @@ A GitHub Actions workflow automatically checks for dependency updates (including
 1. Verify [![Node.js CI](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml)
 1. Update the [CHANGELOG.md](https://github.com/photostructure/exiftool-vendored.js/blob/main/CHANGELOG.md)
 1. Run the [release action on GitHub](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/release.yml)
-1. Copy the relevate CHANGELOG entries into the new GitHub Release. [Here's an example](https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.0.0).
+1. Copy the relevant CHANGELOG entries into the new GitHub Release. [Here's an example](https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.0.0).
