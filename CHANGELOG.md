@@ -53,6 +53,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 📦 Added comprehensive test coverage (47 new tests) for partial date functionality
 
+- 📦 Upgrade to batch-cluster [v14.0.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v14.0.0) which removes the requirement for `procps` on most linux distributions.
+
 ### v30.1.0
 
 - 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).
