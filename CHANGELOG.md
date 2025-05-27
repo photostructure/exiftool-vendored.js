@@ -25,6 +25,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v30.2.0
+
+- ✨ Enhanced `StrEnum` with iterator support and JSDoc
+
 ### v30.1.0
 
 - 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).

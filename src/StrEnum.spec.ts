@@ -151,4 +151,68 @@ describe("StrEnum", () => {
       expect(reversed.indexOf("a")).to.eql(2);
     });
   });
+
+  describe("iterator functionality", () => {
+    it("should be iterable with for...of loops", () => {
+      const result: string[] = [];
+      for (const value of Examples) {
+        result.push(value);
+      }
+      expect(result).to.eql(["a", "b", "c"]);
+    });
+
+    it("should support array destructuring", () => {
+      const [first, second, third] = Examples;
+      expect(first).to.eql("a");
+      expect(second).to.eql("b");
+      expect(third).to.eql("c");
+    });
+
+    it("should work with Array.from()", () => {
+      const result = Array.from(Examples);
+      expect(result).to.eql(["a", "b", "c"]);
+    });
+
+    it("should work with spread operator", () => {
+      const result = [...Examples];
+      expect(result).to.eql(["a", "b", "c"]);
+    });
+
+    it("should support iterator protocol manually", () => {
+      const iterator = Examples[Symbol.iterator]();
+
+      let result = iterator.next();
+      expect(result.value).to.eql("a");
+      expect(result.done).to.eql(false);
+
+      result = iterator.next();
+      expect(result.value).to.eql("b");
+      expect(result.done).to.eql(false);
+
+      result = iterator.next();
+      expect(result.value).to.eql("c");
+      expect(result.done).to.eql(false);
+
+      result = iterator.next();
+      expect(result.done).to.eql(true);
+    });
+
+    it("should work with other iterator-consuming functions", () => {
+      const map = new Map(Examples.values.map((v, i) => [v, i]));
+      const mapFromIterator = new Map([...Examples].map((v, i) => [v, i]));
+      expect(mapFromIterator).to.deep.equal(map);
+
+      const set = new Set(Examples.values);
+      const setFromIterator = new Set(Examples);
+      expect(setFromIterator).to.deep.equal(set);
+    });
+  });
+
+  describe("Symbol.toStringTag", () => {
+    it("should have correct string tag for debugging", () => {
+      expect(Object.prototype.toString.call(Examples)).to.eql(
+        "[object StrEnum]",
+      );
+    });
+  });
 });
