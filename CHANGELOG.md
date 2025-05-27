@@ -25,7 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v30.2.0
+### v30.1.0
+
+- 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).
+
+- 🐞 Fixed `ExifToolVersion` to be a `string`. Prior versions used `exiftool`'s JSON representation, which rendered a numeric float. This caused versions like "12.3" and "12.30" to appear identical. We now preserve the exact version string to enable proper version comparisons.
+
 
 - ✨ Added **partial date support** for `ExifDate` class. XMP date tags (like `XMP:CreateDate`, `XMP:MetadataDate`) now support:
 
@@ -51,17 +56,11 @@ vendored versions of ExifTool match the version that they vendor.
   - `"XMP:CreateDate"`, `"XMP:MetadataDate"`, etc. accept partial dates
   - `"EXIF:CreateDate"`, etc. require full dates (type-safe distinction)
 
+- 📦 Docs are now automatically updated via [GitHub Actions](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/docs.yml)
+
 - 📦 Added comprehensive test coverage (47 new tests) for partial date functionality
 
 - 📦 Upgrade to batch-cluster [v14.0.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v14.0.0) which removes the requirement for `procps` on most linux distributions.
-
-### v30.1.0
-
-- 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).
-
-- 🐞 Fixed `ExifToolVersion` to be a `string`. Prior versions used `exiftool`'s JSON representation, which rendered a numeric float. This caused versions like "12.3" and "12.30" to appear identical. We now preserve the exact version string to enable proper version comparisons.
-
-- 📦 Docs are now automatically updated via [GitHub Actions](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/docs.yml)
 
 ### v30.0.0
 
