@@ -18,7 +18,8 @@
       "Bash(npx eslint:*)",
       "Bash(git add:*)",
       "Bash(npx mocha:*)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "WebFetch(domain:developer.mozilla.org)"
     ],
     "deny": []
   }
