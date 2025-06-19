@@ -21,20 +21,20 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0 # Need full history for release-it
 
       # setup-node configures auth with registry-url and NODE_AUTH_TOKEN
       # See: https://github.com/actions/setup-node#usage
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
           node-version: 20
           cache: "npm"
           registry-url: "https://registry.npmjs.org/"
 
       - name: Setup SSH signing
-        uses: photostructure/git-ssh-signing-action@v1
+        uses: photostructure/git-ssh-signing-action@7a06ef30090b6755c6c9a4295e8afd95bf264bc1 # v1.0.0
         with:
           ssh-signing-key: ${{ secrets.SSH_SIGNING_KEY }}
           git-user-name: ${{ secrets.GIT_USER_NAME }}
@@ -48,4 +48,3 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
