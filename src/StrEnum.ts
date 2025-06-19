@@ -1,6 +1,4 @@
-import { uniq } from "./Array";
-import { Maybe, Nullable } from "./Maybe";
-import { fromEntries } from "./Object";
+import type { Maybe, Nullable } from "./Maybe";
 
 // See https://basarat.gitbooks.io/typescript/content/docs/types/literal-types.html
 
@@ -201,12 +199,12 @@ function lessThan(a: Maybe<number>, b: Maybe<number>) {
 }
 
 export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
-  const values = Object.freeze(uniq(o)) as T[];
+  const values = Object.freeze([...new Set(o)]) as T[];
   // toLowerCase() is safe because we know all strEnum values are latin ASCII:
   const lcToValue = new Map<string, T>(
     values.map((ea) => [ea.toLowerCase(), ea]),
   );
-  const valueToIndex = fromEntries(
+  const valueToIndex = Object.fromEntries(
     values.map((ea, idx) => [ea as string, idx]),
   );
 
