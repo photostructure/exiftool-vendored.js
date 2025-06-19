@@ -20,9 +20,8 @@ A GitHub Actions workflow automatically checks for dependency updates (including
 
 1. `git clone` this repo,
 1. `npm install`
-1. `npm run u` # should be a no-op if automated updates are working
 1. `npm run mktags ../test-images` # < assumes `../test-images` has the full ExifTool sample image suite
-1. `npm run fmt && npm run lint && npm run docs` (look for lint or documentation generation issues)
+1. `npm run precommit` (look for lint or documentation generation issues)
 1. `npm run test`
 1. Verify diffs are reasonable, `git commit` and `git push`
 1. Verify [![Node.js CI](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml)
