@@ -1,0 +1,17 @@
+{
+  "entryPoints": ["src/ExifTool.ts"],
+  "out": "docs",
+  "name": "exiftool-vendored",
+  "includeVersion": false,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "readme": "README.md",
+  "githubPages": true,
+  "gitRevision": "main",
+  "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/test/**", "**/update/**"],
+  "navigationLinks": {
+    "GitHub": "https://github.com/photostructure/exiftool-vendored.js",
+    "NPM": "https://www.npmjs.com/package/exiftool-vendored"
+  },
+  "highlightLanguages": ["bash", "javascript", "json", "typescript", "yaml"]
+}

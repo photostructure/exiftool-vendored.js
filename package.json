@@ -25,7 +25,7 @@
     "fmt": "prettier --write src/*.ts src/**/*.ts **/*.yml **/*.json **/*.md",
     "pretest": "npm run compile",
     "test": "mocha 'dist/*.spec.js'",
-    "docs:build": "typedoc --options .typedoc.js",
+    "docs:build": "typedoc",
     "docs:serve": "npm run docs:build && cp .serve.json docs/serve.json && touch docs/.nojekyll && serve docs",
     "docs": "npm run docs:serve",
     "release": "release-it"
