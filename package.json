@@ -36,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/photostructure/exiftool-vendored.js.git"
+    "url": "git+https://github.com/photostructure/exiftool-vendored.js.git"
   },
   "release-it": {
     "hooks": {
