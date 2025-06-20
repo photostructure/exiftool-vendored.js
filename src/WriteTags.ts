@@ -55,7 +55,7 @@ export type WritableGPSRefs = {
 
 // XMP date tags that support partial dates (year-only, year-month)
 // See https://exiftool.org/TagNames/XMP.html
-type XMPPartialDateTags = {
+export type XMPPartialDateTags = {
   "XMP:CreateDate"?: ExifDate | ExifDateTime | string | number;
   "XMP:MetadataDate"?: ExifDate | ExifDateTime | string | number;
   "XMP:ModifyDate"?: ExifDate | ExifDateTime | string | number;
@@ -65,7 +65,7 @@ type XMPPartialDateTags = {
 };
 
 // EXIF date tags that do NOT support partial dates (must be full dates)
-type EXIFStrictDateTags = {
+export type EXIFStrictDateTags = {
   "EXIF:CreateDate"?: ExifDateTime | string;
   "EXIF:DateTimeOriginal"?: ExifDateTime | string;
   "EXIF:ModifyDate"?: ExifDateTime | string;
@@ -73,7 +73,7 @@ type EXIFStrictDateTags = {
 };
 
 // Combined group-prefixed tags
-type GroupPrefixedTags = XMPPartialDateTags & EXIFStrictDateTags;
+export type GroupPrefixedTags = XMPPartialDateTags & EXIFStrictDateTags;
 
 export type WriteTags = Omit<
   DefinedOrNullValued<

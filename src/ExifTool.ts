@@ -9,74 +9,25 @@ import {
   BinaryExtractionTaskOptions,
 } from "./BinaryExtractionTask";
 import { BinaryToBufferTask } from "./BinaryToBufferTask";
-import { ContainerDirectoryItem } from "./ContainerDirectoryItem";
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions";
-import { Defined, DefinedOrNullValued } from "./Defined";
 import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs";
-import { ErrorsAndWarnings } from "./ErrorsAndWarnings";
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
 import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
-import { ExifToolVendoredTags } from "./ExifToolVendoredTags";
 import { exiftoolPath } from "./ExiftoolPath";
-import { GeolocationTags } from "./GeolocationTags";
-import { ICCProfileTags } from "./ICCProfileTags";
-import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";
-import { ImageDataHashTag } from "./ImageDataHashTag";
 import { isWin32 } from "./IsWin32";
-import { Json, Literal } from "./JSON";
 import { lazy } from "./Lazy";
-import {
-  CollectionInfo,
-  KeywordInfoStruct,
-  KeywordStruct,
-  MWGCollectionsTags,
-  MWGKeywordTags,
-} from "./MWGTags";
-import { Maybe } from "./Maybe";
 import { isFunction, isObject, omit } from "./Object";
-import { Omit } from "./Omit";
 import { pick } from "./Pick";
 import { PreviewTag } from "./PreviewTag";
 import { RawTags } from "./RawTags";
 import { ReadRawTask } from "./ReadRawTask";
 import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask";
-import { ResourceEvent } from "./ResourceEvent";
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask";
-import { ShortcutTags } from "./ShortcutTags";
 import { blank, isString, notBlank } from "./String";
-import { Struct } from "./Struct";
-import {
-  APPTags,
-  CompositeTags,
-  EXIFTags,
-  ExifToolTags,
-  FileTags,
-  FlashPixTags,
-  IPTCTags,
-  JFIFTags,
-  MPFTags,
-  MakerNotesTags,
-  MetaTags,
-  PanasonicRawTags,
-  PhotoshopTags,
-  PrintIMTags,
-  QuickTimeTags,
-  RAFTags,
-  RIFFTags,
-  Tags,
-  XMPTags,
-} from "./Tags";
-import { Version } from "./Version";
+import { Tags } from "./Tags";
 import { VersionTask } from "./VersionTask";
 import { which } from "./Which";
-import {
-  AdditionalWriteTags,
-  ExpandedDateTags,
-  MutableTags,
-  StructAppendTags,
-  WritableGPSRefs,
-  WriteTags,
-} from "./WriteTags";
+import { WriteTags } from "./WriteTags";
 import {
   WriteTask,
   WriteTaskOptionFields,
@@ -84,6 +35,7 @@ import {
   WriteTaskResult,
 } from "./WriteTask";
 
+export { Backoff, retryOnReject, type RetryOptions } from "./AsyncRetry";
 export { BinaryField } from "./BinaryField";
 export { CapturedAtTagNames } from "./CapturedAtTagNames";
 export { DefaultExifToolOptions } from "./DefaultExifToolOptions";
@@ -103,73 +55,87 @@ export { exiftoolPath } from "./ExiftoolPath";
 export { GeolocationTagNames, isGeolocationTag } from "./GeolocationTags";
 export { parseJSON } from "./JSON";
 export { DefaultReadTaskOptions } from "./ReadTask";
+export { strEnum } from "./StrEnum";
+export type {
+  StrEnum,
+  StrEnumHelpers,
+  StrEnumKeys,
+  StrEnumType,
+} from "./StrEnum";
 export {
+  defaultVideosToUTC,
+  offsetMinutesToZoneName,
   TimezoneOffsetTagnames,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
-  defaultVideosToUTC,
-  offsetMinutesToZoneName,
 } from "./Timezones";
 export { DefaultWriteTaskOptions, WriteTaskOptionFields } from "./WriteTask";
+// Type exports organized by source module
+export type { BinaryExtractionTaskOptions } from "./BinaryExtractionTask";
+export type { ContainerDirectoryItem } from "./ContainerDirectoryItem";
+export type { Defined, DefinedOrNullValued } from "./Defined";
+export type { ErrorsAndWarnings } from "./ErrorsAndWarnings";
+export type { ExifToolOptions } from "./ExifToolOptions";
+export type { ExifToolTaskOptions } from "./ExifToolTask";
+export type { ExifToolVendoredTags } from "./ExifToolVendoredTags";
+export type { GeolocationTags } from "./GeolocationTags";
+export type { ICCProfileTags } from "./ICCProfileTags";
 export type {
-  APPTags,
-  AdditionalWriteTags,
   // For backwards compatibility:
   IPTCApplicationRecordTags as ApplicationRecordTags,
-  BinaryExtractionTaskOptions,
-  CollectionInfo,
-  CompositeTags,
-  ContainerDirectoryItem,
-  Defined,
-  DefinedOrNullValued,
-  EXIFTags,
-  ErrorsAndWarnings,
-  ExifToolOptions,
-  ExifToolTags,
-  ExifToolTaskOptions,
-  ExifToolVendoredTags,
-  ExpandedDateTags,
-  FileTags,
-  FlashPixTags,
-  GeolocationTags,
-  ICCProfileTags,
   IPTCApplicationRecordTags,
-  IPTCTags,
-  ImageDataHashTag,
-  JFIFTags,
-  Json,
+} from "./IPTCApplicationRecordTags";
+export type { ImageDataHashTag } from "./ImageDataHashTag";
+export type { Json, Literal } from "./JSON";
+export type {
+  CollectionInfo,
   KeywordInfoStruct,
   KeywordStruct,
-  Literal,
-  MPFTags,
   MWGCollectionsTags,
   MWGKeywordTags,
+} from "./MWGTags";
+export type { Maybe, Nullable } from "./Maybe";
+export type { Omit } from "./Omit";
+export type { RawTags } from "./RawTags";
+export type { ReadTaskOptions } from "./ReadTask";
+export type { ResourceEvent } from "./ResourceEvent";
+export type { ShortcutTags } from "./ShortcutTags";
+export type { Struct } from "./Struct";
+export type {
+  APPTags,
+  CompositeTags,
+  EXIFTags,
+  ExifToolTags,
+  FileTags,
+  FlashPixTags,
+  IPTCTags,
+  JFIFTags,
   MakerNotesTags,
-  Maybe,
   MetaTags,
-  MutableTags,
-  Omit,
+  MPFTags,
   PanasonicRawTags,
   PhotoshopTags,
   PrintIMTags,
   QuickTimeTags,
   RAFTags,
   RIFFTags,
-  RawTags,
-  ReadTaskOptions,
-  ResourceEvent,
-  ShortcutTags,
-  Struct,
-  StructAppendTags,
   Tags,
-  Version,
+  XMPTags,
+} from "./Tags";
+export type { Version } from "./Version";
+export type {
+  AdditionalWriteTags,
+  EXIFStrictDateTags,
+  ExpandedDateTags,
+  GroupPrefixedTags,
+  MutableTags,
+  StructAppendTags,
   WritableGPSRefs,
   WriteTags,
-  WriteTaskOptions,
-  WriteTaskResult,
-  XMPTags,
-};
+  XMPPartialDateTags,
+} from "./WriteTags";
+export type { WriteTaskOptions, WriteTaskResult } from "./WriteTask";
 
 /**
  * This is the hardcoded path in the exiftool shebang line (#!/usr/bin/perl).
