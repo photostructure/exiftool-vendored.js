@@ -30,7 +30,7 @@ npm run docs        # Generate TypeDoc docs and serve at http://localhost:3000
 npm run docs:1      # Build documentation only (without serving)
 
 # Tag Generation
-npm run mktags ../path/to/images  # Regenerate src/Tags.ts and data/TagMetadata.json from sample images
+npm run mktags ../path/to/images  # Regenerate src/Tags.ts and data/TagMetadata.json (with frequency, mainstream flags, and groups) from sample images
 
 # Release Management
 npm run release     # Run release process (requires proper permissions)

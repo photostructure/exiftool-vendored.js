@@ -17,6 +17,7 @@ dist/update/
 benchmark/
 snyk-linux
 
-# no directories except for dist
+# no directories except for dist and data
 */
 !dist/
+!data/

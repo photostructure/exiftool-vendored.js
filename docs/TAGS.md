@@ -14,60 +14,34 @@ Tags are metadata fields embedded in image and video files. They contain informa
 - **Technical details**: Image dimensions, file format, color space
 - **Descriptive metadata**: Keywords, copyright, descriptions
 
-## JSDoc Notation System
+## JSDoc Annotations
 
-Each tag in the TypeScript interface uses a special JSDoc comment format to indicate its **popularity** and **camera compatibility**:
+Each tag in the TypeScript interface includes semantic JSDoc annotations:
 
-```typescript
-/** ★★★★ ✔ Example: 1920 */
-ImageHeight?: number
+```ts
+/**
+ * @frequency 🔥 ★★★★ (85%)
+ * @groups EXIF, MakerNotes
+ * @example 100
+ */
+ISO?: number;
 
-/** ★☆☆☆   Example: "Custom tag value" */
-RareCustomTag?: string
+/**
+ * @frequency 🧊 ★★★☆ (23%)
+ * @groups MakerNotes
+ * @example "Custom lens data"
+ */
+LensSpec?: string;
 ```
 
-### Star Rating System (Popularity)
+These annotations provide:
 
-- **★★★★** - Found in **>50% of files** (very common)
-- **★★★☆** - Common
-- **★★☆☆** - Less common
-- **★☆☆☆** - Rare
-- **☆☆☆☆** - Very rare, found in **<1% of files**
-
-### Checkmark Symbol (Camera Compatibility)
-
-- **✔** - Found in popular cameras (Canon, Nikon, Sony, Apple devices)
-- _(no checkmark)_ - Less common across mainstream cameras
-
-### Examples
-
-```typescript
-/** ★★★★ ✔ Example: "image/jpeg" */
-MIMEType?: string          // Very common, all cameras
-
-/** ★★☆☆ ✔ Example: 200 */
-ISO?: number               // Common, mainstream cameras
-
-/** ☆☆☆☆   Example: "Custom data" */
-ProprietaryField?: string  // Very rare, specific models only
-```
-
-## Auto-Generation Process
-
-The `Tags` interface is **automatically generated** by the `mktags.ts` script, which:
-
-1. **Analyzes 6,000+ sample images** from different camera makes and models
-2. **Extracts all metadata fields** found across these samples
-3. **Calculates popularity ratings** based on frequency of occurrence
-4. **Generates TypeScript interfaces** with proper types and examples
-5. **Generates TagMetadata.json** with programmatic access to tag popularity and compatibility data
-6. **Identifies camera compatibility** patterns
-
-Source images come from:
-
-- [ExifTool metadata repository](https://exiftool.org/sample_images.html)
-- [raw.pixls.us](https://raw.pixls.us) sample archive
-- Real-world photo collections
+- **@frequency**
+  - A 🔥 fire emoji will very professionally begin this value if the tag is found on common mainstream devices, like flagship phones and digital cameras.
+  - A 🧊 ice cube emoji will begin this value if the tag is only found on more obscure camera makes and models.
+  - A star rating (★★★★ is found in >50% of samples, ☆☆☆☆ is rare), and the exact percentage in parentheses follows. Note that these values are _directionally_ correct -- it's based on the (large) sample set of test images from the ExifTool project and several other online image example repositories.
+- **@groups**: Comma-separated list of metadata groups where this tag appears
+- **@example**: Representative value for the tag
 
 ## Interface Structure
 
@@ -97,6 +71,40 @@ export interface Tags
 - **XMPTags**: Adobe's extensible metadata platform
 - **MakerNotesTags**: Proprietary camera manufacturer data
 - **CompositeTags**: Calculated values (like timezone-adjusted dates)
+
+## Auto-Generation Process
+
+The `Tags` interface is **automatically generated** by the `mktags.ts` script, which:
+
+1. **Analyzes 6,000+ sample images** from different camera makes and models
+2. **Extracts all metadata fields** found across these samples
+3. **Calculates popularity ratings** based on frequency of occurrence
+4. **Generates TypeScript interfaces** with proper types and examples
+5. **Generates TagMetadata.json** with programmatic access to tag frequency and mainstream device compatibility data
+6. **Identifies camera compatibility** patterns
+
+Source images come from:
+
+- [ExifTool metadata repository](https://exiftool.org/sample_images.html)
+- [raw.pixls.us](https://raw.pixls.us) sample archive
+- Real-world photo collections
+
+## TagMetadata.json
+
+The `mktags` script also generates `data/TagMetadata.json`, which provides programmatic access to tag metadata in the format:
+
+```typescript
+Record<
+  string,
+  {
+    frequency: number; // 0-1 decimal: percentage of sample files containing this tag
+    mainstream: boolean; // true if tag is from mainstream consumer devices (iPhone, popular Canon/Nikon/Sony)
+    groups: string[]; // sorted array of metadata groups where this tag appears (e.g., ["EXIF", "MakerNotes"])
+  }
+>;
+```
+
+This allows developers to programmatically access the same frequency and device compatibility information shown in the JSDoc annotations, plus metadata group information for understanding where tags originate (EXIF, XMP, MakerNotes, etc.).
 
 ## Important Limitations
 

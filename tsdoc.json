@@ -1,0 +1,21 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/tsdoc/v0/tsdoc.schema.json",
+  "extends": ["typedoc/tsdoc.json"],
+  "tagDefinitions": [
+    {
+      "tagName": "@frequency",
+      "syntaxKind": "block",
+      "allowMultiple": false
+    },
+    {
+      "tagName": "@mainstream",
+      "syntaxKind": "block",
+      "allowMultiple": false
+    },
+    {
+      "tagName": "@groups",
+      "syntaxKind": "block",
+      "allowMultiple": false
+    }
+  ]
+}

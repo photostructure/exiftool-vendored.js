@@ -29,13 +29,29 @@ import { Version } from "./Version";
  * These tags are added by `exiftool`.
  */
 export interface ExifToolTags {
-  /** ☆☆☆☆ ✔ Example: "File is empty" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups ExifTool
+   * @example "File is empty"
+   */
   Error?: string;
-  /** ★★★★ ✔ Example: "13.30" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups ExifTool
+   * @example 13.31
+   */
   ExifToolVersion?: string;
-  /** ☆☆☆☆   Example: "path/to/file.jpg" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups ExifTool
+   * @example "path/to/file.jpg"
+   */
   SourceFile?: string;
-  /** ☆☆☆☆ ✔ Example: "Unrecognized IPTC record 0 (ignored)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups ExifTool
+   * @example "Unrecognized IPTC record 0 (ignored)"
+   */
   Warning?: string;
 }
 
@@ -53,57 +69,161 @@ export type ExifToolTag = StrEnumKeys<typeof ExifToolTagsNames>;
  * given file. ExifTool can't write to many of these tags.
  */
 export interface FileTags {
-  /** ★★★★ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, File, RAF, RIFF, XMP
+   * @example 8
+   */
   BitsPerSample?: number;
-  /** ☆☆☆☆ ✔ Example: "Windows V3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File
+   * @example "Windows V3"
+   */
   BMPVersion?: string;
-  /** ★★★★ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups APP, File
+   * @example 3
+   */
   ColorComponents?: number;
-  /** ☆☆☆☆ ✔ Example: "ff5978eb5c164fa308177d41e817e08f" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups File
+   * @example "ff5978eb5c164fa308177d41e817e08f"
+   */
   CurrentIPTCDigest?: string;
-  /** ★★★★ ✔ Example: "/home/username/pictures" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "/home/username/pictures"
+   */
   Directory?: string;
-  /** ★★★★ ✔ Example: "Progressive DCT, Huffman coding" */
+  /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups File
+   * @example "Progressive DCT, Huffman coding"
+   */
   EncodingProcess?: string;
-  /** ★★★★ ✔ Example: "Little-endian (Intel, II)" */
+  /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups File
+   * @example "Little-endian (Intel, II)"
+   */
   ExifByteOrder?: string;
-  /** ★★★★ ✔ Example: "2025:05:22 21:23:30Z" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "2025:06:26 20:47:58Z"
+   */
   FileAccessDate?: ExifDateTime | string;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups File
+   * @example
+   */
   FileCreateDate?: ExifDateTime | string;
-  /** ★★★★ ✔ Example: "2025:05:22 05:00:38Z" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "2025:06:24 20:56:01Z"
+   */
   FileInodeChangeDate?: ExifDateTime | string;
-  /** ★★★★ ✔ Example: "2024:06:16 01:39:22Z" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "2024:06:16 01:39:22Z"
+   */
   FileModifyDate?: ExifDateTime | string;
-  /** ★★★★ ✔ Example: "truncated.mp4" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "truncated.mp4"
+   */
   FileName?: string;
-  /** ★★★★ ✔ Example: "-rwxrwxr-x" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "-rwxrwxr-x"
+   */
   FilePermissions?: string;
-  /** ★★★★ ✔ Example: "990 bytes" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "990 bytes"
+   */
   FileSize?: string;
-  /** ★★★★ ✔ Example: "RW2" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "RW2"
+   */
   FileType?: string;
-  /** ★★★★ ✔ Example: "rw2" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "rw2"
+   */
   FileTypeExtension?: string;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups File
+   * @example
+   */
   ImageDataMD5?: string;
-  /** ★★★★ ✔ Example: 960 */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
   ImageHeight?: number;
-  /** ★★★★ ✔ Example: 96 */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 96
+   */
   ImageWidth?: number;
-  /** ★★★★ ✔ Example: "video/x-msvideo" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups File
+   * @example "video/x-msvideo"
+   */
   MIMEType?: string;
-  /** ☆☆☆☆ ✔ Example: "Use BitDepth" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File
+   * @example "Use BitDepth"
+   */
   NumColors?: string;
-  /** ☆☆☆☆ ✔ Example: "All" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File
+   * @example "All"
+   */
   NumImportantColors?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File
+   * @example 0
+   */
   PixelsPerMeterX?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File
+   * @example 0
+   */
   PixelsPerMeterY?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File
+   * @example 1
+   */
   Planes?: number;
-  /** ★★★★ ✔ Example: "YCbCr4:4:4 (1 1)" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, File
+   * @example "YCbCr4:4:4 (1 1)"
+   */
   YCbCrSubSampling?: string;
 }
 
@@ -139,301 +259,893 @@ export const FileTagsNames = strEnum(
 export type FileTag = StrEnumKeys<typeof FileTagsNames>;
 
 export interface APPTags {
-  /** ☆☆☆☆   Example: "59 128 128" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "59 128 128"
+   */
   AboveColor?: string;
-  /** ☆☆☆☆   Example: 388 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 388
+   */
   Again?: number;
-  /** ☆☆☆☆   Example: "5.0 C" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "5.0 C"
+   */
   AtmosphericTemperature?: string;
-  /** ☆☆☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 800
+   */
   AutoISOMax?: number;
-  /** ☆☆☆☆ ✔ Example: 3200 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 3200
+   */
   AutoISOMin?: number;
-  /** ☆☆☆☆ ✔ Example: "Up" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Up"
+   */
   AutoRotation?: string;
-  /** ☆☆☆☆   Example: 3383 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 3383
+   */
   B5100?: number;
-  /** ☆☆☆☆   Example: "60 128 128" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "60 128 128"
+   */
   BelowColor?: string;
-  /** ☆☆☆☆   Example: 2438 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2438
+   */
   Bgain?: number;
-  /** ☆☆☆☆   Example: 255 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
   BHighLight?: number;
-  /** ☆☆☆☆   Example: 216 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 216
+   */
   BHL?: number;
-  /** ☆☆☆☆   Example: 33 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 33
+   */
   Blk0?: number;
-  /** ☆☆☆☆   Example: 32 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 32
+   */
   Blk1?: number;
-  /** ☆☆☆☆   Example: 86 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 86
+   */
   BMean?: number;
-  /** ☆☆☆☆   Example: 6 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 6
+   */
   Boff?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
   BSd?: number;
-  /** ☆☆☆☆   Example: 3 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 3
+   */
   BSD?: number;
-  /** ☆☆☆☆   Example: 1908 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1908
+   */
   BStrobe?: number;
-  /** ☆☆☆☆   Example: "Z-CAMERA" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes
+   * @example "Z-CAMERA"
+   */
   CameraModel?: string;
-  /** ☆☆☆☆   Example: "_______________" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "_______________"
+   */
   CameraPartNumber?: string;
-  /** ☆☆☆☆ ✔ Example: 8340330 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, XMP
+   * @example 8340330
+   */
   CameraSerialNumber?: number;
-  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "https://PhotoStructure.com/"
+   */
   CameraSoftware?: string;
-  /** ☆☆☆☆   Example: 2 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2
+   */
   Case?: number;
-  /** ☆☆☆☆   Example: 2 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2
+   */
   CBal?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
   Color?: number;
-  /** ☆☆☆☆ ✔ Example: 42926626 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 42926626
+   */
   COLOR1?: number;
-  /** ☆☆☆☆ ✔ Example: 32321478 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 32321478
+   */
   COLOR2?: number;
-  /** ☆☆☆☆ ✔ Example: 22701368 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 22701368
+   */
   COLOR3?: number;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 5
+   */
   COLOR4?: number;
-  /** ☆☆☆☆ ✔ Example: "YCbCr" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "YCbCr"
+   */
   ColorTransform?: string;
-  /** ☆☆☆☆   Example: 45 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 45
+   */
   Compass?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
   ContTake?: number;
-  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "https://PhotoStructure.com/"
+   */
   CreatorSoftware?: string;
-  /** ☆☆☆☆   Example: "2013:03:12 16:31:26" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "2013:03:12 16:31:26"
+   */
   DateTimeGenerated?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: 100 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 100
+   */
   DCTEncodeVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "Photo Global Settings" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Photo Global Settings"
+   */
   DeviceName?: string;
-  /** ☆☆☆☆ ✔ Example: 148.34216 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 148.34216
+   */
   DiagonalFieldOfView?: number;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example "Yes"
+   */
   DigitalZoomOn?: string;
-  /** ☆☆☆☆   Example: "(Binary data 275008 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "(Binary data 1011393 bytes, use -b option to extract)"
+   */
   EmbeddedImage?: BinaryField | string;
-  /** ☆☆☆☆   Example: 960 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 960
+   */
   EmbeddedImageHeight?: number;
-  /** ☆☆☆☆   Example: "PNG" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "PNG"
+   */
   EmbeddedImageType?: string;
-  /** ☆☆☆☆   Example: 640 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 640
+   */
   EmbeddedImageWidth?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes
+   * @example 1
+   */
   Emissivity?: number;
-  /** ☆☆☆☆ ✔ Example: 8501 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 8501
+   */
   EXP1?: number;
-  /** ☆☆☆☆ ✔ Example: 59 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 59
+   */
   EXP2?: number;
-  /** ☆☆☆☆ ✔ Example: 237 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 237
+   */
   EXP3?: number;
-  /** ☆☆☆☆   Example: 0.97 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0.97
+   */
   ExposRatio?: number;
-  /** ☆☆☆☆   Example: 3687 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP, XMP
+   * @example 3687
+   */
   Exposure?: number;
-  /** ☆☆☆☆ ✔ Example: "AUTO" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "AUTO"
+   */
   ExposureType?: string;
-  /** ☆☆☆☆   Example: "46.1 deg" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "46.1 deg"
+   */
   FieldOfView?: string;
-  /** ☆☆☆☆   Example: "NOF" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "NOF"
+   */
   FilterModel?: string;
-  /** ☆☆☆☆   Example: "" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example ""
+   */
   FilterPartNumber?: string;
-  /** ☆☆☆☆   Example: "00000000" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "00000000"
+   */
   FilterSerialNumber?: string;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
   FinalRatio?: number;
-  /** ☆☆☆☆   Example: 640 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 640
+   */
   FlashTime?: number;
-  /** ☆☆☆☆   Example: 192 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 192
+   */
   FMean?: number;
-  /** ☆☆☆☆ ✔ Example: "F2.8" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "F2.8"
+   */
   Fnumber?: string;
-  /** ☆☆☆☆ ✔ Example: "inf" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups APP, Composite, MakerNotes, XMP
+   * @example "inf"
+   */
   FocusDistance?: string;
-  /** ☆☆☆☆   Example: 136 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 136
+   */
   FocusPos?: number;
-  /** ☆☆☆☆ ✔ Example: 98 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups APP, MakerNotes, PanasonicRaw
+   * @example 98
+   */
   FocusStepCount?: number;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, RIFF
+   * @example 9
+   */
   FrameRate?: number;
-  /** ☆☆☆☆   Example: 85 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 85
+   */
   Gain?: number;
-  /** ☆☆☆☆   Example: 2152 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2152
+   */
   GBgain?: number;
-  /** ☆☆☆☆   Example: 8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 8
+   */
   GBoff?: number;
-  /** ☆☆☆☆   Example: 255 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
   GHighLight?: number;
-  /** ☆☆☆☆   Example: 255 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
   GHL?: number;
-  /** ☆☆☆☆   Example: 52 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 52
+   */
   GMean?: number;
-  /** ☆☆☆☆ ✔ Example: 88.01 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, EXIF
+   * @example 88.01
+   */
   GPSTrack?: number;
-  /** ☆☆☆☆ ✔ Example: "True North" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, EXIF
+   * @example "True North"
+   */
   GPSTrackRef?: string;
-  /** ☆☆☆☆   Example: true */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example true
+   */
   GPSValid?: boolean;
-  /** ☆☆☆☆   Example: 2152 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2152
+   */
   GRgain?: number;
-  /** ☆☆☆☆   Example: 8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 8
+   */
   GRoff?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
   GSd?: number;
-  /** ☆☆☆☆   Example: 4 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4
+   */
   GSD?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1458 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "(Binary data 1458 bytes, use -b option to extract)"
+   */
   HDRGainCurve?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 377 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 377
+   */
   HDRGainCurveSize?: number;
-  /** ☆☆☆☆ ✔ Example: "PDR-M60" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "PDR-M60"
+   */
   ID?: string;
-  /** ☆☆☆☆   Example: "7.4 C" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "7.4 C"
+   */
   IRWindowTemperature?: string;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 1
+   */
   IRWindowTransmission?: number;
-  /** ☆☆☆☆   Example: "99 128 128" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "99 128 128"
+   */
   Isotherm1Color?: string;
-  /** ☆☆☆☆   Example: "92 115 209" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "92 115 209"
+   */
   Isotherm2Color?: string;
-  /** ☆☆☆☆ ✔ Example: 696880 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 696880
+   */
   JPEG1?: number;
-  /** ☆☆☆☆   Example: "T199104" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "T199104"
+   */
   LensPartNumber?: string;
-  /** ☆☆☆☆ ✔ Example: "GPRO" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "GPRO"
+   */
   LensProjection?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
   LightS?: number;
-  /** ☆☆☆☆   Example: " 10.6" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example " 10.6"
+   */
   Mean?: string;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
   Meas1Label?: number;
-  /** ☆☆☆☆   Example: "80 60" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "80 60"
+   */
   Meas1Params?: string;
-  /** ☆☆☆☆   Example: "Spot" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Spot"
+   */
   Meas1Type?: string;
-  /** ☆☆☆☆   Example: "Sp1" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Sp1"
+   */
   Meas2Label?: string;
-  /** ☆☆☆☆   Example: "213 160 213 160" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "213 160 213 160"
+   */
   Meas2Params?: string;
-  /** ☆☆☆☆   Example: "Spot" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Spot"
+   */
   Meas2Type?: string;
-  /** ☆☆☆☆ ✔ Example: "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000"
+   */
   MediaUniqueID?: string;
-  /** ☆☆☆☆ ✔ Example: "7.6.4" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "7.6.4"
+   */
   MetadataVersion?: string;
-  /** ☆☆☆☆   Example: 26 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 26
+   */
   MotorPos?: number;
-  /** ☆☆☆☆   Example: 4 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4
+   */
   Offset?: number;
-  /** ☆☆☆☆   Example: "+98" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "+98"
+   */
   OffsetX?: string;
-  /** ☆☆☆☆   Example: "+51" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "+51"
+   */
   OffsetY?: string;
-  /** ☆☆☆☆   Example: "67 216 98" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "67 216 98"
+   */
   OverflowColor?: string;
-  /** ☆☆☆☆   Example: "(Binary data 672 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "(Binary data 672 bytes, use -b option to extract)"
+   */
   Palette?: BinaryField | string;
-  /** ☆☆☆☆   Example: 224 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 224
+   */
   PaletteColors?: number;
-  /** ☆☆☆☆   Example: "iron.pal" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "iron.pal"
+   */
   PaletteFileName?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 0
+   */
   PaletteMethod?: number;
-  /** ☆☆☆☆   Example: "iron" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "iron"
+   */
   PaletteName?: string;
-  /** ☆☆☆☆   Example: 3 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 3
+   */
   PaletteStretch?: number;
-  /** ☆☆☆☆   Example: ".basicImgData.objectParams.emissivity" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example ".basicImgData.objectParams.emissivity"
+   */
   Param0?: string;
-  /** ☆☆☆☆ ✔ Example: "12MP_W" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "12MP_W"
+   */
   PhotoResolution?: string;
-  /** ☆☆☆☆ ✔ Example: 87648 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 87648
+   */
   PicLen?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
   Protect?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "On"
+   */
   Protune?: string;
-  /** ☆☆☆☆   Example: 6929 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 6929
+   */
   R5100?: number;
-  /** ☆☆☆☆ ✔ Example: "4_1SEC" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "4_1SEC"
+   */
   Rate?: string;
-  /** ☆☆☆☆   Example: "(Binary data 614604 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "(Binary data 614604 bytes, use -b option to extract)"
+   */
   RawThermalImage?: BinaryField | string;
-  /** ☆☆☆☆   Example: 90 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 90
+   */
   RawThermalImageHeight?: number;
-  /** ☆☆☆☆   Example: "TIFF" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "TIFF"
+   */
   RawThermalImageType?: string;
-  /** ☆☆☆☆   Example: 80 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 80
+   */
   RawThermalImageWidth?: number;
-  /** ☆☆☆☆   Example: 9392 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 9392
+   */
   RawValueMedian?: number;
-  /** ☆☆☆☆   Example: 993 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 993
+   */
   RawValueRange?: number;
-  /** ☆☆☆☆   Example: 65535 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 65535
+   */
   RawValueRangeMax?: number;
-  /** ☆☆☆☆   Example: 8628 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 8628
+   */
   RawValueRangeMin?: number;
-  /** ☆☆☆☆   Example: 2.2125397 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2.2125397
+   */
   Real2IR?: number;
-  /** ☆☆☆☆   Example: "26.7 C" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "26.7 C"
+   */
   ReflectedApparentTemperature?: string;
-  /** ☆☆☆☆   Example: "80.0 %" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "80.0 %"
+   */
   RelativeHumidity?: string;
-  /** ☆☆☆☆ ✔ Example: 6 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups APP, MakerNotes
+   * @example 6
+   */
   Resolution?: number;
-  /** ☆☆☆☆ ✔ Example: "DCPT" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "DCPT"
+   */
   REV?: string;
-  /** ☆☆☆☆   Example: 1887 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1887
+   */
   Rgain?: number;
-  /** ☆☆☆☆   Example: 255 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
   RHighLight?: number;
-  /** ☆☆☆☆   Example: 247 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 247
+   */
   RHL?: number;
-  /** ☆☆☆☆   Example: 32 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 32
+   */
   RMean?: number;
-  /** ☆☆☆☆   Example: 9 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 9
+   */
   Roff?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
   RSd?: number;
-  /** ☆☆☆☆   Example: 4 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4
+   */
   RSD?: number;
-  /** ☆☆☆☆   Example: 5896 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 5896
+   */
   RStrobe?: number;
-  /** ☆☆☆☆ ✔ Example: "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7"
+   */
   S0?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "No"
+   */
   SpotMeter?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
   StrobeTime?: number;
-  /** ☆☆☆☆ ✔ Example: "bd1,1,5,2beec,b5,ec15" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "bd1,1,5,2beec,b5,ec15"
+   */
   T0?: string;
-  /** ☆☆☆☆ ✔ Example: 357 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 357
+   */
   TagB?: number;
-  /** ☆☆☆☆ ✔ Example: 92 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 92
+   */
   TagQ?: number;
-  /** ☆☆☆☆ ✔ Example: 243 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 243
+   */
   TagR?: number;
-  /** ☆☆☆☆ ✔ Example: "v" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "v"
+   */
   TagS?: string;
-  /** ☆☆☆☆ ✔ Example: 4016 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4016
+   */
   ThmLen?: number;
-  /** ☆☆☆☆   Example: "41 110 240" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "41 110 240"
+   */
   UnderflowColor?: string;
-  /** ★☆☆☆ ✔ Example: "vf0-3c" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups APP, MakerNotes, XMP
+   * @example "vf0-3c"
+   */
   Version?: string;
-  /** ☆☆☆☆   Example: 4054 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4054
+   */
   YLevel?: number;
-  /** ☆☆☆☆   Example: 2209 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2209
+   */
   YTarget?: number;
-  /** ☆☆☆☆ ✔ Example:  */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example
+   */
   Zoom?: string;
-  /** ☆☆☆☆   Example: 9 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 9
+   */
   ZoomPos?: number;
 }
 
@@ -596,91 +1308,263 @@ export type APPTag = StrEnumKeys<typeof APPTagsNames>;
  * @see https://exiftool.org/TagNames/Composite.html
  */
 export interface CompositeTags {
-  /** ☆☆☆☆ ✔ Example: "Unknown (49 5)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite
+   * @example "Unknown (49 5)"
+   */
   AdvancedSceneMode?: string;
-  /** ★★★★ ✔ Example: 90 */
+  /**
+   * @frequency 🔥 ★★★★ (85%)
+   * @groups APP, Composite, MakerNotes
+   * @example 90
+   */
   Aperture?: number;
-  /** ★☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups Composite
+   * @example "On"
+   */
   AutoFocus?: string;
-  /** ☆☆☆☆ ✔ Example: "8.7 Mbps" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite
+   * @example "8.7 Mbps"
+   */
   AvgBitrate?: string;
-  /** ★★☆☆ ✔ Example: 46 */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups Composite, MakerNotes
+   * @example 46
+   */
   BlueBalance?: number;
-  /** ☆☆☆☆ ✔ Example: "[Red,Green][Green,Blue]" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite, EXIF
+   * @example "[Red,Green][Green,Blue]"
+   */
   CFAPattern?: string;
-  /** ★★★★ ✔ Example: "1.030 mm" */
+  /**
+   * @frequency 🔥 ★★★★ (53%)
+   * @groups Composite
+   * @example "1.030 mm"
+   */
   CircleOfConfusion?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups Composite
+   * @example 0
+   */
   ConditionalFEC?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Composite
+   * @example "On"
+   */
   ContrastDetectAF?: string;
-  /** ☆☆☆☆ ✔ Example: "2021:03:16 18:14:25" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite
+   * @example "2025:02:19 17:21:26+00:00"
+   */
   DigitalCreationDateTime?: ExifDateTime | string;
-  /** ★★☆☆ ✔ Example: "inf (9.66 m - inf)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups Composite
+   * @example "inf (9.66 m - inf)"
+   */
   DOF?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (3152)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (18%)
+   * @groups Composite, MakerNotes
+   * @example "Unknown (3152)"
+   */
   DriveMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Not attached" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Composite, MakerNotes
+   * @example "Not attached"
+   */
   ExtenderStatus?: string;
-  /** ☆☆☆☆ ✔ Example: "Optional,TTL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups Composite, MakerNotes
+   * @example "Optional,TTL"
+   */
   FlashType?: string;
-  /** ★★★★ ✔ Example: "99.7 mm (35 mm equivalent: 554.0 mm)" */
+  /**
+   * @frequency 🔥 ★★★★ (80%)
+   * @groups Composite
+   * @example "99.7 mm (35 mm equivalent: 554.0 mm)"
+   */
   FocalLength35efl?: string;
-  /** ★★★★ ✔ Example: "97.7 deg" */
+  /**
+   * @frequency 🔥 ★★★★ (53%)
+   * @groups Composite
+   * @example "97.7 deg"
+   */
   FOV?: string;
-  /** ☆☆☆☆ ✔ Example: "2024:04:21 04:09:51Z" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite, XMP
+   * @example "2024:04:21 04:09:51Z"
+   */
   GPSDateTime?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "7.196465 134.376806666667" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite
+   * @example "7.196465 134.376806666667"
+   */
   GPSPosition?: string;
-  /** ★★★★ ✔ Example: "Inf m" */
+  /**
+   * @frequency 🔥 ★★★★ (53%)
+   * @groups Composite
+   * @example "Inf m"
+   */
   HyperfocalDistance?: string;
-  /** ★★★★ ✔ Example: "8x8" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, Composite
+   * @example "9504x6336"
+   */
   ImageSize?: string;
-  /** ★★☆☆ ✔ Example: "smc PENTAX-D FA 50mm F2.8 Macro" */
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "smc PENTAX-D FA 50mm F2.8 Macro"
+   */
   Lens?: string;
-  /** ★★☆☆ ✔ Example: "9.2 - 92.0 mm (35 mm equivalent: 24.9 - 248.8 mm)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups Composite
+   * @example "9.2 - 92.0 mm (35 mm equivalent: 24.9 - 248.8 mm)"
+   */
   Lens35efl?: string;
-  /** ★★☆☆ ✔ Example: "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" */
+  /**
+   * @frequency 🔥 ★★☆☆ (20%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]"
+   */
   LensID?: string;
-  /** ★★★★ ✔ Example: 9.9 */
+  /**
+   * @frequency 🔥 ★★★★ (67%)
+   * @groups Composite
+   * @example 9.9
+   */
   LightValue?: number;
-  /** ★★★★ ✔ Example: 9.5 */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups Composite
+   * @example 9.5
+   */
   Megapixels?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 512 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite
+   * @example "(Binary data 512 bytes, use -b option to extract)"
+   */
   OriginalDecisionData?: BinaryField | string;
-  /** ☆☆☆☆   Example: "9.9 um" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups Composite
+   * @example "9.9 um"
+   */
   PeakSpectralSensitivity?: string;
-  /** ☆☆☆☆ ✔ Example: "On (73-point)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Composite, MakerNotes
+   * @example "On (73-point)"
+   */
   PhaseDetectAF?: string;
-  /** ★★★☆ ✔ Example: "(Binary data 37244 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ★★★☆ (32%)
+   * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   */
   PreviewImage?: BinaryField;
-  /** ★★☆☆ ✔ Example: 38.625 */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups Composite, MakerNotes
+   * @example 38.625
+   */
   RedBalance?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite, MakerNotes
+   * @example "On"
+   */
   RedEyeReduction?: string;
-  /** ☆☆☆☆   Example: 11.2 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Composite
+   * @example 11.2
+   */
   RicohPitch?: number;
-  /** ☆☆☆☆   Example: 1.59 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Composite
+   * @example 1.59
+   */
   RicohRoll?: number;
-  /** ★☆☆☆ ✔ Example: "Unknown (0)" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups Composite, MakerNotes
+   * @example "Unknown (0)"
+   */
   Rotation?: number;
-  /** ☆☆☆☆ ✔ Example: "9:30:01" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Composite
+   * @example "9:30:01"
+   */
   RunTimeSincePowerUp?: string;
-  /** ★★★★ ✔ Example: 9.9 */
+  /**
+   * @frequency 🔥 ★★★★ (53%)
+   * @groups Composite
+   * @example 9.9
+   */
   ScaleFactor35efl?: number;
-  /** ★★☆☆ ✔ Example: "Unknown (83)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (17%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "Unknown (83)"
+   */
   ShootingMode?: string;
-  /** ☆☆☆☆ ✔ Example: "1st-curtain sync" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups Composite
+   * @example "1st-curtain sync"
+   */
   ShutterCurtainHack?: string;
-  /** ★★★★ ✔ Example: "inf" */
+  /**
+   * @frequency 🔥 ★★★★ (86%)
+   * @groups Composite, MakerNotes
+   * @example "inf"
+   */
   ShutterSpeed?: string;
-  /** ★☆☆☆ ✔ Example: "2025:04:28 16:06:17.88+01:00" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups Composite
+   * @example "2025:06:11 11:07:41.57-08:00"
+   */
   SubSecCreateDate?: ExifDateTime | string;
-  /** ★☆☆☆ ✔ Example: "2025:04:28 16:06:17.88+01:00" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups Composite
+   * @example "2025:06:11 11:07:41.57-08:00"
+   */
   SubSecDateTimeOriginal?: ExifDateTime | string;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Composite
+   * @example
+   */
   SubSecMediaCreateDate?: ExifDateTime | string;
-  /** ★☆☆☆ ✔ Example: "2025:04:28 16:06:17.88+01:00" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups Composite
+   * @example "2025:06:11 11:07:41.57-08:00"
+   */
   SubSecModifyDate?: ExifDateTime | string;
 }
 
@@ -736,27 +1620,71 @@ export type CompositeTag = StrEnumKeys<typeof CompositeTagsNames>;
  * @see https://exiftool.org/TagNames/FlashPix.html
  */
 export interface FlashPixTags {
-  /** ☆☆☆☆   Example: "(Binary data 18 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups FlashPix
+   * @example "(Binary data 18 bytes, use -b option to extract)"
+   */
   AudioStream?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "Unicode UTF-16, little endian" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "Unicode UTF-16, little endian"
+   */
   CodePage?: string;
-  /** ☆☆☆☆ ✔ Example: "Picoss" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "Picoss"
+   */
   CreatingApplication?: string;
-  /** ☆☆☆☆ ✔ Example: "30020010-C06F-D011-BD01-00609719A180" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "30020010-C06F-D011-BD01-00609719A180"
+   */
   ExtensionClassID?: string;
-  /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "2003:03:29 17:47:50"
+   */
   ExtensionCreateDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "Presized image for LCD display" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "Presized image for LCD display"
+   */
   ExtensionDescription?: string;
-  /** ☆☆☆☆ ✔ Example: "2003:03:29 17:47:50" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "2003:03:29 17:47:50"
+   */
   ExtensionModifyDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "Screen nail" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "Screen nail"
+   */
   ExtensionName?: string;
-  /** ☆☆☆☆ ✔ Example: "Invalidated By Modification" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "Invalidated By Modification"
+   */
   ExtensionPersistence?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46285 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example "(Binary data 57881 bytes, use -b option to extract)"
+   */
   ScreenNail?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups FlashPix
+   * @example 1
+   */
   UsedExtensionNumbers?: number;
 }
 
@@ -777,17 +1705,41 @@ export const FlashPixTagsNames = strEnum(
 export type FlashPixTag = StrEnumKeys<typeof FlashPixTagsNames>;
 
 export interface JSONTags {
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups JSON
+   * @example 0
+   */
   AIScene?: number;
-  /** ☆☆☆☆   Example: 66048 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups JSON
+   * @example 66048
+   */
   FilterId?: number;
-  /** ☆☆☆☆   Example: "off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups JSON
+   * @example "off"
+   */
   Hdr?: string;
-  /** ☆☆☆☆   Example: false */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups JSON
+   * @example false
+   */
   Mirror?: boolean;
-  /** ☆☆☆☆   Example: 36864 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups JSON
+   * @example 36864
+   */
   OpMode?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups JSON
+   * @example 1
+   */
   ZoomMultiple?: number;
 }
 
@@ -803,27 +1755,71 @@ export const JSONTagsNames = strEnum(
 export type JSONTag = StrEnumKeys<typeof JSONTagsNames>;
 
 export interface MPFTags {
-  /** ★★☆☆ ✔ Example: 9697 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example 9697
+   */
   DependentImage1EntryNumber?: number;
-  /** ★★☆☆ ✔ Example: 960 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example 960
+   */
   DependentImage2EntryNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 66 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MPF
+   * @example "(Binary data 66 bytes, use -b option to extract)"
+   */
   ImageUIDList?: BinaryField | string;
-  /** ★★☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example "0100"
+   */
   MPFVersion?: string;
-  /** ★★☆☆ ✔ Example: "Representative image, Dependent parent image" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example "Representative image, Dependent parent image"
+   */
   MPImageFlags?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (4)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example "Unknown (4)"
+   */
   MPImageFormat?: string;
-  /** ★★☆☆ ✔ Example: 999325 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example 999325
+   */
   MPImageLength?: number;
-  /** ★★☆☆ ✔ Example: 9999872 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example 9999872
+   */
   MPImageStart?: number;
-  /** ★★☆☆ ✔ Example: "Undefined" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example "Undefined"
+   */
   MPImageType?: string;
-  /** ★★☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MPF
+   * @example 3
+   */
   NumberOfImages?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MPF
+   * @example 1
+   */
   TotalFrames?: number;
 }
 
@@ -847,389 +1843,1151 @@ export type MPFTag = StrEnumKeys<typeof MPFTagsNames>;
  * @see https://exiftool.org/TagNames/EXIF.html
  */
 export interface EXIFTags {
-  /** ☆☆☆☆ ✔ Example: 988517 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 988517
+   */
   Acceleration?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 0
+   */
   AntiAliasStrength?: number;
-  /** ★★★☆ ✔ Example: 9016997700 */
+  /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example 9016997700
+   */
   ApertureValue?: number;
-  /** ★☆☆☆ ✔ Example: "Arturo DeImage" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups EXIF
+   * @example "Arturo DeImage"
+   */
   Artist?: string;
-  /** ☆☆☆☆ ✔ Example: "0.8326394671 1.012145749 0.3512469266" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "0.8326394671 1.012145749 0.3512469266"
+   */
   AsShotNeutral?: string;
-  /** ☆☆☆☆ ✔ Example: -0.6566481 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example -0.6566481
+   */
   BaselineExposure?: number;
-  /** ☆☆☆☆ ✔ Example: "94 95 93 93" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes, RAF
+   * @example "94 95 93 93"
+   */
   BlackLevel?: string;
-  /** ☆☆☆☆ ✔ Example: 130 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 130
+   */
   BlackLevelBlue?: number;
-  /** ☆☆☆☆ ✔ Example: 130 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 130
+   */
   BlackLevelGreen?: number;
-  /** ☆☆☆☆ ✔ Example: 130 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 130
+   */
   BlackLevelRed?: number;
-  /** ☆☆☆☆ ✔ Example: "1 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "1 1"
+   */
   BlackLevelRepeatDim?: string;
-  /** ★★★☆ ✔ Example: 9.9919505 */
+  /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 9.9919505
+   */
   BrightnessValue?: number;
-  /** ☆☆☆☆   Example: 6.1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 6.1
+   */
   CameraElevationAngle?: number;
-  /** ☆☆☆☆ ✔ Example: "Red,Green,Blue" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Red,Green,Blue"
+   */
   CFAPlaneColor?: string;
-  /** ☆☆☆☆ ✔ Example: "2 2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "2 2"
+   */
   CFARepeatPatternDim?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF, MakerNotes
+   * @example "On"
+   */
   ChromaticAberrationCorrection?: string;
-  /** ★★★★ ✔ Example: "sRGB" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "sRGB"
+   */
   ColorSpace?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "Unknown"
+   */
   CompositeImage?: string;
-  /** ★★★★ ✔ Example: 90 */
+  /**
+   * @frequency 🔥 ★★★★ (57%)
+   * @groups EXIF, XMP
+   * @example 90
+   */
   CompressedBitsPerPixel?: number;
-  /** ★★★★ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★★★ (58%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "n/a"
+   */
   Contrast?: string;
-  /** ★★★☆ ✔ Example: "© Chuckles McSnortypants, Inc." */
+  /**
+   * @frequency 🔥 ★★★☆ (20%)
+   * @groups EXIF
+   * @example "© Chuckles McSnortypants, Inc."
+   */
   Copyright?: string;
-  /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups EXIF, QuickTime, XMP
+   * @example "2218:09:22 02:32:14"
+   */
   CreateDate?: ExifDateTime | ExifDate | string | number;
-  /** ★★★★ ✔ Example: "Unknown (Custom process)" */
+  /**
+   * @frequency 🔥 ★★★★ (64%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (Custom process)"
+   */
   CustomRendered?: string;
-  /** ★★★★ ✔ Example: "2218:09:22 02:32:14" */
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
+   * @example "2218:09:22 02:32:14"
+   */
   DateTimeOriginal?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "8 8" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "8 8"
+   */
   DefaultCropOrigin?: string;
-  /** ☆☆☆☆ ✔ Example: "8272 6200" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "8272 6200"
+   */
   DefaultCropSize?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 0 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF
+   * @example "(Binary data 0 bytes, use -b option to extract)"
+   */
   DeviceSettingDescription?: BinaryField | string;
-  /** ★★★☆ ✔ Example: 8.1319764 */
+  /**
+   * @frequency 🔥 ★★★☆ (50%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 8.1319764
+   */
   DigitalZoomRatio?: number;
-  /** ☆☆☆☆ ✔ Example: "1.3.0.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "1.3.0.0"
+   */
   DNGBackwardVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "1.4.0.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "1.4.0.0"
+   */
   DNGVersion?: string;
-  /** ☆☆☆☆   Example: "" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example ""
+   */
   DocumentName?: string;
-  /** ★★★★ ✔ Example: 990 */
+  /**
+   * @frequency 🔥 ★★★★ (98%)
+   * @groups EXIF, XMP
+   * @example 990
+   */
   ExifImageHeight?: number;
-  /** ★★★★ ✔ Example: 999 */
+  /**
+   * @frequency 🔥 ★★★★ (98%)
+   * @groups EXIF, XMP
+   * @example 999
+   */
   ExifImageWidth?: number;
-  /** ★☆☆☆ ✔ Example: 83 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups EXIF
+   * @example 83
+   */
   ExposureIndex?: number;
-  /** ★★★★ ✔ Example: "Unknown (Auto exposure)" */
+  /**
+   * @frequency 🔥 ★★★★ (83%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (Auto exposure)"
+   */
   ExposureMode?: string;
-  /** ★★★★ ✔ Example: "iAuto+" */
+  /**
+   * @frequency 🔥 ★★★★ (68%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "iAuto+"
+   */
   ExposureProgram?: string;
-  /** ★★★★ ✔ Example: "inf" */
+  /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "inf"
+   */
   ExposureTime?: string;
-  /** ★★★★ ✔ Example: "Unknown (DSC)" */
+  /**
+   * @frequency 🔥 ★★★★ (63%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (DSC)"
+   */
   FileSource?: string;
-  /** ★★★★ ✔ Example: "Unknown (0xffff)" */
+  /**
+   * @frequency 🔥 ★★★★ (86%)
+   * @groups APP, Composite, EXIF, MakerNotes, XMP
+   * @example "Unknown (0xffff)"
+   */
   Flash?: string;
-  /** ☆☆☆☆ ✔ Example: 54 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 54
+   */
   FlashEnergy?: number;
-  /** ★★★★ ✔ Example: 90 */
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 90
+   */
   FNumber?: number;
-  /** ★★★★ ✔ Example: "99.7 mm" */
+  /**
+   * @frequency 🔥 ★★★★ (95%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "99.7 mm"
+   */
   FocalLength?: string;
-  /** ★★★☆ ✔ Example: "9920 mm" */
+  /**
+   * @frequency 🔥 ★★★☆ (30%)
+   * @groups EXIF, PanasonicRaw, XMP
+   * @example "9920 mm"
+   */
   FocalLengthIn35mmFormat?: string;
-  /** ★★★☆ ✔ Example: "um" */
+  /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups EXIF, XMP
+   * @example "um"
+   */
   FocalPlaneResolutionUnit?: string;
-  /** ★★★☆ ✔ Example: 9941.7476 */
+  /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups EXIF, XMP
+   * @example 9941.7476
+   */
   FocalPlaneXResolution?: number;
-  /** ★★★☆ ✔ Example: 9846.1538 */
+  /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups EXIF, XMP
+   * @example 9846.1538
+   */
   FocalPlaneYResolution?: number;
-  /** ★★★☆ ✔ Example: "Unknown (8176)" */
+  /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups EXIF, XMP
+   * @example "Unknown (8176)"
+   */
   GainControl?: string;
-  /** ☆☆☆☆ ✔ Example: 2.4921875 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, QuickTime
+   * @example 2.4921875
+   */
   Gamma?: number;
-  /** ★☆☆☆ ✔ Example: 99.8 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 99.8
+   */
   GPSAltitude?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown (Sea level reference)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups Composite, EXIF, XMP
+   * @example "Unknown (Sea level reference)"
+   */
   GPSAltitudeRef?: string;
-  /** ☆☆☆☆ ✔ Example: "府中市郷土の森博物館" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "府中市郷土の森博物館"
+   */
   GPSAreaInformation?: string;
-  /** ☆☆☆☆ ✔ Example: "2024:04:21" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, XMP
+   * @example "2024:04:21"
+   */
   GPSDateStamp?: ExifDate | string;
-  /** ☆☆☆☆ ✔ Example: 86.180049 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 86.180049
+   */
   GPSDestBearing?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown ()" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Unknown ()"
+   */
   GPSDestBearingRef?: string;
-  /** ☆☆☆☆ ✔ Example: 0.030120052 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 0.030120052
+   */
   GPSDestDistance?: number;
-  /** ☆☆☆☆ ✔ Example: "Kilometers" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Kilometers"
+   */
   GPSDestDistanceRef?: string;
-  /** ☆☆☆☆ ✔ Example: "43 deg 37' 59.61" N" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, EXIF
+   * @example "43 deg 37' 59.61" N"
+   */
   GPSDestLatitude?: string;
-  /** ☆☆☆☆ ✔ Example: "North" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "North"
+   */
   GPSDestLatitudeRef?: string;
-  /** ☆☆☆☆ ✔ Example: "80 deg 23' 16.31" W" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, EXIF
+   * @example "80 deg 23' 16.31" W"
+   */
   GPSDestLongitude?: string;
-  /** ☆☆☆☆ ✔ Example: "West" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "West"
+   */
   GPSDestLongitudeRef?: string;
-  /** ☆☆☆☆ ✔ Example: "No Correction" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "No Correction"
+   */
   GPSDifferential?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, XMP
+   * @example 9
+   */
   GPSDOP?: number;
-  /** ☆☆☆☆ ✔ Example: "8.937059922 m" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "8.937059922 m"
+   */
   GPSHPositioningError?: string;
-  /** ☆☆☆☆ ✔ Example: 94.800416 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example 94.800416
+   */
   GPSImgDirection?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown ()" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example "Unknown ()"
+   */
   GPSImgDirectionRef?: string;
-  /** ★☆☆☆ ✔ Example: 48.857748 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 48.857748
+   */
   GPSLatitude?: number | string;
-  /** ☆☆☆☆ ✔ Example: "Unknown ()" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups APP, Composite, EXIF
+   * @example "Unknown ()"
+   */
   GPSLatitudeRef?: string;
-  /** ★☆☆☆ ✔ Example: 2.2918888 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 2.2918888
+   */
   GPSLongitude?: number | string;
-  /** ☆☆☆☆ ✔ Example: "West" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example "West"
+   */
   GPSLongitudeRef?: string;
-  /** ☆☆☆☆ ✔ Example: "WGS84" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF
+   * @example "WGS84"
+   */
   GPSMapDatum?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown ()" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "Unknown ()"
+   */
   GPSMeasureMode?: string;
-  /** ☆☆☆☆ ✔ Example: "gps" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, XMP
+   * @example "gps"
+   */
   GPSProcessingMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "??B??" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "??B??"
+   */
   GPSSatellites?: string;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, XMP
+   * @example 5
+   */
   GPSSpeed?: number;
-  /** ☆☆☆☆ ✔ Example: "knots" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, XMP
+   * @example "knots"
+   */
   GPSSpeedRef?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown ()" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "Unknown ()"
+   */
   GPSStatus?: string;
-  /** ☆☆☆☆ ✔ Example: "23:59:41.001" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF
+   * @example "23:59:41.001"
+   */
   GPSTimeStamp?: ExifTime | string;
-  /** ★☆☆☆ ✔ Example: "50.51.48.48" */
-  GPSVersionID?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 1
+   */
   HighISOMultiplierBlue?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 1
+   */
   HighISOMultiplierGreen?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 1
+   */
   HighISOMultiplierRed?: number;
-  /** ☆☆☆☆ ✔ Example: "iPhone 15 Plus" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "iPhone 15 Plus"
+   */
   HostComputer?: string;
-  /** ★★★☆ ✔ Example: "untitled" */
+  /**
+   * @frequency 🔥 ★★★☆ (43%)
+   * @groups EXIF
+   * @example "untitled"
+   */
   ImageDescription?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 0
+   */
   ImageTitle?: number;
-  /** ★★★★ ✔ Example: "Unknown ([None])" */
+  /**
+   * @frequency 🔥 ★★★★ (83%)
+   * @groups EXIF
+   * @example "Unknown ([None])"
+   */
   InteropIndex?: string;
-  /** ★★★★ ✔ Example: "undef undef undef" */
+  /**
+   * @frequency 🔥 ★★★★ (83%)
+   * @groups EXIF
+   * @example "undef undef undef"
+   */
   InteropVersion?: string;
-  /** ★★★★ ✔ Example: 993 */
+  /**
+   * @frequency 🔥 ★★★★ (89%)
+   * @groups Composite, EXIF, MakerNotes, XMP
+   * @example 993
+   */
   ISO?: number;
-  /** ☆☆☆☆ ✔ Example: 80 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF, XMP
+   * @example 80
+   */
   ISOSpeed?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 532480 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
+   */
   JpgFromRaw?: BinaryField;
-  /** ☆☆☆☆ ✔ Example: 845574 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 845574
+   */
   JpgFromRawLength?: number;
-  /** ☆☆☆☆ ✔ Example: 978944 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 978944
+   */
   JpgFromRawStart?: number;
-  /** ★☆☆☆ ✔ Example: "?mm f/?" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "?mm f/?"
+   */
   LensInfo?: string;
-  /** ☆☆☆☆ ✔ Example: "ZEISS" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, XMP
+   * @example "ZEISS"
+   */
   LensMake?: string;
-  /** ★★☆☆ ✔ Example: "smc PENTAX-D FA 50mm F2.8 Macro" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "smc PENTAX-D FA 50mm F2.8 Macro"
+   */
   LensModel?: string;
-  /** ★☆☆☆ ✔ Example: "xB?" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "xB?"
+   */
   LensSerialNumber?: string;
-  /** ★★★★ ✔ Example: "White Fluorescent" */
+  /**
+   * @frequency 🔥 ★★★★ (59%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "White Fluorescent"
+   */
   LightSource?: string;
-  /** ☆☆☆☆ ✔ Example: 4095 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 4095
+   */
   LinearityLimitBlue?: number;
-  /** ☆☆☆☆ ✔ Example: 4095 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 4095
+   */
   LinearityLimitGreen?: number;
-  /** ☆☆☆☆ ✔ Example: 4095 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 4095
+   */
   LinearityLimitRed?: number;
-  /** ★★★★ ✔ Example: "samsung" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, QuickTime, XMP
+   * @example "samsung"
+   */
   Make?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 3072 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 3072 bytes, use -b option to extract)"
+   */
   MakerNoteSamsung1a?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 66 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 66 bytes, use -b option to extract)"
+   */
   MakerNoteUnknownBinary?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "}:-" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "}:-"
+   */
   MakerNoteUnknownText?: string;
-  /** ★★★★ ✔ Example: 9.1 */
+  /**
+   * @frequency 🔥 ★★★★ (67%)
+   * @groups EXIF, XMP
+   * @example 9.1
+   */
   MaxApertureValue?: number;
-  /** ★★★★ ✔ Example: "Unknown (Center-weighted average)" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (Center-weighted average)"
+   */
   MeteringMode?: string;
-  /** ★★★★ ✔ Example: "x530" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "x530"
+   */
   Model?: string;
-  /** ☆☆☆☆ ✔ Example: "K520C-01044" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "K520C-01044"
+   */
   Model2?: string;
-  /** ★★★★ ✔ Example: "2216:02:28 03:49:50" */
+  /**
+   * @frequency 🔥 ★★★★ (89%)
+   * @groups EXIF, QuickTime, XMP
+   * @example "2216:02:28 03:49:50"
+   */
   ModifyDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: 6 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 6
+   */
   Noise?: number;
-  /** ☆☆☆☆ ✔ Example: "0.00627371 0.0011865" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "0.00627371 0.0011865"
+   */
   NoiseProfile?: string;
-  /** ☆☆☆☆ ✔ Example: "5 100 4 4 4 200 8 8 8 400 16 16 16 800 32 32 32 1600 64 64 64" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "5 100 4 4 4 200 8 8 8 400 16 16 16 800 32 32 32 1600 64 64 64"
+   */
   NoiseReductionParams?: string;
-  /** ☆☆☆☆ ✔ Example: 58 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF
+   * @example 58
+   */
   OffsetSchema?: number;
-  /** ☆☆☆☆ ✔ Example: "-09:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF
+   * @example "-09:00"
+   */
   OffsetTime?: string;
-  /** ☆☆☆☆ ✔ Example: "-09:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF
+   * @example "-09:00"
+   */
   OffsetTimeDigitized?: string;
-  /** ☆☆☆☆ ✔ Example: "-09:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF
+   * @example "-09:00"
+   */
   OffsetTimeOriginal?: string;
-  /** ★★★★ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ★★★★ (92%)
+   * @groups EXIF, PanasonicRaw, XMP
+   * @example 8
+   */
   Orientation?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 4798 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 4798 bytes, use -b option to extract)"
+   */
   OtherImage?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 941265 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 941265
+   */
   OtherImageLength?: number;
-  /** ☆☆☆☆ ✔ Example: 755 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 755
+   */
   OtherImageStart?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2060 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, XMP
+   * @example "(Binary data 2060 bytes, use -b option to extract)"
+   */
   Padding?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "Reflective" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Reflective"
+   */
   PageName?: string;
-  /** ☆☆☆☆ ✔ Example: "0350" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "0350"
+   */
   PanasonicRawVersion?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 0
+   */
   Photographer?: number;
-  /** ☆☆☆☆ ✔ Example: "YCbCr" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, XMP
+   * @example "YCbCr"
+   */
   PhotometricInterpretation?: string;
-  /** ☆☆☆☆ ✔ Example: "Chunky" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "Chunky"
+   */
   PlanarConfiguration?: string;
-  /** ☆☆☆☆ ✔ Example: 1022 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 1022
+   */
   Pressure?: number;
-  /** ☆☆☆☆ ✔ Example: "2015:06:02 09:56:01" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "2015:06:02 09:56:01"
+   */
   PreviewDateTime?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 4665816 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 4665816 bytes, use -b option to extract)"
+   */
   PreviewTIFF?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "0.64 0.33 0.3 0.6 0.15 0.06" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "0.64 0.33 0.3 0.6 0.15 0.06"
+   */
   PrimaryChromaticities?: string;
-  /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "https://PhotoStructure.com/"
+   */
   ProcessingSoftware?: string;
-  /** ☆☆☆☆ ✔ Example: 928768 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 928768
+   */
   RawDataOffset?: number;
-  /** ☆☆☆☆ ✔ Example: "30353330394431333030303032383242" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "30353330394431333030303032383242"
+   */
   RawDataUniqueID?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 4
+   */
   RawFormat?: number;
-  /** ☆☆☆☆ ✔ Example: "3 1440 1440" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "3 1440 1440"
+   */
   RawImageSegmentation?: string;
-  /** ☆☆☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups EXIF, XMP
+   * @example 800
+   */
   RecommendedExposureIndex?: number;
-  /** ☆☆☆☆ ✔ Example: "0 255 128 255 128 255" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "0 255 128 255 128 255"
+   */
   ReferenceBlackWhite?: string;
-  /** ☆☆☆☆   Example: "JPEG Exif Ver 2.2" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "JPEG Exif Ver 2.2"
+   */
   RelatedImageFileFormat?: string;
-  /** ★★☆☆ ✔ Example: 960 */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups EXIF
+   * @example 960
+   */
   RelatedImageHeight?: number;
-  /** ★★☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups EXIF
+   * @example 800
+   */
   RelatedImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "xxx.avi" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups EXIF
+   * @example "xxx.avi"
+   */
   RelatedSoundFile?: string;
-  /** ★★★★ ✔ Example: "inches" */
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, XMP
+   * @example "inches"
+   */
   ResolutionUnit?: string;
-  /** ☆☆☆☆ ✔ Example: 96 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF
+   * @example 96
+   */
   RowsPerStrip?: number;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, XMP
+   * @example 3
+   */
   SamplesPerPixel?: number;
-  /** ★★★★ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★★★ (64%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "n/a"
+   */
   Saturation?: string;
-  /** ★★★★ ✔ Example: "Unknown (Standard)" */
+  /**
+   * @frequency 🔥 ★★★★ (72%)
+   * @groups EXIF, XMP
+   * @example "Unknown (Standard)"
+   */
   SceneCaptureType?: string;
-  /** ★★★★ ✔ Example: "Unknown (Directly photographed)" */
+  /**
+   * @frequency 🔥 ★★★★ (50%)
+   * @groups EXIF, XMP
+   * @example "Unknown (Directly photographed)"
+   */
   SceneType?: string;
-  /** ★★★☆ ✔ Example: "Unknown (One-chip color area sensor)" */
+  /**
+   * @frequency 🔥 ★★★☆ (35%)
+   * @groups EXIF, XMP
+   * @example "Unknown (One-chip color area sensor)"
+   */
   SensingMethod?: string;
-  /** ★★☆☆ ✔ Example: "Unknown" */
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups EXIF, XMP
+   * @example "Unknown"
+   */
   SensitivityType?: string;
-  /** ★★★★ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★★★ (79%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "n/a"
+   */
   Sharpness?: string;
-  /** ★★★☆ ✔ Example: "1/999963365" */
+  /**
+   * @frequency 🔥 ★★★☆ (38%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example "1/999963365"
+   */
   ShutterSpeedValue?: string;
-  /** ★★★★ ✔ Example: "https://PhotoStructure.com/" */
+  /**
+   * @frequency 🔥 ★★★★ (60%)
+   * @groups EXIF, MakerNotes, QuickTime, RIFF, XMP
+   * @example "https://PhotoStructure.com/"
+   */
   Software?: string;
-  /** ☆☆☆☆ ✔ Example: "Sony Uncompressed 12-bit RAW" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Sony Uncompressed 12-bit RAW"
+   */
   SonyRawFileType?: string;
-  /** ☆☆☆☆ ✔ Example: "8000 10400 12900 14100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "8000 10400 12900 14100"
+   */
   SonyToneCurve?: string;
-  /** ☆☆☆☆ ✔ Example: 668058300 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 668058300
+   */
   SpatialFrequencyResponse?: number;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 4
+   */
   SRawType?: number;
-  /** ☆☆☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example 800
+   */
   StandardOutputSensitivity?: number;
-  /** ☆☆☆☆ ✔ Example: 9600 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, RAF
+   * @example 9600
+   */
   StripByteCounts?: number;
-  /** ☆☆☆☆ ✔ Example: 986 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, RAF
+   * @example 986
+   */
   StripOffsets?: number;
-  /** ☆☆☆☆ ✔ Example: "Reduced-resolution image" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Reduced-resolution image"
+   */
   SubfileType?: string;
-  /** ☆☆☆☆ ✔ Example: "967 967 1425 851" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF
+   * @example "967 967 1425 851"
+   */
   SubjectArea?: string;
-  /** ☆☆☆☆ ✔ Example: "99.99 m" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups EXIF, XMP
+   * @example "99.99 m"
+   */
   SubjectDistance?: string;
-  /** ★★★☆ ✔ Example: "Unknown (Macro)" */
+  /**
+   * @frequency 🔥 ★★★☆ (24%)
+   * @groups EXIF, XMP
+   * @example "Unknown (Macro)"
+   */
   SubjectDistanceRange?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 1
+   */
   SubjectLocation?: number;
-  /** ★☆☆☆ ✔ Example: 996 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups EXIF
+   * @example 996
+   */
   SubSecTime?: number;
-  /** ★☆☆☆ ✔ Example: 996 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups EXIF, XMP
+   * @example 996
+   */
   SubSecTimeDigitized?: number;
-  /** ★☆☆☆ ✔ Example: 999 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups EXIF, XMP
+   * @example 999
+   */
   SubSecTimeOriginal?: number;
-  /** ★★★★ ✔ Example: "(Binary data 39781 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ★★★★ (89%)
+   * @groups EXIF, JFIF, MakerNotes
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   */
   ThumbnailImage?: BinaryField;
-  /** ★★★★ ✔ Example: 9998 */
+  /**
+   * @frequency 🔥 ★★★★ (89%)
+   * @groups EXIF, MakerNotes
+   * @example 9998
+   */
   ThumbnailLength?: number;
-  /** ★★★★ ✔ Example: 998 */
+  /**
+   * @frequency 🔥 ★★★★ (89%)
+   * @groups EXIF
+   * @example 998
+   */
   ThumbnailOffset?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 57816 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF, JFIF
+   * @example "(Binary data 57816 bytes, use -b option to extract)"
+   */
   ThumbnailTIFF?: BinaryField;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 447 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 447 bytes, use -b option to extract)"
+   */
   TileByteCounts?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 512 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 512
+   */
   TileLength?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 508 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 508 bytes, use -b option to extract)"
+   */
   TileOffsets?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 512 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 512
+   */
   TileWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 1
+   */
   TimeZoneOffset?: number | string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 3636 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "(Binary data 3636 bytes, use -b option to extract)"
+   */
   TransferFunction?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "motorola XT1254" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "motorola XT1254"
+   */
   UniqueCameraModel?: string;
-  /** ★★★☆ ✔ Example: "This is a comment." */
+  /**
+   * @frequency 🔥 ★★★☆ (37%)
+   * @groups EXIF, XMP
+   * @example "This is a comment."
+   */
   UserComment?: string;
-  /** ☆☆☆☆ ✔ Example: 0.1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example 0.1
+   */
   WaterDepth?: number;
-  /** ★★★★ ✔ Example: "White Preset" */
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "White Preset"
+   */
   WhiteBalance?: string;
-  /** ☆☆☆☆ ✔ Example: 65535 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF, MakerNotes
+   * @example 65535
+   */
   WhiteLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "9696 8192 8192 7136" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes
+   * @example "9696 8192 8192 7136"
+   */
   WhitePoint?: string;
-  /** ☆☆☆☆   Example: "Redmi 9T" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Redmi 9T"
+   */
   XiaomiModel?: string;
-  /** ☆☆☆☆ ✔ Example: "Norm De Plume" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "Norm De Plume"
+   */
   XPAuthor?: string;
-  /** ☆☆☆☆ ✔ Example: "This is a comment." */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "This is a comment."
+   */
   XPComment?: string;
-  /** ☆☆☆☆ ✔ Example: "v01.40.0002;0.0.1;v1.0.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "v01.40.0002;0.0.1;v1.0.0"
+   */
   XPKeywords?: string;
-  /** ☆☆☆☆ ✔ Example: "image thermique, thermal image" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "image thermique, thermal image"
+   */
   XPSubject?: string;
-  /** ☆☆☆☆ ✔ Example: "楆慮⁬敤琠牡敤攠⁭汉慨䈠汥Ⅱ" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF
+   * @example "楆慮⁬敤琠牡敤攠⁭汉慨䈠汥Ⅱ"
+   */
   XPTitle?: string;
-  /** ★★★★ ✔ Example: 99 */
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
   XResolution?: number;
-  /** ☆☆☆☆ ✔ Example: "0.299 0.587 0.114" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes
+   * @example "0.299 0.587 0.114"
+   */
   YCbCrCoefficients?: string;
-  /** ★★★★ ✔ Example: "Unknown (512)" */
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (512)"
+   */
   YCbCrPositioning?: string;
-  /** ★★★★ ✔ Example: 99 */
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
   YResolution?: number;
 }
 
@@ -1311,7 +3069,6 @@ export const EXIFTagsNames = strEnum(
   "GPSSpeedRef",
   "GPSStatus",
   "GPSTimeStamp",
-  "GPSVersionID",
   "HighISOMultiplierBlue",
   "HighISOMultiplierGreen",
   "HighISOMultiplierRed",
@@ -1431,41 +3188,113 @@ export const EXIFTagsNames = strEnum(
 export type EXIFTag = StrEnumKeys<typeof EXIFTagsNames>;
 
 export interface MetaTags {
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 1
+   */
   BorderID?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 0
+   */
   BorderLocation?: number;
-  /** ☆☆☆☆   Example: "None" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example "None"
+   */
   BorderName?: string;
-  /** ☆☆☆☆   Example: "1 0 0 0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example "1 0 0 0"
+   */
   BordersVersion?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 0
+   */
   BorderType?: number;
-  /** ☆☆☆☆   Example: "KODAK DC5000 ZOOM DIGITAL CAMERA" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example "KODAK DC5000 ZOOM DIGITAL CAMERA"
+   */
   CameraOwner?: string;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 1
+   */
   CaptureConditionsPAR?: number;
-  /** ☆☆☆☆   Example: "None" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example "None"
+   */
   DigitalEffectsName?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 0
+   */
   DigitalEffectsType?: number;
-  /** ☆☆☆☆   Example: "1 0 0 0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example "1 0 0 0"
+   */
   DigitalEffectsVersion?: string;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 1
+   */
   EditTagArray?: number;
-  /** ☆☆☆☆   Example: 2 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 2
+   */
   FilmGencode?: number;
-  /** ☆☆☆☆   Example: 43 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 43
+   */
   FilmProductCode?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 1
+   */
   FilmSize?: number;
-  /** ☆☆☆☆   Example: 6 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 6
+   */
   ImageSourceEK?: number;
-  /** ☆☆☆☆ ✔ Example: "0110" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example "0110"
+   */
   MetadataNumber?: string;
-  /** ☆☆☆☆   Example: "Version 9" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example "Version 9"
+   */
   ModelAndVersion?: string;
-  /** ☆☆☆☆   Example: 3 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups Meta
+   * @example 3
+   */
   WatermarkType?: number;
 }
 
@@ -1493,9 +3322,17 @@ export const MetaTagsNames = strEnum(
 export type MetaTag = StrEnumKeys<typeof MetaTagsNames>;
 
 export interface PanasonicRawTags {
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups PanasonicRaw
+   * @example 1
+   */
   DistortionScale?: number;
-  /** ☆☆☆☆ ✔ Example: 7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups PanasonicRaw
+   * @example 7
+   */
   NumWBEntries?: number;
 }
 
@@ -1510,39 +3347,107 @@ export type PanasonicRawTag = StrEnumKeys<typeof PanasonicRawTagsNames>;
  * @see https://exiftool.org/TagNames/Photoshop.html
  */
 export interface PhotoshopTags {
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Photoshop
+   * @example true
+   */
   CopyrightFlag?: boolean;
-  /** ☆☆☆☆ ✔ Example: "inches" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Photoshop
+   * @example "inches"
+   */
   DisplayedUnitsX?: string;
-  /** ☆☆☆☆ ✔ Example: "inches" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Photoshop
+   * @example "inches"
+   */
   DisplayedUnitsY?: string;
-  /** ☆☆☆☆ ✔ Example: 30 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example 30
+   */
   GlobalAltitude?: number;
-  /** ☆☆☆☆ ✔ Example: 90 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example 90
+   */
   GlobalAngle?: number;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "Yes"
+   */
   HasRealMergedData?: string;
-  /** ☆☆☆☆ ✔ Example: "fd826cdf97ac15335b426a20d23c1041" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups Photoshop
+   * @example "fd826cdf97ac15335b426a20d23c1041"
+   */
   IPTCDigest?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example 1
+   */
   NumSlices?: number;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "Standard"
+   */
   PhotoshopFormat?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example 9
+   */
   PhotoshopQuality?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 5768 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "(Binary data 5768 bytes, use -b option to extract)"
+   */
   PhotoshopThumbnail?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "0 0"
+   */
   PrintPosition?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example 1
+   */
   PrintScale?: number;
-  /** ☆☆☆☆ ✔ Example: "Centered" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "Centered"
+   */
   PrintStyle?: string;
-  /** ☆☆☆☆ ✔ Example: "Adobe Photoshop CS" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "Adobe Photoshop CS"
+   */
   ReaderName?: string;
-  /** ☆☆☆☆ ✔ Example: "panasonic_lumix_dmc_lx15_02" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "panasonic_lumix_dmc_lx15_02"
+   */
   SlicesGroupName?: string;
-  /** ☆☆☆☆ ✔ Example: "Adobe Photoshop" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Photoshop
+   * @example "Adobe Photoshop"
+   */
   WriterName?: string;
 }
 
@@ -1569,7 +3474,11 @@ export const PhotoshopTagsNames = strEnum(
 export type PhotoshopTag = StrEnumKeys<typeof PhotoshopTagsNames>;
 
 export interface PrintIMTags {
-  /** ★★★☆ ✔ Example: "0300" */
+  /**
+   * @frequency 🔥 ★★★☆ (28%)
+   * @groups PrintIM
+   * @example "0300"
+   */
   PrintIMVersion?: string;
 }
 
@@ -1580,177 +3489,521 @@ export const PrintIMTagsNames = strEnum("PrintIMVersion") satisfies StrEnum<
 export type PrintIMTag = StrEnumKeys<typeof PrintIMTagsNames>;
 
 export interface QuickTimeTags {
-  /** ☆☆☆☆ ✔ Example: 60 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 60
+   */
   AndroidCaptureFPS?: number;
-  /** ☆☆☆☆ ✔ Example: 7.1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 7.1
+   */
   AndroidVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 4 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "(Binary data 4 bytes, use -b option to extract)"
+   */
   AndroidVideoTemporalLayersCount?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 8
+   */
   AudioBitsPerSample?: number;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 3
+   */
   AudioChannels?: number;
-  /** ☆☆☆☆ ✔ Example: "sowt" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "sowt"
+   */
   AudioFormat?: string;
-  /** ☆☆☆☆ ✔ Example: 8000 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime, RIFF
+   * @example 8000
+   */
   AudioSampleRate?: number;
-  /** ☆☆☆☆ ✔ Example: "Panasonic" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Panasonic"
+   */
   AudioVendorID?: string;
-  /** ☆☆☆☆ ✔ Example: "Norm De Plume" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Norm De Plume"
+   */
   Author?: string;
-  /** ☆☆☆☆ ✔ Example: "65535 65535 65535" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "65535 65535 65535"
+   */
   BackgroundColor?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, QuickTime
+   * @example 0
+   */
   Balance?: number;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File, MakerNotes, QuickTime
+   * @example 8
+   */
   BitDepth?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   ChapterListTrackID?: number;
-  /** ☆☆☆☆ ✔ Example: "3840x2160" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "3840x2160"
+   */
   CleanApertureDimensions?: string;
-  /** ☆☆☆☆ ✔ Example: "BT.709" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "BT.709"
+   */
   ColorPrimaries?: string;
-  /** ☆☆☆☆ ✔ Example: "nclx" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "nclx"
+   */
   ColorProfiles?: string;
-  /** ☆☆☆☆ ✔ Example: ["qt  "] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example ["qt  "]
+   */
   CompatibleBrands?: string[];
-  /** ☆☆☆☆ ✔ Example: "jpeg" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "jpeg"
+   */
   CompressorID?: string;
-  /** ☆☆☆☆ ✔ Example: "Photo - JPEG" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Photo - JPEG"
+   */
   CompressorName?: string;
-  /** ☆☆☆☆ ✔ Example: "Track 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Track 1"
+   */
   ContentDescribes?: string;
-  /** ☆☆☆☆ ✔ Example: "2023:06:11 14:30:35+01:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "2023:06:11 14:30:35+01:00"
+   */
   CreationDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "0 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "0 s"
+   */
   CurrentTime?: string;
-  /** ☆☆☆☆ ✔ Example: 9.5095 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, QuickTime, XMP
+   * @example 9.5095
+   */
   Duration?: number;
-  /** ☆☆☆☆ ✔ Example: "3840x2160" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "3840x2160"
+   */
   EncodedPixelsDimensions?: string;
-  /** ☆☆☆☆ ✔ Example: "Helvetica" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Helvetica"
+   */
   FontName?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   GenBalance?: number;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "0 0 0"
+   */
   GenFlags?: string;
-  /** ☆☆☆☆ ✔ Example: "ditherCopy" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "ditherCopy"
+   */
   GenGraphicsMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   GenMediaVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "32768 32768 32768" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "32768 32768 32768"
+   */
   GenOpColor?: string;
-  /** ☆☆☆☆ ✔ Example: "51 deg 6' 13.32" N, 0 deg 52' 23.52" W, 99.22 m Above Sea Level" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "51 deg 6' 13.32" N, 0 deg 52' 23.52" W, 99.22 m Above Sea Level"
+   */
   GPSCoordinates?: string;
-  /** ☆☆☆☆ ✔ Example: "srcCopy" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "srcCopy"
+   */
   GraphicsMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Data Handler" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Data Handler"
+   */
   HandlerClass?: string;
-  /** ☆☆☆☆ ✔ Example: "SoundHandle" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "SoundHandle"
+   */
   HandlerDescription?: string;
-  /** ☆☆☆☆ ✔ Example: "Metadata Tags" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Metadata Tags"
+   */
   HandlerType?: string;
-  /** ☆☆☆☆ ✔ Example: "Panasonic" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Panasonic"
+   */
   HandlerVendorID?: string;
-  /** ☆☆☆☆ ✔ Example: 4.798027 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 4.798027
+   */
   LocationAccuracyHorizontal?: number;
-  /** ☆☆☆☆ ✔ Example: "MP4 v2 [ISO 14496-14]" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "MP4 v2 [ISO 14496-14]"
+   */
   MajorBrand?: string;
-  /** ☆☆☆☆ ✔ Example: "BT.709" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "BT.709"
+   */
   MatrixCoefficients?: string;
-  /** ☆☆☆☆ ✔ Example: "1 0 0 0 1 0 0 0 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "1 0 0 0 1 0 0 0 1"
+   */
   MatrixStructure?: string;
-  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:35" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "2023:06:11 13:30:35"
+   */
   MediaCreateDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: 98304 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 98304
+   */
   MediaDataOffset?: number;
-  /** ☆☆☆☆ ✔ Example: 9790496 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 9790496
+   */
   MediaDataSize?: number;
-  /** ☆☆☆☆ ✔ Example: 9.52 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 9.52
+   */
   MediaDuration?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   MediaHeaderVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "und" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "und"
+   */
   MediaLanguageCode?: string;
-  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:46" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "2023:06:11 13:30:46"
+   */
   MediaModifyDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: 8000 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 8000
+   */
   MediaTimeScale?: number;
-  /** ☆☆☆☆ ✔ Example: "583d47d07afe1fbcfa0894d17e66051f07e1230a0000072550c3000000000000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "583d47d07afe1fbcfa0894d17e66051f07e1230a0000072550c3000000000000"
+   */
   MediaUID?: string;
-  /** ☆☆☆☆ ✔ Example: "mebx" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "mebx"
+   */
   MetaFormat?: string;
-  /** ☆☆☆☆ ✔ Example: "2011.7.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime, XMP
+   * @example "2011.7.0"
+   */
   MinorVersion?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   MovieHeaderVersion?: number;
-  /** ☆☆☆☆ ✔ Example: 6 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 6
+   */
   NextTrackID?: number;
-  /** ☆☆☆☆ ✔ Example: "32768 32768 32768" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "32768 32768 32768"
+   */
   OpColor?: string;
-  /** ☆☆☆☆ ✔ Example: "tmcd" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "tmcd"
+   */
   OtherFormat?: string;
-  /** ☆☆☆☆ ✔ Example: 59.94006 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 59.94006
+   */
   PlaybackFrameRate?: number;
-  /** ☆☆☆☆ ✔ Example: "SEQ_PLAY" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "SEQ_PLAY"
+   */
   PlayMode?: string;
-  /** ☆☆☆☆ ✔ Example: "0 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "0 s"
+   */
   PosterTime?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 1
+   */
   PreferredRate?: number;
-  /** ☆☆☆☆ ✔ Example: "99.61%" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "99.61%"
+   */
   PreferredVolume?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   PreviewDuration?: number;
-  /** ☆☆☆☆ ✔ Example: "0 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "0 s"
+   */
   PreviewTime?: string;
-  /** ☆☆☆☆ ✔ Example: "3840x2160" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "3840x2160"
+   */
   ProductionApertureDimensions?: string;
-  /** ☆☆☆☆ ✔ Example: "mp4a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "mp4a"
+   */
   PurchaseFileFormat?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   SelectionDuration?: number;
-  /** ☆☆☆☆ ✔ Example: "0 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "0 s"
+   */
   SelectionTime?: string;
-  /** ☆☆☆☆ ✔ Example: "43333139313032343731363032300000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "43333139313032343731363032300000"
+   */
   SerialNumberHash?: string;
-  /** ☆☆☆☆ ✔ Example: 720 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 720
+   */
   SourceImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 640 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 640
+   */
   SourceImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "0 0 0"
+   */
   TextColor?: string;
-  /** ☆☆☆☆ ✔ Example: "Plain" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Plain"
+   */
   TextFace?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (21)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Unknown (21)"
+   */
   TextFont?: string;
-  /** ☆☆☆☆ ✔ Example: 10 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 10
+   */
   TextSize?: number;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 3
+   */
   TimecodeTrack?: number;
-  /** ☆☆☆☆ ✔ Example: 90000 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 90000
+   */
   TimeScale?: number;
-  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:35" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "2023:06:11 13:30:35"
+   */
   TrackCreateDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: 9.5095 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 9.5095
+   */
   TrackDuration?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   TrackHeaderVersion?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 1
+   */
   TrackID?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 0
+   */
   TrackLayer?: number;
-  /** ☆☆☆☆ ✔ Example: "2023:06:11 13:30:46" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "2023:06:11 13:30:46"
+   */
   TrackModifyDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "0.00%" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "0.00%"
+   */
   TrackVolume?: string;
-  /** ☆☆☆☆ ✔ Example: "BT.709" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "BT.709"
+   */
   TransferCharacteristics?: string;
-  /** ☆☆☆☆ ✔ Example: "Panasonic" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Panasonic"
+   */
   VendorID?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes, QuickTime, RIFF
+   * @example "n/a"
+   */
   VideoFrameRate?: string;
-  /** ☆☆☆☆ ✔ Example: "Limited" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example "Limited"
+   */
   VideoFullRangeFlag?: string;
 }
 
@@ -1846,29 +4099,77 @@ export const QuickTimeTagsNames = strEnum(
 export type QuickTimeTag = StrEnumKeys<typeof QuickTimeTagsNames>;
 
 export interface RAFTags {
-  /** ☆☆☆☆ ✔ Example: "294.2 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 6.8e-05 0.000….001464" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "294.2 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 6.8e-05 0.000….001464"
+   */
   ChromaticAberrationParams?: string;
-  /** ☆☆☆☆ ✔ Example: "12 12 12 12" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "12 12 12 12"
+   */
   FujiLayout?: string;
-  /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 0 0 0…5 0.488" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 0 0 0…5 0.488"
+   */
   GeometricDistortionParams?: string;
-  /** ☆☆☆☆ ✔ Example: "Uncompressed" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "Uncompressed"
+   */
   RAFCompression?: string;
-  /** ☆☆☆☆ ✔ Example: -1.7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example -1.7
+   */
   RawExposureBias?: number;
-  /** ☆☆☆☆ ✔ Example: "4896x3264" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "4896x3264"
+   */
   RawImageCroppedSize?: string;
-  /** ☆☆☆☆ ✔ Example: "6 16" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "6 16"
+   */
   RawImageCropTopLeft?: string;
-  /** ☆☆☆☆ ✔ Example: 3296 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example 3296
+   */
   RawImageFullHeight?: number;
-  /** ☆☆☆☆ ✔ Example: "5120x3288" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "5120x3288"
+   */
   RawImageFullSize?: string;
-  /** ☆☆☆☆ ✔ Example: 5120 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example 5120
+   */
   RawImageFullWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 100 9…3 94.11" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "267.4545455 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 100 9…3 94.11"
+   */
   VignettingParams?: string;
-  /** ☆☆☆☆ ✔ Example: "GRBGBR BGGRGG RGGBGG GBRGRB RGGBGG BGGRGG" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RAF
+   * @example "GRBGBR BGGRGG RGGBGG GBRGRB RGGBGG BGGRGG"
+   */
   XTransLayout?: string;
 }
 
@@ -1890,29 +4191,77 @@ export const RAFTagsNames = strEnum(
 export type RAFTag = StrEnumKeys<typeof RAFTagsNames>;
 
 export interface RIFFTags {
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example ""
+   */
   AudioCodec?: string;
-  /** ☆☆☆☆ ✔ Example: 285154 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example 285154
+   */
   AudioSampleCount?: number;
-  /** ☆☆☆☆ ✔ Example: 11024 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example 11024
+   */
   AvgBytesPerSec?: number;
-  /** ☆☆☆☆ ✔ Example: "Microsoft PCM" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example "Microsoft PCM"
+   */
   Encoding?: string;
-  /** ☆☆☆☆ ✔ Example: 388 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example 388
+   */
   FrameCount?: number;
-  /** ☆☆☆☆ ✔ Example: "478.6 kB/s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example "478.6 kB/s"
+   */
   MaxDataRate?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example 1
+   */
   NumChannels?: number;
-  /** ☆☆☆☆ ✔ Example: 11024 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example 11024
+   */
   SampleRate?: number;
-  /** ☆☆☆☆ ✔ Example: "Variable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example "Variable"
+   */
   SampleSize?: string;
-  /** ☆☆☆☆ ✔ Example: 2 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example 2
+   */
   StreamCount?: number;
-  /** ☆☆☆☆ ✔ Example: "mjpg" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example "mjpg"
+   */
   VideoCodec?: string;
-  /** ☆☆☆☆ ✔ Example: 388 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF
+   * @example 388
+   */
   VideoFrameCount?: number;
 }
 
@@ -1937,67 +4286,185 @@ export type RIFFTag = StrEnumKeys<typeof RIFFTagsNames>;
  * @see https://exiftool.org/TagNames/IPTC.html
  */
 export interface IPTCTags {
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups IPTC
+   * @example 4
+   */
   ApplicationRecordVersion?: number;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example
+   */
   "Caption-Abstract"?: string;
-  /** ☆☆☆☆ ✔ Example: "Other" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, IPTC, MakerNotes
+   * @example "Other"
+   */
   Category?: string;
-  /** ☆☆☆☆ ✔ Example: "TEDDINGTON" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups IPTC, MakerNotes, XMP
+   * @example "TEDDINGTON"
+   */
   City?: string;
-  /** ☆☆☆☆ ✔ Example: "UTF8" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups IPTC
+   * @example "UTF8"
+   */
   CodedCharacterSet?: string;
-  /** ☆☆☆☆ ✔ Example: "Donna Ringmanumba" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "Donna Ringmanumba"
+   */
   Contact?: string;
-  /** ☆☆☆☆ ✔ Example: "Creative Commons Attribution 4.0 International" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "Creative Commons Attribution 4.0 International"
+   */
   CopyrightNotice?: string;
-  /** ☆☆☆☆ ✔ Example: "photo by Jenny Snapsalot" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC, XMP
+   * @example "photo by Jenny Snapsalot"
+   */
   Credit?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   DateSent?: string;
-  /** ☆☆☆☆ ✔ Example: "2023:11:07 14:10:21-05:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups Composite, IPTC
+   * @example "2025:06:11 11:07:41-08:00"
+   */
   DateTimeCreated?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   Destination?: string;
-  /** ☆☆☆☆ ✔ Example: "2021:03:16" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "2025:02:19"
+   */
   DigitalCreationDate?: ExifDate | string;
-  /** ☆☆☆☆ ✔ Example: "20:25:15" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "20:25:15"
+   */
   DigitalCreationTime?: ExifTime | string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   EnvelopeNumber?: string;
-  /** ☆☆☆☆ ✔ Example: "5 (normal urgency)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "5 (normal urgency)"
+   */
   EnvelopePriority?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example 4
+   */
   EnvelopeRecordVersion?: number;
-  /** ☆☆☆☆ ✔ Example: 2 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example 2
+   */
   FileVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   Headline?: string;
-  /** ☆☆☆☆ ✔ Example: ["red","car"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ["red","car"]
+   */
   Keywords?: string | string[];
-  /** ☆☆☆☆ ✔ Example: "Artist deep into to wine and flower" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "Artist deep into to wine and flower"
+   */
   ObjectName?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   OriginalTransmissionReference?: string;
-  /** ☆☆☆☆ ✔ Example: "digiKam" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "digiKam"
+   */
   OriginatingProgram?: string;
-  /** ☆☆☆☆ ✔ Example: "Tagged:1, ColorClass:2, Rating:0, FrameNum:000940" */
-  Prefs?: string;
-  /** ☆☆☆☆ ✔ Example: "4.13.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example "4.13.0"
+   */
   ProgramVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   ServiceIdentifier?: string;
-  /** ☆☆☆☆ ✔ Example: "Shutterfly McShutterface" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC, XMP
+   * @example "Shutterfly McShutterface"
+   */
   Source?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   SpecialInstructions?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   SupplementalCategories?: string;
-  /** ☆☆☆☆ ✔ Example: "23:59:46.92" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups IPTC, MakerNotes
+   * @example "23:59:46.92"
+   */
   TimeCreated?: ExifTime | string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC
+   * @example ""
+   */
   TimeSent?: string;
-  /** ☆☆☆☆ ✔ Example: "1 (most urgent)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC, XMP
+   * @example "1 (most urgent)"
+   */
   Urgency?: string;
 }
 
@@ -2024,7 +4491,6 @@ export const IPTCTagsNames = strEnum(
   "ObjectName",
   "OriginalTransmissionReference",
   "OriginatingProgram",
-  "Prefs",
   "ProgramVersion",
   "ServiceIdentifier",
   "Source",
@@ -2038,7 +4504,11 @@ export const IPTCTagsNames = strEnum(
 export type IPTCTag = StrEnumKeys<typeof IPTCTagsNames>;
 
 export interface JFIFTags {
-  /** ★★★☆ ✔ Example: 1.02 */
+  /**
+   * @frequency 🔥 ★★★☆ (23%)
+   * @groups JFIF
+   * @example 1.02
+   */
   JFIFVersion?: number;
 }
 
@@ -2049,3207 +4519,9623 @@ export const JFIFTagsNames = strEnum("JFIFVersion") satisfies StrEnum<
 export type JFIFTag = StrEnumKeys<typeof JFIFTagsNames>;
 
 export interface MakerNotesTags {
-  /** ☆☆☆☆ ✔ Example: 2 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2
+   */
   AccelerationTracking?: number;
-  /** ☆☆☆☆ ✔ Example: "0.9421226483 0.0351725654 -0.3452420701" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0.9421226483 0.0351725654 -0.3452420701"
+   */
   AccelerationVector?: string;
-  /** ☆☆☆☆   Example: "358.3 11.2" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "358.3 11.2"
+   */
   Accelerometer?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9
+   */
   AccelerometerX?: number;
-  /** ☆☆☆☆ ✔ Example: 80 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 80
+   */
   AccelerometerY?: number;
-  /** ☆☆☆☆ ✔ Example: 56 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 56
+   */
   AccelerometerZ?: number;
-  /** ☆☆☆☆ ✔ Example: "00:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "00:00"
+   */
   AccessorySerialNumber?: string;
-  /** ☆☆☆☆ ✔ Example: "NO-ACCESSORY" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "NO-ACCESSORY"
+   */
   AccessoryType?: string;
-  /** ☆☆☆☆   Example: "+0.0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+0.0"
+   */
   ActualCompensation?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   AddAspectRatioInfo?: string;
-  /** ☆☆☆☆ ✔ Example: "Disable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable"
+   */
   AddIPTCInformation?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AddOriginalDecisionData?: string;
-  /** ☆☆☆☆   Example: "(Binary data 1024 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 1024 bytes, use -b option to extract)"
+   */
   ADJDebugInfo?: BinaryField | string;
-  /** ☆☆☆☆   Example: "X3F Setting Mode" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "X3F Setting Mode"
+   */
   AdjustmentMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ADLBracketingStep?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ADLBracketingType?: string;
-  /** ☆☆☆☆ ✔ Example: "Toy Camera" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Toy Camera"
+   */
   AdvancedFilter?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 9
+   */
   AdvancedSceneType?: number;
-  /** ☆☆☆☆ ✔ Example: 9.9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 9.9
+   */
   AEAperture?: number;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8
+   */
   AEApertureSteps?: number;
-  /** ☆☆☆☆ ✔ Example: 90 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 90
+   */
   AEAverage?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AEBAutoCancel?: string;
-  /** ★★☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example 0
+   */
   AEBBracketValue?: number;
-  /** ☆☆☆☆ ✔ Example: "AE Bracketing Disabled" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AE Bracketing Disabled"
+   */
   AEBracketingSteps?: string;
-  /** ☆☆☆☆ ✔ Example: "0,-,+" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0,-,+"
+   */
   AEBSequence?: string;
-  /** ☆☆☆☆ ✔ Example: "0,-,+/Enabled" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0,-,+/Enabled"
+   */
   AEBSequenceAutoCancel?: string;
-  /** ☆☆☆☆ ✔ Example: "7 shots" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "7 shots"
+   */
   AEBShotCount?: string;
-  /** ☆☆☆☆ ✔ Example: 0.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0.5
+   */
   AEBXv?: number;
-  /** ☆☆☆☆   Example: "(Binary data 256 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 256 bytes, use -b option to extract)"
+   */
   AEDebugInfo?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "1/965" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/965"
+   */
   AEExposureTime?: string;
-  /** ☆☆☆☆   Example: "(Binary data 4096 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 4096 bytes, use -b option to extract)"
+   */
   AEHistogramInfo?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "Hold" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Hold"
+   */
   AELButton?: string;
-  /** ☆☆☆☆ ✔ Example: "Not Indicated" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not Indicated"
+   */
   AELExposureIndicator?: string;
-  /** ☆☆☆☆   Example: "(Binary data 4096 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 4096 bytes, use -b option to extract)"
+   */
   AELiveViewHistogramInfo?: BinaryField | string;
-  /** ☆☆☆☆   Example: "(Binary data 2048 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 2048 bytes, use -b option to extract)"
+   */
   AELiveViewLocalHistogram?: BinaryField | string;
-  /** ☆☆☆☆   Example: "(Binary data 2048 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 2048 bytes, use -b option to extract)"
+   */
   AELocalHistogram?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AELock?: string;
-  /** ☆☆☆☆ ✔ Example: "AF Lock Only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF Lock Only"
+   */
   AELockButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AELockButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "Evaluative" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Evaluative"
+   */
   AELockMeterModeAfterFocus?: string;
-  /** ☆☆☆☆ ✔ Example: 5.7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5.7
+   */
   AEMaxAperture?: number;
-  /** ☆☆☆☆ ✔ Example: "[1], [2]" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "[1], [2]"
+   */
   AEMeteringMode?: string;
-  /** ☆☆☆☆ ✔ Example: "9.8 9.4 7.9 8.6 9.2 8.5 9.4 8.9 8.1 8.6 8.0 10.4 8.5 10.6…9.5 9.5" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9.8 9.4 7.9 8.6 9.2 8.5 9.4 8.9 8.1 8.6 8.0 10.4 8.5 10.6…9.5 9.5"
+   */
   AEMeteringSegments?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable; 0; 8; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable; 0; 8; 0"
+   */
   AEMicroadjustment?: string;
-  /** ☆☆☆☆ ✔ Example: 38 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 38
+   */
   AEMinAperture?: number;
-  /** ☆☆☆☆ ✔ Example: "1/7723" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/7723"
+   */
   AEMinExposureTime?: string;
-  /** ☆☆☆☆ ✔ Example: "Sv or Green Mode" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Sv or Green Mode"
+   */
   AEProgramMode?: string;
-  /** ★☆☆☆ ✔ Example: "Normal AE" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups MakerNotes
+   * @example "Normal AE"
+   */
   AESetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   AEStable?: string;
-  /** ☆☆☆☆ ✔ Example: 89 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 89
+   */
   AETarget?: number;
-  /** ☆☆☆☆   Example: "Daylight Fluorescent" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Daylight Fluorescent"
+   */
   AEWhiteBalance?: string;
-  /** ☆☆☆☆ ✔ Example: 0.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0.5
+   */
   AEXv?: number;
-  /** ☆☆☆☆ ✔ Example: 2147483600 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2147483600
+   */
   AFAccelDecelTracking?: number;
-  /** ☆☆☆☆ ✔ Example: "Shutter/AF-On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Shutter/AF-On"
+   */
   AFActivation?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   AFAdjustment?: number;
-  /** ☆☆☆☆ ✔ Example: "Metering start" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Metering start"
+   */
   AFAndMeteringButtons?: string;
-  /** ☆☆☆☆ ✔ Example: 5.8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 5.8
+   */
   AFAperture?: number;
-  /** ☆☆☆☆ ✔ Example: 840 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 840
+   */
   AFAreaHeight?: number;
-  /** ★☆☆☆ ✔ Example: "994 18 18 18 18 18 18 18 18" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "994 18 18 18 18 18 18 18 18"
+   */
   AFAreaHeights?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   AFAreaIllumination?: string;
-  /** ★★★☆ ✔ Example: "Zone AF" */
+  /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups MakerNotes
+   * @example "Zone AF"
+   */
   AFAreaMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Wide" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Wide"
+   */
   AFAreaModeSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   AFAreaPointSize?: string;
-  /** ☆☆☆☆ ✔ Example: "none" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "none"
+   */
   AFAreas?: string;
-  /** ☆☆☆☆ ✔ Example: "Main Dial" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Main Dial"
+   */
   AFAreaSelectionMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "AF area selection button" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF area selection button"
+   */
   AFAreaSelectMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   AFAreaSize?: string;
-  /** ☆☆☆☆ ✔ Example: 996 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 996
+   */
   AFAreaWidth?: number;
-  /** ★☆☆☆ ✔ Example: "994 18 18 18 18 18 18 18 18" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "994 18 18 18 18 18 18 18 18"
+   */
   AFAreaWidths?: string;
-  /** ☆☆☆☆ ✔ Example: 4388 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5382
+   */
   AFAreaXPosition?: number;
-  /** ☆☆☆☆ ✔ Example: 744 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 744
+   */
   AFAreaYPosition?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   AFAreaZoneSize?: string;
-  /** ☆☆☆☆ ✔ Example: "Only ext. flash emits/Fires" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Only ext. flash emits/Fires"
+   */
   AFAssist?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unknown (4)"
+   */
   AFAssistBeam?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (5)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Unknown (5)"
+   */
   AFAssistLamp?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   AFButtonPressed?: string;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8
+   */
   AFConfidence?: number;
-  /** ☆☆☆☆ ✔ Example: "Case 2147483648" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Case 2147483648"
+   */
   AFConfigTool?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   AFCoordinatesAvailable?: string;
-  /** ☆☆☆☆   Example: "(Binary data 256 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 256 bytes, use -b option to extract)"
+   */
   AFDebugInfo?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 9
+   */
   AFDefocus?: number;
-  /** ☆☆☆☆ ✔ Example: "Phase Detect" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Phase Detect"
+   */
   AFDetectionMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "Quick mode" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Quick mode"
+   */
   AFDuringLiveView?: string;
-  /** ☆☆☆☆ ✔ Example: "On (2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On (2)"
+   */
   AFFineTune?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   AFFineTuneAdj?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   AFFineTuneAdjTele?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   AFFineTuneIndex?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   AFIlluminator?: string;
-  /** ☆☆☆☆ ✔ Example: "0402" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0402"
+   */
   AFInfo2Version?: string;
-  /** ☆☆☆☆ ✔ Example: "90 ms" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "90 ms"
+   */
   AFIntegrationTime?: string;
-  /** ☆☆☆☆ ✔ Example: 489 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 489
+   */
   AFMeasuredDepth?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   AFMicroAdj?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown (3)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unknown (3)"
+   */
   AFMicroAdjMode?: string;
-  /** ☆☆☆☆ ✔ Example: 2 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2
+   */
   AFMicroAdjRegisteredLenses?: number;
-  /** ☆☆☆☆ ✔ Example: "Disable; 0; 0; 0; 84" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable; 0; 0; 0; 84"
+   */
   AFMicroadjustment?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   AFMicroAdjValue?: number;
-  /** ★☆☆☆ ✔ Example: "Zone" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "Zone"
+   */
   AFMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   AFModeRestrictions?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   AFOnAELockButtonSwitch?: string;
-  /** ☆☆☆☆ ✔ Example: "AF-On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF-On"
+   */
   AFOnButton?: string;
-  /** ☆☆☆☆ ✔ Example: "682 1 53" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "682 1 53"
+   */
   AFPerformance?: string;
-  /** ★★☆☆ ✔ Example: "Upper-right" */
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups MakerNotes
+   * @example "Upper-right"
+   */
   AFPoint?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   AFPointActivationArea?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   AFPointAreaExpansion?: string;
-  /** ☆☆☆☆ ✔ Example: "Left (vertical)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Left (vertical)"
+   */
   AFPointAtShutterRelease?: string;
-  /** ☆☆☆☆ ✔ Example: "Control-direct:disable/Main:enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Control-direct:disable/Main:enable"
+   */
   AFPointAutoSelection?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   AFPointBrightness?: string;
-  /** ☆☆☆☆ ✔ Example: 897 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 897
+   */
   AFPointDetails?: number;
-  /** ☆☆☆☆ ✔ Example: "Selected (pre-AF, focused)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Selected (pre-AF, focused)"
+   */
   AFPointDisplayDuringFocus?: string;
-  /** ☆☆☆☆ ✔ Example: "On in Continuous Shooting and Manual Focusing" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On in Continuous Shooting and Manual Focusing"
+   */
   AFPointIllumination?: string;
-  /** ☆☆☆☆ ✔ Example: "Left (vertical)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Left (vertical)"
+   */
   AFPointInFocus?: string;
-  /** ☆☆☆☆ ✔ Example: "[2]" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "[2]"
+   */
   AFPointMode?: string;
-  /** ☆☆☆☆ ✔ Example: "none" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "none"
+   */
   AFPointPosition?: string;
-  /** ☆☆☆☆ ✔ Example: "Center" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Center"
+   */
   AFPointRegistration?: string;
-  /** ☆☆☆☆   Example: "Center" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Center"
+   */
   AFPoints?: string;
-  /** ☆☆☆☆ ✔ Example: "Use Half" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Use Half"
+   */
   AFPointSel?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   AFPointSelected?: string;
-  /** ☆☆☆☆ ✔ Example: "H=AF+Main/V=AF+Command" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "H=AF+Main/V=AF+Command"
+   */
   AFPointSelection?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (1046 1046)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (1046 1046)"
+   */
   AFPointSelectionMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "Lower-right" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Lower-right"
+   */
   AFPointSetting?: string;
-  /** ★★☆☆ ✔ Example: "Upper-right, Top" */
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups MakerNotes
+   * @example "Upper-right, Top"
+   */
   AFPointsInFocus?: string;
-  /** ☆☆☆☆ ✔ Example: "C6 (C6)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "C6 (C6)"
+   */
   AFPointsInFocus1D?: string;
-  /** ☆☆☆☆ ✔ Example: "Center" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Center"
+   */
   AFPointsInFocus5D?: string;
-  /** ☆☆☆☆ ✔ Example: "9/Active AF point" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9/Active AF point"
+   */
   AFPointSpotMetering?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 9
+   */
   AFPointsSelected?: number;
-  /** ☆☆☆☆   Example: 17 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 7
+   */
   AFPointsSpecial?: number;
-  /** ☆☆☆☆ ✔ Example: "Top" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Top"
+   */
   AFPointsUsed?: string;
-  /** ☆☆☆☆ ✔ Example: 2147483600 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2147483600
+   */
   AFPointSwitching?: number;
-  /** ☆☆☆☆ ✔ Example: 903 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 903
+   */
   AFPredictor?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   AFTracking?: string;
-  /** ☆☆☆☆ ✔ Example: 2147483600 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2147483600
+   */
   AFTrackingSensitivity?: number;
-  /** ☆☆☆☆ ✔ Example: "79-point" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "79-point"
+   */
   AFType?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AFWithShutter?: string;
-  /** ☆☆☆☆ ✔ Example: "Shooting not possible without focus" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Shooting not possible without focus"
+   */
   AIServoContinuousShooting?: string;
-  /** ☆☆☆☆ ✔ Example: "Focus Priority" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Focus Priority"
+   */
   AIServoFirstImage?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (2)"
+   */
   AIServoFirstImagePriority?: string;
-  /** ☆☆☆☆ ✔ Example: "1: AF, 2: Tracking" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1: AF, 2: Tracking"
+   */
   AIServoImagePriority?: string;
-  /** ☆☆☆☆ ✔ Example: "Focus Priority" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Focus Priority"
+   */
   AIServoSecondImage?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (2)"
+   */
   AIServoSecondImagePriority?: string;
-  /** ☆☆☆☆ ✔ Example: "Main focus point priority" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Main focus point priority"
+   */
   AIServoTrackingMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   AIServoTrackingSensitivity?: string;
-  /** ☆☆☆☆ ✔ Example: "Off; Object Not Found" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off; Object Not Found"
+   */
   AISubjectTrackingMode?: string;
-  /** ☆☆☆☆ ✔ Example: "91 m" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "91 m"
+   */
   Altitude?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   AmbienceSelection?: string;
-  /** ☆☆☆☆ ✔ Example: "40 C" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, MakerNotes
+   * @example "40 C"
+   */
   AmbientTemperature?: string;
-  /** ☆☆☆☆   Example: "95 F" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "95 F"
+   */
   AmbientTemperatureFahrenheit?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AntiFlicker?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ApertureLock?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual: Closed 64; Open 1; Auto: Closed 31; Open 6.3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Manual: Closed 64; Open 1; Auto: Closed 31; Open 6.3"
+   */
   ApertureRange?: string;
-  /** ☆☆☆☆ ✔ Example: "Prohibited" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Prohibited"
+   */
   ApertureRingUse?: string;
-  /** ☆☆☆☆ ✔ Example: 9.1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9.1
+   */
   ApertureSetting?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ApplySettingsToLiveView?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable; 1; 2; 1; 128; 48; 0; 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable; 1; 2; 1; 128; 48; 0; 1"
+   */
   ApplyShootingMeteringMode?: string;
-  /** ☆☆☆☆   Example: 8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8
+   */
   ApproximateFNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Soft Focus; 1280; 0; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Soft Focus; 1280; 0; 0"
+   */
   ArtFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Off; 0; 0; Partial Color 0; No Effect; 0; No Color Filter…0; 0; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off; 0; 0; Partial Color 0; No Effect; 0; No Color Filter…0; 0; 0"
+   */
   ArtFilterEffect?: string;
-  /** ☆☆☆☆   Example: "Unknown (8305)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (8305)"
+   */
   ArtMode?: string;
-  /** ☆☆☆☆   Example: "0 0 0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   ArtModeParameters?: string;
-  /** ☆☆☆☆ ✔ Example: "0 192 4607 3263" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0 192 4607 3263"
+   */
   AspectFrame?: string;
-  /** ★☆☆☆ ✔ Example: "Unknown (942874672)" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups MakerNotes
+   * @example "Unknown (942874672)"
+   */
   AspectRatio?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto Bracketing" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto Bracketing"
+   */
   AssignBktButton?: string;
-  /** ☆☆☆☆ ✔ Example: "LCD brightness" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "LCD brightness"
+   */
   AssignFuncButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AssignMovieFunc1ButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AssignMovieFunc2Button?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AssignMoviePreviewButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "Shutter/Aperture Lock" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Shutter/Aperture Lock"
+   */
   AssignMovieRecordButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AssignMovieRecordButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AE/AF Lock"
+   */
   AssignMovieSubselector?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AssignMovieSubselectorPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AssignRemoteFnButton?: string;
-  /** ☆☆☆☆ ✔ Example: "Select Home Position" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Select Home Position"
+   */
   AssistButtonFunction?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   Audio?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   AudioCompression?: string;
-  /** ☆☆☆☆ ✔ Example: "On-Shot AF only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On-Shot AF only"
+   */
   AutoAFPointColorTracking?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   AutoAFPointSelEOSiTRAF?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AutoAperture?: string;
-  /** ☆☆☆☆   Example: "None" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   AutoBracket?: string;
-  /** ★☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AutoBracketing?: string;
-  /** ☆☆☆☆ ✔ Example: "Flash/Speed" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Flash/Speed"
+   */
   AutoBracketingMode?: string;
-  /** ☆☆☆☆ ✔ Example: "AE Only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AE Only"
+   */
   AutoBracketingSet?: string;
-  /** ☆☆☆☆ ✔ Example: "Flash/Speed" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Flash/Speed"
+   */
   AutoBracketModeM?: string;
-  /** ☆☆☆☆ ✔ Example: "0,-,+" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0,-,+"
+   */
   AutoBracketOrder?: string;
-  /** ☆☆☆☆ ✔ Example: "Exposure" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Exposure"
+   */
   AutoBracketSet?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AutoDistortionControl?: string;
-  /** ☆☆☆☆ ✔ Example: "400%" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "400%"
+   */
   AutoDynamicRange?: string;
-  /** ★★☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   AutoExposureBracketing?: string;
-  /** ☆☆☆☆ ✔ Example: "Subject and Background" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Subject and Background"
+   */
   AutoFlashISOSensitivity?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   AutoFP?: string;
-  /** ★★☆☆ ✔ Example: 96 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example 96
+   */
   AutoISO?: number;
-  /** ☆☆☆☆ ✔ Example: "1/30 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/30 s"
+   */
   AutoISOMinShutterSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   AutoLightingOptimizer?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   AutoPortraitFramed?: string;
-  /** ★☆☆☆ ✔ Example: "Rotate 90 CW" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups MakerNotes
+   * @example "Rotate 90 CW"
+   */
   AutoRotate?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   AuxiliaryLens?: string;
-  /** ☆☆☆☆ ✔ Example: 6.7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 6.7
+   */
   AvApertureSetting?: number;
-  /** ☆☆☆☆ ✔ Example: "513 513 513 513" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "513 513 513 513"
+   */
   AverageBlackLevel?: string;
-  /** ☆☆☆☆ ✔ Example: 9.875 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 9.875
+   */
   AverageLV?: number;
-  /** ☆☆☆☆ ✔ Example: "Disable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable"
+   */
   AvSettingWithoutLens?: string;
-  /** ☆☆☆☆ ✔ Example: "99:99:99 00:00:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "99:99:99 00:00:00"
+   */
   BabyAge?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example ""
+   */
   BabyName?: string;
-  /** ☆☆☆☆ ✔ Example: "R0000148" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example "R0000148"
+   */
   Barcode?: string;
-  /** ☆☆☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0100"
+   */
   BarometerInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   BaseExposureCompensation?: number;
-  /** ★★☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example 800
+   */
   BaseISO?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   BatteryLevel?: string;
-  /** ☆☆☆☆ ✔ Example: "MB-D12 First" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "MB-D12 First"
+   */
   BatteryOrder?: string;
-  /** ☆☆☆☆ ✔ Example: "Sufficient Power Remaining" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Sufficient Power Remaining"
+   */
   BatteryState?: string;
-  /** ☆☆☆☆ ✔ Example: "50.6 C" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "50.6 C"
+   */
   BatteryTemperature?: string;
-  /** ☆☆☆☆ ✔ Example: "NB-13L" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "NB-13L"
+   */
   BatteryType?: string;
-  /** ☆☆☆☆   Example: "8.52 V" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "8.52 V"
+   */
   BatteryVoltage?: string;
-  /** ☆☆☆☆   Example: "Unknown (0)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (0)"
+   */
   BayerPattern?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   Beep?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   BeepPitch?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   BeepVolume?: string;
-  /** ☆☆☆☆   Example: "Sports CS" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Sports CS"
+   */
   BestShotMode?: string;
-  /** ☆☆☆☆ ✔ Example: "128 128 128 128" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "128 128 128 128"
+   */
   BlackLevels?: string;
-  /** ☆☆☆☆ ✔ Example: 2209 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 2209
+   */
   BlackMaskBottomBorder?: number;
-  /** ☆☆☆☆ ✔ Example: 14 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 14
+   */
   BlackMaskLeftBorder?: number;
-  /** ☆☆☆☆ ✔ Example: 55 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 55
+   */
   BlackMaskRightBorder?: number;
-  /** ☆☆☆☆ ✔ Example: 162 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 162
+   */
   BlackMaskTopBorder?: number;
-  /** ☆☆☆☆ ✔ Example: "7 104 106 6" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "7 104 106 6"
+   */
   BlackPoint?: string;
-  /** ☆☆☆☆   Example: "n/a" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   BleachBypassToning?: string;
-  /** ☆☆☆☆   Example: "5C" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "5C"
+   */
   BlueGain?: string;
-  /** ☆☆☆☆   Example: "Off; 0; 0; 0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off; 0; 0; 0"
+   */
   BlurControl?: string;
-  /** ★☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   BlurWarning?: string;
-  /** ☆☆☆☆ ✔ Example: "28 C" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "28 C"
+   */
   BoardTemperature?: string;
-  /** ☆☆☆☆ ✔ Example: 165 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 165
+   */
   BodyBatteryADLoad?: number;
-  /** ☆☆☆☆ ✔ Example: 199 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 199
+   */
   BodyBatteryADNoLoad?: number;
-  /** ☆☆☆☆ ✔ Example: "Running Low" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Running Low"
+   */
   BodyBatteryState?: string;
-  /** ☆☆☆☆   Example: "RS1 :V01500000 " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "RS1 :V01500000 "
+   */
   BodyFirmware?: string;
-  /** ☆☆☆☆ ✔ Example: 81 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 81
+   */
   BodyFirmwareVersion?: number;
-  /** ☆☆☆☆   Example: "SID:14101105   " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "SID:14101105   "
+   */
   BodySerialNumber?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   BracketIncrement?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   BracketMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Disabled" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disabled"
+   */
   BracketProgram?: string;
-  /** ☆☆☆☆   Example: "0 0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0"
+   */
   BracketSequence?: string;
-  /** ☆☆☆☆ ✔ Example: "AE/Flash" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AE/Flash"
+   */
   BracketSet?: string;
-  /** ☆☆☆☆ ✔ Example: "No Bracket" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "No Bracket"
+   */
   BracketSettings?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 0
+   */
   BracketShotNumber?: number;
-  /** ☆☆☆☆   Example: "Unknown (429458713)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (429458713)"
+   */
   BracketStep?: string;
-  /** ☆☆☆☆ ✔ Example: 12 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 12
+   */
   BracketValue?: number;
-  /** ☆☆☆☆ ✔ Example: 9.25 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes, XMP
+   * @example 9.25
+   */
   Brightness?: number;
-  /** ☆☆☆☆   Example: "SU6-7" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "SU6-7"
+   */
   BuildNumber?: string;
-  /** ★★☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example 0
+   */
   BulbDuration?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   BurstGroupID?: number;
-  /** ☆☆☆☆ ✔ Example: "Unlimited" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Unlimited"
+   */
   BurstMode?: string;
-  /** ☆☆☆☆   Example: 3 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3
+   */
   BurstShot?: number;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9
+   */
   BurstSpeed?: number;
-  /** ☆☆☆☆ ✔ Example: "460727F2-20CF-4031-957B-7E04D567DF1F" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "460727F2-20CF-4031-957B-7E04D567DF1F"
+   */
   BurstUUID?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal (enable)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal (enable)"
+   */
   ButtonFunctionControlOff?: string;
-  /** ☆☆☆☆   Example: 8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8
+   */
   BWFilter?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   BWMode?: string;
-  /** ☆☆☆☆   Example: "7x7" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "7x7"
+   */
   CAFGridSize?: string;
-  /** ☆☆☆☆   Example: "" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(none)"
+   */
   CAFPointsInFocus?: string;
-  /** ☆☆☆☆   Example: "9,10,11,12,13,16,17,18,19,20,23,24,25,26,27" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9,10,11,12,13,16,17,18,19,20,23,24,25,26,27"
+   */
   CAFPointsSelected?: string;
-  /** ☆☆☆☆   Example: "Starting calibration file for SD14F13_Rev3; S/N C75_00001…8:16:34" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Starting calibration file for SD14F13_Rev3; S/N C75_00001…8:16:34"
+   */
   Calibration?: string;
-  /** ☆☆☆☆   Example: "2216/02/28 03:49:48" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "2216/02/28 03:49:48"
+   */
   CameraDateTime?: string;
-  /** ★☆☆☆ ✔ Example: "h Company Ltd." */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "h Company Ltd."
+   */
   CameraID?: string;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   CameraISO?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (155)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example "Unknown (155)"
+   */
   CameraOrientation?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 8290 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "(Binary data 8412 bytes, use -b option to extract)"
+   */
   CameraParameters?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "User Defined 3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "User Defined 3"
+   */
   CameraPictureStyle?: string;
-  /** ☆☆☆☆   Example: -90 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example -90
+   */
   CameraPitch?: number;
-  /** ☆☆☆☆   Example: "+0.00" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+0.00"
+   */
   CameraRoll?: string;
-  /** ☆☆☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "0100"
+   */
   CameraSettingsVersion?: string;
-  /** ★★☆☆ ✔ Example: "uD800,S800" */
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups APP, MakerNotes
+   * @example "uD800,S800"
+   */
   CameraType?: string;
-  /** ☆☆☆☆   Example: "+90.80" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+90.80"
+   */
   CameraYaw?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (-1)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "Unknown (-1)"
+   */
   CanonExposureMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Full automatic mode" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Full automatic mode"
+   */
   CanonFileDescription?: string;
-  /** ☆☆☆☆ ✔ Example: 3794598 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3794598
+   */
   CanonFileLength?: number;
-  /** ★★☆☆ ✔ Example: "Firmware version 1.00" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example "Firmware version 1.00"
+   */
   CanonFirmwareVersion?: string;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   CanonFlashMode?: string;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   CanonImageSize?: string;
-  /** ★★☆☆ ✔ Example: "PIC:DC50 JPEG" */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MakerNotes
+   * @example "PIC:DC50 JPEG"
+   */
   CanonImageType?: string;
-  /** ★★☆☆ ✔ Example: "XH A1S" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "XH A1S"
+   */
   CanonModelID?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   CardShutterLock?: string;
-  /** ★☆☆☆ ✔ Example: "People" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups MakerNotes, XMP
+   * @example "People"
+   */
   Categories?: string;
-  /** ☆☆☆☆   Example: 2 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2
+   */
   CCDBoardVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "Interlaced" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Interlaced"
+   */
   CCDScanMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CCDSensitivity?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CCDVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "Normal Zone" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal Zone"
+   */
   CenterAFArea?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal Zone" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal Zone"
+   */
   CenterFocusPoint?: string;
-  /** ☆☆☆☆ ✔ Example: "Small" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Small"
+   */
   CenterWeightedAreaSize?: string;
-  /** ☆☆☆☆ ✔ Example: "9 fps" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9 fps"
+   */
   CHModeShootingSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ChromaticAberrationCorr?: string;
-  /** ☆☆☆☆ ✔ Example: "9758 13871 16956 16964 14142 9776 30 9502 13101 15416 151…1 15949" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes
+   * @example "9758 13871 16956 16964 14142 9776 30 9502 13101 15416 151…1 15949"
+   */
   ChromaticAberrationCorrParams?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ChromaticAberrationSetting?: string;
-  /** ☆☆☆☆   Example: "+0.500" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+0.500"
+   */
   ChrominanceNoiseReduction?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 4
+   */
   Clarity?: number;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ClarityControl?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ClearRetouch?: string;
-  /** ☆☆☆☆ ✔ Example: "6 fps" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "6 fps"
+   */
   CLModeShootingSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "Sub-command Dial" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Sub-command Dial"
+   */
   CmdDialsApertureSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Autofocus Off, Exposure Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Autofocus Off, Exposure Off"
+   */
   CmdDialsChangeMainSub?: string;
-  /** ☆☆☆☆ ✔ Example: "On (Image Review Excluded)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On (Image Review Excluded)"
+   */
   CmdDialsMenuAndPlayback?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   CmdDialsReverseRotation?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CmdDialsReverseRotExposureComp?: number;
-  /** ☆☆☆☆   Example: "0 0 0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   ColorAdjustment?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ColorAdjustmentMode?: string;
-  /** ☆☆☆☆   Example: 256 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 256
+   */
   ColorBalanceBlue?: number;
-  /** ☆☆☆☆   Example: 65792 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 65792
+   */
   ColorBalanceGreen?: number;
-  /** ☆☆☆☆   Example: 2.4960938 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2.4960938
+   */
   ColorBalanceRed?: number;
-  /** ☆☆☆☆ ✔ Example: "R01," */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "R01,"
+   */
   ColorBalanceVersion?: string;
-  /** ☆☆☆☆ ✔ Example: 24 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 24
+   */
   ColorBitDepth?: number;
-  /** ☆☆☆☆ ✔ Example: 257 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 257
+   */
   ColorBW?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ColorChromeEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ColorChromeFXBlue?: string;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 8
+   */
   ColorCompensationFilter?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ColorCompensationFilterCustom?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ColorCompensationFilterSet?: number;
-  /** ☆☆☆☆ ✔ Example: "96 4096 3072 4096 16 256" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "96 4096 3072 4096 16 256"
+   */
   ColorControl?: string;
-  /** ☆☆☆☆ ✔ Example: "Color 0; 0; 29; Strength 0; -4; 3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Color 0; 0; 29; Strength 0; -4; 3"
+   */
   ColorCreatorEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (65)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unknown (65)"
+   */
   ColorDataVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Warm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Warm"
+   */
   ColorEffect?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ColorFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "0.00 0.00 0.00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0.00 0.00 0.00"
+   */
   ColorGain?: string;
-  /** ☆☆☆☆ ✔ Example: "Mode3a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Mode3a"
+   */
   ColorHue?: string;
-  /** ☆☆☆☆ ✔ Example: "600 -236 -108 -52 404 -96 -20 -140 416" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "600 -236 -108 -52 404 -96 -20 -140 416"
+   */
   ColorMatrix?: string;
-  /** ☆☆☆☆   Example: "1.66016 -0.66016 0.00000 -0.20703 1.52734 -0.32031 -0.132…1.42969" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1.66016 -0.66016 0.00000 -0.20703 1.52734 -0.32031 -0.132…1.42969"
+   */
   ColorMatrixA?: string;
-  /** ☆☆☆☆   Example: "1.12793 -0.03674 -0.09119 -0.20703 1.52734 -0.32031 -0.13…1.35791" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1.12793 -0.03674 -0.09119 -0.20703 1.52734 -0.32031 -0.13…1.35791"
+   */
   ColorMatrixB?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 4
+   */
   ColorMatrixNumber?: number;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups APP, MakerNotes, XMP
+   * @example "n/a"
+   */
   ColorMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Min -5; Max 5; Yellow 0; Orange 0; Orange-red 0; Red 0; M…green 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Min -5; Max 5; Yellow 0; Orange 0; Orange-red 0; Red 0; M…green 0"
+   */
   ColorProfileSettings?: string;
-  /** ☆☆☆☆ ✔ Example: 8059 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 8059
+   */
   ColorTempAsShot?: number;
-  /** ☆☆☆☆ ✔ Example: 7397 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 7397
+   */
   ColorTempAuto?: number;
-  /** ☆☆☆☆ ✔ Example: 7103 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 7103
+   */
   ColorTempCloudy?: number;
-  /** ☆☆☆☆ ✔ Example: 5210 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5210
+   */
   ColorTempCustom?: number;
-  /** ☆☆☆☆ ✔ Example: 6071 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 6071
+   */
   ColorTempDaylight?: number;
-  /** ★☆☆☆ ✔ Example: 9900 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups MakerNotes, XMP
+   * @example 9900
+   */
   ColorTemperature?: number;
-  /** ☆☆☆☆ ✔ Example: 7820 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 7820
+   */
   ColorTemperatureAuto?: number;
-  /** ☆☆☆☆ ✔ Example: "6300 K" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "6300 K"
+   */
   ColorTemperatureCustom?: string;
-  /** ☆☆☆☆ ✔ Example: "7200 K" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "7200 K"
+   */
   ColorTemperatureSet?: string;
-  /** ☆☆☆☆ ✔ Example: "Temperature" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Temperature"
+   */
   ColorTemperatureSetting?: string;
-  /** ☆☆☆☆ ✔ Example: 9826 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 9826
+   */
   ColorTempFlash?: number;
-  /** ☆☆☆☆ ✔ Example: 5892 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 5892
+   */
   ColorTempFluorescent?: number;
-  /** ☆☆☆☆ ✔ Example: 8001 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 8001
+   */
   ColorTempKelvin?: number;
-  /** ☆☆☆☆ ✔ Example: 7397 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 7397
+   */
   ColorTempMeasured?: number;
-  /** ☆☆☆☆ ✔ Example: 7830 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 7830
+   */
   ColorTempShade?: number;
-  /** ☆☆☆☆ ✔ Example: 5892 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 5892
+   */
   ColorTempTungsten?: number;
-  /** ☆☆☆☆   Example: 5 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   ColorTint?: number;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   ColorTone?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ColorToneAuto?: number;
-  /** ☆☆☆☆ ✔ Example: 11 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 11
+   */
   ColorToneLandscape?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ColorToneNeutral?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ColorTonePortrait?: number;
-  /** ☆☆☆☆ ✔ Example: 15663191 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 15663191
+   */
   ColorToneStandard?: number;
-  /** ☆☆☆☆ ✔ Example: "Standard (Main Shutter, Sub Aperture)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard (Main Shutter, Sub Aperture)"
+   */
   CommandDials?: string;
-  /** ☆☆☆☆ ✔ Example: "Sub-command Dial" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Sub-command Dial"
+   */
   CommandDialsApertureSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   CommandDialsChangeMainSub?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   CommandDialsMenuAndPlayback?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   CommandDialsReverseRotation?: string;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3
+   */
   CommanderChannel?: number;
-  /** ☆☆☆☆ ✔ Example: "Full" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Full"
+   */
   CommanderGroupAManualOutput?: string;
-  /** ☆☆☆☆ ✔ Example: "TTL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "TTL"
+   */
   CommanderGroupAMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Full" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Full"
+   */
   CommanderGroupBManualOutput?: string;
-  /** ☆☆☆☆ ✔ Example: "TTL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "TTL"
+   */
   CommanderGroupBMode?: string;
-  /** ☆☆☆☆ ✔ Example: "TTL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "TTL"
+   */
   CommanderInternalFlash?: string;
-  /** ☆☆☆☆ ✔ Example: "Full" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Full"
+   */
   CommanderInternalManualOutput?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CommanderInternalTTLComp?: number;
-  /** ☆☆☆☆ ✔ Example: -3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example -3
+   */
   CommanderInternalTTLCompBuiltin?: number;
-  /** ☆☆☆☆ ✔ Example: -3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example -3
+   */
   CommanderInternalTTLCompGroupA?: number;
-  /** ☆☆☆☆ ✔ Example: -3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example -3
+   */
   CommanderInternalTTLCompGroupB?: number;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8
+   */
   ComponentBitDepth?: number;
-  /** ☆☆☆☆ ✔ Example: "Component version 1.00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Component version 1.00"
+   */
   ComponentVersion?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   CompositionAdjust?: string;
-  /** ☆☆☆☆   Example: 8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8
+   */
   CompositionAdjustRotation?: number;
-  /** ☆☆☆☆   Example: 4 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 4
+   */
   CompositionAdjustX?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   CompositionAdjustY?: number;
-  /** ☆☆☆☆ ✔ Example: 98047 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 98047
+   */
   CompressedImageSize?: number;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8
+   */
   CompressionFactor?: number;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8
+   */
   CompressionRatio?: number;
-  /** ☆☆☆☆ ✔ Example: "FFCBAC24-E547-4BBC-AF47-38B1A3D845E3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "FFCBAC24-E547-4BBC-AF47-38B1A3D845E3"
+   */
   ContentIdentifier?: string;
-  /** ☆☆☆☆ ✔ Example: "Low" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Low"
+   */
   ContinuousBracketing?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (11)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "Unknown (11)"
+   */
   ContinuousDrive?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ContinuousModeDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ContinuousModeLiveView?: string;
-  /** ☆☆☆☆ ✔ Example: "Hi 15000; Cont 15000; Lo 5000; Soft 8000; Soft LS 3000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Hi 15000; Cont 15000; Lo 5000; Soft 8000; Soft LS 3000"
+   */
   ContinuousShootingSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "Disable; 99 shots" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable; 99 shots"
+   */
   ContinuousShotLimit?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ContrastAuto?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 578 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 578 bytes, use -b option to extract)"
+   */
   ContrastCurve?: BinaryField | string;
-  /** ☆☆☆☆   Example: "496 184 48 48" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "496 184 48 48"
+   */
   ContrastDetectAFArea?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   ContrastDetectAFInFocus?: string;
-  /** ☆☆☆☆ ✔ Example: 6553600 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 6553600
+   */
   ContrastFaithful?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ContrastHighlight?: number;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ContrastHighlightShadowAdj?: string;
-  /** ☆☆☆☆ ✔ Example: 6553600 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 6553600
+   */
   ContrastLandscape?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown (19)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Unknown (19)"
+   */
   ContrastMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ContrastNeutral?: number;
-  /** ☆☆☆☆ ✔ Example: 9699328 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9699328
+   */
   ContrastPortrait?: number;
-  /** ☆☆☆☆ ✔ Example: "1 (min -5, max 5)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "1 (min -5, max 5)"
+   */
   ContrastSetting?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ContrastShadow?: number;
-  /** ☆☆☆☆ ✔ Example: 12058626 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 12058626
+   */
   ContrastStandard?: number;
-  /** ☆☆☆☆ ✔ Example: "Shutter Speed" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Shutter Speed"
+   */
   ControlDialSet?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ControllerBoardVersion?: number;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ControlMode?: string;
-  /** ☆☆☆☆ ✔ Example: "High" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "High"
+   */
   ControlRingResponse?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   ControlRingRotation?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Unknown (0)"
+   */
   ConversionLens?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   Converter?: number;
-  /** ☆☆☆☆ ✔ Example: 72 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 72
+   */
   CoringFilter?: number;
-  /** ☆☆☆☆   Example: 6807 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 6807
+   */
   CorrelatedColorTemp?: number;
-  /** ☆☆☆☆ ✔ Example: "1.02.00.06" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1.02.00.06"
+   */
   CPUFirmwareVersion?: string;
-  /** ☆☆☆☆   Example: "d, 2009:09:04 03:19:07" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "d, 2009:09:04 03:19:07"
+   */
   CPUVersions?: string;
-  /** ☆☆☆☆ ✔ Example: "Vivid" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example "Vivid"
+   */
   CreativeStyle?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   CreativeStyleSetting?: string;
-  /** ☆☆☆☆ ✔ Example: 48 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 48
+   */
   CropBottomMargin?: number;
-  /** ☆☆☆☆ ✔ Example: 7776 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 7776
+   */
   CropHeight?: number;
-  /** ☆☆☆☆ ✔ Example: "Off (7424x4924 cropped to 7424x4924 at pixel 0,0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off (7424x4924 cropped to 7424x4924 at pixel 0,0)"
+   */
   CropHiSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: 8240 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8240
+   */
   CropLeftMargin?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   CropMode?: string;
-  /** ☆☆☆☆ ✔ Example: 5792 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example 5792
+   */
   CroppedImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 3153968 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example 3153968
+   */
   CroppedImageLeft?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CroppedImageTop?: number;
-  /** ☆☆☆☆ ✔ Example: 8688 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example 8688
+   */
   CroppedImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 8240 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8240
+   */
   CropRightMargin?: number;
-  /** ☆☆☆☆ ✔ Example: 8240 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8240
+   */
   CropTopMargin?: number;
-  /** ☆☆☆☆ ✔ Example: 5184 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 5184
+   */
   CropWidth?: number;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   CrossProcess?: string;
-  /** ☆☆☆☆ ✔ Example: "20 0 19 2 0 65535 65535 65535 2 2 0 65535 65535 65535 18 … 4 5 31" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "20 0 19 2 0 65535 65535 65535 2 2 0 65535 65535 65535 18 … 4 5 31"
+   */
   CustomControls?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 1 30 31 0 0 0 0 0 0 2 30 31 0 0 0 0 0 0 5 30 31 0 0 0…1 1 1 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 1 30 31 0 0 0 0 0 0 2 30 31 0 0 0 0 0 0 5 30 31 0 0 0…1 1 1 0"
+   */
   CustomizeDials?: string;
-  /** ☆☆☆☆ ✔ Example: "P-STUDIO" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "P-STUDIO"
+   */
   CustomPictureStyleFileName?: string;
-  /** ☆☆☆☆ ✔ Example: "CS3 (min CS0, max CS4)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "CS3 (min CS0, max CS4)"
+   */
   CustomSaturation?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   CustomSettingsAllDefault?: string;
-  /** ☆☆☆☆ ✔ Example: "B" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "B"
+   */
   CustomSettingsBank?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CustomWBBlueLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "OK" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "OK"
+   */
   CustomWBError?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CustomWBGreenLevel?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   CustomWBRedLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "Setup" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Setup"
+   */
   CustomWBSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   DarkFocusEnvironment?: string;
-  /** ★★☆☆ ✔ Example: "(Binary data 114 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example "(Binary data 260 bytes, use -b option to extract)"
+   */
   DataDump?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 8289 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8289
+   */
   DataScaling?: number;
-  /** ☆☆☆☆ ✔ Example: "2021:05:03" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "2021:05:03"
+   */
   Date?: ExifDate | string;
-  /** ☆☆☆☆ ✔ Example: "Y/M/D" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Y/M/D"
+   */
   DateDisplayFormat?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DateImprint?: string;
-  /** ★★☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DateStampMode?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DateTimeStamp?: string;
-  /** ☆☆☆☆ ✔ Example: "2023:10:17 14:59:23" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2023:10:17 14:59:23"
+   */
   DateTimeUTC?: ExifDateTime | string;
-  /** ★☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   DaylightSavings?: string;
-  /** ☆☆☆☆   Example: "Unknown (27471)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (27471)"
+   */
   DECPosition?: string;
-  /** ☆☆☆☆ ✔ Example: "Erase selected" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Erase selected"
+   */
   DefaultEraseOption?: string;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3
+   */
   DeletedImageCount?: number;
-  /** ☆☆☆☆ ✔ Example: "Warsaw" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Warsaw"
+   */
   DestinationCity?: string;
-  /** ☆☆☆☆   Example: "    " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "    "
+   */
   DestinationCityCode?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   DestinationDST?: string;
-  /** ☆☆☆☆ ✔ Example: "SMX Video Camera" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "SMX Video Camera"
+   */
   DeviceType?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   DialDirectionTvAv?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   DiffractionCompensation?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   DiffractionCorrection?: string;
-  /** ☆☆☆☆   Example: "Vivid" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Vivid"
+   */
   DigitalFilter?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 0
+   */
   DigitalGain?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DigitalICE?: string;
-  /** ★★★☆ ✔ Example: "undef.0" */
+  /**
+   * @frequency 🔥 ★★★☆ (25%)
+   * @groups APP, Composite, MakerNotes
+   * @example "undef.0"
+   */
   DigitalZoom?: string;
-  /** ☆☆☆☆ ✔ Example: 897 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 897
+   */
   DirectoryIndex?: number;
-  /** ☆☆☆☆ ✔ Example: 999 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 999
+   */
   DirectoryNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "DISP - Cycle Information Display (shooting)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "DISP - Cycle Information Display (shooting)"
+   */
   DispButton?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   DisplayAllAFPoints?: string;
-  /** ☆☆☆☆ ✔ Example: 9.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9.5
+   */
   DisplayAperture?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DistortionControl?: string;
-  /** ★☆☆☆ ✔ Example: "Unknown (60)" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups EXIF, MakerNotes, PanasonicRaw
+   * @example "Unknown (60)"
+   */
   DistortionCorrection?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   DistortionCorrectionSetting?: string;
-  /** ☆☆☆☆ ✔ Example: 100 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 100
+   */
   DistortionCorrectionValue?: number;
-  /** ☆☆☆☆ ✔ Example: "88 0 -136 -288 -480 -696 -944 -1200 -1480 -1752 -2040 0 0 0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes
+   * @example "88 0 -136 -288 -480 -696 -944 -1200 -1480 -1752 -2040 0 0 0 0 0"
+   */
   DistortionCorrParams?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (0)"
+   */
   DistortionCorrParamsNumber?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   DistortionCorrParamsPresent?: string;
-  /** ☆☆☆☆ ✔ Example: "Single Frame" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Single Frame"
+   */
   DriveModeSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   DriveSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "100.00.00.00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "100.00.00.00"
+   */
   DSPFirmwareVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1024 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "(Binary data 1024 bytes, use -b option to extract)"
+   */
   DustRemovalData?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DXCropAlert?: string;
-  /** ☆☆☆☆ ✔ Example: "9 Points" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9 Points"
+   */
   DynamicAFArea?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   DynamicAreaAFAssist?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   DynamicAreaAFDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "Wide" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Wide"
+   */
   DynamicRange?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DynamicRangeBoost?: string;
-  /** ☆☆☆☆ ✔ Example: "On; Enabled; 0; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On; Enabled; 0; 0"
+   */
   DynamicRangeExpansion?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   DynamicRangeOptimizer?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   DynamicRangeOptimizerBracket?: string;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   DynamicRangeOptimizerLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   DynamicRangeOptimizerMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   DynamicRangeOptimizerSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Manual"
+   */
   DynamicRangeSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   EasyExposureComp?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   EasyExposureCompensation?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (83)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "Unknown (83)"
+   */
   EasyMode?: string;
-  /** ☆☆☆☆ ✔ Example: 9.8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9.8
+   */
   EffectiveLV?: number;
-  /** ☆☆☆☆ ✔ Example: 5.7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 5.7
+   */
   EffectiveMaxAperture?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ElectronicFrontCurtainShutter?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   EnergySavingMode?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   Enhancement?: string;
-  /** ☆☆☆☆ ✔ Example: 960 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 960
+   */
   Enhancer?: number;
-  /** ☆☆☆☆   Example: 480 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 480
+   */
   EpsonImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 640 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 640
+   */
   EpsonImageWidth?: number;
-  /** ☆☆☆☆   Example: "https://PhotoStructure.com/" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "https://PhotoStructure.com/"
+   */
   EpsonSoftware?: string;
-  /** ☆☆☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "0100"
+   */
   EquipmentVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Evaluative" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Evaluative"
+   */
   ETTLII?: string;
-  /** ☆☆☆☆   Example: 89 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 89
+   */
   EventNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "1/3 EV Steps" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/3 EV Steps"
+   */
   EVSteps?: string;
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/3 EV"
+   */
   EVStepSize?: string;
-  /** ☆☆☆☆ ✔ Example: "97.5 mm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "97.5 mm"
+   */
   ExitPupilPosition?: string;
-  /** ☆☆☆☆ ✔ Example: "Not Indicated" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not Indicated"
+   */
   ExposureBracketingIndicatorLast?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureBracketShotNumber?: number;
-  /** ☆☆☆☆ ✔ Example: 0.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0.5
+   */
   ExposureBracketStepSize?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureBracketValue?: number;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   ExposureCompAutoCancel?: string;
-  /** ☆☆☆☆ ✔ Example: "Ambient and Flash" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Ambient and Flash"
+   */
   ExposureCompensationMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureCompensationSet?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureCompensationSetting?: number;
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/3 EV"
+   */
   ExposureCompStepSize?: string;
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/3 EV"
+   */
   ExposureControlStep?: string;
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "1/3 EV"
+   */
   ExposureControlStepSize?: string;
-  /** ★☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example 1
+   */
   ExposureCount?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ExposureDelayMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureDifference?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureIndicator?: number;
-  /** ☆☆☆☆ ✔ Example: "1/3-stop set, 1/3-stop comp." */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "1/3-stop set, 1/3-stop comp."
+   */
   ExposureLevelIncrements?: string;
-  /** ☆☆☆☆ ✔ Example: "Spot metering" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Spot metering"
+   */
   ExposureModeInManual?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureShift?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureStandardAdjustment?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExposureTuning?: number;
-  /** ★☆☆☆ ✔ Example: "Good" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "Good"
+   */
   ExposureWarning?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Manual"
+   */
   EXRAuto?: string;
-  /** ☆☆☆☆ ✔ Example: "HR (High Resolution)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "HR (High Resolution)"
+   */
   EXRMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ExtendedMenuBanks?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ExtendedShutterSpeeds?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ExtendedWBDetect?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   Extender?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExtenderFirmwareVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example ""
+   */
   ExtenderSerialNumber?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ExternalFlash?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ExternalFlashBounce?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExternalFlashCompensation?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExternalFlashExposureComp?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ExternalFlashFirmware?: string;
-  /** ☆☆☆☆ ✔ Example: "(none)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "(none)"
+   */
   ExternalFlashFlags?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ExternalFlashGuideNumber?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ExternalFlashGValue?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   ExternalFlashMode?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ExternalFlashReadyState?: string;
-  /** ☆☆☆☆ ✔ Example: "Flash Not Attached" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Flash Not Attached"
+   */
   ExternalFlashStatus?: string;
-  /** ☆☆☆☆ ✔ Example: 54 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 54
+   */
   ExternalFlashZoom?: number;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   ExternalFlashZoomOverride?: string;
-  /** ☆☆☆☆   Example: 9.14 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 9.14
+   */
   ExternalSensorBrightnessValue?: number;
-  /** ☆☆☆☆ ✔ Example: "0.2.0.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0.2.0.0"
+   */
   ExtraInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   EyeDetection?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   EyeStartAF?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (II*)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Unknown (II*)"
+   */
   FaceDetect?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 383 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "(Binary data 383 bytes, use -b option to extract)"
+   */
   FaceDetectArea?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "0 26 640 428 0 26 640 428 0 0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 26 640 428 0 26 640 428 0 0 0 0"
+   */
   FaceDetectFrameCrop?: string;
-  /** ★☆☆☆ ✔ Example: "720 480" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups MakerNotes
+   * @example "720 480"
+   */
   FaceDetectFrameSize?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   FaceDetection?: string;
-  /** ☆☆☆☆ ✔ Example: "918 1058 1959 2101" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "918 1058 1959 2101"
+   */
   FaceElementPositions?: string;
-  /** ☆☆☆☆ ✔ Example: "892 917 2131 2135" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "892 917 2131 2135"
+   */
   FaceElementSelected?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (4096)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (4096)"
+   */
   FaceElementTypes?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 9
+   */
   FaceInfoLength?: number;
-  /** ☆☆☆☆ ✔ Example: 94 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 94
+   */
   FaceInfoOffset?: number;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example ""
+   */
   FaceName?: string;
-  /** ☆☆☆☆   Example: "67 23" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "67 23"
+   */
   FacePosition?: string;
-  /** ☆☆☆☆ ✔ Example: "918 1058 1959 2101" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "918 1058 1959 2101"
+   */
   FacePositions?: string;
-  /** ★★★☆ ✔ Example: 65535 */
+  /**
+   * @frequency 🔥 ★★★☆ (21%)
+   * @groups MakerNotes
+   * @example 65535
+   */
   FacesDetected?: number;
-  /** ☆☆☆☆ ✔ Example: 12336 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 12336
+   */
   FacesRecognized?: number;
-  /** ☆☆☆☆ ✔ Example: 35 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 35
+   */
   FaceWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   Fade?: number;
-  /** ☆☆☆☆ ✔ Example: "Enable; 0; 8; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable; 0; 8; 0"
+   */
   FEMicroadjustment?: string;
-  /** ☆☆☆☆ ✔ Example: "X3F" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups IPTC, MakerNotes
+   * @example "X3F"
+   */
   FileFormat?: string;
-  /** ☆☆☆☆ ✔ Example: 9984 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9984
+   */
   FileIndex?: number;
-  /** ☆☆☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0100"
+   */
   FileInfoVersion?: string;
-  /** ★★☆☆ ✔ Example: "986-8698" */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups Composite, MakerNotes
+   * @example "986-8698"
+   */
   FileNumber?: string;
-  /** ☆☆☆☆   Example: "Unknown (65537)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (65537)"
+   */
   FileNumberMemory?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   FileNumberSequence?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   FillFlashAutoReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FilmGrainEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   FilmMode?: string;
-  /** ☆☆☆☆ ✔ Example: "NEGATIVE(MONO) " */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "NEGATIVE(MONO) "
+   */
   FilmType?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   FilterEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   FilterEffectAuto?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   FinderDisplayDuringExposure?: string;
-  /** ☆☆☆☆ ✔ Example: "On; Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On; Normal"
+   */
   FineSharpness?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FineTuneOptCenterWeighted?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FineTuneOptHighlightWeighted?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FineTuneOptMatrixMetering?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FineTuneOptSpotMetering?: number;
-  /** ☆☆☆☆   Example: "2015:11:09 08:38" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "2015:11:09 08:38"
+   */
   FirmwareDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "NX1_000000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "NX1_000000"
+   */
   FirmwareName?: string;
-  /** ★☆☆☆ ✔ Example: "Rev01500000" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups MakerNotes
+   * @example "Rev01500000"
+   */
   FirmwareRevision?: string;
-  /** ★☆☆☆ ✔ Example: "v2.2.16" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups APP, MakerNotes, QuickTime
+   * @example "v2.2.16"
+   */
   FirmwareVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FisheyeFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Fired" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Fired"
+   */
   FlashAction?: string;
-  /** ☆☆☆☆ ✔ Example: "Did not fire" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Did not fire"
+   */
   FlashActionExternal?: string;
-  /** ☆☆☆☆ ✔ Example: 255 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 255
+   */
   FlashActivity?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   FlashBatteryLevel?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FlashBias?: number;
-  /** ★★☆☆ ✔ Example: "Manual, External" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "Manual, External"
+   */
   FlashBits?: string;
-  /** ☆☆☆☆ ✔ Example: "Raise built-in flash" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Raise built-in flash"
+   */
   FlashButtonFunction?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FlashChargeLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   FlashColorFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashCommanderMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Pre-flash TTL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Pre-flash TTL"
+   */
   FlashControl?: string;
-  /** ☆☆☆☆ ✔ Example: "iTTL-BL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "iTTL-BL"
+   */
   FlashControlMode?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   FlashCurtain?: string;
-  /** ☆☆☆☆ ✔ Example: "Fill Flash" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Fill Flash"
+   */
   FlashDefault?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0 0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (0 0)"
+   */
   FlashDevice?: string;
-  /** ☆☆☆☆   Example: 53 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 53
+   */
   FlashDistance?: number;
-  /** ☆☆☆☆ ✔ Example: 0.3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0.3
+   */
   FlashExposureBracketValue?: number;
-  /** ★★★☆ ✔ Example: 10 */
+  /**
+   * @frequency 🔥 ★★★☆ (26%)
+   * @groups MakerNotes
+   * @example 10
+   */
   FlashExposureComp?: number;
-  /** ☆☆☆☆ ✔ Example: "Entire frame" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Entire frame"
+   */
   FlashExposureCompArea?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FlashExposureCompSet?: number;
-  /** ☆☆☆☆ ✔ Example: "Not Indicated" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not Indicated"
+   */
   FlashExposureIndicator?: string;
-  /** ☆☆☆☆ ✔ Example: "Not Indicated" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not Indicated"
+   */
   FlashExposureIndicatorLast?: string;
-  /** ☆☆☆☆ ✔ Example: "Not Indicated" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not Indicated"
+   */
   FlashExposureIndicatorNext?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashExposureLock?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example "Yes"
+   */
   FlashFired?: string;
-  /** ☆☆☆☆ ✔ Example: "Fires" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Fires"
+   */
   FlashFiring?: string;
-  /** ☆☆☆☆ ✔ Example: 1.005 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 1.005
+   */
   FlashFirmwareVersion?: number;
-  /** ☆☆☆☆ ✔ Example: "12 mm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "12 mm"
+   */
   FlashFocalLength?: string;
-  /** ☆☆☆☆ ✔ Example: "No flash" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No flash"
+   */
   FlashFunction?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FlashGNDistance?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FlashGroupACompensation?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashGroupAControlMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FlashGroupBCompensation?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashGroupBControlMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FlashGroupCCompensation?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashGroupCControlMode?: string;
-  /** ★★☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example 9
+   */
   FlashGuideNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   FlashIlluminationPattern?: string;
-  /** ☆☆☆☆ ✔ Example: "0301" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "0301"
+   */
   FlashInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a (x4)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a (x4)"
+   */
   FlashIntensity?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   FlashLevel?: string;
-  /** ☆☆☆☆ ✔ Example: "TTL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "TTL"
+   */
   FlashMasterControlMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (65797)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (65797)"
+   */
   FlashMetering?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashMeteringMode?: string;
-  /** ☆☆☆☆ ✔ Example: "18.0 18.5 20.0 20.0 20.0 20.0 20.0 20.0 20.0 18.6 18.0 18….2 19.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "18.0 18.5 20.0 20.0 20.0 20.0 20.0 20.0 20.0 18.6 18.0 18….2 19.0"
+   */
   FlashMeteringSegments?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (c2)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example "Unknown (c2)"
+   */
   FlashMode?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "None"
+   */
   FlashModel?: string;
-  /** ☆☆☆☆ ✔ Example: "Red-eye reduction" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Red-eye reduction"
+   */
   FlashOptions?: string;
-  /** ★☆☆☆ ✔ Example: 94 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example 94
+   */
   FlashOutput?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashRemoteControl?: string;
-  /** ☆☆☆☆ ✔ Example: "01114671" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "01114671"
+   */
   FlashSerialNumber?: string;
-  /** ★☆☆☆ ✔ Example: "Uw-Normal" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups MakerNotes
+   * @example "Uw-Normal"
+   */
   FlashSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "1/64" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "1/64"
+   */
   FlashShutterSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   FlashSource?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlashStatus?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   FlashStatusExternal?: string;
-  /** ☆☆☆☆   Example: "Front curtain" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Front curtain"
+   */
   FlashSyncMode?: string;
-  /** ☆☆☆☆ ✔ Example: "1/250 s (auto FP)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "1/250 s (auto FP)"
+   */
   FlashSyncSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   FlashSyncSpeedAv?: string;
-  /** ☆☆☆☆ ✔ Example: 8.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8.5
+   */
   FlashThreshold?: number;
-  /** ☆☆☆☆ ✔ Example: "Yes (flash required but disabled)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Yes (flash required but disabled)"
+   */
   FlashWarning?: string;
-  /** ☆☆☆☆ ✔ Example: "320 262" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "320 262"
+   */
   FlexibleSpotPosition?: string;
-  /** ☆☆☆☆ ✔ Example: "Left to Right" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Left to Right"
+   */
   FlickAdvanceDirection?: string;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   FlickerReduce?: string;
-  /** ☆☆☆☆ ✔ Example: "Off (0x3223)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off (0x3223)"
+   */
   FlickerReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlickerReductionIndicator?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FlickerReductionShooting?: string;
-  /** ☆☆☆☆   Example: "1321,81,37" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1321,81,37"
+   */
   FlightDegree?: string;
-  /** ☆☆☆☆   Example: "9,0,0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9,0,0"
+   */
   FlightSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "70.0 mm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "70.0 mm"
+   */
   FocalLengthTeleZoom?: string;
-  /** ☆☆☆☆ ✔ Example: "640 428" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "640 428"
+   */
   FocalPlaneAFPointArea?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9
+   */
   FocalPlaneAFPointsUsed?: number;
-  /** ★☆☆☆ ✔ Example: "9.45 mm" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "9.45 mm"
+   */
   FocalPlaneDiagonal?: string;
-  /** ★☆☆☆ ✔ Example: "9.02 mm" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "9.02 mm"
+   */
   FocalPlaneXSize?: string;
-  /** ★☆☆☆ ✔ Example: "8.10 mm" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "8.10 mm"
+   */
   FocalPlaneYSize?: string;
-  /** ★☆☆☆ ✔ Example: "Zoom" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "Zoom"
+   */
   FocalType?: string;
-  /** ★★☆☆ ✔ Example: "32/mm" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "32/mm"
+   */
   FocalUnits?: string;
-  /** ☆☆☆☆   Example: "Wide Focus (normal)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Wide Focus (normal)"
+   */
   FocusArea?: string;
-  /** ☆☆☆☆ ✔ Example: "No Wrap" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No Wrap"
+   */
   FocusAreaSelection?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FocusBracket?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   FocusBracketStepSize?: number;
-  /** ★★☆☆ ✔ Example: "Single" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example "Single"
+   */
   FocusContinuous?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   FocusDisplayAIServoAndMF?: string;
-  /** ☆☆☆☆ ✔ Example: "7.68 - 36.90 m" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "7.68 - 36.90 m"
+   */
   FocusDistanceRange?: string;
-  /** ☆☆☆☆ ✔ Example: "948x714" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "948x714"
+   */
   FocusFrameSize?: string;
-  /** ☆☆☆☆ ✔ Example: "Focus Hold" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Focus Hold"
+   */
   FocusHoldButton?: string;
-  /** ☆☆☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0100"
+   */
   FocusInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Eh-A" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Eh-A"
+   */
   FocusingScreen?: string;
-  /** ☆☆☆☆ ✔ Example: "9504 6336 6029 2587" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "9504 6336 6029 2587"
+   */
   FocusLocation?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   FocusLocked?: string;
-  /** ★★★☆ ✔ Example: "Unknown (860272)" */
+  /**
+   * @frequency 🔥 ★★★☆ (38%)
+   * @groups APP, MakerNotes
+   * @example "Unknown (860272)"
+   */
   FocusMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Manual"
+   */
   FocusModeSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "AF" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF"
+   */
   FocusModeSwitch?: string;
-  /** ☆☆☆☆ ✔ Example: "Red" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Red"
+   */
   FocusPeakingHighlightColor?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FocusPeakingLevel?: string;
-  /** ★☆☆☆ ✔ Example: "972 1296" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "972 1296"
+   */
   FocusPixel?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   FocusPointPersistence?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FocusPointSchema?: string;
-  /** ☆☆☆☆   Example: "Normal" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   FocusPointSelectionSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "Wrap" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Wrap"
+   */
   FocusPointWrap?: string;
-  /** ☆☆☆☆ ✔ Example: 999 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 999
+   */
   FocusPosition?: number;
-  /** ☆☆☆☆ ✔ Example: "C" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "C"
+   */
   FocusPositionHorizontal?: string;
-  /** ☆☆☆☆ ✔ Example: "C" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "C"
+   */
   FocusPositionVertical?: string;
-  /** ☆☆☆☆ ✔ Example: "AF Used; 96" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "AF Used; 96"
+   */
   FocusProcess?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (2)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "Unknown (2)"
+   */
   FocusRange?: string;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   FocusRangeIndex?: number;
-  /** ☆☆☆☆ ✔ Example: "Focus" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Focus"
+   */
   FocusResult?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   FocusRingRotation?: string;
-  /** ☆☆☆☆   Example: "M" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "M"
+   */
   FocusSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   FocusShiftExposureLock?: string;
-  /** ☆☆☆☆ ✔ Example: "3 Seconds" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "3 Seconds"
+   */
   FocusShiftInterval?: string;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   FocusShiftNumberShots?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FocusShiftShooting?: string;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   FocusShiftStepWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "Not confirmed, Tracking" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not confirmed, Tracking"
+   */
   FocusStatus?: string;
-  /** ☆☆☆☆ ✔ Example: 9713 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 9713
+   */
   FocusStepInfinity?: number;
-  /** ☆☆☆☆ ✔ Example: 9804 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example 9804
+   */
   FocusStepNear?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FocusTrackingLockOn?: string;
-  /** ★☆☆☆ ✔ Example: "Out of focus" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "Out of focus"
+   */
   FocusWarning?: string;
-  /** ☆☆☆☆   Example: "Standard Form" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard Form"
+   */
   FolderName?: string;
-  /** ☆☆☆☆ ✔ Example: 373 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 373
+   */
   FolderNumber?: number;
-  /** ☆☆☆☆ ✔ Example: 849 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, Meta
+   * @example 849
+   */
   FrameNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FramingGridDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 12 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 12 bytes, use -b option to extract)"
+   */
   FreeBytes?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 805 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 805
+   */
   FreeMemoryCardImages?: number;
-  /** ★☆☆☆ ✔ Example: "Red-eye reduction" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "Red-eye reduction"
+   */
   FujiFlashMode?: string;
-  /** ☆☆☆☆ ✔ Example: "X100V_0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "X100V_0100"
+   */
   FujiModel?: string;
-  /** ☆☆☆☆ ✔ Example: "9504x6336" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "9504x6336"
+   */
   FullImageSize?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   FullPressSnap?: string;
-  /** ☆☆☆☆ ✔ Example: "Zoom (High)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Zoom (High)"
+   */
   Func1Button?: string;
-  /** ☆☆☆☆ ✔ Example: "Choose Image Area (DX/1.3x)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Choose Image Area (DX/1.3x)"
+   */
   Func1ButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "Virtual Horizon" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Virtual Horizon"
+   */
   Func2Button?: string;
-  /** ☆☆☆☆   Example: "Voice Memo" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Voice Memo"
+   */
   Func3Button?: string;
-  /** ☆☆☆☆ ✔ Example: "Virtual Horizon" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Virtual Horizon"
+   */
   FuncButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   FuncButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "ISO Display" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "ISO Display"
+   */
   FunctionButton?: string;
-  /** ☆☆☆☆ ✔ Example: 256 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 256
+   */
   GainBase?: number;
-  /** ☆☆☆☆   Example: "4320x3240" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4320x3240"
+   */
   GEImageSize?: string;
-  /** ☆☆☆☆   Example: "GEDSC DIGITAL CAMERA           " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "GEDSC DIGITAL CAMERA           "
+   */
   GEMake?: string;
-  /** ☆☆☆☆   Example: "J1470S" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "J1470S"
+   */
   GEModel?: string;
-  /** ☆☆☆☆   Example: "1279,-900,0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1279,-900,0"
+   */
   GimbalDegree?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a; User-Selected" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a; User-Selected"
+   */
   Gradation?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   GrainEffectRoughness?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   GrainEffectSize?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   GrainyBWFilter?: string;
-  /** ☆☆☆☆   Example: "2E" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "2E"
+   */
   GreenGain?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   GridDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: 157 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 157
+   */
   GripBatteryADLoad?: number;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   GripBatteryADNoLoad?: number;
-  /** ☆☆☆☆ ✔ Example: "Empty or Missing" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Empty or Missing"
+   */
   GripBatteryState?: string;
-  /** ☆☆☆☆ ✔ Example: "Squares" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Squares"
+   */
   GroupAreaAFIllumination?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (5)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (5)"
+   */
   HDMIBitDepth?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   HDMIExternalRecorder?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   HDMIOutputRange?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   HDMIOutputResolution?: string;
-  /** ★☆☆☆ ✔ Example: "On (normal)" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups MakerNotes
+   * @example "On (normal)"
+   */
   HDR?: string;
-  /** ☆☆☆☆ ✔ Example: "Natural" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Natural"
+   */
   HDREffect?: string;
-  /** ☆☆☆☆ ✔ Example: 1.7904162 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1.7904162
+   */
   HDRGain?: number;
-  /** ☆☆☆☆ ✔ Example: 1.568873 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1.568873
+   */
   HDRHeadroom?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (2)"
+   */
   HDRImageType?: string;
-  /** ☆☆☆☆ ✔ Example: "0200" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0200"
+   */
   HDRInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   HDRLevel?: string;
-  /** ☆☆☆☆ ✔ Example: "On (Manual)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, MakerNotes
+   * @example "On (Manual)"
+   */
   HDRSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   HDRSmoothing?: string;
-  /** ☆☆☆☆ ✔ Example: 53248 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 53248
+   */
   HiddenDataLength?: number;
-  /** ☆☆☆☆ ✔ Example: 7995392 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 7995392
+   */
   HiddenDataOffset?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   HighFrameRate?: string;
-  /** ★☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   HighISONoiseReduction?: string;
-  /** ☆☆☆☆   Example: 0.1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0.1
+   */
   Highlight?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   Highlights?: number;
-  /** ☆☆☆☆ ✔ Example: "0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 0"
+   */
   HighlightShadow?: string;
-  /** ☆☆☆☆ ✔ Example: "0 (normal)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 (normal)"
+   */
   HighlightTone?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   HighlightTonePriority?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   HighlightWarning?: string;
-  /** ☆☆☆☆   Example: 4 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 4
+   */
   HighLowKeyAdj?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   HighSpeedSync?: string;
-  /** ☆☆☆☆   Example: "disable, " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "disable, "
+   */
   Histogram?: string;
-  /** ☆☆☆☆ ✔ Example: "ndon" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "ndon"
+   */
   HometownCity?: string;
-  /** ☆☆☆☆   Example: "NYC " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "NYC "
+   */
   HometownCityCode?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   HometownDST?: string;
-  /** ☆☆☆☆   Example: 2 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2
+   */
   HostSoftwareExportVersion?: number;
-  /** ☆☆☆☆   Example: "Unknown (4 4)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (4 4)"
+   */
   HostSoftwareRendering?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   Hue?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   HueAdjust?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   HueAdjustment?: string;
-  /** ☆☆☆☆   Example: "(Binary data 8 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 8 bytes, use -b option to extract)"
+   */
   HyperlapsDebugInfo?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   Illumination?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   ImageAdjustment?: string;
-  /** ☆☆☆☆ ✔ Example: "FX (36x24)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "FX (36x24)"
+   */
   ImageArea?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ImageAuthentication?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 8256 5504" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 0 8256 5504"
+   */
   ImageBoundary?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (5)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (5)"
+   */
   ImageCaptureType?: string;
-  /** ☆☆☆☆ ✔ Example: 994 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 994
+   */
   ImageCount?: number;
-  /** ☆☆☆☆ ✔ Example: 9927271 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9927271
+   */
   ImageDataSize?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 1
+   */
   ImageEditCount?: number;
-  /** ☆☆☆☆ ✔ Example: "Red-eye Correction" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Red-eye Correction"
+   */
   ImageEditing?: string;
-  /** ☆☆☆☆   Example: "Standard" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   ImageEffects?: string;
-  /** ☆☆☆☆ ✔ Example: "Re-developed from RAW" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Re-developed from RAW"
+   */
   ImageGeneration?: string;
-  /** ☆☆☆☆   Example: 912 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 912
+   */
   ImageIDNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   ImageOptimization?: string;
-  /** ☆☆☆☆ ✔ Example: "Red Eye Ruduction ;" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Red Eye Ruduction ;"
+   */
   ImageProcessing?: string;
-  /** ☆☆☆☆ ✔ Example: "0112" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "0112"
+   */
   ImageProcessingVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Very High" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Very High"
+   */
   ImageQuality?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ImageReview?: string;
-  /** ☆☆☆☆ ✔ Example: "4 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4 s"
+   */
   ImageReviewMonitorOffTime?: string;
-  /** ☆☆☆☆ ✔ Example: "4 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4 s"
+   */
   ImageReviewTime?: string;
-  /** ☆☆☆☆   Example: "No" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   ImageRotated?: string;
-  /** ☆☆☆☆ ✔ Example: "Small" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Small"
+   */
   ImageSizeRAW?: string;
-  /** ★★★☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★★☆ (21%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ImageStabilization?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ImageStabilizationSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "StyleBox2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "StyleBox2"
+   */
   ImageStyle?: string;
-  /** ☆☆☆☆   Example: 94 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 94
+   */
   ImageTemperatureMax?: number;
-  /** ☆☆☆☆   Example: 86 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 86
+   */
   ImageTemperatureMin?: number;
-  /** ☆☆☆☆ ✔ Example: "Vibrant" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Vibrant"
+   */
   ImageTone?: string;
-  /** ★☆☆☆ ✔ Example: "fefafc6093e2c1470ac8dfa06ef26990" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "fefafc6093e2c1470ac8dfa06ef26990"
+   */
   ImageUniqueID?: string;
-  /** ☆☆☆☆ ✔ Example: "Displays shooting functions" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Displays shooting functions"
+   */
   InfoButtonWhenShooting?: string;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   InfraredIlluminator?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual AF point" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Manual AF point"
+   */
   InitialAFPointAIServoAF?: string;
-  /** ☆☆☆☆ ✔ Example: "Initial AF Point Selected" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Initial AF Point Selected"
+   */
   InitialAFPointInServo?: string;
-  /** ☆☆☆☆ ✔ Example: "Low Magnification" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Low Magnification"
+   */
   InitialZoomLiveView?: string;
-  /** ☆☆☆☆ ✔ Example: "Medium Magnification" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Medium Magnification"
+   */
   InitialZoomSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Image Only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Image Only"
+   */
   InstantPlaybackSetup?: string;
-  /** ☆☆☆☆ ✔ Example: "5 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "5 s"
+   */
   InstantPlaybackTime?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   IntelligentAuto?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   IntelligentContrast?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   IntelligentExposure?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   IntelligentResolution?: string;
-  /** ☆☆☆☆ ✔ Example: "TTL" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "TTL"
+   */
   InternalFlash?: string;
-  /** ☆☆☆☆ ✔ Example: "Did not fire, Red-eye reduction" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Did not fire, Red-eye reduction"
+   */
   InternalFlashMode?: string;
-  /** ☆☆☆☆ ✔ Example: 63 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 63
+   */
   InternalFlashStrength?: number;
-  /** ☆☆☆☆ ✔ Example: 95 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 95
+   */
   InternalFlashTable?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   InternalNDFilter?: number;
-  /** ★★☆☆ ✔ Example: "fdfec409" */
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups MakerNotes
+   * @example "fdfec409"
+   */
   InternalSerialNumber?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   IntervalDurationHours?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   IntervalDurationMinutes?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   IntervalDurationSeconds?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   IntervalExposureSmoothing?: string;
-  /** ☆☆☆☆   Example: 65542 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 65542
+   */
   IntervalLength?: number;
-  /** ☆☆☆☆   Example: "Still Image" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Still Image"
+   */
   IntervalMode?: string;
-  /** ☆☆☆☆   Example: 65797 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 65797
+   */
   IntervalNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   IntervalPriority?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   Intervals?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   IntervalShooting?: string;
-  /** ☆☆☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 800
+   */
   ISO2?: number;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ISOAuto?: string;
-  /** ☆☆☆☆ ✔ Example: "Same As Without Flash" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Same As Without Flash"
+   */
   ISOAutoFlashLimit?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0x6)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (0x6)"
+   */
   ISOAutoHiLimit?: string;
-  /** ☆☆☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 800
+   */
   ISOAutoMax?: number;
-  /** ☆☆☆☆ ✔ Example: 80 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 80
+   */
   ISOAutoMin?: number;
-  /** ☆☆☆☆   Example: "Shutter Speed Control; 1/32" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Shutter Speed Control; 1/32"
+   */
   ISOAutoMinSpeed?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto (Faster)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto (Faster)"
+   */
   ISOAutoShutterTime?: string;
-  /** ☆☆☆☆ ✔ Example: "Show Frame Count" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Show Frame Count"
+   */
   ISODisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ISOExpansion?: string;
-  /** ☆☆☆☆ ✔ Example: 800 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 800
+   */
   ISOFloor?: number;
-  /** ☆☆☆☆   Example: "Auto" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   ISOSelected?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Manual"
+   */
   ISOSelection?: string;
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/3 EV"
+   */
   ISOSensitivityStep?: string;
-  /** ☆☆☆☆ ✔ Example: 90 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 90
+   */
   ISOSetting?: number;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   ISOSpeedExpansion?: string;
-  /** ☆☆☆☆ ✔ Example: "1/3 Stop" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "1/3 Stop"
+   */
   ISOSpeedIncrements?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable; Max 3200; Min 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable; Max 3200; Min 1"
+   */
   ISOSpeedRange?: string;
-  /** ☆☆☆☆ ✔ Example: "1/3 EV" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/3 EV"
+   */
   ISOStepSize?: string;
-  /** ☆☆☆☆ ✔ Example: 79.44 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 79.44
+   */
   ISOValue?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a (Movie)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "n/a (Movie)"
+   */
   JPEGQuality?: string;
-  /** ☆☆☆☆ ✔ Example: "Size Priority" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Size Priority"
+   */
   JPGCompression?: string;
-  /** ☆☆☆☆ ✔ Example: "10 MP" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "10 MP"
+   */
   JpgRecordedPixels?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   KeepExposure?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   KeystoneCompensation?: string;
-  /** ☆☆☆☆ ✔ Example: "Vertical" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Vertical"
+   */
   KeystoneDirection?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   KeystoneValue?: string;
-  /** ☆☆☆☆   Example: 864 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 864
+   */
   KodakImageHeight?: number;
-  /** ☆☆☆☆   Example: 800 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 800
+   */
   KodakImageWidth?: number;
-  /** ☆☆☆☆   Example: "SKodakCommonInfo Jaguar7" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "SKodakCommonInfo Jaguar7"
+   */
   KodakInfoType?: string;
-  /** ☆☆☆☆   Example: "Kodak                           " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Kodak                           "
+   */
   KodakMake?: string;
-  /** ☆☆☆☆   Example: "PENTAX" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "PENTAX"
+   */
   KodakMaker?: string;
-  /** ☆☆☆☆   Example: "Z760    " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Z760    "
+   */
   KodakModel?: string;
-  /** ☆☆☆☆   Example: "1.0.0.0" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1.0.0.0"
+   */
   KodakVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "English" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "UNICORN THEATRE FOR CHILDREN"
+   */
+  Landmark?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "English"
+   */
   Language?: string;
-  /** ☆☆☆☆   Example: 92 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 92
+   */
   LastFileNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   LateralChromaticAberration?: string;
-  /** ☆☆☆☆ ✔ Example: "Retain power off status" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Retain power off status"
+   */
   LCDDisplayAtPowerOn?: string;
-  /** ☆☆☆☆ ✔ Example: "With Shutter Button only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "With Shutter Button only"
+   */
   LCDDisplayReturnToShoot?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   LCDIllumination?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   LCDIlluminationDuringBulb?: string;
-  /** ☆☆☆☆ ✔ Example: "Remain. shots/File no." */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Remain. shots/File no."
+   */
   LCDPanels?: string;
-  /** ☆☆☆☆   Example: "4.0 to 22" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4.0 to 22"
+   */
   LensApertureRange?: string;
-  /** ☆☆☆☆ ✔ Example: "None (Disabled)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None (Disabled)"
+   */
   LensControlRing?: string;
-  /** ☆☆☆☆ ✔ Example: "0802" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0802"
+   */
   LensDataVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "97 154 172 70 104 114" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "97 154 172 70 104 114"
+   */
   LensDistortionParams?: string;
-  /** ☆☆☆☆ ✔ Example: "Focus search on" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Focus search on"
+   */
   LensDriveNoAF?: string;
-  /** ☆☆☆☆ ✔ Example: "Continue Focus Search" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Continue Focus Search"
+   */
   LensDriveWhenAFImpossible?: string;
-  /** ☆☆☆☆   Example: "RL8 :V01390000 " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "RL8 :V01390000 "
+   */
   LensFirmware?: string;
-  /** ☆☆☆☆ ✔ Example: "Ver.04.000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Ver.04.000"
+   */
   LensFirmwareVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "70.0 mm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "70.0 mm"
+   */
   LensFocalLength?: string;
-  /** ☆☆☆☆   Example: "50 to 50" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "50 to 50"
+   */
   LensFocalRange?: string;
-  /** ☆☆☆☆ ✔ Example: "AF Lock Only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF Lock Only"
+   */
   LensFocusFunctionButtons?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (72)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (72)"
+   */
   LensFormat?: string;
-  /** ☆☆☆☆ ✔ Example: 8.67 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8.67
+   */
   LensFStops?: number;
-  /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AE/AF Lock"
+   */
   LensFunc1Button?: string;
-  /** ☆☆☆☆ ✔ Example: "AF-On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF-On"
+   */
   LensFunc2Button?: string;
-  /** ☆☆☆☆ ✔ Example: 93 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 93
+   */
   LensIDNumber?: number;
-  /** ☆☆☆☆   Example: "4 to 4" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4 to 4"
+   */
   LensMaxApertureRange?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   LensModulationOptimizer?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (74)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unknown (74)"
+   */
   LensMount?: string;
-  /** ☆☆☆☆ ✔ Example: "Z-mount" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Z-mount"
+   */
   LensMountType?: string;
-  /** ☆☆☆☆ ✔ Example: 91 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 91
+   */
   LensPositionAbsolute?: number;
-  /** ☆☆☆☆ ✔ Example: "0xe253" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0xe253"
+   */
   LensProperties?: string;
-  /** ☆☆☆☆   Example: "Xcenter=1456 Ycenter=1068  GainMax=16" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Xcenter=1456 Ycenter=1068  GainMax=16"
+   */
   LensShading?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   LensShutterLock?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (00 0 0 0 0 00)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups Composite, MakerNotes
+   * @example "Unknown (00 0 0 0 0 00)"
+   */
   LensSpec?: string;
-  /** ☆☆☆☆ ✔ Example: "ZA SSM II" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "ZA SSM II"
+   */
   LensSpecFeatures?: string;
-  /** ☆☆☆☆ ✔ Example: 35 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 35
+   */
   LensTemperature?: number;
-  /** ★★☆☆ ✔ Example: "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" */
+  /**
+   * @frequency 🔥 ★★☆☆ (18%)
+   * @groups Composite, MakerNotes
+   * @example "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]"
+   */
   LensType?: string;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example
+   */
   LensType2?: string;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example
+   */
   LensType3?: string;
-  /** ☆☆☆☆ ✔ Example: 2 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example 2
+   */
   LensTypeMake?: number;
-  /** ☆☆☆☆ ✔ Example: "41 10" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example "41 10"
+   */
   LensTypeModel?: string;
-  /** ☆☆☆☆ ✔ Example: "98%" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "98%"
+   */
   LensZoomPosition?: string;
-  /** ☆☆☆☆   Example: 250 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 250
+   */
   LevelIndicator?: number;
-  /** ☆☆☆☆   Example: "n/a" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   LevelOrientation?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   LightCondition?: number;
-  /** ☆☆☆☆   Example: "Shadow Enhance Low" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Shadow Enhance Low"
+   */
   LightingMode?: string;
-  /** ☆☆☆☆   Example: "Unknown (512)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (512)"
+   */
   LightSourceSpecial?: string;
-  /** ☆☆☆☆ ✔ Example: "LCD Backlight and Shooting Information" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "LCD Backlight and Shooting Information"
+   */
   LightSwitch?: string;
-  /** ☆☆☆☆ ✔ Example: 8.546875 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8.546875
+   */
   LightValueCenter?: number;
-  /** ☆☆☆☆ ✔ Example: 7.796875 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 7.796875
+   */
   LightValuePeriphery?: number;
-  /** ☆☆☆☆ ✔ Example: "No Restrictions" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No Restrictions"
+   */
   LimitAFAreaModeSelection?: string;
-  /** ☆☆☆☆ ✔ Example: 175 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 181
+   */
   LinearityUpperMargin?: number;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   LinkAEToAFPoint?: string;
-  /** ☆☆☆☆ ✔ Example: 8595224600 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 8595224600
+   */
   LivePhotoVideoIndex?: number;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   LiveView?: string;
-  /** ☆☆☆☆ ✔ Example: "Wide Area" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Wide Area"
+   */
   LiveViewAF?: string;
-  /** ☆☆☆☆ ✔ Example: "Face-Priority" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Face-Priority"
+   */
   LiveViewAFAreaMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Phase-detect AF" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Phase-detect AF"
+   */
   LiveViewAFMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "AF-C" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF-C"
+   */
   LiveViewAFMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   LiveViewButtonOptions?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable (simulates exposure)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable (simulates exposure)"
+   */
   LiveViewExposureSimulation?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Manual"
+   */
   LiveViewFocusMode?: string;
-  /** ☆☆☆☆ ✔ Example: "40 Segment" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "40 Segment"
+   */
   LiveViewMetering?: string;
-  /** ☆☆☆☆ ✔ Example: "3 min" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "3 min"
+   */
   LiveViewMonitorOffTime?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   LiveViewShooting?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example ""
+   */
   LocalLocationName?: string;
-  /** ☆☆☆☆ ✔ Example: ":99:99 00:00:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example ":99:99 00:00:00"
+   */
   Location?: string;
-  /** ☆☆☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0100"
+   */
   LocationInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example ""
+   */
   LocationName?: string;
-  /** ☆☆☆☆ ✔ Example: "Protect (hold:record memo); 31" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Protect (hold:record memo); 31"
+   */
   LockMicrophoneButton?: string;
-  /** ★☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   LongExposureNoiseReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   LongExposureNRUsed?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   LowLightAF?: string;
-  /** ☆☆☆☆ ✔ Example: 0.014752804 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0.014752804
+   */
   LuminanceNoiseAmplitude?: number;
-  /** ☆☆☆☆   Example: "+0.500" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+0.500"
+   */
   LuminanceNoiseReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Masked" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Masked"
+   */
   LVShootingAreaDisplay?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   M16CVersion?: number;
-  /** ★★☆☆ ✔ Example: "Unknown (3)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups APP, MakerNotes
+   * @example "Unknown (3)"
+   */
   Macro?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MacroLED?: string;
-  /** ★★☆☆ ✔ Example: "Unknown (852023)" */
+  /**
+   * @frequency 🔥 ★★☆☆ (19%)
+   * @groups MakerNotes
+   * @example "Unknown (852023)"
+   */
   MacroMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Soft Focus 2; 1280; 0; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Soft Focus 2; 1280; 0; 0"
+   */
   MagicFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Image playback only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Image playback only"
+   */
   MagnifiedView?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MainDialExposureComp?: string;
-  /** ☆☆☆☆   Example: 916 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 916
+   */
   MakerNoteOffset?: number;
-  /** ☆☆☆☆   Example: "Rdc" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Rdc"
+   */
   MakerNoteType?: string;
-  /** ★★☆☆ ✔ Example: "mlt0" */
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups MakerNotes
+   * @example "mlt0"
+   */
   MakerNoteVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "98 kPa" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "98 kPa"
+   */
   ManometerPressure?: string;
-  /** ☆☆☆☆ ✔ Example: "400 m, 1320 ft" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "400 m, 1320 ft"
+   */
   ManometerReading?: string;
-  /** ☆☆☆☆ ✔ Example: "Stops at AF area edges" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Stops at AF area edges"
+   */
   ManualAFPointSelectPattern?: string;
-  /** ☆☆☆☆ ✔ Example: "Stops at AF Area Edges" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Stops at AF Area Edges"
+   */
   ManualAFPointSelPattern?: string;
-  /** ☆☆☆☆ ✔ Example: "On (1/64 strength)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On (1/64 strength)"
+   */
   ManualFlash?: string;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ManualFlashOutput?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a (x4)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a (x4)"
+   */
   ManualFlashStrength?: string;
-  /** ☆☆☆☆ ✔ Example: "inf" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "inf"
+   */
   ManualFocusDistance?: string;
-  /** ☆☆☆☆ ✔ Example: "On During Focus Point Selection Only" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On During Focus Point Selection Only"
+   */
   ManualFocusPointIllumination?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ManualFocusRingInAFMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Tv=Main/Av=Control" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Tv=Main/Av=Control"
+   */
   ManualTv?: string;
-  /** ☆☆☆☆ ✔ Example: "2021:03:17" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2021:03:17"
+   */
   ManufactureDate?: ExifDate | string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   MasterGain?: number;
-  /** ☆☆☆☆ ✔ Example: "Face Detection On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Face Detection On"
+   */
   MatrixMetering?: string;
-  /** ★★☆☆ ✔ Example: 7.3 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example 7.3
+   */
   MaxAperture?: number;
-  /** ☆☆☆☆ ✔ Example: 6.7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 6.7
+   */
   MaxApertureAtMaxFocal?: number;
-  /** ☆☆☆☆ ✔ Example: 5.7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 5.7
+   */
   MaxApertureAtMinFocal?: number;
-  /** ☆☆☆☆ ✔ Example: 200 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 200
+   */
   MaxContinuousRelease?: number;
-  /** ☆☆☆☆ ✔ Example: "8 8 8" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "8 8 8"
+   */
   MaxFaces?: string;
-  /** ★★☆☆ ✔ Example: "96.2 mm" */
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups MakerNotes
+   * @example "96.2 mm"
+   */
   MaxFocalLength?: string;
-  /** ☆☆☆☆ ✔ Example: "Bulgaria (284)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Bulgaria (284)"
+   */
   MCCData?: string;
-  /** ☆☆☆☆ ✔ Example: 99 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 99
+   */
   MCUVersion?: number;
-  /** ★★☆☆ ✔ Example: 9.97 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example 9.97
+   */
   MeasuredEV?: number;
-  /** ☆☆☆☆ ✔ Example: 9.375 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 9.375
+   */
   MeasuredLV?: number;
-  /** ☆☆☆☆ ✔ Example: "988 1024 1024 636" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "988 1024 1024 636"
+   */
   MeasuredRGGB?: string;
-  /** ☆☆☆☆ ✔ Example: "6653 9252 9606 4468" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "6653 9252 9606 4468"
+   */
   MeasuredRGGBData?: string;
-  /** ☆☆☆☆ ✔ Example: 7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 7
+   */
   MechanicalShutterCount?: number;
-  /** ☆☆☆☆ ✔ Example: "High (48 kHz)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "High (48 kHz)"
+   */
   MemoAudioQuality?: string;
-  /** ☆☆☆☆ ✔ Example: "SD card in use, MemoryStick slot empty" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "SD card in use, MemoryStick slot empty"
+   */
   MemoryCardConfiguration?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 1
+   */
   MemoryCardNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Previous (top if power off)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Previous (top if power off)"
+   */
   MenuButtonDisplayPosition?: string;
-  /** ☆☆☆☆ ✔ Example: "Top" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Top"
+   */
   MenuButtonReturn?: string;
-  /** ☆☆☆☆ ✔ Example: "20 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "20 s"
+   */
   MenuMonitorOffTime?: string;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 5
+   */
   MergedImages?: number;
-  /** ☆☆☆☆ ✔ Example: "THm211000000000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "THm211000000000"
+   */
   MetaVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Matrix" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Matrix"
+   */
   Metering?: string;
-  /** ☆☆☆☆ ✔ Example: "Within Range" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Within Range"
+   */
   MeteringOffScaleIndicator?: string;
-  /** ☆☆☆☆ ✔ Example: "8 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "8 s"
+   */
   MeteringTime?: string;
-  /** ☆☆☆☆   Example: "Matrix metering" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Matrix metering"
+   */
   MeterMode?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   MidRangeSharpness?: string;
-  /** ★★☆☆ ✔ Example: 9.8 */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example 9.8
+   */
   MinAperture?: number;
-  /** ★★☆☆ ✔ Example: "90.0 mm" */
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups MakerNotes
+   * @example "90.0 mm"
+   */
   MinFocalLength?: string;
-  /** ☆☆☆☆ ✔ Example: "2.0 m" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "2.0 m"
+   */
   MinFocusDistance?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MiniatureFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (-1)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (-1)"
+   */
   MiniatureFilterOrientation?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   MiniatureFilterParameter?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   MiniatureFilterPosition?: number;
-  /** ☆☆☆☆ ✔ Example: 80 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 80
+   */
   MinimumISO?: number;
-  /** ☆☆☆☆   Example: "2004:07:05" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "2004:07:05"
+   */
   MinoltaDate?: ExifDate | string;
-  /** ☆☆☆☆   Example: "Unknown (768)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (768)"
+   */
   MinoltaImageSize?: string;
-  /** ☆☆☆☆   Example: "DiMAGE S404" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "DiMAGE S404"
+   */
   MinoltaModelID?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   MinoltaQuality?: string;
-  /** ☆☆☆☆   Example: "20:16:39" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "20:16:39"
+   */
   MinoltaTime?: ExifTime | string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   MirrorLockup?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Manual"
+   */
   ModeDialPosition?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ModelingFlash?: string;
-  /** ☆☆☆☆ ✔ Example: 2018 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 2018
+   */
   ModelReleaseYear?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedColorTemp?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedDigitalGain?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedParamFlag?: number;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   ModifiedPictureStyle?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ModifiedSaturation?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedSensorBlueLevel?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedSensorRedLevel?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedSharpness?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ModifiedSharpnessFreq?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Standard"
+   */
   ModifiedToneCurve?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   ModifiedWhiteBalance?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedWhiteBalanceBlue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ModifiedWhiteBalanceRed?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   MonitorBrightness?: number;
-  /** ☆☆☆☆ ✔ Example: "Automatic" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Automatic"
+   */
   MonitorDisplayOff?: string;
-  /** ☆☆☆☆ ✔ Example: "8 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "8 s"
+   */
   MonitorOffTime?: string;
-  /** ☆☆☆☆ ✔ Example: "(none)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(none)"
+   */
   MonochromeColor?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MonochromeFilterEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MonochromeGrainEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "No Filter; 0; 8; Strength 2; 0; 3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No Filter; 0; 8; Strength 2; 0; 3"
+   */
   MonochromeProfileSettings?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   MonochromeToning?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   MonochromeVignetting?: number;
-  /** ☆☆☆☆   Example: "12:19" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "12:19"
+   */
   MonthDayCreated?: string;
-  /** ☆☆☆☆   Example: "Old Crescent" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Old Crescent"
+   */
   MoonPhase?: string;
-  /** ☆☆☆☆   Example: 100 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 100
+   */
   MotionSensitivity?: number;
-  /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AE/AF Lock"
+   */
   MovieAELockButtonAssignment?: string;
-  /** ☆☆☆☆ ✔ Example: "Wide (S)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Wide (S)"
+   */
   MovieAFAreaMode?: string;
-  /** ☆☆☆☆ ✔ Example: "4 (Normal)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4 (Normal)"
+   */
   MovieAFTrackingSensitivity?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   MovieFlickerReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Zoom (Low)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Zoom (Low)"
+   */
   MovieFunc1Button?: string;
-  /** ☆☆☆☆ ✔ Example: "Zoom (1:1)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Zoom (1:1)"
+   */
   MovieFunc2Button?: string;
-  /** ☆☆☆☆   Example: "None" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   MovieFunc3Button?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   MovieFunctionButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   MovieFunctionButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MovieHighlightDisplayPattern?: string;
-  /** ☆☆☆☆ ✔ Example: 248 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 248
+   */
   MovieHighlightDisplayThreshold?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   MovieISOAutoControlManualMode?: string;
-  /** ☆☆☆☆ ✔ Example: "ISO 6400" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "ISO 6400"
+   */
   MovieISOAutoHiLimit?: string;
-  /** ☆☆☆☆ ✔ Example: "Power Aperture" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Power Aperture"
+   */
   MovieLensControlRing?: string;
-  /** ☆☆☆☆ ✔ Example: "Center Focus Point" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Center Focus Point"
+   */
   MovieMultiSelector?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   MoviePreviewButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   MoviePreviewButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "Take Photo" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Take Photo"
+   */
   MovieShutterButton?: string;
-  /** ☆☆☆☆ ✔ Example: "AE/AF Lock" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AE/AF Lock"
+   */
   MovieSubSelectorAssignment?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   MovieSubSelectorAssignmentPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "H.265 10-bit (MOV)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "H.265 10-bit (MOV)"
+   */
   MovieType?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   MovieWhiteBalanceSameAsPhoto?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MultiControllerWhileMetering?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   MultiExposure?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MultiExposureAutoGain?: string;
-  /** ☆☆☆☆ ✔ Example: "Bright (comparative)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Bright (comparative)"
+   */
   MultiExposureControl?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   MultiExposureMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Add" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Add"
+   */
   MultiExposureOverlayMode?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 1
+   */
   MultiExposureShots?: number;
-  /** ☆☆☆☆ ✔ Example: "0103" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0103"
+   */
   MultiExposureVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   MultiFrameNoiseReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   MultiFrameNREffect?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (66)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (66)"
+   */
   MultiFunctionLock?: string;
-  /** ☆☆☆☆ ✔ Example: "On (2 frames); 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On (2 frames); 1"
+   */
   MultipleExposureMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (15)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (15)"
+   */
   MultipleExposureSet?: string;
-  /** ☆☆☆☆ ✔ Example: "Reset Meter-off Delay" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Reset Meter-off Delay"
+   */
   MultiSelector?: string;
-  /** ☆☆☆☆ ✔ Example: "Start Movie Recording" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Start Movie Recording"
+   */
   MultiSelectorLiveView?: string;
-  /** ☆☆☆☆ ✔ Example: "Zoom On/Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Zoom On/Off"
+   */
   MultiSelectorPlaybackMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Select Center Focus Point (Reset)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Select Center Focus Point (Reset)"
+   */
   MultiSelectorShootMode?: string;
-  /** ★☆☆☆ ✔ Example: "Vivid" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups MakerNotes
+   * @example "Vivid"
+   */
   MyColorMode?: string;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   NDFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a (JPEG)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a (JPEG)"
+   */
   NEFBitDepth?: string;
-  /** ☆☆☆☆ ✔ Example: "Uncompressed (reduced to 12 bit)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Uncompressed (reduced to 12 bit)"
+   */
   NEFCompression?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 46 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 624 bytes, use -b option to extract)"
+   */
   NEFLinearizationTable?: BinaryField | string;
-  /** ☆☆☆☆   Example: "Off (Auto)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off (Auto)"
+   */
   NeutralDensityFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "ViewNX 2.8 M" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "ViewNX 2.8 M"
+   */
   NikonCaptureVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Large (10.0 M)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Large (10.0 M)"
+   */
   NikonImageSize?: string;
-  /** ☆☆☆☆ ✔ Example: "Matrix" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Matrix"
+   */
   NikonMeteringMode?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   NoiseFilter?: string;
-  /** ★★☆☆ ✔ Example: "[4]" */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MakerNotes
+   * @example "[4]"
+   */
   NoiseReduction?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   NoiseReductionStrength?: number;
-  /** ☆☆☆☆ ✔ Example: "Release Locked" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Release Locked"
+   */
   NoMemoryCard?: string;
-  /** ☆☆☆☆ ✔ Example: 5.7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5.7
+   */
   NominalMaxAperture?: number;
-  /** ☆☆☆☆ ✔ Example: 7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 7
+   */
   NominalMinAperture?: number;
-  /** ☆☆☆☆ ✔ Example: 16383 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 16383
+   */
   NormalWhiteLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "55 Points" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "55 Points"
+   */
   NumberOfFocusPoints?: string;
-  /** ☆☆☆☆ ✔ Example: 32 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 32
+   */
   NumberOffsets?: number;
-  /** ☆☆☆☆   Example: 49 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 49
+   */
   NumCAFPoints?: number;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 3
+   */
   NumFaceElements?: number;
-  /** ☆☆☆☆ ✔ Example: 65535 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 65535
+   */
   NumFacePositions?: number;
-  /** ☆☆☆☆   Example: "inf" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes
+   * @example "inf"
+   */
   ObjectDistance?: string;
-  /** ☆☆☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   OISMode?: number;
-  /** ☆☆☆☆ ✔ Example: "Select Center Focus Point" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Select Center Focus Point"
+   */
   OKButton?: string;
-  /** ☆☆☆☆ ✔ Example: 960 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 960
+   */
   OlympusImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 3648 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3648
+   */
   OlympusImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown ()" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unknown ()"
+   */
   OneTouchWB?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   OpticalVR?: string;
-  /** ☆☆☆☆   Example: 3 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3
+   */
   OpticalZoom?: number;
-  /** ★★☆☆ ✔ Example: 94 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example 94
+   */
   OpticalZoomCode?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Unknown (0)"
+   */
   OpticalZoomMode?: string;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   OpticalZoomOn?: string;
-  /** ☆☆☆☆ ✔ Example: 668058300 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 668058300
+   */
   OrderNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Separate Vert/Horiz Points" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Separate Vert/Horiz Points"
+   */
   OrientationLinkedAF?: string;
-  /** ☆☆☆☆ ✔ Example: "Same for vertical and horizontal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Same for vertical and horizontal"
+   */
   OrientationLinkedAFPoint?: string;
-  /** ☆☆☆☆   Example: "/home/username/pictures" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "/home/username/pictures"
+   */
   OriginalDirectory?: string;
-  /** ☆☆☆☆ ✔ Example: "L9997698.JPG" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "L9997698.JPG"
+   */
   OriginalFileName?: string;
-  /** ☆☆☆☆ ✔ Example: 4000 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 4000
+   */
   OriginalImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 6000 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 6000
+   */
   OriginalImageWidth?: number;
-  /** ☆☆☆☆   Example: ["Sensor Upgraded","PREPRODUCTION CAMERA"] */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example ["Sensor Upgraded","PREPRODUCTION CAMERA"]
+   */
   OtherInfo?: string[];
-  /** ☆☆☆☆ ✔ Example: "(Binary data 864 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 864 bytes, use -b option to extract)"
+   */
   OutputLUT?: BinaryField | string;
-  /** ★★☆☆ ✔ Example: "Itsa Myowna" */
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups EXIF, MakerNotes
+   * @example "Itsa Myowna"
+   */
   OwnerName?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   PaintingFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "2023:01:19 22:32:42.04" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "2023:01:19 22:32:42.04"
+   */
   PanasonicDateTime?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "0425" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "0425"
+   */
   PanasonicExifVersion?: string;
-  /** ☆☆☆☆ ✔ Example: 5584 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 5584
+   */
   PanasonicImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 8368 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 8368
+   */
   PanasonicImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 360 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 360
+   */
   PanoramaAngle?: number;
-  /** ☆☆☆☆ ✔ Example: 1080 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1080
+   */
   PanoramaCropBottom?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   PanoramaCropLeft?: number;
-  /** ☆☆☆☆ ✔ Example: 11520 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 11520
+   */
   PanoramaCropRight?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   PanoramaCropTop?: number;
-  /** ☆☆☆☆ ✔ Example: "Right or Down" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Right or Down"
+   */
   PanoramaDirection?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   PanoramaFrameHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   PanoramaFrameWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 1080 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1080
+   */
   PanoramaFullHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 11520 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 11520
+   */
   PanoramaFullWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   PanoramaMode?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   PanoramaSize3D?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   PanoramaSourceHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   PanoramaSourceWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown (6)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (6)"
+   */
   PentaxImageSize?: string;
-  /** ☆☆☆☆ ✔ Example: "X90" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "X90"
+   */
   PentaxModelID?: string;
-  /** ☆☆☆☆ ✔ Example: 6 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 6
+   */
   PentaxModelType?: number;
-  /** ☆☆☆☆ ✔ Example: "9.1.2.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "9.1.2.0"
+   */
   PentaxVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "513 513 513 513" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "513 513 513 513"
+   */
   PerChannelBlackLevel?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (3)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unknown (3)"
+   */
   PeripheralIlluminationCorr?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   PeripheralLighting?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   PeripheralLightingSetting?: string;
-  /** ☆☆☆☆ ✔ Example: 70 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 70
+   */
   PeripheralLightingValue?: number;
-  /** ☆☆☆☆ ✔ Example: "Vivid" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Vivid"
+   */
   PhotoEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "F7248739-9D7D-45ED-8B0C-63530491EEA8" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "F7248739-9D7D-45ED-8B0C-63530491EEA8"
+   */
   PhotoIdentifier?: string;
-  /** ☆☆☆☆ ✔ Example: "Info Up-down, Playback Left-right" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Info Up-down, Playback Left-right"
+   */
   PhotoInfoPlayback?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   PhotosAppFeatureFlags?: number;
-  /** ☆☆☆☆ ✔ Example: "A" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "A"
+   */
   PhotoShootingMenuBank?: string;
-  /** ☆☆☆☆ ✔ Example: "FX (36x24)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "FX (36x24)"
+   */
   PhotoShootingMenuBankImageArea?: string;
-  /** ☆☆☆☆ ✔ Example: "Vivid" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Vivid"
+   */
   PhotoStyle?: string;
-  /** ☆☆☆☆ ✔ Example: "Quick Adjust" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Quick Adjust"
+   */
   PictureControlAdjust?: string;
-  /** ☆☆☆☆ ✔ Example: "Vivid" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Vivid"
+   */
   PictureControlBase?: string;
-  /** ☆☆☆☆ ✔ Example: "Vivid" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Vivid"
+   */
   PictureControlName?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   PictureControlQuickAdjust?: string;
-  /** ☆☆☆☆ ✔ Example: "0310" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0310"
+   */
   PictureControlVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   PictureEffect?: string;
-  /** ☆☆☆☆   Example: "Natural" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Natural"
+   */
   PictureFinish?: string;
-  /** ★★☆☆ ✔ Example: "i-Enhance; 2" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example "i-Enhance; 2"
+   */
   PictureMode?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   PictureModeBWFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "1 (min -2, max 2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "1 (min -2, max 2)"
+   */
   PictureModeContrast?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   PictureModeEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "0 (min -2, max 2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 (min -2, max 2)"
+   */
   PictureModeSaturation?: string;
-  /** ☆☆☆☆ ✔ Example: "2 (min -2, max 2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2 (min -2, max 2)"
+   */
   PictureModeSharpness?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   PictureModeTone?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unknown (2)"
+   */
   PictureProfile?: string;
-  /** ☆☆☆☆ ✔ Example: "User Def. 3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "User Def. 3"
+   */
   PictureStyle?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a; n/a; n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a; n/a; n/a"
+   */
   PictureStylePC?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard; Standard; Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Standard; Standard; Standard"
+   */
   PictureStyleUserDef?: string;
-  /** ☆☆☆☆ ✔ Example: "Low" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example "Low"
+   */
   Pitch?: string;
-  /** ☆☆☆☆ ✔ Example: 8.3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8.3
+   */
   PitchAngle?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, Photoshop, QuickTime
+   * @example 1
+   */
   PixelAspectRatio?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   PixelShiftInfo?: string;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   PixelShiftResolution?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   PixelShiftShooting?: string;
-  /** ☆☆☆☆ ✔ Example: "5 min" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "5 min"
+   */
   PlaybackMenusTime?: string;
-  /** ☆☆☆☆ ✔ Example: "20 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "20 s"
+   */
   PlaybackMonitorOffTime?: string;
-  /** ☆☆☆☆ ✔ Example: "Use Separate Zoom Buttons" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Use Separate Zoom Buttons"
+   */
   PlaybackZoom?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto Rotate" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto Rotate"
+   */
   PlayDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3
+   */
   POILevel?: number;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   PopupFlash?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   PortraitImpressionBalance?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   PortraitRefiner?: string;
-  /** ☆☆☆☆ ✔ Example: "Post Focus Auto Merging or None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Post Focus Auto Merging or None"
+   */
   PostFocusMerging?: string;
-  /** ☆☆☆☆ ✔ Example: "Max" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Max"
+   */
   PostReleaseBurstLength?: string;
-  /** ☆☆☆☆ ✔ Example: "External Power Supply" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "External Power Supply"
+   */
   PowerSource?: string;
-  /** ☆☆☆☆ ✔ Example: "2024:07:01 09:23:16" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2024:07:01 09:23:16"
+   */
   PowerUpTime?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   PreAF?: string;
-  /** ☆☆☆☆ ✔ Example: 3.2996109 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 3.2996109
+   */
   PreCaptureFrames?: number;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   PreReleaseBurstLength?: string;
-  /** ☆☆☆☆ ✔ Example: "Daylight" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Daylight"
+   */
   PresetWhiteBalance?: string;
-  /** ☆☆☆☆ ✔ Example: "Preview" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Preview"
+   */
   PreviewButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   PreviewButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "28 28 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "28 28 0 0"
+   */
   PreviewImageBorders?: string;
-  /** ☆☆☆☆ ✔ Example: 976 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups APP, FlashPix, MakerNotes
+   * @example 976
+   */
   PreviewImageHeight?: number;
-  /** ★★☆☆ ✔ Example: 9983 */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups EXIF, MakerNotes
+   * @example 9983
+   */
   PreviewImageLength?: number;
-  /** ★☆☆☆ ✔ Example: "816x459" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups Composite, MakerNotes
+   * @example "816x459"
+   */
   PreviewImageSize?: string;
-  /** ★★☆☆ ✔ Example: 9996 */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups EXIF, MakerNotes
+   * @example 9996
+   */
   PreviewImageStart?: number;
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example true
+   */
   PreviewImageValid?: boolean;
-  /** ☆☆☆☆ ✔ Example: 816 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups APP, FlashPix, MakerNotes
+   * @example 816
+   */
   PreviewImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 95 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 95
+   */
   PreviewQuality?: number;
-  /** ★☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example 8
+   */
   PrimaryAFPoint?: number;
-  /** ☆☆☆☆ ✔ Example: "XQD Card" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "XQD Card"
+   */
   PrimarySlot?: string;
-  /** ☆☆☆☆ ✔ Example: "AF" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF"
+   */
   PrioritySetupShutterRelease?: string;
-  /** ☆☆☆☆ ✔ Example: 9.987 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9.987
+   */
   ProductionCode?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ProgramISO?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   ProgramLine?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ProgramShift?: number;
-  /** ★★★☆ ✔ Example: "Unknown (5)" */
+  /**
+   * @frequency 🔥 ★★★☆ (36%)
+   * @groups APP, Ducky, MakerNotes, RIFF
+   * @example "Unknown (5)"
+   */
   Quality?: string;
-  /** ☆☆☆☆ ✔ Example: "Exposure comp/Aperture" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Exposure comp/Aperture"
+   */
   QuickControlDialInMeter?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   QuickShot?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   RangeFinder?: string;
-  /** ☆☆☆☆ ✔ Example: "RAW+Small/Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "RAW+Small/Normal"
+   */
   RawAndJpgRecording?: string;
-  /** ☆☆☆☆ ✔ Example: "Little-endian (Intel, II)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Little-endian (Intel, II)"
+   */
   RawDataByteOrder?: string;
-  /** ☆☆☆☆ ✔ Example: "Unchanged" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Unchanged"
+   */
   RawDataCFAPattern?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RawDataLength?: number;
-  /** ☆☆☆☆ ✔ Example: "Off; 0; 0; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off; 0; 0; 0"
+   */
   RawDevArtFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   RawDevAutoGradation?: string;
-  /** ☆☆☆☆ ✔ Example: "sRGB" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "sRGB"
+   */
   RawDevColorSpace?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   RawDevContrastValue?: string;
-  /** ☆☆☆☆ ✔ Example: "Original" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Original"
+   */
   RawDevEditStatus?: string;
-  /** ☆☆☆☆   Example: "9 (Q)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9 (Q)"
+   */
   RawDevelopmentProcess?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (2)"
+   */
   RawDevEngine?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RawDevExposureBiasValue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RawDevGradation?: number;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   RawDevGrayPoint?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RawDevMemoryColorEmphasis?: number;
-  /** ☆☆☆☆ ✔ Example: "Noise Filter" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Noise Filter"
+   */
   RawDevNoiseReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Natural" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Natural"
+   */
   RawDevPictureMode?: string;
-  /** ☆☆☆☆ ✔ Example: "0 -2 2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 -2 2"
+   */
   RawDevPMContrast?: string;
-  /** ☆☆☆☆ ✔ Example: "2 0 -2 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "2 0 -2 1"
+   */
   RawDevPMNoiseFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (0)"
+   */
   RawDevPMPictureTone?: string;
-  /** ☆☆☆☆ ✔ Example: "0 -2 2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 -2 2"
+   */
   RawDevPMSaturation?: string;
-  /** ☆☆☆☆ ✔ Example: "0 -2 2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 -2 2"
+   */
   RawDevPMSharpness?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   RawDevSaturationEmphasis?: string;
-  /** ☆☆☆☆ ✔ Example: "(none)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "(none)"
+   */
   RawDevSettings?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 0 0"
+   */
   RawDevSharpnessValue?: string;
-  /** ☆☆☆☆ ✔ Example: "0100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0100"
+   */
   RawDevVersion?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RawDevWBFineAdjustment?: number;
-  /** ☆☆☆☆ ✔ Example: "Unknown (3)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (3)"
+   */
   RawDevWhiteBalance?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RawDevWhiteBalanceValue?: number;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   RAWFileType?: string;
-  /** ☆☆☆☆ ✔ Example: "3712 2462" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "3712 2462"
+   */
   RawImageCenter?: string;
-  /** ☆☆☆☆ ✔ Example: 3296 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3296
+   */
   RawImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 4952 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 4952
+   */
   RawImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "RAW" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "RAW"
+   */
   RawJpgQuality?: string;
-  /** ☆☆☆☆ ✔ Example: "Large" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Large"
+   */
   RawJpgSize?: string;
-  /** ☆☆☆☆ ✔ Example: "95215 190283 189698 116484" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "95215 190283 189698 116484"
+   */
   RawMeasuredRGGB?: string;
-  /** ☆☆☆☆ ✔ Example: "ISO" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "ISO"
+   */
   RearDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto Rotate" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto Rotate"
+   */
   RecordDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: 58 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 58
+   */
   RecordID?: number;
-  /** ☆☆☆☆   Example: "JPEG" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "JPEG"
+   */
   RecordingFormat?: string;
-  /** ☆☆☆☆   Example: "Auto" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   RecordingMode?: string;
-  /** ★★☆☆ ✔ Example: "TIF+JPEG" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "TIF+JPEG"
+   */
   RecordMode?: string;
-  /** ☆☆☆☆   Example: "Record while down" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Record while down"
+   */
   RecordShutterRelease?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   RedEyeRemoval?: string;
-  /** ☆☆☆☆   Example: "8D" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "8D"
+   */
   RedGain?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   ReleaseButtonToUseDial?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (7)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example "Unknown (7)"
+   */
   ReleaseMode?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   RemoteFuncButton?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RemoteOnDuration?: number;
-  /** ☆☆☆☆ ✔ Example: 10 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 10
+   */
   RepeatingFlashCount?: number;
-  /** ☆☆☆☆ ✔ Example: "1/32" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/32"
+   */
   RepeatingFlashOutput?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   RepeatingFlashOutputExternal?: number;
-  /** ☆☆☆☆ ✔ Example: "10 Hz" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "10 Hz"
+   */
   RepeatingFlashRate?: string;
-  /** ☆☆☆☆   Example: "No" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   Resaved?: string;
-  /** ☆☆☆☆   Example: "MED" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "MED"
+   */
   ResolutionMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Flags 0x77" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Flags 0x77"
+   */
   RestrictDriveModes?: string;
-  /** ★☆☆☆ ✔ Example: "Unknown ()" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups MakerNotes
+   * @example "Unknown ()"
+   */
   RetouchHistory?: string;
-  /** ☆☆☆☆ ✔ Example: "0200" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0200"
+   */
   RetouchInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   RetouchNEFProcessing?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   RetractLensOnPowerOff?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   ReverseExposureCompDial?: string;
-  /** ☆☆☆☆ ✔ Example: "Not Reversed" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not Reversed"
+   */
   ReverseFocusRing?: string;
-  /** ☆☆☆☆ ✔ Example: "- 0 +" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "- 0 +"
+   */
   ReverseIndicators?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   ReverseShutterSpeedAperture?: string;
-  /** ☆☆☆☆ ✔ Example: "Varies With Rotation Speed" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Varies With Rotation Speed"
+   */
   RFLensMFFocusRingSensitivity?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   RFLensType?: string;
-  /** ☆☆☆☆   Example: "2012:03:29 18:17:52" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2012:03:29 18:17:52"
+   */
   RicohDate?: ExifDateTime | string;
-  /** ☆☆☆☆   Example: 960 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 960
+   */
   RicohImageHeight?: number;
-  /** ☆☆☆☆   Example: 640 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 640
+   */
   RicohImageWidth?: number;
-  /** ☆☆☆☆   Example: "XG-1Pentax" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "XG-1Pentax"
+   */
   RicohMake?: string;
-  /** ☆☆☆☆   Example: "RICOH WG-M1" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "RICOH WG-M1"
+   */
   RicohModel?: string;
-  /** ☆☆☆☆   Example: 150.43 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example 150.43
+   */
   Roll?: number;
-  /** ☆☆☆☆ ✔ Example: 90 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 90
+   */
   RollAngle?: number;
-  /** ☆☆☆☆ ✔ Example: "USA" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "USA"
+   */
   ROMOperationMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   RunTimeEpoch?: number;
-  /** ☆☆☆☆ ✔ Example: "Valid" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Valid"
+   */
   RunTimeFlags?: string;
-  /** ☆☆☆☆ ✔ Example: 1000000000 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 1000000000
+   */
   RunTimeScale?: number;
-  /** ☆☆☆☆ ✔ Example: 987823130000000 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 987823130000000
+   */
   RunTimeValue?: number;
-  /** ☆☆☆☆ ✔ Example: "Enable (Tv/Av)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Enable (Tv/Av)"
+   */
   SafetyShift?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   SafetyShiftInAvOrTv?: string;
-  /** ☆☆☆☆ ✔ Example: "Disable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable"
+   */
   SameExposureForNewAperture?: string;
-  /** ☆☆☆☆ ✔ Example: "WP10 / VLUU WP10 / AQ100" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "WP10 / VLUU WP10 / AQ100"
+   */
   SamsungModelID?: string;
-  /** ☆☆☆☆   Example: "Unknown (0x211)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (0x211)"
+   */
   SanyoQuality?: string;
-  /** ☆☆☆☆   Example: "(Binary data 10313 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 10313 bytes, use -b option to extract)"
+   */
   SanyoThumbnail?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 1
+   */
   SaturationAdj?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   SaturationAuto?: number;
-  /** ☆☆☆☆ ✔ Example: 8650752 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 655360
+   */
+  SaturationFaithful?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 8650752
+   */
   SaturationLandscape?: number;
-  /** ☆☆☆☆ ✔ Example: 6619136 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 6619136
+   */
   SaturationNeutral?: number;
-  /** ☆☆☆☆ ✔ Example: 6553609 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 6553609
+   */
   SaturationPortrait?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   SaturationSetting?: number;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 3
+   */
   SaturationStandard?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   SaveFocus?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ScanImageEnhancer?: string;
-  /** ☆☆☆☆ ✔ Example: "Two-Shot" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Two-Shot"
+   */
   SceneAssist?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 9
+   */
   SceneDetect?: number;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   SceneMode?: string;
-  /** ☆☆☆☆   Example: "Unknown (9)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (9)"
+   */
   SceneModeUsed?: string;
-  /** ☆☆☆☆ ✔ Example: "Unrecognized" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unrecognized"
+   */
   SceneRecognition?: string;
-  /** ☆☆☆☆   Example: "User 1" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "User 1"
+   */
   SceneSelect?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ScreenTips?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (1)"
+   */
   SecondarySlotFunction?: string;
-  /** ☆☆☆☆ ✔ Example: "45 points" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "45 points"
+   */
   SelectableAFPoint?: string;
-  /** ☆☆☆☆ ✔ Example: "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], […], [14]" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], […], [14]"
+   */
   SelectAFAreaSelectionMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (87)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (87)"
+   */
   SelectAFAreaSelectMode?: string;
-  /** ★★☆☆ ✔ Example: "Self-timer 5 or 10 s" */
+  /**
+   * @frequency 🔥 ★★☆☆ (17%)
+   * @groups MakerNotes
+   * @example "Self-timer 5 or 10 s"
+   */
   SelfTimer?: string;
-  /** ☆☆☆☆ ✔ Example: "0.5 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0.5 s"
+   */
   SelfTimerInterval?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9
+   */
   SelfTimerShotCount?: number;
-  /** ☆☆☆☆ ✔ Example: "1 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1 s"
+   */
   SelfTimerShotInterval?: string;
-  /** ☆☆☆☆ ✔ Example: "2 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2 s"
+   */
   SelfTimerTime?: string;
-  /** ☆☆☆☆ ✔ Example: {"_0":1,"_1":0,"_2":0,"_3":0} */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example {"_0":1,"_1":0,"_2":0,"_3":0}
+   */
   SemanticStyle?: Struct;
-  /** ☆☆☆☆   Example: true */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example true
+   */
   SemanticStylePreset?: boolean;
-  /** ☆☆☆☆   Example: true */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example true
+   */
   SemanticStyleRenderingVer?: boolean;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   SensitivityAdjust?: number;
-  /** ☆☆☆☆ ✔ Example: "As EV Steps" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "As EV Steps"
+   */
   SensitivitySteps?: string;
-  /** ☆☆☆☆   Example: "front-main-mot_s5k5e9" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "front-main-mot_s5k5e9"
+   */
   Sensor?: string;
-  /** ☆☆☆☆   Example: 14 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 14
+   */
   SensorBitDepth?: number;
-  /** ☆☆☆☆ ✔ Example: 4214 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 4214
+   */
   SensorBlueLevel?: number;
-  /** ☆☆☆☆ ✔ Example: 5893 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 5893
+   */
   SensorBottomBorder?: number;
-  /** ☆☆☆☆ ✔ Example: "4095 646" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "4095 646"
+   */
   SensorCalibration?: string;
-  /** ☆☆☆☆ ✔ Example: "Disable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable"
+   */
   SensorCleaning?: string;
-  /** ☆☆☆☆   Example: 2472 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2472
+   */
   SensorFullHeight?: number;
-  /** ☆☆☆☆   Example: 3288 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3288
+   */
   SensorFullWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 5920 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 5920
+   */
   SensorHeight?: number;
-  /** ☆☆☆☆   Example: "1TCTJ8803BJ07G" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1TCTJ8803BJ07G"
+   */
   SensorID?: string;
-  /** ☆☆☆☆ ✔ Example: 88 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 88
+   */
   SensorLeftBorder?: number;
-  /** ☆☆☆☆ ✔ Example: "9.4 x 9.4 um" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "9.4 x 9.4 um"
+   */
   SensorPixelSize?: string;
-  /** ☆☆☆☆ ✔ Example: 4370 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 4370
+   */
   SensorRedLevel?: number;
-  /** ☆☆☆☆ ✔ Example: 8883 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 8883
+   */
   SensorRightBorder?: number;
-  /** ☆☆☆☆ ✔ Example: "7.576 x 5.682 mm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "7.576 x 5.682 mm"
+   */
   SensorSize?: string;
-  /** ☆☆☆☆ ✔ Example: "80.9 C" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "80.9 C"
+   */
   SensorTemperature?: string;
-  /** ☆☆☆☆ ✔ Example: 96 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 96
+   */
   SensorTopBorder?: number;
-  /** ☆☆☆☆ ✔ Example: "rear" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups JSON, MakerNotes
+   * @example "rear"
+   */
   SensorType?: string;
-  /** ☆☆☆☆ ✔ Example: 8896 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 8896
+   */
   SensorWidth?: number;
-  /** ☆☆☆☆   Example: "5 of 5" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "5 of 5"
+   */
   Sequence?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 4
+   */
   SequenceFileNumber?: number;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 4
+   */
   SequenceImageNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Continuous" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Continuous"
+   */
   SequenceLength?: string;
-  /** ★★★☆ ✔ Example: 6 */
+  /**
+   * @frequency 🔥 ★★★☆ (27%)
+   * @groups MakerNotes
+   * @example 6
+   */
   SequenceNumber?: number;
-  /** ☆☆☆☆   Example: "5 frames/s" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "5 frames/s"
+   */
   SequenceShotInterval?: string;
-  /** ☆☆☆☆   Example: "Unknown (28928)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (28928)"
+   */
   SequentialShot?: string;
-  /** ★★☆☆ ✔ Example: "sw02028104 " */
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups APP, EXIF, MakerNotes, Meta, XMP
+   * @example "sw02028104 "
+   */
   SerialNumber?: string;
-  /** ☆☆☆☆ ✔ Example: "Format 2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Format 2"
+   */
   SerialNumberFormat?: string;
-  /** ☆☆☆☆ ✔ Example: "Set: Picture Style" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Set: Picture Style"
+   */
   SetButtonCrossKeysFunc?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (37 0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (37 0)"
+   */
   SetButtonWhenShooting?: string;
-  /** ☆☆☆☆ ✔ Example: "Default (no function)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Default (no function)"
+   */
   SetFunctionWhenShooting?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ShadingCompensation?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   Shadow?: number;
-  /** ☆☆☆☆   Example: "On" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ShadowCorrection?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example 0
+   */
   Shadows?: number;
-  /** ☆☆☆☆ ✔ Example: "0 (normal)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0 (normal)"
+   */
   ShadowTone?: string;
-  /** ☆☆☆☆ ✔ Example: "On but Disabled" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On but Disabled"
+   */
   ShakeReduction?: string;
-  /** ☆☆☆☆   Example: "Normal" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   Sharpening?: string;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 3
+   */
   SharpnessAuto?: number;
-  /** ☆☆☆☆ ✔ Example: 768 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 768
+   */
   SharpnessFactor?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   SharpnessFaithful?: number;
-  /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+   */
   SharpnessFreqTable?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   SharpnessFrequency?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 4
+   */
   SharpnessLandscape?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   SharpnessNeutral?: number;
-  /** ☆☆☆☆ ✔ Example: 2752758 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 2752758
+   */
   SharpnessPortrait?: number;
-  /** ☆☆☆☆ ✔ Example: "+3" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+3"
+   */
   SharpnessRange?: string;
-  /** ☆☆☆☆ ✔ Example: "3 (min -3, max 5)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "3 (min -3, max 5)"
+   */
   SharpnessSetting?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 4
+   */
   SharpnessStandard?: number;
-  /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+   */
   SharpnessTable?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (0)"
+   */
   ShootingInfoDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "4 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4 s"
+   */
   ShootingInfoMonitorOffTime?: string;
-  /** ☆☆☆☆ ✔ Example: "Continuous" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Continuous"
+   */
   ShootingModeSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Itsa Myowna" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Itsa Myowna"
+   */
   ShortOwnerName?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   ShortReleaseTimeLag?: string;
-  /** ☆☆☆☆ ✔ Example: "0811" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "0811"
+   */
   ShotInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 9
+   */
   ShotNumberSincePowerUp?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   ShotsPerInterval?: number;
-  /** ☆☆☆☆ ✔ Example: "Silent / Electronic (0 0 0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Silent / Electronic (0 0 0)"
+   */
   Shutter?: string;
-  /** ☆☆☆☆ ✔ Example: "AF/AE lock stop" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "AF/AE lock stop"
+   */
   ShutterAELButton?: string;
-  /** ☆☆☆☆ ✔ Example: "Metering start/Meter + AF start" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Metering start/Meter + AF start"
+   */
   ShutterButtonAFOnButton?: string;
-  /** ☆☆☆☆ ✔ Example: 998 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 998
+   */
   ShutterCount?: number;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example
+   */
   ShutterCount2?: number;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example
+   */
   ShutterCount3?: number;
-  /** ☆☆☆☆ ✔ Example: "2nd-curtain sync" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2nd-curtain sync"
+   */
   ShutterCurtainSync?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Unknown (4)"
+   */
   ShutterMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Single Shot" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Single Shot"
+   */
   ShutterReleaseMethod?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   ShutterReleaseNoCFCard?: string;
-  /** ☆☆☆☆ ✔ Example: "Priority on focus" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Priority on focus"
+   */
   ShutterReleaseTiming?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   ShutterReleaseWithoutLens?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ShutterSpeedLock?: string;
-  /** ☆☆☆☆ ✔ Example: "Manual: Hi 1/8123; Lo 31.9; Auto: Hi 1/8123; Lo 31.9" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Manual: Hi 1/8123; Lo 31.9; Auto: Hi 1/8123; Lo 31.9"
+   */
   ShutterSpeedRange?: string;
-  /** ☆☆☆☆ ✔ Example: "1/91" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "1/91"
+   */
   ShutterSpeedSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   ShutterType?: string;
-  /** ☆☆☆☆ ✔ Example: 63.176895 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 63.176895
+   */
   SignalToNoiseRatio?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   SilentPhotography?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1
+   */
   SingleFrame?: number;
-  /** ☆☆☆☆ ✔ Example: "Low" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Low"
+   */
   SingleFrameBracketing?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   SkinToneCorrection?: string;
-  /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0…0 0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0…0 0 0 0"
+   */
   SlaveFlashMeteringSegments?: string;
-  /** ★★☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   SlowShutter?: string;
-  /** ★☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   SlowSync?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   SmartAlbumColor?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   SmileShutter?: string;
-  /** ☆☆☆☆ ✔ Example: "Slight Smile" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Slight Smile"
+   */
   SmileShutterMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   SoftFocusFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   SoftSkinEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "2024:06:12 18:00:20" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "2024:06:12 18:00:20"
+   */
   SonyDateTime?: ExifDateTime | string;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example
+   */
   SonyDateTime2?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "1/82" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "1/82"
+   */
   SonyExposureTime?: string;
-  /** ☆☆☆☆ ✔ Example: 8.8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 8.8
+   */
   SonyFNumber?: number;
-  /** ☆☆☆☆ ✔ Example: 65535 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 65535
+   */
   SonyImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 6376 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 6376
+   */
   SonyImageHeightMax?: number;
-  /** ☆☆☆☆ ✔ Example: "Small (3:2)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Small (3:2)"
+   */
   SonyImageSize?: string;
-  /** ☆☆☆☆ ✔ Example: 9504 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 9504
+   */
   SonyImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 9568 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 9568
+   */
   SonyImageWidthMax?: number;
-  /** ☆☆☆☆ ✔ Example: 926 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 926
+   */
   SonyISO?: number;
-  /** ☆☆☆☆ ✔ Example: 5.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5.5
+   */
   SonyMaxAperture?: number;
-  /** ☆☆☆☆ ✔ Example: 6.4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 6.4
+   */
   SonyMaxApertureValue?: number;
-  /** ☆☆☆☆ ✔ Example: 34 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 34
+   */
   SonyMinAperture?: number;
-  /** ☆☆☆☆ ✔ Example: "ZV-E10M2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "ZV-E10M2"
+   */
   SonyModelID?: string;
-  /** ☆☆☆☆ ✔ Example: "Fine" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Fine"
+   */
   SonyQuality?: string;
-  /** ☆☆☆☆ ✔ Example:  */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example
+   */
   SonyTimeMinSec?: string;
-  /** ☆☆☆☆   Example: 100 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 100
+   */
   SourceDirectoryIndex?: number;
-  /** ☆☆☆☆   Example: 60 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 60
+   */
   SourceFileIndex?: number;
-  /** ☆☆☆☆   Example: 24576 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 24576
+   */
   SpecialEffectLevel?: number;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   SpecialEffectMode?: string;
-  /** ☆☆☆☆   Example: "Unknown (15)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (15)"
+   */
   SpecialEffectSetting?: string;
-  /** ★☆☆☆ ✔ Example: "Unknown (962), Sequence: 0, Panorama: (none)" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example "Unknown (962), Sequence: 0, Panorama: (none)"
+   */
   SpecialMode?: string;
-  /** ☆☆☆☆ ✔ Example: 9966 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 9966
+   */
   SpecularWhiteLevel?: number;
-  /** ☆☆☆☆   Example: "+0.10" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+0.10"
+   */
   SpeedX?: string;
-  /** ☆☆☆☆   Example: "+6.10" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+6.10"
+   */
   SpeedY?: string;
-  /** ☆☆☆☆   Example: "+0.00" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "+0.00"
+   */
   SpeedZ?: string;
-  /** ☆☆☆☆   Example: 1632 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 1632
+   */
   SpotFocusPointX?: number;
-  /** ☆☆☆☆   Example: 960 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 960
+   */
   SpotFocusPointY?: number;
-  /** ★☆☆☆ ✔ Example: "Center" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups MakerNotes
+   * @example "Center"
+   */
   SpotMeteringMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable (use active AF point)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable (use active AF point)"
+   */
   SpotMeterLinkToAFPoint?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Yes"
+   */
   SRActive?: string;
-  /** ☆☆☆☆ ✔ Example: "sRAW2 (sRAW)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "sRAW2 (sRAW)"
+   */
   SRAWQuality?: string;
-  /** ☆☆☆☆ ✔ Example: "97 mm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "97 mm"
+   */
   SRFocalLength?: string;
-  /** ☆☆☆☆ ✔ Example: "4.25 s or longer" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "4.25 s or longer"
+   */
   SRHalfPressTime?: string;
-  /** ☆☆☆☆ ✔ Example: "Stabilized, Not ready" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Stabilized, Not ready"
+   */
   SRResult?: string;
-  /** ☆☆☆☆ ✔ Example: "Tripod high resolution" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Tripod high resolution"
+   */
   StackedImage?: string;
-  /** ☆☆☆☆ ✔ Example: "6 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "6 s"
+   */
   StandbyMonitorOffTime?: string;
-  /** ☆☆☆☆ ✔ Example: "6 s" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "6 s"
+   */
   StandbyTimer?: string;
-  /** ☆☆☆☆ ✔ Example: "Default (from LV)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Default (from LV)"
+   */
   StartMovieShooting?: string;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8
+   */
   StopsAboveBaseISO?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   StoreByOrientation?: string;
-  /** ☆☆☆☆ ✔ Example: "10 Frames" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "10 Frames"
+   */
   SubDialFrameAdvance?: string;
-  /** ☆☆☆☆ ✔ Example: "People" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "People"
+   */
   SubjectDetection?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   SubjectDetectionAreaMF?: string;
-  /** ☆☆☆☆ ✔ Example: "Steady" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Steady"
+   */
   SubjectMotion?: string;
-  /** ☆☆☆☆   Example: "None" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   SubjectProgram?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (4)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (4)"
+   */
   SubjectToDetect?: string;
-  /** ☆☆☆☆ ✔ Example: "Focus Point Selection" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Focus Point Selection"
+   */
   SubSelector?: string;
-  /** ☆☆☆☆ ✔ Example: "Focus Point Selection" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Focus Point Selection"
+   */
   SubSelectorAssignment?: string;
-  /** ☆☆☆☆ ✔ Example: "Virtual Horizon" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Virtual Horizon"
+   */
   SubSelectorCenter?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   SubSelectorPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   SuperimposedDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   SuperMacro?: string;
-  /** ☆☆☆☆ ✔ Example: 100 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 100
+   */
   SvISOSetting?: number;
-  /** ☆☆☆☆ ✔ Example: "Right" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Right"
+   */
   SweepPanoramaDirection?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   SweepPanoramaFieldOfView?: number;
-  /** ☆☆☆☆ ✔ Example: "Wide" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Wide"
+   */
   SweepPanoramaSize?: string;
-  /** ☆☆☆☆ ✔ Example: "Disable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable"
+   */
   SwitchToRegisteredAFPoint?: string;
-  /** ☆☆☆☆ ✔ Example: "Sync" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Sync"
+   */
   SyncReleaseMode?: string;
-  /** ★★☆☆ ✔ Example: 9 */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example 9
+   */
   TargetAperture?: number;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 4
+   */
   TargetCompressionRatio?: number;
-  /** ☆☆☆☆ ✔ Example: "476 mm" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "476 mm"
+   */
   TargetDistanceSetting?: string;
-  /** ★★☆☆ ✔ Example: "1/813" */
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups MakerNotes
+   * @example "1/813"
+   */
   TargetExposureTime?: string;
-  /** ☆☆☆☆ ✔ Example: "Real-world Subject" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Real-world Subject"
+   */
   TargetImageType?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   Teleconverter?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   TextEncoding?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   TextStamp?: string;
-  /** ☆☆☆☆ ✔ Example: "THM_0043.JPG" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "THM_0043.JPG"
+   */
   ThumbnailFileName?: string;
-  /** ☆☆☆☆ ✔ Example: 120 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups JFIF, MakerNotes
+   * @example 120
+   */
   ThumbnailHeight?: number;
-  /** ★★☆☆ ✔ Example: "0 159 7 112" */
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups MakerNotes
+   * @example "0 159 7 112"
+   */
   ThumbnailImageValidArea?: string;
-  /** ☆☆☆☆ ✔ Example: 160 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups JFIF, MakerNotes
+   * @example 160
+   */
   ThumbnailWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 7404 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "(Binary data 7404 bytes, use -b option to extract)"
+   */
   TiffMeteringImage?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 30 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 30
+   */
   TiffMeteringImageHeight?: number;
-  /** ☆☆☆☆ ✔ Example: 44 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 44
+   */
   TiffMeteringImageWidth?: number;
-  /** ☆☆☆☆ ✔ Example: "23:50:41" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "23:50:41"
+   */
   Time?: ExifTime | string;
-  /** ☆☆☆☆ ✔ Example: 50336257 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 50336257
+   */
   TimeLapseShotNumber?: number;
-  /** ☆☆☆☆ ✔ Example: "Self-timer" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Self-timer"
+   */
   TimerFunctionButton?: string;
-  /** ☆☆☆☆ ✔ Example: "Disable; 6 s: 6; 16 s: 16; After release: 2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable; 6 s: 6; 16 s: 16; After release: 2"
+   */
   TimerLength?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   TimerRecording?: string;
-  /** ☆☆☆☆ ✔ Example: "01:48:53.63" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "01:48:53.63"
+   */
   TimeSincePowerOn?: ExifTime | string;
-  /** ☆☆☆☆ ✔ Example: "2025:03:24 14:44:20" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "2025:05:06 01:54:38"
+   */
   TimeStamp?: ExifDateTime | string;
-  /** ★☆☆☆ ✔ Example: "-09:00" */
+  /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example "-09:00"
+   */
   TimeZone?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   TimeZoneCity?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   TimeZoneCode?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   TimeZoneInfo?: number;
-  /** ☆☆☆☆ ✔ Example: "Normal" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Normal"
+   */
   ToneComp?: string;
-  /** ☆☆☆☆ ✔ Example: "Standard" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes, XMP
+   * @example "Standard"
+   */
   ToneCurve?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 95 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 95 bytes, use -b option to extract)"
+   */
   ToneCurveMatching?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 1679 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 1679 bytes, use -b option to extract)"
+   */
   ToneCurveTable?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Highlights; 0; -7; 7; Shadows; 0; -7; 7; Midtones; 0; -7;…0; 0; 0"
+   */
   ToneLevel?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ToningEffect?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ToningEffectAuto?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   ToningSaturation?: string;
-  /** ☆☆☆☆   Example: 5 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 5
+   */
   TotalZoom?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   TouchAE?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ToyCameraFilter?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   Transform?: string;
-  /** ☆☆☆☆ ✔ Example: "Normal (set center AF point)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Normal (set center AF point)"
+   */
   TrashButtonFunction?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   TravelDay?: string;
-  /** ☆☆☆☆   Example: "Motion Detection" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Motion Detection"
+   */
   TriggerMode?: string;
-  /** ☆☆☆☆ ✔ Example: "1/64" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "1/64"
+   */
   TvExposureTimeSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "7860345b882000641403450101000000170d0f1d0f11827ca3111430d3000000" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "7860345b882000641403450101000000170d0f1d0f11827ca3111430d3000000"
+   */
   UniqueID?: string;
-  /** ☆☆☆☆   Example: "ZME151000007" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "ZME151000007"
+   */
   UnknownNumber?: string;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 4
+   */
   UnsharpMaskFineness?: number;
-  /** ☆☆☆☆ ✔ Example: 4 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 4
+   */
   UnsharpMaskThreshold?: number;
-  /** ☆☆☆☆ ✔ Example: "Flags 0xf0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Flags 0xf0"
+   */
   UsableMeteringModes?: string;
-  /** ☆☆☆☆ ✔ Example: "Flags 0x3f" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Flags 0x3f"
+   */
   UsableShootingModes?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   USBPowerDelivery?: string;
-  /** ☆☆☆☆   Example: "PC900 COVERT PRO" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "PC900 COVERT PRO"
+   */
   UserLabel?: string;
-  /** ☆☆☆☆   Example: "dpreview  " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "dpreview  "
+   */
   UserProfile?: string;
-  /** ☆☆☆☆ ✔ Example: "Turns on after one-shot AF" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Turns on after one-shot AF"
+   */
   USMLensElectronicMF?: string;
-  /** ☆☆☆☆ ✔ Example: "12 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "12 0"
+   */
   ValidBits?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   VariableLowPassFilter?: string;
-  /** ☆☆☆☆ ✔ Example: "Scene Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Scene Auto"
+   */
   VariProgram?: string;
-  /** ☆☆☆☆ ✔ Example: "Same as AF-On Button" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Same as AF-On Button"
+   */
   VerticalAFOnButton?: string;
-  /** ☆☆☆☆ ✔ Example: "Exposure Compensation" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Exposure Compensation"
+   */
   VerticalFuncButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   VerticalFuncButtonPlusDials?: string;
-  /** ☆☆☆☆ ✔ Example: "Same as AF-On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Same as AF-On"
+   */
   VerticalMovieAFOnButton?: string;
-  /** ☆☆☆☆ ✔ Example: "None" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "None"
+   */
   VerticalMovieFuncButton?: string;
-  /** ☆☆☆☆ ✔ Example: "Same as MultiSelector" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Same as MultiSelector"
+   */
   VerticalMultiSelector?: string;
-  /** ☆☆☆☆ ✔ Example: "Enable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Enable"
+   */
   VFDisplayIllumination?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "n/a"
+   */
   VibrationReduction?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   VideoBurstMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (0)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Unknown (0)"
+   */
   VideoBurstResolution?: string;
-  /** ☆☆☆☆ ✔ Example: "No" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "No"
+   */
   VideoPreburst?: string;
-  /** ☆☆☆☆ ✔ Example: "Frame Count" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Frame Count"
+   */
   ViewfinderDisplay?: string;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   ViewfinderWarning?: string;
-  /** ☆☆☆☆ ✔ Example: "Monochrome, WB corrected, One-touch image quality, Noise …on, HDR" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Monochrome, WB corrected, One-touch image quality, Noise …on, HDR"
+   */
   ViewfinderWarnings?: string;
-  /** ☆☆☆☆ ✔ Example: "Disable" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Disable"
+   */
   ViewInfoDuringExposure?: string;
-  /** ☆☆☆☆ ✔ Example: "ViewFinder" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "ViewFinder"
+   */
   ViewingMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   VignetteControl?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   Vignetting?: string;
-  /** ☆☆☆☆ ✔ Example: "n/a" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes
+   * @example "n/a"
+   */
   VignettingCorrection?: string;
-  /** ☆☆☆☆ ✔ Example: "64 224 480 800 1184 1600 2048 2528 3008 3520 3872 4512 56…0 0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes
+   * @example "64 224 480 800 1184 1600 2048 2528 3008 3520 3872 4512 56…0 0 0 0"
+   */
   VignettingCorrParams?: string;
-  /** ☆☆☆☆ ✔ Example: 97 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 97
+   */
   VignettingCorrVersion?: number;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   VoiceMemo?: string;
-  /** ★☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes
+   * @example 0
+   */
   VRDOffset?: number;
-  /** ☆☆☆☆ ✔ Example: "0200" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "0200"
+   */
   VRInfoVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "Sport" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Sport"
+   */
   VRMode?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (1)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (1)"
+   */
   VRType?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   WatercolorFilter?: string;
-  /** ☆☆☆☆ ✔ Example: 9235 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 9235
+   */
   WBBlueLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "WB Bracketing Disabled" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "WB Bracketing Disabled"
+   */
   WBBracketingSteps?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   WBBracketMode?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WBBracketShotNumber?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WBBracketValueAB?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WBBracketValueGM?: number;
-  /** ☆☆☆☆ ✔ Example: "Select To Send (PC)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Select To Send (PC)"
+   */
   WBButtonPlaybackMode?: string;
-  /** ☆☆☆☆ ✔ Example: 60416 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 60416
+   */
   WBGreenLevel?: number;
-  /** ☆☆☆☆ ✔ Example: "Rear LCD panel" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Rear LCD panel"
+   */
   WBMediaImageSizeSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Unknown (1 1)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (1 1)"
+   */
   WBMode?: string;
-  /** ☆☆☆☆ ✔ Example: 834 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 834
+   */
   WBRedLevel?: number;
-  /** ☆☆☆☆ ✔ Example: 7 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 7
+   */
   WBShiftAB?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WBShiftCreativeControl?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WBShiftGM?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WBShiftIntelligentAuto?: number;
-  /** ☆☆☆☆ ✔ Example: "On" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "On"
+   */
   WhiteBalanceAutoAdjustment?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WhiteBalanceBias?: number;
-  /** ☆☆☆☆ ✔ Example: 796 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 796
+   */
   WhiteBalanceBlue?: number;
-  /** ★☆☆☆ ✔ Example: "0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes
+   * @example "0 0"
+   */
   WhiteBalanceBracket?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   WhiteBalanceBracketing?: string;
-  /** ★☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ★☆☆☆ (8%)
+   * @groups MakerNotes
+   * @example 3
+   */
   WhiteBalanceFineTune?: number;
-  /** ☆☆☆☆ ✔ Example: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+   */
   WhiteBalanceMatching?: string;
-  /** ☆☆☆☆ ✔ Example: "User-Selected" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "User-Selected"
+   */
   WhiteBalanceMode?: string;
-  /** ☆☆☆☆ ✔ Example: 642 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example 642
+   */
   WhiteBalanceRed?: number;
-  /** ☆☆☆☆ ✔ Example: "Tungsten" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example "Tungsten"
+   */
   WhiteBalanceSet?: string;
-  /** ☆☆☆☆ ✔ Example: "Custom 1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Custom 1"
+   */
   WhiteBalanceSetting?: string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   WhiteBalanceSetup?: string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 2217 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 2217 bytes, use -b option to extract)"
+   */
   WhiteBalanceTable?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "Auto" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example "Auto"
+   */
   WhiteBalanceTemperature?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 0
+   */
   WhiteBoard?: number;
-  /** ☆☆☆☆   Example: "Not Attached" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Not Attached"
+   */
   WideAdapter?: string;
-  /** ☆☆☆☆   Example: "Unknown (9)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (9)"
+   */
   WideFocusZone?: string;
-  /** ☆☆☆☆   Example: "Off" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   WideRange?: string;
-  /** ☆☆☆☆ ✔ Example: "Hometown" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups MakerNotes
+   * @example "Hometown"
+   */
   WorldTimeLocation?: string;
-  /** ☆☆☆☆   Example: 0.2 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0.2
+   */
   X3FillLight?: number;
-  /** ☆☆☆☆   Example: "(Binary data 512 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 512 bytes, use -b option to extract)"
+   */
   Xidiri?: BinaryField | string;
-  /** ☆☆☆☆   Example: 0.83734368 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example 0.83734368
+   */
   Yaw?: number;
-  /** ☆☆☆☆ ✔ Example: 99 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 99
+   */
   YawAngle?: number;
-  /** ☆☆☆☆   Example: 2006 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 2006
+   */
   YearCreated?: number;
-  /** ☆☆☆☆ ✔ Example: "ISO Setting Used" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes
+   * @example "ISO Setting Used"
+   */
   ZoneMatching?: string;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
   ZoneMatchingMode?: string;
-  /** ☆☆☆☆   Example: "Unknown (7040)" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Unknown (7040)"
+   */
   ZoneMatchingOn?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
   ZoneMatchingValue?: number;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 64581 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "(Binary data 64581 bytes, use -b option to extract)"
+   */
   ZoomedPreviewImage?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: 92592 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 92592
+   */
   ZoomedPreviewLength?: number;
-  /** ☆☆☆☆ ✔ Example: "736 544" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "736 544"
+   */
   ZoomedPreviewSize?: string;
-  /** ☆☆☆☆ ✔ Example: 4184638 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 4184638
+   */
   ZoomedPreviewStart?: number;
-  /** ★★☆☆ ✔ Example: 768 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example 768
+   */
   ZoomSourceWidth?: number;
-  /** ☆☆☆☆ ✔ Example: 8 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes
+   * @example 8
+   */
   ZoomStepCount?: number;
-  /** ★★☆☆ ✔ Example: 6000 */
+  /**
+   * @frequency 🔥 ★★☆☆ (12%)
+   * @groups MakerNotes
+   * @example 6000
+   */
   ZoomTargetWidth?: number;
 }
 
@@ -6119,6 +15005,7 @@ export const MakerNotesTagsNames = strEnum(
   "KodakMaker",
   "KodakModel",
   "KodakVersion",
+  "Landmark",
   "Language",
   "LastFileNumber",
   "LateralChromaticAberration",
@@ -6549,6 +15436,7 @@ export const MakerNotesTagsNames = strEnum(
   "SanyoThumbnail",
   "SaturationAdj",
   "SaturationAuto",
+  "SaturationFaithful",
   "SaturationLandscape",
   "SaturationNeutral",
   "SaturationPortrait",
@@ -6863,561 +15751,1673 @@ export type MakerNotesTag = StrEnumKeys<typeof MakerNotesTagsNames>;
  * @see https://exiftool.org/TagNames/XMP.html
  */
 export interface XMPTags {
-  /** ☆☆☆☆ ✔ Example: "uuid:faf5bdd5-ba3d-11da-ad31-d33d75182f1b" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups XMP
+   * @example "uuid:faf5bdd5-ba3d-11da-ad31-d33d75182f1b"
+   */
   About?: string;
-  /** ☆☆☆☆   Example: "+823.75" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "+823.75"
+   */
   AbsoluteAltitude?: string;
-  /** ☆☆☆☆   Example: "Twilight Dreams" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Twilight Dreams"
+   */
   Album?: string;
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example true
+   */
   AlreadyApplied?: boolean;
-  /** ☆☆☆☆ ✔ Example: 5.01 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 5.01
+   */
   ApproximateFocusDistance?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   AsrClimaxDuration?: number;
-  /** ☆☆☆☆   Example: "None" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "None"
+   */
   AsrClimaxScene?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   AsrIsMacroRange?: number;
-  /** ☆☆☆☆   Example: "Stable" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Stable"
+   */
   AsrSceneCondition?: string;
-  /** ☆☆☆☆   Example: "NightPortrait" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "NightPortrait"
+   */
   AsrSceneMode?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   AutoLateralCA?: number;
-  /** ☆☆☆☆   Example: ["LWIR"] */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["LWIR"]
+   */
   BandName?: string[];
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   BlueHue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   BlueSaturation?: number;
-  /** ☆☆☆☆ ✔ Example: "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89"
+   */
   BurstID?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   BurstPrimary?: number;
-  /** ☆☆☆☆ ✔ Example: "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "5c62348a-2bbb-4e4c-89d9-3bf6a461ec89"
+   */
   CameraBurstID?: string;
-  /** ☆☆☆☆   Example: "Front" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Front"
+   */
   CameraFacing?: string;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ""
+   */
   CameraModelID?: string;
-  /** ☆☆☆☆ ✔ Example: "Embedded" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Embedded"
+   */
   CameraProfile?: string;
-  /** ☆☆☆☆ ✔ Example: "D4FE5D91640D0C5A01B5633EB8061002" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "D4FE5D91640D0C5A01B5633EB8061002"
+   */
   CameraProfileDigest?: string;
-  /** ☆☆☆☆ ✔ Example: [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}]
+   */
   Cameras?: Struct[];
-  /** ☆☆☆☆   Example: "Rear" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Rear"
+   */
   CameraUnit?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   CamReverse?: number;
-  /** ☆☆☆☆ ✔ Example: "Photo" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Photo"
+   */
   CaptureMode?: string;
-  /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "https://PhotoStructure.com/"
+   */
   CaptureSoftware?: string;
-  /** ☆☆☆☆ ✔ Example: ["Subjekt|Natur|Pflanzen","Ort|Deutschland|Rangsdorf"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["Subjekt|Natur|Pflanzen","Ort|Deutschland|Rangsdorf"]
+   */
   CatalogSets?: string[];
-  /** ☆☆☆☆   Example: "240-8-330-901211" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "240-8-330-901211"
+   */
   CellGlobalID?: string;
-  /** ☆☆☆☆   Example: 5 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 5
+   */
   CellR?: number;
-  /** ☆☆☆☆   Example: 901211 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 901211
+   */
   CellTowerID?: number;
-  /** ☆☆☆☆   Example: 45 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 45
+   */
   CentralTemperature?: number;
-  /** ☆☆☆☆   Example: [10000] */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example [10000]
+   */
   CentralWavelength?: number[];
-  /** ☆☆☆☆ ✔ Example: ["tag,2011-07-26T05:44:01Z,0,c"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["tag,2011-07-26T05:44:01Z,0,c"]
+   */
   Changes?: string[];
-  /** ☆☆☆☆ ✔ Example: [{"CorrectionActive":true,"CorrectionAmount":1,"Correctio…tion"}] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example [{"CorrectionActive":true,"CorrectionAmount":1,"Correctio…tion"}]
+   */
   CircularGradientBasedCorrections?: Struct[];
-  /** ☆☆☆☆ ✔ Example: "3 (Superior)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "3 (Superior)"
+   */
   ColorClass?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   ColorLabel?: number;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ""
+   */
   Colorlabels?: string;
-  /** ☆☆☆☆ ✔ Example: 25 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 25
+   */
   ColorNoiseReduction?: number;
-  /** ☆☆☆☆ ✔ Example: 50 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 50
+   */
   ColorNoiseReductionDetail?: number;
-  /** ☆☆☆☆ ✔ Example: 50 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 50
+   */
   ColorNoiseReductionSmoothness?: number;
-  /** ☆☆☆☆ ✔ Example: "This is a comment." */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups File, XMP
+   * @example "This is a comment."
+   */
   Comment?: string;
-  /** ☆☆☆☆ ✔ Example: {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]} */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]}
+   */
   Container?: Struct;
-  /** ☆☆☆☆   Example: "/home/username/pictures" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "/home/username/pictures"
+   */
   ContainerDirectory?: ContainerDirectoryItem[] | Struct[];
-  /** ☆☆☆☆ ✔ Example: false */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example false
+   */
   ConvertToGrayscale?: boolean;
-  /** ☆☆☆☆ ✔ Example: "United States" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "United States"
+   */
   Country?: string;
-  /** ☆☆☆☆ ✔ Example: "ir" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example "ir"
+   */
   CountryCode?: string;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   */
   CreationTime?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: ["daniel@woss.io"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["daniel@woss.io"]
+   */
   Creator?: string[];
-  /** ☆☆☆☆   Example: "{2d7e7fd6-2942-4d77-9842-389c3f62b14d}" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "{2d7e7fd6-2942-4d77-9842-389c3f62b14d}"
+   */
   CreatorAppID?: string;
-  /** ☆☆☆☆ ✔ Example: {"CiAdrCity":"Amsterdam","CiAdrCtry":"Netherlands","CiAdr…73 CH"} */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example {"CiAdrCity":"Amsterdam","CiAdrCtry":"Netherlands","CiAdr…73 CH"}
+   */
   CreatorContactInfo?: Struct;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   CreatorOpenWithUIOptions?: number;
-  /** ☆☆☆☆   Example: "Version Ver 1.04 " */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Version Ver 1.04 "
+   */
   Creatortool?: string;
-  /** ☆☆☆☆ ✔ Example: "picnik.com" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups XMP
+   * @example "picnik.com"
+   */
   CreatorTool?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   CropAngle?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   CropBottom?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   CropConstrainToWarp?: number;
-  /** ☆☆☆☆ ✔ Example: "8 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "8 0"
+   */
   CropLeft?: string;
-  /** ☆☆☆☆ ✔ Example: 3872 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 3872
+   */
   CroppedAreaImageHeightPixels?: number;
-  /** ☆☆☆☆ ✔ Example: 7744 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 7744
+   */
   CroppedAreaImageWidthPixels?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   CroppedAreaLeftPixels?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   CroppedAreaTopPixels?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   CropRight?: number;
-  /** ☆☆☆☆ ✔ Example: "8 0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "8 0"
+   */
   CropTop?: string;
-  /** ☆☆☆☆ ✔ Example: "2014:05:11 13:08:25.659" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "2014:05:11 13:08:25.659"
+   */
   DateAcquired?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "2023:11:07" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups Composite, IPTC, XMP
+   * @example "2025:06:11"
+   */
   DateCreated?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "2017:08:13 12:38:30" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "2017:08:13 12:38:30"
+   */
   DateTime?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "2017:08:13 12:38:30" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "2017:08:13 12:38:30"
+   */
   DateTimeDigitized?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "2015:06:02 09:56:01" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "2015:06:02 09:56:01"
+   */
   DateUTC?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   DefringeGreenAmount?: number;
-  /** ☆☆☆☆ ✔ Example: 60 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 60
+   */
   DefringeGreenHueHi?: number;
-  /** ☆☆☆☆ ✔ Example: 40 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 40
+   */
   DefringeGreenHueLo?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   DefringePurpleAmount?: number;
-  /** ☆☆☆☆ ✔ Example: 70 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 70
+   */
   DefringePurpleHueHi?: number;
-  /** ☆☆☆☆ ✔ Example: 30 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 30
+   */
   DefringePurpleHueLo?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   Dehaze?: number;
-  /** ☆☆☆☆ ✔ Example:  */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   */
   DerivedFrom?: string;
-  /** ☆☆☆☆ ✔ Example: "nfd" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "nfd"
+   */
   Description?: string;
-  /** ☆☆☆☆ ✔ Example: ["Animation","Collage"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["Animation","Collage"]
+   */
   DisableAutoCreation?: string[];
-  /** ☆☆☆☆ ✔ Example: "xmp.did:7bf80ec8-c5cf-4881-b631-5ac83ae65ce2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups XMP
+   * @example "xmp.did:7bf80ec8-c5cf-4881-b631-5ac83ae65ce2"
+   */
   DocumentID?: string;
-  /** ☆☆☆☆   Example: [{"FaceAnglePitch":0.009265,"FaceAngleRoll":-0.021281,"Fa…re":4}] */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example [{"FaceAnglePitch":0.009265,"FaceAngleRoll":-0.021281,"Fa…re":4}]
+   */
   Face?: Struct[];
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   FaceNum?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   FaceSelectedIndex?: number;
-  /** ☆☆☆☆   Example: 8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 8
+   */
   Far?: number;
-  /** ☆☆☆☆ ✔ Example: "u77" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "u77"
+   */
   Firmware?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes, XMP
+   * @example 0
+   */
   FlashCompensation?: number;
-  /** ☆☆☆☆ ✔ Example: "Example flash make" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Example flash make"
+   */
   FlashManufacturer?: string;
-  /** ☆☆☆☆ ✔ Example: "FlashPix Version 1.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "FlashPix Version 1.0"
+   */
   FlashPixVersion?: string;
-  /** ☆☆☆☆   Example: 3.8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 3.8
+   */
   FlightPitchDegree?: number;
-  /** ☆☆☆☆   Example: 4.5 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 4.5
+   */
   FlightRollDegree?: number;
-  /** ☆☆☆☆   Example: 88.699997 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 88.699997
+   */
   FlightYawDegree?: number;
-  /** ☆☆☆☆   Example: 6553500 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 6553500
+   */
   FocusAreaHeight?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   FocusAreaNum?: number;
-  /** ☆☆☆☆   Example: 6553500 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 6553500
+   */
   FocusAreaWidth?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   FocusIsLensMoving?: number;
-  /** ☆☆☆☆   Example: 3372647 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 3372647
+   */
   FocusPosX?: number;
-  /** ☆☆☆☆   Example: 936214 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 936214
+   */
   FocusPosY?: number;
-  /** ☆☆☆☆   Example: "Inactive" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Inactive"
+   */
   FocusState?: string;
-  /** ☆☆☆☆ ✔ Example: "image/jpg" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups XMP
+   * @example "image/jpg"
+   */
   Format?: string;
-  /** ☆☆☆☆ ✔ Example: 3872 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 3872
+   */
   FullPanoHeightPixels?: number;
-  /** ☆☆☆☆ ✔ Example: 7744 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 7744
+   */
   FullPanoWidthPixels?: number;
-  /** ☆☆☆☆   Example: -90 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example -90
+   */
   GimbalPitchDegree?: number;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   GimbalReverse?: number;
-  /** ☆☆☆☆   Example: "+0.00" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "+0.00"
+   */
   GimbalRollDegree?: string;
-  /** ☆☆☆☆   Example: "+90.80" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "+90.80"
+   */
   GimbalYawDegree?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   GrainAmount?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   GreenHue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   GreenSaturation?: number;
-  /** ☆☆☆☆ ✔ Example: false */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example false
+   */
   HasCrop?: boolean;
-  /** ☆☆☆☆ ✔ Example: "F995C3239BC6E6FC1997814864CD2CA2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "F995C3239BC6E6FC1997814864CD2CA2"
+   */
   HasExtendedXMP?: string;
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example true
+   */
   HasSettings?: boolean;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 23388 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "(Binary data 23388 bytes, use -b option to extract)"
+   */
   HdrPlusMakernote?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: "(Binary data 53037 bytes, use -b option to extract)" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "(Binary data 49603 bytes, use -b option to extract)"
+   */
   HDRPMakerNote?: BinaryField | string;
-  /** ☆☆☆☆ ✔ Example: ["点像F11"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["点像F11"]
+   */
   HierarchicalSubject?: string[];
-  /** ☆☆☆☆ ✔ Example: [{"Action":"converted","Parameters":"from image/x-canon-c…alse}}] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups XMP
+   * @example [{"Action":"converted","Parameters":"from image/x-canon-c…alse}}]
+   */
   History?: ResourceEvent[] | ResourceEvent | string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentAqua?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentBlue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentGreen?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentMagenta?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentOrange?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentPurple?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentRed?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   HueAdjustmentYellow?: number;
-  /** ☆☆☆☆ ✔ Example: "sRGB IEC61966-2.1" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "sRGB IEC61966-2.1"
+   */
   ICCProfileName?: string;
-  /** ☆☆☆☆ ✔ Example: 4048 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File, XMP
+   * @example 4048
+   */
   ImageLength?: number;
-  /** ☆☆☆☆ ✔ Example: 9956 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 9956
+   */
   ImageNumber?: number;
-  /** ☆☆☆☆ ✔ Example: 180 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 180
+   */
   InitialViewHeadingDegrees?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   InitialViewPitchDegrees?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   InitialViewRollDegrees?: number;
-  /** ☆☆☆☆ ✔ Example: "xmp.iid:f9edd04d-34a3-41cc-909f-5a49fc5b8154" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups XMP
+   * @example "xmp.iid:f9edd04d-34a3-41cc-909f-5a49fc5b8154"
+   */
   InstanceID?: string;
-  /** ☆☆☆☆ ✔ Example: "N" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "N"
+   */
   InteroperabilityIndex?: string;
-  /** ☆☆☆☆ ✔ Example: "18, 25, 24.96" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "18, 25, 24.96"
+   */
   InteroperabilityVersion?: string;
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example true
+   */
   IsBokehActive?: boolean;
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example true
+   */
   IsHDRActive?: boolean;
-  /** ☆☆☆☆ ✔ Example: false */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example false
+   */
   IsNightModeActive?: boolean;
-  /** ☆☆☆☆ ✔ Example: "選択" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups XMP
+   * @example "選択"
+   */
   Label?: string;
-  /** ☆☆☆☆ ✔ Example: ["red fish","bluefish"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["red fish","bluefish"]
+   */
   LastKeywordXMP?: string[];
-  /** ☆☆☆☆ ✔ Example: "F351B7C76CEF50C906DB9B78A92FB1B4" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "F351B7C76CEF50C906DB9B78A92FB1B4"
+   */
   LegacyIPTCDigest?: string;
-  /** ☆☆☆☆ ✔ Example: "Back" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Back"
+   */
   LensFacing?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LensManualDistortionAmount?: number;
-  /** ☆☆☆☆ ✔ Example: "Example lens make" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Example lens make"
+   */
   LensManufacturer?: string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   LensProfileEnable?: number;
-  /** ☆☆☆☆   Example: "Camera Settings" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example "Camera Settings"
+   */
   LensProfileName?: string;
-  /** ☆☆☆☆ ✔ Example: "LensDefaults" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "LensDefaults"
+   */
   LensProfileSetup?: string;
-  /** ☆☆☆☆   Example: 37087 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 37087
+   */
   LocationAreaCode?: number;
-  /** ☆☆☆☆ ✔ Example: {"Amount":1,"Group":"Profiles","Name":"Adobe Color","Para…A7077"} */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example {"Amount":1,"Group":"Profiles","Name":"Adobe Color","Para…A7077"}
+   */
   Look?: Struct;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentAqua?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentBlue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentGreen?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentMagenta?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentOrange?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentPurple?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentRed?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceAdjustmentYellow?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   LuminanceSmoothing?: number;
-  /** ☆☆☆☆ ✔ Example: "4577 bytes undefined data" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "4577 bytes undefined data"
+   */
   MakerNote?: string;
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example true
+   */
   Marked?: boolean;
-  /** ☆☆☆☆ ✔ Example: "" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ""
+   */
   Mask?: string;
-  /** ☆☆☆☆ ✔ Example: "2024:10:02 15:51:50-07:00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups XMP
+   * @example "2024:10:02 15:51:50-07:00"
+   */
   MetadataDate?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   MicroVideo?: number;
-  /** ☆☆☆☆ ✔ Example: 2448784 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 2448784
+   */
   MicroVideoOffset?: number;
-  /** ☆☆☆☆ ✔ Example: 366563 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 366563
+   */
   MicroVideoPresentationTimestampUs?: number;
-  /** ☆☆☆☆ ✔ Example: 1 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   MicroVideoVersion?: number;
-  /** ☆☆☆☆   Example: "image/jpeg" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "image/jpeg"
+   */
   Mime?: string;
-  /** ☆☆☆☆   Example: 240 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 240
+   */
   MobileCountryCode?: number;
-  /** ☆☆☆☆   Example: 8 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 8
+   */
   MobileNetworkCode?: number;
-  /** ☆☆☆☆ ✔ Example: "2015:06:02 09:56:01" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "2015:06:02 09:56:01"
+   */
   ModificationDate?: ExifDateTime | string;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   MotionPhoto?: number;
-  /** ☆☆☆☆   Example: 717986 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 717986
+   */
   MotionPhotoPresentationTimestampUs?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   MotionPhotoVersion?: number;
-  /** ☆☆☆☆   Example: "36864,40960,40961,37121,37122,40962,40963,37510,40964,368…B0A1251" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "36864,40960,40961,37121,37122,40962,40963,37510,40964,368…B0A1251"
+   */
   NativeDigest?: string;
-  /** ☆☆☆☆   Example: 115.4 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 115.4
+   */
   Near?: number;
-  /** ☆☆☆☆   Example: "Album description" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Album description"
+   */
   Notes?: string;
-  /** ☆☆☆☆   Example: 561 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 561
+   */
   ObjectAreaHeight?: number;
-  /** ☆☆☆☆   Example: 884 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 884
+   */
   ObjectAreaWidth?: number;
-  /** ☆☆☆☆   Example: 1 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1
+   */
   ObjectNum?: number;
-  /** ☆☆☆☆   Example: 1890 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1890
+   */
   ObjectPosX?: number;
-  /** ☆☆☆☆   Example: 1796 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1796
+   */
   ObjectPosY?: number;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   */
   OriginalCreateDateTime?: ExifDateTime | string;
-  /** ☆☆☆☆ ✔ Example: "xmp.did:7bf80ec8-c5cf-4881-b631-5ac83ae65ce2" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups XMP
+   * @example "xmp.did:7bf80ec8-c5cf-4881-b631-5ac83ae65ce2"
+   */
   OriginalDocumentID?: string;
-  /** ☆☆☆☆ ✔ Example: false */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example false
+   */
   OverrideLookVignette?: boolean;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   ParametricDarks?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   ParametricHighlights?: number;
-  /** ☆☆☆☆ ✔ Example: 75 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 75
+   */
   ParametricHighlightSplit?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   ParametricLights?: number;
-  /** ☆☆☆☆ ✔ Example: 50 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 50
+   */
   ParametricMidtoneSplit?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   ParametricShadows?: number;
-  /** ☆☆☆☆ ✔ Example: 25 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 25
+   */
   ParametricShadowSplit?: number;
-  /** ☆☆☆☆ ✔ Example: ["John Doe"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["John Doe"]
+   */
   PersonInImage?: string[];
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PerspectiveAspect?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PerspectiveHorizontal?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PerspectiveRotate?: number;
-  /** ☆☆☆☆ ✔ Example: 100 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 100
+   */
   PerspectiveScale?: number;
-  /** ☆☆☆☆ ✔ Example: "Off" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Off"
+   */
   PerspectiveUpright?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PerspectiveVertical?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PerspectiveX?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PerspectiveY?: number;
-  /** ☆☆☆☆ ✔ Example: 80 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 80
+   */
   PhotographicSensitivity?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PickLabel?: number;
-  /** ☆☆☆☆ ✔ Example: "01.00" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "01.00"
+   */
   PipelineVersion?: string;
-  /** ☆☆☆☆ ✔ Example: "PM6" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "PM6"
+   */
   PMVersion?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PortraitVersion?: number;
-  /** ☆☆☆☆ ✔ Example: 22.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 22.5
+   */
   PoseHeadingDegrees?: number;
-  /** ☆☆☆☆ ✔ Example: 11.2 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 11.2
+   */
   PosePitchDegrees?: number;
-  /** ☆☆☆☆ ✔ Example: 1.6 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 1.6
+   */
   PoseRollDegrees?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   PostCropVignetteAmount?: number;
-  /** ☆☆☆☆ ✔ Example: "DSCF0722.JPG" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "DSCF0722.JPG"
+   */
   PreservedFileName?: string;
-  /** ☆☆☆☆ ✔ Example: 11 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 11
+   */
   ProcessVersion?: number;
-  /** ☆☆☆☆ ✔ Example: [{"CameraIndices":[0],"Type":"DepthPhoto"}] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example [{"CameraIndices":[0],"Type":"DepthPhoto"}]
+   */
   Profiles?: Struct[];
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example
+   */
   ProgramMode?: string;
-  /** ☆☆☆☆ ✔ Example: "equirectangular" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "equirectangular"
+   */
   ProjectionType?: string;
-  /** ★★☆☆ ✔ Example: 5 */
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 5
+   */
   Rating?: number;
-  /** ☆☆☆☆ ✔ Example: 50 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, XMP
+   * @example 50
+   */
   RatingPercent?: number;
-  /** ☆☆☆☆ ✔ Example: "P2030414.jpg" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "P2030414.jpg"
+   */
   RawFileName?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   RedHue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   RedSaturation?: number;
-  /** ☆☆☆☆ ✔ Example: {"AppliedToDimensions":{"H":3552,"W":2000},"RegionList":[…ace"}]} */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example {"AppliedToDimensions":{"H":3552,"W":2000},"RegionList":[…ace"}]}
+   */
   RegionInfo?: Struct;
-  /** ☆☆☆☆ ✔ Example: {"Regions":""} */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example {"Regions":""}
+   */
   RegionInfoMP?: Struct;
-  /** ☆☆☆☆ ✔ Example: [{"RegItemId":"Number1","RegOrgId":"TestName1"},{"RegItem…ame3"}] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example [{"RegItemId":"Number1","RegOrgId":"TestName1"},{"RegItem…ame3"}]
+   */
   RegistryID?: Struct[];
-  /** ☆☆☆☆   Example: "+90.80" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "+90.80"
+   */
   RelativeAltitude?: string;
-  /** ☆☆☆☆ ✔ Example: "Kawp E. Reite Houldre" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Kawp E. Reite Houldre"
+   */
   Rights?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentAqua?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentBlue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentGreen?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentMagenta?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentOrange?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentPurple?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentRed?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SaturationAdjustmentYellow?: number;
-  /** ☆☆☆☆ ✔ Example: "AutoHDR" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "AutoHDR"
+   */
   Scene?: string;
-  /** ☆☆☆☆ ✔ Example: "[0.997883, 0.92984027]" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "[0.997883, 0.92984027]"
+   */
   SceneDetectResultConfidences?: string;
-  /** ☆☆☆☆ ✔ Example: "[901, 60, 0]" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "[901, 60, 0]"
+   */
   SceneDetectResultIds?: string;
-  /** ☆☆☆☆   Example: "Undefined" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Undefined"
+   */
   SelfData?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   ShadowTint?: number;
-  /** ☆☆☆☆ ✔ Example: 25 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 25
+   */
   SharpenDetail?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SharpenEdgeMasking?: number;
-  /** ☆☆☆☆ ✔ Example: "+1.0" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "+1.0"
+   */
   SharpenRadius?: string;
-  /** ☆☆☆☆ ✔ Example: 2 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 2
+   */
   SourcePhotosCount?: number;
-  /** ☆☆☆☆ ✔ Example: ["com.google.android.apps.camera.gallery.specialtype.Spec…TRAIT"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["com.google.android.apps.camera.gallery.specialtype.Spec…TRAIT"]
+   */
   SpecialTypeID?: string[];
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SplitToningBalance?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SplitToningHighlightHue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SplitToningHighlightSaturation?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SplitToningShadowHue?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   SplitToningShadowSaturation?: number;
-  /** ☆☆☆☆ ✔ Example: "Washington" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "Washington"
+   */
   State?: string;
-  /** ☆☆☆☆ ✔ Example: "https://PhotoStructure.com/" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "https://PhotoStructure.com/"
+   */
   StitchingSoftware?: string;
-  /** ☆☆☆☆ ✔ Example: 3 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF, XMP
+   * @example 3
+   */
   StreamType?: number;
-  /** ☆☆☆☆ ✔ Example: ["点像F11"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["点像F11"]
+   */
   Subject?: string[];
-  /** ☆☆☆☆ ✔ Example: 296185 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 296185
+   */
   SubsecTime?: number;
-  /** ☆☆☆☆ ✔ Example: "#MB%:{9C0B071B-5553-4D89-B252-934C9EC1E04D}GBMB1:%MB#" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "#MB%:{9C0B071B-5553-4D89-B252-934C9EC1E04D}GBMB1:%MB#"
+   */
   Tag?: string;
-  /** ☆☆☆☆ ✔ Example: "Yes" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Yes"
+   */
   Tagged?: string;
-  /** ☆☆☆☆ ✔ Example: ["Subjekt/Natur/Pflanzen","Ort/Deutschland/Rangsdorf"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["Subjekt/Natur/Pflanzen","Ort/Deutschland/Rangsdorf"]
+   */
   TagsList?: string[];
-  /** ☆☆☆☆ ✔ Example: "+5" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "+5"
+   */
   Tint?: string;
-  /** ☆☆☆☆ ✔ Example: "Very Blank" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes, XMP
+   * @example "Very Blank"
+   */
   Title?: string;
-  /** ☆☆☆☆   Example: 0 */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   TlinearGain?: number;
-  /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["0, 0","255, 255"]
+   */
   ToneCurveBlue?: string[];
-  /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["0, 0","255, 255"]
+   */
   ToneCurveGreen?: string[];
-  /** ☆☆☆☆ ✔ Example: "Medium Contrast" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "Medium Contrast"
+   */
   ToneCurveName?: string;
-  /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["0, 0","255, 255"]
+   */
   ToneCurvePV2012Blue?: string[];
-  /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["0, 0","255, 255"]
+   */
   ToneCurvePV2012Green?: string[];
-  /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["0, 0","255, 255"]
+   */
   ToneCurvePV2012Red?: string[];
-  /** ☆☆☆☆ ✔ Example: ["0, 0","255, 255"] */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example ["0, 0","255, 255"]
+   */
   ToneCurveRed?: string[];
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   ToneMapStrength?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   UprightCenterMode?: number;
-  /** ☆☆☆☆ ✔ Example: 0.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0.5
+   */
   UprightCenterNormX?: number;
-  /** ☆☆☆☆ ✔ Example: 0.5 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0.5
+   */
   UprightCenterNormY?: number;
-  /** ☆☆☆☆ ✔ Example: 35 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 35
+   */
   UprightFocalLength35mm?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   UprightFocalMode?: number;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   UprightFourSegmentsCount?: number;
-  /** ☆☆☆☆ ✔ Example: false */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example false
+   */
   UprightPreview?: boolean;
-  /** ☆☆☆☆ ✔ Example: 6 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 6
+   */
   UprightTransformCount?: number;
-  /** ☆☆☆☆ ✔ Example: 151388160 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 151388160
+   */
   UprightVersion?: number;
-  /** ☆☆☆☆ ✔ Example: true */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example true
+   */
   UsePanoramaViewer?: boolean;
-  /** ☆☆☆☆   Example:  */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   */
   Versions?: Version[] | Version | string;
-  /** ☆☆☆☆ ✔ Example: "+21" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "+21"
+   */
   Vibrance?: string;
-  /** ☆☆☆☆ ✔ Example: 0 */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example 0
+   */
   VignetteAmount?: number;
-  /** ☆☆☆☆   Example: [4500] */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example [4500]
+   */
   WavelengthFWHM?: number[];
-  /** ☆☆☆☆   Example: "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><…="0" />" */
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><…="0" />"
+   */
   XMPMeta?: string;
-  /** ☆☆☆☆ ✔ Example: "XMP toolkit 3.0-28, framework 1.6" */
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups XMP
+   * @example "XMP toolkit 3.0-28, framework 1.6"
+   */
   XMPToolkit?: string;
 }
 
@@ -7714,13 +17714,13 @@ export type XMPTag = StrEnumKeys<typeof XMPTagsNames>;
  * If this interface is missing a field you need, you should handle that
  * typecasting safely in your own code.
  *
- * Comments by each tag include:
- * - a popularity rating (★★★★ is found in > 50% of samples, and ☆☆☆☆ is rare),
- * - a checkmark if the tag is used by popular devices (like iPhones), and
- * - an example value, JSON stringified.
+ * JSDoc annotations for each tag include:
+ * - @frequency: device type emoji (🔥 = mainstream consumer devices, 🧊 = specialized/professional), star rating (★★★★ is found in >50% of samples, ☆☆☆☆ is rare), and exact percentage in parentheses
+ * - @groups: comma-separated list of metadata groups where this tag appears (e.g., "EXIF, MakerNotes")
+ * - @example: representative value for the tag
  *
- * Autogenerated by "npm run mktags" by ExifTool 13.30 on Thu May 22 2025.
- * 2767 unique tags were found in 10138 photo and video files.
+ * Autogenerated by "npm run mktags" by ExifTool 13.31 on Thu Jun 26 2025.
+ * 2768 unique tags were found in 10145 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
  */
