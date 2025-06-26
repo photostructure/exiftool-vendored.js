@@ -5,543 +5,222 @@
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
 [![Node.js CI](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml)
 [![GitHub issues](https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg)](https://github.com/photostructure/exiftool-vendored.js/issues)
-[![Known Vulnerabilities](https://snyk.io/test/github/photostructure/exiftool-vendored.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/photostructure/exiftool-vendored.js?targetFile=package.json)
 
-## Features
+## Installation & Quick Start
 
-1. **Best-of-class cross-platform performance and reliability**.
+**Requirements**: Node.js Active LTS or Maintenance LTS versions only
 
-   This library enables [PhotoStructure](https://photostructure.com) and [over 1,000](https://github.com/photostructure/exiftool-vendored.js/network/dependents?package_id=UGFja2FnZS0xNjYxNjY2MQ%3D%3D) other projects to read and write metadata in photos and videos.
-
-   Expect [an order of magnitude faster performance](#performance) than other Node.js ExifTool modules.
-
-   Thanks to being based on [ExifTool](https://exiftool.org/), it's the state of the art in high quality metadata extraction for thousands of file types.
-
-1. Best-effort extraction of
-
-   - **dates** with [correct timezone offset encoding](#dates)
-   - **latitudes & longitudes** as floats (where negative values indicate west or south of the meridian)
-
-1. Support for
-
-   - [reading tags](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#read)
-   - extracting embedded binaries, like [thumbnail](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#extractThumbnail) and [preview](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#extractPreview) images
-   - [writing tags](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#write)
-   - [rescuing metadata](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#rewriteAllTags)
-
-1. **[Robust type definitions](#tags)** of the top 99.5% tags used by over 6,000
-   different camera makes and models (see an [example](https://photostructure.github.io/exiftool-vendored.js/interfaces/EXIFTags.html#CreateDate))
-
-1. **Automated updates** to ExifTool ([as new versions come out
-   frequently](https://exiftool.org/history.html))
-
-1. **Robust test coverage**, performed with on [macOS, Linux, and
-   Windows](https://github.com/photostructure/exiftool-vendored.js/actions?query=workflow%3A%22Node.js+CI%22)
-
-## Installation
-
-```sh
-npm install --save exiftool-vendored
+```bash
+npm install exiftool-vendored
 ```
 
-### Debug logging
+```javascript
+import { exiftool } from "exiftool-vendored";
 
-If anything doesn't work, the first thing to try is enabling the logger.
+// Read metadata
+const tags = await exiftool.read("photo.jpg");
+console.log(`Camera: ${tags.Make} ${tags.Model}`);
+console.log(`Taken: ${tags.DateTimeOriginal}`);
+console.log(`Size: ${tags.ImageWidth}x${tags.ImageHeight}`);
 
-You can provide a [Logger implementation](https://photostructure.github.io/batch-cluster.js/interfaces/Logger.html) via [`ExifToolOptions.logger`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#logger), or set the environment variable `NODE_DEBUG=exiftool-vendored`. [See the debuglog() documentation](https://nodejs.org/docs/latest/api/util.html#utildebuglogsection-callback) for more details.
+// Write metadata
+await exiftool.write("photo.jpg", {
+  XPComment: "Amazing sunset!",
+  Copyright: "© 2024 Your Name",
+});
 
-### Regarding use within Electron
+// Extract thumbnail
+await exiftool.extractThumbnail("photo.jpg", "thumb.jpg");
 
-Due to how different every Electron application setup is, and how new versions
-frequently have breaking changes, **do not ask for help by opening a github
-issue on this project.**
-
-Please seek help via StackOverflow, the Electron discord, or other channels.
-
-### Electron-builder support
-
-Add the following pattern to `electron-builder.yml`'s `asarUnpack`:
-
-```yaml
-- "node_modules/exiftool-vendored.*/**/*"
+// The singleton instance automatically cleans up on process exit by default.
+// If you need immediate cleanup or have disabled registerExitHandlers:
+// await exiftool.end();
 ```
 
-The default `exiftoolPath` implementation will detect `app.asar` in your `require`
-path and replace it with `app.asar.unpacked` automatically.
+## Why exiftool-vendored?
 
-### Electron-forge support
+### ⚡ **Performance**
 
-Version 25.0 of this library added experimental support for `electron-forge`:
-add the following element to your `ForgeConfig.packagerConfig.extraResource`
-string array, and things should "just work" **for the main process**.
+Order of magnitude faster than other Node.js ExifTool modules. Powers [PhotoStructure](https://photostructure.com) and [1,000+ other projects](https://github.com/photostructure/exiftool-vendored.js/network/dependents?package_id=UGFja2FnZS0xNjYxNjY2MQ%3D%3D).
 
-```ts
-"./node_modules/exiftool-vendored." +
-  (process.platform === "win32" ? "exe" : "pl");
+### 🔧 **Robust**
+
+- **Cross-platform**: macOS, Linux, Windows
+- **Comprehensive**: Read, write, extract embedded images
+- **Reliable**: Battle-tested with extensive test coverage
+
+### 📚 **Developer-Friendly**
+
+- **TypeScript**: Full type definitions for thousands of metadata fields
+- **Smart dates**: Timezone-aware `ExifDateTime` classes
+- **Auto-generated tags**: Based on 6,000+ real camera samples
+
+## Core Features
+
+### Reading Metadata
+
+```javascript
+const tags = await exiftool.read("photo.jpg");
+
+// Camera info
+console.log(tags.Make, tags.Model, tags.LensModel);
+
+// Capture settings
+console.log(tags.ISO, tags.FNumber, tags.ExposureTime);
+
+// Location (if available)
+console.log(tags.GPSLatitude, tags.GPSLongitude);
+
+// Always check for parsing errors
+if (tags.errors?.length > 0) {
+  console.warn("Metadata warnings:", tags.errors);
+}
 ```
 
-**If your main process forks any node subprocesses, `process.resourcesPath` _will
-not be set_ in those subprocesses, and the default `exiftoolPath` won't work.**
+### Writing Metadata
 
-If this is your case, you must provide a correct implementation of
-[ExifToolOptions.exiftoolPath](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#exiftoolPath),
-either by passing through `resourcesPath` via `process.env`, or some other
-method.
+```javascript
+// Add keywords and copyright
+await exiftool.write("photo.jpg", {
+  Keywords: ["sunset", "landscape"],
+  Copyright: "© 2024 Photographer Name",
+  "IPTC:CopyrightNotice": "© 2024 Photographer Name",
+});
 
-### Installation notes
+// Update all date fields at once
+await exiftool.write("photo.jpg", {
+  AllDates: "2024:03:15 14:30:00",
+});
 
-- `exiftool-vendored` provides an installation of ExifTool relevant for your
-  local platform through
-  [optionalDependencies](https://docs.npmjs.com/files/package.json#optionaldependencies).
-
-- You shouldn't include either [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe) or
-  [exiftool-vendored.pl](https://github.com/photostructure/exiftool-vendored.pl) as direct dependencies to your project, unless you know
-  what you're doing.
-
-- If you're installing on a minimal Linux distribution, you may need to install `perl`. On Alpine, run `apk add perl`.
-
-- Node.js's `-slim` docker images don't include a working `perl` build. Use the non-slim image instead. [See the issue report for details.](https://github.com/photostructure/exiftool-vendored.js/issues/168)
-
-- If the platform-correct vendor module (`exiftool-vendored.exe` or `exiftool-vendored.pl`) is not found, `exiftool` is searched for on your `PATH`. Note that _very_ old versions of `exiftool` are found on currently-supported Linux distributions which this library will not work correctly with.
-
-## Upgrading
-
-See the
-[CHANGELOG](https://github.com/photostructure/exiftool-vendored.js/blob/main/CHANGELOG.md)
-for breaking changes since you last updated.
-
-### Major version bumps
-
-I bump the major version if there's a **chance** existing code might be
-affected.
-
-I've been bit too many times by my code breaking when I pull in minor or patch
-upgrades with other libraries. I think it's better to be pessimistic in code
-change impact analysis: "over-promise and under-deliver" your breaking-code
-changes.
-
-When you upgrade to a new major version, please take a bit more care in
-validating your own systems, but don't be surprised when everything still works.
-
-## Usage
-
-There are many configuration options to ExifTool, but all values have (more or
-less sensible) defaults.
-
-Those defaults have been used to create the
-[`exiftool`](https://photostructure.github.io/exiftool-vendored.js/modules.html#exiftool) singleton.
-Note that if you _don't_ use the default singleton, you don't need to `.end()`
-it.
-
-```js
-// We're using the singleton here for convenience:
-const exiftool = require("exiftool-vendored").exiftool;
-
-// And to verify everything is working:
-exiftool
-  .version()
-  .then((version) => console.log(`We're running ExifTool v${version}`));
-```
-
-If the default [ExifTool constructor
-parameters](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html)
-wont' work for you, it's just a class that takes an options hash:
-
-```js
-const ExifTool = require("exiftool-vendored").ExifTool;
-const exiftool = new ExifTool({ taskTimeoutMillis: 5000 });
-```
-
-You should only use the exported default `exiftool` singleton, or only create one instance of `ExifTool` as a singleton.
-
-Remember to `.end()` whichever singleton you use.
-
-### General API
-
-`ExifTool.read()` returns a Promise to a [Tags](https://photostructure.github.io/exiftool-vendored.js/interfaces/Tags.html) instance. Note
-that errors may be returned either by rejecting the promise, or for less
-severe problems, via the `errors` field.
-
-All other public ExifTool methods return `Promise<void>`, and will reject
-the promise if the operation is not successful.
-
-### `Tags` types
-
-ExifTool knows how to extract _several thousand_ different tag fields.
-
-Unfortunately, TypeScript crashes with `error TS2590: Expression produces a union type that is too complex to represent` if the `Tags` interface was comprehensive.
-
-Instead, we build a corpus of "commonly seen" tags from over 10,000 different
-digital camera makes and models, many from the [ExifTool metadata
-repository](https://exiftool.org/sample_images.html) and <raw.pixls.us>.
-
-Here are some example fields:
-
-```ts
-  /** ★☆☆☆ ✔ Example: 200 */
-  ISO?: number
-
-  /** ★★★★ ✔ Example: 1920 */
-  ImageHeight?: number
-
-  /** ★★★★ ✔ Example: 1080 */
-  ImageWidth?: number
-
-  /** ★★★★ ✔ Example: "image/jpeg" */
-  MIMEType?: string
-```
-
-The stars represent how common that field has a value in the example corpus. ★★★★ fields are found in > 50% of the examples.
-☆☆☆☆ fields are found in < 1% of examples.
-
-The checkmark denotes if the field is found in "popular" cameras (like recent
-Nikon, Canon, Sony, and Apple devices).
-
-### Caveats with `Tags`
-
-**The fields in `Tags` are not comprehensive.**
-
-Just because a field is missing from the Tags interface **does not mean the
-field doesn't exist in the returned object**. This library doesn't exclude
-unknown fields, in other words. It's up to you and your code to look for other
-fields you expect and cast to a more relevant interface.
-
-### Logging and events
-
-To enable trace, debug, info, warning, or error logging from this library and
-the underlying `batch-cluster` library, provide a [Logger](https://photostructure.github.io/batch-cluster.js/interfaces/Logger.html) instance to the `ExifTool` constructor options.
-
-ExifTool instances emits [many lifecycle and error events](https://photostructure.github.io/batch-cluster.js/interfaces/BatchClusterEvents.html#beforeEnd) via `batch-cluster`.
-
-### Reading tags
-
-```js
-exiftool
-  .read("path/to/image.jpg")
-  .then((tags /*: Tags */) =>
-    console.log(
-      `Make: ${tags.Make}, Model: ${tags.Model}, Errors: ${tags.errors}`,
-    ),
-  )
-  .catch((err) => console.error("Something terrible happened: ", err));
-```
-
-### Extracting embedded images
-
-Extract the low-resolution thumbnail in `path/to/image.jpg`, write it to
-`path/to/thumbnail.jpg`, and return a `Promise<void>` that is fulfilled
-when the image is extracted:
-
-```js
-exiftool.extractThumbnail("path/to/image.jpg", "path/to/thumbnail.jpg");
-```
-
-Extract the `Preview` image (only found in some images):
-
-```js
-exiftool.extractPreview("path/to/image.jpg", "path/to/preview.jpg");
-```
-
-Extract the `JpgFromRaw` image (found in some RAW images):
-
-```js
-exiftool.extractJpgFromRaw("path/to/image.cr2", "path/to/fromRaw.jpg");
-```
-
-Extract the binary value from "tagname" tag in `path/to/image.jpg`
-and write it to `dest.bin` (which cannot exist already
-and whose parent directory must already exist):
-
-```js
-exiftool.extractBinaryTag("tagname", "path/to/file.exf", "path/to/dest.bin");
-```
-
-### Writing tags
-
-Note that only a portion of tags is writable. Refer to [the
-documentation](https://exiftool.org/TagNames/index.html)
-and look under the "Writable" column.
-
-If you apply malformed values or ask to write to tags that aren't
-supported, the returned `Promise` will be rejected.
-
-Only string and numeric primitives are supported as values to the object.
-
-To write a comment to the given file so it shows up in the Windows Explorer
-Properties panel:
-
-```js
-exiftool.write("path/to/file.jpg", { XPComment: "this is a test comment" });
-```
-
-To change the DateTimeOriginal, CreateDate and ModifyDate tags (using the
-[AllDates](https://exiftool.org/TagNames/Shortcuts.html)
-shortcut) to 4:56pm UTC on February 6, 2016:
-
-```js
-exiftool.write("path/to/file.jpg", { AllDates: "2016-02-06T16:56:00" });
-```
-
-To write to a specific metadata group's tag, just prefix the tag name with the group.
-(TypeScript users: you'll need to cast to make this compile).
-
-```js
-exiftool.write("path/to/file.jpg", {
-  "IPTC:CopyrightNotice": "© 2021 PhotoStructure, Inc.",
+// Delete tags
+await exiftool.write("photo.jpg", {
+  UserComment: null,
 });
 ```
 
-To delete a tag, use `null` as the value.
+### Extracting Images
 
-```js
-exiftool.write("path/to/file.jpg", { UserComment: null });
+```javascript
+// Extract thumbnail
+await exiftool.extractThumbnail("photo.jpg", "thumbnail.jpg");
+
+// Extract preview (larger than thumbnail)
+await exiftool.extractPreview("photo.jpg", "preview.jpg");
+
+// Extract JPEG from RAW files
+await exiftool.extractJpgFromRaw("photo.cr2", "processed.jpg");
 ```
 
-The above example removes any value associated with the `UserComment` tag.
+## Understanding Tags
 
-### Partial Date Support
+The `Tags` interface contains **thousands of metadata fields** from an auto-generated TypeScript file. Each tag uses a special notation:
 
-**NEW in v30.2.0:** XMP date tags now support partial dates (year-only or year-month):
+```typescript
+/** ★★★★ ✔ Example: 1920 */
+ImageWidth?: number;        // Very common, all cameras
 
-```js
-// Year-only dates
-exiftool.write("path/to/file.jpg", { "XMP:CreateDate": 1980 });
-// or
-exiftool.write("path/to/file.jpg", {
-  "XMP:CreateDate": ExifDate.fromYear(1980),
-});
-
-// Year-month dates (EXIF format)
-exiftool.write("path/to/file.jpg", { "XMP:CreateDate": "1980:08" });
-// Year-month dates (ISO format)
-exiftool.write("path/to/file.jpg", { "XMP:CreateDate": "1980-08" });
-// or
-exiftool.write("path/to/file.jpg", {
-  "XMP:CreateDate": ExifDate.fromYearMonth("1980-08"),
-});
+/** ★☆☆☆   Example: "Custom" */
+RareTag?: string;          // Rare, <1% of files
 ```
 
-**⚠️ IMPORTANT:** Partial dates are only supported for [XMP
-tags](https://exiftool.org/TagNames/XMP.html) (like `XMP:CreateDate`,
-`XMP:MetadataDate`). [EXIF tags](https://exiftool.org/TagNames/EXIF.html), like
-`EXIF:CreateDate`, require **complete** (year, month, and day) dates. Always use
-the group-prefixed tag names (e.g., `"XMP:CreateDate"`) when working with
-partial dates.
+- **★★★★** = Found in >50% of files (very common)
+- **★☆☆☆** = Very rare, <1% of files
+- **✔** = Found in popular cameras (Canon, Nikon, Sony, Apple)
 
-### Always Beware: Timezones
+**Important**: The interface isn't comprehensive - unknown fields may still exist in returned objects.
 
-If you edit a timestamp tag, realize that the difference between the
-changed timestamp tag and the GPS value is used by `exiftool-vendored` to
-infer the timezone.
+📖 **[Complete Tags Documentation →](docs/TAGS.md)**
 
-In other words, if you only edit the `CreateDate` and don't edit the `GPS`
-timestamps, your timezone will either be incorrect or missing. See the
-section about [Dates](#dates) below for more information.
+## Important Notes
 
-### Rewriting tags
+### ⏰ Dates & Timezones
 
-You may find that some of your images have corrupt metadata and that writing
-new dates, or editing the rotation information, for example, fails. ExifTool can
-try to repair these images by rewriting all the metadata into a new file, along
-with the original image content. See the
-[documentation](https://exiftool.org/faq.html#Q20) for more
-details about this functionality.
+Images rarely specify timezones. This library uses sophisticated heuristics:
 
-`rewriteAllTags` returns a void Promise that will be rejected if there are any
-errors.
+1. **Explicit metadata** (TimeZoneOffset, OffsetTime)
+2. **GPS location** → timezone lookup
+3. **UTC timestamps** → calculate offset
 
-```js
-exiftool.rewriteAllTags("problematic.jpg", "rewritten.jpg");
+```javascript
+const dt = tags.DateTimeOriginal;
+if (dt instanceof ExifDateTime) {
+  console.log("Timezone offset:", dt.tzoffset, "minutes");
+  console.log("Timezone:", dt.zone);
+}
 ```
 
-### ExifTool configuration support (`.ExifTool_config`)
+📖 **[Date & Timezone Guide →](docs/DATES.md)**
 
-ExifTool has an [extensive user configuration system](http://owl.phy.queensu.ca/~phil/exiftool/config.html). There are several ways to use one:
+### 🧹 Resource Cleanup
 
-1. Place your [user configuration
-   file](https://exiftool.org/config.html) in your `HOME`
-   directory
-1. Set the `EXIFTOOL_HOME` environment variable to the fully-qualified path that
-   contains your user configuration.
-1. Specify the in the ExifTool constructor options:
+**Always call `.end()` on ExifTool instances** to prevent Node.js from hanging:
 
-```js
-new ExifTool({ exiftoolEnv: { EXIFTOOL_HOME: resolve("path", "to", "config", "dir") }
+```javascript
+import { exiftool } from "exiftool-vendored";
+
+// Use the singleton
+const tags = await exiftool.read("photo.jpg");
+
+// Clean up when done
+process.on("beforeExit", () => exiftool.end());
 ```
 
-## Resource hygiene
+### 🏷️ Tag Completeness
 
-**Call `ExifTool.end()` when you're done**
+The `Tags` interface shows the most common fields, but ExifTool can extract many more. Cast to access unlisted fields:
 
-You must explicitly call
-[`.end()`](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#end)
-on any used instance of `ExifTool` to allow `node` to exit gracefully.
-
-ExifTool child processes consume system resources, and [prevents `node` from
-exiting due to the way Node.js streams
-work](https://github.com/photostructure/exiftool-vendored.js/issues/106).
-
-Note that you can't call cannot be in a `process.on("exit")` hook, as the `stdio` streams
-attached to the child process cannot be `unref`'ed. (If there's a solution to
-this, please post to the above issue!)
-
-### Mocha v4.0.0
-
-If you use [mocha](https://mochajs.org/) v4 or later, and you don't call
-`exiftool.end()`, you will find that your test suite hangs. [The relevant
-change is described here](https://github.com/mochajs/mocha/issues/3044),
-and can be solved by adding an `after` block that shuts down the instance
-of ExifTool that your tests are using:
-
-```js
-after(() => exiftool.end()); // assuming your singleton is called `exiftool`
+```javascript
+const tags = await exiftool.read("photo.jpg");
+const customField = (tags as any).UncommonTag;
 ```
 
-## Dates
+## Documentation
 
-**The date metadata in all your images and videos are, most likely,
-underspecified.**
+### 📚 **Guides**
 
-Images and videos rarely specify a time zone in their dates. If all your files
-were captured in your current time zone, defaulting to the local time zone is a
-safe assumption, but if you have files that were captured in different parts of
-the world, **this assumption will not be correct**. Parsing the same file in
-different parts of the world result in different times for the same file.
+- **[Installation Guide](docs/INSTALLATION.md)** - Electron, Docker, platform setup
+- **[Usage Examples](docs/USAGE-EXAMPLES.md)** - Comprehensive API examples
+- **[Date Handling](docs/DATES.md)** - Timezone complexities explained
+- **[Tags Reference](docs/TAGS.md)** - Understanding the 2,500+ metadata fields
+- **[Electron Integration](docs/ELECTRON.md)** - Electron-specific setup
 
-Prior to version 7, heuristic 1 and 3 were applied.
+### 🔧 **Troubleshooting**
 
-As of version 7.0.0, `exiftool-vendored` uses the following heuristics. The
-highest-priority heuristic to return a value will be used as the timezone offset
-for all datetime tags that don't already have a specified timezone.
+- **[Debugging Guide](docs/DEBUGGING.md)** - Debug logging and common issues
+- **[Temporal Migration](docs/TEMPORAL-MIGRATION.md)** - Future JavaScript Temporal API
 
-### Heuristic 1: explicit metadata
+### 📖 **API Reference**
 
-If the [EXIF](https://exiftool.org/TagNames/EXIF.html)
-`TimeZoneOffset` tag is present it will be applied as per the spec to
-`DateTimeOriginal`, and if there are two values, the `ModifyDate` tag as well.
-`OffsetTime`, `OffsetTimeOriginal`, and `OffsetTimeDigitized` are also
-respected, if present (but are very rarely set).
-
-### Heuristic 2: GPS location
-
-If GPS latitude and longitude is present and valid (the value of `0, 0` is
-considered invalid), the `tz-lookup` library will be used to determine the time
-zone name for that location.
-
-### Heuristic 3: UTC timestamps
-
-If `GPSDateTime` or `DateTimeUTC` is present, the delta with the dates found
-within the file, as long as the delta is valid, is used as the timezone offset.
-Deltas of > 14 hours are considered invalid.
-
-### ExifDate and ExifDateTime
-
-Because date-times have this optionally-set timezone, and some tags only specify
-the date, this library returns classes that encode the date, the time of day, or
-both, **with an optional timezone and an optional tzoffset**: `ExifDateTime` and
-`ExifTime`. It's up to you, then, to determine what's correct for your
-situation.
-
-Note also that some smartphones record timestamps with microsecond precision
-(not just milliseconds!), and both `ExifDateTime` and `ExifTime` have floating point
-milliseconds.
-
-## Tags
-
-Official [EXIF](http://www.cipa.jp/std/documents/e/DC-008-2012_E.pdf) tag names
-are [PascalCased](https://en.wikipedia.org/wiki/PascalCase), like
-`AFPointSelected` and `ISO`. ("Fixing" the field names to be camelCase, would
-result in ungainly `aFPointSelected` and `iSO` atrocities).
-
-The [Tags](https://photostructure.github.io/exiftool-vendored.js/interfaces/Tags.html) interface is
-auto-generated by the `mktags` script, which parses through over 6,000 unique
-camera make and model images, in large part sourced from the ExifTool site.
-`mktags` groups tags, extracts their type, popularity, and example values such
-that your IDE can autocomplete.
-
-Tags marked with "★★★★", like
-[MIMEType](https://photostructure.github.io/exiftool-vendored.js/interfaces/FileTags.html#MIMEType),
-should be found in most files. Of the several thousand metadata tags, realize
-less than 50 are found generally. You'll need to do your research to
-determine which tags are valid for your uses.
-
-Note that if parsing fails (for, example, a date-time string), the raw string
-will be returned. Consuming code should verify both existence and type as
-reasonable for safety.
-
-## Serialization
-
-The `Tags` object returned by `ExifTool.read()` can be serialized to JSON with `JSON.stringify`.
-
-To reconstitute, use the `parseJSON()` method.
-
-```ts
-import { exiftool, parseJSON } from "exiftool-vendored";
-
-const tags: Tags = await exiftool.read("/path/to/file.jpg");
-const str: string = JSON.stringify(tags);
-
-// parseJSON doesn't validate the input, so we don't assert that it's a Tags
-// instance, but you can cast it (unsafely...)
-
-const tags2: Tags = parseJSON(str) as Tags;
-```
+- **[TypeDoc Documentation](https://photostructure.github.io/exiftool-vendored.js/)** - Complete API reference
 
 ## Performance
 
-The default [exiftool]() singleton is intentionally throttled. If full system
-utilization is acceptable:
+The default singleton is throttled for stability. For high-throughput processing:
 
-1. set
-   [`maxProcs`](https://photostructure.github.io/batch-cluster.js/classes/BatchClusterOptions.html#maxProcs)
-   higher
+```javascript
+import { ExifTool } from "exiftool-vendored";
 
-2. consider setting
-   [`minDelayBetweenSpawnMillis`](https://photostructure.github.io/batch-cluster.js/classes/BatchClusterOptions.html#minDelayBetweenSpawnMillis)
-   to 0
+const exiftool = new ExifTool({
+  maxProcs: 8, // More concurrent processes
+  minDelayBetweenSpawnMillis: 0, // Faster spawning
+  streamFlushMillis: 10, // Faster streaming
+});
 
-3. On a performant linux box, a smaller value of `streamFlushMillis` may work as
-   well: if you see [`noTaskData`
-   events](https://photostructure.github.io/batch-cluster.js/interfaces/BatchClusterEvents.html#noTaskData),
-   you need to bump the value up.
+// Process many files efficiently
+const results = await Promise.all(filePaths.map((file) => exiftool.read(file)));
 
-## Benchmarking
+await exiftool.end();
+```
 
-The `yarn mktags ../path/to/examples` target reads all tags found in a directory
-hierarchy of sample images and videos, and parses the results.
+**Benchmarks**: 20+ files/second/thread, 500+ files/second using all CPU cores.
 
-`exiftool-vendored` v16.0.0 on a 2019 AMD Ryzen 3900X running Ubuntu 20.04 on an
-SSD can process 20+ files per second per thread, or 500+ files per second when
-utilizing all CPU threads.
+## Support & Community
 
-### Batch mode
+- **📋 Issues**: [GitHub Issues](https://github.com/photostructure/exiftool-vendored.js/issues)
+- **📖 Changelog**: [CHANGELOG.md](CHANGELOG.md)
+- **🔒 Security**: [SECURITY.md](SECURITY.md)
+- **📄 License**: [MIT](LICENSE)
 
-Using ExifTool's `-stay_open` batch mode means we can reuse a single
-instance of ExifTool across many requests, dropping response latency
-dramatically as well as reducing system load.
+### Contributors 🎉
 
-### Parallelism
-
-To avoid overwhelming your system, the `exiftool` singleton is configured with a
-`maxProcs` set to a quarter the number of CPUs on the current system (minimally
-1); no more than `maxProcs` instances of `exiftool` will be spawned. If the
-system is CPU constrained, however, you may want a smaller value. If you have
-very fast disk IO, you may see a speed increase with larger values of
-`maxProcs`, but note that each child process can consume 100 MB of RAM.
-
-## Author
-
-- [Matthew McEachen](https://github.com/mceachen)
-
-## Contributors 🎉
-
-- [Joshua Harris](https://github.com/Circuit8)
-- [Anton Mokrushin](https://github.com/amokrushin)
-- [Luca Ban](https://github.com/mesqueeb)
-- [Demiurga](https://github.com/apolkingg8)
-- [David Randler](https://github.com/draity)
-
-## CHANGELOG
-
-See the
-[CHANGELOG](https://github.com/mceachen/exiftool-vendored.js/blob/main/CHANGELOG.md) on github.
+[Matthew McEachen](https://github.com/mceachen), [Joshua Harris](https://github.com/Circuit8), [Anton Mokrushin](https://github.com/amokrushin), [Luca Ban](https://github.com/mesqueeb), [Demiurga](https://github.com/apolkingg8), [David Randler](https://github.com/draity)

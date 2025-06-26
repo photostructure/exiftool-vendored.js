@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
-          node-version: "20.x"
+          node-version: 20
           cache: "npm"
 
       - name: Install dependencies
@@ -32,18 +32,13 @@ jobs:
       - name: Generate documentation
         run: npm run docs:build
 
-      - name: Prepare docs for deployment
-        run: |
-          cp .serve.json docs/serve.json
-          touch docs/.nojekyll
-
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
-          path: "docs"
+          path: "build/docs"
 
   # Deploy job
   deploy:

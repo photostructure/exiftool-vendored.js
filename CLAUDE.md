@@ -30,7 +30,7 @@ npm run docs        # Generate TypeDoc docs and serve at http://localhost:3000
 npm run docs:1      # Build documentation only (without serving)
 
 # Tag Generation
-npm run mktags ../path/to/images  # Regenerate src/Tags.ts from sample images
+npm run mktags ../path/to/images  # Regenerate src/Tags.ts and data/TagMetadata.json from sample images
 
 # Release Management
 npm run release     # Run release process (requires proper permissions)
@@ -63,5 +63,6 @@ npm run release     # Run release process (requires proper permissions)
 - Use `if (x != null)` not `if (x)` (problematic with booleans)
 - Use `??` not `||` for nullish coalescing (problematic with booleans)
 - Strict TypeScript settings enabled
+- Always use standard imports at the top of the file. Never use dynamic imports like `await import("node:fs/promises").then(fs => fs.access(path))` - instead import normally: `import { access } from "node:fs/promises"`
 
 **File Patterns**: `src/*.ts` (source), `src/*.spec.ts` (tests), `src/update/*.ts` (scripts), `bin/` (binaries), `dist/` (compiled), `test/` (test images)

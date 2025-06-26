@@ -1,6 +1,6 @@
 {
   "entryPoints": ["src/ExifTool.ts"],
-  "out": "docs",
+  "out": "build/docs",
   "name": "exiftool-vendored",
   "includeVersion": false,
   "excludePrivate": true,
@@ -13,5 +13,21 @@
     "GitHub": "https://github.com/photostructure/exiftool-vendored.js",
     "NPM": "https://www.npmjs.com/package/exiftool-vendored"
   },
-  "highlightLanguages": ["bash", "javascript", "json", "typescript", "yaml"]
+  "highlightLanguages": [
+    "bash",
+    "docker",
+    "javascript",
+    "json",
+    "typescript",
+    "yaml"
+  ],
+  "projectDocuments": [
+    "docs/INSTALLATION.md",
+    "docs/USAGE-EXAMPLES.md",
+    "docs/DATES.md",
+    "docs/TAGS.md",
+    "docs/ELECTRON.md",
+    "docs/DEBUGGING.md",
+    "docs/TEMPORAL-MIGRATION.md"
+  ]
 }

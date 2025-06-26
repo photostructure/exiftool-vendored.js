@@ -4,11 +4,11 @@ This document captures the analysis of migrating from Luxon to the JavaScript Te
 
 ## Research
 
-https://github.com/tc39/proposal-temporal
-https://tc39.es/proposal-temporal/docs/
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal
-https://github.com/js-temporal/temporal-polyfill
-https://github.com/fullcalendar/temporal-polyfill
+- https://github.com/tc39/proposal-temporal
+- https://tc39.es/proposal-temporal/docs/
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal
+- https://github.com/js-temporal/temporal-polyfill
+- https://github.com/fullcalendar/temporal-polyfill
 
 ## Current State (May 2025)
 
@@ -30,7 +30,7 @@ https://github.com/fullcalendar/temporal-polyfill
 ### Prerequisites
 
 - [ ] Temporal reaches Stage 4
-- [ ] Polyfill is production-ready 
+- [ ] Polyfill is production-ready
 - [ ] Performance validation vs Luxon
 
 **Note:** Waiting for stable Node.js native support will take years after browsers ship
@@ -51,4 +51,3 @@ static fromZonedDateTime(zdt: Temporal.ZonedDateTime): ExifDateTime
 ### Step 2: deprecate luxon output methods
 
 ### Step 3: major release, remove luxon
-
