@@ -165,6 +165,34 @@ const tags = await exiftool.read("photo.jpg");
 process.on("beforeExit", () => exiftool.end());
 ```
 
+#### Automatic Cleanup with Disposable Interfaces
+
+For **TypeScript 5.2+** projects, use automatic resource management:
+
+```javascript
+import { ExifTool } from "exiftool-vendored";
+
+// Automatic synchronous cleanup
+{
+  using et = new ExifTool();
+  const tags = await et.read("photo.jpg");
+  // ExifTool automatically cleaned up when block exits
+}
+
+// Automatic asynchronous cleanup (recommended)
+{
+  await using et = new ExifTool();
+  const tags = await et.read("photo.jpg");
+  // ExifTool gracefully cleaned up when block exits
+}
+```
+
+**Benefits:**
+
+- **Guaranteed cleanup**: No leaked processes, even with exceptions
+- **Timeout protection**: Automatic forceful cleanup if graceful shutdown hangs
+- **Zero boilerplate**: No manual `.end()` calls needed
+
 ### 🏷️ Tag Completeness
 
 The `Tags` interface shows the most common fields, but ExifTool can extract many more. Cast to access unlisted fields:

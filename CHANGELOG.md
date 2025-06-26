@@ -25,6 +25,30 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v30.3.0
+
+- 🌱 Upgraded ExifTool to version [13.31](https://exiftool.org/history.html#13.31).
+
+- ✨ Added **Disposable interface support** for automatic resource cleanup:
+  - `ExifTool` now implements both `Disposable` and `AsyncDisposable` interfaces
+  - Use `using et = new ExifTool()` for automatic synchronous cleanup (TypeScript 5.2+)
+  - Use `await using et = new ExifTool()` for automatic asynchronous cleanup
+  - Synchronous disposal initiates graceful cleanup with configurable timeout fallback
+  - Asynchronous disposal provides robust cleanup with timeout protection
+  - New options: `disposalTimeoutMs` (default: 1000ms) and `asyncDisposalTimeoutMs` (default: 5000ms)
+  - Comprehensive error handling ensures disposal never throws or hangs
+  - Maintains backward compatibility - existing `.end()` method unchanged
+
+- ✨ **Enhanced JSDoc annotations** for Tags interface with emoji-based visual hierarchy:
+  - Replaced cryptic star/checkmark system with ~~even more cryptic~~ semantic JSDoc tags
+  - Added 🔥/🧊 emojis to indicate mainstream consumer vs specialized devices
+  - Format: `@frequency 🔥 ★★★★ (85%)` combines device type, visual rating, and exact percentage
+  - Consolidated @mainstream into @frequency tag for cleaner, more compact documentation
+  - Added @groups tag showing all metadata groups where each tag appears (e.g., "EXIF, MakerNotes")
+  - Generated `data/TagMetadata.json` with programmatic access to frequency, mainstream flags, and groups
+  - Custom TypeDoc tags defined in tsdoc.json for proper tooling support
+  - Star ratings maintain same thresholds: ★★★★ (>50%), ★★★☆ (>20%), ★★☆☆ (>10%), ★☆☆☆ (>5%), ☆☆☆☆ (≤5%)
+
 ### v30.2.0
 
 - ✨ Enhanced `StrEnum` with iterator support and JSDoc
@@ -36,26 +60,22 @@ vendored versions of ExifTool match the version that they vendor.
 - 🐞 Fixed `ExifToolVersion` to be a `string`. Prior versions used `exiftool`'s JSON representation, which rendered a numeric float. This caused versions like "12.3" and "12.30" to appear identical. We now preserve the exact version string to enable proper version comparisons.
 
 - ✨ Added **partial date support** for `ExifDate` class. XMP date tags (like `XMP:CreateDate`, `XMP:MetadataDate`) now support:
-
   - **Year-only dates**: `1980` (numeric) or `"1980"` (string)
   - **Year-month dates**: `"1980:08"` (EXIF format) or `"1980-08"` (ISO format)
   - **Full dates**: `"1980:08:13"` (unchanged)
 
 - ✨ Enhanced `ExifDate` with type-safe predicates:
-
   - `isYearOnly()`: Returns `true` for year-only dates with type narrowing
   - `isYearMonth()`: Returns `true` for year-month dates with type narrowing
   - `isFullDate()`: Returns `true` for complete dates with type narrowing
   - `isPartial()`: Returns `true` for year-only or year-month dates
 
 - ✨ Added compositional TypeScript interfaces:
-
   - `ExifDateYearOnly`: `{year: number}`
   - `ExifDateYearMonth extends ExifDateYearOnly`: `{year: number, month: number}`
   - `ExifDateFull extends ExifDateYearMonth`: `{year: number, month: number, day: number}`
 
 - ✨ Enhanced `WriteTags` interface with group-prefixed tag support:
-
   - `"XMP:CreateDate"`, `"XMP:MetadataDate"`, etc. accept partial dates
   - `"EXIF:CreateDate"`, etc. require full dates (type-safe distinction)
 
@@ -358,7 +378,6 @@ vendored versions of ExifTool match the version that they vendor.
 ### v23.2.0
 
 - ✨ Timezone parsing improvements:
-
   - Added [`ExifToolOptions.inferTimezoneFromDatestampTags`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#inferTimezoneFromDatestampTags).
   - Timezone inference from datestamps now skips over UTC values, as Google
     Takeout (and several other applications) may spuriously set "+00:00" to
@@ -530,7 +549,6 @@ vendored versions of ExifTool match the version that they vendor.
 ### v18.5.0
 
 - ✨ `ExifToolOptions` now supports an `ignorableError` predicate, used for characterizing errors as "ignorable". Defaults to ignoring the following styles of warnings:
-
   - `Warning: Duplicate MakerNoteUnknown tag in ExifIFD`
   - `Warning: ICC_Profile deleted. Image colors may be affected`
 
@@ -663,7 +681,6 @@ const exiftool = new ExifTool({
 - ✨ Added read/write support for
   [History](https://exiftool.org/TagNames/XMP.html#ResourceEvent) and
   [Versions](https://exiftool.org/TagNames/XMP.html#Version) structs.
-
   - These two tags return typed optional struct arrays.
 
   - Via the new `StructAppendTags` interface, `ExifTool.write()` now accepts

@@ -35,7 +35,7 @@ import {
   WriteTaskResult,
 } from "./WriteTask";
 
-export { Backoff, retryOnReject, type RetryOptions } from "./AsyncRetry";
+export { retryOnReject } from "./AsyncRetry";
 export { BinaryField } from "./BinaryField";
 export { CapturedAtTagNames } from "./CapturedAtTagNames";
 export { DefaultExifToolOptions } from "./DefaultExifToolOptions";
@@ -708,21 +708,128 @@ export class ExifTool {
   closeChildProcesses(gracefully = true) {
     return this.batchCluster.closeChildProcesses(gracefully);
   }
+
+  /**
+   * Implements the Disposable interface for automatic cleanup with the `using` keyword.
+   * This allows ExifTool instances to be automatically cleaned up when they go out of scope.
+   *
+   * Note: This is a synchronous disposal method that initiates graceful cleanup but doesn't
+   * wait for completion. If graceful cleanup times out, forceful cleanup is attempted.
+   * For guaranteed cleanup completion, use `await using` with the async disposal method instead.
+   *
+   * @example
+   * ```typescript
+   * {
+   *   using et = new ExifTool();
+   *   const tags = await et.read("photo.jpg");
+   *   // ExifTool cleanup will be initiated when this block exits
+   * }
+   * ```
+   */
+  [Symbol.dispose](): void {
+    if (!this.ended) {
+      // Start with graceful cleanup, but use timeout for safety since this is sync disposal
+      const cleanup = this.end(true);
+
+      // Set up a timeout to force process exit if graceful cleanup hangs
+      // This is necessary because synchronous disposal can't wait for async operations
+      const timeoutMs = this.options.disposalTimeoutMs ?? 1000;
+      const timeoutHandle = setTimeout(() => {
+        const logger = this.options.logger();
+        logger.error(
+          `ExifTool synchronous disposal timeout after ${timeoutMs}ms, forcing cleanup`,
+        );
+        // Force immediate termination of child processes if they exist
+        try {
+          this.batchCluster.closeChildProcesses(false);
+        } catch (err) {
+          logger.error(
+            "Error during forced child process cleanup during sync disposal:",
+            err,
+          );
+        }
+      }, timeoutMs);
+
+      cleanup
+        .then(() => {
+          clearTimeout(timeoutHandle);
+        })
+        .catch((err) => {
+          clearTimeout(timeoutHandle);
+          // Log error but don't throw, as disposal should not fail
+          const logger = this.options.logger();
+          logger.error("ExifTool synchronous disposal error:", err);
+        });
+    }
+  }
+
+  /**
+   * Implements the AsyncDisposable interface for automatic async cleanup with the `await using` keyword.
+   * This allows ExifTool instances to be automatically cleaned up when they go out of scope.
+   *
+   * This method provides robust cleanup with timeout protection to prevent hanging.
+   * If graceful cleanup times out, forceful cleanup is attempted automatically.
+   *
+   * @example
+   * ```typescript
+   * {
+   *   await using et = new ExifTool();
+   *   const tags = await et.read("photo.jpg");
+   *   // ExifTool will be automatically ended when this block exits
+   * }
+   * ```
+   */
+  async [Symbol.asyncDispose](): Promise<void> {
+    if (!this.ended) {
+      // Set up a timeout to prevent hanging indefinitely during async disposal
+      const timeoutMs = this.options.asyncDisposalTimeoutMs ?? 5000;
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => {
+          reject(
+            new Error(`ExifTool async disposal timeout after ${timeoutMs}ms`),
+          );
+        }, timeoutMs);
+      });
+
+      try {
+        // Race between graceful cleanup and timeout
+        await Promise.race([this.end(true), timeoutPromise]);
+      } catch (err) {
+        const logger = this.options.logger();
+        if (err instanceof Error && err.message.includes("timeout")) {
+          logger.error(
+            `ExifTool async disposal timed out after ${timeoutMs}ms, attempting forceful cleanup`,
+          );
+          // Attempt forceful cleanup on timeout
+          try {
+            await this.end(false);
+          } catch (forcefulErr) {
+            logger.error(
+              "ExifTool forceful cleanup during async disposal also failed:",
+              forcefulErr,
+            );
+            throw err; // Re-throw the original timeout error
+          }
+        } else {
+          logger.error("ExifTool async disposal error:", err);
+          throw err;
+        }
+      }
+    }
+  }
 }
 
 /**
- * Use this singleton rather than instantiating new {@link ExifTool} instances
- * in order to leverage a single running ExifTool process.
+ * This is a convenience singleton.
  *
- * As of v3.0, its {@link ExifToolOptions.maxProcs} is set to the number of
+ * As of v3.0, its {@link ExifToolOptions.maxProcs} is set to 1/4 the number of
  * CPUs on the current system; no more than `maxProcs` instances of `exiftool`
- * will be spawned. You may want to experiment with smaller or larger values
- * for `maxProcs`, depending on CPU and disk speed of your system and
- * performance tradeoffs.
+ * will be spawned. You may want to experiment with smaller or larger values for
+ * `maxProcs`, depending on CPU and disk speed of your system and performance
+ * tradeoffs.
  *
  * Note that each child process consumes between 10 and 50 MB of RAM. If you
- * have limited system resources you may want to use a smaller `maxProcs`
- * value.
+ * have limited system resources you may want to use a smaller `maxProcs` value.
  *
  * See the source of {@link DefaultExifToolOptions} for more details about how
  * this instance is configured.

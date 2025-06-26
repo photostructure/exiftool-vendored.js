@@ -349,6 +349,22 @@ const exiftool = new ExifTool({ geoTz: (lat, lon) => geotz.find(lat, lon)[0] })
    * @see https://exiftool.org/ExifTool.html#KeepUTCTime
    */
   keepUTCTime: boolean;
+
+  /**
+   * Timeout in milliseconds for synchronous disposal (using Symbol.dispose).
+   * If graceful cleanup takes longer than this, forceful cleanup is attempted.
+   *
+   * Defaults to 1000ms (1 second).
+   */
+  disposalTimeoutMs?: number;
+
+  /**
+   * Timeout in milliseconds for asynchronous disposal (using Symbol.asyncDispose).
+   * If graceful cleanup takes longer than this, forceful cleanup is attempted.
+   *
+   * Defaults to 5000ms (5 seconds).
+   */
+  asyncDisposalTimeoutMs?: number;
 }
 
 export function handleDeprecatedOptions<

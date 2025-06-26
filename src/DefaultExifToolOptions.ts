@@ -103,6 +103,9 @@ export const DefaultExifToolOptions: Omit<
   preferTimezoneInferenceFromGps: false, // to retain prior behavior
 
   keepUTCTime: true,
+
+  disposalTimeoutMs: 1000,
+  asyncDisposalTimeoutMs: 5000,
 });
 
 /**

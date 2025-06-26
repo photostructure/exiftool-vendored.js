@@ -4,8 +4,8 @@
 *.log
 coverage/
 dist/
+build/
 dl/
-docs/
 node_modules/
 snyk-linux
 yarn.lock
