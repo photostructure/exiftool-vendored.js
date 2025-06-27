@@ -113,19 +113,29 @@ await exiftool.extractJpgFromRaw("photo.cr2", "processed.jpg");
 
 ## Understanding Tags
 
-The `Tags` interface contains **thousands of metadata fields** from an auto-generated TypeScript file. Each tag uses a special notation:
+The `Tags` interface contains **thousands of metadata fields** from an auto-generated TypeScript file. Each tag includes semantic JSDoc annotations:
 
 ```typescript
-/** ★★★★ ✔ Example: 1920 */
-ImageWidth?: number;        // Very common, all cameras
+/**
+ * @frequency 🔥 ★★★★ (85%)
+ * @groups EXIF, MakerNotes
+ * @example 100
+ */
+ISO?: number;
 
-/** ★☆☆☆   Example: "Custom" */
-RareTag?: string;          // Rare, <1% of files
+/**
+ * @frequency 🧊 ★★★☆ (23%)
+ * @groups MakerNotes
+ * @example "Custom lens data"
+ */
+LensSpec?: string;
 ```
 
-- **★★★★** = Found in >50% of files (very common)
-- **★☆☆☆** = Very rare, <1% of files
-- **✔** = Found in popular cameras (Canon, Nikon, Sony, Apple)
+- **🔥** = Found on mainstream devices (iPhone, Canon, Nikon, Sony)
+- **🧊** = Found on more obscure camera makes and models
+- **★★★★** = Found in >50% of files, **☆☆☆☆** = rare (<1%)
+- **@groups** = Metadata categories (EXIF, GPS, IPTC, XMP, etc.)
+- **@example** = Representative values
 
 **Important**: The interface isn't comprehensive - unknown fields may still exist in returned objects.
 
