@@ -25,6 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v30.4.0
+
+- 🌱 Upgraded ExifTool to version [13.34](https://exiftool.org/history.html#13.34).
+
+- 📦 Upgrade to batch-cluster [v15.0.1](https://github.com/photostructure/batch-cluster.js/releases/tag/v15.0.0) which includes a macos and linux /proc permission workaround, and is now built with OIDC, so it includes https://www.npmjs.com/package/batch-cluster#user-content-provenance
+
+- 📦 Automated publishing (like batch-cluster!), so https://www.npmjs.com/package/exiftool-vendored#user-content-provenance will be a thing
+
 ### v30.3.0
 
 - 🌱 Upgraded ExifTool to version [13.31](https://exiftool.org/history.html#13.31).
@@ -87,7 +95,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v30.0.0
 
-- 💔 Dropped support for Node v18, whose End-of-Life was 2025-04-30.
+- 🏚️ Dropped support for Node v18, whose End-of-Life was 2025-04-30.
 
 - 🌱 Upgraded ExifTool to version [13.29](https://exiftool.org/history.html#13.29).
 
