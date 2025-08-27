@@ -3,7 +3,7 @@
 **Fast, cross-platform [Node.js](https://nodejs.org/) access to [ExifTool](https://exiftool.org/). Built and supported by [PhotoStructure](https://photostructure.com).**
 
 [![npm version](https://img.shields.io/npm/v/exiftool-vendored.svg)](https://www.npmjs.com/package/exiftool-vendored)
-[![Node.js CI](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/node.js.yml)
+[![Node.js CI](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/build.yml/badge.svg)](https://github.com/photostructure/exiftool-vendored.js/actions/workflows/build.yml)
 [![GitHub issues](https://img.shields.io/github/issues/photostructure/exiftool-vendored.js.svg)](https://github.com/photostructure/exiftool-vendored.js/issues)
 
 ## Installation & Quick Start

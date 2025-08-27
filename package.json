@@ -43,7 +43,11 @@
   },
   "release-it": {
     "hooks": {
-      "before:init": "npm run lint"
+      "before:init": [
+        "npm ci",
+        "npm run clean",
+        "npm run compile"
+      ]
     },
     "src": {
       "tagName": "v%s",
@@ -59,9 +63,11 @@
       "release": true
     },
     "npm": {
-      "publish": true
+      "publish": true,
+      "skipChecks": true
     }
   },
+  "# release-it.npm.skipChecks": "Required for OIDC Trusted Publishing - bypasses npm auth checks since OIDC handles authentication automatically. See: https://github.com/release-it/release-it/issues/1244 and https://docs.npmjs.com/trusted-publishers#supported-cicd-providers",
   "keywords": [
     "ExifTool",
     "EXIF",

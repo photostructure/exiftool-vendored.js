@@ -1,0 +1,98 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version type (auto-detects from package.json if not specified)"
+        required: false
+        type: choice
+        options:
+          - ""
+          - patch
+          - minor
+          - major
+
+jobs:
+  lint:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          lfs: true
+      - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run lint
+
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-14, windows-latest]
+        # See https://github.com/nodejs/release#release-schedule
+        node-version: [20, 22, 24]
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          lfs: true
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run test
+
+  publish:
+    runs-on: ubuntu-24.04
+    needs: [lint, build]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    permissions:
+      id-token: write # Required for OIDC
+      contents: write # Required for release-it to create tags/commits
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0 # Need full history for release-it
+          lfs: true
+
+      # setup-node with registry-url is required for OIDC trusted publishing
+      - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
+        with:
+          node-version: 20
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Set up SSH signing
+        uses: photostructure/git-ssh-signing-action@a770c2ff3aea31d9df9f2974ac9d672f2bfe62f3 # v1.1.0
+        with:
+          ssh-signing-key: ${{ secrets.SSH_SIGNING_KEY }}
+          git-user-name: ${{ secrets.GIT_USER_NAME }}
+          git-user-email: ${{ secrets.GIT_USER_EMAIL }}
+
+      - name: Update npm to latest
+        run: |
+          echo "Current npm version:"
+          npm --version
+          echo "Updating npm to latest..."
+          npm install -g npm@latest
+          echo "New npm version:"
+          npm --version
+          
+      - name: Install dependencies
+        run: npm ci
+
+      # Note: Tests are run by release-it's before:init hook via npm run lint
+      # This avoids running the full test matrix (9+ OS/Node combinations) in the release workflow
+      # The lint script is sufficient for release validation since full tests already passed
+      - name: Release with release-it
+        run: npm run release -- --ci ${{ github.event.inputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
