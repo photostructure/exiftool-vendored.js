@@ -134,21 +134,21 @@
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.28.11",
+    "typedoc": "^0.28.12",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.41.0",
     "xpath": "^0.0.34"
   },
   "dependencies-note": "@types/luxon is a proper dependency, not devDependency, as our exported TypeScript typings reference luxon types. See <https://github.com/photostructure/exiftool-vendored.js/pull/108>",
   "dependencies": {
-    "@photostructure/tz-lookup": "^11.2.0",
+    "@photostructure/tz-lookup": "^11.2.1",
     "@types/luxon": "^3.7.1",
     "batch-cluster": "^15.0.1",
     "he": "^1.2.0",
     "luxon": "^3.7.1"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "13.34.0",
-    "exiftool-vendored.pl": "13.34.0"
+    "exiftool-vendored.exe": "13.35.0",
+    "exiftool-vendored.pl": "13.34.1"
   }
 }
