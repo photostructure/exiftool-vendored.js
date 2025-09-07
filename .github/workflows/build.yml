@@ -84,7 +84,7 @@ jobs:
           npm install -g npm@latest
           echo "New npm version:"
           npm --version
-          
+
       - name: Install dependencies
         run: npm ci
 
