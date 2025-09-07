@@ -21,6 +21,7 @@ A GitHub Actions workflow automatically checks for dependency updates (including
 ### Prerequisites
 
 Before releasing, ensure you have:
+
 1. Configured [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers) for this repository on npmjs.com
 2. Access to trigger GitHub Actions workflows
 
