@@ -1,4 +1,6 @@
 {
+  "$schema": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json",
+  "cooldown": 4,
   "reject": [
     "// these libraries switched to ESM and we're not quite ready for that",
     "@types/chai-as-promised",

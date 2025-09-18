@@ -1,30 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(exiftool:*)",
-      "Bash(find:*)",
-      "Bash(git add:*)",
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(mkdir:*)",
-      "Bash(npm install:*)",
-      "Bash(npm run compile:*)",
-      "Bash(npm run docs:build:*)",
-      "Bash(npm run fmt:*)",
-      "Bash(npm run lint)",
-      "Bash(npm run lint*)",
-      "Bash(npm test)",
-      "Bash(npx eslint:*)",
-      "Bash(npx mocha:*)",
-      "Bash(npx tsc:*)",
-      "Bash(rg:*)",
-      "Bash(sed:*)",
-      "WebFetch(domain:developer.mozilla.org)",
-      "WebFetch(domain:docs.github.com)",
-      "WebFetch(domain:github.com)",
-      "Bash(gh run view:*)"
+      "Bash(gh run view:*)",
+      "Bash(npm view:*)",
+      "WebSearch",
+      "WebFetch(domain:typescript-eslint.io)"
     ],
-    "deny": []
+    "deny": [],
+    "ask": []
   },
   "enableAllProjectMcpServers": false
 }
