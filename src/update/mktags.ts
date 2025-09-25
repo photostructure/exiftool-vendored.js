@@ -17,35 +17,36 @@ import { nullish } from "../ReadTask";
 import { blank, isString, leftPad } from "../String";
 import { times } from "../Times";
 
-// ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
-// ☠☠                            AHOY                              ☠☠
-// ☠☠                                                              ☠☠
-// ☠☠        LEST YOU BE STRAYIN' INTO THINGS YE SHOULDN'T         ☠☠
-// ☠☠                                                              ☠☠
-// ☠☠    THIS BILGE SUCKING FILE BE CURSED BY HACKS AND SQUALOR    ☠☠
-// ☠☠                                                              ☠☠
-// ☠☠           SCROLL TO YOUR OWN REGRET, ME HEARTIES             ☠☠
-// ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
+/**
+ * Unfortunately, TypeScript has a limit on the complexity of types it can
+ * represent.
+ *
+ * If we build a union type of all the tags ExifTool knows about (which is north
+ * of 15,000 tags last time we checked), we exceed that limit and get `error
+ * TS2590: Expression produces a union type that is too complex to represent`.
+ *
+ * So, we have to hack around this by only including the N "most popular" and
+ * "most important" tags.
+ *
+ * Note that this limit is much less than that threshold (which was about 3,100
+ * in 2023), but remember to account for the 8+ static interfaces we're also
+ * including in the final Tags union.
+ */
+const MAX_TAGS = 2500;
 
+// These tags are important enough that we want to ensure they're always in the
+// final Tags interface.
 //
-
-// no srsly. this code. it's real bad. but I wanted a Tags interface, more
-// than I felt shame in writing this, so it's here. I'm sorry. Everything
-// _else_ has tests, honest.
-
-//
-
-// Avoid error TS2590: Expression produces a union type that is too complex to represent
-const MAX_TAGS = 2500; // TypeScript 4.2 crashes with 3100+. Remember to count the 8-odd static intefaces we're also including.
-
-// These tags are common enough that we want to ensure they're always in the
-// final Tags interface:
+// If you're relying on a tag that gets inadvertently dropped in some release,
+// consider opening a PR to restore it by adding it here:
 const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   ExifToolVersion: { t: "string", grp: "ExifTool" }, // < ExifTool stores the version as a float (!!) which causes 12.30 to become 12.3.
   Album: { t: "string", grp: "XMP", value: "Twilight Dreams" },
   Aperture: { t: "number", grp: "Composite" },
   ApertureValue: { t: "number", grp: "EXIF" },
-  AvgBitrate: { t: "string", grp: "Composite" },
+  Artist: { t: "string", grp: "EXIF" },
+  AutoRotate: { t: "number | string", grp: "MakerNotes" },
+  AvgBitrate: { t: "number | string", grp: "Composite" },
   BodySerialNumber: { t: "string", grp: "MakerNotes" },
   BurstID: { t: "string", grp: "XMP" },
   BurstUUID: { t: "string", grp: "MakerNotes" },
@@ -61,6 +62,13 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   CountryCode: { t: "string", grp: "XMP" },
   CreateDate: { t: "ExifDateTime | ExifDate | string | number", grp: "EXIF" },
   CreationTime: { t: "ExifDateTime | string", grp: "XMP" },
+  CropAngle: { t: "number", grp: "XMP" },
+  CropBottom: { t: "number", grp: "XMP" },
+  CropHeight: { t: "number", grp: "XMP" },
+  CropLeft: { t: "number", grp: "XMP" },
+  CropRight: { t: "number", grp: "XMP" },
+  CropTop: { t: "number", grp: "XMP" },
+  CropWidth: { t: "number", grp: "XMP" },
   DateCreated: { t: "ExifDateTime | string", grp: "XMP" },
   DateTime: { t: "ExifDateTime | string", grp: "XMP" },
   DateTimeCreated: { t: "ExifDateTime | string", grp: "IPTC" },
@@ -87,6 +95,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   FocalLength: { t: "string", grp: "EXIF" },
   GPSAltitude: { t: "number", grp: "EXIF" },
   GPSDateTime: { t: "ExifDateTime | string", grp: "Composite" },
+  // We normally ask exiftool to render these as decimals, not DMS (degrees/minutes/seconds):
   GPSLatitude: {
     t: "number | string",
     grp: "EXIF",
@@ -102,7 +111,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   ImageDescription: { t: "string", grp: "EXIF" },
   ImageHeight: { t: "number", grp: "File" },
   ImageNumber: { t: "number", grp: "XMP" },
-  ImageSize: { t: "string", grp: "Composite" },
+  ImageSize: { t: "number | string", grp: "Composite" },
   ImageWidth: { t: "number", grp: "File" },
   InternalSerialNumber: { t: "string", grp: "MakerNotes" },
   ISO: { t: "number", grp: "EXIF" },
@@ -166,7 +175,24 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   XPTitle: { t: "string", grp: "EXIF" },
 };
 
-// ☠☠ NO REALLY THIS IS BAD CODE PLEASE STOP SCROLLING ☠☠
+// ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
+// ☠☠                          AVAST YE!                           ☠☠
+// ☠☠                                                              ☠☠
+// ☠☠    BEYOND THIS POINT, THERE BE NAUGHT BUT TANGLED RIGGING    ☠☠
+// ☠☠        AND CODE THAT'D MAKE A KRAKEN WEEP. TURN BACK,        ☠☠
+// ☠☠              LEST YE FIND YERSELF IN DAVY JONES'             ☠☠
+// ☠☠            LOCKER, WITH NAUGHT BUT BUGS FER COMPANY.         ☠☠
+// ☠☠                                                              ☠☠
+// ☠☠         YE'VE BEEN WARNED, YE BRAVE AND FOOLISH SOUL.        ☠☠
+// ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
+
+//
+
+// no srsly, this code is _really_ bad, but I wanted a Tags interface, more
+// than I felt shame in writing this, so it's here. I'm sorry. Everything
+// _else_ has tests, honest.
+
+//
 
 const js_docs = {
   CompositeTags: [
@@ -232,7 +258,9 @@ const ExcludedTagRe = new RegExp(
     "PiP",
     "Planck",
     "PF\\d",
-    "R2[A-Z]",
+    "ProfileLook",
+    "R2[A-Z]", // noooo artooo
+    "RecallShoot",
     "STB\\d",
     "Tag[\\d_]+",
     "TL84",
