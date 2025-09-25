@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v31.0.0
+
+- 💔 Rebuilt `Tags.ts` with new exiftool v13.37 and additional newer exemplar test images. Several prior fields (that hopefully no one is using) were dropped, and new fields were added (see the git diff of Tags.ts from the prior release for details)
+  
+- 🌱 Upgraded ExifTool to version [13.37](https://exiftool.org/history.html#13.37).
+
 ### v30.5.0
 
 - 🌱 Upgraded ExifTool to version [13.35](https://exiftool.org/history.html#13.35).
