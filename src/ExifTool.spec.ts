@@ -163,7 +163,7 @@ describe("ExifTool", function () {
           }
 
           it("parses expected binary fields from " + img2, async () => {
-            // Validate with `exiftool -j -struct test/ExifTool.jpg | grep Binary | sort`
+            // Validate with `node_modules/exiftool-vendored.pl/bin/exiftool -j -struct test/ExifTool.jpg | grep "Binary data" | sed 's/\(.*\): "(Binary data \([0-9]\+\) bytes,.*"/\1: \2/' |sort`
             expect(await readBinaryFieldSizes(img2)).to.eql({
               BlueTRC: 14,
               FreeBytes: 12,
@@ -179,8 +179,8 @@ describe("ExifTool", function () {
           });
 
           it("parses expected binary fields from " + img3, async () => {
-            // Validate with `exiftool -j -struct test/ExifTool.jpg | grep Binary | sort`
-            expect(await readBinaryFieldSizes(img3)).to.eql({
+            // Validate with `node_modules/exiftool-vendored.pl/bin/exiftool -j -struct test/with_thumb.jpg | grep "Binary data" | sed 's/\(.*\): "(Binary data \([0-9]\+\) bytes,.*"/\1: \2/' |sort`
+            expect(await readBinaryFieldSizes(img3)).to.containSubset({
               BlueTRC: 32,
               GreenTRC: 32,
               RedTRC: 32,
@@ -188,8 +188,19 @@ describe("ExifTool", function () {
             });
           });
 
-          it("extracts OriginalImage{Width,Height} if [] is provided to override the -fast option", async () => {
+          it("extracts OriginalImage{Width,Height} if deprecated [] is provided to override the -fast option", async () => {
             return expect(await et.read(img2, [])).to.containSubset({
+              Keywords: "jambalaya",
+              ImageHeight: 8,
+              ImageWidth: 8,
+              OriginalImageHeight: 16,
+              OriginalImageWidth: 16,
+            });
+          });
+          it("extracts OriginalImage{Width,Height} if [] is provided to override the -fast option", async () => {
+            return expect(
+              await et.read(img2, { readArgs: [] }),
+            ).to.containSubset({
               Keywords: "jambalaya",
               ImageHeight: 8,
               ImageWidth: 8,
