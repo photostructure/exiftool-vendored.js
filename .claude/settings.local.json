@@ -5,7 +5,8 @@
       "Bash(npm view:*)",
       "WebSearch",
       "WebFetch(domain:typescript-eslint.io)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(npm install)"
     ],
     "deny": [],
     "ask": []
