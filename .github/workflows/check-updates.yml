@@ -31,8 +31,9 @@ jobs:
           # Capture current package.json content
           cp package.json package.json.backup
 
-          # Run npm-check-updates to update all dependencies
-          npx ncu -u
+          # Run npm-check-updates to update dependencies (using package.json
+          # scripts which have custom npm-check-updates options)
+          npm run update
 
           # Check if package.json was modified
           if ! diff -q package.json package.json.backup > /dev/null; then
