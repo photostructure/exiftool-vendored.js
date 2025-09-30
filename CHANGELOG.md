@@ -28,6 +28,9 @@ vendored versions of ExifTool match the version that they vendor.
 ### v31.1.0
 
 - 🌱 Upgraded ExifTool to version [13.38](https://exiftool.org/history.html#13.38).
+- ✨ Rebuilt `Tags.ts`: fields that live in multiple groups **are now included in every group**. Prior versions would pick the first-seen group for these fields, and that was nondeterministic between versions.
+- 📦 `TagMetadata.json` keys are sorted to minimize later per-version diffs
+- 📦 (did you know that `File:Comment` was writable? TIL!)
 
 ### v31.0.0
 
