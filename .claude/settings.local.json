@@ -4,7 +4,8 @@
       "Bash(gh run view:*)",
       "Bash(npm view:*)",
       "WebSearch",
-      "WebFetch(domain:typescript-eslint.io)"
+      "WebFetch(domain:typescript-eslint.io)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []
