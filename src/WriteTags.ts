@@ -23,16 +23,24 @@ export type AdditionalWriteTags = {
 };
 
 /**
- * Tags, minus the ExifToolTags, FileTags, and ErrorsAndWarnings, all of which
- * aren't writable.
+ * Tags, minus the ExifToolTags, (most) FileTags, and ErrorsAndWarnings, all of
+ * which aren't writable.
  *
- * Note that this contains (many!) additional non-mutable fields--please check
- * the ExifTool documentation to see which fields from which groups are
+ * Tags that appear in FileTags AND other writable groups (like `Comment`, which
+ * is in both FileTags and XMPTags) are kept writable via the Exclude in the
+ * Omit. Plainly, we're excluding everything in `ExifToolTags`, `FileTags`, and
+ * `ErrorsAndWarnings` _except_ for `Comment`.
+ *
+ * **CAREFUL**: this contains (many!) additional non-mutable fields--please
+ * check the ExifTool documentation to see which fields from which groups are
  * writable for your given file type.
  */
 export type MutableTags = Omit<
   Tags,
-  keyof (ExifToolTags & FileTags & ErrorsAndWarnings)
+  Exclude<
+    keyof ExifToolTags | keyof FileTags | keyof ErrorsAndWarnings,
+    "Comment"
+  >
 >;
 
 // exiftool expects numeric tags to be numbers, but everything else is a string:

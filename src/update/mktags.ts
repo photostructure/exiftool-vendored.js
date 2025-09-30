@@ -484,21 +484,12 @@ class Tag {
 
   toJSON() {
     return {
-      group: this.group,
+      groups: this.groups,
       base: this.base,
       important: this.important,
       valueTypes: this.valueTypes,
       values: [...new Set(this.values)].slice(0, 3),
     };
-  }
-
-  get group(): string {
-    // Return the first group from the set, or fallback to parsing the tag
-    return (
-      [...this.groups][0] ??
-      map(this.tag.split(":")[0], normalizeGroup) ??
-      this.tag
-    );
   }
 
   get base(): string {
@@ -780,7 +771,10 @@ class TagMap {
     // )
     this.groupedTags.clear();
     this.tags.forEach((tag) => {
-      getOrSet(this.groupedTags, tag.group, () => []).push(tag);
+      // Add tag to ALL groups it belongs to, not just one
+      for (const group of tag.groups) {
+        getOrSet(this.groupedTags, group, () => []).push(tag);
+      }
     });
   }
 }

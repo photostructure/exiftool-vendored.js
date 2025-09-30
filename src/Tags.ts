@@ -38,7 +38,7 @@ export interface ExifToolTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups ExifTool
-   * @example 13.37
+   * @example 13.38
    */
   ExifToolVersion?: string;
   /**
@@ -70,6 +70,12 @@ export type ExifToolTag = StrEnumKeys<typeof ExifToolTagsNames>;
  */
 export interface FileTags {
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File, MakerNotes, QuickTime
+   * @example 8
+   */
+  BitDepth?: number;
+  /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, File, RAF, RIFF, XMP
    * @example 8
@@ -87,6 +93,18 @@ export interface FileTags {
    * @example 3
    */
   ColorComponents?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups File, XMP
+   * @example "This is a comment."
+   */
+  Comment?: string;
+  /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups APP, EXIF, File, MakerNotes, XMP
+   * @example "Unknown (1536)"
+   */
+  Compression?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups File
@@ -114,7 +132,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:09:25 21:29:37Z"
+   * @example "2025:09:30 18:49:48Z"
    */
   FileAccessDate?: ExifDateTime | string;
   /**
@@ -126,7 +144,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:09:25 21:28:38Z"
+   * @example "2025:09:27 03:22:18Z"
    */
   FileInodeChangeDate?: ExifDateTime | string;
   /**
@@ -226,6 +244,12 @@ export interface FileTags {
    */
   Planes?: number;
   /**
+   * @frequency 🔥 ★★★☆ (33%)
+   * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   */
+  PreviewImage?: BinaryField;
+  /**
    * @frequency 🔥 ★★★★ (99%)
    * @groups EXIF, File
    * @example "YCbCr4:4:4 (1 1)"
@@ -234,9 +258,12 @@ export interface FileTags {
 }
 
 export const FileTagsNames = strEnum(
+  "BitDepth",
   "BitsPerSample",
   "BMPVersion",
   "ColorComponents",
+  "Comment",
+  "Compression",
   "CurrentIPTCDigest",
   "Directory",
   "EncodingProcess",
@@ -260,1033 +287,11 @@ export const FileTagsNames = strEnum(
   "PixelsPerMeterX",
   "PixelsPerMeterY",
   "Planes",
+  "PreviewImage",
   "YCbCrSubSampling",
 ) satisfies StrEnum<keyof FileTags>;
 
 export type FileTag = StrEnumKeys<typeof FileTagsNames>;
-
-export interface APPTags {
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "59 128 128"
-   */
-  AboveColor?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 388
-   */
-  Again?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "5.0 C"
-   */
-  AtmosphericTemperature?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP, MakerNotes
-   * @example 800
-   */
-  AutoISOMax?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 3200
-   */
-  AutoISOMin?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "Up"
-   */
-  AutoRotation?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 3383
-   */
-  B5100?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "60 128 128"
-   */
-  BelowColor?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 2438
-   */
-  Bgain?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 255
-   */
-  BHighLight?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 216
-   */
-  BHL?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 33
-   */
-  Blk0?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 32
-   */
-  Blk1?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 86
-   */
-  BMean?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 6
-   */
-  Boff?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1
-   */
-  BSd?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 3
-   */
-  BSD?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1908
-   */
-  BStrobe?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP, MakerNotes
-   * @example "Z-CAMERA"
-   */
-  CameraModel?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "_______________"
-   */
-  CameraPartNumber?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups APP, EXIF, XMP
-   * @example 91702442
-   */
-  CameraSerialNumber?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "https://PhotoStructure.com/"
-   */
-  CameraSoftware?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 2
-   */
-  Case?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 2
-   */
-  CBal?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1
-   */
-  Color?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 42926626
-   */
-  COLOR1?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 32321478
-   */
-  COLOR2?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 22701368
-   */
-  COLOR3?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 5
-   */
-  COLOR4?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "YCbCr"
-   */
-  ColorTransform?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP, MakerNotes
-   * @example 45
-   */
-  Compass?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 0
-   */
-  ContTake?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "https://PhotoStructure.com/"
-   */
-  CreatorSoftware?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "2013:03:12 16:31:26"
-   */
-  DateTimeGenerated?: ExifDateTime | string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 100
-   */
-  DCTEncodeVersion?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "Photo Global Settings"
-   */
-  DeviceName?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 148.34216
-   */
-  DiagonalFieldOfView?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP, MakerNotes
-   * @example "Yes"
-   */
-  DigitalZoomOn?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "(Binary data 1011393 bytes, use -b option to extract)"
-   */
-  EmbeddedImage?: BinaryField | string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 960
-   */
-  EmbeddedImageHeight?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "PNG"
-   */
-  EmbeddedImageType?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 640
-   */
-  EmbeddedImageWidth?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP, MakerNotes
-   * @example 1
-   */
-  Emissivity?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 8501
-   */
-  EXP1?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 59
-   */
-  EXP2?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 237
-   */
-  EXP3?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 0.97
-   */
-  ExposRatio?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "AUTO"
-   */
-  ExposureType?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "46.1 deg"
-   */
-  FieldOfView?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "NOF"
-   */
-  FilterModel?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example ""
-   */
-  FilterPartNumber?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "00000000"
-   */
-  FilterSerialNumber?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1
-   */
-  FinalRatio?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 640
-   */
-  FlashTime?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 192
-   */
-  FMean?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "F2.8"
-   */
-  Fnumber?: string;
-  /**
-   * @frequency 🔥 ★☆☆☆ (5%)
-   * @groups APP, Composite, MakerNotes, XMP
-   * @example "inf"
-   */
-  FocusDistance?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 136
-   */
-  FocusPos?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (3%)
-   * @groups APP, MakerNotes, PanasonicRaw
-   * @example 98
-   */
-  FocusStepCount?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups APP, MakerNotes, RIFF
-   * @example 9
-   */
-  FrameRate?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 2152
-   */
-  GBgain?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 8
-   */
-  GBoff?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 255
-   */
-  GHighLight?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 255
-   */
-  GHL?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 52
-   */
-  GMean?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP, EXIF
-   * @example 88.01
-   */
-  GPSTrack?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP, EXIF
-   * @example "True North"
-   */
-  GPSTrackRef?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example true
-   */
-  GPSValid?: boolean;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 2152
-   */
-  GRgain?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 8
-   */
-  GRoff?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1
-   */
-  GSd?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 4
-   */
-  GSD?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "(Binary data 1417 bytes, use -b option to extract)"
-   */
-  HDRGainCurve?: BinaryField | string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 755
-   */
-  HDRGainCurveSize?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "PDR-M60"
-   */
-  ID?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "7.4 C"
-   */
-  IRWindowTemperature?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 1
-   */
-  IRWindowTransmission?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "99 128 128"
-   */
-  Isotherm1Color?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "92 115 209"
-   */
-  Isotherm2Color?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 696880
-   */
-  JPEG1?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "T199104"
-   */
-  LensPartNumber?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "GPRO"
-   */
-  LensProjection?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 0
-   */
-  LightS?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example " 10.6"
-   */
-  Mean?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1
-   */
-  Meas1Label?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "80 60"
-   */
-  Meas1Params?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "Spot"
-   */
-  Meas1Type?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "Sp1"
-   */
-  Meas2Label?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "213 160 213 160"
-   */
-  Meas2Params?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "Spot"
-   */
-  Meas2Type?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000"
-   */
-  MediaUniqueID?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "7.6.4"
-   */
-  MetadataVersion?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 26
-   */
-  MotorPos?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 4
-   */
-  Offset?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "+98"
-   */
-  OffsetX?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "+51"
-   */
-  OffsetY?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "67 216 98"
-   */
-  OverflowColor?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "(Binary data 672 bytes, use -b option to extract)"
-   */
-  Palette?: BinaryField | string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 224
-   */
-  PaletteColors?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "iron.pal"
-   */
-  PaletteFileName?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 0
-   */
-  PaletteMethod?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "iron"
-   */
-  PaletteName?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 3
-   */
-  PaletteStretch?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example ".basicImgData.objectParams.emissivity"
-   */
-  Param0?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "12MP_W"
-   */
-  PhotoResolution?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 87648
-   */
-  PicLen?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 0
-   */
-  Protect?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "On"
-   */
-  Protune?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 6929
-   */
-  R5100?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "4_1SEC"
-   */
-  Rate?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "(Binary data 614604 bytes, use -b option to extract)"
-   */
-  RawThermalImage?: BinaryField | string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 90
-   */
-  RawThermalImageHeight?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "TIFF"
-   */
-  RawThermalImageType?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 80
-   */
-  RawThermalImageWidth?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 9392
-   */
-  RawValueMedian?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 993
-   */
-  RawValueRange?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 65535
-   */
-  RawValueRangeMax?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example 8628
-   */
-  RawValueRangeMin?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 2.2125397
-   */
-  Real2IR?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "26.7 C"
-   */
-  ReflectedApparentTemperature?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "80.0 %"
-   */
-  RelativeHumidity?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (3%)
-   * @groups APP, MakerNotes
-   * @example 6
-   */
-  Resolution?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "DCPT"
-   */
-  REV?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1887
-   */
-  Rgain?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 255
-   */
-  RHighLight?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 247
-   */
-  RHL?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 32
-   */
-  RMean?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 9
-   */
-  Roff?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 1
-   */
-  RSd?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 4
-   */
-  RSD?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 5896
-   */
-  RStrobe?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7"
-   */
-  S0?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "No"
-   */
-  SpotMeter?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 0
-   */
-  StrobeTime?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "bd1,1,5,2beec,b5,ec15"
-   */
-  T0?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 357
-   */
-  TagB?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 92
-   */
-  TagQ?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 243
-   */
-  TagR?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example "v"
-   */
-  TagS?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 4016
-   */
-  ThmLen?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (1%)
-   * @groups APP
-   * @example "41 110 240"
-   */
-  UnderflowColor?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 4054
-   */
-  YLevel?: number;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 2209
-   */
-  YTarget?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example
-   */
-  Zoom?: string;
-  /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups APP
-   * @example 9
-   */
-  ZoomPos?: number;
-}
-
-export const APPTagsNames = strEnum(
-  "AboveColor",
-  "Again",
-  "AtmosphericTemperature",
-  "AutoISOMax",
-  "AutoISOMin",
-  "AutoRotation",
-  "B5100",
-  "BelowColor",
-  "Bgain",
-  "BHighLight",
-  "BHL",
-  "Blk0",
-  "Blk1",
-  "BMean",
-  "Boff",
-  "BSd",
-  "BSD",
-  "BStrobe",
-  "CameraModel",
-  "CameraPartNumber",
-  "CameraSerialNumber",
-  "CameraSoftware",
-  "Case",
-  "CBal",
-  "Color",
-  "COLOR1",
-  "COLOR2",
-  "COLOR3",
-  "COLOR4",
-  "ColorTransform",
-  "Compass",
-  "ContTake",
-  "CreatorSoftware",
-  "DateTimeGenerated",
-  "DCTEncodeVersion",
-  "DeviceName",
-  "DiagonalFieldOfView",
-  "DigitalZoomOn",
-  "EmbeddedImage",
-  "EmbeddedImageHeight",
-  "EmbeddedImageType",
-  "EmbeddedImageWidth",
-  "Emissivity",
-  "EXP1",
-  "EXP2",
-  "EXP3",
-  "ExposRatio",
-  "ExposureType",
-  "FieldOfView",
-  "FilterModel",
-  "FilterPartNumber",
-  "FilterSerialNumber",
-  "FinalRatio",
-  "FlashTime",
-  "FMean",
-  "Fnumber",
-  "FocusDistance",
-  "FocusPos",
-  "FocusStepCount",
-  "FrameRate",
-  "GBgain",
-  "GBoff",
-  "GHighLight",
-  "GHL",
-  "GMean",
-  "GPSTrack",
-  "GPSTrackRef",
-  "GPSValid",
-  "GRgain",
-  "GRoff",
-  "GSd",
-  "GSD",
-  "HDRGainCurve",
-  "HDRGainCurveSize",
-  "ID",
-  "IRWindowTemperature",
-  "IRWindowTransmission",
-  "Isotherm1Color",
-  "Isotherm2Color",
-  "JPEG1",
-  "LensPartNumber",
-  "LensProjection",
-  "LightS",
-  "Mean",
-  "Meas1Label",
-  "Meas1Params",
-  "Meas1Type",
-  "Meas2Label",
-  "Meas2Params",
-  "Meas2Type",
-  "MediaUniqueID",
-  "MetadataVersion",
-  "MotorPos",
-  "Offset",
-  "OffsetX",
-  "OffsetY",
-  "OverflowColor",
-  "Palette",
-  "PaletteColors",
-  "PaletteFileName",
-  "PaletteMethod",
-  "PaletteName",
-  "PaletteStretch",
-  "Param0",
-  "PhotoResolution",
-  "PicLen",
-  "Protect",
-  "Protune",
-  "R5100",
-  "Rate",
-  "RawThermalImage",
-  "RawThermalImageHeight",
-  "RawThermalImageType",
-  "RawThermalImageWidth",
-  "RawValueMedian",
-  "RawValueRange",
-  "RawValueRangeMax",
-  "RawValueRangeMin",
-  "Real2IR",
-  "ReflectedApparentTemperature",
-  "RelativeHumidity",
-  "Resolution",
-  "REV",
-  "Rgain",
-  "RHighLight",
-  "RHL",
-  "RMean",
-  "Roff",
-  "RSd",
-  "RSD",
-  "RStrobe",
-  "S0",
-  "SpotMeter",
-  "StrobeTime",
-  "T0",
-  "TagB",
-  "TagQ",
-  "TagR",
-  "TagS",
-  "ThmLen",
-  "UnderflowColor",
-  "YLevel",
-  "YTarget",
-  "Zoom",
-  "ZoomPos",
-) satisfies StrEnum<keyof APPTags>;
-
-export type APPTag = StrEnumKeys<typeof APPTagsNames>;
 
 /**
  * These are tags are derived from the values of one or more other tags.
@@ -1349,11 +354,35 @@ export interface CompositeTags {
    */
   ContrastDetectAF?: string;
   /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups Composite, IPTC, XMP
+   * @example "2025:06:11"
+   */
+  DateCreated?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite, IPTC
+   * @example "2025:06:11 11:07:41-08:00"
+   */
+  DateTimeCreated?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  DateTimeOriginal?: ExifDateTime | string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Composite
    * @example "2025:02:19 17:21:26+00:00"
    */
   DigitalCreationDateTime?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ★★★☆ (25%)
+   * @groups APP, Composite, MakerNotes
+   * @example "undef.0"
+   */
+  DigitalZoom?: string;
   /**
    * @frequency 🔥 ★★☆☆ (15%)
    * @groups Composite
@@ -1367,11 +396,23 @@ export interface CompositeTags {
    */
   DriveMode?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, MakerNotes, QuickTime, XMP
+   * @example 9.5095
+   */
+  Duration?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups Composite, MakerNotes
    * @example "Not attached"
    */
   ExtenderStatus?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups Composite, MakerNotes
+   * @example "986-8698"
+   */
+  FileNumber?: string;
   /**
    * @frequency 🔥 ★☆☆☆ (6%)
    * @groups Composite, MakerNotes
@@ -1379,17 +420,71 @@ export interface CompositeTags {
    */
   FlashType?: string;
   /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups APP, Composite, MakerNotes, XMP
+   * @example "inf"
+   */
+  FocusDistance?: string;
+  /**
    * @frequency 🔥 ★★★★ (54%)
    * @groups Composite
    * @example "97.7 deg"
    */
   FOV?: string;
   /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 99.8
+   */
+  GPSAltitude?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups Composite, EXIF, XMP
+   * @example "Unknown (Sea level reference)"
+   */
+  GPSAltitudeRef?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups Composite, XMP
    * @example "2025:06:24 22:24:43Z"
    */
   GPSDateTime?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, EXIF
+   * @example "43 deg 37' 59.61" N"
+   */
+  GPSDestLatitude?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, EXIF
+   * @example "80 deg 23' 16.31" W"
+   */
+  GPSDestLongitude?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 48.857748
+   */
+  GPSLatitude?: number | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups APP, Composite, EXIF
+   * @example "Unknown ()"
+   */
+  GPSLatitudeRef?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 2.2918888
+   */
+  GPSLongitude?: number | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example "West"
+   */
+  GPSLongitudeRef?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups Composite
@@ -1403,11 +498,29 @@ export interface CompositeTags {
    */
   HyperfocalDistance?: string;
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
+  ImageHeight?: number;
+  /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite
    * @example "9728x6656"
    */
   ImageSize?: number | string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 9728
+   */
+  ImageWidth?: number;
+  /**
+   * @frequency 🔥 ★★★★ (91%)
+   * @groups Composite, EXIF, MakerNotes, XMP
+   * @example 993
+   */
+  ISO?: number;
   /**
    * @frequency 🔥 ★★☆☆ (16%)
    * @groups Composite, MakerNotes, XMP
@@ -1426,6 +539,18 @@ export interface CompositeTags {
    * @example "smc PENTAX-FA 43mm F1.9 Limited"
    */
   LensID?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups Composite, MakerNotes
+   * @example "Unknown (00 0 0 0 0 00)"
+   */
+  LensSpec?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (19%)
+   * @groups Composite, MakerNotes
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  LensType?: string;
   /**
    * @frequency 🔥 ★★★★ (68%)
    * @groups Composite
@@ -1552,19 +677,39 @@ export const CompositeTagsNames = strEnum(
   "CircleOfConfusion",
   "ConditionalFEC",
   "ContrastDetectAF",
+  "DateCreated",
+  "DateTimeCreated",
+  "DateTimeOriginal",
   "DigitalCreationDateTime",
+  "DigitalZoom",
   "DOF",
   "DriveMode",
+  "Duration",
   "ExtenderStatus",
+  "FileNumber",
   "FlashType",
+  "FocusDistance",
   "FOV",
+  "GPSAltitude",
+  "GPSAltitudeRef",
   "GPSDateTime",
+  "GPSDestLatitude",
+  "GPSDestLongitude",
+  "GPSLatitude",
+  "GPSLatitudeRef",
+  "GPSLongitude",
+  "GPSLongitudeRef",
   "GPSPosition",
   "HyperfocalDistance",
+  "ImageHeight",
   "ImageSize",
+  "ImageWidth",
+  "ISO",
   "Lens",
   "Lens35efl",
   "LensID",
+  "LensSpec",
+  "LensType",
   "LightValue",
   "Megapixels",
   "OriginalDecisionData",
@@ -1587,6 +732,1359 @@ export const CompositeTagsNames = strEnum(
 ) satisfies StrEnum<keyof CompositeTags>;
 
 export type CompositeTag = StrEnumKeys<typeof CompositeTagsNames>;
+
+export interface APPTags {
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "59 128 128"
+   */
+  AboveColor?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 388
+   */
+  Again?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, MakerNotes
+   * @example "40 C"
+   */
+  AmbientTemperature?: string;
+  /**
+   * @frequency 🔥 ★★★★ (85%)
+   * @groups APP, Composite, MakerNotes
+   * @example 90
+   */
+  Aperture?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "5.0 C"
+   */
+  AtmosphericTemperature?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 800
+   */
+  AutoISOMax?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 3200
+   */
+  AutoISOMin?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Up"
+   */
+  AutoRotation?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 3383
+   */
+  B5100?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, QuickTime
+   * @example 0
+   */
+  Balance?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example "R0000148"
+   */
+  Barcode?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "60 128 128"
+   */
+  BelowColor?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2438
+   */
+  Bgain?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
+  BHighLight?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 216
+   */
+  BHL?: number;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, File, RAF, RIFF, XMP
+   * @example 8
+   */
+  BitsPerSample?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 33
+   */
+  Blk0?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 32
+   */
+  Blk1?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 86
+   */
+  BMean?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 6
+   */
+  Boff?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
+  BSd?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 3
+   */
+  BSD?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1908
+   */
+  BStrobe?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes
+   * @example "Z-CAMERA"
+   */
+  CameraModel?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "_______________"
+   */
+  CameraPartNumber?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, XMP
+   * @example 91702442
+   */
+  CameraSerialNumber?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "https://PhotoStructure.com/"
+   */
+  CameraSoftware?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups APP, MakerNotes
+   * @example "uD800,S800"
+   */
+  CameraType?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2
+   */
+  Case?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, IPTC, MakerNotes
+   * @example "Other"
+   */
+  Category?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2
+   */
+  CBal?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
+  Color?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 42926626
+   */
+  COLOR1?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 32321478
+   */
+  COLOR2?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 22701368
+   */
+  COLOR3?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 5
+   */
+  COLOR4?: number;
+  /**
+   * @frequency 🔥 ★★★★ (98%)
+   * @groups APP, File
+   * @example 3
+   */
+  ColorComponents?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups APP, MakerNotes, XMP
+   * @example "n/a"
+   */
+  ColorMode?: string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "sRGB"
+   */
+  ColorSpace?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "YCbCr"
+   */
+  ColorTransform?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 45
+   */
+  Compass?: string;
+  /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups APP, EXIF, File, MakerNotes, XMP
+   * @example "Unknown (1536)"
+   */
+  Compression?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
+  ContTake?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "https://PhotoStructure.com/"
+   */
+  CreatorSoftware?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "2013:03:12 16:31:26"
+   */
+  DateTimeGenerated?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  DateTimeOriginal?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 100
+   */
+  DCTEncodeVersion?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Photo Global Settings"
+   */
+  DeviceName?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 148.34216
+   */
+  DiagonalFieldOfView?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (25%)
+   * @groups APP, Composite, MakerNotes
+   * @example "undef.0"
+   */
+  DigitalZoom?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example "Yes"
+   */
+  DigitalZoomOn?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "(Binary data 275008 bytes, use -b option to extract)"
+   */
+  EmbeddedImage?: BinaryField | string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 960
+   */
+  EmbeddedImageHeight?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "PNG"
+   */
+  EmbeddedImageType?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 640
+   */
+  EmbeddedImageWidth?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes
+   * @example 1
+   */
+  Emissivity?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 8501
+   */
+  EXP1?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 59
+   */
+  EXP2?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 237
+   */
+  EXP3?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0.97
+   */
+  ExposRatio?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP, XMP
+   * @example 3687
+   */
+  Exposure?: number;
+  /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 1
+   */
+  ExposureCompensation?: number;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "inf"
+   */
+  ExposureTime?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "AUTO"
+   */
+  ExposureType?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "46.1 deg"
+   */
+  FieldOfView?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "NOF"
+   */
+  FilterModel?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example ""
+   */
+  FilterPartNumber?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "00000000"
+   */
+  FilterSerialNumber?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
+  FinalRatio?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 640
+   */
+  FlashTime?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 192
+   */
+  FMean?: number;
+  /**
+   * @frequency 🔥 ★★★★ (98%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 90
+   */
+  FNumber?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "F2.8"
+   */
+  Fnumber?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups APP, Composite, MakerNotes, XMP
+   * @example "inf"
+   */
+  FocusDistance?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups APP, MakerNotes
+   * @example "Unknown (860272)"
+   */
+  FocusMode?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 136
+   */
+  FocusPos?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups APP, MakerNotes, PanasonicRaw
+   * @example 98
+   */
+  FocusStepCount?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes, RIFF
+   * @example 9
+   */
+  FrameRate?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, QuickTime
+   * @example 3.0585938
+   */
+  Gamma?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2152
+   */
+  GBgain?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 8
+   */
+  GBoff?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
+  GHighLight?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
+  GHL?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 52
+   */
+  GMean?: number;
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 99.8
+   */
+  GPSAltitude?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example 94.800416
+   */
+  GPSImgDirection?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example "Unknown ()"
+   */
+  GPSImgDirectionRef?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 48.857748
+   */
+  GPSLatitude?: number | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups APP, Composite, EXIF
+   * @example "Unknown ()"
+   */
+  GPSLatitudeRef?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 2.2918888
+   */
+  GPSLongitude?: number | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example "West"
+   */
+  GPSLongitudeRef?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example "WGS84"
+   */
+  GPSMapDatum?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, EXIF
+   * @example 88.01
+   */
+  GPSTrack?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, EXIF
+   * @example "True North"
+   */
+  GPSTrackRef?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example true
+   */
+  GPSValid?: boolean;
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups APP, EXIF, XMP
+   * @example "50.51.48.48"
+   */
+  GPSVersionID?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2152
+   */
+  GRgain?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 8
+   */
+  GRoff?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
+  GSd?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4
+   */
+  GSD?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "(Binary data 1458 bytes, use -b option to extract)"
+   */
+  HDRGainCurve?: BinaryField | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 755
+   */
+  HDRGainCurveSize?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, MakerNotes
+   * @example "On (Manual)"
+   */
+  HDRSetting?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "PDR-M60"
+   */
+  ID?: string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
+  ImageHeight?: number;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, Composite
+   * @example "9728x6656"
+   */
+  ImageSize?: number | string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 9728
+   */
+  ImageWidth?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "7.4 C"
+   */
+  IRWindowTemperature?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 1
+   */
+  IRWindowTransmission?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "99 128 128"
+   */
+  Isotherm1Color?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "92 115 209"
+   */
+  Isotherm2Color?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 696880
+   */
+  JPEG1?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  LensModel?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "T199104"
+   */
+  LensPartNumber?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "GPRO"
+   */
+  LensProjection?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "xB?"
+   */
+  LensSerialNumber?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
+  LightS?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups APP, MakerNotes
+   * @example "Unknown (3)"
+   */
+  Macro?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example " 10.6"
+   */
+  Mean?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
+  Meas1Label?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "80 60"
+   */
+  Meas1Params?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Spot"
+   */
+  Meas1Type?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Sp1"
+   */
+  Meas2Label?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "213 160 213 160"
+   */
+  Meas2Params?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "Spot"
+   */
+  Meas2Type?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "859830e2f50cb3397a6216f09553fce800000000000000000000000000000000"
+   */
+  MediaUniqueID?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "7.6.4"
+   */
+  MetadataVersion?: string;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "x530"
+   */
+  Model?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 26
+   */
+  MotorPos?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4
+   */
+  Offset?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "+98"
+   */
+  OffsetX?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "+51"
+   */
+  OffsetY?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "67 216 98"
+   */
+  OverflowColor?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "(Binary data 672 bytes, use -b option to extract)"
+   */
+  Palette?: BinaryField | string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 224
+   */
+  PaletteColors?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "iron.pal"
+   */
+  PaletteFileName?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 0
+   */
+  PaletteMethod?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "iron"
+   */
+  PaletteName?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 3
+   */
+  PaletteStretch?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example ".basicImgData.objectParams.emissivity"
+   */
+  Param0?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "12MP_W"
+   */
+  PhotoResolution?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 87648
+   */
+  PicLen?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups APP, FlashPix, MakerNotes
+   * @example 976
+   */
+  PreviewImageHeight?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups APP, FlashPix, MakerNotes
+   * @example 816
+   */
+  PreviewImageWidth?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 95
+   */
+  PreviewQuality?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
+  Protect?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "On"
+   */
+  Protune?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (37%)
+   * @groups APP, Ducky, MakerNotes, RIFF
+   * @example "n/a"
+   */
+  Quality?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 6929
+   */
+  R5100?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "4_1SEC"
+   */
+  Rate?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "(Binary data 614604 bytes, use -b option to extract)"
+   */
+  RawThermalImage?: BinaryField | string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 90
+   */
+  RawThermalImageHeight?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "TIFF"
+   */
+  RawThermalImageType?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 80
+   */
+  RawThermalImageWidth?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 9392
+   */
+  RawValueMedian?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 993
+   */
+  RawValueRange?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 65535
+   */
+  RawValueRangeMax?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example 8628
+   */
+  RawValueRangeMin?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2.2125397
+   */
+  Real2IR?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "26.7 C"
+   */
+  ReflectedApparentTemperature?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "80.0 %"
+   */
+  RelativeHumidity?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups APP, MakerNotes
+   * @example 6
+   */
+  Resolution?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, XMP
+   * @example "inches"
+   */
+  ResolutionUnit?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "DCPT"
+   */
+  REV?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1887
+   */
+  Rgain?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 255
+   */
+  RHighLight?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 247
+   */
+  RHL?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 32
+   */
+  RMean?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 9
+   */
+  Roff?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 1
+   */
+  RSd?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4
+   */
+  RSD?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 5896
+   */
+  RStrobe?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "8259,0,14bfe,a184,11987,1e4f1,0,7c0000,40b60000,56a05e6,6…0038,d7"
+   */
+  S0?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups APP, EXIF, MakerNotes, Meta, XMP
+   * @example "sw02028104 "
+   */
+  SerialNumber?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "No"
+   */
+  SpotMeter?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 0
+   */
+  StrobeTime?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "bd1,1,5,2beec,b5,ec15"
+   */
+  T0?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 357
+   */
+  TagB?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 92
+   */
+  TagQ?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 243
+   */
+  TagR?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example "v"
+   */
+  TagS?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4016
+   */
+  ThmLen?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP
+   * @example "41 110 240"
+   */
+  UnderflowColor?: string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "White Preset"
+   */
+  WhiteBalance?: string;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  XResolution?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 4054
+   */
+  YLevel?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  YResolution?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 2209
+   */
+  YTarget?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example
+   */
+  Zoom?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP
+   * @example 9
+   */
+  ZoomPos?: number;
+}
+
+export const APPTagsNames = strEnum(
+  "AboveColor",
+  "Again",
+  "AmbientTemperature",
+  "Aperture",
+  "AtmosphericTemperature",
+  "AutoISOMax",
+  "AutoISOMin",
+  "AutoRotation",
+  "B5100",
+  "Balance",
+  "Barcode",
+  "BelowColor",
+  "Bgain",
+  "BHighLight",
+  "BHL",
+  "BitsPerSample",
+  "Blk0",
+  "Blk1",
+  "BMean",
+  "Boff",
+  "BSd",
+  "BSD",
+  "BStrobe",
+  "CameraModel",
+  "CameraPartNumber",
+  "CameraSerialNumber",
+  "CameraSoftware",
+  "CameraType",
+  "Case",
+  "Category",
+  "CBal",
+  "Color",
+  "COLOR1",
+  "COLOR2",
+  "COLOR3",
+  "COLOR4",
+  "ColorComponents",
+  "ColorMode",
+  "ColorSpace",
+  "ColorTransform",
+  "Compass",
+  "Compression",
+  "ContTake",
+  "CreatorSoftware",
+  "DateTimeGenerated",
+  "DateTimeOriginal",
+  "DCTEncodeVersion",
+  "DeviceName",
+  "DiagonalFieldOfView",
+  "DigitalZoom",
+  "DigitalZoomOn",
+  "EmbeddedImage",
+  "EmbeddedImageHeight",
+  "EmbeddedImageType",
+  "EmbeddedImageWidth",
+  "Emissivity",
+  "EXP1",
+  "EXP2",
+  "EXP3",
+  "ExposRatio",
+  "Exposure",
+  "ExposureCompensation",
+  "ExposureTime",
+  "ExposureType",
+  "FieldOfView",
+  "FilterModel",
+  "FilterPartNumber",
+  "FilterSerialNumber",
+  "FinalRatio",
+  "FlashTime",
+  "FMean",
+  "FNumber",
+  "Fnumber",
+  "FocusDistance",
+  "FocusMode",
+  "FocusPos",
+  "FocusStepCount",
+  "FrameRate",
+  "Gamma",
+  "GBgain",
+  "GBoff",
+  "GHighLight",
+  "GHL",
+  "GMean",
+  "GPSAltitude",
+  "GPSImgDirection",
+  "GPSImgDirectionRef",
+  "GPSLatitude",
+  "GPSLatitudeRef",
+  "GPSLongitude",
+  "GPSLongitudeRef",
+  "GPSMapDatum",
+  "GPSTrack",
+  "GPSTrackRef",
+  "GPSValid",
+  "GPSVersionID",
+  "GRgain",
+  "GRoff",
+  "GSd",
+  "GSD",
+  "HDRGainCurve",
+  "HDRGainCurveSize",
+  "HDRSetting",
+  "ID",
+  "ImageHeight",
+  "ImageSize",
+  "ImageWidth",
+  "IRWindowTemperature",
+  "IRWindowTransmission",
+  "Isotherm1Color",
+  "Isotherm2Color",
+  "JPEG1",
+  "LensModel",
+  "LensPartNumber",
+  "LensProjection",
+  "LensSerialNumber",
+  "LightS",
+  "Macro",
+  "Mean",
+  "Meas1Label",
+  "Meas1Params",
+  "Meas1Type",
+  "Meas2Label",
+  "Meas2Params",
+  "Meas2Type",
+  "MediaUniqueID",
+  "MetadataVersion",
+  "Model",
+  "MotorPos",
+  "Offset",
+  "OffsetX",
+  "OffsetY",
+  "OverflowColor",
+  "Palette",
+  "PaletteColors",
+  "PaletteFileName",
+  "PaletteMethod",
+  "PaletteName",
+  "PaletteStretch",
+  "Param0",
+  "PhotoResolution",
+  "PicLen",
+  "PreviewImageHeight",
+  "PreviewImageWidth",
+  "PreviewQuality",
+  "Protect",
+  "Protune",
+  "Quality",
+  "R5100",
+  "Rate",
+  "RawThermalImage",
+  "RawThermalImageHeight",
+  "RawThermalImageType",
+  "RawThermalImageWidth",
+  "RawValueMedian",
+  "RawValueRange",
+  "RawValueRangeMax",
+  "RawValueRangeMin",
+  "Real2IR",
+  "ReflectedApparentTemperature",
+  "RelativeHumidity",
+  "Resolution",
+  "ResolutionUnit",
+  "REV",
+  "Rgain",
+  "RHighLight",
+  "RHL",
+  "RMean",
+  "Roff",
+  "RSd",
+  "RSD",
+  "RStrobe",
+  "S0",
+  "SerialNumber",
+  "SpotMeter",
+  "StrobeTime",
+  "T0",
+  "TagB",
+  "TagQ",
+  "TagR",
+  "TagS",
+  "ThmLen",
+  "UnderflowColor",
+  "WhiteBalance",
+  "XResolution",
+  "YLevel",
+  "YResolution",
+  "YTarget",
+  "Zoom",
+  "ZoomPos",
+) satisfies StrEnum<keyof APPTags>;
+
+export type APPTag = StrEnumKeys<typeof APPTagsNames>;
+
+export interface DuckyTags {
+  /**
+   * @frequency 🔥 ★★★☆ (37%)
+   * @groups APP, Ducky, MakerNotes, RIFF
+   * @example "n/a"
+   */
+  Quality?: string;
+}
+
+export const DuckyTagsNames = strEnum("Quality") satisfies StrEnum<
+  keyof DuckyTags
+>;
+
+export type DuckyTag = StrEnumKeys<typeof DuckyTagsNames>;
 
 /**
  * @see https://exiftool.org/TagNames/FlashPix.html
@@ -1647,6 +2145,24 @@ export interface FlashPixTags {
    */
   ExtensionPersistence?: string;
   /**
+   * @frequency 🔥 ★★★☆ (33%)
+   * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   */
+  PreviewImage?: BinaryField;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups APP, FlashPix, MakerNotes
+   * @example 976
+   */
+  PreviewImageHeight?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups APP, FlashPix, MakerNotes
+   * @example 816
+   */
+  PreviewImageWidth?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups FlashPix
    * @example "(Binary data 57881 bytes, use -b option to extract)"
@@ -1670,6 +2186,9 @@ export const FlashPixTagsNames = strEnum(
   "ExtensionModifyDate",
   "ExtensionName",
   "ExtensionPersistence",
+  "PreviewImage",
+  "PreviewImageHeight",
+  "PreviewImageWidth",
   "ScreenNail",
   "UsedExtensionNumbers",
 ) satisfies StrEnum<keyof FlashPixTags>;
@@ -1708,6 +2227,12 @@ export interface JSONTags {
    */
   OpMode?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups JSON, MakerNotes
+   * @example "rear"
+   */
+  SensorType?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups JSON
    * @example 1
@@ -1721,95 +2246,11 @@ export const JSONTagsNames = strEnum(
   "Hdr",
   "Mirror",
   "OpMode",
+  "SensorType",
   "ZoomMultiple",
 ) satisfies StrEnum<keyof JSONTags>;
 
 export type JSONTag = StrEnumKeys<typeof JSONTagsNames>;
-
-export interface MPFTags {
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example 9697
-   */
-  DependentImage1EntryNumber?: number;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example 960
-   */
-  DependentImage2EntryNumber?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MPF
-   * @example "(Binary data 66 bytes, use -b option to extract)"
-   */
-  ImageUIDList?: BinaryField | string;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example "0100"
-   */
-  MPFVersion?: string;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example "Representative image, Dependent parent image"
-   */
-  MPImageFlags?: string;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example "Unknown (4)"
-   */
-  MPImageFormat?: string;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example 999325
-   */
-  MPImageLength?: number;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example 9999872
-   */
-  MPImageStart?: number;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example "Undefined"
-   */
-  MPImageType?: string;
-  /**
-   * @frequency 🔥 ★★☆☆ (13%)
-   * @groups MPF
-   * @example 3
-   */
-  NumberOfImages?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MPF
-   * @example 1
-   */
-  TotalFrames?: number;
-}
-
-export const MPFTagsNames = strEnum(
-  "DependentImage1EntryNumber",
-  "DependentImage2EntryNumber",
-  "ImageUIDList",
-  "MPFVersion",
-  "MPImageFlags",
-  "MPImageFormat",
-  "MPImageLength",
-  "MPImageStart",
-  "MPImageType",
-  "NumberOfImages",
-  "TotalFrames",
-) satisfies StrEnum<keyof MPFTags>;
-
-export type MPFTag = StrEnumKeys<typeof MPFTagsNames>;
 
 /**
  * @see https://exiftool.org/TagNames/EXIF.html
@@ -1827,6 +2268,12 @@ export interface EXIFTags {
    * @example "8 12 1968 2628"
    */
   ActiveArea?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, MakerNotes
+   * @example "40 C"
+   */
+  AmbientTemperature?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
@@ -1894,6 +2341,12 @@ export interface EXIFTags {
    */
   BestQualityScale?: number;
   /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, File, RAF, RIFF, XMP
+   * @example 8
+   */
+  BitsPerSample?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups EXIF, MakerNotes, RAF
    * @example "94 95 93 93"
@@ -1936,17 +2389,41 @@ export interface EXIFTags {
    */
   CameraElevationAngle?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, XMP
+   * @example 91702442
+   */
+  CameraSerialNumber?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
    * @example "Rectangular"
    */
   CFALayout?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups Composite, EXIF
+   * @example "[Red,Green][Green,Blue]"
+   */
+  CFAPattern?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
    * @example "Red,Green,Blue"
    */
   CFAPlaneColor?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF, MakerNotes
+   * @example "On"
+   */
+  ChromaticAberrationCorrection?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes
+   * @example "9758 13871 16956 16964 14142 9776 30 9502 13101 15416 151…1 15949"
+   */
+  ChromaticAberrationCorrParams?: string;
   /**
    * @frequency 🔥 ★★★★ (110%)
    * @groups APP, EXIF, MakerNotes, XMP
@@ -2002,6 +2479,30 @@ export interface EXIFTags {
    */
   CreateDate?: ExifDateTime | ExifDate | string | number;
   /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF, XMP
+   * @example 5428
+   */
+  CropBottom?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "8 0"
+   */
+  CropLeft?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups EXIF, XMP
+   * @example 8148
+   */
+  CropRight?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "8 0"
+   */
+  CropTop?: number;
+  /**
    * @frequency 🔥 ★★★★ (64%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Custom process)"
@@ -2049,6 +2550,18 @@ export interface EXIFTags {
    * @example 8.1319764
    */
   DigitalZoomRatio?: number;
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups EXIF, MakerNotes, PanasonicRaw
+   * @example "Unknown (60)"
+   */
+  DistortionCorrection?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes
+   * @example "88 0 -136 -288 -480 -696 -944 -1200 -1480 -1752 -2040 0 0 0 0 0"
+   */
+  DistortionCorrParams?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
@@ -2326,6 +2839,18 @@ export interface EXIFTags {
    */
   GPSTimeStamp?: ExifTime | string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, EXIF
+   * @example 88.01
+   */
+  GPSTrack?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, EXIF
+   * @example "True North"
+   */
+  GPSTrackRef?: string;
+  /**
    * @frequency 🔥 ★★☆☆ (11%)
    * @groups APP, EXIF, XMP
    * @example "50.51.48.48"
@@ -2362,11 +2887,29 @@ export interface EXIFTags {
    */
   ImageDescription?: string;
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
+  ImageHeight?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 9956
+   */
+  ImageNumber?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
    * @example 0
    */
   ImageTitle?: number;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 9728
+   */
+  ImageWidth?: number;
   /**
    * @frequency 🔥 ★★★★ (91%)
    * @groups Composite, EXIF, MakerNotes, XMP
@@ -2382,7 +2925,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 772608 bytes, use -b option to extract)"
+   * @example "(Binary data 532480 bytes, use -b option to extract)"
    */
   JpgFromRaw?: BinaryField;
   /**
@@ -2590,6 +3133,12 @@ export interface EXIFTags {
    */
   OtherImageStart?: number;
   /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups EXIF, MakerNotes
+   * @example "Itsa Myowna"
+   */
+  OwnerName?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, XMP
    * @example "(Binary data 2060 bytes, use -b option to extract)"
@@ -2644,6 +3193,24 @@ export interface EXIFTags {
    */
   PreviewDateTime?: ExifDateTime | string;
   /**
+   * @frequency 🔥 ★★★☆ (33%)
+   * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   */
+  PreviewImage?: BinaryField;
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups EXIF, MakerNotes
+   * @example 9983
+   */
+  PreviewImageLength?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups EXIF, MakerNotes
+   * @example 9996
+   */
+  PreviewImageStart?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
    * @example "(Binary data 4665816 bytes, use -b option to extract)"
@@ -2667,6 +3234,12 @@ export interface EXIFTags {
    * @example "LEICA M10-R            "
    */
   ProfileName?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 5
+   */
+  Rating?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
@@ -2782,6 +3355,48 @@ export interface EXIFTags {
    */
   SensitivityType?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 5893
+   */
+  SensorBottomBorder?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups EXIF, MakerNotes
+   * @example 5920
+   */
+  SensorHeight?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 88
+   */
+  SensorLeftBorder?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 8883
+   */
+  SensorRightBorder?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 96
+   */
+  SensorTopBorder?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups EXIF, MakerNotes
+   * @example 8896
+   */
+  SensorWidth?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups APP, EXIF, MakerNotes, Meta, XMP
+   * @example "sw02028104 "
+   */
+  SerialNumber?: string;
+  /**
    * @frequency 🔥 ★★★☆ (39%)
    * @groups EXIF, MakerNotes, PanasonicRaw, XMP
    * @example "1/999963365"
@@ -2892,7 +3507,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★★ (89%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -2950,11 +3565,41 @@ export interface EXIFTags {
    */
   UserComment?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes
+   * @example "n/a"
+   */
+  VignettingCorrection?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes
+   * @example "96 240 384 544 704 896 1088 1280 1488 1696 1904 2128 2352…4 15232"
+   */
+  VignettingCorrParams?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
    * @example 0.1
    */
   WaterDepth?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 9235
+   */
+  WBBlueLevel?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 60416
+   */
+  WBGreenLevel?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, MakerNotes
+   * @example 834
+   */
+  WBRedLevel?: number;
   /**
    * @frequency 🔥 ★★★★ (110%)
    * @groups APP, EXIF, MakerNotes, XMP
@@ -3028,6 +3673,12 @@ export interface EXIFTags {
    */
   YCbCrPositioning?: string;
   /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups EXIF, File
+   * @example "YCbCr4:4:4 (1 1)"
+   */
+  YCbCrSubSampling?: string;
+  /**
    * @frequency 🔥 ★★★★ (130%)
    * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
    * @example 99
@@ -3038,6 +3689,7 @@ export interface EXIFTags {
 export const EXIFTagsNames = strEnum(
   "Acceleration",
   "ActiveArea",
+  "AmbientTemperature",
   "AnalogBalance",
   "AntiAliasStrength",
   "ApertureValue",
@@ -3049,6 +3701,7 @@ export const EXIFTagsNames = strEnum(
   "BaselineSharpness",
   "BayerGreenSplit",
   "BestQualityScale",
+  "BitsPerSample",
   "BlackLevel",
   "BlackLevelBlue",
   "BlackLevelGreen",
@@ -3056,8 +3709,12 @@ export const EXIFTagsNames = strEnum(
   "BlackLevelRepeatDim",
   "BrightnessValue",
   "CameraElevationAngle",
+  "CameraSerialNumber",
   "CFALayout",
+  "CFAPattern",
   "CFAPlaneColor",
+  "ChromaticAberrationCorrection",
+  "ChromaticAberrationCorrParams",
   "ColorSpace",
   "CompositeImage",
   "CompositeImageCount",
@@ -3067,6 +3724,10 @@ export const EXIFTagsNames = strEnum(
   "Contrast",
   "Copyright",
   "CreateDate",
+  "CropBottom",
+  "CropLeft",
+  "CropRight",
+  "CropTop",
   "CustomRendered",
   "DateTimeOriginal",
   "DefaultCropOrigin",
@@ -3075,6 +3736,8 @@ export const EXIFTagsNames = strEnum(
   "DefaultUserCrop",
   "DeviceSettingDescription",
   "DigitalZoomRatio",
+  "DistortionCorrection",
+  "DistortionCorrParams",
   "DNGBackwardVersion",
   "DNGVersion",
   "DocumentName",
@@ -3121,13 +3784,18 @@ export const EXIFTagsNames = strEnum(
   "GPSSatellites",
   "GPSStatus",
   "GPSTimeStamp",
+  "GPSTrack",
+  "GPSTrackRef",
   "GPSVersionID",
   "HighISOMultiplierBlue",
   "HighISOMultiplierGreen",
   "HighISOMultiplierRed",
   "HostComputer",
   "ImageDescription",
+  "ImageHeight",
+  "ImageNumber",
   "ImageTitle",
+  "ImageWidth",
   "ISO",
   "ISOSpeed",
   "JpgFromRaw",
@@ -3165,6 +3833,7 @@ export const EXIFTagsNames = strEnum(
   "OtherImage",
   "OtherImageLength",
   "OtherImageStart",
+  "OwnerName",
   "Padding",
   "PageName",
   "PanasonicRawVersion",
@@ -3174,10 +3843,14 @@ export const EXIFTagsNames = strEnum(
   "Pressure",
   "PreviewColorSpace",
   "PreviewDateTime",
+  "PreviewImage",
+  "PreviewImageLength",
+  "PreviewImageStart",
   "PreviewTIFF",
   "PrimaryChromaticities",
   "ProcessingSoftware",
   "ProfileName",
+  "Rating",
   "RawDataOffset",
   "RawDataUniqueID",
   "RawFormat",
@@ -3197,6 +3870,13 @@ export const EXIFTagsNames = strEnum(
   "SemanticName",
   "SensingMethod",
   "SensitivityType",
+  "SensorBottomBorder",
+  "SensorHeight",
+  "SensorLeftBorder",
+  "SensorRightBorder",
+  "SensorTopBorder",
+  "SensorWidth",
+  "SerialNumber",
   "ShutterSpeedValue",
   "Software",
   "SonyCropSize",
@@ -3225,7 +3905,12 @@ export const EXIFTagsNames = strEnum(
   "TransferFunction",
   "UniqueCameraModel",
   "UserComment",
+  "VignettingCorrection",
+  "VignettingCorrParams",
   "WaterDepth",
+  "WBBlueLevel",
+  "WBGreenLevel",
+  "WBRedLevel",
   "WhiteBalance",
   "WhiteLevel",
   "WhitePoint",
@@ -3238,10 +3923,103 @@ export const EXIFTagsNames = strEnum(
   "XResolution",
   "YCbCrCoefficients",
   "YCbCrPositioning",
+  "YCbCrSubSampling",
   "YResolution",
 ) satisfies StrEnum<keyof EXIFTags>;
 
 export type EXIFTag = StrEnumKeys<typeof EXIFTagsNames>;
+
+export interface MPFTags {
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example 9697
+   */
+  DependentImage1EntryNumber?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example 960
+   */
+  DependentImage2EntryNumber?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MPF
+   * @example "(Binary data 66 bytes, use -b option to extract)"
+   */
+  ImageUIDList?: BinaryField | string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example "0100"
+   */
+  MPFVersion?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example "Representative image, Dependent parent image"
+   */
+  MPImageFlags?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example "Unknown (4)"
+   */
+  MPImageFormat?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example 999325
+   */
+  MPImageLength?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example 9999872
+   */
+  MPImageStart?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example "Undefined"
+   */
+  MPImageType?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups MPF
+   * @example 3
+   */
+  NumberOfImages?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (33%)
+   * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   */
+  PreviewImage?: BinaryField;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MPF
+   * @example 1
+   */
+  TotalFrames?: number;
+}
+
+export const MPFTagsNames = strEnum(
+  "DependentImage1EntryNumber",
+  "DependentImage2EntryNumber",
+  "ImageUIDList",
+  "MPFVersion",
+  "MPImageFlags",
+  "MPImageFormat",
+  "MPImageLength",
+  "MPImageStart",
+  "MPImageType",
+  "NumberOfImages",
+  "PreviewImage",
+  "TotalFrames",
+) satisfies StrEnum<keyof MPFTags>;
+
+export type MPFTag = StrEnumKeys<typeof MPFTagsNames>;
 
 export interface MetaTags {
   /**
@@ -3329,6 +4107,12 @@ export interface MetaTags {
    */
   FilmSize?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, Meta
+   * @example 849
+   */
+  FrameNumber?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups Meta
    * @example 6
@@ -3346,6 +4130,12 @@ export interface MetaTags {
    * @example "Version 9"
    */
   ModelAndVersion?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups APP, EXIF, MakerNotes, Meta, XMP
+   * @example "sw02028104 "
+   */
+  SerialNumber?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups Meta
@@ -3369,9 +4159,11 @@ export const MetaTagsNames = strEnum(
   "FilmGencode",
   "FilmProductCode",
   "FilmSize",
+  "FrameNumber",
   "ImageSourceEK",
   "MetadataNumber",
   "ModelAndVersion",
+  "SerialNumber",
   "WatermarkType",
 ) satisfies StrEnum<keyof MetaTags>;
 
@@ -3379,22 +4171,99 @@ export type MetaTag = StrEnumKeys<typeof MetaTagsNames>;
 
 export interface PanasonicRawTags {
   /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example 9016997700
+   */
+  ApertureValue?: number;
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups EXIF, MakerNotes, PanasonicRaw
+   * @example "Unknown (60)"
+   */
+  DistortionCorrection?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups PanasonicRaw
    * @example 1.0141438
    */
   DistortionScale?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example "Yes"
+   */
+  FlashFired?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (31%)
+   * @groups EXIF, PanasonicRaw, QuickTime, XMP
+   * @example "9920 mm"
+   */
+  FocalLengthIn35mmFormat?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups APP, MakerNotes, PanasonicRaw
+   * @example 98
+   */
+  FocusStepCount?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example 9804
+   */
+  FocusStepNear?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example 2
+   */
+  LensTypeMake?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example "41 10"
+   */
+  LensTypeModel?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups PanasonicRaw
    * @example 7
    */
   NumWBEntries?: number;
+  /**
+   * @frequency 🔥 ★★★★ (92%)
+   * @groups EXIF, PanasonicRaw, XMP
+   * @example 8
+   */
+  Orientation?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example "1/999963365"
+   */
+  ShutterSpeedValue?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, PanasonicRaw
+   * @example "Tungsten"
+   */
+  WhiteBalanceSet?: string;
 }
 
 export const PanasonicRawTagsNames = strEnum(
+  "ApertureValue",
+  "DistortionCorrection",
   "DistortionScale",
+  "FlashFired",
+  "FocalLengthIn35mmFormat",
+  "FocusStepCount",
+  "FocusStepNear",
+  "LensTypeMake",
+  "LensTypeModel",
   "NumWBEntries",
+  "Orientation",
+  "ShutterSpeedValue",
+  "WhiteBalanceSet",
 ) satisfies StrEnum<keyof PanasonicRawTags>;
 
 export type PanasonicRawTag = StrEnumKeys<typeof PanasonicRawTagsNames>;
@@ -3453,6 +4322,12 @@ export interface PhotoshopTags {
   PhotoshopThumbnail?: BinaryField | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, Photoshop, QuickTime
+   * @example 1
+   */
+  PixelAspectRatio?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Photoshop
    * @example "0 0"
    */
@@ -3487,6 +4362,18 @@ export interface PhotoshopTags {
    * @example "Adobe Photoshop"
    */
   WriterName?: string;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  XResolution?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  YResolution?: number;
 }
 
 export const PhotoshopTagsNames = strEnum(
@@ -3498,12 +4385,15 @@ export const PhotoshopTagsNames = strEnum(
   "PhotoshopFormat",
   "PhotoshopQuality",
   "PhotoshopThumbnail",
+  "PixelAspectRatio",
   "PrintPosition",
   "PrintScale",
   "PrintStyle",
   "ReaderName",
   "SlicesGroupName",
   "WriterName",
+  "XResolution",
+  "YResolution",
 ) satisfies StrEnum<keyof PhotoshopTags>;
 
 export type PhotoshopTag = StrEnumKeys<typeof PhotoshopTagsNames>;
@@ -3640,6 +4530,18 @@ export interface QuickTimeTags {
   ContentDescribes?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, QuickTime
+   * @example "FFCBAC24-E547-4BBC-AF47-38B1A3D845E3"
+   */
+  ContentIdentifier?: string;
+  /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups EXIF, MakerNotes, QuickTime, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  CreateDate?: ExifDateTime | ExifDate | string | number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
    * @example "2025:06:24 15:24:45-07:00"
    */
@@ -3663,11 +4565,29 @@ export interface QuickTimeTags {
    */
   EncodedPixelsDimensions?: string;
   /**
+   * @frequency 🔥 ★★★☆ (31%)
+   * @groups EXIF, PanasonicRaw, QuickTime, XMP
+   * @example "9920 mm"
+   */
+  FocalLengthIn35mmFormat?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
    * @example "Helvetica"
    */
   FontName?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups QuickTime, XMP
+   * @example "image/jpg"
+   */
+  Format?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, QuickTime
+   * @example 3.0585938
+   */
+  Gamma?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
@@ -3729,11 +4649,41 @@ export interface QuickTimeTags {
    */
   HandlerType?: string;
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
+  ImageHeight?: number;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 9728
+   */
+  ImageWidth?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, QuickTime
+   * @example "(Binary data 532480 bytes, use -b option to extract)"
+   */
+  JpgFromRaw?: BinaryField;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups QuickTime
    * @example "Stereo"
    */
   LayoutFlags?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  LensModel?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "xB?"
+   */
+  LensSerialNumber?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
@@ -3746,6 +4696,12 @@ export interface QuickTimeTags {
    * @example "MP4 v2 [ISO 14496-14]"
    */
   MajorBrand?: string;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, QuickTime, XMP
+   * @example "samsung"
+   */
+  Make?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
@@ -3819,6 +4775,18 @@ export interface QuickTimeTags {
    */
   MinorVersion?: string;
   /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "x530"
+   */
+  Model?: string;
+  /**
+   * @frequency 🔥 ★★★★ (90%)
+   * @groups EXIF, QuickTime, XMP
+   * @example "2216:02:28 03:49:50"
+   */
+  ModifyDate?: ExifDateTime | string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
    * @example 0
@@ -3842,6 +4810,12 @@ export interface QuickTimeTags {
    * @example "tmcd"
    */
   OtherFormat?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, Photoshop, QuickTime
+   * @example 1
+   */
+  PixelAspectRatio?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
@@ -3878,6 +4852,12 @@ export interface QuickTimeTags {
    * @example 0
    */
   PreviewDuration?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (33%)
+   * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   */
+  PreviewImage?: BinaryField;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
@@ -3926,6 +4906,12 @@ export interface QuickTimeTags {
    * @example "43333139313032343731363032300000"
    */
   SerialNumberHash?: string;
+  /**
+   * @frequency 🔥 ★★★★ (61%)
+   * @groups EXIF, MakerNotes, QuickTime, RIFF, XMP
+   * @example "https://PhotoStructure.com/"
+   */
+  Software?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
@@ -4034,6 +5020,18 @@ export interface QuickTimeTags {
    * @example "Limited"
    */
   VideoFullRangeFlag?: string;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  XResolution?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  YResolution?: number;
 }
 
 export const QuickTimeTagsNames = strEnum(
@@ -4056,11 +5054,16 @@ export const QuickTimeTagsNames = strEnum(
   "CompressorName",
   "CompressorVersion",
   "ContentDescribes",
+  "ContentIdentifier",
+  "CreateDate",
   "CreationDate",
   "CurrentTime",
   "Duration",
   "EncodedPixelsDimensions",
+  "FocalLengthIn35mmFormat",
   "FontName",
+  "Format",
+  "Gamma",
   "GenBalance",
   "GenFlags",
   "GenGraphicsMode",
@@ -4071,9 +5074,15 @@ export const QuickTimeTagsNames = strEnum(
   "HandlerClass",
   "HandlerDescription",
   "HandlerType",
+  "ImageHeight",
+  "ImageWidth",
+  "JpgFromRaw",
   "LayoutFlags",
+  "LensModel",
+  "LensSerialNumber",
   "LocationAccuracyHorizontal",
   "MajorBrand",
+  "Make",
   "MatrixStructure",
   "MediaCreateDate",
   "MediaDataOffset",
@@ -4086,16 +5095,20 @@ export const QuickTimeTagsNames = strEnum(
   "MediaUID",
   "MetaFormat",
   "MinorVersion",
+  "Model",
+  "ModifyDate",
   "MovieHeaderVersion",
   "NextTrackID",
   "OpColor",
   "OtherFormat",
+  "PixelAspectRatio",
   "PlaybackFrameRate",
   "PlayMode",
   "PosterTime",
   "PreferredRate",
   "PreferredVolume",
   "PreviewDuration",
+  "PreviewImage",
   "PreviewTime",
   "ProductionApertureDimensions",
   "PurchaseFileFormat",
@@ -4104,6 +5117,7 @@ export const QuickTimeTagsNames = strEnum(
   "SelectionDuration",
   "SelectionTime",
   "SerialNumberHash",
+  "Software",
   "SourceImageHeight",
   "SourceImageWidth",
   "TextColor",
@@ -4122,11 +5136,25 @@ export const QuickTimeTagsNames = strEnum(
   "VendorID",
   "VideoFrameRate",
   "VideoFullRangeFlag",
+  "XResolution",
+  "YResolution",
 ) satisfies StrEnum<keyof QuickTimeTags>;
 
 export type QuickTimeTag = StrEnumKeys<typeof QuickTimeTagsNames>;
 
 export interface RAFTags {
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, File, RAF, RIFF, XMP
+   * @example 8
+   */
+  BitsPerSample?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes, RAF
+   * @example "94 95 93 93"
+   */
+  BlackLevel?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RAF
@@ -4212,6 +5240,18 @@ export interface RAFTags {
    */
   RawZoomTopLeft?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, RAF
+   * @example 9600
+   */
+  StripByteCounts?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, RAF
+   * @example 986
+   */
+  StripOffsets?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RAF
    * @example "808.8888889 0.3535648995 0.5001828154 0.6124314442 0.7071…3652344"
@@ -4226,6 +5266,8 @@ export interface RAFTags {
 }
 
 export const RAFTagsNames = strEnum(
+  "BitsPerSample",
+  "BlackLevel",
   "ChromaticAberrationParams",
   "FujiLayout",
   "GeometricDistortionParams",
@@ -4240,6 +5282,8 @@ export const RAFTagsNames = strEnum(
   "RawZoomActive",
   "RawZoomSize",
   "RawZoomTopLeft",
+  "StripByteCounts",
+  "StripOffsets",
   "VignettingParams",
   "XTransLayout",
 ) satisfies StrEnum<keyof RAFTags>;
@@ -4261,16 +5305,58 @@ export interface RIFFTags {
   AudioSampleCount?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, QuickTime, RIFF
+   * @example 8000
+   */
+  AudioSampleRate?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RIFF
    * @example 64000
    */
   AvgBytesPerSec?: number;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, File, RAF, RIFF, XMP
+   * @example 8
+   */
+  BitsPerSample?: number;
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  DateTimeOriginal?: ExifDateTime | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RIFF
    * @example "Microsoft PCM"
    */
   Encoding?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, RIFF
+   * @example 9
+   */
+  FrameCount?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes, RIFF
+   * @example 9
+   */
+  FrameRate?: number;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
+  ImageHeight?: number;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 9728
+   */
+  ImageWidth?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RIFF
@@ -4284,6 +5370,12 @@ export interface RIFFTags {
    */
   NumChannels?: number;
   /**
+   * @frequency 🔥 ★★★☆ (37%)
+   * @groups APP, Ducky, MakerNotes, RIFF
+   * @example "n/a"
+   */
+  Quality?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RIFF
    * @example 32000
@@ -4295,6 +5387,12 @@ export interface RIFFTags {
    * @example "Variable"
    */
   SampleSize?: string;
+  /**
+   * @frequency 🔥 ★★★★ (61%)
+   * @groups EXIF, MakerNotes, QuickTime, RIFF, XMP
+   * @example "https://PhotoStructure.com/"
+   */
+  Software?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RIFF
@@ -4309,24 +5407,47 @@ export interface RIFFTags {
   StreamType?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, RIFF
+   * @example "mjpg"
+   */
+  VideoCodec?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups RIFF
    * @example 600
    */
   VideoFrameCount?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes, QuickTime, RIFF
+   * @example "n/a"
+   */
+  VideoFrameRate?: string;
 }
 
 export const RIFFTagsNames = strEnum(
   "AudioCodec",
   "AudioSampleCount",
+  "AudioSampleRate",
   "AvgBytesPerSec",
+  "BitsPerSample",
+  "DateTimeOriginal",
   "Encoding",
+  "FrameCount",
+  "FrameRate",
+  "ImageHeight",
+  "ImageWidth",
   "MaxDataRate",
   "NumChannels",
+  "Quality",
   "SampleRate",
   "SampleSize",
+  "Software",
   "StreamCount",
   "StreamType",
+  "VideoCodec",
   "VideoFrameCount",
+  "VideoFrameRate",
 ) satisfies StrEnum<keyof RIFFTags>;
 
 export type RIFFTag = StrEnumKeys<typeof RIFFTagsNames>;
@@ -4378,6 +5499,12 @@ export interface IPTCTags {
    */
   CopyrightNotice?: string;
   /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups Composite, IPTC, XMP
+   * @example "2025:06:11"
+   */
+  DateCreated?: ExifDateTime | string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups IPTC
    * @example ""
@@ -4425,6 +5552,12 @@ export interface IPTCTags {
    * @example 4
    */
   EnvelopeRecordVersion?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups IPTC, MakerNotes
+   * @example "X3F"
+   */
+  FileFormat?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups IPTC
@@ -4525,6 +5658,7 @@ export const IPTCTagsNames = strEnum(
   "CodedCharacterSet",
   "Contact",
   "CopyrightNotice",
+  "DateCreated",
   "DateSent",
   "DateTimeCreated",
   "Destination",
@@ -4533,6 +5667,7 @@ export const IPTCTagsNames = strEnum(
   "EnvelopeNumber",
   "EnvelopePriority",
   "EnvelopeRecordVersion",
+  "FileFormat",
   "FileVersion",
   "Headline",
   "Keywords",
@@ -4559,11 +5694,60 @@ export interface JFIFTags {
    * @example 1.02
    */
   JFIFVersion?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, XMP
+   * @example "inches"
+   */
+  ResolutionUnit?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups JFIF, MakerNotes
+   * @example 120
+   */
+  ThumbnailHeight?: number;
+  /**
+   * @frequency 🔥 ★★★★ (89%)
+   * @groups EXIF, JFIF, MakerNotes
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   */
+  ThumbnailImage?: BinaryField;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, JFIF
+   * @example "(Binary data 57816 bytes, use -b option to extract)"
+   */
+  ThumbnailTIFF?: BinaryField;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups JFIF, MakerNotes
+   * @example 160
+   */
+  ThumbnailWidth?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  XResolution?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  YResolution?: number;
 }
 
-export const JFIFTagsNames = strEnum("JFIFVersion") satisfies StrEnum<
-  keyof JFIFTags
->;
+export const JFIFTagsNames = strEnum(
+  "JFIFVersion",
+  "ResolutionUnit",
+  "ThumbnailHeight",
+  "ThumbnailImage",
+  "ThumbnailTIFF",
+  "ThumbnailWidth",
+  "XResolution",
+  "YResolution",
+) satisfies StrEnum<keyof JFIFTags>;
 
 export type JFIFTag = StrEnumKeys<typeof JFIFTagsNames>;
 
@@ -5409,6 +6593,12 @@ export interface MakerNotesTags {
    */
   AntiShockWaitingTime?: number;
   /**
+   * @frequency 🔥 ★★★★ (85%)
+   * @groups APP, Composite, MakerNotes
+   * @example 90
+   */
+  Aperture?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "Off"
@@ -5426,6 +6616,12 @@ export interface MakerNotesTags {
    * @example 9.1
    */
   ApertureSetting?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example 9016997700
+   */
+  ApertureValue?: number;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -5468,6 +6664,12 @@ export interface MakerNotesTags {
    * @example "Off; 0; 0; Partial Color 0; No Effect; 0; No Color Filter…0; 0; 0"
    */
   ArtFilterEffect?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups EXIF, MakerNotes
+   * @example "Arturo DeImage"
+   */
+  Artist?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -5560,10 +6762,22 @@ export interface MakerNotesTags {
   Audio?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, QuickTime
+   * @example 3
+   */
+  AudioChannels?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Enable"
    */
   AudioCompression?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, QuickTime, RIFF
+   * @example 8000
+   */
+  AudioSampleRate?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -5660,6 +6874,12 @@ export interface MakerNotesTags {
    * @example 96
    */
   AutoISO?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 800
+   */
+  AutoISOMax?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -5812,6 +7032,18 @@ export interface MakerNotesTags {
   BestShotMode?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File, MakerNotes, QuickTime
+   * @example 8
+   */
+  BitDepth?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes, RAF
+   * @example "94 95 93 93"
+   */
+  BlackLevel?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "131 128 131 128"
    */
@@ -5852,6 +7084,12 @@ export interface MakerNotesTags {
    * @example "n/a"
    */
   BleachBypassToning?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups Composite, MakerNotes
+   * @example 46
+   */
+  BlueBalance?: number;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -5985,6 +7223,12 @@ export interface MakerNotesTags {
    */
   Brightness?: number;
   /**
+   * @frequency 🔥 ★★★☆ (23%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 9.9919505
+   */
+  BrightnessValue?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "SU6-7"
@@ -6086,6 +7330,12 @@ export interface MakerNotesTags {
    * @example "n/a"
    */
   CameraISO?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes
+   * @example "Z-CAMERA"
+   */
+  CameraModel?: string;
   /**
    * @frequency 🔥 ★☆☆☆ (5%)
    * @groups MakerNotes
@@ -6207,6 +7457,12 @@ export interface MakerNotesTags {
    */
   Categories?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, IPTC, MakerNotes
+   * @example "Other"
+   */
+  Category?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example 2
@@ -6278,6 +7534,12 @@ export interface MakerNotesTags {
    * @example "+0.500"
    */
   ChrominanceNoiseReduction?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups IPTC, MakerNotes, XMP
+   * @example "TEDDINGTON"
+   */
+  City?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -6488,6 +7750,12 @@ export interface MakerNotesTags {
    * @example "Min -5; Max 5; Yellow 0; Orange 0; Orange-red 0; Red 0; M…green 0"
    */
   ColorProfileSettings?: string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "sRGB"
+   */
+  ColorSpace?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
@@ -6723,6 +7991,12 @@ export interface MakerNotesTags {
    */
   CommanderInternalTTLCompGroupB?: number;
   /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example 45
+   */
+  Compass?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example 8
@@ -6771,6 +8045,12 @@ export interface MakerNotesTags {
    */
   CompressedImageSize?: number;
   /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups APP, EXIF, File, MakerNotes, XMP
+   * @example "Unknown (1536)"
+   */
+  Compression?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
    * @example 8
@@ -6782,6 +8062,12 @@ export interface MakerNotesTags {
    * @example 8
    */
   CompressionRatio?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, QuickTime
+   * @example "CanonCR3_001/01.11.00/00.00.00"
+   */
+  CompressorVersion?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes, QuickTime
@@ -6824,6 +8110,12 @@ export interface MakerNotesTags {
    * @example "Disable; 99 shots"
    */
   ContinuousShotLimit?: string;
+  /**
+   * @frequency 🔥 ★★★★ (60%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "n/a"
+   */
+  Contrast?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -6957,11 +8249,29 @@ export interface MakerNotesTags {
    */
   Converter?: number;
   /**
+   * @frequency 🔥 ★★★☆ (21%)
+   * @groups EXIF, MakerNotes
+   * @example "© Chuckles McSnortypants, Inc."
+   */
+  Copyright?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example 6807
    */
   CorrelatedColorTemp?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "United States"
+   */
+  Country?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example "ir"
+   */
+  CountryCode?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -6974,6 +8284,12 @@ export interface MakerNotesTags {
    * @example "d, 2009:09:04 03:19:07"
    */
   CPUVersions?: string;
+  /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups EXIF, MakerNotes, QuickTime, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  CreateDate?: ExifDateTime | ExifDate | string | number;
   /**
    * @frequency 🔥 ☆☆☆☆ (5%)
    * @groups MakerNotes
@@ -6999,11 +8315,23 @@ export interface MakerNotesTags {
    */
   CropBottomMargin?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example 7776
+   */
+  CropHeight?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
    * @example "Off (7424x4924 cropped to 7424x4924 at pixel 0,0)"
    */
   CropHiSpeed?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "8 0"
+   */
+  CropLeft?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
@@ -7047,11 +8375,23 @@ export interface MakerNotesTags {
    */
   CropRightMargin?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "8 0"
+   */
+  CropTop?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
    * @example 8240
    */
   CropTopMargin?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example 5184
+   */
+  CropWidth?: number;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -7076,6 +8416,12 @@ export interface MakerNotesTags {
    * @example "P-STUDIO"
    */
   CustomPictureStyleFileName?: string;
+  /**
+   * @frequency 🔥 ★★★★ (64%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (Custom process)"
+   */
+  CustomRendered?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
@@ -7166,6 +8512,12 @@ export interface MakerNotesTags {
    * @example "Off"
    */
   DateStampMode?: string;
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  DateTimeOriginal?: ExifDateTime | string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -7299,6 +8651,18 @@ export interface MakerNotesTags {
    */
   DigitalZoom?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups APP, MakerNotes
+   * @example "Yes"
+   */
+  DigitalZoomOn?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (49%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 8.1319764
+   */
+  DigitalZoomRatio?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 897
@@ -7371,6 +8735,12 @@ export interface MakerNotesTags {
    */
   DistortionCorrParamsPresent?: string;
   /**
+   * @frequency 🔥 ★★☆☆ (18%)
+   * @groups Composite, MakerNotes
+   * @example "Video; n/a; Shutter Button; Video"
+   */
+  DriveMode?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Single Frame"
@@ -7394,6 +8764,12 @@ export interface MakerNotesTags {
    * @example "Off"
    */
   DualPixelRaw?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, MakerNotes, QuickTime, XMP
+   * @example 9.5095
+   */
+  Duration?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
@@ -7503,6 +8879,12 @@ export interface MakerNotesTags {
    */
   ElectronicFrontCurtainShutter?: string;
   /**
+   * @frequency 🧊 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes
+   * @example 1
+   */
+  Emissivity?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "On"
@@ -7599,6 +8981,12 @@ export interface MakerNotesTags {
    */
   ExposureCompAutoCancel?: string;
   /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 1
+   */
+  ExposureCompensation?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Ambient and Flash"
@@ -7659,11 +9047,23 @@ export interface MakerNotesTags {
    */
   ExposureModeInManual?: string;
   /**
+   * @frequency 🔥 ★★★★ (69%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "iAuto+"
+   */
+  ExposureProgram?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 0
    */
   ExposureShift?: number;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "inf"
+   */
+  ExposureTime?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -7742,6 +9142,12 @@ export interface MakerNotesTags {
    * @example ""
    */
   ExtenderSerialNumber?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups Composite, MakerNotes
+   * @example "Not attached"
+   */
+  ExtenderStatus?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
@@ -7995,6 +9401,12 @@ export interface MakerNotesTags {
    */
   FileNumberMemory?: string;
   /**
+   * @frequency 🔥 ★★★★ (63%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (DSC)"
+   */
+  FileSource?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Enable"
@@ -8060,6 +9472,12 @@ export interface MakerNotesTags {
    * @example "(Binary data 9236 bytes, use -b option to extract)"
    */
   FinishedImage?: BinaryField | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "u77"
+   */
+  Firmware?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -8162,6 +9580,12 @@ export interface MakerNotesTags {
    * @example "Off"
    */
   FlashCommanderMode?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes, XMP
+   * @example 0
+   */
+  FlashCompensation?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -8451,6 +9875,12 @@ export interface MakerNotesTags {
    */
   FlashThreshold?: number;
   /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups Composite, MakerNotes
+   * @example "Optional,TTL"
+   */
+  FlashType?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "Yes (flash required but disabled)"
@@ -8504,6 +9934,18 @@ export interface MakerNotesTags {
    * @example "9,0,0"
    */
   FlightSpeed?: string;
+  /**
+   * @frequency 🔥 ★★★★ (98%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 90
+   */
+  FNumber?: number;
+  /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "99.7 mm"
+   */
+  FocalLength?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -8576,6 +10018,12 @@ export interface MakerNotesTags {
    * @example "Enable"
    */
   FocusDisplayAIServoAndMF?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups APP, Composite, MakerNotes, XMP
+   * @example "inf"
+   */
+  FocusDistance?: string;
   /**
    * @frequency 🔥 ★☆☆☆ (10%)
    * @groups MakerNotes
@@ -8787,6 +10235,12 @@ export interface MakerNotesTags {
    */
   FocusStatus?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups APP, MakerNotes, PanasonicRaw
+   * @example 98
+   */
+  FocusStepCount?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
    * @example 9713
@@ -8828,6 +10282,12 @@ export interface MakerNotesTags {
    * @example 849
    */
   FrameNumber?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, MakerNotes, RIFF
+   * @example 9
+   */
+  FrameRate?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -9273,6 +10733,12 @@ export interface MakerNotesTags {
    */
   ImageGeneration?: string;
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
+  ImageHeight?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example 912
@@ -9284,6 +10750,12 @@ export interface MakerNotesTags {
    * @example "Finished image"
    */
   ImageName?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 9956
+   */
+  ImageNumber?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -9368,6 +10840,12 @@ export interface MakerNotesTags {
    * @example "Vibrant"
    */
   ImageTone?: string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 9728
+   */
+  ImageWidth?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -9542,6 +11020,12 @@ export interface MakerNotesTags {
    * @example "Off"
    */
   IntervalShooting?: string;
+  /**
+   * @frequency 🔥 ★★★★ (91%)
+   * @groups Composite, EXIF, MakerNotes, XMP
+   * @example 993
+   */
+  ISO?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
@@ -9801,6 +11285,12 @@ export interface MakerNotesTags {
    */
   LCDPanels?: string;
   /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  Lens?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "4.0 to 22"
@@ -9885,17 +11375,35 @@ export interface MakerNotesTags {
    */
   LensFunc2Button?: string;
   /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  LensID?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 93
    */
   LensIDNumber?: number;
   /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "?mm f/?"
+   */
+  LensInfo?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "4 to 4"
    */
   LensMaxApertureRange?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  LensModel?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
@@ -9920,6 +11428,12 @@ export interface MakerNotesTags {
    * @example "0xe253"
    */
   LensProperties?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "xB?"
+   */
+  LensSerialNumber?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -10004,6 +11518,12 @@ export interface MakerNotesTags {
    * @example "Shadow Enhance Low"
    */
   LightingMode?: string;
+  /**
+   * @frequency 🔥 ★★★★ (59%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "White Fluorescent"
+   */
+  LightSource?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -10227,6 +11747,12 @@ export interface MakerNotesTags {
    */
   MainDialExposureComp?: string;
   /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, QuickTime, XMP
+   * @example "samsung"
+   */
+  Make?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example 916
@@ -10427,7 +11953,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1316 bytes, use -b option to extract)"
+   * @example "(Binary data 1748 bytes, use -b option to extract)"
    */
   MergedImage?: BinaryField | string;
   /**
@@ -10454,6 +11980,12 @@ export interface MakerNotesTags {
    * @example "Metering"
    */
   MeteringButton?: string;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (Center-weighted average)"
+   */
+  MeteringMode?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -10568,6 +12100,12 @@ export interface MakerNotesTags {
    * @example "Manual"
    */
   ModeDialPosition?: string;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "x530"
+   */
+  Model?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
@@ -11343,6 +12881,12 @@ export interface MakerNotesTags {
    */
   PeripheralLightingValue?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups Composite, MakerNotes
+   * @example "On (73-point)"
+   */
+  PhaseDetectAF?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups MakerNotes
    * @example "Vivid"
@@ -11655,6 +13199,12 @@ export interface MakerNotesTags {
    */
   PreviewButtonPlusDials?: string;
   /**
+   * @frequency 🔥 ★★★☆ (33%)
+   * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   */
+  PreviewImage?: BinaryField;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "28 28 0 0"
@@ -11756,6 +13306,12 @@ export interface MakerNotesTags {
    * @example "Off"
    */
   RangeFinder?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 5
+   */
+  Rating?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -12039,6 +13595,18 @@ export interface MakerNotesTags {
    */
   RectifaceText?: BinaryField | string;
   /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups Composite, MakerNotes
+   * @example 38.625
+   */
+  RedBalance?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite, MakerNotes
+   * @example "On"
+   */
+  RedEyeReduction?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "On"
@@ -12093,11 +13661,23 @@ export interface MakerNotesTags {
    */
   Resaved?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups APP, MakerNotes
+   * @example 6
+   */
+  Resolution?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "MED"
    */
   ResolutionMode?: string;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, XMP
+   * @example "inches"
+   */
+  ResolutionUnit?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -12207,6 +13787,12 @@ export interface MakerNotesTags {
    */
   ROMOperationMode?: string;
   /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups Composite, MakerNotes
+   * @example "Unknown (0)"
+   */
+  Rotation?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 987823130000000
@@ -12248,6 +13834,12 @@ export interface MakerNotesTags {
    * @example "(Binary data 10313 bytes, use -b option to extract)"
    */
   SanyoThumbnail?: BinaryField | string;
+  /**
+   * @frequency 🔥 ★★★★ (66%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "n/a"
+   */
+  Saturation?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
@@ -12615,6 +14207,12 @@ export interface MakerNotesTags {
    */
   ShadowCorrection?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example 0
+   */
+  Shadows?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "0 (normal)"
@@ -12722,6 +14320,12 @@ export interface MakerNotesTags {
    * @example "4 s"
    */
   ShootingInfoMonitorOffTime?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (18%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "Unknown (83)"
+   */
+  ShootingMode?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -12843,6 +14447,12 @@ export interface MakerNotesTags {
    */
   ShutterReleaseWithoutLens?: string;
   /**
+   * @frequency 🔥 ★★★★ (87%)
+   * @groups Composite, MakerNotes
+   * @example "inf"
+   */
+  ShutterSpeed?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "Off"
@@ -12860,6 +14470,18 @@ export interface MakerNotesTags {
    * @example "1/91"
    */
   ShutterSpeedSetting?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example "1/999963365"
+   */
+  ShutterSpeedValue?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes, XMP
+   * @example "Normal"
+   */
+  ShutterType?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -12932,6 +14554,12 @@ export interface MakerNotesTags {
    * @example "n/a"
    */
   SoftSkinEffect?: string;
+  /**
+   * @frequency 🔥 ★★★★ (61%)
+   * @groups EXIF, MakerNotes, QuickTime, RIFF, XMP
+   * @example "https://PhotoStructure.com/"
+   */
+  Software?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -13161,6 +14789,12 @@ export interface MakerNotesTags {
    */
   StartMovieShooting?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "Washington"
+   */
+  State?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "(Binary data 1321 bytes, use -b option to extract)"
@@ -13389,6 +15023,12 @@ export interface MakerNotesTags {
    */
   ThumbnailHeight?: number;
   /**
+   * @frequency 🔥 ★★★★ (89%)
+   * @groups EXIF, JFIF, MakerNotes
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   */
+  ThumbnailImage?: BinaryField;
+  /**
    * @frequency 🔥 ★★☆☆ (11%)
    * @groups MakerNotes
    * @example "0 159 7 112"
@@ -13424,6 +15064,12 @@ export interface MakerNotesTags {
    * @example "23:50:41"
    */
   Time?: ExifTime | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups IPTC, MakerNotes
+   * @example "23:59:46.92"
+   */
+  TimeCreated?: ExifTime | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -13479,6 +15125,12 @@ export interface MakerNotesTags {
    */
   TimeZoneInfo?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups MakerNotes, XMP
+   * @example "Very Blank"
+   */
+  Title?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes, XMP
    * @example "Standard"
@@ -13493,7 +15145,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1505 bytes, use -b option to extract)"
+   * @example "(Binary data 1679 bytes, use -b option to extract)"
    */
   ToneCurveTable?: BinaryField | string;
   /**
@@ -13737,6 +15389,12 @@ export interface MakerNotesTags {
    */
   VideoCodec?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes, QuickTime, RIFF
+   * @example "n/a"
+   */
+  VideoFrameRate?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "No"
@@ -13959,6 +15617,12 @@ export interface MakerNotesTags {
    */
   WBShiftIntelligentAuto?: number;
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "White Preset"
+   */
+  WhiteBalance?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "On"
@@ -14021,7 +15685,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 2201 bytes, use -b option to extract)"
+   * @example "(Binary data 2217 bytes, use -b option to extract)"
    */
   WhiteBalanceTable?: BinaryField | string;
   /**
@@ -14036,6 +15700,18 @@ export interface MakerNotesTags {
    * @example 0
    */
   WhiteBoard?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes
+   * @example 65535
+   */
+  WhiteLevel?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups EXIF, MakerNotes
+   * @example "9696 8192 8192 7136"
+   */
+  WhitePoint?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -14079,17 +15755,41 @@ export interface MakerNotesTags {
    */
   Xidiri?: BinaryField | string;
   /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  XResolution?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes, XMP
    * @example 0.83734368
    */
   Yaw?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, MakerNotes
+   * @example "0.299 0.587 0.114"
+   */
+  YCbCrCoefficients?: string;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (512)"
+   */
+  YCbCrPositioning?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example 2006
    */
   YearCreated?: number;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  YResolution?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
@@ -14299,9 +15999,11 @@ export const MakerNotesTagsNames = strEnum(
   "AndroidRelease",
   "AntiFlicker",
   "AntiShockWaitingTime",
+  "Aperture",
   "ApertureLock",
   "ApertureRingUse",
   "ApertureSetting",
+  "ApertureValue",
   "Application",
   "ApplySettingsToLiveView",
   "ApplyShootingMeteringMode",
@@ -14309,6 +16011,7 @@ export const MakerNotesTagsNames = strEnum(
   "AppVersion",
   "ArtFilter",
   "ArtFilterEffect",
+  "Artist",
   "ArtMode",
   "ArtModeParameters",
   "AspectFrame",
@@ -14324,7 +16027,9 @@ export const MakerNotesTagsNames = strEnum(
   "AssignRemoteFnButton",
   "AssistButtonFunction",
   "Audio",
+  "AudioChannels",
   "AudioCompression",
+  "AudioSampleRate",
   "AutoAFPointColorTracking",
   "AutoAFPointSelEOSiTRAF",
   "AutoAperture",
@@ -14341,6 +16046,7 @@ export const MakerNotesTagsNames = strEnum(
   "AutoFocusModeRestrictions",
   "AutoFP",
   "AutoISO",
+  "AutoISOMax",
   "AutoISOMinShutterSpeed",
   "AutoLightingOptimizer",
   "AutoPortraitFramed",
@@ -14366,6 +16072,8 @@ export const MakerNotesTagsNames = strEnum(
   "BeepPitch",
   "BeepVolume",
   "BestShotMode",
+  "BitDepth",
+  "BlackLevel",
   "BlackLevels",
   "BlackMaskBottomBorder",
   "BlackMaskLeftBorder",
@@ -14373,6 +16081,7 @@ export const MakerNotesTagsNames = strEnum(
   "BlackMaskTopBorder",
   "BlackPoint",
   "BleachBypassToning",
+  "BlueBalance",
   "BlurControl",
   "BlurWarning",
   "BoardTemperature",
@@ -14395,6 +16104,7 @@ export const MakerNotesTagsNames = strEnum(
   "BracketStep",
   "BracketValue",
   "Brightness",
+  "BrightnessValue",
   "BuildNumber",
   "BulbDuration",
   "BurstGroupID",
@@ -14412,6 +16122,7 @@ export const MakerNotesTagsNames = strEnum(
   "CameraDateTime",
   "CameraID",
   "CameraISO",
+  "CameraModel",
   "CameraOrientation",
   "CameraPictureStyle",
   "CameraPitch",
@@ -14432,6 +16143,7 @@ export const MakerNotesTagsNames = strEnum(
   "CardShutterLock",
   "CaseAutoSetting",
   "Categories",
+  "Category",
   "CCDBoardVersion",
   "CCDScanMode",
   "CCDSensitivity",
@@ -14444,6 +16156,7 @@ export const MakerNotesTagsNames = strEnum(
   "ChromaticAberrationCorrParams",
   "ChromaticAberrationSetting",
   "ChrominanceNoiseReduction",
+  "City",
   "City2",
   "Clarity",
   "ClarityControl",
@@ -14479,6 +16192,7 @@ export const MakerNotesTagsNames = strEnum(
   "ColorMatrixNumber",
   "ColorMode",
   "ColorProfileSettings",
+  "ColorSpace",
   "ColorTempAsShot",
   "ColorTempAuto",
   "ColorTempCloudy",
@@ -14518,6 +16232,7 @@ export const MakerNotesTagsNames = strEnum(
   "CommanderInternalTTLCompBuiltin",
   "CommanderInternalTTLCompGroupA",
   "CommanderInternalTTLCompGroupB",
+  "Compass",
   "ComponentBitDepth",
   "ComponentVersion",
   "CompositeImageMode",
@@ -14526,8 +16241,10 @@ export const MakerNotesTagsNames = strEnum(
   "CompositionAdjustX",
   "CompositionAdjustY",
   "CompressedImageSize",
+  "Compression",
   "CompressionFactor",
   "CompressionRatio",
+  "CompressorVersion",
   "ContentIdentifier",
   "ContinuousBracketing",
   "ContinuousDrive",
@@ -14535,6 +16252,7 @@ export const MakerNotesTagsNames = strEnum(
   "ContinuousModeLiveView",
   "ContinuousShootingSpeed",
   "ContinuousShotLimit",
+  "Contrast",
   "ContrastAuto",
   "ContrastCurve",
   "ContrastDetectAFArea",
@@ -14557,14 +16275,20 @@ export const MakerNotesTagsNames = strEnum(
   "ControlRingRotation",
   "ConversionLens",
   "Converter",
+  "Copyright",
   "CorrelatedColorTemp",
+  "Country",
+  "CountryCode",
   "CPUFirmwareVersion",
   "CPUVersions",
+  "CreateDate",
   "CreativeStyle",
   "CreativeStyleSetting",
   "CropArea",
   "CropBottomMargin",
+  "CropHeight",
   "CropHiSpeed",
+  "CropLeft",
   "CropLeftMargin",
   "CropMode",
   "CroppedImageHeight",
@@ -14572,11 +16296,14 @@ export const MakerNotesTagsNames = strEnum(
   "CroppedImageTop",
   "CroppedImageWidth",
   "CropRightMargin",
+  "CropTop",
   "CropTopMargin",
+  "CropWidth",
   "CrossProcess",
   "CustomControls",
   "CustomizeDials",
   "CustomPictureStyleFileName",
+  "CustomRendered",
   "CustomSaturation",
   "CustomSettingsAllDefault",
   "CustomSettingsBank",
@@ -14592,6 +16319,7 @@ export const MakerNotesTagsNames = strEnum(
   "DateDisplayFormat",
   "DateImprint",
   "DateStampMode",
+  "DateTimeOriginal",
   "DateTimeStamp",
   "DateTimeUTC",
   "DaylightSavings",
@@ -14614,6 +16342,8 @@ export const MakerNotesTagsNames = strEnum(
   "DigitalLensOptimizer",
   "DigitalLensOptimizerSetting",
   "DigitalZoom",
+  "DigitalZoomOn",
+  "DigitalZoomRatio",
   "DirectoryIndex",
   "DirectoryNumber",
   "DispButton",
@@ -14626,10 +16356,12 @@ export const MakerNotesTagsNames = strEnum(
   "DistortionCorrectionVersion",
   "DistortionCorrParams",
   "DistortionCorrParamsPresent",
+  "DriveMode",
   "DriveModeSetting",
   "DriveSpeed",
   "DSPFirmwareVersion",
   "DualPixelRaw",
+  "Duration",
   "DustRemovalData",
   "DXCropAlert",
   "DynamicAFArea",
@@ -14648,6 +16380,7 @@ export const MakerNotesTagsNames = strEnum(
   "EasyMode",
   "EffectiveMaxAperture",
   "ElectronicFrontCurtainShutter",
+  "Emissivity",
   "EnergySavingMode",
   "Enhancement",
   "Enhancer",
@@ -14664,6 +16397,7 @@ export const MakerNotesTagsNames = strEnum(
   "ExposureBracketStepSize",
   "ExposureBracketValue",
   "ExposureCompAutoCancel",
+  "ExposureCompensation",
   "ExposureCompensationMode",
   "ExposureCompensationSet",
   "ExposureCompensationSetting",
@@ -14674,7 +16408,9 @@ export const MakerNotesTagsNames = strEnum(
   "ExposureIndicator",
   "ExposureLevelIncrements",
   "ExposureModeInManual",
+  "ExposureProgram",
   "ExposureShift",
+  "ExposureTime",
   "ExposureTimeMax",
   "ExposureTimeMin",
   "ExposureTuning",
@@ -14688,6 +16424,7 @@ export const MakerNotesTagsNames = strEnum(
   "ExtenderFirmwareVersion",
   "ExtenderModel",
   "ExtenderSerialNumber",
+  "ExtenderStatus",
   "ExternalFlash",
   "ExternalFlashBounce",
   "ExternalFlashCompensation",
@@ -14730,6 +16467,7 @@ export const MakerNotesTagsNames = strEnum(
   "FileInfoVersion",
   "FileNumber",
   "FileNumberMemory",
+  "FileSource",
   "FillFlashAutoReduction",
   "FilmGrainEffect",
   "FilmMode",
@@ -14741,6 +16479,7 @@ export const MakerNotesTagsNames = strEnum(
   "FineSharpness",
   "FineTuneOptHighlightWeighted",
   "FinishedImage",
+  "Firmware",
   "FirmwareDate",
   "FirmwareID",
   "FirmwareName",
@@ -14758,6 +16497,7 @@ export const MakerNotesTagsNames = strEnum(
   "FlashChargeLevel",
   "FlashColorFilter",
   "FlashCommanderMode",
+  "FlashCompensation",
   "FlashControl",
   "FlashControlMode",
   "FlashCurtain",
@@ -14806,6 +16546,7 @@ export const MakerNotesTagsNames = strEnum(
   "FlashSyncMode",
   "FlashSyncSpeedAv",
   "FlashThreshold",
+  "FlashType",
   "FlashWarning",
   "FlexibleSpotPosition",
   "FlickAdvanceDirection",
@@ -14815,6 +16556,8 @@ export const MakerNotesTagsNames = strEnum(
   "FlickerReductionShooting",
   "FlightDegree",
   "FlightSpeed",
+  "FNumber",
+  "FocalLength",
   "FocalLengthTeleZoom",
   "FocalPlaneAFPointArea",
   "FocalPlaneDiagonal",
@@ -14827,6 +16570,7 @@ export const MakerNotesTagsNames = strEnum(
   "FocusBracketStepSize",
   "FocusContinuous",
   "FocusDisplayAIServoAndMF",
+  "FocusDistance",
   "FocusDistanceLower",
   "FocusDistanceRange",
   "FocusDistanceUpper",
@@ -14862,6 +16606,7 @@ export const MakerNotesTagsNames = strEnum(
   "FocusShiftShooting",
   "FocusShiftStepWidth",
   "FocusStatus",
+  "FocusStepCount",
   "FocusStepInfinity",
   "FocusStepNear",
   "FocusTrackingLockOn",
@@ -14869,6 +16614,7 @@ export const MakerNotesTagsNames = strEnum(
   "FolderNumber",
   "FrameCount",
   "FrameNumber",
+  "FrameRate",
   "FramingGridDisplay",
   "FreeBytes",
   "FujiFlashMode",
@@ -14943,8 +16689,10 @@ export const MakerNotesTagsNames = strEnum(
   "ImageEditing",
   "ImageEffects",
   "ImageGeneration",
+  "ImageHeight",
   "ImageIDNumber",
   "ImageName",
+  "ImageNumber",
   "ImageOptimization",
   "ImageProcessing",
   "ImageProcessingVersion",
@@ -14959,6 +16707,7 @@ export const MakerNotesTagsNames = strEnum(
   "ImageTemperatureMax",
   "ImageTemperatureMin",
   "ImageTone",
+  "ImageWidth",
   "InfoButtonWhenShooting",
   "InfraredIlluminator",
   "InitialAFPointAIServoAF",
@@ -14988,6 +16737,7 @@ export const MakerNotesTagsNames = strEnum(
   "IntervalPriority",
   "Intervals",
   "IntervalShooting",
+  "ISO",
   "ISO2",
   "ISOAuto",
   "ISOAutoFlashLimit",
@@ -15031,6 +16781,7 @@ export const MakerNotesTagsNames = strEnum(
   "LCDIllumination",
   "LCDIlluminationDuringBulb",
   "LCDPanels",
+  "Lens",
   "LensApertureRange",
   "LensControlRing",
   "LensDataVersion",
@@ -15045,12 +16796,16 @@ export const MakerNotesTagsNames = strEnum(
   "LensFStops",
   "LensFunc1Button",
   "LensFunc2Button",
+  "LensID",
   "LensIDNumber",
+  "LensInfo",
   "LensMaxApertureRange",
+  "LensModel",
   "LensMount",
   "LensMountType",
   "LensPositionAbsolute",
   "LensProperties",
+  "LensSerialNumber",
   "LensShading",
   "LensShutterLock",
   "LensSpec",
@@ -15065,6 +16820,7 @@ export const MakerNotesTagsNames = strEnum(
   "LevelOrientation",
   "LightCondition",
   "LightingMode",
+  "LightSource",
   "LightSourceSpecial",
   "LightSwitch",
   "LightValueCenter",
@@ -15102,6 +16858,7 @@ export const MakerNotesTagsNames = strEnum(
   "MagicFilter",
   "MagnifiedView",
   "MainDialExposureComp",
+  "Make",
   "MakerNoteOffset",
   "MakerNoteType",
   "MakerNoteVersion",
@@ -15140,6 +16897,7 @@ export const MakerNotesTagsNames = strEnum(
   "MetaVersion",
   "Metering",
   "MeteringButton",
+  "MeteringMode",
   "MeteringOffScaleIndicator",
   "MeteringTime",
   "MeterMode",
@@ -15159,6 +16917,7 @@ export const MakerNotesTagsNames = strEnum(
   "MinoltaTime",
   "MirrorLockup",
   "ModeDialPosition",
+  "Model",
   "ModelReleaseYear",
   "ModifiedColorTemp",
   "ModifiedDigitalGain",
@@ -15288,6 +17047,7 @@ export const MakerNotesTagsNames = strEnum(
   "PeripheralLighting",
   "PeripheralLightingSetting",
   "PeripheralLightingValue",
+  "PhaseDetectAF",
   "PhotoEffect",
   "PhotoIdentifier",
   "PhotoInfoPlayback",
@@ -15340,6 +17100,7 @@ export const MakerNotesTagsNames = strEnum(
   "PresetWhiteBalance",
   "PreviewButton",
   "PreviewButtonPlusDials",
+  "PreviewImage",
   "PreviewImageBorders",
   "PreviewImageHeight",
   "PreviewImageLength",
@@ -15357,6 +17118,7 @@ export const MakerNotesTagsNames = strEnum(
   "QuickShot",
   "QuietShutterShootingSpeed",
   "RangeFinder",
+  "Rating",
   "RawAndJpgRecording",
   "RawBurstImageCount",
   "RawBurstImageNum",
@@ -15404,6 +17166,8 @@ export const MakerNotesTagsNames = strEnum(
   "RecordMode",
   "RecordShutterRelease",
   "RectifaceText",
+  "RedBalance",
+  "RedEyeReduction",
   "RedEyeRemoval",
   "ReleaseButtonToUseDial",
   "ReleaseMode",
@@ -15413,7 +17177,9 @@ export const MakerNotesTagsNames = strEnum(
   "RepeatingFlashOutputExternal",
   "RepeatingFlashRate",
   "Resaved",
+  "Resolution",
   "ResolutionMode",
+  "ResolutionUnit",
   "RestrictDriveModes",
   "RetouchHistory",
   "RetouchInfoVersion",
@@ -15432,6 +17198,7 @@ export const MakerNotesTagsNames = strEnum(
   "Roll",
   "RollAngle",
   "ROMOperationMode",
+  "Rotation",
   "RunTimeValue",
   "SafetyShift",
   "SafetyShiftInAvOrTv",
@@ -15439,6 +17206,7 @@ export const MakerNotesTagsNames = strEnum(
   "SamsungModelID",
   "SanyoQuality",
   "SanyoThumbnail",
+  "Saturation",
   "SaturationAdj",
   "SaturationAuto",
   "SaturationFaithful",
@@ -15500,6 +17268,7 @@ export const MakerNotesTagsNames = strEnum(
   "ShadingCompensation",
   "Shadow",
   "ShadowCorrection",
+  "Shadows",
   "ShadowTone",
   "ShakeReduction",
   "Sharpening",
@@ -15518,6 +17287,7 @@ export const MakerNotesTagsNames = strEnum(
   "SharpnessTable",
   "ShootingInfoDisplay",
   "ShootingInfoMonitorOffTime",
+  "ShootingMode",
   "ShootingModeSetting",
   "ShortOwnerName",
   "ShortReleaseTimeLag",
@@ -15538,9 +17308,12 @@ export const MakerNotesTagsNames = strEnum(
   "ShutterReleaseNoCFCard",
   "ShutterReleaseTiming",
   "ShutterReleaseWithoutLens",
+  "ShutterSpeed",
   "ShutterSpeedLock",
   "ShutterSpeedRange",
   "ShutterSpeedSetting",
+  "ShutterSpeedValue",
+  "ShutterType",
   "SignalToNoiseRatio",
   "SilentPhotography",
   "SingleFrame",
@@ -15553,6 +17326,7 @@ export const MakerNotesTagsNames = strEnum(
   "SmileShutterMode",
   "SoftFocusFilter",
   "SoftSkinEffect",
+  "Software",
   "SoftwareDate",
   "SonyDateTime",
   "SonyDateTime2",
@@ -15591,6 +17365,7 @@ export const MakerNotesTagsNames = strEnum(
   "StandbyMonitorOffTime",
   "StandbyTimer",
   "StartMovieShooting",
+  "State",
   "StaticMetadataText",
   "StopsAboveBaseISO",
   "StorageMethod",
@@ -15629,12 +17404,14 @@ export const MakerNotesTagsNames = strEnum(
   "TextStamp",
   "ThumbnailFileName",
   "ThumbnailHeight",
+  "ThumbnailImage",
   "ThumbnailImageValidArea",
   "ThumbnailWidth",
   "TiffMeteringImage",
   "TiffMeteringImageHeight",
   "TiffMeteringImageWidth",
   "Time",
+  "TimeCreated",
   "TimeLapseShotNumber",
   "TimeLogText",
   "TimerLength",
@@ -15644,6 +17421,7 @@ export const MakerNotesTagsNames = strEnum(
   "TimeZoneCity",
   "TimeZoneCode",
   "TimeZoneInfo",
+  "Title",
   "ToneCurve",
   "ToneCurveMatching",
   "ToneCurveTable",
@@ -15687,6 +17465,7 @@ export const MakerNotesTagsNames = strEnum(
   "VideoBurstMode",
   "VideoBurstResolution",
   "VideoCodec",
+  "VideoFrameRate",
   "VideoPreburst",
   "ViewfinderDisplay",
   "ViewfinderWarning",
@@ -15724,6 +17503,7 @@ export const MakerNotesTagsNames = strEnum(
   "WBShiftCreativeControl",
   "WBShiftGM",
   "WBShiftIntelligentAuto",
+  "WhiteBalance",
   "WhiteBalanceAutoAdjustment",
   "WhiteBalanceBias",
   "WhiteBalanceBlue",
@@ -15737,6 +17517,8 @@ export const MakerNotesTagsNames = strEnum(
   "WhiteBalanceTable",
   "WhiteBalanceTemperature",
   "WhiteBoard",
+  "WhiteLevel",
+  "WhitePoint",
   "WholeAreaTracking",
   "WideAdapter",
   "WideFocusZone",
@@ -15744,8 +17526,12 @@ export const MakerNotesTagsNames = strEnum(
   "WorldTimeLocation",
   "X3FillLight",
   "Xidiri",
+  "XResolution",
   "Yaw",
+  "YCbCrCoefficients",
+  "YCbCrPositioning",
   "YearCreated",
+  "YResolution",
   "ZoneMatching",
   "ZoneMatchingMode",
   "ZoneMatchingOn",
@@ -15795,6 +17581,12 @@ export interface XMPTags {
    * @example "RtkAlt"
    */
   AltitudeType?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example 9016997700
+   */
+  ApertureValue?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -15850,6 +17642,12 @@ export interface XMPTags {
    */
   BandName?: string[];
   /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, File, RAF, RIFF, XMP
+   * @example 8
+   */
+  BitsPerSample?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example 0
@@ -15861,6 +17659,18 @@ export interface XMPTags {
    * @example 0
    */
   BlueSaturation?: number;
+  /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups MakerNotes, XMP
+   * @example 9.25
+   */
+  Brightness?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (23%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 9.9919505
+   */
+  BrightnessValue?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -15898,6 +17708,12 @@ export interface XMPTags {
    */
   CameraProfileDigest?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups APP, EXIF, XMP
+   * @example 91702442
+   */
+  CameraSerialNumber?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "Rear"
@@ -15927,6 +17743,12 @@ export interface XMPTags {
    * @example ["Subjekt|Natur|Pflanzen","Ort|Deutschland|Rangsdorf"]
    */
   CatalogSets?: string[];
+  /**
+   * @frequency 🔥 ☆☆☆☆ (5%)
+   * @groups MakerNotes, XMP
+   * @example "People"
+   */
+  Categories?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -15983,6 +17805,12 @@ export interface XMPTags {
   CircularGradientBasedCorrections?: Struct[];
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups IPTC, MakerNotes, XMP
+   * @example "TEDDINGTON"
+   */
+  City?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups XMP
    * @example "5 (Typical)"
    */
@@ -15999,6 +17827,12 @@ export interface XMPTags {
    * @example ""
    */
   Colorlabels?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (14%)
+   * @groups APP, MakerNotes, XMP
+   * @example "n/a"
+   */
+  ColorMode?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16018,11 +17852,35 @@ export interface XMPTags {
    */
   ColorNoiseReductionSmoothness?: number;
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "sRGB"
+   */
+  ColorSpace?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups MakerNotes, XMP
+   * @example 9900
+   */
+  ColorTemperature?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups File, XMP
    * @example "This is a comment."
    */
   Comment?: string;
+  /**
+   * @frequency 🔥 ★★★★ (56%)
+   * @groups EXIF, XMP
+   * @example 90
+   */
+  CompressedBitsPerPixel?: number;
+  /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups APP, EXIF, File, MakerNotes, XMP
+   * @example "Unknown (1536)"
+   */
+  Compression?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16036,6 +17894,12 @@ export interface XMPTags {
    */
   ContainerDirectory?: ContainerDirectoryItem[] | Struct[];
   /**
+   * @frequency 🔥 ★★★★ (60%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "n/a"
+   */
+  Contrast?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes, XMP
    * @example "United States"
@@ -16047,6 +17911,12 @@ export interface XMPTags {
    * @example "ir"
    */
   CountryCode?: string;
+  /**
+   * @frequency 🔥 ★★★★ (99%)
+   * @groups EXIF, MakerNotes, QuickTime, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  CreateDate?: ExifDateTime | ExifDate | string | number;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16162,6 +18032,12 @@ export interface XMPTags {
    */
   CropWidth?: number;
   /**
+   * @frequency 🔥 ★★★★ (64%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (Custom process)"
+   */
+  CustomRendered?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "2014:05:11 13:08:25.659"
@@ -16185,6 +18061,12 @@ export interface XMPTags {
    * @example "2017:08:13 12:38:30"
    */
   DateTimeDigitized?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
+   * @example "2218:09:22 02:32:14"
+   */
+  DateTimeOriginal?: ExifDateTime | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16246,6 +18128,12 @@ export interface XMPTags {
    */
   Description?: string;
   /**
+   * @frequency 🔥 ★★★☆ (49%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example 8.1319764
+   */
+  DigitalZoomRatio?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example ["Animation","Collage"]
@@ -16270,11 +18158,53 @@ export interface XMPTags {
    */
   DroneSerialNumber?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups Composite, MakerNotes, QuickTime, XMP
+   * @example 9.5095
+   */
+  Duration?: number;
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups EXIF, XMP
+   * @example 990
+   */
+  ExifImageHeight?: number;
+  /**
+   * @frequency 🔥 ★★★★ (97%)
+   * @groups EXIF, XMP
+   * @example 999
+   */
+  ExifImageWidth?: number;
+  /**
+   * @frequency 🔥 ★★★★ (98%)
+   * @groups EXIF, XMP
+   * @example "Version 2.2"
+   */
+  ExifVersion?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups APP, XMP
    * @example 3687
    */
   Exposure?: number;
+  /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 1
+   */
+  ExposureCompensation?: number;
+  /**
+   * @frequency 🔥 ★★★★ (69%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "iAuto+"
+   */
+  ExposureProgram?: string;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "inf"
+   */
+  ExposureTime?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16300,6 +18230,12 @@ export interface XMPTags {
    */
   Far?: number;
   /**
+   * @frequency 🔥 ★★★★ (63%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (DSC)"
+   */
+  FileSource?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example
@@ -16323,6 +18259,12 @@ export interface XMPTags {
    * @example "Example flash make"
    */
   FlashManufacturer?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes, XMP
+   * @example "None"
+   */
+  FlashModel?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16366,6 +18308,42 @@ export interface XMPTags {
    */
   FlightZSpeed?: number;
   /**
+   * @frequency 🔥 ★★★★ (98%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 90
+   */
+  FNumber?: number;
+  /**
+   * @frequency 🔥 ★★★★ (96%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "99.7 mm"
+   */
+  FocalLength?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (31%)
+   * @groups EXIF, PanasonicRaw, QuickTime, XMP
+   * @example "9920 mm"
+   */
+  FocalLengthIn35mmFormat?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (23%)
+   * @groups EXIF, XMP
+   * @example "um"
+   */
+  FocalPlaneResolutionUnit?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (23%)
+   * @groups EXIF, XMP
+   * @example 9941.7476
+   */
+  FocalPlaneXResolution?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (23%)
+   * @groups EXIF, XMP
+   * @example 9846.1538
+   */
+  FocalPlaneYResolution?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example 6553500
@@ -16383,6 +18361,12 @@ export interface XMPTags {
    * @example 6553500
    */
   FocusAreaWidth?: number;
+  /**
+   * @frequency 🔥 ★☆☆☆ (5%)
+   * @groups APP, Composite, MakerNotes, XMP
+   * @example "inf"
+   */
+  FocusDistance?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16426,6 +18410,12 @@ export interface XMPTags {
    */
   FullPanoWidthPixels?: number;
   /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups EXIF, XMP
+   * @example "Unknown (8176)"
+   */
+  GainControl?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example -90
@@ -16450,11 +18440,83 @@ export interface XMPTags {
    */
   GimbalYawDegree?: number;
   /**
+   * @frequency 🔥 ★☆☆☆ (7%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 99.8
+   */
+  GPSAltitude?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups Composite, EXIF, XMP
+   * @example "Unknown (Sea level reference)"
+   */
+  GPSAltitudeRef?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, XMP
+   * @example "2025:06:24"
+   */
+  GPSDateStamp?: ExifDate | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups Composite, XMP
+   * @example "2025:06:24 22:24:43Z"
+   */
+  GPSDateTime?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example 94.800416
+   */
+  GPSImgDirection?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example "Unknown ()"
+   */
+  GPSImgDirectionRef?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 48.857748
+   */
+  GPSLatitude?: number | string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example 2.2918888
+   */
+  GPSLongitude?: number | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups APP, Composite, EXIF, XMP
+   * @example "West"
+   */
+  GPSLongitudeRef?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups APP, EXIF, XMP
+   * @example "WGS84"
+   */
+  GPSMapDatum?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, XMP
+   * @example "gps"
+   */
+  GPSProcessingMethod?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "Invalid"
    */
   GpsStatus?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (11%)
+   * @groups APP, EXIF, XMP
+   * @example "50.51.48.48"
+   */
+  GPSVersionID?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16564,6 +18626,18 @@ export interface XMPTags {
    */
   ICCProfileName?: string;
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 960
+   */
+  ImageHeight?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups File, XMP
+   * @example 4048
+   */
+  ImageLength?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups EXIF, MakerNotes, XMP
    * @example 9956
@@ -16575,6 +18649,12 @@ export interface XMPTags {
    * @example "DefaultCamera"
    */
   ImageSource?: string;
+  /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
+   * @example 9728
+   */
+  ImageWidth?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16630,6 +18710,18 @@ export interface XMPTags {
    */
   IsNightModeActive?: boolean;
   /**
+   * @frequency 🔥 ★★★★ (91%)
+   * @groups Composite, EXIF, MakerNotes, XMP
+   * @example 993
+   */
+  ISO?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups EXIF, XMP
+   * @example 80
+   */
+  ISOSpeed?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example ["red fish","bluefish"]
@@ -16642,11 +18734,35 @@ export interface XMPTags {
    */
   LateralChromaticAberrationCorrectionAlreadyApplied?: boolean;
   /**
+   * @frequency 🔥 ★★☆☆ (16%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  Lens?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "Back"
    */
   LensFacing?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (22%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  LensID?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "?mm f/?"
+   */
+  LensInfo?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, XMP
+   * @example "ZEISS"
+   */
+  LensMake?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16659,6 +18775,12 @@ export interface XMPTags {
    * @example "Example lens make"
    */
   LensManufacturer?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (13%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "smc PENTAX-FA 43mm F1.9 Limited"
+   */
+  LensModel?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16689,6 +18811,18 @@ export interface XMPTags {
    * @example 100
    */
   LensProfileVignettingScale?: number;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "xB?"
+   */
+  LensSerialNumber?: string;
+  /**
+   * @frequency 🔥 ★★★★ (59%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "White Fluorescent"
+   */
+  LightSource?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16762,6 +18896,12 @@ export interface XMPTags {
    */
   LuminanceSmoothing?: number;
   /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, QuickTime, XMP
+   * @example "samsung"
+   */
+  Make?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "4577 bytes undefined data"
@@ -16780,11 +18920,23 @@ export interface XMPTags {
    */
   Mask?: string;
   /**
+   * @frequency 🔥 ★★★★ (66%)
+   * @groups EXIF, XMP
+   * @example 9.1
+   */
+  MaxApertureValue?: number;
+  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups XMP
    * @example "2024:10:02 15:51:50-07:00"
    */
   MetadataDate?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (Center-weighted average)"
+   */
+  MeteringMode?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16816,6 +18968,12 @@ export interface XMPTags {
    */
   Mime?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime, XMP
+   * @example "2011.7.0"
+   */
+  MinorVersion?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example 240
@@ -16828,11 +18986,23 @@ export interface XMPTags {
    */
   MobileNetworkCode?: number;
   /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups APP, EXIF, MakerNotes, QuickTime, XMP
+   * @example "x530"
+   */
+  Model?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "2015:06:02 09:56:01"
    */
   ModificationDate?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ★★★★ (90%)
+   * @groups EXIF, QuickTime, XMP
+   * @example "2216:02:28 03:49:50"
+   */
+  ModifyDate?: ExifDateTime | string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -16900,6 +19070,12 @@ export interface XMPTags {
    */
   ObjectPosY?: number;
   /**
+   * @frequency 🔥 ★★★★ (92%)
+   * @groups EXIF, PanasonicRaw, XMP
+   * @example 8
+   */
+  Orientation?: number;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example
@@ -16911,6 +19087,12 @@ export interface XMPTags {
    * @example "xmp.did:CA75A78ACAC4DF11B8A4EF512D9BE2EA"
    */
   OriginalDocumentID?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups EXIF, XMP
+   * @example "(Binary data 2060 bytes, use -b option to extract)"
+   */
+  Padding?: BinaryField | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -17014,11 +19196,23 @@ export interface XMPTags {
    */
   PhotographicSensitivity?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, XMP
+   * @example "YCbCr"
+   */
+  PhotometricInterpretation?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example 0
    */
   PickLabel?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example "Low"
+   */
+  Pitch?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups XMP
@@ -17056,6 +19250,12 @@ export interface XMPTags {
    */
   PostCropVignetteAmount?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @groups IPTC, XMP
+   * @example "Tagged:1, ColorClass:5, Rating:0, FrameNum:000505"
+   */
+  Prefs?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "DSC_0065.NEF"
@@ -17067,6 +19267,12 @@ export interface XMPTags {
    * @example 6.7
    */
   ProcessVersion?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example "Unknown (160)"
+   */
+  ProgramMode?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -17085,6 +19291,12 @@ export interface XMPTags {
    * @example "VI7H4042.CR2"
    */
   RawFileName?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (6%)
+   * @groups EXIF, XMP
+   * @example 800
+   */
+  RecommendedExposureIndex?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -17122,11 +19334,35 @@ export interface XMPTags {
    */
   RelativeAltitude?: string;
   /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, XMP
+   * @example "inches"
+   */
+  ResolutionUnit?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "Kawp E. Reite Houldre"
    */
   Rights?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example 150.43
+   */
+  Roll?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups EXIF, XMP
+   * @example 3
+   */
+  SamplesPerPixel?: number;
+  /**
+   * @frequency 🔥 ★★★★ (66%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "n/a"
+   */
+  Saturation?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -17182,6 +19418,12 @@ export interface XMPTags {
    */
   Scene?: string;
   /**
+   * @frequency 🔥 ★★★★ (73%)
+   * @groups EXIF, XMP
+   * @example "Unknown (Standard)"
+   */
+  SceneCaptureType?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "[0.997883, 0.92984027]"
@@ -17194,6 +19436,12 @@ export interface XMPTags {
    */
   SceneDetectResultIds?: string;
   /**
+   * @frequency 🔥 ★★★★ (51%)
+   * @groups EXIF, XMP
+   * @example "Unknown (Directly photographed)"
+   */
+  SceneType?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "Undefined"
@@ -17205,6 +19453,24 @@ export interface XMPTags {
    * @example 65536
    */
   SemanticSegmentationMatteVersion?: number;
+  /**
+   * @frequency 🔥 ★★★☆ (35%)
+   * @groups EXIF, XMP
+   * @example "Unknown (One-chip color area sensor)"
+   */
+  SensingMethod?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (18%)
+   * @groups EXIF, XMP
+   * @example "Unknown"
+   */
+  SensitivityType?: string;
+  /**
+   * @frequency 🔥 ★★☆☆ (15%)
+   * @groups APP, EXIF, MakerNotes, Meta, XMP
+   * @example "sw02028104 "
+   */
+  SerialNumber?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes, XMP
@@ -17236,11 +19502,35 @@ export interface XMPTags {
    */
   SharpenRadius?: number;
   /**
+   * @frequency 🔥 ★★☆☆ (18%)
+   * @groups Composite, MakerNotes, XMP
+   * @example "Unknown (83)"
+   */
+  ShootingMode?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (39%)
+   * @groups EXIF, MakerNotes, PanasonicRaw, XMP
+   * @example "1/999963365"
+   */
+  ShutterSpeedValue?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes, XMP
    * @example "Normal"
    */
   ShutterType?: string;
+  /**
+   * @frequency 🔥 ★★★★ (61%)
+   * @groups EXIF, MakerNotes, QuickTime, RIFF, XMP
+   * @example "https://PhotoStructure.com/"
+   */
+  Software?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC, XMP
+   * @example "Shutterfly McShutterface"
+   */
+  Source?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -17297,16 +19587,46 @@ export interface XMPTags {
   StitchingSoftware?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups RIFF, XMP
+   * @example 3
+   */
+  StreamType?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example ["点像F11"]
    */
   Subject?: string[];
+  /**
+   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @groups EXIF, XMP
+   * @example "99.99 m"
+   */
+  SubjectDistance?: string;
+  /**
+   * @frequency 🔥 ★★★☆ (24%)
+   * @groups EXIF, XMP
+   * @example "Unknown (Macro)"
+   */
+  SubjectDistanceRange?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example 296185
    */
   SubsecTime?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups EXIF, XMP
+   * @example 996
+   */
+  SubSecTimeDigitized?: number;
+  /**
+   * @frequency 🔥 ★★☆☆ (10%)
+   * @groups EXIF, XMP
+   * @example 999
+   */
+  SubSecTimeOriginal?: number;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -17350,6 +19670,12 @@ export interface XMPTags {
    */
   TlinearGain?: number;
   /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups MakerNotes, XMP
+   * @example "Standard"
+   */
+  ToneCurve?: string;
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "Medium Contrast"
@@ -17375,10 +19701,22 @@ export interface XMPTags {
   ToneCurvePV2012Red?: string[];
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups IPTC, XMP
+   * @example "1 (most urgent)"
+   */
+  Urgency?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example true
    */
   UsePanoramaViewer?: boolean;
+  /**
+   * @frequency 🔥 ★★★☆ (38%)
+   * @groups EXIF, XMP
+   * @example "This is a comment."
+   */
+  UserComment?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -17410,6 +19748,12 @@ export interface XMPTags {
    */
   WavelengthFWHM?: number[];
   /**
+   * @frequency 🔥 ★★★★ (110%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example "White Preset"
+   */
+  WhiteBalance?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><…="0" />"
@@ -17421,6 +19765,30 @@ export interface XMPTags {
    * @example "XMP toolkit 3.0-28, framework 1.6"
    */
   XMPToolkit?: string;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  XResolution?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups MakerNotes, XMP
+   * @example 0.83734368
+   */
+  Yaw?: number;
+  /**
+   * @frequency 🔥 ★★★★ (100%)
+   * @groups EXIF, MakerNotes, XMP
+   * @example "Unknown (512)"
+   */
+  YCbCrPositioning?: string;
+  /**
+   * @frequency 🔥 ★★★★ (130%)
+   * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
+   * @example 99
+   */
+  YResolution?: number;
 }
 
 export const XMPTagsNames = strEnum(
@@ -17429,6 +19797,7 @@ export const XMPTagsNames = strEnum(
   "Album",
   "AlreadyApplied",
   "AltitudeType",
+  "ApertureValue",
   "ApproximateFocusDistance",
   "AsrClimaxDuration",
   "AsrClimaxScene",
@@ -17438,19 +19807,24 @@ export const XMPTagsNames = strEnum(
   "AutoLateralCA",
   "AuxiliaryImageType",
   "BandName",
+  "BitsPerSample",
   "BlueHue",
   "BlueSaturation",
+  "Brightness",
+  "BrightnessValue",
   "BurstID",
   "BurstPrimary",
   "CameraBurstID",
   "CameraFacing",
   "CameraProfile",
   "CameraProfileDigest",
+  "CameraSerialNumber",
   "CameraUnit",
   "CamReverse",
   "CaptureMode",
   "CaptureSoftware",
   "CatalogSets",
+  "Categories",
   "CellGlobalID",
   "CellR",
   "CellTowerID",
@@ -17460,17 +19834,25 @@ export const XMPTagsNames = strEnum(
   "ChromaticAberrationB",
   "ChromaticAberrationR",
   "CircularGradientBasedCorrections",
+  "City",
   "ColorClass",
   "ColorLabel",
   "Colorlabels",
+  "ColorMode",
   "ColorNoiseReduction",
   "ColorNoiseReductionDetail",
   "ColorNoiseReductionSmoothness",
+  "ColorSpace",
+  "ColorTemperature",
   "Comment",
+  "CompressedBitsPerPixel",
+  "Compression",
   "Container",
   "ContainerDirectory",
+  "Contrast",
   "Country",
   "CountryCode",
+  "CreateDate",
   "CreationTime",
   "Creator",
   "CreatorAppID",
@@ -17490,10 +19872,12 @@ export const XMPTagsNames = strEnum(
   "CropRight",
   "CropTop",
   "CropWidth",
+  "CustomRendered",
   "DateAcquired",
   "DateCreated",
   "DateTime",
   "DateTimeDigitized",
+  "DateTimeOriginal",
   "DateUTC",
   "DefringeGreenAmount",
   "DefringeGreenHueHi",
@@ -17504,19 +19888,29 @@ export const XMPTagsNames = strEnum(
   "Dehaze",
   "DerivedFrom",
   "Description",
+  "DigitalZoomRatio",
   "DisableAutoCreation",
   "DocumentID",
   "DroneModel",
   "DroneSerialNumber",
+  "Duration",
+  "ExifImageHeight",
+  "ExifImageWidth",
+  "ExifVersion",
   "Exposure",
+  "ExposureCompensation",
+  "ExposureProgram",
+  "ExposureTime",
   "Face",
   "FaceNum",
   "FaceSelectedIndex",
   "Far",
+  "FileSource",
   "Filters",
   "Firmware",
   "FlashCompensation",
   "FlashManufacturer",
+  "FlashModel",
   "FlashPixVersion",
   "FlightPitchDegree",
   "FlightRollDegree",
@@ -17524,9 +19918,16 @@ export const XMPTagsNames = strEnum(
   "FlightYawDegree",
   "FlightYSpeed",
   "FlightZSpeed",
+  "FNumber",
+  "FocalLength",
+  "FocalLengthIn35mmFormat",
+  "FocalPlaneResolutionUnit",
+  "FocalPlaneXResolution",
+  "FocalPlaneYResolution",
   "FocusAreaHeight",
   "FocusAreaNum",
   "FocusAreaWidth",
+  "FocusDistance",
   "FocusIsLensMoving",
   "FocusPosX",
   "FocusPosY",
@@ -17534,11 +19935,24 @@ export const XMPTagsNames = strEnum(
   "Format",
   "FullPanoHeightPixels",
   "FullPanoWidthPixels",
+  "GainControl",
   "GimbalPitchDegree",
   "GimbalReverse",
   "GimbalRollDegree",
   "GimbalYawDegree",
+  "GPSAltitude",
+  "GPSAltitudeRef",
+  "GPSDateStamp",
+  "GPSDateTime",
+  "GPSImgDirection",
+  "GPSImgDirectionRef",
+  "GPSLatitude",
+  "GPSLongitude",
+  "GPSLongitudeRef",
+  "GPSMapDatum",
+  "GPSProcessingMethod",
   "GpsStatus",
+  "GPSVersionID",
   "GrainAmount",
   "GreenHue",
   "GreenSaturation",
@@ -17557,8 +19971,11 @@ export const XMPTagsNames = strEnum(
   "HueAdjustmentRed",
   "HueAdjustmentYellow",
   "ICCProfileName",
+  "ImageHeight",
+  "ImageLength",
   "ImageNumber",
   "ImageSource",
+  "ImageWidth",
   "InitialViewHeadingDegrees",
   "InitialViewPitchDegrees",
   "InitialViewRollDegrees",
@@ -17568,16 +19985,25 @@ export const XMPTagsNames = strEnum(
   "IsBokehActive",
   "IsHDRActive",
   "IsNightModeActive",
+  "ISO",
+  "ISOSpeed",
   "LastKeywordXMP",
   "LateralChromaticAberrationCorrectionAlreadyApplied",
+  "Lens",
   "LensFacing",
+  "LensID",
+  "LensInfo",
+  "LensMake",
   "LensManualDistortionAmount",
   "LensManufacturer",
+  "LensModel",
   "LensProfileDigest",
   "LensProfileDistortionScale",
   "LensProfileEnable",
   "LensProfileSetup",
   "LensProfileVignettingScale",
+  "LensSerialNumber",
+  "LightSource",
   "LocationAreaCode",
   "LuminanceAdjustmentAqua",
   "LuminanceAdjustmentBlue",
@@ -17590,18 +20016,24 @@ export const XMPTagsNames = strEnum(
   "LuminanceNoiseReductionContrast",
   "LuminanceNoiseReductionDetail",
   "LuminanceSmoothing",
+  "Make",
   "MakerNote",
   "Marked",
   "Mask",
+  "MaxApertureValue",
   "MetadataDate",
+  "MeteringMode",
   "MicroVideo",
   "MicroVideoOffset",
   "MicroVideoPresentationTimestampUs",
   "MicroVideoVersion",
   "Mime",
+  "MinorVersion",
   "MobileCountryCode",
   "MobileNetworkCode",
+  "Model",
   "ModificationDate",
+  "ModifyDate",
   "MotionPhoto",
   "MotionPhotoPresentationTimestampUs",
   "MotionPhotoVersion",
@@ -17613,8 +20045,10 @@ export const XMPTagsNames = strEnum(
   "ObjectNum",
   "ObjectPosX",
   "ObjectPosY",
+  "Orientation",
   "OriginalCreateDateTime",
   "OriginalDocumentID",
+  "Padding",
   "ParametricDarks",
   "ParametricHighlights",
   "ParametricHighlightSplit",
@@ -17632,25 +20066,34 @@ export const XMPTagsNames = strEnum(
   "PerspectiveX",
   "PerspectiveY",
   "PhotographicSensitivity",
+  "PhotometricInterpretation",
   "PickLabel",
+  "Pitch",
   "PMVersion",
   "PortraitVersion",
   "PoseHeadingDegrees",
   "PosePitchDegrees",
   "PoseRollDegrees",
   "PostCropVignetteAmount",
+  "Prefs",
   "PreservedFileName",
   "ProcessVersion",
+  "ProgramMode",
   "ProjectionType",
   "Rating",
   "RawFileName",
+  "RecommendedExposureIndex",
   "RedHue",
   "RedSaturation",
   "RegionInfo",
   "RegionInfoMP",
   "RegistryID",
   "RelativeAltitude",
+  "ResolutionUnit",
   "Rights",
+  "Roll",
+  "SamplesPerPixel",
+  "Saturation",
   "SaturationAdjustmentAqua",
   "SaturationAdjustmentBlue",
   "SaturationAdjustmentGreen",
@@ -17660,16 +20103,25 @@ export const XMPTagsNames = strEnum(
   "SaturationAdjustmentRed",
   "SaturationAdjustmentYellow",
   "Scene",
+  "SceneCaptureType",
   "SceneDetectResultConfidences",
   "SceneDetectResultIds",
+  "SceneType",
   "SelfData",
   "SemanticSegmentationMatteVersion",
+  "SensingMethod",
+  "SensitivityType",
+  "SerialNumber",
   "Shadows",
   "ShadowTint",
   "SharpenDetail",
   "SharpenEdgeMasking",
   "SharpenRadius",
+  "ShootingMode",
+  "ShutterSpeedValue",
   "ShutterType",
+  "Software",
+  "Source",
   "SourcePhotosCount",
   "SpecialTypeID",
   "SplitToningBalance",
@@ -17679,8 +20131,13 @@ export const XMPTagsNames = strEnum(
   "SplitToningShadowSaturation",
   "State",
   "StitchingSoftware",
+  "StreamType",
   "Subject",
+  "SubjectDistance",
+  "SubjectDistanceRange",
   "SubsecTime",
+  "SubSecTimeDigitized",
+  "SubSecTimeOriginal",
   "SurveyingMode",
   "Tagged",
   "TagsList",
@@ -17688,18 +20145,26 @@ export const XMPTagsNames = strEnum(
   "Tint",
   "Title",
   "TlinearGain",
+  "ToneCurve",
   "ToneCurveName",
   "ToneCurvePV2012Blue",
   "ToneCurvePV2012Green",
   "ToneCurvePV2012Red",
+  "Urgency",
   "UsePanoramaViewer",
+  "UserComment",
   "UTCAtExposure",
   "Versions",
   "Vibrance",
   "VignetteAmount",
   "WavelengthFWHM",
+  "WhiteBalance",
   "XMPMeta",
   "XMPToolkit",
+  "XResolution",
+  "Yaw",
+  "YCbCrPositioning",
+  "YResolution",
 ) satisfies StrEnum<keyof XMPTags>;
 
 export type XMPTag = StrEnumKeys<typeof XMPTagsNames>;
@@ -17719,7 +20184,7 @@ export type XMPTag = StrEnumKeys<typeof XMPTagsNames>;
  * - @groups: comma-separated list of metadata groups where this tag appears (e.g., "EXIF, MakerNotes")
  * - @example: representative value for the tag
  *
- * Autogenerated by "npm run mktags" by ExifTool 13.37 on Thu Sep 25 2025.
+ * Autogenerated by "npm run mktags" by ExifTool 13.38 on Tue Sep 30 2025.
  * 2901 unique tags were found in 10459 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
@@ -17727,6 +20192,7 @@ export type XMPTag = StrEnumKeys<typeof XMPTagsNames>;
 export interface Tags
   extends APPTags,
     CompositeTags,
+    DuckyTags,
     EXIFTags,
     ExifToolTags,
     ExifToolVendoredTags,
@@ -17758,12 +20224,13 @@ export interface Tags
 export const TagNames = strEnum(
   ...ExifToolTagsNames.values,
   ...FileTagsNames.values,
-  ...APPTagsNames.values,
   ...CompositeTagsNames.values,
+  ...APPTagsNames.values,
+  ...DuckyTagsNames.values,
   ...FlashPixTagsNames.values,
   ...JSONTagsNames.values,
-  ...MPFTagsNames.values,
   ...EXIFTagsNames.values,
+  ...MPFTagsNames.values,
   ...MetaTagsNames.values,
   ...PanasonicRawTagsNames.values,
   ...PhotoshopTagsNames.values,
