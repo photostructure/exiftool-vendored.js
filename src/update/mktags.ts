@@ -1018,7 +1018,18 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       };
     }
 
-    fs.writeFileSync(jsonDestFile, JSON.stringify(tagMetadata, null, 2));
+    // Sort keys to minimize diffs between rebuilds
+    const sortedTagMetadata = Object.keys(tagMetadata)
+      .sort()
+      .reduce(
+        (acc, key) => {
+          acc[key] = tagMetadata[key]!;
+          return acc;
+        },
+        {} as typeof tagMetadata,
+      );
+
+    fs.writeFileSync(jsonDestFile, JSON.stringify(sortedTagMetadata, null, 2));
     console.log(`\nWrote tag metadata to ${jsonDestFile}`);
 
     // Let's look at tag distributions:
