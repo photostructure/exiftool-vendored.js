@@ -33,13 +33,16 @@ jobs:
 
           # Run npm-check-updates to update dependencies (using package.json
           # scripts which have custom npm-check-updates options)
-          npm run update
+          npm run ncu
 
           # Check if package.json was modified
-          if ! diff -q package.json package.json.backup > /dev/null; then
+          if diff -q package.json package.json.backup > /dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No updates available"
+          else
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "Dependencies updated"
-            
+
             # Generate summary of changes
             {
               echo 'update_summary<<EOF'
@@ -51,9 +54,6 @@ jobs:
               echo '```'
               echo 'EOF'
             } >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "No updates available"
           fi
 
           # Clean up backup
