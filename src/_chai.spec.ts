@@ -1,7 +1,6 @@
 import { Deferred, Log, setLogger } from "batch-cluster";
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import eql from "deep-eql";
 import { createHash, randomInt } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { copyFile, mkdir } from "node:fs/promises";
@@ -15,7 +14,6 @@ import { isWin32 } from "./IsWin32";
 import { lazy } from "./Lazy";
 import { Maybe } from "./Maybe";
 import { fromEntries } from "./Object";
-import { pick } from "./Pick";
 import { isString } from "./String";
 import { Tags } from "./Tags";
 import { times } from "./Times";
@@ -155,44 +153,3 @@ export const NonAlphaStrings = compact([
 ]);
 
 export const UnicodeTestMessage = `Double quotes("“”«») and single quotes('‘’‹›) and backquotes(\`), oh my 👍🌹🐱‍👓🚵‍♀️. ਸੁਆਗਤ ਹੈ ยินดีต้อนรับ 환영하다 ようこそ 歡迎 欢迎 ברוך הבא خوش آمدید`;
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Chai {
-    interface Assertion {
-      containSubset(obj: any, message?: string): Assertion;
-    }
-  }
-}
-
-use(function (chai, utils) {
-  const Assertion = chai.Assertion;
-
-  utils.addChainableMethod(
-    Assertion.prototype,
-    "containSubset",
-    function (this: any, exp: any, message?: string) {
-      const keys = Object.keys((exp ??= {}));
-      const act = pick(this._obj ?? {}, ...keys);
-      const why = [];
-      for (const key of keys) {
-        const a = act[key];
-        const e = exp[key];
-        if (!eql(a, e)) {
-          why.push(JSON.stringify({ key, act: a, exp: e }));
-        }
-      }
-      if (why.length > 0) {
-        if (message != null) why.push(message);
-        this.assert(
-          false,
-          "expected #{act} to eql #{exp}: " + why.join(": "),
-          "expected #{act} to not eql #{exp}: " + why.join(": "),
-          exp,
-          act,
-          true,
-        );
-      }
-    },
-  );
-});
