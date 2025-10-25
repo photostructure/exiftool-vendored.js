@@ -25,6 +25,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v31.2.0
+
+- 🌱 Upgraded ExifTool to version [13.40](https://exiftool.org/history.html#13.40).
+- 📦 Added Node.js v25 to the build matrix
+
 ### v31.1.0
 
 - 🌱 Upgraded ExifTool to version [13.38](https://exiftool.org/history.html#13.38).
