@@ -453,7 +453,7 @@ export function incrementZone(
   minutes: number,
 ): Maybe<Zone> {
   const norm = normalizeZone(z);
-  if (norm == null || true !== norm.isUniversal) return;
+  if (true !== norm?.isUniversal) return;
   const fixed = norm.offset(Date.now()); // < arg doesn't matter, it's universal
   return isNumber(fixed)
     ? FixedOffsetZone.instance(fixed + minutes)
