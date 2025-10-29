@@ -55,8 +55,8 @@
     },
     "src": {
       "tagName": "v%s",
-      "commitArgs": "-S",
-      "tagArgs": "-S"
+      "commitArgs": "--gpg-sign",
+      "tagArgs": "--sign"
     },
     "git": {
       "requireBranch": "main",
