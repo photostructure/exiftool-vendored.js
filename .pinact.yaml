@@ -1,0 +1,15 @@
+# pinact configuration
+# See https://github.com/suzuki-shunsuke/pinact
+
+# Workaround for https://github.com/suzuki-shunsuke/pinact/issues/1095
+# pinact run -u currently doesn't filter out pre-releases, so we exclude them manually
+ignore_actions:
+  # Exclude beta versions from all actions
+  - name: .*
+    ref: .*-beta.*
+  # Exclude release candidates from all actions
+  - name: .*
+    ref: .*-rc.*
+  # Exclude alpha versions from all actions
+  - name: .*
+    ref: .*-alpha.*
