@@ -98,7 +98,6 @@
     ]
   },
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
     "@types/chai": "^5.2.3",
     "@types/chai-as-promised": "^8.0.2",
     "@types/deep-eql": "^4.0.2",

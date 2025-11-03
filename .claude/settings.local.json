@@ -8,7 +8,11 @@
       "WebFetch(domain:github.com)",
       "Bash(npm install)",
       "Bash(npm test)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(pinact:*)",
+      "Bash(pinact --help:*)"
     ],
     "deny": [],
     "ask": []
