@@ -540,7 +540,7 @@ class Tag {
 
   popularity(totalValues: number): number {
     const f = this.values.length / totalValues;
-    return sigFigs(f, 2);
+    return sigFigs(f, 1);
   }
 
   stars(totalValues: number): string {
