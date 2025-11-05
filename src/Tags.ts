@@ -38,7 +38,7 @@ export interface ExifToolTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups ExifTool
-   * @example 13.38
+   * @example 13.41
    */
   ExifToolVersion?: string;
   /**
@@ -132,7 +132,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:09:30 18:49:48Z"
+   * @example "2025:11:05 20:40:49Z"
    */
   FileAccessDate?: ExifDateTime | string;
   /**
@@ -144,7 +144,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:09:27 03:22:18Z"
+   * @example "2025:10:02 17:37:50Z"
    */
   FileInodeChangeDate?: ExifDateTime | string;
   /**
@@ -207,6 +207,12 @@ export interface FileTags {
    * @example 9728
    */
   ImageWidth?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @groups File
+   * @example "Little-endian (Intel, II)"
+   */
+  MakerNoteByteOrder?: string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
@@ -281,6 +287,7 @@ export const FileTagsNames = strEnum(
   "ImageHeight",
   "ImageLength",
   "ImageWidth",
+  "MakerNoteByteOrder",
   "MIMEType",
   "NumColors",
   "NumImportantColors",
@@ -1043,7 +1050,7 @@ export interface APPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups APP
-   * @example "(Binary data 275008 bytes, use -b option to extract)"
+   * @example "(Binary data 1011393 bytes, use -b option to extract)"
    */
   EmbeddedImage?: BinaryField | string;
   /**
@@ -1337,7 +1344,7 @@ export interface APPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP
-   * @example "(Binary data 1458 bytes, use -b option to extract)"
+   * @example "(Binary data 1417 bytes, use -b option to extract)"
    */
   HDRGainCurve?: BinaryField | string;
   /**
@@ -2093,7 +2100,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups FlashPix
-   * @example "(Binary data 18 bytes, use -b option to extract)"
+   * @example "(Binary data 20796 bytes, use -b option to extract)"
    */
   AudioStream?: BinaryField | string;
   /**
@@ -2925,7 +2932,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 532480 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    */
   JpgFromRaw?: BinaryField;
   /**
@@ -2991,7 +2998,7 @@ export interface EXIFTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 5438 bytes, use -b option to extract)"
+   * @example "(Binary data 22629 bytes, use -b option to extract)"
    */
   LinearizationTable?: BinaryField | string;
   /**
@@ -3507,7 +3514,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★★ (89%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -4663,7 +4670,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 532480 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    */
   JpgFromRaw?: BinaryField;
   /**
@@ -5709,7 +5716,7 @@ export interface JFIFTags {
   /**
    * @frequency 🔥 ★★★★ (89%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -7679,15 +7686,9 @@ export interface MakerNotesTags {
    */
   ColorControl?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Color 0; 0; 29; Strength 0; -4; 3"
-   */
-  ColorCreatorEffect?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
-   * @example "Unknown (65)"
+   * @example "9 (60D/1100D)"
    */
   ColorDataVersion?: string;
   /**
@@ -7825,7 +7826,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
-   * @example 5892
+   * @example 4607
    */
   ColorTempFluorescent?: number;
   /**
@@ -7849,7 +7850,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
-   * @example 5892
+   * @example 3212
    */
   ColorTempTungsten?: number;
   /**
@@ -11557,7 +11558,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
-   * @example 181
+   * @example 12735
    */
   LinearityUpperMargin?: number;
   /**
@@ -11953,7 +11954,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1748 bytes, use -b option to extract)"
+   * @example "(Binary data 1316 bytes, use -b option to extract)"
    */
   MergedImage?: BinaryField | string;
   /**
@@ -15025,7 +15026,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★★ (89%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -16180,7 +16181,6 @@ export const MakerNotesTagsNames = strEnum(
   "ColorCompensationFilterCustom",
   "ColorCompensationFilterSet",
   "ColorControl",
-  "ColorCreatorEffect",
   "ColorDataVersion",
   "ColorEffect",
   "ColorFilter",
@@ -20184,8 +20184,8 @@ export type XMPTag = StrEnumKeys<typeof XMPTagsNames>;
  * - @groups: comma-separated list of metadata groups where this tag appears (e.g., "EXIF, MakerNotes")
  * - @example: representative value for the tag
  *
- * Autogenerated by "npm run mktags" by ExifTool 13.38 on Tue Sep 30 2025.
- * 2901 unique tags were found in 10459 photo and video files.
+ * Autogenerated by "npm run mktags" by ExifTool 13.41 on Wed Nov 05 2025.
+ * 2902 unique tags were found in 10459 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
  */

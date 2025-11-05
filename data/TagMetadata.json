@@ -2204,11 +2204,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "ColorCreatorEffect": {
-    "frequency": 0.0074,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "ColorDataVersion": {
     "frequency": 0.028,
     "mainstream": true,
@@ -2295,7 +2290,7 @@
     "groups": ["MakerNotes"]
   },
   "ColorTempAuto": {
-    "frequency": 0.029,
+    "frequency": 0.027,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -2325,12 +2320,12 @@
     "groups": ["MakerNotes"]
   },
   "ColorTempKelvin": {
-    "frequency": 0.041,
+    "frequency": 0.04,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
   "ColorTempMeasured": {
-    "frequency": 0.027,
+    "frequency": 0.026,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -7281,6 +7276,11 @@
     "frequency": 0.00029,
     "mainstream": true,
     "groups": ["XMP"]
+  },
+  "MakerNoteByteOrder": {
+    "frequency": 0.029,
+    "mainstream": true,
+    "groups": ["File"]
   },
   "MakerNoteOffset": {
     "frequency": 0.00057,
