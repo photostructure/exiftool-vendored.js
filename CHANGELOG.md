@@ -25,6 +25,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
+### v31.30
+
+- 🌱 Upgraded ExifTool to version [13.41](https://exiftool.org/history.html#13.41).
+
+- 📦 Rebuilt `Tags.ts` after adding new cameras from the last couple months. A couple obscure tags have been added and removed.
+
 ### v31.2.0
 
 - 🌱 Upgraded ExifTool to version [13.40](https://exiftool.org/history.html#13.40).
