@@ -428,7 +428,9 @@ export const TimezoneOffsetTagnames = [
   "TimeZone",
 
   // We **don't** look at "OffsetTime", as that is the offset for `ModifyDate`,
-  // which is the _file_ modification time.
+  // which is the _file_ modification time. See
+  // https://github.com/photostructure/exiftool-vendored.js/issues/220 for
+  // details.
 
   // time zone for DateTimeOriginal, "-08:00"
   "OffsetTimeOriginal",
