@@ -54,6 +54,7 @@ export { ExifToolTask } from "./ExifToolTask";
 export { exiftoolPath } from "./ExiftoolPath";
 export { GeolocationTagNames, isGeolocationTag } from "./GeolocationTags";
 export { parseJSON } from "./JSON";
+export type { Lazy } from "./Lazy";
 export { DefaultReadTaskOptions } from "./ReadTask";
 export { strEnum } from "./StrEnum";
 export type {
