@@ -1,4 +1,5 @@
 import {
+  DateObjectUnits,
   DateTime,
   DateTimeJSOptions,
   DurationLike,
@@ -21,6 +22,7 @@ import {
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
   getZoneName,
+  normalizeZone,
 } from "./Timezones";
 
 /**
@@ -277,25 +279,35 @@ export class ExifDateTime {
     });
   }
 
+  toDateTimeObject(): DateObjectUnits {
+    return {
+      year: this.year,
+      month: this.month,
+      day: this.day,
+      hour: this.hour,
+      minute: this.minute,
+      second: this.second,
+      millisecond: this.millisecond,
+    };
+  }
+
   /**
    * CAUTION: This instance will inherit the system timezone if this instance
    * has an unset zone (as Luxon doesn't support "unset" timezones)
    */
   toDateTime(overrideZone?: Maybe<string>): DateTime {
-    return (this.#dt ??= DateTime.fromObject(
-      {
-        year: this.year,
-        month: this.month,
-        day: this.day,
-        hour: this.hour,
-        minute: this.minute,
-        second: this.second,
-        millisecond: this.millisecond,
-      },
-      {
-        zone: overrideZone ?? this.zone,
-      },
-    ));
+    // If an override zone is provided, don't use the cache or cache the result
+    if (overrideZone != null) {
+      return DateTime.fromObject(this.toDateTimeObject(), {
+        zone: normalizeZone(overrideZone) ?? overrideZone,
+      });
+    }
+
+    // Cache the DateTime for performance
+    return (this.#dt ??= DateTime.fromObject(this.toDateTimeObject(), {
+      // Convert zone name string to Zone object so Luxon can recognize it
+      zone: normalizeZone(this.zone) ?? this.zone,
+    }));
   }
 
   toEpochSeconds(overrideZone?: Maybe<string>) {
