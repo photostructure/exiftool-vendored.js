@@ -44,6 +44,7 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   Album: { t: "string", grp: "XMP", value: "Twilight Dreams" },
   Aperture: { t: "number", grp: "Composite" },
   ApertureValue: { t: "number", grp: "EXIF" },
+  AspectRatio: { t: "string", grp: "MakerNotes", value: "3:2" },
   Artist: { t: "string", grp: "EXIF" },
   AutoRotate: { t: "number | string", grp: "MakerNotes" },
   AvgBitrate: { t: "number | string", grp: "Composite" },
