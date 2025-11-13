@@ -66,6 +66,48 @@ import { Settings } from "exiftool-vendored";
 Settings.allowBakerIslandTime.value = true;
 ```
 
+#### `logger`
+
+**Type**: `Setting<() => Logger>`
+**Default**: `ConsoleLogger` if `NODE_DEBUG=exiftool-vendored`, otherwise `NoLogger`
+
+Logger instance used throughout exiftool-vendored for debug output, warnings, and errors.
+
+By default, logging is enabled only when the `NODE_DEBUG=exiftool-vendored` environment variable is set. You can change this at runtime to redirect logging output or use a custom logger.
+
+The logger must implement the `batch-cluster` Logger interface with methods: `trace`, `debug`, `info`, `warn`, and `error`.
+
+```javascript
+import { Settings } from "exiftool-vendored";
+
+// Enable console logging
+Settings.logger.value = () => ({
+  trace: () => {},
+  debug: console.log,
+  info: console.log,
+  warn: console.warn,
+  error: console.error,
+});
+
+// Or use a custom logger (e.g., Winston, Pino)
+import winston from "winston";
+const winstonLogger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  transports: [new winston.transports.File({ filename: "exiftool.log" })],
+});
+
+Settings.logger.value = () => ({
+  trace: (msg) => winstonLogger.debug(msg),
+  debug: (msg) => winstonLogger.debug(msg),
+  info: (msg) => winstonLogger.info(msg),
+  warn: (msg) => winstonLogger.warn(msg),
+  error: (msg) => winstonLogger.error(msg),
+});
+```
+
+**Note**: The logger can also be passed as an option to the `ExifTool` constructor for backward compatibility. When provided this way, it sets the global `Settings.logger` value.
+
 ### Observing Setting Changes
 
 Each `Setting` instance provides an `onChange()` method for observing value changes:
