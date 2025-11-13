@@ -132,7 +132,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:11:05 20:47:05Z"
+   * @example "2025:11:12 23:43:16Z"
    */
   FileAccessDate?: ExifDateTime | string;
   /**
@@ -144,7 +144,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:11:05 20:46:40Z"
+   * @example "2025:11:12 21:53:00Z"
    */
   FileInodeChangeDate?: ExifDateTime | string;
   /**
@@ -1350,7 +1350,7 @@ export interface APPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP
-   * @example "(Binary data 1417 bytes, use -b option to extract)"
+   * @example "(Binary data 1458 bytes, use -b option to extract)"
    */
   HDRGainCurve?: BinaryField | string;
   /**
@@ -2107,7 +2107,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups FlashPix
-   * @example "(Binary data 20796 bytes, use -b option to extract)"
+   * @example "(Binary data 18 bytes, use -b option to extract)"
    */
   AudioStream?: BinaryField | string;
   /**
@@ -2876,7 +2876,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 571392 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    */
   JpgFromRaw?: BinaryField;
   /**
@@ -2942,7 +2942,7 @@ export interface EXIFTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 22102 bytes, use -b option to extract)"
+   * @example "(Binary data 5438 bytes, use -b option to extract)"
    */
   LinearizationTable?: BinaryField | string;
   /**
@@ -3452,7 +3452,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -3476,7 +3476,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 507 bytes, use -b option to extract)"
+   * @example "(Binary data 508 bytes, use -b option to extract)"
    */
   TileOffsets?: BinaryField | string;
   /**
@@ -5026,7 +5026,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 571392 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    */
   JpgFromRaw?: BinaryField;
   /**
@@ -5837,7 +5837,7 @@ export interface JFIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -6804,6 +6804,12 @@ export interface MakerNotesTags {
    * @example "0 192 4607 3263"
    */
   AspectFrame?: string;
+  /**
+   * @frequency 🔥 ★☆☆☆ (9%)
+   * @groups MakerNotes
+   * @example "Unknown (942874672)"
+   */
+  AspectRatio?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -8760,12 +8766,6 @@ export interface MakerNotesTags {
    * @example "DISP - Cycle Information Display (shooting)"
    */
   DispButton?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (0%)
-   * @groups MakerNotes
-   * @example "Enable"
-   */
-  DisplayAllAFPoints?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -12453,7 +12453,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 46 bytes, use -b option to extract)"
+   * @example "(Binary data 624 bytes, use -b option to extract)"
    */
   NEFLinearizationTable?: BinaryField | string;
   /**
@@ -14973,7 +14973,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -15943,6 +15943,7 @@ export const MakerNotesTagsNames = strEnum(
   "ArtMode",
   "ArtModeParameters",
   "AspectFrame",
+  "AspectRatio",
   "AssignBktButton",
   "AssignFuncButton",
   "AssignMovieFunc1ButtonPlusDials",
@@ -16269,7 +16270,6 @@ export const MakerNotesTagsNames = strEnum(
   "DirectoryIndex",
   "DirectoryNumber",
   "DispButton",
-  "DisplayAllAFPoints",
   "DisplayAperture",
   "DistortionControl",
   "DistortionCorrection",
@@ -17829,7 +17829,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]}
+   * @example {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]}
    */
   Container?: Struct;
   /**
@@ -20200,7 +20200,7 @@ export type XMPTag = StrEnumKeys<typeof XMPTagsNames>;
  * - @groups: comma-separated list of metadata groups where this tag appears (e.g., "EXIF, MakerNotes")
  * - @example: representative value for the tag
  *
- * Autogenerated by "npm run mktags" by ExifTool 13.41 on Wed Nov 05 2025.
+ * Autogenerated by "npm run mktags" by ExifTool 13.41 on Wed Nov 12 2025.
  * 2929 unique tags were found in 10528 photo and video files.
  *
  * @see https://exiftool.org/TagNames/

@@ -879,6 +879,11 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
+  "AspectRatio": {
+    "frequency": 0.09,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
   "AsrClimaxDuration": {
     "frequency": 0.001,
     "mainstream": false,
@@ -3466,11 +3471,6 @@
   },
   "DispButton": {
     "frequency": 0.001,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "DisplayAllAFPoints": {
-    "frequency": 0.0007,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
