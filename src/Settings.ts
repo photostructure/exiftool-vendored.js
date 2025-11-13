@@ -73,7 +73,7 @@ const ConsoleLogger: bc.Logger = {
   error: console.error,
 };
 
-const defaultLogger = _debuglog.enabled ? ConsoleLogger : bc.NoLogger;
+const defaultLogger = () => (_debuglog.enabled ? ConsoleLogger : bc.NoLogger);
 
 /**
  * Library-wide configuration settings for exiftool-vendored
@@ -123,7 +123,7 @@ export const Settings = {
    *
    * @default ConsoleLogger or NoLogger based on NODE_DEBUG
    */
-  logger: new Setting<bc.Logger>(defaultLogger),
+  logger: new Setting<() => bc.Logger>(defaultLogger),
 
   /** Reset all settings to their default values */
   reset() {

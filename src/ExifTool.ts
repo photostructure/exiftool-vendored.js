@@ -213,10 +213,11 @@ export class ExifTool {
     });
 
     // Backward compatibility: if options.logger is provided, set it as the global logger
-    if (options.logger != null) {
-      const providedLogger = isFunction(options.logger)
-        ? options.logger()
-        : options.logger;
+    const options_logger = options.logger;
+    if (options_logger != null) {
+      const providedLogger = isFunction(options_logger)
+        ? options_logger
+        : () => options_logger;
       Settings.logger.value = providedLogger;
     }
 

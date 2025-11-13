@@ -29,7 +29,8 @@ function logger(): bc.Logger {
 
 /**
  * Default values for `ExifToolOptions`, except for `processFactory` (which is
- * created by the ExifTool constructor)
+ * created by the ExifTool constructor) and `ignoreShebang` (which is set
+ * dynamically based on OS). See {@link ExifToolOptions} for details.
  */
 export const DefaultExifToolOptions: Omit<
   ExifToolOptions,
