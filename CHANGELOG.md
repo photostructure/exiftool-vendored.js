@@ -1,4 +1,14 @@
-# Changelog/Versioning
+# Release changelog
+
+## Releases
+
+See the [releases page](https://github.com/photostructure/exiftool-vendored.js/releases) for
+
+- release dates
+- tag links, and
+- commits for a given version
+
+(The changes in this document are manually copied into the GitHub release notes)
 
 ## Versioning
 
@@ -23,7 +33,7 @@ vendored versions of ExifTool match the version that they vendor.
 - 🐞 Backwards-compatible bug fixes
 - 📦 Minor packaging changes
 
-## Version history
+## History
 
 ### v32.0.1
 
