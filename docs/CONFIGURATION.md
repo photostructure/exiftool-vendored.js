@@ -597,6 +597,42 @@ const exiftool = new ExifTool({
 });
 ```
 
+### Logging Options
+
+#### `logger`
+
+**Type**: `Logger | (() => Logger)`
+**Default**: Inherited from batch-cluster (ultimately uses `Settings.logger`)
+
+For backward compatibility, you can pass a logger directly to the `ExifTool` constructor. When provided, this sets the global `Settings.logger` value.
+
+**Note**: It's recommended to use `Settings.logger` directly instead, as it provides a cleaner API and supports runtime changes. See [Library-wide Settings](#logger) for full documentation.
+
+```javascript
+import { ExifTool } from "exiftool-vendored";
+
+// Using constructor (backward compatibility)
+const exiftool = new ExifTool({
+  logger: () => ({
+    trace: () => {},
+    debug: console.log,
+    info: console.log,
+    warn: console.warn,
+    error: console.error,
+  }),
+});
+
+// Preferred approach: use Settings.logger
+import { Settings } from "exiftool-vendored";
+Settings.logger.value = () => ({
+  trace: () => {},
+  debug: console.log,
+  info: console.log,
+  warn: console.warn,
+  error: console.error,
+});
+```
+
 ### Resource Management Options
 
 #### `disposalTimeoutMs`
