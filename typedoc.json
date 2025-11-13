@@ -23,6 +23,7 @@
   ],
   "projectDocuments": [
     "docs/INSTALLATION.md",
+    "docs/CONFIGURATION.md",
     "docs/USAGE-EXAMPLES.md",
     "docs/DATES.md",
     "docs/TAGS.md",

@@ -12,6 +12,7 @@ import { Maybe, first, map, map2 } from "./Maybe";
 import { isNumber, toInt } from "./Number";
 import { isObject } from "./Object";
 import { pick } from "./Pick";
+import { Settings } from "./Settings";
 import { blank, isString, pad2 } from "./String";
 import { Tags } from "./Tags";
 
@@ -25,10 +26,35 @@ import { Tags } from "./Tags";
 // Unique values from
 // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones, excluding those
 // that have not been used for at least 50 years.
-const ValidTimezoneOffsets = [
-  // "-12:00", // not used for any populated land
+
+/**
+ * Archaic timezone offsets that have not been in use since 1982 or earlier
+ */
+export const ArchaicTimezoneOffsets = [
+  "-10:30", // used by Hawaii 1896-1947
+  "-04:30", // used by Venezuela 1912-1965 and 2007-2016
+  "-00:44", // used by Liberia until 1972
+  "-00:25:21", // Ireland 1880-1916 https://en.wikipedia.org/wiki/UTC%E2%88%9200:25:21
+  "+00:20", // used by Netherlands until 1940
+  "+00:30", // used by Switzerland until 1936
+  "+01:24", // used by Warsaw until 1915
+  "+01:30", // used by some southern African countries until 1903
+  "+02:30", // archaic Moscow time
+  "+04:51", // used by Bombay until 1955 https://en.wikipedia.org/wiki/UTC%2B04:51
+  "+05:40", // used by Nepal until 1920
+  "+07:20", // used by Singapore and Malaysia until 1941
+  "+07:30", // used by Malaysia until 1982
+] as const;
+
+/**
+ * Valid timezone offsets that are currently in use, or used after 1982
+ */
+export const ValidTimezoneOffsets = [
+  // The UTC-12:00 timezone offset is used for uninhabited U.S. territories:
+  //  - Baker Island (uninhabited)
+  //  - Howland Island (uninhabited)
+  // "-12:00", // not used for any populated land!
   "-11:00",
-  // "-10:30", // used by Hawaii 1896-1947
   "-10:00",
   "-09:30",
   "-09:00",
@@ -37,37 +63,25 @@ const ValidTimezoneOffsets = [
   "-07:00",
   "-06:00",
   "-05:00",
-  "-04:30", // used by Venezuela 1912-1965 and 2007-2016
   "-04:00",
   "-03:30",
   "-03:00",
   "-02:30",
   "-02:00",
   "-01:00",
-  // "-00:44", // used by Liberia until 1972
-  // "-00:25:21", // Ireland 1880-1916 https://en.wikipedia.org/wiki/UTC%E2%88%9200:25:21
   "+00:00",
-  // "+00:20", // used by Netherlands until 1940
-  // "+00:30", // used by Switzerland until 1936
   "+01:00",
-  // "+01:24", // used by Warsaw until 1915
-  // "+01:30", // used by some southern African countries until 1903
   "+02:00",
-  // "+02:30", // archaic Moscow time
   "+03:00",
   "+03:30",
   "+04:00",
   "+04:30",
-  // "+04:51", // used by Bombay until 1955 https://en.wikipedia.org/wiki/UTC%2B04:51
   "+05:00",
   "+05:30",
-  // "+05:40", // used by Nepal until 1920
   "+05:45", // Nepal
   "+06:00",
   "+06:30",
   "+07:00",
-  // "+07:20", // used by Singapore and Malaya until 1941
-  "+07:30", // used by Mayasia until 1982
   "+08:00",
   "+08:30", // used by North Korea until 2018
   "+08:45", // used by Western Australia, but not in tz database
@@ -84,19 +98,38 @@ const ValidTimezoneOffsets = [
   "+14:00",
 ] as const;
 
-export type TimezoneOffset = (typeof ValidTimezoneOffsets)[number];
+export type TimezoneOffset = (
+  | typeof ValidTimezoneOffsets
+  | typeof ArchaicTimezoneOffsets
+)[number];
 
-function offsetToMinutes(offset: TimezoneOffset): number {
-  const [h, m] = offset.split(":").map(Number) as [number, number];
-  // we can't just return `h * 60 + m`: that doesn't work with negative
-  // offsets (minutes will be positive but hours will be negative)
-  const sign = h < 0 ? -1 : 1;
-  return h * 60 + sign * m;
+function offsetToMinutes(offset: string): number {
+  // Extract sign from string to handle "-00:25:21" correctly (negative zero)
+  const sign = offset.startsWith("-") ? -1 : 1;
+  const parts = offset.replace(/^[+-]/, "").split(":").map(Number);
+  const [h, m = 0, s = 0] = parts as [number, number?, number?];
+  return sign * (h * 60 + m + s / 60);
 }
 
-const ValidOffsetMinutes = lazy<Set<number>>(
-  () => new Set(ValidTimezoneOffsets.map(offsetToMinutes)),
-);
+const validOffsetMinutes = lazy<Set<number>>(() => {
+  const offsets: string[] = [...ValidTimezoneOffsets];
+  if (Settings.allowArchaicTimezoneOffsets.value) {
+    offsets.push(...ArchaicTimezoneOffsets);
+  }
+  if (Settings.allowBakerIslandTime.value) {
+    offsets.push("-12:00");
+  }
+  return new Set(offsets.map(offsetToMinutes));
+});
+
+// Invalidate cache when relevant settings change
+Settings.allowArchaicTimezoneOffsets.onChange(() => {
+  validOffsetMinutes.clear();
+});
+
+Settings.allowBakerIslandTime.onChange(() => {
+  validOffsetMinutes.clear();
+});
 
 /**
  * Zone instances with this offset are a placeholder for being "unset".
@@ -183,7 +216,7 @@ function parseFixedOffset(str: string): Maybe<number> {
   const m = toInt(match.minutes) ?? 0;
   if (h == null || h < 0 || h > 14 || m < 0 || m >= 60) return;
   const result = (match.sign === "-" ? -1 : 1) * (h * 60 + m);
-  return (ValidOffsetMinutes().has(result) ? result : undefined) ?? undefined;
+  return (validOffsetMinutes().has(result) ? result : undefined) ?? undefined;
 }
 
 /**
@@ -252,7 +285,7 @@ export function validTzOffsetMinutes(
     tzOffsetMinutes != null &&
     isNumber(tzOffsetMinutes) &&
     tzOffsetMinutes !== UnsetZoneOffsetMinutes &&
-    ValidOffsetMinutes().has(tzOffsetMinutes)
+    validOffsetMinutes().has(tzOffsetMinutes)
   );
 }
 
@@ -281,10 +314,10 @@ function tzHourToOffset(n: unknown): Maybe<string> {
 }
 
 // Accept "Z", "UTC+2", "UTC+02", "UTC+2:00", "UTC+02:00", "+2", "+02", and
-// "+02:00". Require the sign (+ or -) and a ":" separator if there are
-// minutes.
+// "+02:00". Also accepts seconds like "-00:25:21" for archaic offsets.
+// Require the sign (+ or -) and a ":" separator if there are minutes.
 const tzRe =
-  /(?<Z>Z)|((UTC)?(?<sign>[+-])(?<hours>\d\d?)(?::(?<minutes>\d\d))?)$/;
+  /(?<Z>Z)|((UTC)?(?<sign>[+-])(?<hours>\d\d?)(?::(?<minutes>\d\d)(?::(?<seconds>\d\d))?)?)$/;
 
 export interface TzSrc {
   /**
@@ -407,10 +440,11 @@ export function extractZone(
         src: "Z",
         ...(blank(leftovers) ? {} : { leftovers }),
       };
-    const offsetMinutes =
-      (capturedGroups.sign === "-" ? -1 : 1) *
-      (parseInt(capturedGroups.hours ?? "0") * 60 +
-        parseInt(capturedGroups.minutes ?? "0"));
+    const hours = parseInt(capturedGroups.hours ?? "0");
+    const minutes = parseInt(capturedGroups.minutes ?? "0");
+    const seconds = parseInt(capturedGroups.seconds ?? "0");
+    const sign = capturedGroups.sign === "-" ? -1 : 1;
+    const offsetMinutes = sign * (hours * 60 + minutes + seconds / 60);
     const zone = offsetMinutesToZoneName(offsetMinutes);
     if (zone != null) {
       return {
@@ -556,10 +590,28 @@ export function extractTzOffsetFromTimeStamp(
 // old, this can be spurious. We get less mistakes with a larger multiple, so
 // we're using 30 minutes instead of 15. See
 // https://www.timeanddate.com/time/time-zones-interesting.html
-const LikelyOffsetMinutes = ValidTimezoneOffsets.map(offsetToMinutes);
+const likelyOffsetMinutes = lazy<number[]>(() => {
+  const offsets: string[] = [...ValidTimezoneOffsets];
+  if (Settings.allowArchaicTimezoneOffsets.value) {
+    offsets.push(...ArchaicTimezoneOffsets);
+  }
+  if (Settings.allowBakerIslandTime.value) {
+    offsets.push("-12:00");
+  }
+  return offsets.map(offsetToMinutes);
+});
+
+// Invalidate cache when relevant settings change
+Settings.allowArchaicTimezoneOffsets.onChange(() => {
+  likelyOffsetMinutes.clear();
+});
+
+Settings.allowBakerIslandTime.onChange(() => {
+  likelyOffsetMinutes.clear();
+});
 
 export function inferLikelyOffsetMinutes(deltaMinutes: number): Maybe<number> {
-  const nearest = leastBy(LikelyOffsetMinutes, (ea) =>
+  const nearest = leastBy(likelyOffsetMinutes(), (ea) =>
     Math.abs(ea - deltaMinutes),
   );
   // Reject timezone offsets more than 30 minutes away from the nearest:

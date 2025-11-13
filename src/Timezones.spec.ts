@@ -1,7 +1,9 @@
 import { IANAZone, Info } from "luxon";
 import { ExifDateTime } from "./ExifDateTime";
+import { Settings } from "./Settings";
 import { Tags } from "./Tags";
 import {
+  ArchaicTimezoneOffsets,
   UnsetZone,
   UnsetZoneOffsetMinutes,
   extractTzOffsetFromTags,
@@ -60,7 +62,7 @@ describe("Timezones", () => {
         { z: "UTC+0", exp: "+00:00" },
         { z: "UTC+00:00", exp: "+00:00" },
         { z: "UTC+07:00", exp: "+07:00" },
-        { z: "UTC+07:30", exp: "+07:30" },
+        { z: "UTC+06:30", exp: "+06:30" }, // Changed from +07:30 which is archaic (Malaysia until 1982)
         { z: "UTC-03:00", exp: "-03:00" },
         { z: "America/Los_Angeles", exp: "-08:00" },
         { z: "America/Indiana/Indianapolis", exp: "-05:00" },
@@ -72,6 +74,57 @@ describe("Timezones", () => {
       ]) {
         it(`(${JSON.stringify(ea.z)}) => ${ea.exp}`, () => {
           expect(normalizeZone(ea.z)?.formatOffset(ts, "short")).to.eql(ea.exp);
+        });
+      }
+    });
+
+    describe("with archaic offsets", () => {
+      beforeEach(() => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+      });
+
+      afterEach(() => {
+        Settings.reset();
+      });
+
+      const archaicCases = [
+        { z: "UTC-10:30", desc: "Hawaii 1896-1947", exp: "-10:30" },
+        {
+          z: "UTC-04:30",
+          desc: "Venezuela 1912-1965, 2007-2016",
+          exp: "-04:30",
+        },
+        { z: "UTC+04:51", desc: "Bombay until 1955", exp: "+04:51" },
+        { z: "UTC+05:40", desc: "Nepal until 1920", exp: "+05:40" },
+        { z: "UTC+07:30", desc: "Malaysia until 1982", exp: "+07:30" },
+      ];
+
+      for (const { z, desc, exp } of archaicCases) {
+        it(`accepts ${z} (${desc})`, () => {
+          const ts = new Date("2023-01-01T01:00:00").getTime();
+          const result = normalizeZone(z);
+          expect(result).to.not.eql(undefined);
+          expect(result?.formatOffset(ts, "short")).to.eql(exp);
+        });
+      }
+    });
+
+    describe("without archaic offsets", () => {
+      beforeEach(() => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+      });
+
+      const archaicCases = [
+        { z: "UTC-10:30", desc: "Hawaii 1896-1947" },
+        { z: "UTC-04:30", desc: "Venezuela 1912-1965, 2007-2016" },
+        { z: "UTC+04:51", desc: "Bombay until 1955" },
+        { z: "UTC+05:40", desc: "Nepal until 1920" },
+        { z: "UTC+07:30", desc: "Malaysia until 1982" },
+      ];
+
+      for (const { z, desc } of archaicCases) {
+        it(`rejects ${z} (${desc})`, () => {
+          expect(normalizeZone(z)).to.eql(undefined);
         });
       }
     });
@@ -262,6 +315,85 @@ describe("Timezones", () => {
         expect(extractTzOffsetFromUTCOffset(obj)).to.eql(undefined);
       });
     }
+
+    describe("with archaic timezone offsets", () => {
+      afterEach(() => {
+        Settings.reset();
+      });
+
+      it("rejects archaic Hawaii offset (-10:30) by default", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        // Hawaii archaic offset is -10:30
+        expect(
+          extractTzOffsetFromUTCOffset({
+            DateTimeOriginal: "2024:09:14 12:00:00",
+            DateTimeUTC: "2024:09:14 22:30:00",
+          }),
+        ).to.eql(undefined);
+      });
+
+      it("accepts archaic Hawaii offset (-10:30) when enabled", () => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        expect(
+          extractTzOffsetFromUTCOffset({
+            DateTimeOriginal: "2024:09:14 12:00:00",
+            DateTimeUTC: "2024:09:14 22:30:00",
+          }),
+        ).to.eql({
+          zone: "UTC-10:30",
+          tz: "UTC-10:30",
+          src: "offset between DateTimeOriginal and DateTimeUTC",
+        });
+      });
+
+      it("rejects archaic Venezuela offset (-04:30) by default", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(
+          extractTzOffsetFromUTCOffset({
+            CreateDate: "2024:09:14 12:00:00",
+            GPSDateTime: "2024:09:14 16:30:00",
+          }),
+        ).to.eql(undefined);
+      });
+
+      it("accepts archaic Venezuela offset (-04:30) when enabled", () => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        expect(
+          extractTzOffsetFromUTCOffset({
+            CreateDate: "2024:09:14 12:00:00",
+            GPSDateTime: "2024:09:14 16:30:00",
+          }),
+        ).to.eql({
+          zone: "UTC-4:30",
+          tz: "UTC-4:30",
+          src: "offset between CreateDate and GPSDateTime",
+        });
+      });
+
+      it("rounds archaic Bombay offset (+04:51) to nearest valid offset (+05:00) by default", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        // +04:51 is only 9 minutes from +05:00, so it gets rounded
+        const result = extractTzOffsetFromUTCOffset({
+          DateTimeOriginal: "2024:09:14 12:00:00",
+          DateTimeUTC: "2024:09:14 07:09:00",
+        });
+        expect(result?.zone).to.eql("UTC+5");
+      });
+
+      it("accepts exact archaic Bombay offset (+04:51) when enabled", () => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        expect(
+          extractTzOffsetFromUTCOffset({
+            DateTimeOriginal: "2024:09:14 12:00:00",
+            DateTimeUTC: "2024:09:14 07:09:00",
+          }),
+        ).to.eql({
+          zone: "UTC+4:51",
+          tz: "UTC+4:51",
+          src: "offset between DateTimeOriginal and DateTimeUTC",
+        });
+      });
+    });
   });
 
   describe("Nikon Daylight Savings Time (#215)", () => {
@@ -473,4 +605,163 @@ describe("Timezones", () => {
       expect(extractTzOffsetFromTags(tags)).to.eql(undefined);
     });
   });
+
+  describe("Settings.allowArchaicTimezoneOffsets", () => {
+    afterEach(() => {
+      // Reset to default after each test
+      Settings.reset();
+    });
+
+    describe("archaic offsets are rejected by default", () => {
+      for (const offset of ArchaicTimezoneOffsets) {
+        it(`rejects ${offset} when allowArchaicTimezoneOffsets is false`, () => {
+          Settings.allowArchaicTimezoneOffsets.value = false;
+          expect(validTzOffsetMinutes(offsetToMinutes(offset))).to.eql(false);
+          expect(extractZone(offset)).to.eql(undefined);
+        });
+      }
+    });
+
+    describe("archaic offsets are accepted when enabled", () => {
+      for (const offset of ArchaicTimezoneOffsets) {
+        it(`accepts ${offset} when allowArchaicTimezoneOffsets is true`, () => {
+          Settings.allowArchaicTimezoneOffsets.value = true;
+          const minutes = offsetToMinutes(offset);
+          expect(validTzOffsetMinutes(minutes)).to.eql(true);
+          const zoneName = offsetMinutesToZoneName(minutes);
+          expect(zoneName).to.not.eql(undefined);
+        });
+      }
+    });
+
+    it("resetToDefaults() restores default behavior", () => {
+      Settings.allowArchaicTimezoneOffsets.value = true;
+      Settings.reset();
+      expect(Settings.allowArchaicTimezoneOffsets.value).to.eql(false);
+      // Should reject archaic offset after reset
+      expect(extractZone("-10:30")).to.eql(undefined);
+    });
+
+    describe("specific archaic offset examples", () => {
+      it("rejects Hawaii archaic offset (-10:30) by default", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        const tags = { TimeZone: "-10:30" };
+        expect(extractTzOffsetFromTags(tags)).to.eql(undefined);
+      });
+
+      it("accepts Hawaii archaic offset (-10:30) when enabled", () => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        const tags = { TimeZone: "-10:30" };
+        const result = extractTzOffsetFromTags(tags);
+        expect(result?.zone).to.match(/UTC-10:30/);
+      });
+
+      it("rejects Bombay archaic offset (+04:51) by default", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        const tags = { TimeZone: "+04:51" };
+        expect(extractTzOffsetFromTags(tags)).to.eql(undefined);
+      });
+
+      it("accepts Bombay archaic offset (+04:51) when enabled", () => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        const tags = { TimeZone: "+04:51" };
+        const result = extractTzOffsetFromTags(tags);
+        expect(result?.zone).to.match(/UTC\+4:51/);
+      });
+
+      it("rejects Ireland archaic offset (-00:25:21) by default", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        const tags = { TimeZone: "-00:25:21" };
+        expect(extractTzOffsetFromTags(tags)).to.eql(undefined);
+      });
+
+      it("accepts Ireland archaic offset (-00:25:21) when enabled", () => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        const tags = { TimeZone: "-00:25:21" };
+        const result = extractTzOffsetFromTags(tags);
+        // Note: Luxon zone names may not preserve seconds precision
+        expect(result).to.not.eql(undefined);
+        expect(result?.zone).to.match(/^UTC-0:/);
+      });
+    });
+
+    describe("cache invalidation", () => {
+      it("cache is invalidated when setting changes from false to true", () => {
+        // Start with archaic offsets disabled
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        const hawaiiMinutes = offsetToMinutes("-10:30");
+        expect(validTzOffsetMinutes(hawaiiMinutes)).to.eql(false);
+
+        // Enable archaic offsets
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        // Cache should be invalidated, so now it should be valid
+        expect(validTzOffsetMinutes(hawaiiMinutes)).to.eql(true);
+      });
+
+      it("cache is invalidated when setting changes from true to false", () => {
+        // Start with archaic offsets enabled
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        const bombayMinutes = offsetToMinutes("+04:51");
+        expect(validTzOffsetMinutes(bombayMinutes)).to.eql(true);
+
+        // Disable archaic offsets
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        // Cache should be invalidated, so now it should be invalid
+        expect(validTzOffsetMinutes(bombayMinutes)).to.eql(false);
+      });
+
+      it("cache works correctly after multiple setting toggles", () => {
+        const venezuelaMinutes = offsetToMinutes("-04:30");
+
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(validTzOffsetMinutes(venezuelaMinutes)).to.eql(false);
+
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        expect(validTzOffsetMinutes(venezuelaMinutes)).to.eql(true);
+
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(validTzOffsetMinutes(venezuelaMinutes)).to.eql(false);
+
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        expect(validTzOffsetMinutes(venezuelaMinutes)).to.eql(true);
+      });
+
+      it("extractZone respects cache invalidation", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(extractZone("+04:51")).to.eql(undefined);
+
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        const result = extractZone("+04:51");
+        expect(result).to.not.eql(undefined);
+        expect(result?.zone).to.match(/UTC\+4:51/);
+
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(extractZone("+04:51")).to.eql(undefined);
+      });
+
+      it("offsetMinutesToZoneName respects cache invalidation", () => {
+        const irelandMinutes = offsetToMinutes("-00:25:21");
+
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(offsetMinutesToZoneName(irelandMinutes)).to.eql(undefined);
+
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        const zoneName = offsetMinutesToZoneName(irelandMinutes);
+        expect(zoneName).to.not.eql(undefined);
+        expect(zoneName).to.match(/UTC-/);
+
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(offsetMinutesToZoneName(irelandMinutes)).to.eql(undefined);
+      });
+    });
+  });
 });
+
+// Helper function for tests - needs to match the implementation
+function offsetToMinutes(offset: string): number {
+  // Extract sign from string to handle "-00:25:21" correctly
+  const sign = offset.startsWith("-") ? -1 : 1;
+  const parts = offset.replace(/^[+-]/, "").split(":").map(Number);
+  const [h, m = 0, s = 0] = parts as [number, number?, number?];
+  return sign * (h * 60 + m + s / 60);
+}

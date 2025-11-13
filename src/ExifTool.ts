@@ -23,6 +23,7 @@ import { RawTags } from "./RawTags";
 import { ReadRawTask } from "./ReadRawTask";
 import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask";
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask";
+import { Settings } from "./Settings";
 import { blank, isString, notBlank } from "./String";
 import { Tags } from "./Tags";
 import { VersionTask } from "./VersionTask";
@@ -56,6 +57,7 @@ export { GeolocationTagNames, isGeolocationTag } from "./GeolocationTags";
 export { parseJSON } from "./JSON";
 export type { Lazy } from "./Lazy";
 export { DefaultReadTaskOptions } from "./ReadTask";
+export { Setting, Settings } from "./Settings";
 export { strEnum } from "./StrEnum";
 export type {
   StrEnum,
@@ -64,12 +66,14 @@ export type {
   StrEnumType,
 } from "./StrEnum";
 export {
+  ArchaicTimezoneOffsets,
   defaultVideosToUTC,
   offsetMinutesToZoneName,
   TimezoneOffsetTagnames,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
+  ValidTimezoneOffsets,
 } from "./Timezones";
 export { DefaultWriteTaskOptions, WriteTaskOptionFields } from "./WriteTask";
 // Type exports organized by source module
@@ -101,6 +105,7 @@ export type { Omit } from "./Omit";
 export type { RawTags } from "./RawTags";
 export type { ReadTaskOptions } from "./ReadTask";
 export type { ResourceEvent } from "./ResourceEvent";
+export type { UnsubscribeFunction } from "./Settings";
 export type { ShortcutTags } from "./ShortcutTags";
 export type { Struct } from "./Struct";
 export type {
@@ -200,6 +205,14 @@ export class ExifTool {
       ...DefaultExifToolOptions,
       ...options,
     });
+
+    // Backward compatibility: if options.logger is provided, set it as the global logger
+    if (options.logger != null) {
+      const providedLogger = isFunction(options.logger)
+        ? options.logger()
+        : options.logger;
+      Settings.logger.value = providedLogger;
+    }
 
     const ignoreShebang = o.ignoreShebang ?? _ignoreShebang();
 

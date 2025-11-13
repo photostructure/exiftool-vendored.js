@@ -12,7 +12,12 @@
       "Bash(gh issue list:*)",
       "Bash(gh issue view:*)",
       "Bash(pinact:*)",
-      "Bash(pinact --help:*)"
+      "Bash(pinact --help:*)",
+      "Bash(cat:*)",
+      "Bash(npm run compile:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run docs:1:*)",
+      "Bash(npm run:*)"
     ],
     "deny": [],
     "ask": []

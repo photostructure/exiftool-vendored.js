@@ -25,7 +25,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## Version history
 
-### v31.30
+### v32.0.0
+
+- 💔 Archaic timezones are no longer supported by default. If you have relevant (old) digital media, set `Settings.allowArchaicTimezoneOffsets.value = true`.
+- 💔 [useMWG](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.ExifToolOptions.html#usemwg) now defaults to `true`, the ExifTool recommendation. See [the ExifTool page](https://exiftool.org/TagNames/MWG.html) for more details.
+- ✨ Added **Settings** for global library configuration. See [CONFIGURATION](https://photostructure.github.io/exiftool-vendored.js/documents/CONFIGURATION.html) for details.
+- 📦 `MakerNotes.AspectRatio` was restored to the Tags union
+
+### v31.3.0
 
 - 🌱 Upgraded ExifTool to version [13.41](https://exiftool.org/history.html#13.41).
 
