@@ -104,7 +104,7 @@ export interface FileTags {
    */
   Comment?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups APP, EXIF, File, MakerNotes, XMP
    * @example "Unknown (1536)"
    */
@@ -136,7 +136,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:11:13 18:51:03Z"
+   * @example "2025:11:13 22:06:51Z"
    * @remarks File system access date/time. Not stored metadata - file system property.
    * Writable on some systems. Changes when file is read.
    * @see https://exiftool.org/TagNames/File.html
@@ -389,7 +389,7 @@ export interface CompositeTags {
    */
   BlueBalance?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups Composite, EXIF
    * @example "[Red,Green][Green,Blue]"
    */
@@ -413,7 +413,7 @@ export interface CompositeTags {
    */
   ContrastDetectAF?: string;
   /**
-   * @frequency 🔥 ★★★☆ (30%)
+   * @frequency 🔥 ★★★☆ (20%)
    * @groups Composite, EXIF, MakerNotes
    * @example "© Chuckles McSnortypants, Inc."
    * @remarks Copyright notice for the image. MWG composite tag that reconciles EXIF:Copyright, IPTC:CopyrightNotice, and XMP-dc:Rights.
@@ -428,7 +428,7 @@ export interface CompositeTags {
    */
   Country?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, QuickTime, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When an image was digitized (captured by camera sensor). MWG composite tag that reconciles EXIF:CreateDate, IPTC digital creation fields, and XMP-xmp:CreateDate.
@@ -444,7 +444,7 @@ export interface CompositeTags {
    */
   Creator?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (6%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups Composite, IPTC, XMP
    * @example "2025:08:23"
    */
@@ -459,7 +459,7 @@ export interface CompositeTags {
    */
   DateTimeCreated?: ExifDateTime | string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When a photo was taken (shutter actuation time). MWG composite tag that reconciles EXIF:DateTimeOriginal, IPTC date/time created, and XMP-photoshop DateTimeOriginal.
@@ -553,7 +553,7 @@ export interface CompositeTags {
    */
   FOV?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (7%)
+   * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -588,7 +588,7 @@ export interface CompositeTags {
    */
   GPSDestLongitude?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
    */
@@ -602,7 +602,7 @@ export interface CompositeTags {
    */
   GPSLatitudeRef?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
    */
@@ -655,7 +655,7 @@ export interface CompositeTags {
    */
   ImageWidth?: number;
   /**
-   * @frequency 🔥 ★★★★ (90%)
+   * @frequency 🔥 ★★★★ (70%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
    * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
@@ -664,7 +664,7 @@ export interface CompositeTags {
    */
   ISO?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Composite, IPTC
    * @example ["点像F11"]
    * @remarks Searchable subject terms for image content. MWG composite tag that reconciles IPTC:Keywords and XMP-dc:Subject.
@@ -727,7 +727,7 @@ export interface CompositeTags {
    */
   Megapixels?: number;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, QuickTime, XMP
    * @example "2216:02:28 03:49:50"
    * @remarks When the file was last modified by a user (not automatic processes). MWG composite tag that reconciles EXIF:ModifyDate and XMP-xmp:ModifyDate.
@@ -736,7 +736,7 @@ export interface CompositeTags {
    */
   ModifyDate?: ExifDateTime | string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
    * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
@@ -780,7 +780,7 @@ export interface CompositeTags {
    */
   PreviewImageSize?: string;
   /**
-   * @frequency 🔥 ★★★☆ (30%)
+   * @frequency 🔥 ★★☆☆ (10%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 5
    * @remarks Star rating for the image. MWG composite tag from XMP-xmp:Rating.
@@ -1217,7 +1217,7 @@ export interface APPTags {
    */
   Compass?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups APP, EXIF, File, MakerNotes, XMP
    * @example "Unknown (1536)"
    */
@@ -1241,7 +1241,7 @@ export interface APPTags {
    */
   DateTimeGenerated?: ExifDateTime | string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When a photo was taken (shutter actuation time). MWG composite tag that reconciles EXIF:DateTimeOriginal, IPTC date/time created, and XMP-photoshop DateTimeOriginal.
@@ -1340,13 +1340,13 @@ export interface APPTags {
    */
   Exposure?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
    */
   ExposureCompensation?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
    */
@@ -1412,7 +1412,7 @@ export interface APPTags {
    */
   FMean?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 90
    */
@@ -1499,7 +1499,7 @@ export interface APPTags {
    */
   GMean?: number;
   /**
-   * @frequency 🔥 ★☆☆☆ (7%)
+   * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -1523,7 +1523,7 @@ export interface APPTags {
    */
   GPSImgDirectionRef?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
    */
@@ -1537,7 +1537,7 @@ export interface APPTags {
    */
   GPSLatitudeRef?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
    */
@@ -1718,7 +1718,7 @@ export interface APPTags {
    */
   LensProjection?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ★☆☆☆ (7%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "xB?"
    */
@@ -2081,7 +2081,7 @@ export interface APPTags {
    */
   SerialNumber?: string;
   /**
-   * @frequency 🔥 ★★★★ (80%)
+   * @frequency 🔥 ★★★★ (60%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -2147,7 +2147,7 @@ export interface APPTags {
    */
   Version?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
    */
@@ -2495,7 +2495,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups FlashPix
-   * @example "(Binary data 57881 bytes, use -b option to extract)"
+   * @example "(Binary data 46285 bytes, use -b option to extract)"
    */
   ScreenNail?: BinaryField | string;
   /**
@@ -2622,7 +2622,7 @@ export interface EXIFTags {
    */
   BitsPerSample?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes, RAF
    * @example "94 95 93 93"
    */
@@ -2676,7 +2676,7 @@ export interface EXIFTags {
    */
   CFALayout?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (4%)
+   * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups Composite, EXIF
    * @example "[Red,Green][Green,Blue]"
    */
@@ -2700,7 +2700,7 @@ export interface EXIFTags {
    */
   ChromaticAberrationCorrection?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes
    * @example "978 820 698 610 558 558 558 492 418 388 364 328 280 218 1…320 428"
    */
@@ -2736,19 +2736,19 @@ export interface EXIFTags {
    */
   CompressedBitsPerPixel?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups APP, EXIF, File, MakerNotes, XMP
    * @example "Unknown (1536)"
    */
   Compression?: string;
   /**
-   * @frequency 🔥 ★★★★ (60%)
+   * @frequency 🔥 ★★★★ (50%)
    * @groups EXIF, MakerNotes, XMP
    * @example "n/a"
    */
   Contrast?: string;
   /**
-   * @frequency 🔥 ★★★☆ (30%)
+   * @frequency 🔥 ★★★☆ (20%)
    * @groups Composite, EXIF, MakerNotes
    * @example "© Chuckles McSnortypants, Inc."
    * @remarks Copyright notice for the image. MWG composite tag that reconciles EXIF:Copyright, IPTC:CopyrightNotice, and XMP-dc:Rights.
@@ -2757,7 +2757,7 @@ export interface EXIFTags {
    */
   Copyright?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, QuickTime, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When an image was digitized (captured by camera sensor). MWG composite tag that reconciles EXIF:CreateDate, IPTC digital creation fields, and XMP-xmp:CreateDate.
@@ -2797,7 +2797,7 @@ export interface EXIFTags {
    */
   CustomRendered?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When a photo was taken (shutter actuation time). MWG composite tag that reconciles EXIF:DateTimeOriginal, IPTC date/time created, and XMP-photoshop DateTimeOriginal.
@@ -2896,7 +2896,7 @@ export interface EXIFTags {
    */
   ExifVersion?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
    */
@@ -2908,7 +2908,7 @@ export interface EXIFTags {
    */
   ExposureIndex?: number;
   /**
-   * @frequency 🔥 ★★★★ (80%)
+   * @frequency 🔥 ★★★★ (70%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Auto exposure)"
    */
@@ -2920,7 +2920,7 @@ export interface EXIFTags {
    */
   ExposureProgram?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
    */
@@ -2944,13 +2944,13 @@ export interface EXIFTags {
    */
   FlashEnergy?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 90
    */
   FNumber?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "99.7 mm"
    */
@@ -2992,7 +2992,7 @@ export interface EXIFTags {
    */
   Gamma?: number;
   /**
-   * @frequency 🔥 ★☆☆☆ (7%)
+   * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -3096,7 +3096,7 @@ export interface EXIFTags {
    */
   GPSImgDirectionRef?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
    */
@@ -3110,7 +3110,7 @@ export interface EXIFTags {
    */
   GPSLatitudeRef?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
    */
@@ -3285,7 +3285,7 @@ export interface EXIFTags {
    */
   InteropVersion?: string;
   /**
-   * @frequency 🔥 ★★★★ (90%)
+   * @frequency 🔥 ★★★★ (70%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
    * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
@@ -3302,7 +3302,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 453632 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
    * Access via BinaryField to get raw bytes or base64 encoding.
    * @see https://exiftool.org/TagNames/EXIF.html
@@ -3321,7 +3321,7 @@ export interface EXIFTags {
    */
   JpgFromRawStart?: number;
   /**
-   * @frequency 🔥 ★★☆☆ (10%)
+   * @frequency 🔥 ★☆☆☆ (10%)
    * @groups EXIF, MakerNotes, XMP
    * @example "?mm f/?"
    */
@@ -3339,7 +3339,7 @@ export interface EXIFTags {
    */
   LensModel?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ★☆☆☆ (7%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "xB?"
    */
@@ -3371,7 +3371,7 @@ export interface EXIFTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 5438 bytes, use -b option to extract)"
+   * @example "(Binary data 22629 bytes, use -b option to extract)"
    */
   LinearizationTable?: BinaryField | string;
   /**
@@ -3420,7 +3420,7 @@ export interface EXIFTags {
    */
   MaxApertureValue?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Center-weighted average)"
    */
@@ -3441,7 +3441,7 @@ export interface EXIFTags {
    */
   Model2?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, QuickTime, XMP
    * @example "2216:02:28 03:49:50"
    * @remarks When the file was last modified by a user (not automatic processes). MWG composite tag that reconciles EXIF:ModifyDate and XMP-xmp:ModifyDate.
@@ -3504,7 +3504,7 @@ export interface EXIFTags {
    */
   OffsetTimeOriginal?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
    * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
@@ -3532,7 +3532,7 @@ export interface EXIFTags {
    */
   OtherImageStart?: number;
   /**
-   * @frequency 🔥 ★★☆☆ (20%)
+   * @frequency 🔥 ★★☆☆ (10%)
    * @groups EXIF, MakerNotes
    * @example "Itsa Myowna"
    */
@@ -3656,7 +3656,7 @@ export interface EXIFTags {
    */
   ProfileToneCurve?: BinaryField | string;
   /**
-   * @frequency 🔥 ★★★☆ (30%)
+   * @frequency 🔥 ★★☆☆ (10%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 5
    * @remarks Star rating for the image. MWG composite tag from XMP-xmp:Rating.
@@ -3752,7 +3752,7 @@ export interface EXIFTags {
    */
   SamplesPerPixel?: number;
   /**
-   * @frequency 🔥 ★★★★ (70%)
+   * @frequency 🔥 ★★★★ (60%)
    * @groups EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -3836,7 +3836,7 @@ export interface EXIFTags {
    */
   ShadowScale?: number;
   /**
-   * @frequency 🔥 ★★★★ (80%)
+   * @frequency 🔥 ★★★★ (60%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -4044,7 +4044,7 @@ export interface EXIFTags {
    */
   VignettingCorrection?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes
    * @example "96 240 384 544 720 896 1088 1280 1488 1696 1920 2128 2368…8 15280"
    */
@@ -4074,7 +4074,7 @@ export interface EXIFTags {
    */
   WBRedLevel?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
    */
@@ -4921,7 +4921,7 @@ export interface PanasonicRawTags {
    */
   NumWBEntries?: number;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
    * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
@@ -5033,7 +5033,7 @@ export interface PhotoshopTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Photoshop
-   * @example "(Binary data 4291 bytes, use -b option to extract)"
+   * @example "(Binary data 5768 bytes, use -b option to extract)"
    */
   PhotoshopThumbnail?: BinaryField | string;
   /**
@@ -5147,7 +5147,7 @@ export interface IPTCTags {
    */
   CodedCharacterSet?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (6%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups Composite, IPTC, XMP
    * @example "2025:08:23"
    */
@@ -5171,7 +5171,7 @@ export interface IPTCTags {
    */
   EnvelopeRecordVersion?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Composite, IPTC
    * @example ["点像F11"]
    * @remarks Searchable subject terms for image content. MWG composite tag that reconciles IPTC:Keywords and XMP-dc:Subject.
@@ -5336,7 +5336,7 @@ export interface QuickTimeTags {
    */
   ContentIdentifier?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, QuickTime, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When an image was digitized (captured by camera sensor). MWG composite tag that reconciles EXIF:CreateDate, IPTC digital creation fields, and XMP-xmp:CreateDate.
@@ -5486,7 +5486,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 453632 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
    * Access via BinaryField to get raw bytes or base64 encoding.
    * @see https://exiftool.org/TagNames/EXIF.html
@@ -5505,7 +5505,7 @@ export interface QuickTimeTags {
    */
   LensModel?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ★☆☆☆ (7%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "xB?"
    */
@@ -5624,7 +5624,7 @@ export interface QuickTimeTags {
    */
   Model?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, QuickTime, XMP
    * @example "2216:02:28 03:49:50"
    * @remarks When the file was last modified by a user (not automatic processes). MWG composite tag that reconciles EXIF:ModifyDate and XMP-xmp:ModifyDate.
@@ -6014,7 +6014,7 @@ export interface RAFTags {
    */
   BitsPerSample?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes, RAF
    * @example "94 95 93 93"
    */
@@ -6188,7 +6188,7 @@ export interface RIFFTags {
    */
   BitsPerSample?: number;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When a photo was taken (shutter actuation time). MWG composite tag that reconciles EXIF:DateTimeOriginal, IPTC date/time created, and XMP-photoshop DateTimeOriginal.
@@ -7814,7 +7814,7 @@ export interface MakerNotesTags {
    */
   BitDepth?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes, RAF
    * @example "94 95 93 93"
    */
@@ -8312,7 +8312,7 @@ export interface MakerNotesTags {
    */
   ChromaticAberrationCorrection?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes
    * @example "978 820 698 610 558 558 558 492 418 388 364 328 280 218 1…320 428"
    */
@@ -8846,7 +8846,7 @@ export interface MakerNotesTags {
    */
   CompressedImageSize?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups APP, EXIF, File, MakerNotes, XMP
    * @example "Unknown (1536)"
    */
@@ -8912,7 +8912,7 @@ export interface MakerNotesTags {
    */
   ContinuousShotLimit?: string;
   /**
-   * @frequency 🔥 ★★★★ (60%)
+   * @frequency 🔥 ★★★★ (50%)
    * @groups EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -9050,7 +9050,7 @@ export interface MakerNotesTags {
    */
   Converter?: number;
   /**
-   * @frequency 🔥 ★★★☆ (30%)
+   * @frequency 🔥 ★★★☆ (20%)
    * @groups Composite, EXIF, MakerNotes
    * @example "© Chuckles McSnortypants, Inc."
    * @remarks Copyright notice for the image. MWG composite tag that reconciles EXIF:Copyright, IPTC:CopyrightNotice, and XMP-dc:Rights.
@@ -9095,7 +9095,7 @@ export interface MakerNotesTags {
    */
   CPUVersions?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, QuickTime, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When an image was digitized (captured by camera sensor). MWG composite tag that reconciles EXIF:CreateDate, IPTC digital creation fields, and XMP-xmp:CreateDate.
@@ -9327,7 +9327,7 @@ export interface MakerNotesTags {
    */
   DateStampMode?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When a photo was taken (shutter actuation time). MWG composite tag that reconciles EXIF:DateTimeOriginal, IPTC date/time created, and XMP-photoshop DateTimeOriginal.
@@ -9822,7 +9822,7 @@ export interface MakerNotesTags {
    */
   ExposureCompAutoCancel?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
    */
@@ -9894,7 +9894,7 @@ export interface MakerNotesTags {
    */
   ExposureLevelIncrements?: string;
   /**
-   * @frequency 🔥 ★★★★ (80%)
+   * @frequency 🔥 ★★★★ (70%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Auto exposure)"
    */
@@ -9924,7 +9924,7 @@ export interface MakerNotesTags {
    */
   ExposureStandardAdjustment?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
    */
@@ -10854,13 +10854,13 @@ export interface MakerNotesTags {
    */
   FlightSpeed?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 90
    */
   FNumber?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "99.7 mm"
    */
@@ -12027,7 +12027,7 @@ export interface MakerNotesTags {
    */
   IntervalShooting?: string;
   /**
-   * @frequency 🔥 ★★★★ (90%)
+   * @frequency 🔥 ★★★★ (70%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
    * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
@@ -12422,7 +12422,7 @@ export interface MakerNotesTags {
    */
   LensIDNumber?: number;
   /**
-   * @frequency 🔥 ★★☆☆ (10%)
+   * @frequency 🔥 ★☆☆☆ (10%)
    * @groups EXIF, MakerNotes, XMP
    * @example "?mm f/?"
    */
@@ -12476,7 +12476,7 @@ export interface MakerNotesTags {
    */
   LensProperties?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ★☆☆☆ (7%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "xB?"
    */
@@ -13079,7 +13079,7 @@ export interface MakerNotesTags {
    */
   MeteringFrameCount?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Center-weighted average)"
    */
@@ -13868,7 +13868,7 @@ export interface MakerNotesTags {
    */
   OutputLUT?: BinaryField | string;
   /**
-   * @frequency 🔥 ★★☆☆ (20%)
+   * @frequency 🔥 ★★☆☆ (10%)
    * @groups EXIF, MakerNotes
    * @example "Itsa Myowna"
    */
@@ -14514,7 +14514,7 @@ export interface MakerNotesTags {
    */
   RangeFinder?: string;
   /**
-   * @frequency 🔥 ★★★☆ (30%)
+   * @frequency 🔥 ★★☆☆ (10%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 5
    * @remarks Star rating for the image. MWG composite tag from XMP-xmp:Rating.
@@ -14808,7 +14808,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 886 bytes, use -b option to extract)"
+   * @example "(Binary data 576 bytes, use -b option to extract)"
    */
   RectifaceText?: BinaryField | string;
   /**
@@ -15092,7 +15092,7 @@ export interface MakerNotesTags {
    */
   SanyoThumbnail?: BinaryField | string;
   /**
-   * @frequency 🔥 ★★★★ (70%)
+   * @frequency 🔥 ★★★★ (60%)
    * @groups EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -15518,7 +15518,7 @@ export interface MakerNotesTags {
    */
   Sharpening?: string;
   /**
-   * @frequency 🔥 ★★★★ (80%)
+   * @frequency 🔥 ★★★★ (60%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -16512,7 +16512,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1679 bytes, use -b option to extract)"
+   * @example "(Binary data 1505 bytes, use -b option to extract)"
    */
   ToneCurveTable?: BinaryField | string;
   /**
@@ -16620,7 +16620,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 5411 bytes, use -b option to extract)"
+   * @example "(Binary data 9191 bytes, use -b option to extract)"
    */
   UnusedLoggingMetadata?: BinaryField | string;
   /**
@@ -16840,7 +16840,7 @@ export interface MakerNotesTags {
    */
   VignettingCorrection?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
+   * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes
    * @example "96 240 384 544 720 896 1088 1280 1488 1696 1920 2128 2368…8 15280"
    */
@@ -17002,7 +17002,7 @@ export interface MakerNotesTags {
    */
   WBShiftIntelligentAuto?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
    */
@@ -17082,7 +17082,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 2217 bytes, use -b option to extract)"
+   * @example "(Binary data 2201 bytes, use -b option to extract)"
    */
   WhiteBalanceTable?: BinaryField | string;
   /**
@@ -19447,7 +19447,7 @@ export interface XMPTags {
    */
   CompressedBitsPerPixel?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups APP, EXIF, File, MakerNotes, XMP
    * @example "Unknown (1536)"
    */
@@ -19468,7 +19468,7 @@ export interface XMPTags {
    */
   ContainerDirectory?: ContainerDirectoryItem[] | Struct[];
   /**
-   * @frequency 🔥 ★★★★ (60%)
+   * @frequency 🔥 ★★★★ (50%)
    * @groups EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -19492,7 +19492,7 @@ export interface XMPTags {
    */
   CountryCode?: string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, QuickTime, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When an image was digitized (captured by camera sensor). MWG composite tag that reconciles EXIF:CreateDate, IPTC digital creation fields, and XMP-xmp:CreateDate.
@@ -19630,7 +19630,7 @@ export interface XMPTags {
    */
   DateAcquired?: ExifDateTime | string;
   /**
-   * @frequency 🔥 ★☆☆☆ (6%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups Composite, IPTC, XMP
    * @example "2025:08:23"
    */
@@ -19648,7 +19648,7 @@ export interface XMPTags {
    */
   DateTimeDigitized?: ExifDateTime | string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, MakerNotes, RIFF, XMP
    * @example "2218:09:22 02:32:14"
    * @remarks When a photo was taken (shutter actuation time). MWG composite tag that reconciles EXIF:DateTimeOriginal, IPTC date/time created, and XMP-photoshop DateTimeOriginal.
@@ -19792,13 +19792,13 @@ export interface XMPTags {
    */
   Exposure?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
    */
   ExposureCompensation?: number;
   /**
-   * @frequency 🔥 ★★★★ (80%)
+   * @frequency 🔥 ★★★★ (70%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Auto exposure)"
    */
@@ -19810,7 +19810,7 @@ export interface XMPTags {
    */
   ExposureProgram?: string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
    */
@@ -19924,13 +19924,13 @@ export interface XMPTags {
    */
   FlightZSpeed?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 90
    */
   FNumber?: number;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "99.7 mm"
    */
@@ -20056,7 +20056,7 @@ export interface XMPTags {
    */
   GimbalYawDegree?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (7%)
+   * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -20103,13 +20103,13 @@ export interface XMPTags {
    */
   GPSImgDirectionRef?: string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
    */
   GPSLatitude?: number | string;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
    */
@@ -20205,7 +20205,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example "(Binary data 31092 bytes, use -b option to extract)"
+   * @example "(Binary data 29436 bytes, use -b option to extract)"
    */
   HDRPMakerNote?: BinaryField | string;
   /**
@@ -20389,7 +20389,7 @@ export interface XMPTags {
    */
   IsNightModeActive?: boolean;
   /**
-   * @frequency 🔥 ★★★★ (90%)
+   * @frequency 🔥 ★★★★ (70%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
    * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
@@ -20454,7 +20454,7 @@ export interface XMPTags {
    */
   LensID?: string;
   /**
-   * @frequency 🔥 ★★☆☆ (10%)
+   * @frequency 🔥 ★☆☆☆ (10%)
    * @groups EXIF, MakerNotes, XMP
    * @example "?mm f/?"
    */
@@ -20526,7 +20526,7 @@ export interface XMPTags {
    */
   LensProfileVignettingScale?: number;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
+   * @frequency 🔥 ★☆☆☆ (7%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "xB?"
    */
@@ -20657,7 +20657,7 @@ export interface XMPTags {
    */
   MetadataDate?: ExifDateTime | string;
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Center-weighted average)"
    */
@@ -20726,7 +20726,7 @@ export interface XMPTags {
    */
   ModificationDate?: ExifDateTime | string;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, QuickTime, XMP
    * @example "2216:02:28 03:49:50"
    * @remarks When the file was last modified by a user (not automatic processes). MWG composite tag that reconciles EXIF:ModifyDate and XMP-xmp:ModifyDate.
@@ -20801,7 +20801,7 @@ export interface XMPTags {
    */
   ObjectPosY?: number;
   /**
-   * @frequency 🔥 ★★★★ (200%)
+   * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
    * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
@@ -21021,7 +21021,7 @@ export interface XMPTags {
    */
   ProjectionType?: string;
   /**
-   * @frequency 🔥 ★★★☆ (30%)
+   * @frequency 🔥 ★★☆☆ (10%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 5
    * @remarks Star rating for the image. MWG composite tag from XMP-xmp:Rating.
@@ -21108,7 +21108,7 @@ export interface XMPTags {
    */
   SamplesPerPixel?: number;
   /**
-   * @frequency 🔥 ★★★★ (70%)
+   * @frequency 🔥 ★★★★ (60%)
    * @groups EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -21246,7 +21246,7 @@ export interface XMPTags {
    */
   SharpenRadius?: number;
   /**
-   * @frequency 🔥 ★★★★ (80%)
+   * @frequency 🔥 ★★★★ (60%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "n/a"
    */
@@ -21582,7 +21582,7 @@ export interface XMPTags {
    */
   WavelengthFWHM?: number[];
   /**
-   * @frequency 🔥 ★★★★ (100%)
+   * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
    */

@@ -805,7 +805,7 @@
     "groups": ["APP"]
   },
   "Album": {
-    "frequency": 0.00009,
+    "frequency": 0,
     "mainstream": false,
     "groups": ["XMP"]
   },
@@ -1495,7 +1495,7 @@
     "groups": ["APP", "EXIF", "File", "RAF", "RIFF", "XMP"]
   },
   "BlackLevel": {
-    "frequency": 0.02,
+    "frequency": 0.01,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes", "RAF"]
   },
@@ -1830,7 +1830,7 @@
     "groups": ["EXIF"]
   },
   "CFAPattern": {
-    "frequency": 0.04,
+    "frequency": 0.03,
     "mainstream": true,
     "groups": ["Composite", "EXIF"]
   },
@@ -2165,7 +2165,7 @@
     "groups": ["MakerNotes"]
   },
   "ChromaticAberrationCorrParams": {
-    "frequency": 0.02,
+    "frequency": 0.01,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes"]
   },
@@ -2780,7 +2780,7 @@
     "groups": ["MakerNotes"]
   },
   "Compression": {
-    "frequency": 1,
+    "frequency": 0.9,
     "mainstream": true,
     "groups": ["APP", "EXIF", "File", "MakerNotes", "XMP"]
   },
@@ -2875,7 +2875,7 @@
     "groups": ["MakerNotes"]
   },
   "Contrast": {
-    "frequency": 0.6,
+    "frequency": 0.5,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes", "XMP"]
   },
@@ -3000,7 +3000,7 @@
     "groups": ["MakerNotes"]
   },
   "Copyright": {
-    "frequency": 0.3,
+    "frequency": 0.2,
     "mainstream": true,
     "groups": ["Composite", "EXIF", "MakerNotes"]
   },
@@ -3035,7 +3035,7 @@
     "groups": ["MakerNotes", "XMP"]
   },
   "CreateDate": {
-    "frequency": 2,
+    "frequency": 0.9,
     "mainstream": true,
     "groups": ["Composite", "EXIF", "MakerNotes", "QuickTime", "XMP"]
   },
@@ -3100,7 +3100,7 @@
     "groups": ["XMP"]
   },
   "Credit": {
-    "frequency": 0.0006,
+    "frequency": 0.0004,
     "mainstream": true,
     "groups": ["IPTC", "XMP"]
   },
@@ -3355,7 +3355,7 @@
     "groups": ["XMP"]
   },
   "DateCreated": {
-    "frequency": 0.06,
+    "frequency": 0.04,
     "mainstream": true,
     "groups": ["Composite", "IPTC", "XMP"]
   },
@@ -3395,7 +3395,7 @@
     "groups": ["APP"]
   },
   "DateTimeOriginal": {
-    "frequency": 2,
+    "frequency": 1,
     "mainstream": true,
     "groups": ["APP", "Composite", "EXIF", "MakerNotes", "RIFF", "XMP"]
   },
@@ -3960,7 +3960,7 @@
     "groups": ["APP"]
   },
   "Emissivity": {
-    "frequency": 0.01,
+    "frequency": 0.006,
     "mainstream": false,
     "groups": ["APP", "MakerNotes"]
   },
@@ -4105,7 +4105,7 @@
     "groups": ["MakerNotes"]
   },
   "ExposureCompensation": {
-    "frequency": 1,
+    "frequency": 0.8,
     "mainstream": true,
     "groups": ["APP", "EXIF", "MakerNotes", "XMP"]
   },
@@ -4165,7 +4165,7 @@
     "groups": ["MakerNotes"]
   },
   "ExposureMode": {
-    "frequency": 0.8,
+    "frequency": 0.7,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes", "XMP"]
   },
@@ -4190,7 +4190,7 @@
     "groups": ["MakerNotes"]
   },
   "ExposureTime": {
-    "frequency": 1,
+    "frequency": 0.8,
     "mainstream": true,
     "groups": ["APP", "EXIF", "MakerNotes", "XMP"]
   },
@@ -4385,7 +4385,7 @@
     "groups": ["APP"]
   },
   "FNumber": {
-    "frequency": 1,
+    "frequency": 0.8,
     "mainstream": true,
     "groups": ["APP", "EXIF", "MakerNotes", "XMP"]
   },
@@ -5175,7 +5175,7 @@
     "groups": ["APP"]
   },
   "FocalLength": {
-    "frequency": 1,
+    "frequency": 0.8,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes", "XMP"]
   },
@@ -5685,7 +5685,7 @@
     "groups": ["APP"]
   },
   "GPSAltitude": {
-    "frequency": 0.07,
+    "frequency": 0.03,
     "mainstream": true,
     "groups": ["APP", "Composite", "EXIF", "XMP"]
   },
@@ -5705,7 +5705,7 @@
     "groups": ["QuickTime"]
   },
   "GPSDOP": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["APP", "EXIF", "XMP"]
   },
@@ -5740,7 +5740,7 @@
     "groups": ["EXIF"]
   },
   "GPSDestLatitude": {
-    "frequency": 0.0006,
+    "frequency": 0.0003,
     "mainstream": true,
     "groups": ["Composite", "EXIF"]
   },
@@ -5750,7 +5750,7 @@
     "groups": ["EXIF"]
   },
   "GPSDestLongitude": {
-    "frequency": 0.0006,
+    "frequency": 0.0003,
     "mainstream": true,
     "groups": ["Composite", "EXIF"]
   },
@@ -5780,7 +5780,7 @@
     "groups": ["APP", "EXIF", "XMP"]
   },
   "GPSLatitude": {
-    "frequency": 0.09,
+    "frequency": 0.04,
     "mainstream": true,
     "groups": ["APP", "Composite", "EXIF", "XMP"]
   },
@@ -5790,7 +5790,7 @@
     "groups": ["APP", "Composite", "EXIF"]
   },
   "GPSLongitude": {
-    "frequency": 0.09,
+    "frequency": 0.04,
     "mainstream": true,
     "groups": ["APP", "Composite", "EXIF", "XMP"]
   },
@@ -5835,7 +5835,7 @@
     "groups": ["APP", "EXIF", "XMP"]
   },
   "GPSSpeedRef": {
-    "frequency": 0.009,
+    "frequency": 0.008,
     "mainstream": true,
     "groups": ["APP", "EXIF", "XMP"]
   },
@@ -6470,7 +6470,7 @@
     "groups": ["APP"]
   },
   "ISO": {
-    "frequency": 0.9,
+    "frequency": 0.7,
     "mainstream": true,
     "groups": ["Composite", "EXIF", "MakerNotes", "XMP"]
   },
@@ -7118,7 +7118,7 @@
     "groups": ["MakerNotes"]
   },
   "Keywords": {
-    "frequency": 0.006,
+    "frequency": 0.004,
     "mainstream": true,
     "groups": ["Composite", "IPTC"]
   },
@@ -7408,7 +7408,7 @@
     "groups": ["XMP"]
   },
   "LensProfileName": {
-    "frequency": 0.0009,
+    "frequency": 0.0008,
     "mainstream": false,
     "groups": ["MakerNotes", "XMP"]
   },
@@ -7433,7 +7433,7 @@
     "groups": ["MakerNotes"]
   },
   "LensSerialNumber": {
-    "frequency": 0.09,
+    "frequency": 0.07,
     "mainstream": true,
     "groups": ["APP", "EXIF", "MakerNotes", "QuickTime", "XMP"]
   },
@@ -8248,7 +8248,7 @@
     "groups": ["MakerNotes"]
   },
   "MeteringMode": {
-    "frequency": 1,
+    "frequency": 0.8,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes", "XMP"]
   },
@@ -8483,7 +8483,7 @@
     "groups": ["MakerNotes"]
   },
   "ModifyDate": {
-    "frequency": 2,
+    "frequency": 0.9,
     "mainstream": true,
     "groups": ["Composite", "EXIF", "QuickTime", "XMP"]
   },
@@ -8888,7 +8888,7 @@
     "groups": ["MakerNotes"]
   },
   "Notes": {
-    "frequency": 0.00009,
+    "frequency": 0,
     "mainstream": false,
     "groups": ["XMP"]
   },
@@ -9088,7 +9088,7 @@
     "groups": ["MakerNotes"]
   },
   "Orientation": {
-    "frequency": 2,
+    "frequency": 0.9,
     "mainstream": true,
     "groups": ["Composite", "EXIF", "PanasonicRaw", "XMP"]
   },
@@ -9193,7 +9193,7 @@
     "groups": ["XMP"]
   },
   "OwnerName": {
-    "frequency": 0.2,
+    "frequency": 0.1,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes"]
   },
@@ -9873,7 +9873,7 @@
     "groups": ["QuickTime"]
   },
   "Prefs": {
-    "frequency": 0.02,
+    "frequency": 0.01,
     "mainstream": true,
     "groups": ["IPTC", "XMP"]
   },
@@ -10211,12 +10211,12 @@
     "groups": ["APP"]
   },
   "Rating": {
-    "frequency": 0.3,
+    "frequency": 0.1,
     "mainstream": true,
     "groups": ["Composite", "EXIF", "MakerNotes", "XMP"]
   },
   "RatingPercent": {
-    "frequency": 0.009,
+    "frequency": 0.008,
     "mainstream": true,
     "groups": ["EXIF", "XMP"]
   },
@@ -10961,7 +10961,7 @@
     "groups": ["MakerNotes"]
   },
   "Saturation": {
-    "frequency": 0.7,
+    "frequency": 0.6,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes", "XMP"]
   },
@@ -11451,7 +11451,7 @@
     "groups": ["MakerNotes"]
   },
   "Sharpness": {
-    "frequency": 0.8,
+    "frequency": 0.6,
     "mainstream": true,
     "groups": ["APP", "EXIF", "MakerNotes", "XMP"]
   },
@@ -11871,7 +11871,7 @@
     "groups": ["EXIF"]
   },
   "Source": {
-    "frequency": 0.0002,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["IPTC", "XMP"]
   },
@@ -11881,7 +11881,7 @@
     "groups": ["MakerNotes"]
   },
   "SourceFile": {
-    "frequency": 0.00009,
+    "frequency": 0,
     "mainstream": false,
     "groups": ["ExifTool"]
   },
@@ -13086,7 +13086,7 @@
     "groups": ["MakerNotes"]
   },
   "VignettingCorrParams": {
-    "frequency": 0.02,
+    "frequency": 0.01,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes"]
   },
@@ -13231,7 +13231,7 @@
     "groups": ["XMP"]
   },
   "WhiteBalance": {
-    "frequency": 1,
+    "frequency": 0.8,
     "mainstream": true,
     "groups": ["APP", "EXIF", "MakerNotes", "XMP"]
   },
@@ -13311,7 +13311,7 @@
     "groups": ["MakerNotes"]
   },
   "WhiteLevel": {
-    "frequency": 0.006,
+    "frequency": 0.005,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes"]
   },

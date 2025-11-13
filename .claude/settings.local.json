@@ -18,10 +18,33 @@
       "Bash(pinact:*)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:typescript-eslint.io)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:exiftool.org)",
+      "Bash(exiftool:*)",
+      "Bash(curl:*)",
+      "Bash(/tmp/xmp_dc.html)",
+      "Bash(/tmp/xmp_xmp.html)",
+      "Bash(/tmp/xmp_photoshop.html)",
+      "Bash(/tmp/xmp_xmpmm.html)",
+      "Bash(/tmp/xmp_iptccore.html)",
+      "Bash(/tmp/xmp_crs.html)",
+      "WebFetch(domain:www.color.org)",
+      "WebFetch(domain:s3.amazonaws.com)",
+      "WebFetch(domain:www.iptc.org)",
+      "WebFetch(domain:photometadata.org)",
+      "WebFetch(domain:exiv2.org)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:iptc.org)",
+      "Bash(git log:*)",
+      "Bash(/tmp/exiftool-test-output.json)",
+      "Bash(find:*)",
+      "Bash(for tag in \"0x010f\" \"0x0110\" \"0x829a\" \"0x829d\" \"0x8827\" \"0x920a\" \"0xa434\" \"0xa435\")",
+      "Bash(do echo \"=== Tag $tag ===\")",
+      "Bash(done)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "additionalDirectories": ["/home/mrm/src/exiftool"]
   },
   "enableAllProjectMcpServers": false
 }

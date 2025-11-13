@@ -790,6 +790,7 @@ function normalizeGroup(group: string): string {
 
 class Tag {
   values: any[] = [];
+  files = new Set<string>(); // Track unique files containing this tag
   important = false;
   groups = new Set<string>();
   staticInterface?: string; // If set, this tag is from a static interface and shouldn't be generated
@@ -871,12 +872,12 @@ class Tag {
   }
 
   popularity(totalValues: number): number {
-    const f = this.values.length / totalValues;
+    const f = this.files.size / totalValues;
     return sigFigs(f, 1);
   }
 
   stars(totalValues: number): string {
-    const f = this.values.length / totalValues;
+    const f = this.files.size / totalValues;
     return f > 0.5
       ? "★★★★"
       : f > 0.2
@@ -917,7 +918,7 @@ class Tag {
   }
 
   popIcon(totalValues: number): string {
-    const f = this.values.length / totalValues;
+    const f = this.files.size / totalValues;
 
     // kid: dad srsly stop with the emojicode no one likes it
 
@@ -1100,7 +1101,7 @@ class TagMap {
     return getOrSet(this.byBase, base, () => new Tag(tag));
   }
 
-  add(tagName: string, value: any, important: boolean) {
+  add(tagName: string, value: any, important: boolean, filename: string) {
     if (
       tagName == null ||
       value == null ||
@@ -1110,6 +1111,8 @@ class TagMap {
     }
 
     const tag = this.tag(tagName);
+    // Track which file contains this tag (for accurate frequency calculation)
+    tag.files.add(filename);
     // Add this group to the tag's groups set (in case it appears in multiple groups)
     tag.addGroup(tagName);
     if (important) {
@@ -1195,7 +1198,7 @@ async function readAndAddToTagMap(file: string) {
     const importantFile = file.toString().toLowerCase().includes("important");
     for (const [k, v] of Object.entries(tags)) {
       if (null != saneTagRe.exec(k)) {
-        tagMap.add(k, v, importantFile);
+        tagMap.add(k, v, importantFile, file);
       }
     }
     if (tags.errors?.length > 0) {

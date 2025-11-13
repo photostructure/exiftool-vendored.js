@@ -41,6 +41,7 @@ vendored versions of ExifTool match the version that they vendor.
 - ✨ `mktags` was enhanced to detect and avoid duplicate field definitions from included static interfaces.
 - ✨ Increased MAX_TAGS from 2500 to 2700 to accommodate additional tags, so there's a bunch of new tags in there! Please open an issue if you see `error TS2590: Expression produces a union type that is too complex to represent` (please be sure to include a reproduction!)
 - 📦 Added jsdocs to many, many fields.
+- 🐞 `mktags` calculates `@frequency` correctly now (it was measuring "average occurrences per file across all groups" rather than "percentage of files containing this tag" -- this led to some tags having a frequency of 200% (!!))
 
 ### v32.1.0
 
