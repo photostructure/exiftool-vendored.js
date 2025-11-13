@@ -32,16 +32,14 @@ await exiftool.write("photo.jpg", {
 // Extract thumbnail
 await exiftool.extractThumbnail("photo.jpg", "thumb.jpg");
 
-// The singleton instance automatically cleans up on process exit by default.
-// If you need immediate cleanup or have disabled registerExitHandlers:
-// await exiftool.end();
+await exiftool.end();
 ```
 
 ## Why exiftool-vendored?
 
 ### ⚡ **Performance**
 
-Order of magnitude faster than other Node.js ExifTool modules. Powers [PhotoStructure](https://photostructure.com) and [1,000+ other projects](https://github.com/photostructure/exiftool-vendored.js/network/dependents?package_id=UGFja2FnZS0xNjYxNjY2MQ%3D%3D).
+Order of magnitude faster than other Node.js ExifTool modules. Powers [PhotoStructure](https://photostructure.com) and [1,000+ other projects](https://github.com/photostructure/exiftool-vendored.js/network/dependents).
 
 ### 🔧 **Robust**
 
@@ -53,7 +51,7 @@ Order of magnitude faster than other Node.js ExifTool modules. Powers [PhotoStru
 
 - **TypeScript**: Full type definitions for thousands of metadata fields
 - **Smart dates**: Timezone-aware `ExifDateTime` classes
-- **Auto-generated tags**: Based on 6,000+ real camera samples
+- **Auto-generated tags**: Based on 10,000+ real camera samples
 
 ## Core Features
 
@@ -132,16 +130,47 @@ LensSpec?: string;
 ```
 
 - **🔥** = Found on mainstream devices (iPhone, Canon, Nikon, Sony)
-- **🧊** = Found on more obscure camera makes and models
+- **🧊** = Only found on more obscure camera makes and models
 - **★★★★** = Found in >50% of files, **☆☆☆☆** = rare (<1%)
 - **@groups** = Metadata categories (EXIF, GPS, IPTC, XMP, etc.)
 - **@example** = Representative values
 
-**Important**: The interface isn't comprehensive - unknown fields may still exist in returned objects.
+### Code defensively!
+
+- No fields are guaranteed to be present.
+- Value types are not guaranteed -- assume strings may get in your numeric fields, and handle it gracefully.
+- There may very well be keys returned that are **not** in the `Tags` interface.
 
 📖 **[Complete Tags Documentation →](docs/TAGS.md)**
 
 ## Important Notes
+
+### ⚙️ Configuration
+
+exiftool-vendored provides two levels of configuration:
+
+**Library-wide Settings** - Global configuration affecting all instances:
+
+```javascript
+import { Settings } from "exiftool-vendored";
+
+// Enable parsing of archaic timezone offsets for historical photos
+Settings.allowArchaicTimezoneOffsets.value = true;
+```
+
+**Per-instance Options** - Configuration for individual ExifTool instances:
+
+```javascript
+import { ExifTool } from "exiftool-vendored";
+
+const exiftool = new ExifTool({
+  maxProcs: 8, // More concurrent processes
+  useMWG: true, // Use Metadata Working Group tags
+  backfillTimezones: true, // Infer missing timezones
+});
+```
+
+📖 **[Complete Configuration Guide →](docs/CONFIGURATION.md)**
 
 ### ⏰ Dates & Timezones
 
@@ -177,7 +206,7 @@ process.on("beforeExit", () => exiftool.end());
 
 #### Automatic Cleanup with Disposable Interfaces
 
-For **TypeScript 5.2+** projects, use automatic resource management:
+For **TypeScript 5.2+** projects, consider using automatic resource management:
 
 ```javascript
 import { ExifTool } from "exiftool-vendored";
@@ -202,6 +231,10 @@ import { ExifTool } from "exiftool-vendored";
 - **Guaranteed cleanup**: No leaked processes, even with exceptions
 - **Timeout protection**: Automatic forceful cleanup if graceful shutdown hangs
 - **Zero boilerplate**: No manual `.end()` calls needed
+
+**Caution:**
+
+- **Operating-system startup lag**: Linux costs ~50-500ms to launch a new ExifTool process, but macOS can take several seconds (presumably due to Gatekeeper), and **Windows can take tens of seconds** due to antivirus shenanigans. Don't dispose your instance unless you're **really** done with it!
 
 ### 🏷️ Tag Completeness
 

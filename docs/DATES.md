@@ -61,12 +61,15 @@ const tags = await exiftool.read("photo.jpg");
 
 if (tags.GPSLatitude && tags.GPSLongitude) {
   console.log("Location:", tags.GPSLatitude, tags.GPSLongitude);
-  // Library uses tz-lookup to determine timezone from coordinates
+  // Library uses tz-lookup by default, but see ExifToolOptions.geoTZ for details:
+  // https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.ExifToolOptions.html#geotz
   console.log("Inferred timezone:", tags.DateTimeOriginal?.zone);
 }
 ```
 
-**Note**: Coordinates of `0, 0` are considered invalid if the `ignoreZeroZeroLatLon` option is set
+**Note**: Coordinates of `0, 0` are considered invalid if the
+[ignoreZeroZeroLatLon](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.ExifToolOptions.html#ignorezerozerolatlon)
+option is set.
 
 ### Heuristic 3: UTC Timestamp Delta
 
@@ -82,6 +85,17 @@ const utcTime2 = tags.DateTimeUTC; // UTC timestamp
 // Library calculates the delta to infer timezone offset
 // Deltas > 14 hours are considered invalid
 ```
+
+## Timezone Configuration
+
+For advanced timezone configuration options, including:
+
+- Enabling archaic timezone offsets for historical photographs
+- Configuring Baker Island Time (UTC-12:00) support
+- Customizing timezone inference heuristics
+- GPS-based timezone lookup
+
+See the [Configuration Guide](CONFIGURATION.md#timezone-configuration-options).
 
 ## Working with Timezones
 

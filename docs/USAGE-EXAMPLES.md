@@ -2,6 +2,8 @@
 
 Complete examples for common exiftool-vendored use cases.
 
+For detailed configuration options, see the [Configuration Guide](CONFIGURATION.md).
+
 ## Basic Setup
 
 ```javascript
