@@ -23,51 +23,179 @@ export interface IPTCApplicationRecordTags {
   EditStatus?: string;
   EditorialUpDate?: ExifDateTime | ExifDate;
   /**
-   * "0 (reserved)" | "1 (most urgent)" | "2" | "3" | "4" | "5 (normal urgency)" | "6" | "7" | "8 (least urgent)" | "9 (user-defined priority)"
+   * Editorial urgency rating (1-9 scale, deprecated).
+   *
+   * @remarks Valid values: '1' (Highest), '2'-'4', '5' (Normal), '6'-'7', '8' (Lowest), '9' (User defined).
+   * Note: This field was deprecated when IPTC Core 1.0 was released in 2005.
    */
   Urgency?: string;
+  /**
+   * Structured subject classification reference (13-236+ characters).
+   *
+   * @remarks Used for formal subject taxonomies and classification systems.
+   */
   SubjectReference?: string;
+  /**
+   * Content category code.
+   *
+   * @remarks Max 3 characters. Single category code for primary content classification.
+   * Note: This field was deprecated when IPTC Core 1.0 was released in 2005.
+   */
   Category?: string;
+  /**
+   * Additional category assignments for the content.
+   *
+   * @remarks Max 32 characters per entry, repeatable. Supplements the primary Category field.
+   * Note: This field was deprecated when IPTC Core 1.0 was released in 2005.
+   */
   SupplementalCategories?: string;
+  /**
+   * Identifier for recurring or regularly updated content (e.g., "Daily Market Report").
+   *
+   * @remarks Max 32 characters. Used to identify content that appears repeatedly or is part of a series.
+   */
   FixtureIdentifier?: string;
   ContentLocationCode?: string;
   ContentLocationName?: string;
+  /**
+   * Date when the content is eligible for publication (format: YYYYMMDD).
+   */
   ReleaseDate?: ExifDateTime | ExifDate;
+  /**
+   * Time when the content is eligible for publication (includes timezone offset).
+   */
   ReleaseTime?: ExifDateTime | ExifTime;
+  /**
+   * Date when the content validity expires (format: YYYYMMDD).
+   */
   ExpirationDate?: ExifDateTime | ExifDate;
+  /**
+   * Time when the content validity expires (includes timezone offset).
+   */
   ExpirationTime?: string | ExifDateTime | ExifTime;
+  /**
+   * Editorial handling or usage instructions for the image.
+   *
+   * @remarks Max 256 characters. Used for special directives about how the content should be used or handled.
+   */
   SpecialInstructions?: string;
+  /**
+   * Action required for this content.
+   *
+   * @remarks Valid values: 01 (Kill/delete), 02 (Replace with new version), 03 (Append to existing), 04 (Reference only)
+   */
   ActionAdvised?: number;
   ReferenceService?: string;
   ReferenceDate?: ExifDateTime | ExifDate;
   ReferenceNumber?: number;
   OriginatingProgram?: string;
   ProgramVersion?: string;
+  /**
+   * Publication cycle timing.
+   *
+   * @remarks Valid values: 'a' (morning), 'b' (both morning and evening), 'p' (evening)
+   */
   ObjectCycle?: string;
+  /**
+   * Creator or photographer name (e.g., "John Smith").
+   *
+   * @remarks Despite the hyphenated name, this is the standard field for crediting the image creator. Max 32 characters per entry, repeatable.
+   */
   "By-line"?: string;
+  /**
+   * Creator's professional title (e.g., "Staff Photographer", "Freelance Journalist").
+   *
+   * @remarks Max 32 characters per entry, repeatable.
+   */
   "By-lineTitle"?: string;
   City?: string;
+  /**
+   * Location details within a city (e.g., "Central Park", "Brooklyn Bridge", "Building 5").
+   *
+   * @remarks Max 32 characters. Use for specific locations more granular than city level.
+   */
   "Sub-location"?: string;
+  /**
+   * Province, state, or administrative region name (e.g., "California", "Ontario", "Bavaria").
+   *
+   * @remarks Max 32 characters.
+   */
   "Province-State"?: string;
+  /**
+   * ISO 3166 country code (typically 3-character alpha-3 format like "USA", "GBR", "JPN").
+   *
+   * @remarks The field expects 3-character codes per IPTC IIM specification, though ISO 3166 also defines 2-character alpha-2 codes.
+   */
   "Country-PrimaryLocationCode"?: string;
+  /**
+   * Full country name (e.g., "United States", "United Kingdom", "Japan").
+   *
+   * @remarks Max 64 characters.
+   */
   "Country-PrimaryLocationName"?: string;
+  /**
+   * Originally for transmission reference, now commonly used as a job identifier or assignment code.
+   *
+   * @remarks Max 32 characters.
+   */
   OriginalTransmissionReference?: string;
   Headline?: string;
+  /**
+   * Provider or agency that supplied the image (e.g., "Associated Press", "Getty Images").
+   *
+   * @remarks Max 32 characters. Acknowledges the source provider.
+   */
   Credit?: string;
+  /**
+   * Original owner or source of the image (e.g., "Reuters", "NASA").
+   *
+   * @remarks Max 32 characters. Indicates the originating source, distinct from the provider.
+   */
   Source?: string;
   CopyrightNotice?: string;
   Contact?: string;
+  /**
+   * Detailed description or caption of the image content.
+   *
+   * @remarks Max 2000 characters. Despite the hyphenated name, this is the standard field for comprehensive image descriptions.
+   */
   "Caption-Abstract"?: string;
   LocalCaption?: string;
+  /**
+   * Caption writer or editor name (e.g., "Jane Doe").
+   *
+   * @remarks Max 32 characters per entry, repeatable. Credits the person who wrote or edited the caption, not the photographer.
+   */
   "Writer-Editor"?: string;
   ImageType?: string;
-  /** 'L' = Landscape, 'P' = Portrait, 'S' = Square. */
+  /**
+   * Image orientation.
+   *
+   * @remarks Valid values: 'L' (Landscape), 'P' (Portrait), 'S' (Square)
+   */
   ImageOrientation?: string;
   LanguageIdentifier?: string;
+  /**
+   * Audio format type (2 characters indicating mono/stereo with content type).
+   */
   AudioType?: string;
+  /**
+   * Audio sampling frequency in Hz (6 digits).
+   */
   AudioSamplingRate?: number;
+  /**
+   * Audio bit resolution (2 digits, e.g., 16 for 16-bit audio).
+   */
   AudioSamplingResolution?: number;
+  /**
+   * Audio length in HHMMSS format (6 digits).
+   */
   AudioDuration?: number;
+  /**
+   * Ending audio identifier or outcue text.
+   *
+   * @remarks Max 64 characters. Identifies what audio ends with, useful for broadcast synchronization.
+   */
   AudioOutcue?: string;
   JobID?: string;
   MasterDocumentID?: string;

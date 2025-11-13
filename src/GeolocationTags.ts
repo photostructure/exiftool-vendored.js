@@ -9,38 +9,90 @@ import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
  * @see https://exiftool.org/geolocation.html#Read
  */
 export interface GeolocationTags {
-  /** ☆☆☆☆ ✔ Example: 99 */
+  /**
+   * ☆☆☆☆ ✔ Example: 99
+   *
+   * Compass bearing in degrees from the input GPS position to the returned
+   * city's coordinates. Only generated when GPS coordinates are provided as input.
+   */
   GeolocationBearing?: number;
-  /** ☆☆☆☆ ✔ Example: "Zürich" */
+  /**
+   * ☆☆☆☆ ✔ Example: "Zürich"
+   *
+   * The name of the nearest city or populated place found in the geonames database.
+   * Note: The term "City" here may more aptly be called "Feature Name" since the
+   * database may include features which are not cities.
+   */
   GeolocationCity?: string;
   /** ☆☆☆☆ ✔ Example: "United States" */
   GeolocationCountry?: string;
-  /** ☆☆☆☆ ✔ Example: "US" */
+  /**
+   * ☆☆☆☆ ✔ Example: "US"
+   *
+   * Two-letter ISO country code for the location.
+   */
   GeolocationCountryCode?: string;
-  /** ☆☆☆☆ ✔ Example: "9.60 km" */
+  /**
+   * ☆☆☆☆ ✔ Example: "9.60 km"
+   *
+   * The distance in kilometers from the input GPS point to the GeolocationPosition
+   * of the returned city. Only generated when GPS coordinates are provided as input.
+   */
   GeolocationDistance?: string;
   /**
    * ☆☆☆☆ ✔ Example: "PPLL"
    * @see http://www.geonames.org/export/codes.html#P
    */
   GeolocationFeatureCode?: string;
-  /** ☆☆☆☆ ✔ Example: "Populated Place" */
-  GeolocationFeatureType?: string;
-  /** ☆☆☆☆ ✔ Example: 95000 */
-  GeolocationPopulation?: number;
-  /** ☆☆☆☆ ✔ Example: "7.3397, 134.4733" */
-  GeolocationPosition?: string;
-  /** ☆☆☆☆ ✔ Example: "Île-de-France" */
-  GeolocationRegion?: string;
-  /** ☆☆☆☆ ✔ Example: "Yokohama Shi" */
-  GeolocationSubregion?: string;
-  /** ☆☆☆☆ ✔ Example: "Pacific/Saipan"
+  /**
+   * ☆☆☆☆ ✔ Example: "Populated Place"
    *
-   * IANA time zone name
+   * Human-readable description of the GeolocationFeatureCode, such as
+   * "Populated Place" or "Seat Of A First-order Administrative Division".
+   */
+  GeolocationFeatureType?: string;
+  /**
+   * ☆☆☆☆ ✔ Example: 95000
+   *
+   * Population of the identified city or feature, rounded to 2 significant digits.
+   * Based on geonames database entries for reference purposes.
+   */
+  GeolocationPopulation?: number;
+  /**
+   * ☆☆☆☆ ✔ Example: "7.3397, 134.4733"
+   *
+   * Latitude and longitude coordinates of the identified city, formatted as
+   * "latitude, longitude" in decimal degrees.
+   */
+  GeolocationPosition?: string;
+  /**
+   * ☆☆☆☆ ✔ Example: "Île-de-France"
+   *
+   * Administrative division corresponding to state or province in North America.
+   * Derived from the geonames database.
+   */
+  GeolocationRegion?: string;
+  /**
+   * ☆☆☆☆ ✔ Example: "Yokohama Shi"
+   *
+   * Secondary administrative division (typically county in North America).
+   * The meaning varies by country.
+   */
+  GeolocationSubregion?: string;
+  /**
+   * IANA timezone name associated with the matched city location from the geonames database.
    *
    * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+   * @example "Pacific/Saipan"
    */
   GeolocationTimeZone?: string;
+  /**
+   * Warning messages related to geolocation processing, if any issues occur
+   * during lookup or if the geolocation data may be unreliable.
+   *
+   * Note: This tag is not documented in the official ExifTool geolocation
+   * documentation and may not be consistently returned.
+   */
   GeolocationWarning?: string;
 }
 
