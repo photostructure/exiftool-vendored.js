@@ -34,8 +34,13 @@ vendored versions of ExifTool match the version that they vendor.
 - 📦 Minor packaging changes
 
 ## History
+
+### v33.0.0
+
 - 🐞/💔 `SubSecMediaCreateDate` was removed from `CompositeTags` and `Tags`. It apparently never _was_ a thing, and, worse: I can't blame AI for hallucinating it, because I added it several years ago. Oops!
 - ✨ `mktags` was enhanced to detect and avoid duplicate field definitions from included static interfaces.
+- ✨ Increased MAX_TAGS from 2500 to 2700 to accommodate additional tags, so there's a bunch of new tags in there! Please open an issue if you see `error TS2590: Expression produces a union type that is too complex to represent` (please be sure to include a reproduction!)
+- 📦 Added jsdocs to many, many fields.
 
 ### v32.1.0
 
