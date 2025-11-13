@@ -20,7 +20,11 @@ import { isFunction, isObject, omit } from "./Object";
 import { pick } from "./Pick";
 import { PreviewTag } from "./PreviewTag";
 import { RawTags } from "./RawTags";
-import { ReadRawTask } from "./ReadRawTask";
+import {
+  ReadRawTask,
+  ReadRawTaskOptionFields,
+  ReadRawTaskOptions,
+} from "./ReadRawTask";
 import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask";
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask";
 import { Settings } from "./Settings";
@@ -56,6 +60,7 @@ export { exiftoolPath } from "./ExiftoolPath";
 export { GeolocationTagNames, isGeolocationTag } from "./GeolocationTags";
 export { parseJSON } from "./JSON";
 export type { Lazy } from "./Lazy";
+export { DefaultReadRawTaskOptions } from "./ReadRawTask";
 export { DefaultReadTaskOptions } from "./ReadTask";
 export { Setting, Settings } from "./Settings";
 export { strEnum } from "./StrEnum";
@@ -103,6 +108,7 @@ export type {
 export type { Maybe, Nullable } from "./Maybe";
 export type { Omit } from "./Omit";
 export type { RawTags } from "./RawTags";
+export type { ReadRawTaskOptions } from "./ReadRawTask";
 export type { ReadTaskOptions } from "./ReadTask";
 export type { ResourceEvent } from "./ResourceEvent";
 export type { UnsubscribeFunction } from "./Settings";
@@ -332,7 +338,7 @@ export class ExifTool {
   }
 
   /**
-   * Read the tags from `file`, without any post-processing of ExifTool values.
+   * Read the tags in `file`.
    *
    * **You probably want `read`, not this method. READ THE REST OF THIS COMMENT
    * CAREFULLY.**
@@ -342,10 +348,10 @@ export class ExifTool {
    * will be skipped.
    *
    * Note that performance will be very similar to `read`, and will actually be
-   * worse if you don't include `-fast` or `-fast2` (as the most expensive bit
-   * is the perl interpreter and scanning the file on disk).
+   * worse if you don't include `-fast` or `-fast2` (as the most expensive bits
+   * are the perl interpreter and scanning the file on disk).
    *
-   * @param args any additional arguments other than the file path. Note that
+   * @param options any additional arguments other than the file path. Note that
    * "-json", and the Windows unicode filename handler flags, "-charset
    * filename=utf8", will be added automatically.
    *
@@ -353,13 +359,42 @@ export class ExifTool {
    * date, time, or other rich type parsing that you get from `.read()`. The
    * field values will be `string | number | string[]`.
    *
+   * @see ExifTool.read() for the preferred method to read tags
+   *
    * @see https://github.com/photostructure/exiftool-vendored.js/issues/44 for
    * typing details.
    */
-  readRaw(file: string, args: string[] = []): Promise<RawTags> {
-    return this.enqueueTask(() =>
-      ReadRawTask.for(file, args, this.#taskOptions()),
-    );
+  readRaw<T extends Tags = Tags>(
+    file: string,
+    options?: ReadRawTaskOptions,
+  ): Promise<T>;
+
+  /**
+   * @deprecated use {@link ExifTool.readRaw(file: string, options?: ReadRawTaskOptions)}
+   */
+  readRaw<T extends Tags = Tags>(
+    file: string,
+    readArgs?: string[],
+    options?: ReadRawTaskOptions,
+  ): Promise<T>;
+
+  /**
+   * Read the tags from `file`, without any post-processing of ExifTool values.
+   * @deprecated use {@link ExifTool.readRaw(file: string, options?: ReadRawTaskOptions)}
+   */
+  readRaw(
+    file: string,
+    argsOrOptions?: string[] | ReadRawTaskOptions,
+    options?: ReadRawTaskOptions,
+  ): Promise<RawTags> {
+    const opts = {
+      ...pick(this.options, ...ReadRawTaskOptionFields),
+      ...(isObject(argsOrOptions) ? argsOrOptions : options),
+    };
+    opts.readArgs =
+      ifArray(argsOrOptions) ?? ifArray(opts.readArgs) ?? this.options.readArgs;
+
+    return this.enqueueTask(() => ReadRawTask.for(file, opts));
   }
 
   /**

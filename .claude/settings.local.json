@@ -1,23 +1,24 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh run view:*)",
-      "Bash(npm view:*)",
-      "WebSearch",
-      "WebFetch(domain:typescript-eslint.io)",
-      "WebFetch(domain:github.com)",
-      "Bash(npm install)",
-      "Bash(npm test)",
+      "Bash(./node_modules/.bin/exiftool:*)",
+      "Bash(cat:*)",
       "Bash(gh api:*)",
       "Bash(gh issue list:*)",
       "Bash(gh issue view:*)",
-      "Bash(pinact:*)",
-      "Bash(pinact --help:*)",
-      "Bash(cat:*)",
+      "Bash(gh run view:*)",
+      "Bash(git lfs:*)",
+      "Bash(npm install)",
       "Bash(npm run compile:*)",
+      "Bash(npm run:*)",
       "Bash(npm test:*)",
-      "Bash(npm run docs:1:*)",
-      "Bash(npm run:*)"
+      "Bash(npm test)",
+      "Bash(npm view:*)",
+      "Bash(npx mocha:*)",
+      "Bash(pinact:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:typescript-eslint.io)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

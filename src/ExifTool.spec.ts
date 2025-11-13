@@ -430,7 +430,7 @@ describe("ExifTool", function () {
             const tags = await et.read(dots);
             expect(renderTagsWithISO(tags)).to.containSubset({
               DateTimeCreated: "2016-08-12T13:28:50+08:00",
-              DateTimeOriginal: "2016-08-12T13:28:50+08:00",
+              DateTimeOriginal: "2016-08-12T13:28:50.728+08:00",
               Description: "Prior Title",
               FNumber: 1.8,
               GPSLatitudeRef: "N",

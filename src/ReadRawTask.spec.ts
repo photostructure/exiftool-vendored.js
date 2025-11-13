@@ -17,6 +17,7 @@ describe("ReadRawTask", () => {
   describe("non-alphanumeric filenames", () => {
     for (const { str, desc } of NonAlphaStrings) {
       it("reads with " + desc, async () => {
+        expect(exiftool.options.useMWG).to.equal(true);
         const FileName = str + ".jpg";
         const dest = path.join(tmpdir(), FileName);
         await mkdirp(tmpdir());
@@ -25,13 +26,13 @@ describe("ReadRawTask", () => {
         expect(t).to.containSubset({
           MIMEType: "image/jpeg",
           FileName,
+          DateTimeOriginal: "2016:08:12 13:28:50.728",
           Make: "Apple",
           Model: "iPhone 7 Plus",
           ImageDescription: "image description for quotes test",
           LastKeywordXMP: ["Test", "examples", "beach"],
           Title: UnicodeTestMessage,
         });
-        expect(t.DateTimeOriginal).to.eql("2016:08:12 13:28:50");
       });
     }
   });
