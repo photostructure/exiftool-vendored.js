@@ -11,7 +11,12 @@ import ProgressBar from "progress";
 import { compact, filterInPlace, uniq } from "../Array";
 import { ExifTool } from "../ExifTool";
 import { ExifToolVendoredTagNames } from "../ExifToolVendoredTags";
+import { GeolocationTagNames } from "../GeolocationTags";
+import { ICCProfileTagNames } from "../ICCProfileTags";
+import { ImageDataHashTagNames } from "../ImageDataHashTag";
+import { IPTCApplicationRecordTagNames } from "../IPTCApplicationRecordTags";
 import { Maybe, map } from "../Maybe";
+import { MWGCollectionsTagNames, MWGKeywordTagNames } from "../MWGTags";
 import { isNumber } from "../Number";
 import { nullish } from "../ReadTask";
 import { blank, isString, leftPad } from "../String";
@@ -32,39 +37,105 @@ import { times } from "../Times";
  * in 2023), but remember to account for the 8+ static interfaces we're also
  * including in the final Tags union.
  */
-const MAX_TAGS = 2500;
+const MAX_TAGS = 2700;
+
+// Static interfaces that Tags extends - these need special handling to avoid
+// name collisions and to ensure their tag names appear in TagMetadata.json
+const StaticInterfaceMetadata = [
+  {
+    name: "ExifToolVendoredTags",
+    group: "Library", // Library-added tags
+    tagNames: ExifToolVendoredTagNames,
+  },
+  {
+    name: "GeolocationTags",
+    group: "ExifTool", // ExifTool's geolocation feature
+    tagNames: GeolocationTagNames,
+  },
+  {
+    name: "ImageDataHashTag",
+    group: "Composite", // Computed by ExifTool
+    tagNames: ImageDataHashTagNames,
+  },
+  {
+    name: "ICCProfileTags",
+    group: "ICC_Profile",
+    tagNames: ICCProfileTagNames,
+  },
+  {
+    name: "IPTCApplicationRecordTags",
+    group: "IPTC",
+    tagNames: IPTCApplicationRecordTagNames,
+  },
+  {
+    name: "MWGCollectionsTags",
+    group: "XMP", // MWG (Metadata Working Group) uses XMP
+    tagNames: MWGCollectionsTagNames,
+  },
+  {
+    name: "MWGKeywordTags",
+    group: "XMP", // MWG (Metadata Working Group) uses XMP
+    tagNames: MWGKeywordTagNames,
+  },
+] as const;
 
 // These tags are important enough that we want to ensure they're always in the
 // final Tags interface.
 //
 // If you're relying on a tag that gets inadvertently dropped in some release,
 // consider opening a PR to restore it by adding it here:
-const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
+const RequiredTags: Record<
+  string,
+  { t: string; grp: string; value?: any; doc?: string; see?: string }
+> = {
   ExifToolVersion: { t: "string", grp: "ExifTool" }, // < ExifTool stores the version as a float (!!) which causes 12.30 to become 12.3.
   Album: { t: "string", grp: "XMP", value: "Twilight Dreams" },
-  Aperture: { t: "number", grp: "Composite" },
+  Aperture: {
+    t: "number",
+    grp: "Composite",
+    doc: "Calculated aperture value derived from FNumber or ApertureValue.\nRead-only composite tag. To write, modify FNumber or ApertureValue instead.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   ApertureValue: { t: "number", grp: "EXIF" },
   Artist: { t: "string", grp: "EXIF" },
   AspectRatio: { t: "string", grp: "MakerNotes", value: "3:2" },
   AutoRotate: { t: "number | string", grp: "MakerNotes" },
-  AvgBitrate: { t: "number | string", grp: "Composite" },
+  AvgBitrate: {
+    t: "number | string",
+    grp: "Composite",
+    doc: "Average bitrate for video/audio files, calculated from media data size divided by duration.\nRead-only composite tag for QuickTime-based formats (MOV, MP4, etc.).",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   BodySerialNumber: { t: "string", grp: "MakerNotes" },
   BurstID: { t: "string", grp: "XMP" },
   BurstUUID: { t: "string", grp: "MakerNotes" },
   CameraID: { t: "string", grp: "MakerNotes" },
   CameraOrientation: { t: "string", grp: "MakerNotes" },
   CameraSerialNumber: { t: "number", grp: "APP1" },
-  "Caption-Abstract": { t: "string", grp: "IPTC" },
   Comment: { t: "string", grp: "XMP" },
   Compass: { t: "string", grp: "APP5" },
   ContainerDirectory: { t: "ContainerDirectoryItem[] | Struct[]", grp: "XMP" },
-  Copyright: { t: "string", grp: "EXIF" },
+  Copyright: {
+    t: "string",
+    grp: "EXIF",
+    doc: "Copyright notice for the image. MWG composite tag that reconciles EXIF:Copyright, IPTC:CopyrightNotice, and XMP-dc:Rights.\nWriting updates all three locations to maintain MWG synchronization.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
   Country: { t: "string", grp: "XMP" },
   CountryCode: { t: "string", grp: "XMP" },
-  CreateDate: { t: "ExifDateTime | ExifDate | string | number", grp: "EXIF" },
+  CreateDate: {
+    t: "ExifDateTime | ExifDate | string | number",
+    grp: "EXIF",
+    doc: "When an image was digitized (captured by camera sensor). MWG composite tag that reconciles EXIF:CreateDate, IPTC digital creation fields, and XMP-xmp:CreateDate.\nDistinct from DateTimeOriginal (when photo was taken) - useful for scanned images.\nFor MOV/MP4 videos, use CreateDate instead of DateTimeOriginal.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
   CreationTime: { t: "ExifDateTime | string", grp: "XMP" },
-  Credit: { t: "string", grp: "IPTC" },
-  CropAngle: { t: "number", grp: "XMP" },
+  CropAngle: {
+    t: "number",
+    grp: "XMP",
+    doc: "Crop rotation angle. From XMP-crd (Camera Raw Defaults) namespace, which is avoided when writing due to conflicts with standard schemas.",
+    see: "https://exiftool.org/TagNames/XMP.html#crd",
+  },
   CropBottom: { t: "number", grp: "XMP" },
   CropHeight: { t: "number", grp: "XMP" },
   CropLeft: { t: "number", grp: "XMP" },
@@ -73,13 +144,33 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   CropWidth: { t: "number", grp: "XMP" },
   DateCreated: { t: "ExifDateTime | string", grp: "XMP" },
   DateTime: { t: "ExifDateTime | string", grp: "XMP" },
-  DateTimeCreated: { t: "ExifDateTime | string", grp: "IPTC" },
+  DateTimeCreated: {
+    t: "ExifDateTime | string",
+    grp: "Composite",
+    doc: "Composite tag combining IPTC:DateCreated (YYYYMMDD) and IPTC:TimeCreated (with timezone offset).\nRead-only composite - to write, set IPTC:DateCreated and IPTC:TimeCreated individually.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   DateTimeDigitized: { t: "ExifDateTime | string", grp: "XMP" },
   DateTimeGenerated: { t: "ExifDateTime | string", grp: "APP1" },
-  DateTimeOriginal: { t: "ExifDateTime | string", grp: "EXIF" },
+  DateTimeOriginal: {
+    t: "ExifDateTime | string",
+    grp: "EXIF",
+    doc: "When a photo was taken (shutter actuation time). MWG composite tag that reconciles EXIF:DateTimeOriginal, IPTC date/time created, and XMP-photoshop DateTimeOriginal.\nThis is the most commonly used timestamp for photos. Different from CreateDate (digitization) and ModifyDate (file modification).",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
   DateTimeUTC: { t: "ExifDateTime | string", grp: "MakerNotes" },
-  Description: { t: "string", grp: "XMP" },
-  DOF: { t: "string", grp: "Composite" },
+  Description: {
+    t: "string",
+    grp: "XMP",
+    doc: "Image caption or description. MWG composite tag that reconciles EXIF:ImageDescription, IPTC:Caption-Abstract, and XMP-dc:Description.\nWriting updates all three locations for MWG compliance. Supports language variants via RFC 3066 codes (e.g., 'Description-fr').",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  DOF: {
+    t: "string",
+    grp: "Composite",
+    doc: "Calculated depth of field based on focal length, aperture, and focus distance.\nWARNING: This value may be incorrect if the image has been resized.\nRead-only composite tag.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   Error: { t: "string", grp: "ExifTool" },
   ExifImageHeight: { t: "number", grp: "EXIF" },
   ExifImageWidth: { t: "number", grp: "EXIF" },
@@ -96,24 +187,91 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   Fnumber: { t: "string", grp: "APP12" }, // uncommon
   FocalLength: { t: "string", grp: "EXIF" },
   GPSAltitude: { t: "number", grp: "EXIF" },
-  GPSDateTime: { t: "ExifDateTime | string", grp: "Composite" },
+  GPSAltitudeRef: {
+    t: "number",
+    grp: "EXIF",
+    doc: "GPS altitude reference.\nValid values: 0 (above sea level), 1 (below sea level)",
+  },
+  GPSDateTime: {
+    t: "ExifDateTime | string",
+    grp: "Composite",
+    doc: "GPS timestamp combining GPSDateStamp and GPSTimeStamp fields.\nRead-only composite from multiple GPS sources including manufacturer-specific implementations.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   // We normally ask exiftool to render these as decimals, not DMS (degrees/minutes/seconds):
-  GPSLatitude: { t: "number | string", grp: "EXIF", value: "37 deg 46' 29.64\" N", },
-  GPSLongitude: { t: "number | string", grp: "EXIF", value: "122 deg 25' 9.85\" W", },
-  History: { t: "ResourceEvent[] | ResourceEvent | string", grp: "XMP" },
+  GPSLatitude: {
+    t: "number | string",
+    grp: "EXIF",
+    value: "37 deg 46' 29.64\" N",
+  },
+  GPSLatitudeRef: {
+    t: "string",
+    grp: "EXIF",
+    doc: "GPS latitude hemisphere.\nValid values: 'N' (North), 'S' (South)",
+  },
+  GPSLongitude: {
+    t: "number | string",
+    grp: "EXIF",
+    value: "122 deg 25' 9.85\" W",
+  },
+  GPSLongitudeRef: {
+    t: "string",
+    grp: "EXIF",
+    doc: "GPS longitude hemisphere.\nValid values: 'E' (East), 'W' (West)",
+  },
+  GPSPosition: { t: "string", grp: "EXIF" },
+  GPSPositionRef: { t: "string", grp: "EXIF" },
+  GPSSpeed: { t: "string", grp: "EXIF" },
+  GPSSpeedRef: {
+    t: "string",
+    grp: "EXIF",
+    doc: "GPS speed measurement unit.\nValid values: 'K' (km/h), 'M' (mph), 'N' (knots)",
+  },
+  GPSTimeStamp: { t: "ExifDateTime | string", grp: "EXIF" },
+  History: {
+    t: "ResourceEvent[] | ResourceEvent | string",
+    grp: "XMP",
+    doc: "Tracks editing history of the document. XMP-xmpMM (Media Management) struct type.\nFlattened fields: HistoryAction, HistoryChanged, HistoryInstanceID, HistoryParameters, HistorySoftwareAgent, HistoryWhen.",
+    see: "https://exiftool.org/TagNames/XMP.html#xmpMM",
+  },
   ImageDataMD5: { t: "string", grp: "File" },
   ImageDescription: { t: "string", grp: "EXIF" },
   ImageHeight: { t: "number", grp: "File" },
-  ImageNumber: { t: "number", grp: "XMP" },
-  ImageSize: { t: "number | string", grp: "Composite" },
+  ImageNumber: {
+    t: "number | string",
+    grp: "XMP",
+    doc: "Image number/identifier. XMP-aux namespace.\nMay be numeric or string with leading zeros (e.g., '0001').",
+    see: "https://exiftool.org/TagNames/XMP.html#aux",
+  },
+  ImageSize: {
+    t: "number | string",
+    grp: "Composite",
+    doc: "Image dimensions combining width and height from various metadata fields.\nRead-only composite derived from ImageWidth, ImageHeight, ExifImageWidth, ExifImageHeight, or RawImageCroppedSize.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   ImageWidth: { t: "number", grp: "File" },
   InternalSerialNumber: { t: "string", grp: "MakerNotes" },
   ISO: { t: "number", grp: "EXIF" },
   ISOSpeed: { t: "number", grp: "EXIF" },
   JpgFromRaw: { t: "BinaryField", grp: "EXIF" },
-  Keywords: { t: "string | string[]", grp: "IPTC" },
-  Lens: { t: "string", grp: "Composite" },
-  LensID: { t: "string", grp: "Composite" },
+  Keywords: {
+    t: "string | string[]",
+    grp: "IPTC",
+    doc: "Searchable subject terms for image content. MWG composite tag that reconciles IPTC:Keywords and XMP-dc:Subject.\nMulti-value fields use semicolon-space ('; ') separators when represented as string.\nIPTC constraint: max 64 characters per keyword. Character encoding depends on IPTC:CodedCharacterSet; UTF8 recommended.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  Lens: {
+    t: "string",
+    grp: "Composite",
+    doc: "Lens identification from focal length range, primarily for Canon cameras.\nRead-only composite. For more detailed lens identification, see LensID.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
+  LensID: {
+    t: "string",
+    grp: "Composite",
+    doc: "Identifies actual lens model using manufacturer-specific lookup tables from partial type information.\nConfigurable: may be extended with user-defined lenses via ExifTool configuration.\nDifferent derivation logic for Canon (focal lengths), Nikon (LensIDNumber), Ricoh (LensFirmware), and others (XMP-aux:LensID).\nRead-only composite.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   LensInfo: { t: "string", grp: "EXIF" },
   LensMake: { t: "string", grp: "EXIF" },
   LensModel: { t: "string", grp: "EXIF" },
@@ -125,37 +283,99 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   Make: { t: "string", grp: "EXIF" },
   MaxDataRate: { t: "string", grp: "RIFF" },
   MediaCreateDate: { t: "ExifDateTime | string", grp: "QuickTime" },
-  Megapixels: { t: "number", grp: "Composite" },
-  MetadataDate: { t: "ExifDateTime | string", grp: "XMP" },
+  Megapixels: {
+    t: "number",
+    grp: "Composite",
+    doc: "Total megapixels calculated from ImageSize composite field.\nRead-only composite.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
+  MetadataDate: {
+    t: "ExifDateTime | string",
+    grp: "XMP",
+    doc: "Date when metadata was last modified. XMP-xmp namespace.",
+    see: "https://exiftool.org/TagNames/XMP.html#xmp",
+  },
   MIMEType: { t: "string", grp: "File" },
   Model: { t: "string", grp: "EXIF" },
-  ModifyDate: { t: "ExifDateTime | string", grp: "EXIF" },
+  ModifyDate: {
+    t: "ExifDateTime | string",
+    grp: "EXIF",
+    doc: "When the file was last modified by a user (not automatic processes). MWG composite tag that reconciles EXIF:ModifyDate and XMP-xmp:ModifyDate.\nShould reflect intentional user edits, not automatic metadata updates. Different from file system modification time.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
   Notes: { t: "string", grp: "XMP", value: "Album description" },
-  ObjectName: { t: "string", grp: "IPTC" },
-  Orientation: { t: "number", grp: "EXIF" },
+  Orientation: {
+    t: "number",
+    grp: "EXIF",
+    doc: "Image orientation. MWG composite tag from EXIF:Orientation.\nValid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW)\nNote: Most images use values 1, 3, 6, and 8.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
   OriginalCreateDateTime: { t: "ExifDateTime | string", grp: "XMP" },
-  PreviewImage: { t: "BinaryField", grp: "Composite" },
-  // Valid values are -1 (reject), [1-5]. Rating may show up in EXIF, but that's nonstandard. Only writes to XMP are supported.
-  Rating: { t: "number", grp: "XMP" },
-  // Valid values are [1-99]. Microsoft (and no one else) uses this--https://exiftool.org/forum/index.php?topic=3567.msg16210#msg16210
-  RatingPercent: { t: "number", grp: "XMP", value: 99 },
-  RegistryID: { t: "Struct[]", grp: "XMP" },
-  Rotation: { t: "number", grp: "Composite" },
+  PreviewImage: {
+    t: "BinaryField",
+    grp: "Composite",
+    doc: "Embedded preview image data extracted from the file.\nCRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.\nCan only modify previews that already exist in the file.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
+  Rating: {
+    t: "number",
+    grp: "XMP",
+    doc: "Star rating for the image. MWG composite tag from XMP-xmp:Rating.\nValid values: -1 (rejected), 0 (unrated), 1-5 (star rating)\nNote: Rating may appear in EXIF but that's non-standard per MWG. Only XMP writes are supported.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RatingPercent: {
+    t: "number",
+    grp: "XMP",
+    value: 99,
+    doc: "Microsoft-specific percentage rating (1-99).",
+    see: "https://exiftool.org/forum/index.php?topic=3567.msg16210#msg16210",
+  },
+  RegistryID: {
+    t: "Struct[]",
+    grp: "XMP",
+    doc: "Registry identifiers for the image. XMP-iptcExt namespace struct type.\nFlattened fields: RegistryEntryRole, RegistryItemID.",
+    see: "https://exiftool.org/TagNames/XMP.html#iptcExt",
+  },
+  Rotation: {
+    t: "number",
+    grp: "Composite",
+    doc: "Degrees of clockwise camera rotation for QuickTime/MP4 video files.\nSpecial writable: Writing this tag updates QuickTime MatrixStructure for all tracks with a non-zero image size simultaneously.\nDifferent from EXIF Orientation tag.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   RunTimeValue: { t: "number", grp: "MakerNotes" },
   SerialNumber: { t: "string", grp: "MakerNotes" },
   ShutterCount: { t: "number", grp: "MakerNotes" },
   ShutterCount2: { t: "number", grp: "MakerNotes" },
   ShutterCount3: { t: "number", grp: "MakerNotes" },
-  ShutterSpeed: { t: "string", grp: "Composite" },
+  ShutterSpeed: {
+    t: "string",
+    grp: "Composite",
+    doc: "Shutter speed combining ExposureTime, ShutterSpeedValue, and BulbDuration.\nRead-only composite tag. Format typically fractional (e.g., '1/250').",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   SonyDateTime2: { t: "ExifDateTime | string", grp: "MakerNotes" },
   SonyExposureTime: { t: "string", grp: "MakerNotes" },
   SonyFNumber: { t: "number", grp: "MakerNotes" },
   SonyISO: { t: "number", grp: "MakerNotes" },
   SourceFile: { t: "string", grp: "ExifTool", value: "path/to/file.jpg" },
-  SubSecCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
-  SubSecDateTimeOriginal: { t: "ExifDateTime | string", grp: "Composite" },
-  SubSecMediaCreateDate: { t: "ExifDateTime | string", grp: "Composite" },
-  SubSecModifyDate: { t: "ExifDateTime | string", grp: "Composite" },
+  SubSecCreateDate: {
+    t: "ExifDateTime | string",
+    grp: "Composite",
+    doc: "Creation date with subsecond precision, merging EXIF:CreateDate, SubSecTimeDigitized, and OffsetTimeDigitized.\nWritable composite: writing updates all three fields simultaneously for high-precision timestamps with timezone information.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
+  SubSecDateTimeOriginal: {
+    t: "ExifDateTime | string",
+    grp: "Composite",
+    doc: "Original datetime with subsecond precision, combining EXIF:DateTimeOriginal, SubSecTimeOriginal, and OffsetTimeOriginal.\nWritable composite: writing updates all three fields simultaneously. Represents when the photo was originally taken with high precision.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
+  SubSecModifyDate: {
+    t: "ExifDateTime | string",
+    grp: "Composite",
+    doc: "Modification timestamp with subsecond precision, combining EXIF:ModifyDate, SubSecTime, and OffsetTime.\nWritable composite: writing updates all three fields simultaneously. Represents when the file was last modified with high precision.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   SubSecTime: { t: "number", grp: "EXIF" },
   SubSecTimeDigitized: { t: "number", grp: "EXIF" },
   ThumbnailImage: { t: "BinaryField", grp: "EXIF" },
@@ -163,8 +383,18 @@ const RequiredTags: Record<string, { t: string; grp: string; value?: any }> = {
   TimeStamp: { t: "ExifDateTime | string", grp: "MakerNotes" },
   TimeZone: { t: "string", grp: "MakerNotes" },
   TimeZoneOffset: { t: "number | string", grp: "EXIF" },
-  Title: { t: "string", grp: "XMP" },
-  Versions: { t: "Version[] | Version | string", grp: "XMP" },
+  Title: {
+    t: "string",
+    grp: "XMP",
+    doc: "Image title. XMP-dc (Dublin Core) namespace - use this standard schema instead of non-standard XMP-xmp:Title.\nSupports language variants via RFC 3066 codes (e.g., 'Title-fr'). Using 'x-default' language code preserves other existing languages when writing.",
+    see: "https://exiftool.org/TagNames/XMP.html#dc",
+  },
+  Versions: {
+    t: "Version[] | Version | string",
+    grp: "XMP",
+    doc: "Version history of the document. XMP-xmpMM (Media Management) struct type.\nFlattened fields include VersionsComments, VersionsEvent, etc.",
+    see: "https://exiftool.org/TagNames/XMP.html#xmpMM",
+  },
   Warning: { t: "string", grp: "ExifTool" },
   XPComment: { t: "string", grp: "EXIF" },
   XPKeywords: { t: "string", grp: "EXIF" },
@@ -237,7 +467,6 @@ const ExcludedTagRe = new RegExp(
     "DayltConv",
     "DefConv",
     "DefCor",
-    ...[...ExifToolVendoredTagNames.values].map((ea) => "^" + ea + "$"),
     "Face\\d",
     "FCS\\d",
     "HJR",
@@ -460,6 +689,9 @@ class Tag {
   values: any[] = [];
   important = false;
   groups = new Set<string>();
+  staticInterface?: string; // If set, this tag is from a static interface and shouldn't be generated
+  doc?: string; // Optional documentation/remarks for this tag
+  see?: string; // Optional @see reference (URL or other reference)
   constructor(readonly tag: string) {
     // Initialize with the first group from the tag
     const firstGroup = map(tag.split(":")[0], normalizeGroup);
@@ -560,11 +792,25 @@ class Tag {
     const mainstreamEmoji = this.important ? "🔥" : "🧊";
     const groups = [...this.groups].sort().join(", ");
 
-    return [
+    const lines = [
       ` * @frequency ${mainstreamEmoji} ${starRating} (${frequencyPercent}%)`,
       ` * @groups ${groups}`,
       ` * @example ${this.example()}`,
-    ].join("\n");
+    ];
+
+    // Add @remarks tag if documentation is provided
+    if (this.doc != null) {
+      // Replace newlines with newline + JSDoc comment prefix for multi-line support
+      const remarks = this.doc.replace(/\n/g, "\n * ");
+      lines.push(` * @remarks ${remarks}`);
+    }
+
+    // Add @see tag if reference is provided
+    if (this.see != null) {
+      lines.push(` * @see ${this.see}`);
+    }
+
+    return lines.join("\n");
   }
 
   popIcon(totalValues: number): string {
@@ -696,11 +942,48 @@ class TagMap {
   groupedTags = new Map<string, Tag[]>();
   readonly tags: Tag[] = [];
   constructor() {
+    // Build static tag set for collision detection
+    const staticTagNames = new Set<string>();
+    for (const { tagNames } of StaticInterfaceMetadata) {
+      for (const tagName of tagNames.values) {
+        staticTagNames.add(tagName);
+      }
+    }
+
     // Seed with required tags
+    const collisions: string[] = [];
     for (const [k, v] of Object.entries(RequiredTags)) {
+      if (staticTagNames.has(k)) {
+        collisions.push(k);
+      }
       const t = this.tag(v.grp + ":" + k);
       if (v.value != null) {
         t.values.push(v.value);
+      }
+      if (v.doc != null) {
+        t.doc = v.doc;
+      }
+      if (v.see != null) {
+        t.see = v.see;
+      }
+    }
+
+    if (collisions.length > 0) {
+      console.log(
+        `\n⚠️  ${collisions.length} RequiredTags also in static interfaces:`,
+      );
+      collisions.forEach((k) => console.log(`   - ${k}`));
+      console.log(
+        "   (These tags are defined in both RequiredTags and a static interface)\n",
+      );
+    }
+
+    // Seed with static interface tags to reserve their names and capture metadata
+    for (const entry of StaticInterfaceMetadata) {
+      for (const tagName of entry.tagNames.values) {
+        const t = this.tag(entry.group + ":" + tagName);
+        t.staticInterface = entry.name;
+        t.important = true; // Include in metadata even at 0 frequency
       }
     }
   }
@@ -718,9 +1001,7 @@ class TagMap {
     if (
       tagName == null ||
       value == null ||
-      tagName.match(ExcludedTagRe) != null ||
-      // Geolocation tags are handled by a static interface:
-      tagName.startsWith("ExifTool:Geolocation")
+      tagName.match(ExcludedTagRe) != null
     ) {
       return;
     }
@@ -768,6 +1049,10 @@ class TagMap {
     // )
     this.groupedTags.clear();
     this.tags.forEach((tag) => {
+      // Skip tags from static interfaces - they're already defined manually
+      if (tag.staticInterface != null) {
+        return;
+      }
       // Add tag to ALL groups it belongs to, not just one
       for (const group of tag.groups) {
         getOrSet(this.groupedTags, group, () => []).push(tag);
@@ -857,10 +1142,12 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
       [
         'import { BinaryField } from "./BinaryField";',
         'import { ContainerDirectoryItem } from "./ContainerDirectoryItem";',
+        'import { Equal } from "./Equal";',
         'import { ExifDate } from "./ExifDate";',
         'import { ExifDateTime } from "./ExifDateTime";',
         'import { ExifTime } from "./ExifTime";',
         'import { ExifToolVendoredTags, ExifToolVendoredTagNames } from "./ExifToolVendoredTags";',
+        'import { Expect } from "./Expect";',
         'import { GeolocationTags, GeolocationTagNames } from "./GeolocationTags";',
         'import { ICCProfileTags, ICCProfileTagNames } from "./ICCProfileTags";',
         'import { ImageDataHashTag, ImageDataHashTagNames } from "./ImageDataHashTag";',
@@ -917,14 +1204,21 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         tagWriter.write(`}\n`);
 
         // Generate strEnum for this interface
-        tagWriter.write(`\nexport const ${interfaceName}Names = strEnum(\n`);
+        const strEnumName = interfaceName + "Names";
+        tagWriter.write(`\nexport const ${strEnumName} = strEnum(\n`);
         tagWriter.write(
           tagNamesForGroup.map((name) => `  "${name}"`).join(",\n"),
         );
         tagWriter.write(`\n) satisfies StrEnum<keyof ${interfaceName}>;\n`);
 
+        const typeName = interfaceName.slice(0, -1);
         tagWriter.write(
-          `\nexport type ${interfaceName.slice(0, -1)} = StrEnumKeys<typeof ${interfaceName}Names>;\n`,
+          `\nexport type ${typeName} = StrEnumKeys<typeof ${strEnumName}>;\n`,
+        );
+
+        // assert the strEnum exactly matches the field names of an interface:
+        tagWriter.write(
+          `\ndeclare const _${typeName}: Expect<Equal<${typeName}, keyof ${interfaceName}>>;\n`,
         );
       }
     }
@@ -990,6 +1284,8 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         ") satisfies StrEnum<keyof Tags>;",
         "",
         "export type TagName = StrEnumKeys<typeof TagNames>;",
+        "",
+        "declare const _TagName: Expect<Equal<TagName, keyof Tags>>;",
         "",
       ].join("\n"),
     );
