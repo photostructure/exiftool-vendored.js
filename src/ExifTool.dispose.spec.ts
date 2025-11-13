@@ -94,26 +94,25 @@ describe("ExifTool disposal", () => {
   });
 
   // This test demonstrates the usage with TypeScript 5.2+
-  // Uncomment when using TypeScript 5.2+ with appropriate config
-  /*
   it("should work with using keyword", async () => {
-    let disposed = false;
+    let _: any; // < to hold reference outside using block
     {
       using et = new ExifTool();
+      _ = et;
       expect(et.ended).to.be.false;
     }
-    // et.end() should have been called automatically
+    expect(_.ended).to.be.true;
   });
 
   it("should work with await using keyword", async () => {
-    let ended = false;
+    let _: any; // < to hold reference outside using block
     {
       await using et = new ExifTool();
+      _ = et;
       expect(et.ended).to.be.false;
       const version = await et.version();
       expect(version).to.match(/^\d+\.\d+/);
     }
-    // et.end() should have been called automatically
+    expect(_.ended).to.be.true;
   });
-  */
 });
