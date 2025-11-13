@@ -137,30 +137,45 @@ export interface FileTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "2025:11:13 18:51:03Z"
+   * @remarks File system access date/time. Not stored metadata - file system property.
+   * Writable on some systems. Changes when file is read.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileAccessDate?: ExifDateTime | string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups File
    * @example
+   * @remarks File system creation date/time. Not stored metadata - file system property.
+   * Writable on some systems. Different from image capture date.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileCreateDate?: ExifDateTime | string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "2025:11:12 21:53:00Z"
+   * @remarks File system inode change date/time (Unix/Linux). Not stored metadata - file system property.
+   * Changes when file metadata (permissions, ownership) or content changes. Not available on Windows.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileInodeChangeDate?: ExifDateTime | string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "2025:10:10 01:04:01Z"
+   * @remarks File system modification date/time. Not stored metadata - file system property.
+   * Writable. Different from EXIF ModifyDate which tracks user edits.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileModifyDate?: ExifDateTime | string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "zv_e10m2.jpg"
+   * @remarks Name of the file. Not stored metadata - intrinsic file property.
+   * Writable: can be used with -o option to set output filename.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileName?: string;
   /**
@@ -173,30 +188,45 @@ export interface FileTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "990 bytes"
+   * @remarks Size of the file. Not stored metadata - intrinsic file property.
+   * Read-only composite calculated from file system.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileSize?: string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "RW2"
+   * @remarks File type determined from file content, not extension. Not stored metadata - intrinsic file property.
+   * Read-only.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileType?: string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "rw2"
+   * @remarks Recommended file extension for this file type. Not stored metadata - intrinsic file property.
+   * Read-only.
+   * @see https://exiftool.org/TagNames/File.html
    */
   FileTypeExtension?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups File
    * @example
+   * @remarks MD5 hash of the actual image data (excluding metadata). Computed by ExifTool, not stored in file.
+   * Useful for detecting identical images with different metadata.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageDataMD5?: string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
@@ -209,6 +239,9 @@ export interface FileTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
@@ -221,6 +254,9 @@ export interface FileTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
    * @example "video/x-msvideo"
+   * @remarks MIME type of the file. Not stored metadata - intrinsic file property.
+   * Read-only, determined from file content.
+   * @see https://exiftool.org/TagNames/File.html
    */
   MIMEType?: string;
   /**
@@ -256,7 +292,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 315546 bytes, use -b option to extract)"
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -595,6 +631,9 @@ export interface CompositeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
@@ -610,12 +649,18 @@ export interface CompositeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
+   * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
+   * Historically called ISOSpeedRatings in EXIF 2.2, renamed to PhotographicSensitivity in EXIF 2.3.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ISO?: number;
   /**
@@ -721,7 +766,7 @@ export interface CompositeTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 315546 bytes, use -b option to extract)"
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -1237,7 +1282,7 @@ export interface APPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups APP
-   * @example "(Binary data 275008 bytes, use -b option to extract)"
+   * @example "(Binary data 1011393 bytes, use -b option to extract)"
    */
   EmbeddedImage?: BinaryField | string;
   /**
@@ -1376,6 +1421,9 @@ export interface APPTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP
    * @example "F2.8"
+   * @remarks F-number from APP12 segment (Ducky tags, uncommon). Note lowercase 'n'.
+   * Distinct from standard EXIF:FNumber. Use FNumber instead for consistency.
+   * @see https://exiftool.org/TagNames/APP12.html
    */
   Fnumber?: string;
   /**
@@ -1598,6 +1646,9 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
@@ -1613,6 +1664,9 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
@@ -1739,6 +1793,9 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "x530"
+   * @remarks Camera/device model name. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Model?: string;
   /**
@@ -2416,7 +2473,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 315546 bytes, use -b option to extract)"
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -2438,7 +2495,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups FlashPix
-   * @example "(Binary data 46285 bytes, use -b option to extract)"
+   * @example "(Binary data 57881 bytes, use -b option to extract)"
    */
   ScreenNail?: BinaryField | string;
   /**
@@ -3180,6 +3237,9 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
@@ -3207,6 +3267,9 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
@@ -3225,6 +3288,9 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
+   * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
+   * Historically called ISOSpeedRatings in EXIF 2.2, renamed to PhotographicSensitivity in EXIF 2.3.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ISO?: number;
   /**
@@ -3236,7 +3302,10 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 687616 bytes, use -b option to extract)"
+   * @example "(Binary data 453632 bytes, use -b option to extract)"
+   * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
+   * Access via BinaryField to get raw bytes or base64 encoding.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   JpgFromRaw?: BinaryField;
   /**
@@ -3302,7 +3371,7 @@ export interface EXIFTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 22629 bytes, use -b option to extract)"
+   * @example "(Binary data 5438 bytes, use -b option to extract)"
    */
   LinearizationTable?: BinaryField | string;
   /**
@@ -3315,6 +3384,9 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups EXIF, MakerNotes, QuickTime, XMP
    * @example "samsung"
+   * @remarks Camera/device manufacturer. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Make?: string;
   /**
@@ -3357,6 +3429,9 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "x530"
+   * @remarks Camera/device model name. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Model?: string;
   /**
@@ -3519,7 +3594,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 315546 bytes, use -b option to extract)"
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -3889,7 +3964,9 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @remarks Embedded thumbnail image data. Binary data type.
+   * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -3908,6 +3985,8 @@ export interface EXIFTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, JFIF
    * @example "(Binary data 57816 bytes, use -b option to extract)"
+   * @remarks Embedded TIFF thumbnail image data. Binary data type.
+   * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
   ThumbnailTIFF?: BinaryField;
   /**
@@ -3925,7 +4004,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 507 bytes, use -b option to extract)"
+   * @example "(Binary data 508 bytes, use -b option to extract)"
    */
   TileOffsets?: BinaryField | string;
   /**
@@ -4596,7 +4675,7 @@ export interface MPFTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 315546 bytes, use -b option to extract)"
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -4954,7 +5033,7 @@ export interface PhotoshopTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Photoshop
-   * @example "(Binary data 5768 bytes, use -b option to extract)"
+   * @example "(Binary data 4291 bytes, use -b option to extract)"
    */
   PhotoshopThumbnail?: BinaryField | string;
   /**
@@ -5390,18 +5469,27 @@ export interface QuickTimeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 687616 bytes, use -b option to extract)"
+   * @example "(Binary data 453632 bytes, use -b option to extract)"
+   * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
+   * Access via BinaryField to get raw bytes or base64 encoding.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   JpgFromRaw?: BinaryField;
   /**
@@ -5438,6 +5526,9 @@ export interface QuickTimeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups EXIF, MakerNotes, QuickTime, XMP
    * @example "samsung"
+   * @remarks Camera/device manufacturer. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Make?: string;
   /**
@@ -5456,6 +5547,11 @@ export interface QuickTimeTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
    * @example "2025:06:24 22:24:45"
+   * @remarks Creation date/time for QuickTime/MOV/MP4 media track. Stored as seconds since 1904-01-01 UTC.
+   * WARNING: Many cameras incorrectly store local time instead of UTC. ExifTool does not assume timezone unless QuickTimeUTC option is set.
+   * For MOV/MP4 videos, use this tag instead of DateTimeOriginal.
+   * Cannot be truly deleted (set to zero instead) as it's part of binary structure.
+   * @see https://exiftool.org/TagNames/QuickTime.html
    */
   MediaCreateDate?: ExifDateTime | string;
   /**
@@ -5522,6 +5618,9 @@ export interface QuickTimeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "x530"
+   * @remarks Camera/device model name. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Model?: string;
   /**
@@ -5602,7 +5701,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 315546 bytes, use -b option to extract)"
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -6119,12 +6218,18 @@ export interface RIFFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
@@ -6246,13 +6351,17 @@ export interface JFIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @remarks Embedded thumbnail image data. Binary data type.
+   * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
   ThumbnailImage?: BinaryField;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, JFIF
    * @example "(Binary data 57816 bytes, use -b option to extract)"
+   * @remarks Embedded TIFF thumbnail image data. Binary data type.
+   * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
   ThumbnailTIFF?: BinaryField;
   /**
@@ -9184,7 +9293,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★☆☆☆ (10%)
    * @groups MakerNotes
-   * @example "(Binary data 280 bytes, use -b option to extract)"
+   * @example "(Binary data 114 bytes, use -b option to extract)"
    */
   DataDump?: BinaryField | string;
   /**
@@ -11612,6 +11721,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
@@ -11735,6 +11847,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
@@ -11915,6 +12030,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
+   * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
+   * Historically called ISOSpeedRatings in EXIF 2.2, renamed to PhotographicSensitivity in EXIF 2.3.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ISO?: number;
   /**
@@ -12697,6 +12815,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups EXIF, MakerNotes, QuickTime, XMP
    * @example "samsung"
+   * @remarks Camera/device manufacturer. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Make?: string;
   /**
@@ -13081,6 +13202,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "x530"
+   * @remarks Camera/device model name. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Model?: string;
   /**
@@ -14250,7 +14374,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 315546 bytes, use -b option to extract)"
+   * @example "(Binary data 37244 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -16239,7 +16363,9 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @remarks Embedded thumbnail image data. Binary data type.
+   * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
   ThumbnailImage?: BinaryField;
   /**
@@ -16494,7 +16620,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 9191 bytes, use -b option to extract)"
+   * @example "(Binary data 5411 bytes, use -b option to extract)"
    */
   UnusedLoggingMetadata?: BinaryField | string;
   /**
@@ -19107,7 +19233,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}]
+   * @example [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}]
    */
   Cameras?: Struct[];
   /**
@@ -19329,13 +19455,16 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]}
+   * @example {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]}
    */
   Container?: Struct;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example "/home/username/pictures"
+   * @remarks XMP container directory structure containing list of container items.
+   * Struct type with flattened fields when Struct option is disabled.
+   * @see https://exiftool.org/TagNames/XMP.html
    */
   ContainerDirectory?: ContainerDirectoryItem[] | Struct[];
   /**
@@ -20076,7 +20205,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example "(Binary data 66140 bytes, use -b option to extract)"
+   * @example "(Binary data 31092 bytes, use -b option to extract)"
    */
   HDRPMakerNote?: BinaryField | string;
   /**
@@ -20158,6 +20287,9 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
+   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
   /**
@@ -20197,6 +20329,9 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
+   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
+   * Read-only composite derived from file analysis.
+   * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
@@ -20257,6 +20392,9 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, MakerNotes, XMP
    * @example 993
+   * @remarks Camera ISO sensitivity rating. In EXIF, this is an array (int16u[n]) that can contain multiple values.
+   * Historically called ISOSpeedRatings in EXIF 2.2, renamed to PhotographicSensitivity in EXIF 2.3.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ISO?: number;
   /**
@@ -20481,6 +20619,9 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups EXIF, MakerNotes, QuickTime, XMP
    * @example "samsung"
+   * @remarks Camera/device manufacturer. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Make?: string;
   /**
@@ -20573,6 +20714,9 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
    * @example "x530"
+   * @remarks Camera/device model name. ExifTool automatically removes trailing whitespace.
+   * Used internally by ExifTool for vendor-specific tag handling.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Model?: string;
   /**
@@ -20861,7 +21005,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}]
+   * @example [{"CameraIndices":[0],"Type":"DepthPhoto"}]
    */
   Profiles?: Struct[];
   /**
@@ -21110,7 +21254,7 @@ export interface XMPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example "(Binary data 676 bytes, use -b option to extract)"
+   * @example "(Binary data 696 bytes, use -b option to extract)"
    */
   ShotLogData?: BinaryField | string;
   /**
