@@ -769,6 +769,11 @@
     "mainstream": false,
     "groups": ["MakerNotes"]
   },
+  "AddAspectRatioInfo": {
+    "frequency": 0.009,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
   "AddIPTCInformation": {
     "frequency": 0.006,
     "mainstream": true,
@@ -5813,11 +5818,6 @@
     "frequency": 0.04,
     "mainstream": true,
     "groups": ["Composite", "EXIF"]
-  },
-  "GPSPositionRef": {
-    "frequency": 0,
-    "mainstream": false,
-    "groups": ["EXIF"]
   },
   "GPSProcessingMethod": {
     "frequency": 0.01,

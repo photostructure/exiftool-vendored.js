@@ -270,14 +270,18 @@ const RequiredTags: Record<
     doc: "GPS longitude hemisphere.\nValid values: 'E' (East), 'W' (West)",
   },
   GPSPosition: { t: "string", grp: "EXIF" },
-  GPSPositionRef: { t: "string", grp: "EXIF" },
   GPSSpeed: { t: "string", grp: "EXIF" },
   GPSSpeedRef: {
     t: "string",
     grp: "EXIF",
     doc: "GPS speed measurement unit.\nValid values: 'K' (km/h), 'M' (mph), 'N' (knots)",
   },
-  GPSTimeStamp: { t: "ExifDateTime | string", grp: "EXIF" },
+  GPSTimeStamp: {
+    t: "ExifTime | string",
+    grp: "EXIF",
+    doc: "UTC time of GPS fix. When writing, date is stripped off if present, and time is adjusted to UTC if it includes a timezone",
+    see: "https://exiftool.org/TagNames/GPS.html",
+  },
   History: {
     t: "ResourceEvent[] | ResourceEvent | string",
     grp: "XMP",

@@ -35,6 +35,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v33.1.0
+
+- 🐞 Fixed `GPSTimeStamp` to be `ExifTime | string`
+- 🐞 Removed `GPSPositionRef` (not a thing!)
+
 ### v33.0.0
 
 - 🐞/💔 `SubSecMediaCreateDate` was removed from `CompositeTags` and `Tags`. It apparently never _was_ a thing, and, worse: I can't blame AI for hallucinating it, because I added it several years ago. Oops!

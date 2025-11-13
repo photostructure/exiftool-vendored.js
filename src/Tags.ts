@@ -292,7 +292,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 67596 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -766,7 +766,7 @@ export interface CompositeTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 67596 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -2473,7 +2473,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 67596 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -2495,7 +2495,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups FlashPix
-   * @example "(Binary data 46285 bytes, use -b option to extract)"
+   * @example "(Binary data 57881 bytes, use -b option to extract)"
    */
   ScreenNail?: BinaryField | string;
   /**
@@ -2838,7 +2838,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups EXIF
-   * @example "(Binary data 0 bytes, use -b option to extract)"
+   * @example "(Binary data 4 bytes, use -b option to extract)"
    */
   DeviceSettingDescription?: BinaryField | string;
   /**
@@ -3142,12 +3142,6 @@ export interface EXIFTags {
    */
   GPSPosition?: string;
   /**
-   * @frequency 🧊 ☆☆☆☆ (0%)
-   * @groups EXIF
-   * @example
-   */
-  GPSPositionRef?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, XMP
    * @example "gps"
@@ -3183,8 +3177,10 @@ export interface EXIFTags {
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups EXIF
    * @example "23:59:41.001"
+   * @remarks UTC time of GPS fix. When writing, date is stripped off if present, and time is adjusted to UTC if it includes a timezone
+   * @see https://exiftool.org/TagNames/GPS.html
    */
-  GPSTimeStamp?: ExifDateTime | string;
+  GPSTimeStamp?: ExifTime | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP, EXIF
@@ -3594,7 +3590,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 67596 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -3964,7 +3960,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -4259,7 +4255,6 @@ export const EXIFTagsNames = strEnum(
   "GPSMapDatum",
   "GPSMeasureMode",
   "GPSPosition",
-  "GPSPositionRef",
   "GPSProcessingMethod",
   "GPSSatellites",
   "GPSSpeed",
@@ -4675,7 +4670,7 @@ export interface MPFTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 67596 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -5701,7 +5696,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 67596 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -6351,7 +6346,7 @@ export interface JFIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -6466,6 +6461,12 @@ export interface MakerNotesTags {
    * @example "+0.0"
    */
   ActualCompensation?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
+  AddAspectRatioInfo?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -9293,7 +9294,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★☆☆☆ (10%)
    * @groups MakerNotes
-   * @example "(Binary data 114 bytes, use -b option to extract)"
+   * @example "(Binary data 280 bytes, use -b option to extract)"
    */
   DataDump?: BinaryField | string;
   /**
@@ -13045,7 +13046,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1748 bytes, use -b option to extract)"
+   * @example "(Binary data 1316 bytes, use -b option to extract)"
    */
   MergedImage?: BinaryField | string;
   /**
@@ -13630,7 +13631,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 624 bytes, use -b option to extract)"
+   * @example "(Binary data 46 bytes, use -b option to extract)"
    */
   NEFLinearizationTable?: BinaryField | string;
   /**
@@ -14374,7 +14375,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 67596 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -16363,7 +16364,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -16512,7 +16513,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1505 bytes, use -b option to extract)"
+   * @example "(Binary data 1679 bytes, use -b option to extract)"
    */
   ToneCurveTable?: BinaryField | string;
   /**
@@ -17082,7 +17083,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 2201 bytes, use -b option to extract)"
+   * @example "(Binary data 2217 bytes, use -b option to extract)"
    */
   WhiteBalanceTable?: BinaryField | string;
   /**
@@ -17273,6 +17274,7 @@ export const MakerNotesTagsNames = strEnum(
   "ActionInAFCCont",
   "ActionPriority",
   "ActualCompensation",
+  "AddAspectRatioInfo",
   "AddIPTCInformation",
   "AddOriginalDecisionData",
   "ADJDebugInfo",
@@ -20205,7 +20207,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example "(Binary data 29436 bytes, use -b option to extract)"
+   * @example "(Binary data 70716 bytes, use -b option to extract)"
    */
   HDRPMakerNote?: BinaryField | string;
   /**
@@ -21254,7 +21256,7 @@ export interface XMPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example "(Binary data 696 bytes, use -b option to extract)"
+   * @example "(Binary data 676 bytes, use -b option to extract)"
    */
   ShotLogData?: BinaryField | string;
   /**
@@ -22053,7 +22055,7 @@ declare const _XMPTag: Expect<Equal<XMPTag, keyof XMPTags>>;
  * - @example: representative value for the tag
  *
  * Autogenerated by "npm run mktags" by ExifTool 13.41 on Thu Nov 13 2025.
- * 2975 unique tags were found in 10528 photo and video files.
+ * 2974 unique tags were found in 10528 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
  */
