@@ -290,5 +290,9 @@ export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
 
 // Example usage:
 
-export const Directions = strEnum("North", "South", "East", "West");
-export type Direction = StrEnumKeys<typeof Directions>;
+// export const Directions = strEnum("North", "South", "East", "West");
+// export type Direction = StrEnumKeys<typeof Directions>;
+
+// assert the strEnum exactly matches the field names of an interface:
+
+// declare const _: Expect<Equal<Direction, keyof DirectionInterface>>

@@ -1,4 +1,6 @@
+import { Equal } from "./Equal";
 import { ErrorsAndWarnings } from "./ErrorsAndWarnings";
+import { Expect } from "./Expect";
 import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 
 /**
@@ -44,4 +46,9 @@ export const ExifToolVendoredTagNames = strEnum(
 
 export type ExifToolVendoredTagName = StrEnumKeys<
   typeof ExifToolVendoredTagNames
+>;
+
+// Assert that the tag names enum exactly matches the keys of the interface:
+declare const _: Expect<
+  Equal<ExifToolVendoredTagName, keyof ExifToolVendoredTags>
 >;

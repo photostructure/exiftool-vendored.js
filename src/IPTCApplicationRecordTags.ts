@@ -1,6 +1,8 @@
+import { Equal } from "./Equal";
 import { ExifDate } from "./ExifDate";
 import { ExifDateTime } from "./ExifDateTime";
 import { ExifTime } from "./ExifTime";
+import { Expect } from "./Expect";
 import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 
 /**
@@ -149,4 +151,9 @@ export const IPTCApplicationRecordTagNames = strEnum(
 
 export type IPTCApplicationRecordTagName = StrEnumKeys<
   typeof IPTCApplicationRecordTagNames
+>;
+
+// Assert that the tag names enum exactly matches the keys of the interface:
+declare const _: Expect<
+  Equal<IPTCApplicationRecordTagName, keyof IPTCApplicationRecordTags>
 >;

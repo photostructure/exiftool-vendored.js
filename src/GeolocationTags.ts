@@ -1,3 +1,5 @@
+import { Equal } from "./Equal";
+import { Expect } from "./Expect";
 import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 
 /**
@@ -63,3 +65,6 @@ export type GeolocationTagName = StrEnumKeys<typeof GeolocationTagNames>;
 export function isGeolocationTag(tag: string): tag is GeolocationTagName {
   return GeolocationTagNames.has(tag);
 }
+
+// Assert that the tag names enum exactly matches the keys of the interface:
+declare const _: Expect<Equal<GeolocationTagName, keyof GeolocationTags>>;

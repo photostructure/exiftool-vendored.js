@@ -1,3 +1,5 @@
+import { Equal } from "./Equal";
+import { Expect } from "./Expect";
 import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 
 /**
@@ -39,3 +41,6 @@ export const ICCProfileTagNames = strEnum(
 ) satisfies StrEnum<keyof ICCProfileTags>;
 
 export type ICCProfileTagName = StrEnumKeys<typeof ICCProfileTagNames>;
+
+// Assert that the tag names enum exactly matches the keys of the interface:
+declare const _: Expect<Equal<ICCProfileTagName, keyof ICCProfileTags>>;
