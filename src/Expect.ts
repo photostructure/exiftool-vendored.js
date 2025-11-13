@@ -1,1 +1,1 @@
-export type Expect<T extends true> = T
+export type Expect<T extends true> = T;
