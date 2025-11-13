@@ -7,6 +7,9 @@ import { Tags } from "./Tags";
  * Options for the {@link ExifTool} constructor.
  *
  * Defaults are defined in {@link DefaultExifToolOptions}.
+ *
+ * @see {@link Settings} for library-wide settings.
+ * @see {@link DefaultExifToolOptions} for default values.
  */
 export interface ExifToolOptions
   extends bc.BatchClusterOptions,
@@ -89,8 +92,7 @@ export interface ExifToolOptions
    * Should ExifTool use MWG (Metadata Working Group) composite tags for
    * reading and writing tags?
    *
-   * ExifTool recommends this to be set to true. This defaults to `false` to
-   * maintain consistency with prior versions.
+   * ExifTool recommends this to be set to true.
    *
    * Note that this can result in many tag value differences from
    * `ExifTool.read`, and makes `ExifTool.write` write to "synonymous" MWG

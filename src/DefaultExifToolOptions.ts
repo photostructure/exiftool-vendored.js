@@ -93,7 +93,7 @@ export const DefaultExifToolOptions: Omit<
     //   "Orientation": 6 // < expected
     // }]
   ],
-  useMWG: false,
+  useMWG: true,
   struct: 1,
   readArgs: ["-fast"],
   writeArgs: [],
