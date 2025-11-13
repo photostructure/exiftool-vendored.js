@@ -34,6 +34,8 @@ vendored versions of ExifTool match the version that they vendor.
 - 📦 Minor packaging changes
 
 ## History
+- 🐞/💔 `SubSecMediaCreateDate` was removed from `CompositeTags` and `Tags`. It apparently never _was_ a thing, and, worse: I can't blame AI for hallucinating it, because I added it several years ago. Oops!
+- ✨ `mktags` was enhanced to detect and avoid duplicate field definitions from included static interfaces.
 
 ### v32.1.0
 

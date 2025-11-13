@@ -3,7 +3,6 @@ import { Tags } from "./Tags";
 export const CapturedAtTagNames = [
   "SubSecDateTimeOriginal",
   "SubSecCreateDate",
-  "SubSecMediaCreateDate",
   "DateTimeOriginal",
   "CreateDate",
   "MediaCreateDate",
