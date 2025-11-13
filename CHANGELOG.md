@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v32.1.0
+
+- 🐞 Async `disposable` timeouts are now cancelled properly. Prior versions could prevent the process from exiting until the timeout elapsed.
+
 ### v32.0.1
 
 - 💔 Archaic timezones are no longer supported by default. If you have relevant (old) digital media, set `Settings.allowArchaicTimezoneOffsets.value = true`.

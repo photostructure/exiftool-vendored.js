@@ -801,14 +801,13 @@ export class ExifTool {
       }, timeoutMs);
 
       cleanup
-        .then(() => {
-          clearTimeout(timeoutHandle);
-        })
         .catch((err) => {
-          clearTimeout(timeoutHandle);
           // Log error but don't throw, as disposal should not fail
           const logger = this.options.logger();
           logger.error("ExifTool synchronous disposal error:", err);
+        })
+        .finally(() => {
+          if (timeoutHandle != null) clearTimeout(timeoutHandle);
         });
     }
   }
@@ -833,8 +832,10 @@ export class ExifTool {
     if (!this.ended) {
       // Set up a timeout to prevent hanging indefinitely during async disposal
       const timeoutMs = this.options.asyncDisposalTimeoutMs ?? 5000;
+      let timeoutHandle: NodeJS.Timeout =
+        undefined as unknown as NodeJS.Timeout;
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => {
+        timeoutHandle = setTimeout(() => {
           reject(
             new Error(`ExifTool async disposal timeout after ${timeoutMs}ms`),
           );
@@ -864,6 +865,8 @@ export class ExifTool {
           logger.error("ExifTool async disposal error:", err);
           throw err;
         }
+      } finally {
+        if (timeoutHandle != null) clearTimeout(timeoutHandle);
       }
     }
   }
