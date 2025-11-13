@@ -29,7 +29,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 💔 Archaic timezones are no longer supported by default. If you have relevant (old) digital media, set `Settings.allowArchaicTimezoneOffsets.value = true`.
 - 💔 [useMWG](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.ExifToolOptions.html#usemwg) now defaults to `true`, the ExifTool recommendation. See [the ExifTool page](https://exiftool.org/TagNames/MWG.html) for more details.
-- ✨ Added **Settings** for global library configuration. See [CONFIGURATION](https://photostructure.github.io/exiftool-vendored.js/documents/CONFIGURATION.html) for details.
+- ✨ Added **Settings** for global library configuration. See [CONFIGURATION](https://photostructure.github.io/exiftool-vendored.js/documents/docs_CONFIGURATION.html) for details.
 - 📦 `MakerNotes.AspectRatio` was restored to the Tags union
 - 📦 `ExifTool.readRaw()` now accepts the option `useMWG` (which also defaults to `true`) and has a signature that matches `read()`.
 
