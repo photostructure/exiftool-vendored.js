@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v33.2.0
+
+- 🌱 Upgraded ExifTool to version [13.42](https://exiftool.org/history.html#13.42).
+
 ### v33.1.0
 
 - 🐞 Fixed `GPSTimeStamp` to be `ExifTime | string`
