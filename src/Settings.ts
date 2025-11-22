@@ -113,6 +113,23 @@ export const Settings = {
   allowBakerIslandTime: new Setting(false),
 
   /**
+   * Maximum distance (in minutes) from a valid timezone offset to accept when
+   * inferring timezones from GPS or UTC timestamp comparisons.
+   *
+   * This threshold handles GPS time drift and clock skew. GPS acquisition may
+   * lag behind the actual photo time, especially if the GPS fix is old or the
+   * camera clock is slightly off.
+   *
+   * - **15 minutes**: Stricter matching, fewer false positives, but may reject
+   *   photos with older GPS fixes
+   * - **30 minutes**: More tolerant of GPS lag, recommended for photos that may
+   *   have stale GPS data
+   *
+   * @default 30 minutes
+   */
+  maxValidOffsetMinutes: new Setting(30),
+
+  /**
    * Logger instance used throughout exiftool-vendored.
    *
    * By default, this is set to ConsoleLogger if NODE_DEBUG=exiftool-vendored is

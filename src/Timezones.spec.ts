@@ -6,16 +6,30 @@ import {
   ArchaicTimezoneOffsets,
   UnsetZone,
   UnsetZoneOffsetMinutes,
+  extractTzOffsetFromDatestamps,
   extractTzOffsetFromTags,
+  extractTzOffsetFromTimeStamp,
   extractTzOffsetFromUTCOffset,
   extractZone,
+  getZoneName,
+  incrementZone,
+  inferLikelyOffsetMinutes,
+  isUTC,
+  isZone,
+  isZoneUnset,
+  isZoneValid,
   normalizeZone,
   offsetMinutesToZoneName,
   validTzOffsetMinutes,
+  zoneToShortOffset,
 } from "./Timezones";
 import { expect } from "./_chai.spec";
 
 describe("Timezones", () => {
+  afterEach(() => {
+    Settings.reset();
+  });
+
   describe("UnsetZone", () => {
     it("isValid", () => {
       expect(UnsetZone.isValid).to.eql(true);
@@ -187,6 +201,38 @@ describe("Timezones", () => {
     }
   });
 
+  describe("Unicode timezone signs", () => {
+    it("should handle Unicode minus sign (U+2212) in offset", () => {
+      const result = extractZone("−08:00"); // Unicode minus
+      expect(result?.zone).to.equal("UTC-8");
+      expect(result?.src).to.equal("offsetMinutesToZoneName");
+    });
+
+    it("should handle Unicode minus sign with UTC prefix", () => {
+      const result = extractZone("UTC−8"); // Unicode minus
+      expect(result?.zone).to.equal("UTC-8");
+      expect(result?.src).to.equal("normalizeZone");
+    });
+
+    it("should handle Unicode minus in full timestamp", () => {
+      const result = extractZone("2023:01:15 10:30:00−08:00"); // Unicode minus
+      expect(result?.zone).to.equal("UTC-8");
+      expect(result?.leftovers).to.equal("2023:01:15 10:30:00");
+    });
+
+    it("should handle archaic offset with Unicode minus", () => {
+      Settings.allowArchaicTimezoneOffsets.value = true;
+      const result = extractZone("−00:44"); // Liberia historical offset with Unicode minus
+      expect(result?.zone).to.match(/UTC-0:44/);
+    });
+
+    it("should normalize Unicode minus to ASCII minus in zone name", () => {
+      const result = extractZone("−08:00"); // Unicode minus input
+      expect(result?.zone).to.match(/^UTC-/); // ASCII minus in output
+      expect(result?.zone).to.not.match(/−/); // No Unicode minus in output
+    });
+  });
+
   describe("extractTzOffsetFromTags", () => {
     describe("with TimeZone", () => {
       for (const { tzo, exp } of [
@@ -317,19 +363,15 @@ describe("Timezones", () => {
     }
 
     describe("with archaic timezone offsets", () => {
-      afterEach(() => {
-        Settings.reset();
-      });
-
-      it("rejects archaic Hawaii offset (-10:30) by default", () => {
+      it("rounds archaic Hawaii offset (-10:30) to nearest valid offset (-11:00) by default", () => {
         Settings.allowArchaicTimezoneOffsets.value = false;
-        // Hawaii archaic offset is -10:30
-        expect(
-          extractTzOffsetFromUTCOffset({
-            DateTimeOriginal: "2024:09:14 12:00:00",
-            DateTimeUTC: "2024:09:14 22:30:00",
-          }),
-        ).to.eql(undefined);
+        // Hawaii archaic offset is -10:30 (630 minutes)
+        // With 30-minute tolerance, rounds to -11:00 (660 minutes)
+        const result = extractTzOffsetFromUTCOffset({
+          DateTimeOriginal: "2024:09:14 12:00:00",
+          DateTimeUTC: "2024:09:14 22:30:00",
+        });
+        expect(result?.zone).to.eql("UTC-11");
       });
 
       it("accepts archaic Hawaii offset (-10:30) when enabled", () => {
@@ -346,14 +388,15 @@ describe("Timezones", () => {
         });
       });
 
-      it("rejects archaic Venezuela offset (-04:30) by default", () => {
+      it("rounds archaic Venezuela offset (-04:30) to nearest valid offset (-05:00) by default", () => {
         Settings.allowArchaicTimezoneOffsets.value = false;
-        expect(
-          extractTzOffsetFromUTCOffset({
-            CreateDate: "2024:09:14 12:00:00",
-            GPSDateTime: "2024:09:14 16:30:00",
-          }),
-        ).to.eql(undefined);
+        // Venezuela archaic offset is -04:30 (270 minutes)
+        // With 30-minute tolerance, rounds to -05:00 (300 minutes)
+        const result = extractTzOffsetFromUTCOffset({
+          CreateDate: "2024:09:14 12:00:00",
+          GPSDateTime: "2024:09:14 16:30:00",
+        });
+        expect(result?.zone).to.eql("UTC-5");
       });
 
       it("accepts archaic Venezuela offset (-04:30) when enabled", () => {
@@ -753,6 +796,578 @@ describe("Timezones", () => {
         Settings.allowArchaicTimezoneOffsets.value = false;
         expect(offsetMinutesToZoneName(irelandMinutes)).to.eql(undefined);
       });
+    });
+  });
+
+  describe("isUTC()", () => {
+    it("returns true for UTC string", () => {
+      expect(isUTC("UTC")).to.eql(true);
+    });
+
+    it("returns true for GMT string", () => {
+      expect(isUTC("GMT")).to.eql(true);
+    });
+
+    it("returns true for Z", () => {
+      expect(isUTC("Z")).to.eql(true);
+    });
+
+    it("returns false for Zulu (must normalize first)", () => {
+      // "Zulu" gets normalized to "UTC" in normalizeZone, but isUTC doesn't normalize
+      expect(isUTC("Zulu")).to.eql(false);
+      // After normalizing, it's UTC:
+      const zone = normalizeZone("Zulu");
+      expect(isUTC(zone)).to.eql(true);
+    });
+
+    it("returns true for numeric 0", () => {
+      expect(isUTC(0)).to.eql(true);
+    });
+
+    it("returns true for numeric -0", () => {
+      expect(isUTC(-0)).to.eql(true);
+    });
+
+    it("returns true for +0", () => {
+      expect(isUTC("+0")).to.eql(true);
+    });
+
+    it("returns true for +00:00", () => {
+      expect(isUTC("+00:00")).to.eql(true);
+    });
+
+    it("returns true for UTC+0", () => {
+      expect(isUTC("UTC+0")).to.eql(true);
+    });
+
+    it("returns true for GMT+0", () => {
+      expect(isUTC("GMT+0")).to.eql(true);
+    });
+
+    it("returns true for UTC+00:00", () => {
+      expect(isUTC("UTC+00:00")).to.eql(true);
+    });
+
+    it("returns true for GMT+00:00", () => {
+      expect(isUTC("GMT+00:00")).to.eql(true);
+    });
+
+    it("returns true for UTC Zone instance", () => {
+      const zone = Info.normalizeZone("UTC");
+      expect(isUTC(zone)).to.eql(true);
+    });
+
+    it("returns false for America/New_York", () => {
+      expect(isUTC("America/New_York")).to.eql(false);
+    });
+
+    it("returns false for +08:00", () => {
+      expect(isUTC("+08:00")).to.eql(false);
+    });
+
+    it("returns false for numeric 480", () => {
+      expect(isUTC(480)).to.eql(false);
+    });
+
+    it("returns false for null", () => {
+      expect(isUTC(null)).to.eql(false);
+    });
+
+    it("returns false for undefined", () => {
+      expect(isUTC(undefined)).to.eql(false);
+    });
+
+    it("returns false for non-UTC Zone instance", () => {
+      const zone = Info.normalizeZone("America/Los_Angeles");
+      expect(isUTC(zone)).to.eql(false);
+    });
+  });
+
+  describe("isZoneUnset()", () => {
+    it("returns true for UnsetZone", () => {
+      expect(isZoneUnset(UnsetZone)).to.eql(true);
+    });
+
+    it("returns false for UTC", () => {
+      const zone = Info.normalizeZone("UTC");
+      if (zone) expect(isZoneUnset(zone)).to.eql(false);
+    });
+
+    it("returns false for UTC+8", () => {
+      const zone = Info.normalizeZone("UTC+8");
+      if (zone) expect(isZoneUnset(zone)).to.eql(false);
+    });
+
+    it("returns false for IANA zone", () => {
+      const zone = Info.normalizeZone("America/New_York");
+      if (zone) expect(isZoneUnset(zone)).to.eql(false);
+    });
+  });
+
+  describe("isZoneValid()", () => {
+    it("returns true for UTC", () => {
+      const zone = Info.normalizeZone("UTC");
+      expect(isZoneValid(zone)).to.eql(true);
+    });
+
+    it("returns true for UTC+8", () => {
+      const zone = Info.normalizeZone("UTC+8");
+      expect(isZoneValid(zone)).to.eql(true);
+    });
+
+    it("returns true for America/Los_Angeles", () => {
+      const zone = Info.normalizeZone("America/Los_Angeles");
+      expect(isZoneValid(zone)).to.eql(true);
+    });
+
+    it("returns false for UnsetZone", () => {
+      expect(isZoneValid(UnsetZone)).to.eql(false);
+    });
+
+    it("returns false for invalid zone", () => {
+      const zone = Info.normalizeZone("invalid");
+      expect(isZoneValid(zone)).to.eql(false);
+    });
+
+    it("returns false for null", () => {
+      expect(isZoneValid(null as any)).to.eql(false);
+    });
+
+    it("returns false for undefined", () => {
+      expect(isZoneValid(undefined)).to.eql(false);
+    });
+
+    it("returns false for zone beyond ±14 hours (UTC+20)", () => {
+      // Create a zone with offset beyond valid range
+      const zone = Info.normalizeZone("UTC+20");
+      expect(isZoneValid(zone)).to.eql(false);
+    });
+  });
+
+  describe("isZone()", () => {
+    it("returns true for Zone instance from normalizeZone", () => {
+      const zone = Info.normalizeZone("UTC");
+      expect(isZone(zone)).to.eql(true);
+    });
+
+    it("returns true for IANA Zone", () => {
+      const zone = Info.normalizeZone("America/Los_Angeles");
+      expect(isZone(zone)).to.eql(true);
+    });
+
+    it("returns false for string", () => {
+      expect(isZone("UTC")).to.eql(false);
+    });
+
+    it("returns false for number", () => {
+      expect(isZone(480)).to.eql(false);
+    });
+
+    it("returns false for null", () => {
+      expect(isZone(null)).to.eql(false);
+    });
+
+    it("returns false for undefined", () => {
+      expect(isZone(undefined)).to.eql(false);
+    });
+
+    it("returns false for plain object", () => {
+      expect(isZone({ name: "UTC" })).to.eql(false);
+    });
+  });
+
+  describe("zoneToShortOffset()", () => {
+    it("converts UTC+8 to +08:00", () => {
+      expect(zoneToShortOffset("UTC+8")).to.eql("+08:00");
+    });
+
+    it("converts numeric 480 to +08:00", () => {
+      expect(zoneToShortOffset(480)).to.eql("+08:00");
+    });
+
+    it("converts UTC-3:30 to -03:30", () => {
+      expect(zoneToShortOffset("UTC-3:30")).to.eql("-03:30");
+    });
+
+    it("converts UTC to +00:00", () => {
+      expect(zoneToShortOffset("UTC")).to.eql("+00:00");
+    });
+
+    it("handles IANA zone with timestamp in winter (PST)", () => {
+      const winter = new Date("2023-01-15").getTime();
+      expect(zoneToShortOffset("America/Los_Angeles", winter)).to.eql("-08:00");
+    });
+
+    it("handles IANA zone with timestamp in summer (PDT)", () => {
+      const summer = new Date("2023-07-15").getTime();
+      expect(zoneToShortOffset("America/Los_Angeles", summer)).to.eql("-07:00");
+    });
+
+    it("returns empty string for invalid zone", () => {
+      expect(zoneToShortOffset("invalid")).to.eql("");
+    });
+
+    it("returns empty string for null", () => {
+      expect(zoneToShortOffset(null as any)).to.eql("");
+    });
+
+    it("returns empty string for undefined", () => {
+      expect(zoneToShortOffset(undefined)).to.eql("");
+    });
+  });
+
+  describe("incrementZone()", () => {
+    it("increments UTC+8 by 60 minutes to UTC+9", () => {
+      const result = incrementZone("UTC+8", 60);
+      expect(result?.name).to.eql("UTC+9");
+    });
+
+    it("increments UTC-5 by -60 minutes to UTC-6", () => {
+      const result = incrementZone("UTC-5", -60);
+      expect(result?.name).to.eql("UTC-6");
+    });
+
+    it("increments UTC by 30 minutes to UTC+0:30", () => {
+      const result = incrementZone("UTC", 30);
+      expect(result?.name).to.eql("UTC+0:30");
+    });
+
+    it("increments numeric offset 480 by 60 to 540", () => {
+      const result = incrementZone(480, 60);
+      expect(result?.offset(0)).to.eql(540);
+    });
+
+    it("returns undefined for IANA zone (not universal)", () => {
+      const result = incrementZone("America/Los_Angeles", 60);
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined for invalid zone", () => {
+      const result = incrementZone("invalid", 60);
+      expect(result).to.eql(undefined);
+    });
+  });
+
+  describe("inferLikelyOffsetMinutes()", () => {
+    afterEach(() => {
+      Settings.reset();
+    });
+
+    it("returns exact match for 480 (UTC+8)", () => {
+      expect(inferLikelyOffsetMinutes(480)).to.eql(480);
+    });
+
+    it("returns exact match for -300 (UTC-5)", () => {
+      expect(inferLikelyOffsetMinutes(-300)).to.eql(-300);
+    });
+
+    it("rounds 485 to 480 (within 30 min default threshold)", () => {
+      expect(inferLikelyOffsetMinutes(485)).to.eql(480);
+    });
+
+    it("rounds -295 to -300 (within 30 min default threshold)", () => {
+      expect(inferLikelyOffsetMinutes(-295)).to.eql(-300);
+    });
+
+    it("rounds 330.5 to 330 (UTC+5:30)", () => {
+      expect(inferLikelyOffsetMinutes(330.5)).to.eql(330);
+    });
+
+    it("rounds 495 to 480 (within 30 min default threshold)", () => {
+      expect(inferLikelyOffsetMinutes(495)).to.eql(480);
+    });
+
+    it("rounds 505 to 510 (within 30 min default threshold)", () => {
+      expect(inferLikelyOffsetMinutes(505)).to.eql(510);
+    });
+
+    it("rounds 100 to 120 (UTC+2, within 30 min default threshold)", () => {
+      // 100 minutes is 20 minutes from 120 (UTC+2), within 30-minute threshold
+      expect(inferLikelyOffsetMinutes(100)).to.eql(120);
+    });
+
+    it("rounds 666 to 660 (UTC+11, within 30 min threshold)", () => {
+      // 666 minutes is only 6 minutes from UTC+11 (660 minutes)
+      expect(inferLikelyOffsetMinutes(666)).to.eql(660);
+    });
+
+    it("handles GPS lag of 23 minutes (real-world case)", () => {
+      // 443 minutes = ~7h23m, should round to 420 (UTC-7)
+      expect(inferLikelyOffsetMinutes(443)).to.eql(420);
+    });
+
+    it("accepts custom threshold override", () => {
+      expect(inferLikelyOffsetMinutes(495, 30)).to.eql(480);
+      expect(inferLikelyOffsetMinutes(495, 10)).to.eql(undefined);
+    });
+
+    it("rounds 485 with custom threshold of 5 minutes", () => {
+      expect(inferLikelyOffsetMinutes(485, 5)).to.eql(480);
+    });
+
+    it("rejects with custom threshold of 4 minutes", () => {
+      expect(inferLikelyOffsetMinutes(485, 4)).to.eql(undefined);
+    });
+
+    it("respects Settings.maxValidOffsetMinutes", () => {
+      Settings.maxValidOffsetMinutes.value = 15;
+      expect(inferLikelyOffsetMinutes(495)).to.eql(480); // 15 min from UTC+8 (480), at threshold
+      expect(inferLikelyOffsetMinutes(496)).to.eql(510); // 14 min from UTC+8:30 (510), within threshold
+      expect(inferLikelyOffsetMinutes(526)).to.eql(525); // 1 min from UTC+8:45 (525), within threshold
+      expect(inferLikelyOffsetMinutes(556)).to.eql(570); // 14 min from UTC+9:30 (570), within threshold
+
+      // Test a value that's beyond 15-minute threshold from all valid offsets
+      // 700 minutes is 20 min from UTC+12 (720) and 40 min from UTC+11 (660)
+      expect(inferLikelyOffsetMinutes(700)).to.eql(undefined); // beyond 15 min threshold
+
+      Settings.maxValidOffsetMinutes.value = 5;
+      expect(inferLikelyOffsetMinutes(485)).to.eql(480); // within threshold
+      expect(inferLikelyOffsetMinutes(486)).to.eql(undefined); // beyond threshold
+    });
+
+    it("handles fractional offsets like Nepal UTC+5:45", () => {
+      expect(inferLikelyOffsetMinutes(345)).to.eql(345);
+    });
+
+    it("rounds near-Nepal offset 343 to 345", () => {
+      expect(inferLikelyOffsetMinutes(343)).to.eql(345);
+    });
+  });
+
+  describe("extractTzOffsetFromDatestamps()", () => {
+    const opts = {
+      inferTimezoneFromDatestamps: true,
+      inferTimezoneFromDatestampTags: [
+        "DateTimeOriginal",
+        "CreateDate",
+      ] as (keyof Tags)[],
+    };
+
+    it("extracts timezone from DateTimeOriginal with offset", () => {
+      const tags = {
+        DateTimeOriginal: "2023:01:15 10:30:00-08:00",
+      };
+      const result = extractTzOffsetFromDatestamps(tags, opts);
+      expect(result?.zone).to.eql("UTC-8");
+      expect(result?.src).to.eql("DateTimeOriginal");
+    });
+
+    it("extracts timezone from CreateDate with offset", () => {
+      const tags = {
+        CreateDate: "2023:01:15 10:30:00+09:00",
+      };
+      const result = extractTzOffsetFromDatestamps(tags, opts);
+      expect(result?.zone).to.eql("UTC+9");
+      expect(result?.src).to.eql("CreateDate");
+    });
+
+    it("ignores UTC offsets (spurious +00:00 from Google Takeout)", () => {
+      const tags = {
+        DateTimeOriginal: "2023:01:15 10:30:00+00:00",
+      };
+      const result = extractTzOffsetFromDatestamps(tags, opts);
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined when inferTimezoneFromDatestamps is false", () => {
+      const tags = {
+        DateTimeOriginal: "2023:01:15 10:30:00-08:00",
+      };
+      const result = extractTzOffsetFromDatestamps(tags, {
+        inferTimezoneFromDatestamps: false,
+      });
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined when no tags match", () => {
+      const tags = {
+        SubSecCreateDate: "2023:01:15 10:30:00-08:00",
+      };
+      const result = extractTzOffsetFromDatestamps(tags, opts);
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined when tags have no timezone", () => {
+      const tags = {
+        DateTimeOriginal: "2023:01:15 10:30:00",
+      };
+      const result = extractTzOffsetFromDatestamps(tags, opts);
+      expect(result).to.eql(undefined);
+    });
+
+    it("uses first valid tag in order", () => {
+      const tags = {
+        DateTimeOriginal: "2023:01:15 10:30:00-08:00",
+        CreateDate: "2023:01:15 10:30:00+09:00",
+      };
+      const result = extractTzOffsetFromDatestamps(tags, opts);
+      expect(result?.zone).to.eql("UTC-8");
+      expect(result?.src).to.eql("DateTimeOriginal");
+    });
+  });
+
+  describe("extractTzOffsetFromTimeStamp()", () => {
+    // Note: This function is already extensively tested in ReadTask.spec.ts
+    // These tests cover basic functionality
+
+    it("returns undefined when inferTimezoneFromTimeStamp is false", () => {
+      const tags: Tags = {
+        TimeStamp: "2023:01:15 19:30:00-07:00",
+        DateTimeOriginal: "2023:01:15 11:30:00",
+      };
+      const result = extractTzOffsetFromTimeStamp(tags, {
+        inferTimezoneFromTimeStamp: false,
+      });
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined when TimeStamp is missing", () => {
+      const tags: Tags = {
+        DateTimeOriginal: "2023:01:15 11:30:00",
+      };
+      const result = extractTzOffsetFromTimeStamp(tags, {
+        inferTimezoneFromTimeStamp: true,
+        inferTimezoneFromDatestampTags: ["DateTimeOriginal"],
+      });
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined when all datestamp tags are missing", () => {
+      const tags: Tags = {
+        TimeStamp: "2023:01:15 19:30:00-07:00",
+      };
+      const result = extractTzOffsetFromTimeStamp(tags, {
+        inferTimezoneFromTimeStamp: true,
+        inferTimezoneFromDatestampTags: ["DateTimeOriginal"],
+      });
+      expect(result).to.eql(undefined);
+    });
+
+    it("extracts explicit zone from DateTimeOriginal with timezone", () => {
+      const dateTime = ExifDateTime.fromEXIF("2023:01:15 11:30:00+09:00");
+      expect(dateTime).to.not.eql(undefined);
+      const tags: Tags = {
+        TimeStamp: "2023:01:15 19:30:00-07:00",
+        DateTimeOriginal: dateTime!,
+      };
+      const result = extractTzOffsetFromTimeStamp(tags, {
+        inferTimezoneFromTimeStamp: true,
+        inferTimezoneFromDatestampTags: ["DateTimeOriginal"],
+      });
+      expect(result?.zone).to.eql("UTC+9");
+      expect(result?.src).to.eql("DateTimeOriginal");
+    });
+  });
+
+  describe("getZoneName()", () => {
+    it("returns zone name from Zone instance", () => {
+      const zone = Info.normalizeZone("America/Los_Angeles");
+      const result = getZoneName({ zone });
+      expect(result).to.eql("America/Los_Angeles");
+    });
+
+    it("returns zone name from zoneName string", () => {
+      const result = getZoneName({ zoneName: "UTC+8" });
+      expect(result).to.eql("UTC+8");
+    });
+
+    it("returns zone name from tzoffsetMinutes", () => {
+      const result = getZoneName({ tzoffsetMinutes: 480 });
+      expect(result).to.eql("UTC+8");
+    });
+
+    it("prioritizes zone over zoneName", () => {
+      const zone = Info.normalizeZone("America/New_York");
+      const result = getZoneName({ zone, zoneName: "UTC+8" });
+      expect(result).to.eql("America/New_York");
+    });
+
+    it("prioritizes zoneName over tzoffsetMinutes", () => {
+      const result = getZoneName({ zoneName: "UTC+9", tzoffsetMinutes: 480 });
+      expect(result).to.eql("UTC+9");
+    });
+
+    it("returns undefined for UnsetZone", () => {
+      const result = getZoneName({ zone: UnsetZone });
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined for invalid zoneName", () => {
+      const result = getZoneName({ zoneName: "invalid" });
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined for invalid tzoffsetMinutes", () => {
+      const result = getZoneName({ tzoffsetMinutes: 12345 });
+      expect(result).to.eql(undefined);
+    });
+
+    it("returns undefined for empty object", () => {
+      const result = getZoneName({});
+      expect(result).to.eql(undefined);
+    });
+  });
+
+  describe("IanaFormatRE edge cases", () => {
+    it("accepts WET (3-letter IANA timezone)", () => {
+      const result = normalizeZone("WET");
+      expect(result).to.not.eql(undefined);
+      expect(result?.name).to.eql("WET");
+    });
+
+    it("accepts GB (2-letter IANA timezone)", () => {
+      const result = normalizeZone("GB");
+      expect(result).to.not.eql(undefined);
+    });
+
+    it("accepts America/Indiana/Indianapolis (double-slash IANA path)", () => {
+      const result = normalizeZone("America/Indiana/Indianapolis");
+      expect(result).to.not.eql(undefined);
+      expect(result?.name).to.eql("America/Indiana/Indianapolis");
+    });
+
+    it("accepts America/Kentucky/Louisville (double-slash IANA path)", () => {
+      const result = normalizeZone("America/Kentucky/Louisville");
+      expect(result).to.not.eql(undefined);
+      expect(result?.name).to.eql("America/Kentucky/Louisville");
+    });
+
+    it("accepts Asia/Tokyo (single-slash IANA path)", () => {
+      const result = normalizeZone("Asia/Tokyo");
+      expect(result).to.not.eql(undefined);
+      expect(result?.name).to.eql("Asia/Tokyo");
+    });
+
+    it("accepts Japan (IANA timezone without slashes)", () => {
+      const result = normalizeZone("Japan");
+      expect(result).to.not.eql(undefined);
+    });
+
+    it("rejects W-SU (hyphen not in \\w)", () => {
+      // The IanaFormatRE uses \w which doesn't include hyphens
+      const result = normalizeZone("W-SU");
+      // This will be rejected by the regex and passed to Info.normalizeZone
+      // If Luxon accepts it, it will normalize; otherwise undefined
+      // Let's verify the actual behavior
+      expect(result).to.satisfy(
+        (r: any) => r == null || r.isValid,
+        "W-SU should either be rejected or normalized by Luxon",
+      );
+    });
+
+    it("rejects single letter (below 2-char minimum)", () => {
+      const result = normalizeZone("X");
+      expect(result).to.eql(undefined);
+    });
+
+    it("rejects path component with hyphen", () => {
+      // The regex doesn't allow hyphens in timezone names
+      const result = normalizeZone("America/North-Dakota/Center");
+      // This should fail the regex test but might be accepted by Luxon
+      expect(result).to.satisfy(
+        (r: any) => r == null || r.isValid,
+        "Hyphenated zones should either be rejected by regex or normalized by Luxon",
+      );
     });
   });
 });

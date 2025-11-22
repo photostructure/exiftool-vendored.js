@@ -73,13 +73,26 @@ export type {
 export {
   ArchaicTimezoneOffsets,
   defaultVideosToUTC,
+  equivalentZones,
+  extractTzOffsetFromTags,
+  extractTzOffsetFromUTCOffset,
+  extractZone,
+  inferLikelyOffsetMinutes,
+  isUTC,
+  isZone,
+  isZoneUnset,
+  isZoneValid,
+  normalizeZone,
   offsetMinutesToZoneName,
   TimezoneOffsetTagnames,
   UnsetZone,
   UnsetZoneName,
   UnsetZoneOffsetMinutes,
   ValidTimezoneOffsets,
+  validTzOffsetMinutes,
+  zoneToShortOffset,
 } from "./Timezones";
+export type { TimezoneOffset, TzSrc } from "./Timezones";
 export { DefaultWriteTaskOptions, WriteTaskOptionFields } from "./WriteTask";
 // Type exports organized by source module
 export type { BinaryExtractionTaskOptions } from "./BinaryExtractionTask";

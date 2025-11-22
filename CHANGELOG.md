@@ -35,6 +35,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v33.3.0
+
+- ✨ Export timezone utility functions: `extractZone`, `extractTzOffsetFromTags`, `extractTzOffsetFromUTCOffset`, `normalizeZone`, `inferLikelyOffsetMinutes`, `isUTC`, `isZone`, `isZoneValid`, `isZoneUnset`, `validTzOffsetMinutes`, `zoneToShortOffset`, `equivalentZones`
+- ✨ Export timezone types: `TzSrc`, `TimezoneOffset`
+- ✨ Unicode minus sign (U+2212) now supported in timezone offset parsing
+- ✨ Add `Settings.maxValidOffsetMinutes` (default: 30 minutes, which was used by prior versions) to configure GPS-based timezone inference tolerance
+- 🐞 When `Settings.allowArchaicTimezoneOffsets` is `false`, archaic offsets (e.g., Hawaii -10:30) now round to nearest valid offset instead of being rejected
+
 ### v33.2.0
 
 - 🌱 Upgraded ExifTool to version [13.42](https://exiftool.org/history.html#13.42).
