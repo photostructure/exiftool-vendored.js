@@ -5,6 +5,8 @@
     "cpus",
     "creat",
     "Cuneytt",
+    "datestamp",
+    "Datestamps",
     "davidmz",
     "degroup",
     "Degrouped",
@@ -23,6 +25,7 @@
     "Kira",
     "Kitsune",
     "Lukas",
+    "Luxon",
     "magicks",
     "Mert",
     "modif",
@@ -35,7 +38,11 @@
     "Silvio",
     "Snapsalot",
     "Snortypants",
-    "tsfmt"
+    "srsly",
+    "Tagnames",
+    "tsfmt",
+    "tzdata",
+    "zoneinfo"
   ],
   "cSpell.ignoreWords": [
     "automagick",
