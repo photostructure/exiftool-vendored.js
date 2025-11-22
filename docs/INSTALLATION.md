@@ -36,10 +36,10 @@ Use the full Node.js Docker image, not the `-slim` variant:
 
 ```dockerfile
 # ✅ Good - includes perl
-FROM node:18
+FROM node:24
 
 # ❌ Bad - missing perl
-FROM node:18-slim
+FROM node:24-slim
 ```
 
 ### Slim Images
@@ -47,14 +47,14 @@ FROM node:18-slim
 If you must use slim images, install `perl`:
 
 ```dockerfile
-FROM node:18-slim
+FROM node:24-slim
 RUN apt-get update && apt-get install -y perl && rm -rf /var/lib/apt/lists/*
 ```
 
 ### Example Dockerfile
 
 ```dockerfile
-FROM node:18
+FROM node:24
 
 WORKDIR /app
 COPY package*.json ./
