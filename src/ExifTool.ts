@@ -84,6 +84,9 @@ export {
   isZoneValid,
   normalizeZone,
   offsetMinutesToZoneName,
+  parseTimezoneOffsetMatch,
+  parseTimezoneOffsetToMinutes,
+  TimezoneOffsetRE,
   TimezoneOffsetTagnames,
   UnsetZone,
   UnsetZoneName,
@@ -92,7 +95,7 @@ export {
   validTzOffsetMinutes,
   zoneToShortOffset,
 } from "./Timezones";
-export type { TimezoneOffset, TzSrc } from "./Timezones";
+export type { TimezoneOffset, TimezoneOffsetMatch, TzSrc } from "./Timezones";
 export { DefaultWriteTaskOptions, WriteTaskOptionFields } from "./WriteTask";
 // Type exports organized by source module
 export type { BinaryExtractionTaskOptions } from "./BinaryExtractionTask";
