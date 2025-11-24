@@ -4,8 +4,6 @@ import { Settings } from "./Settings";
 import { Tags } from "./Tags";
 import {
   ArchaicTimezoneOffsets,
-  UnsetZone,
-  UnsetZoneOffsetMinutes,
   extractTzOffsetFromDatestamps,
   extractTzOffsetFromTags,
   extractTzOffsetFromTimeStamp,
@@ -20,6 +18,12 @@ import {
   isZoneValid,
   normalizeZone,
   offsetMinutesToZoneName,
+  parseTimezoneOffsetMatch,
+  parseTimezoneOffsetToMinutes,
+  TimezoneOffsetRE,
+  UnsetZone,
+  UnsetZoneOffsetMinutes,
+  ValidTimezoneOffsets,
   validTzOffsetMinutes,
   zoneToShortOffset,
 } from "./Timezones";
@@ -56,7 +60,7 @@ describe("Timezones", () => {
         "UTC+21",
         "UTC-15",
         "+BAD",
-        "+1",
+        "+123",
         "2014-07-19T12:05:19-09:00",
       ]) {
         it(`(${JSON.stringify(invalid)}) => undefined`, () => {
@@ -142,6 +146,47 @@ describe("Timezones", () => {
         });
       }
     });
+
+    describe("numeric offset inputs", () => {
+      it("accepts valid numeric offset (480 = UTC+8)", () => {
+        const zone = normalizeZone(480);
+        expect(zone?.name).to.eql("UTC+8");
+      });
+
+      it("accepts valid numeric offset (-300 = UTC-5)", () => {
+        const zone = normalizeZone(-300);
+        expect(zone?.name).to.eql("UTC-5");
+      });
+
+      it("accepts zero offset (0 = UTC)", () => {
+        const zone = normalizeZone(0);
+        expect(zone?.name).to.eql("UTC");
+      });
+
+      it("rejects invalid numeric offset (100 minutes)", () => {
+        expect(normalizeZone(100)).to.eql(undefined);
+      });
+
+      it("rejects UnsetZone sentinel (-1)", () => {
+        expect(normalizeZone(-1)).to.eql(undefined);
+      });
+
+      it("rejects offset beyond ±14 hours (1200 = 20 hours)", () => {
+        expect(normalizeZone(1200)).to.eql(undefined);
+      });
+
+      it("rejects archaic offset when disabled (-630 = Hawaii -10:30)", () => {
+        Settings.allowArchaicTimezoneOffsets.value = false;
+        expect(normalizeZone(-630)).to.eql(undefined);
+      });
+
+      it("accepts archaic offset when enabled (-630 = Hawaii -10:30)", () => {
+        Settings.allowArchaicTimezoneOffsets.value = true;
+        const zone = normalizeZone(-630);
+        expect(zone?.name).to.eql("UTC-10:30");
+        Settings.reset();
+      });
+    });
   });
 
   describe("extractOffset()", () => {
@@ -161,7 +206,7 @@ describe("Timezones", () => {
       { zone: "garbage", exp: undefined },
       {
         zone: "+09:00",
-        exp: { zone: "UTC+9", src: "offsetMinutesToZoneName" },
+        exp: ozn("UTC+9"),
       },
       {
         zone: "America/Los_Angeles",
@@ -169,18 +214,12 @@ describe("Timezones", () => {
       },
       ...arr.map(({ s, exp }) => ({
         zone: "+" + s,
-        exp: {
-          zone: exp,
-          src: "offsetMinutesToZoneName",
-        },
+        exp: ozn(exp),
       })),
       ...arr.map(({ s, exp }) => ({ zone: "UTC+" + s, exp: ozn(exp) })),
       ...arr.map(({ s, exp }) => ({
         zone: "-" + s,
-        exp: {
-          zone: exp.replace("+", "-"),
-          src: "offsetMinutesToZoneName",
-        },
+        exp: ozn(exp.replace("+", "-")),
       })),
       ...arr.map(({ s, exp }) => ({
         zone: "UTC-" + s,
@@ -205,7 +244,7 @@ describe("Timezones", () => {
     it("should handle Unicode minus sign (U+2212) in offset", () => {
       const result = extractZone("−08:00"); // Unicode minus
       expect(result?.zone).to.equal("UTC-8");
-      expect(result?.src).to.equal("offsetMinutesToZoneName");
+      expect(result?.src).to.equal("normalizeZone");
     });
 
     it("should handle Unicode minus sign with UTC prefix", () => {
@@ -881,6 +920,45 @@ describe("Timezones", () => {
       const zone = Info.normalizeZone("America/Los_Angeles");
       expect(isUTC(zone)).to.eql(false);
     });
+
+    // New tests for expanded Zulus array
+    it("returns true for string '0'", () => {
+      expect(isUTC("0")).to.eql(true);
+    });
+
+    it("returns true for Etc/UTC", () => {
+      expect(isUTC("Etc/UTC")).to.eql(true);
+    });
+
+    it("returns true for +00", () => {
+      expect(isUTC("+00")).to.eql(true);
+    });
+
+    it("returns true for -00", () => {
+      expect(isUTC("-00")).to.eql(true);
+    });
+
+    it("returns true for -00:00", () => {
+      expect(isUTC("-00:00")).to.eql(true);
+    });
+
+    it("returns false for non-zero numeric offsets", () => {
+      expect(isUTC(1)).to.eql(false);
+      expect(isUTC(7)).to.eql(false);
+      expect(isUTC(-7)).to.eql(false);
+      expect(isUTC(60)).to.eql(false);
+      expect(isUTC(-60)).to.eql(false);
+    });
+
+    // Systematic test of all ValidTimezoneOffsets
+    describe("ValidTimezoneOffsets coverage", () => {
+      for (const offset of ValidTimezoneOffsets) {
+        const expected = offset === "+00:00";
+        it(`isUTC("${offset}") === ${expected}`, () => {
+          expect(isUTC(offset)).to.eql(expected);
+        });
+      }
+    });
   });
 
   describe("isZoneUnset()", () => {
@@ -1368,6 +1446,138 @@ describe("Timezones", () => {
         (r: any) => r == null || r.isValid,
         "Hyphenated zones should either be rejected by regex or normalized by Luxon",
       );
+    });
+  });
+
+  describe("parseTimezoneOffsetToMinutes()", () => {
+    it("parses +08:00 to 480", () => {
+      expect(parseTimezoneOffsetToMinutes("+08:00")).to.eql(480);
+    });
+
+    it("parses -05:30 to -330", () => {
+      expect(parseTimezoneOffsetToMinutes("-05:30")).to.eql(-330);
+    });
+
+    it("parses UTC+8 to 480", () => {
+      expect(parseTimezoneOffsetToMinutes("UTC+8")).to.eql(480);
+    });
+
+    it("parses GMT-5 to -300", () => {
+      expect(parseTimezoneOffsetToMinutes("GMT-5")).to.eql(-300);
+    });
+
+    it("parses Z to 0", () => {
+      expect(parseTimezoneOffsetToMinutes("Z")).to.eql(0);
+    });
+
+    it("parses UTC to 0", () => {
+      expect(parseTimezoneOffsetToMinutes("UTC")).to.eql(0);
+    });
+
+    it("parses archaic Ireland offset -00:25:21", () => {
+      const result = parseTimezoneOffsetToMinutes("-00:25:21");
+      expect(result).to.be.closeTo(-25.35, 0.01);
+    });
+
+    it("handles Unicode minus sign (U+2212)", () => {
+      expect(parseTimezoneOffsetToMinutes("−08:00")).to.eql(-480);
+    });
+
+    it("returns undefined for invalid input", () => {
+      expect(parseTimezoneOffsetToMinutes("invalid")).to.eql(undefined);
+      expect(parseTimezoneOffsetToMinutes("")).to.eql(undefined);
+      expect(parseTimezoneOffsetToMinutes("+25:00")).to.eql(undefined);
+    });
+  });
+
+  describe("TimezoneOffsetRE", () => {
+    it("matches Z", () => {
+      const match = TimezoneOffsetRE.exec("Z");
+      expect(match?.groups?.tz_utc).to.eql("Z");
+    });
+
+    it("matches UTC", () => {
+      const match = TimezoneOffsetRE.exec("UTC");
+      expect(match?.groups?.tz_utc).to.eql("UTC");
+    });
+
+    it("matches GMT", () => {
+      const match = TimezoneOffsetRE.exec("GMT");
+      expect(match?.groups?.tz_utc).to.eql("GMT");
+    });
+
+    it("matches +08:00", () => {
+      const match = TimezoneOffsetRE.exec("+08:00");
+      expect(match?.groups?.tz_sign).to.eql("+");
+      expect(match?.groups?.tz_hours).to.eql("08");
+      expect(match?.groups?.tz_minutes).to.eql("00");
+    });
+
+    it("matches -05:30", () => {
+      const match = TimezoneOffsetRE.exec("-05:30");
+      expect(match?.groups?.tz_sign).to.eql("-");
+      expect(match?.groups?.tz_hours).to.eql("05");
+      expect(match?.groups?.tz_minutes).to.eql("30");
+    });
+
+    it("matches offset without minutes (+8)", () => {
+      const match = TimezoneOffsetRE.exec("+8");
+      expect(match?.groups?.tz_sign).to.eql("+");
+      expect(match?.groups?.tz_hours).to.eql("8");
+      expect(match?.groups?.tz_minutes).to.eql(undefined);
+    });
+
+    it("can be used in larger patterns", () => {
+      const dateTimeRE = new RegExp(
+        `(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})${TimezoneOffsetRE.source}`,
+      );
+      const match = dateTimeRE.exec("2023-01-15T10:30:00-08:00");
+      expect(match).to.not.eql(null);
+      expect(match?.[1]).to.eql("2023");
+      expect(match?.groups?.tz_sign).to.eql("-");
+      expect(match?.groups?.tz_hours).to.eql("08");
+    });
+  });
+
+  describe("parseTimezoneOffsetMatch()", () => {
+    it("parses UTC match", () => {
+      const match = TimezoneOffsetRE.exec("UTC");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: 0, isUtc: true });
+    });
+
+    it("parses Z match", () => {
+      const match = TimezoneOffsetRE.exec("Z");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: 0, isUtc: true });
+    });
+
+    it("parses +08:00 match", () => {
+      const match = TimezoneOffsetRE.exec("+08:00");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: 480, isUtc: false });
+    });
+
+    it("parses -05:30 match", () => {
+      const match = TimezoneOffsetRE.exec("-05:30");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: -330, isUtc: false });
+    });
+
+    it("parses +8 (no minutes) match", () => {
+      const match = TimezoneOffsetRE.exec("+8");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: 480, isUtc: false });
+    });
+
+    it("returns undefined for null match", () => {
+      expect(parseTimezoneOffsetMatch(null)).to.eql(undefined);
+    });
+
+    it("handles Unicode minus sign (U+2212)", () => {
+      const match = TimezoneOffsetRE.exec("−08:00");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: -480, isUtc: false });
     });
   });
 });

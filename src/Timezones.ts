@@ -103,15 +103,11 @@ export type TimezoneOffset = (
   | typeof ArchaicTimezoneOffsets
 )[number];
 
-function offsetToMinutes(offset: string): number {
-  // Extract sign from string to handle "-00:25:21" correctly (negative zero)
-  const sign = offset.startsWith("-") ? -1 : 1;
-  const parts = offset.replace(/^[+-]/, "").split(":").map(Number);
-  const [h, m = 0, s = 0] = parts as [number, number?, number?];
-  return sign * (h * 60 + m + s / 60);
-}
-
-const validOffsetMinutes = lazy<Set<number>>(() => {
+/**
+ * Get all valid timezone offset minutes based on current settings.
+ * Used by both validOffsetMinutes (Set) and likelyOffsetMinutes (Array).
+ */
+function getValidOffsetMinutes(): number[] {
   const offsets: string[] = [...ValidTimezoneOffsets];
   if (Settings.allowArchaicTimezoneOffsets.value) {
     offsets.push(...ArchaicTimezoneOffsets);
@@ -119,17 +115,24 @@ const validOffsetMinutes = lazy<Set<number>>(() => {
   if (Settings.allowBakerIslandTime.value) {
     offsets.push("-12:00");
   }
-  return new Set(offsets.map(offsetToMinutes));
-});
+  return offsets.map(parseTimezoneOffsetToMinutes).filter(isNumber);
+}
 
-// Invalidate cache when relevant settings change
-Settings.allowArchaicTimezoneOffsets.onChange(() => {
-  validOffsetMinutes.clear();
-});
+const validOffsetMinutes = lazy<Set<number>>(
+  () => new Set(getValidOffsetMinutes()),
+);
 
-Settings.allowBakerIslandTime.onChange(() => {
+// Used for fuzzy matching in inferLikelyOffsetMinutes
+const likelyOffsetMinutes = lazy<number[]>(() => getValidOffsetMinutes());
+
+// Invalidate both caches when relevant settings change
+function clearOffsetCaches() {
   validOffsetMinutes.clear();
-});
+  likelyOffsetMinutes.clear();
+}
+
+Settings.allowArchaicTimezoneOffsets.onChange(clearOffsetCaches);
+Settings.allowBakerIslandTime.onChange(clearOffsetCaches);
 
 /**
  * Zone instances with this offset are a placeholder for being "unset".
@@ -151,11 +154,16 @@ const Zulus = [
   FixedOffsetZone.utcInstance,
   0,
   -0,
+  "0", // String zero - some systems output this for numeric offsets
   "UTC",
   "GMT",
   "Z",
+  "Etc/UTC", // Valid IANA timezone name for UTC
   "+0",
+  "+00",
+  "-00",
   "+00:00",
+  "-00:00",
   "UTC+0",
   "GMT+0",
   "UTC+00:00",
@@ -192,7 +200,7 @@ export function isUTC(zone: unknown): boolean {
   if (typeof zone === "string" || typeof zone === "number") {
     return Zulus.includes(zone as string | number);
   }
-  if (zone instanceof Zone) {
+  if (isZone(zone)) {
     return zone.isUniversal && zone.offset(Date.now()) === 0;
   }
   return false;
@@ -218,8 +226,12 @@ export function isUTC(zone: unknown): boolean {
  * isZoneUnset(Info.normalizeZone("UTC+8"))  // false
  * ```
  */
-export function isZoneUnset(zone: Zone): boolean {
-  return zone.isUniversal && zone.offset(0) === UnsetZoneOffsetMinutes;
+export function isZoneUnset(zone: unknown): boolean {
+  return (
+    isZone(zone) &&
+    zone.isUniversal &&
+    zone.offset(0) === UnsetZoneOffsetMinutes
+  );
 }
 
 /**
@@ -251,12 +263,16 @@ export function isZoneUnset(zone: Zone): boolean {
  * ```
  */
 export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
-  return (
-    zone != null &&
-    zone.isValid &&
-    !isZoneUnset(zone) &&
-    Math.abs(zone.offset(Date.now())) < 14 * 60
-  );
+  // Note: isZone() already verifies zone.isValid
+  if (!isZone(zone) || isZoneUnset(zone)) {
+    return false;
+  }
+  // For fixed offset zones, verify the offset is in our valid set
+  if (zone.isUniversal) {
+    return validTzOffsetMinutes(zone.offset(Date.now()));
+  }
+  // For IANA zones, we trust that Luxon has validated them
+  return true;
 }
 
 /**
@@ -284,9 +300,11 @@ export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
  * isZone(null)                       // false
  * ```
  */
-export function isZone(zone: unknown): zone is Zone {
+export function isZone(zone: unknown): zone is Zone<true> {
   return (
-    isObject(zone) && (zone instanceof Zone || zone.constructor.name === "Zone")
+    isObject(zone) &&
+    (zone instanceof Zone || zone.constructor.name === "Zone") &&
+    (zone as Zone).isValid
   );
 }
 
@@ -301,22 +319,133 @@ export const defaultVideosToUTC = "defaultVideosToUTC";
 // "WET" and "W-SU" are full TZs (!!!), and "America/Indiana/Indianapolis" is
 // also a thing.
 const IanaFormatRE = /^\w{2,15}(?:\/\w{3,15}){0,2}$/;
-// Luxon requires fixed-offset zones to look like "UTC+H", "UTC-H",
-// "UTC+H:mm", "UTC-H:mm":
-// Also handles Unicode minus (−, U+2212)
-const FixedFormatRE = /^UTC(?<sign>[+−-])(?<hours>\d+)(?::(?<minutes>\d{2}))?$/;
+
+const OffsetStringRE =
+  /^(?:UTC|GMT)?(?<sign>[+−-])(?<hours>\d{1,2})(?::(?<minutes>\d{2})(?::(?<seconds>\d{2}))?)?$/;
+
 const MinusRE = /[−-]/;
 
-function parseFixedOffset(str: string): Maybe<number> {
-  const match = FixedFormatRE.exec(str)?.groups;
-  if (match == null) return;
+/**
+ * Composable regex pattern for matching timezone offsets.
+ *
+ * Designed for embedding in larger patterns (no ^ or $ anchors).
+ * Matches UTC/GMT/Z or signed offsets like +08:00, -05:30.
+ *
+ * Named capture groups:
+ * - `tz_utc`: Matches "Z", "UTC", or "GMT"
+ * - `tz_sign`: The sign character (+, -, or Unicode minus −)
+ * - `tz_hours`: Hour offset (1-2 digits)
+ * - `tz_minutes`: Optional minute offset (2 digits)
+ *
+ * @example
+ * ```typescript
+ * // Concatenate with other patterns
+ * const dateTimeRE = new RegExp(
+ *   `(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})${TimezoneOffsetRE.source}`
+ * )
+ *
+ * // Use standalone
+ * const match = TimezoneOffsetRE.exec("2023-01-15T10:30:00-08:00")
+ * if (match?.groups) {
+ *   const { tz_sign, tz_hours, tz_minutes } = match.groups
+ *   // tz_sign = "-", tz_hours = "08", tz_minutes = "00"
+ * }
+ * ```
+ */
+export const TimezoneOffsetRE =
+  /(?:(?<tz_utc>Z|UTC|GMT)|(?<tz_sign>[+−-])(?<tz_hours>[01]?\d)(?::(?<tz_minutes>\d\d))?)/;
 
-  const h = toInt(match.hours);
-  const m = toInt(match.minutes) ?? 0;
+/**
+ * Result of parsing a timezone offset regex match.
+ */
+export interface TimezoneOffsetMatch {
+  /** Offset in minutes (e.g., 480 for UTC+8, -300 for UTC-5) */
+  offsetMinutes: number;
+  /** Whether this was a UTC/GMT/Z match */
+  isUtc: boolean;
+}
+
+/**
+ * Parse timezone offset from a regex match result.
+ *
+ * Use with {@link TimezoneOffsetRE} to extract offset minutes from a match.
+ *
+ * @param match - RegExp exec result from TimezoneOffsetRE
+ * @returns Parsed offset info, or undefined if match is invalid
+ *
+ * @example
+ * ```typescript
+ * const match = TimezoneOffsetRE.exec("2023-01-15T10:30:00-08:00")
+ * const result = parseTimezoneOffsetMatch(match)
+ * // { offsetMinutes: -480, isUtc: false }
+ * ```
+ */
+export function parseTimezoneOffsetMatch(
+  match: RegExpExecArray | null,
+): Maybe<TimezoneOffsetMatch> {
+  if (match?.groups == null) return;
+  const { tz_utc, tz_sign, tz_hours, tz_minutes } = match.groups;
+
+  if (tz_utc != null) {
+    return { offsetMinutes: 0, isUtc: true };
+  }
+
+  if (tz_sign == null || tz_hours == null) return;
+
+  const h = toInt(tz_hours);
+  const m = toInt(tz_minutes) ?? 0;
   if (h == null || h < 0 || h > 14 || m < 0 || m >= 60) return;
+
+  const signValue = MinusRE.test(tz_sign) ? -1 : 1;
+  return {
+    offsetMinutes: signValue * (h * 60 + m),
+    isUtc: false,
+  };
+}
+
+/**
+ * Parse a timezone offset string to offset minutes.
+ *
+ * Accepts multiple formats:
+ * - ISO 8601: "+08:00", "-05:30", "Z"
+ * - Luxon format: "UTC+8", "GMT-5"
+ * - UTC variants: "UTC", "GMT", "Zulu"
+ *
+ * Supports seconds for archaic offsets like "-00:25:21" (Ireland 1880-1916).
+ *
+ * **Note:** Does NOT validate that the offset is a real-world timezone offset.
+ * Use {@link validTzOffsetMinutes} for validation.
+ *
+ * @param str - Timezone offset string
+ * @returns Offset in minutes, or undefined if invalid
+ *
+ * @example
+ * ```typescript
+ * parseTimezoneOffsetToMinutes("+08:00")     // 480
+ * parseTimezoneOffsetToMinutes("UTC-5")      // -300
+ * parseTimezoneOffsetToMinutes("Z")          // 0
+ * parseTimezoneOffsetToMinutes("-00:25:21")  // -25.35 (archaic Ireland)
+ * parseTimezoneOffsetToMinutes("invalid")   // undefined
+ * ```
+ */
+export function parseTimezoneOffsetToMinutes(str: string): Maybe<number> {
+  if (isUTC(str)) return 0;
+
+  const match = OffsetStringRE.exec(str);
+  if (match?.groups == null) return;
+
+  const { hours, minutes, seconds, sign } = match.groups;
+  if (hours == null || sign == null) return;
+
+  const h = toInt(hours);
+  const m = toInt(minutes) ?? 0;
+  const s = toInt(seconds) ?? 0;
+  if (h == null || h < 0 || h > 14 || m < 0 || m >= 60 || s < 0 || s >= 60)
+    return;
+
   // Handle both ASCII minus (-) and Unicode minus (−, U+2212)
-  const result = (MinusRE.test(match.sign ?? "") ? -1 : 1) * (h * 60 + m);
-  return (validOffsetMinutes().has(result) ? result : undefined) ?? undefined;
+  const signValue = MinusRE.test(sign) ? -1 : 1;
+  return signValue * (h * 60 + m + s / 60);
 }
 
 /**
@@ -363,6 +492,9 @@ function parseFixedOffset(str: string): Maybe<number> {
  * // Invalid inputs return undefined
  * normalizeZone("invalid")     // undefined
  * normalizeZone("+25:00")      // undefined (beyond ±14 hours)
+ * normalizeZone(1200)          // undefined (20 hours, beyond ±14 hours)
+ * normalizeZone(100)           // undefined (not a valid timezone offset)
+ * normalizeZone(-1)            // undefined (UnsetZone sentinel)
  * normalizeZone(null)          // undefined
  * ```
  */
@@ -370,7 +502,10 @@ export function normalizeZone(input: unknown): Maybe<Zone> {
   if (
     input == null ||
     blank(input) ||
-    (!isNumber(input) && !isString(input) && !isZone(input))
+    (!isNumber(input) && !isString(input) && !isZone(input)) ||
+    input === UnsetZone ||
+    input === UnsetZoneOffsetMinutes ||
+    isZoneUnset(input)
   ) {
     return;
   }
@@ -379,9 +514,17 @@ export function normalizeZone(input: unknown): Maybe<Zone> {
   try {
     // This test and short-circuit may not be necessary, but it's cheap and
     // explicit:
-    if (isUTC(input)) return FixedOffsetZone.utcInstance;
+    if (isUTC(input)) {
+      return FixedOffsetZone.utcInstance;
+    }
 
+    // TypeScript-friendly: after line 386's type check, we know input is one of these
     let z: string | number | Zone = input;
+
+    if (isNumber(z) && !validTzOffsetMinutes(z)) {
+      return;
+    }
+
     if (isString(z)) {
       let s: string = z;
       z = s = s.replace(/^(?:Zulu|Z|GMT)(?:\b|$)/i, "UTC");
@@ -391,8 +534,8 @@ export function normalizeZone(input: unknown): Maybe<Zone> {
 
       if (blank(s)) return;
 
-      const fixed = parseFixedOffset(s);
-      if (fixed != null) {
+      const fixed = parseTimezoneOffsetToMinutes(s);
+      if (fixed != null && validTzOffsetMinutes(fixed)) {
         return Info.normalizeZone(fixed);
       }
 
@@ -886,30 +1029,6 @@ export function extractTzOffsetFromTimeStamp(
   return;
 }
 
-// timezone offsets may be on a 15 minute boundary, but if GPS acquisition is
-// old, this can be spurious. We get less mistakes with a larger multiple, so
-// we're using 30 minutes instead of 15. See
-// https://www.timeanddate.com/time/time-zones-interesting.html
-const likelyOffsetMinutes = lazy<number[]>(() => {
-  const offsets: string[] = [...ValidTimezoneOffsets];
-  if (Settings.allowArchaicTimezoneOffsets.value) {
-    offsets.push(...ArchaicTimezoneOffsets);
-  }
-  if (Settings.allowBakerIslandTime.value) {
-    offsets.push("-12:00");
-  }
-  return offsets.map(offsetToMinutes);
-});
-
-// Invalidate cache when relevant settings change
-Settings.allowArchaicTimezoneOffsets.onChange(() => {
-  likelyOffsetMinutes.clear();
-});
-
-Settings.allowBakerIslandTime.onChange(() => {
-  likelyOffsetMinutes.clear();
-});
-
 /**
  * Round an arbitrary offset to the nearest valid timezone offset.
  *
@@ -966,14 +1085,16 @@ Settings.allowBakerIslandTime.onChange(() => {
  * ```
  */
 export function inferLikelyOffsetMinutes(
-  deltaMinutes: number,
+  deltaMinutes: Maybe<number>,
   maxValidOffsetMinutes = Settings.maxValidOffsetMinutes.value,
 ): Maybe<number> {
-  return leastBy(likelyOffsetMinutes(), (ea) => {
-    const diff = Math.abs(ea - deltaMinutes);
-    // Reject timezone offsets more than maxValidOffsetMinutes minutes away:
-    return diff > maxValidOffsetMinutes ? undefined : diff;
-  });
+  return deltaMinutes == null
+    ? undefined
+    : leastBy(likelyOffsetMinutes(), (ea) => {
+        const diff = Math.abs(ea - deltaMinutes);
+        // Reject timezone offsets more than maxValidOffsetMinutes minutes away:
+        return diff > maxValidOffsetMinutes ? undefined : diff;
+      });
 }
 
 /**
