@@ -40,7 +40,9 @@
       "Bash(find:*)",
       "Bash(for tag in \"0x010f\" \"0x0110\" \"0x829a\" \"0x829d\" \"0x8827\" \"0x920a\" \"0xa434\" \"0xa435\")",
       "Bash(do echo \"=== Tag $tag ===\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(git stash:*)",
+      "Bash(node -e:*)"
     ],
     "deny": [],
     "ask": [],
