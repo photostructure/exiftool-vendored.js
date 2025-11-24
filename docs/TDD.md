@@ -8,7 +8,7 @@
 
 ## Principles
 
-- **Tests define behavior**: Write tests first to clarify *what* code should do before *how*
+- **Tests define behavior**: Write tests first to clarify _what_ code should do before _how_
 - **No Mocks**: Use real ExifTool and actual image files
 - **Integration focus**: Test the full stack, not isolated units
 - **Refactoring may not need new tests**: If coverage exists, just refactor and re-run
