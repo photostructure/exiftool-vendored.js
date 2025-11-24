@@ -35,6 +35,13 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v33.4.0
+
+- ✨ Export `TimezoneOffsetRE`, `parseTimezoneOffsetMatch`, `parseTimezoneOffsetToMinutes`, and `TimezoneOffsetMatch` type for composable timezone parsing
+- ✨ `normalizeZone` now accepts numeric offset minutes (e.g., `480` → `UTC+8`)
+- ✨ `isUTC` now recognizes additional variants: `"0"`, `"Etc/UTC"`, `"-00"`, `"-00:00"`, `"+00"`
+- 🐞 `isZone` now only returns `true` for valid zones
+
 ### v33.3.0
 
 - ✨ Export timezone utility functions: `extractZone`, `extractTzOffsetFromTags`, `extractTzOffsetFromUTCOffset`, `normalizeZone`, `inferLikelyOffsetMinutes`, `isUTC`, `isZone`, `isZoneValid`, `isZoneUnset`, `validTzOffsetMinutes`, `zoneToShortOffset`, `equivalentZones`
