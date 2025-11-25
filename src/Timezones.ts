@@ -303,6 +303,7 @@ export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
 export function isZone(zone: unknown): zone is Zone<true> {
   return (
     isObject(zone) &&
+    // Handle cross-module Zone instances:
     (zone instanceof Zone || zone.constructor.name === "Zone") &&
     (zone as Zone).isValid
   );
