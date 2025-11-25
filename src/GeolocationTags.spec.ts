@@ -189,8 +189,9 @@ describe("GeolocationTags", function () {
     after(() => end(et));
 
     // Expected values when reading pixel.jpg with geolocation enabled
-    // Note: GeolocationPosition format differs from raw exiftool output
-    // (ExifTool class normalizes "lat, lon" to "lat lon")
+    // Note: GeolocationPosition format differs from raw exiftool output because
+    // numericTags includes GeolocationPosition, so ExifTool uses -Tag# which
+    // returns "lat lon" instead of "lat, lon"
     const pixelJpgExpected: ExpectedGeolocationTags = {
       GeolocationBearing: 318,
       GeolocationCity: "El Granada",
