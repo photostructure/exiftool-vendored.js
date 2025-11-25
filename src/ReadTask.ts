@@ -12,7 +12,7 @@ import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
 import { ExifToolTask } from "./ExifToolTask";
 import { compareFilePaths } from "./File";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
-import { parseGPSLocation } from "./GPS";
+import { GpsLocationTags, parseGPSLocation } from "./GPS";
 import { lazy } from "./Lazy";
 import { Maybe } from "./Maybe";
 import { isNumber } from "./Number";
@@ -251,7 +251,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     () => this.#extractGpsMetadata()?.invalid ?? false,
   );
 
-  #gpsResults = lazy<Record<string, unknown>>(() =>
+  #gpsResults = lazy<GpsLocationTags>(() =>
     this.#gpsIsInvalid() ? {} : (this.#extractGpsMetadata()?.result ?? {}),
   );
 
@@ -329,12 +329,16 @@ export class ReadTask extends ExifToolTask<Tags> {
         return value;
       }
       if (tagName.startsWith("GPS") || tagName.startsWith("Geolocation")) {
-        if (this.#gpsIsInvalid()) return undefined;
-
-        // If we parsed out a better value, use that:
-        const parsed = this.#gpsResults()[tagName];
-        if (parsed != null) return parsed;
-
+        if (this.#gpsIsInvalid()) {
+          // No GPS data should be trusted!
+          return undefined;
+        }
+        const gpsResult =
+          this.#gpsResults()?.[tagName as keyof GpsLocationTags];
+        if (gpsResult != null) {
+          // If we parsed out a better value, use that:
+          return gpsResult;
+        }
         // Otherwise, parse the raw value like any other tag: (It might be
         // something like "GPSTimeStamp"):
       }
