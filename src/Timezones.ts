@@ -276,7 +276,7 @@ export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
 }
 
 /**
- * Type guard to check if a value is a Luxon Zone instance.
+ * Type guard to check if a value is a **valid** Luxon Zone instance.
  *
  * Checks both `instanceof Zone` and constructor name to handle cross-module
  * Zone instances that may not pass instanceof checks.
@@ -300,12 +300,20 @@ export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
  * isZone(null)                       // false
  * ```
  */
-export function isZone(zone: unknown): zone is Zone<true> {
+export function isZone(value: unknown): value is Zone<true> {
+  if (!isObject(value)) return false;
+
+  if (value instanceof Zone) {
+    return value.isValid;
+  }
+
+  // Duck-typing fallback for cross-module Zone instances
+  const z = value as Zone;
   return (
-    isObject(zone) &&
-    // Handle cross-module Zone instances:
-    (zone instanceof Zone || zone.constructor.name === "Zone") &&
-    (zone as Zone).isValid
+    z.isValid === true &&
+    // These are the Zone properties/methods we care about:
+    typeof z.isUniversal === "boolean" &&
+    typeof z.formatOffset === "function"
   );
 }
 
