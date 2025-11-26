@@ -280,7 +280,7 @@ export function isZoneValid(zone: Maybe<Zone>): zone is Zone<true> {
  * Checks both `instanceof Zone` and constructor name to handle cross-module
  * Zone instances that may not pass instanceof checks.
  *
- * @param zone - Value to check
+ * @param value - Value to check
  * @returns true if the value is a Zone instance (type guard)
  *
  * @example
