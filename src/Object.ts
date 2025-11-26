@@ -1,9 +1,23 @@
 import { Nullable } from "./Maybe";
-
+/**
+ * Type guard that checks if a value is a non-null, non-array object.
+ *
+ * @param obj - The value to check
+ * @returns `true` if `obj` is a plain object (not null, not an array)
+ */
 export function isObject(obj: unknown): obj is object {
-  return typeof obj === "object" && obj !== null;
+  return obj != null && typeof obj === "object" && !Array.isArray(obj);
 }
 
+/**
+ * Returns an array of own enumerable string keys from an object.
+ *
+ * Unlike `Object.keys`, this filters to only own enumerable properties and
+ * returns an empty array for null/undefined inputs.
+ *
+ * @param o - The object to extract keys from
+ * @returns Array of own enumerable string keys, or empty array if `o` is nullish
+ */
 export function keys<T extends object, K extends string & keyof T>(o: T): K[] {
   return o == null
     ? []
@@ -12,6 +26,12 @@ export function keys<T extends object, K extends string & keyof T>(o: T): K[] {
       ) as K[]);
 }
 
+/**
+ * Type guard that checks if a value is a function.
+ *
+ * @param obj - The value to check
+ * @returns `true` if `obj` is a function
+ */
 export function isFunction(
   obj: unknown,
 ): obj is (...args: unknown[]) => unknown {
@@ -39,8 +59,21 @@ export function fromEntries<K extends PropertyKey, V = unknown>(
   return base;
 }
 
+/**
+ * Utility type that removes specified keys from a type by setting their values to `never`.
+ *
+ * @typeParam T - The source object type
+ * @typeParam U - The keys to exclude
+ */
 export type Unpick<T, U> = { [P in keyof T]: P extends U ? never : T[P] };
 
+/**
+ * Returns a shallow copy of an object with the specified keys omitted.
+ *
+ * @param t - The source object
+ * @param keysToOmit - Keys to exclude from the result
+ * @returns A new object without the specified keys
+ */
 export function omit<T extends object, S extends string>(
   t: T,
   ...keysToOmit: S[]
