@@ -1,9 +1,8 @@
 import { Maybe, Nullable } from "./Maybe";
-import { isObject } from "./Object";
 import { isString } from "./String";
 
 export function isIterable(obj: unknown): obj is Iterable<unknown> {
-  return (isObject(obj) && Symbol.iterator in obj) || Array.isArray(obj);
+  return (obj != null && typeof obj === "object" && Symbol.iterator in obj);
 }
 
 export function ifArray<T = unknown>(arr: T[] | unknown): Maybe<T[]> {
