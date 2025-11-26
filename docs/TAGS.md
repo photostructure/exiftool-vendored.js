@@ -159,7 +159,7 @@ tags.  // <-- IDE shows all available tags with descriptions
 
 ### 3. Check the Documentation
 
-1. Visit the [online API docs](https://photostructure.github.io/exiftool-vendored.js/interfaces/Tags.html) to browse all available tags with examples.
+1. Visit the [online API docs](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.Tags.html) to browse all available tags with examples.
 
 2. Refer to the [excellent ExifTool documentation](https://exiftool.org/TagNames/index.html). Start with the [EXIF](https://exiftool.org/TagNames/EXIF.html), [IPTC](https://exiftool.org/TagNames/IPTC.html), and [XMP](https://exiftool.org/TagNames/XMP.html) groups -- those are the most common.
 
@@ -215,7 +215,7 @@ const timestamp = tags.DateTimeOriginal ?? tags.DateTime ?? tags.FileModifyDate;
 
 ### Error Handling
 
-Check for parsing [errors and warnings](https://photostructure.github.io/exiftool-vendored.js/interfaces/ErrorsAndWarnings.html) in the returned `Tags` object:
+Check for parsing [errors and warnings](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.ErrorsAndWarnings.html) in the returned `Tags` object:
 
 ```typescript
 // const tags = await exiftool.read("photo.jpg");p

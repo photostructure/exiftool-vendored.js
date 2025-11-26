@@ -82,7 +82,7 @@ vendored versions of ExifTool match the version that they vendor.
 ### v32.0.1
 
 - 💔 Archaic timezones are no longer supported by default. If you have relevant (old) digital media, set `Settings.allowArchaicTimezoneOffsets.value = true`.
-- 💔 [useMWG](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.ExifToolOptions.html#usemwg) now defaults to `true`, the ExifTool recommendation. See [the ExifTool page](https://exiftool.org/TagNames/MWG.html) for more details.
+- 💔 ExifToolOptions.useMWG now defaults to `true`, the ExifTool recommendation. See [the ExifTool page](https://exiftool.org/TagNames/MWG.html) for more details.
 - ✨ Added **Settings** for global library configuration. See [CONFIGURATION](https://photostructure.github.io/exiftool-vendored.js/documents/docs_CONFIGURATION.html) for details.
 - 📦 `MakerNotes.AspectRatio` was restored to the Tags union
 - 📦 `ExifTool.readRaw()` now accepts the option `useMWG` (which also defaults to `true`) and has a signature that matches `read()`.
@@ -204,9 +204,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🌱 Upgraded ExifTool to version [13.25](https://exiftool.org/history.html#13.25).
 
-- ✨ [ExifTool.write](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#write) now supports `boolean` field values. Thanks for the [suggestion](https://github.com/photostructure/exiftool-vendored.js/issues/228), [Kira-Kitsune](https://github.com/Kira-Kitsune).
+- ✨ ExifTool.write() now supports `boolean` field values. Thanks for the [suggestion](https://github.com/photostructure/exiftool-vendored.js/issues/228), [Kira-Kitsune](https://github.com/Kira-Kitsune).
 
-- 📦 Updated the default for [maxProcs](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#maxprocs) to use [availableParallelism](https://nodejs.org/api/os.html#osavailableparallelism) where available.
+- 📦 Updated the default for ExifToolOptions.maxProcs to use [availableParallelism](https://nodejs.org/api/os.html#osavailableparallelism) where available.
 
 ### v29.1.0
 
@@ -333,7 +333,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v26.2.0
 
-- ✨ Support for all ExifTool `struct` modes (fixes [#184](https://github.com/photostructure/exiftool-vendored.js/issues/184)). See [ExifToolOptions.struct](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#struct) for details.
+- ✨ Support for all ExifTool `struct` modes (fixes [#184](https://github.com/photostructure/exiftool-vendored.js/issues/184)). See ExifToolOptions.struct for details.
 
 - 📦 Fix documentation to reference ExifTool.read() (fixes [#183](https://github.com/photostructure/exiftool-vendored.js/issues/183))
 
@@ -347,7 +347,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🌱/✨ ExifTool upgraded to [v12.84](https://exiftool.org/history.html#12.84)
 
-- 📦 Support **disabling** `-ignoreMinorErrors` to work around shenanigans like [#181](https://github.com/photostructure/exiftool-vendored.js/issues/181). This is an optional field that defaults to prior behavior (enabled, which ignores minor errors, which is normally desired, _but has some side effects like fully reading tags that may be extremely long_). See [ExifToolOptions.ignoreMinorErrors](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#ignoreMinorErrors) for details.
+- 📦 Support **disabling** `-ignoreMinorErrors` to work around shenanigans like [#181](https://github.com/photostructure/exiftool-vendored.js/issues/181). This is an optional field that defaults to prior behavior (enabled, which ignores minor errors, which is normally desired, _but has some side effects like fully reading tags that may be extremely long_). See ExifToolOptions.ignoreMinorErrors for details.
 
 - 📦 ExifTool on Windows was upgraded to Strawberry Perl 5.32.1
 
@@ -362,7 +362,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v25.1.0
 
-- ✨ Added `retain` field to [`ExifTool.deleteAllTags`](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#deleteAllTags) to address [#178](https://github.com/photostructure/exiftool-vendored.js/issues/178)
+- ✨ Added `retain` field to ExifTool.deleteAllTags() to address [#178](https://github.com/photostructure/exiftool-vendored.js/issues/178)
 
 - 📦 Added jsdocs for many `Tag` interface types
 
@@ -378,15 +378,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 - ✨ `ExifToolOptions.exiftoolPath` can now be an `async` function
 
-- ✨ Added [Geolocation](https://photostructure.github.io/exiftool-vendored.js/interfaces/GeolocationTags.html) Tags. These will only be available if `{geolocation: true}` is passed to the [ExifTool constructor](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#constructor).
+- ✨ Added [Geolocation](https://exiftool.org/geolocation.html) Tags. These will only be available if ExifToolOptions.geolocation is set to true when constructing a new ExifTool instance.
 
-- 📦 Added support for `electron-forge`: [see the docs for details](https://photostructure.github.io/exiftool-vendored.js/#md:electron-forge-support).
+- 📦 Added support for `electron-forge`: [see the docs for details](https://photostructure.github.io/exiftool-vendored.js/documents/docs_ELECTRON.html).
 
 ### v24.6.0
 
 - 🌱 ExifTool upgraded to [v12.78](https://exiftool.org/history.html#v12.78)
 
-- 📦 Added [ExifTool.off](https://photostructure.github.io/exiftool-vendored.js/classes/ExifTool.html#off)
+- 📦 Added ExifTool.off() for unregistering event listeners
 
 ### v24.5.0
 
@@ -404,7 +404,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🌱 ExifTool upgraded to [v12.72](https://exiftool.org/history.html#v12.72).
 
-- 📦 Relax GPS latitude/longitude parser to handle invalid Ref values (a warning will be appended to the [Tags.warnings field](https://photostructure.github.io/exiftool-vendored.js/interfaces/Tags.html#warnings)). See [#165](https://github.com/photostructure/exiftool-vendored.js/issues/165).
+- 📦 Relax GPS latitude/longitude parser to handle invalid Ref values (a warning will be appended to the Tags.warnings field. See [#165](https://github.com/photostructure/exiftool-vendored.js/issues/165).
 
 ### v24.2.0
 
@@ -412,7 +412,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v24.1.0
 
-- 📦 Relaxed `isWarning()` detection to be simply `/warning:/i`. v24.0.0 would throw errors when extracting binary thumbnails due to issues like "Warning: Ignored non-standard EXIF at TIFF-IFD0-JPEG-APP1-IFD0", which is decidedly a warning. `ExifTool.write` now leans (hard) on returning [`Tags.warnings`](https://photostructure.github.io/exiftool-vendored.js/interfaces/Tags.html#warnings) rather than throwing errors: **It is up to you to inspect `.warnings` and decide for your own usecase if the issue is exceptional**. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
+- 📦 Relaxed `isWarning()` detection to be simply `/warning:/i`. v24.0.0 would throw errors when extracting binary thumbnails due to issues like "Warning: Ignored non-standard EXIF at TIFF-IFD0-JPEG-APP1-IFD0", which is decidedly a warning. `ExifTool.write` now leans (hard) on returning Tags.warnings rather than throwing errors: **It is up to you to inspect `.warnings` and decide for your own usecase if the issue is exceptional**. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
 
 ### v24.0.0
 
@@ -475,7 +475,7 @@ vendored versions of ExifTool match the version that they vendor.
 ### v23.2.0
 
 - ✨ Timezone parsing improvements:
-  - Added [`ExifToolOptions.inferTimezoneFromDatestampTags`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#inferTimezoneFromDatestampTags).
+  - Added inferTimezoneFromDatestampTags().
   - Timezone inference from datestamps now skips over UTC values, as Google
     Takeout (and several other applications) may spuriously set "+00:00" to
     datestamps.
@@ -483,7 +483,7 @@ vendored versions of ExifTool match the version that they vendor.
     timezone. Code was refactored to do this in a single pass.
   - Timezone extraction and normalization was improved.
 
-- 📦 Add `creationDate` to [CapturedAtTagNames](https://photostructure.github.io/exiftool-vendored.js/variables/CapturedAtTagNames.html). [See PR#159](https://github.com/photostructure/exiftool-vendored.js/pull/159).
+- 📦 Add `creationDate` to `CapturedAtTagNames`. [See PR#159](https://github.com/photostructure/exiftool-vendored.js/pull/159).
 
 ### v23.1.0
 
@@ -547,9 +547,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 🌱 ExifTool upgraded to [v12.65](https://exiftool.org/history.html#v12.65)
 
-- ✨ Add support for new `ImageDataHash` tag: [See the docs for details](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#imageHashType).
+- ✨ Add support for new `ImageDataHash` tag.
 
-- 🐞 `perl` is checked for on non-windows machines at startup. This resolves [#152](https://github.com/photostructure/exiftool-vendored.js/issues/152). You can disable this with the [new `checkPerl` option](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#checkPerl).
+- 🐞 `perl` is checked for on non-windows machines at startup. This resolves [#152](https://github.com/photostructure/exiftool-vendored.js/issues/152). You can disable this with the new `checkPerl` ExifToolOption.
 
 ### v22.0.0
 
@@ -567,9 +567,9 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v21.5.0
 
-- ✨ Added support for ExifTool's [MWG Composite Tags](https://exiftool.org/TagNames/MWG.html). Set the new [`ExifToolOptions.useMWG`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#useMWG) option to `true` to enable.
+- ✨ Added support for ExifTool's [MWG Composite Tags](https://exiftool.org/TagNames/MWG.html). Set the new ExifToolOptions.useMWG option to `true` to enable.
 
-- ✨ Added support for ExifTool's new `ImageDataMD5` feature. Set the new [`ExifToolOptions.includeImageDataMD5`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifToolOptions.html#includeImageDataMD5) option to `true` to enable.
+- ✨ Added support for ExifTool's new `ImageDataMD5` feature. Set the new ExifToolOptions.includeImageDataMD5 option to `true` to enable.
 
 - 📦 Extracted options-related code into modules to remove a couple circular
   dependencies. Exports should make this transparent to external clients.
@@ -1277,8 +1277,8 @@ const exiftool = new ExifTool({
 
 ### v8.17.0
 
-- ✨ Automagick workaround for AWS Lambda. See [the new `ignoreShebang`
-  option](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html#ignoreshebang),
+- ✨ Automagick workaround for AWS Lambda. See the new `ExifToolOption.ignoreShebang`
+  option,
   which should automatically be set to `true` on non-Windows platforms that
   don't have `/usr/bin/perl` installed. [See
   #53](https://github.com/photostructure/exiftool-vendored.js/issues/53).
@@ -1505,7 +1505,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 ### v7.0.0: the "time zones & types are hard" edition
 
 - ✨ More robust time zone extraction: this required adding `luxon` and
-  `tz-lookup` as dependencies. See <https://photostructure.github.io/exiftool-vendored.js/#dates> for
+  `tz-lookup` as dependencies. See <https://photostructure.github.io/exiftool-vendored.js/documents/docs_DATES.html> for
   more information.
 
 - 💔 Tag types are now **unions** of seen types. Previous typings only included
@@ -1571,16 +1571,14 @@ most users won't be affected, unless you've been waiting for this feature!)
 
 - 🐞 Warnings work now, _and I even have a test to prove it_. 😳
 - ✨ Warning-vs-fatal errors can be configured via the new
-  [`minorErrorsRegExp`](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html#minorerrorsregexp)
+  `minorErrorsRegExp`
   constructor parameter, or if you need more flexibility, by providing a
-  [`rejectTaskOnStderr`](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html#rejecttaskonstderr)
+  `rejectTaskOnStderr`
   implementation to the ExifTool constructor.
 
 ### v6.1.0
 
-- ✨ Warnings are back! Non-fatal processing errors are added to the
-  [Tags.errors](https://photostructure.github.io/exiftool-vendored.js/interfaces/tags.html#errors)
-  field.
+- ✨ Warnings are back! Non-fatal processing errors are added to the Tags.errors field.
 - 📦 Pulled in new typedoc version and switched to "file" rendering, which seems
   to generate better docs. This unfortunately broke links to underlying jsdocs.
 
@@ -1592,11 +1590,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 
 ### v6.0.0
 
-- 💔 `ExifTool`'s many constructor parameters turned out to be quite unwieldy.
-  Version 6's [constructor](https://photostructure.github.io/exiftool-vendored.js/classes/exiftool.html#constructor) now takes an [options
-  hash](https://photostructure.github.io/exiftool-vendored.js/interfaces/exiftooloptions.html).
-  If you used the defaults, those haven't changed, and your code won't need to
-  change.
+- 💔 `ExifTool`'s many constructor parameters turned out to be quite unwieldy. Version 6's constructor now takes an options hash. If you used the defaults, those haven't changed, and your code won't need to change.
 - 💔 `ExifTool.enqueueTask` takes a Task thunk now, to enable cleaner task retry
   code. I don't expect many consumers will have used this API directly.
 - 🐞 In prior versions, when maxTasksPerProcess was reached, on some OSes, the
