@@ -262,21 +262,20 @@ export function isZoneUnset(zone: unknown): boolean {
  * isZoneValid(Info.normalizeZone("UTC+20"))   // false (beyond ±14 hours)
  * ```
  */
-export function isZoneValid(zone: Maybe<Zone>): zone is Zone {
-  // Note: isZone() already verifies zone.isValid
-  if (!isZone(zone) || isZoneUnset(zone)) {
-    return false;
-  }
-  // For fixed offset zones, verify the offset is in our valid set
-  if (zone.isUniversal) {
-    return validTzOffsetMinutes(zone.offset(Date.now()));
-  }
-  // For IANA zones, we trust that Luxon has validated them
-  return true;
+export function isZoneValid(zone: Maybe<Zone>): zone is Zone<true> {
+  // If the zone is not a
+  return (
+    isZone(zone) &&
+    !isZoneUnset(zone) &&
+    zone.isValid && // < this was already validated by isZone() but we're being explicit here
+    (!zone.isUniversal || validTzOffsetMinutes(zone.offset(Date.now()))) // < Assume Luxon will validate IANA zones, so it's only on us to check fixed-offset zones
+  );
 }
 
 /**
  * Type guard to check if a value is a **valid** Luxon Zone instance.
+ *
+ * Note that this **includes** the {@link UnsetZone} sentinel value.
  *
  * Checks both `instanceof Zone` and constructor name to handle cross-module
  * Zone instances that may not pass instanceof checks.
@@ -646,6 +645,8 @@ export function validTzOffsetMinutes(
 
 /**
  * Returns a "zone name" (used by `luxon`) that encodes the given offset.
+ * @param offsetMinutes - The timezone offset in minutes from UTC
+ * @returns The zone name (e.g., "UTC", "UTC+8", "UTC-5:30") or undefined if invalid
  */
 export function offsetMinutesToZoneName(
   offsetMinutes: Maybe<number>,
