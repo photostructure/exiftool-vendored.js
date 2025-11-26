@@ -1,14 +1,29 @@
 import { Maybe, Nullable } from "./Maybe";
 import { isString } from "./String";
 
+/**
+ * Type guard to check if a value is iterable.
+ * @param obj - value to check
+ * @returns true if the value is iterable
+ */
 export function isIterable(obj: unknown): obj is Iterable<unknown> {
-  return (obj != null && typeof obj === "object" && Symbol.iterator in obj);
+  return obj != null && typeof obj === "object" && Symbol.iterator in obj;
 }
 
+/**
+ * Returns the input if it's an array, otherwise undefined.
+ * @param arr - value to check
+ * @returns the array if input is an array, otherwise undefined
+ */
 export function ifArray<T = unknown>(arr: T[] | unknown): Maybe<T[]> {
   return Array.isArray(arr) ? arr : undefined;
 }
 
+/**
+ * Converts various input types to an array.
+ * @param arr - value to convert (array, iterable, single value, or nullish)
+ * @returns an array containing the input elements
+ */
 export function toArray<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
   return Array.isArray(arr) // < strings are not arrays
     ? (arr as T[])
@@ -21,13 +36,21 @@ export function toArray<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
           : [arr as T];
 }
 
+/**
+ * Removes null and undefined values from an array.
+ * @param array - array potentially containing nullish values
+ * @returns a new array with nullish values removed
+ */
 export function compact<T>(array: Nullable<T>[]): T[] {
   return array.filter((elem) => elem != null) as T[];
 }
 
 /**
  * Remove all elements from the given array that return false from the given
- * predicate `filter`.
+ * predicate `filter`. Mutates the original array.
+ * @param arr - the array to filter in place
+ * @param filter - predicate function returning true for elements to keep
+ * @returns the same array with non-matching elements removed
  */
 export function filterInPlace<T>(arr: T[], filter: (t: T) => boolean): T[] {
   let j = 0;
@@ -41,6 +64,11 @@ export function filterInPlace<T>(arr: T[], filter: (t: T) => boolean): T[] {
   return arr;
 }
 
+/**
+ * Returns a new array with duplicate values removed (preserves first occurrence).
+ * @param arr - the array to deduplicate
+ * @returns a new array with unique values
+ */
 export function uniq<T>(arr: T[]): T[] {
   return arr.reduce((acc, ea) => {
     if (acc.indexOf(ea) === -1) acc.push(ea);
@@ -48,7 +76,12 @@ export function uniq<T>(arr: T[]): T[] {
   }, [] as T[]);
 }
 
-// terrible implementation only for internal use
+/**
+ * Compares two arrays for shallow equality (same length and === elements).
+ * @param a - first array
+ * @param b - second array
+ * @returns true if arrays have same length and identical elements by reference
+ */
 export function shallowArrayEql(a: unknown[], b: unknown[]): boolean {
   return (
     a != null &&
@@ -103,6 +136,12 @@ function cmp(a: Maybe<Comparable>, b: Maybe<Comparable>): number {
   return a > b ? 1 : a < b ? -1 : 0;
 }
 
+/**
+ * Returns the element with the minimum comparable value.
+ * @param haystack - the array to search
+ * @param f - function to extract a comparable value from each element
+ * @returns the element with the minimum value, or undefined if array is empty
+ */
 export function leastBy<T>(
   haystack: T[],
   f: (t: T) => Maybe<Comparable>,

@@ -23,6 +23,14 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     super(args, options);
   }
 
+  /**
+   * Creates a task to extract a binary tag value to a file.
+   * @param tagname the tag containing the binary data (e.g., "ThumbnailImage", "PreviewImage")
+   * @param imgSrc the source image file path
+   * @param imgDest the destination file path for the extracted binary data
+   * @param options extraction options
+   * @returns a new BinaryExtractionTask instance
+   */
   static for(
     tagname: string,
     imgSrc: string,

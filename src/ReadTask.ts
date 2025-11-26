@@ -87,6 +87,7 @@ export class ReadTask extends ExifToolTask<Tags> {
    * @param sourceFile the file to read
    * @param args the full arguments to pass to exiftool that take into account
    * the flags in `options`
+   * @param options the required options for reading metadata
    */
   constructor(
     readonly sourceFile: string,
@@ -139,7 +140,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   override toString(): string {
-    return "ReadTask" + this.sourceFile + ")";
+    return "ReadTask(" + this.sourceFile + ")";
   }
 
   // only exposed for tests

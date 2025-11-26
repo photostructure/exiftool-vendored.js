@@ -46,7 +46,7 @@ export class ReadRawTask extends ExifToolTask<RawTags> {
   }
 
   override toString(): string {
-    return "ReadRawTask" + this.sourceFile + ")";
+    return "ReadRawTask(" + this.sourceFile + ")";
   }
 
   protected parse(data: string, err?: Error): RawTags {

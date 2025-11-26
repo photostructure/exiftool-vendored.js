@@ -276,13 +276,13 @@ export class ExifTool {
   #taskOptions = lazy(() => pick(this.options, "ignoreMinorErrors"));
 
   /**
-   * Register life cycle event listeners. Delegates to BatchProcess.
+   * Register life cycle event listeners. Delegates to BatchCluster.
    */
   readonly on: bc.BatchCluster["on"] = (event, listener) =>
     this.batchCluster.on(event, listener);
 
   /**
-   * Unregister life cycle event listeners. Delegates to BatchProcess.
+   * Unregister life cycle event listeners. Delegates to BatchCluster.
    */
   readonly off: bc.BatchCluster["off"] = (event, listener) =>
     this.batchCluster.off(event, listener);
@@ -603,7 +603,7 @@ export class ExifTool {
    *
    * @return a `Promise<void>`
    *
-   * @throws if the binary output not be written to `dest`.
+   * @throws if the binary output cannot be written to `dest`.
    */
   async extractBinaryTag(
     tagname: string,
@@ -717,7 +717,9 @@ export class ExifTool {
    * Most users will not need to use `enqueueTask` directly. This method
    * supports submitting custom `BatchCluster` tasks.
    *
-   * @param task is a thunk to support retries by providing new instances on retries.
+   * @param task a thunk to support retries by providing new instances on retries
+   * @param retriable whether to retry the task on failure (default: true)
+   * @returns a Promise resolving to the task result
    *
    * @see BinaryExtractionTask for an example task implementation
    */

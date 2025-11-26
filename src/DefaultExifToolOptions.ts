@@ -110,6 +110,9 @@ export const DefaultExifToolOptions: Omit<
 });
 
 /**
+ * Returns a timezone offset adjustment for Nikon cameras that set DaylightSavings.
+ * @param t - the tags to check for DaylightSavings and Make
+ * @returns 60 (minutes) if Nikon camera with DaylightSavings=true, otherwise undefined
  * @see https://github.com/photostructure/exiftool-vendored.js/issues/215
  */
 export function defaultAdjustTimeZoneIfDaylightSavings(

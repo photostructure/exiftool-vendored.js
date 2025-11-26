@@ -14,7 +14,7 @@ export function notBlank(s: unknown): s is string {
 }
 
 /**
- * @return true iff `s` is a string with at least one non-whitespace character.
+ * @returns true iff `s` is a string with at least one non-whitespace character.
  */
 export function notBlankString(s: unknown): s is string {
   return isString(s) && s.trim().length > 0;
@@ -76,7 +76,7 @@ export function stripSuffix(s: string, suffix: string): string {
 }
 
 /**
- * @return `arr` with all empty strings removed and all non-empty strings trimmed.
+ * @returns `arr` with all empty strings removed and all non-empty strings trimmed.
  */
 export function splitLines(...arr: string[]): string[] {
   return arr

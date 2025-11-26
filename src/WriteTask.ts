@@ -106,7 +106,15 @@ export interface WriteTaskResult {
   warnings?: string[];
 }
 
+/**
+ * Task for writing metadata tags to a file.
+ */
 export class WriteTask extends ExifToolTask<WriteTaskResult> {
+  /**
+   * @param sourceFile the file to write metadata to
+   * @param args the ExifTool arguments
+   * @param options task options
+   */
   constructor(
     readonly sourceFile: string,
     override readonly args: string[],
@@ -115,6 +123,13 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     super(args, options);
   }
 
+  /**
+   * Creates a WriteTask for the given file and tags.
+   * @param filename the file to write metadata to
+   * @param tags the metadata tags to write
+   * @param options write task options
+   * @returns a new WriteTask instance
+   */
   static for(
     filename: string,
     tags: WriteTags,

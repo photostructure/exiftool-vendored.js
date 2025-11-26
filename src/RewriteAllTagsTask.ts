@@ -3,11 +3,21 @@ import { compact } from "./Array";
 import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 
+/**
+ * Task for rewriting all metadata tags in a file, which can repair corrupted metadata.
+ */
 export class RewriteAllTagsTask extends ExifToolTask<void> {
   private constructor(args: string[], options: ExifToolTaskOptions) {
     super(args, options);
   }
 
+  /**
+   * Creates a task to rewrite all metadata tags from source to destination.
+   * @param imgSrc the source image file path
+   * @param imgDest the destination file path
+   * @param opts options including allowMakerNoteRepair for fixing corrupted MakerNote data
+   * @returns a new RewriteAllTagsTask instance
+   */
   static for(
     imgSrc: string,
     imgDest: string,

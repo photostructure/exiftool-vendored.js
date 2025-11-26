@@ -91,9 +91,9 @@ export function parseCoordinates(input: string): CoordinateResult {
 }
 
 /**
- * Parses a string containing one or more coordinates.
+ * Parses a string containing two coordinates (latitude and longitude).
  * @param input - String containing coordinates
- * @returns Array of parsed coordinates
+ * @returns Tuple of [latitude, longitude] coordinates
  */
 function parseStringCoordinates(input: string): [Coordinate, Coordinate] {
   if (!input?.trim()) {
@@ -111,7 +111,7 @@ function parseStringCoordinates(input: string): [Coordinate, Coordinate] {
 /**
  * Parses a coordinate string in decimal degrees format.
  * @param input - String containing a single coordinate
- * @returns Object containing degrees and direction, or undefined if parsing fails
+ * @returns Object containing decimal degrees and direction, or undefined if parsing fails
  * @throws CoordinateParseError if the format is not decimal degrees or direction is missing
  */
 export function parseDecimalCoordinate(
