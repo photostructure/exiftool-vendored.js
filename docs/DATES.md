@@ -88,14 +88,7 @@ const utcTime2 = tags.DateTimeUTC; // UTC timestamp
 
 ## Timezone Configuration
 
-For advanced timezone configuration options, including:
-
-- Enabling archaic timezone offsets for historical photographs
-- Configuring Baker Island Time (UTC-12:00) support
-- Customizing timezone inference heuristics
-- GPS-based timezone lookup
-
-See the [Configuration Guide](CONFIGURATION.md#timezone-configuration-options).
+For advanced timezone configuration options, see the [Configuration Guide](CONFIGURATION.md) and the [`ExifToolOptions`](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.ExifToolOptions.html) API reference.
 
 ## Working with Timezones
 
