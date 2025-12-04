@@ -35,6 +35,14 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v34.0.0
+
+- 💔 A couple API changes from `batch-cluster` v16's impact our API: the `maxReasonableProcessFailuresPerMinute` option and `fatalError` event is now gone -- batch-cluster never shuts down if there are too many timeouts or any failure rate is "too high". Error logs are emitted, however. These large changes were made to service [#312](https://github.com/photostructure/exiftool-vendored.js/issues/312) (thanks for the report and assistance, [@mertalev](https://github.com/mertalev) and [@skatsubo](https://github.com/skatsubo)!)
+
+- 🐞 Fixed: `stdin.write()` errors now properly end the process instead of leaving a broken process in the pool
+
+- 📦 The default `taskTimeoutMillis` is now 30 seconds (it was 20 seconds)
+
 ### v33.5.0
 
 - 🐞 `isZoneValid` now properly validates Luxon Zone instances (not just zone-like objects)

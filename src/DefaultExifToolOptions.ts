@@ -42,7 +42,7 @@ export const DefaultExifToolOptions: Omit<
   spawnTimeoutMillis: 30000,
   streamFlushMillis: 10,
   // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
-  taskTimeoutMillis: 20000,
+  taskTimeoutMillis: 30000,
   onIdleIntervalMillis: 2000,
   taskRetries: 1,
   exiftoolPath,
