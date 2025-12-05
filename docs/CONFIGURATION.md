@@ -33,7 +33,7 @@ Settings.allowArchaicTimezoneOffsets.value = true;
 
 // Observe setting changes
 const unsubscribe = Settings.allowArchaicTimezoneOffsets.onChange(
-  (oldValue, newValue) => console.log(`Changed: ${oldValue} -> ${newValue}`)
+  (oldValue, newValue) => console.log(`Changed: ${oldValue} -> ${newValue}`),
 );
 
 // Reset all settings to defaults
