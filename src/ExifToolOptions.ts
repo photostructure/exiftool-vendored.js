@@ -49,7 +49,7 @@ export interface ExifToolOptions
    * unless `taskRetries` is sufficiently large or all writes will be to a
    * fast local disk.
    *
-   * @default 20000 (20 seconds)
+   * @default 30000 (30 seconds)
    */
   taskTimeoutMillis: number;
 
