@@ -22060,7 +22060,8 @@ declare const _XMPTag: Expect<Equal<XMPTag, keyof XMPTags>>;
  * @see https://exiftool.org/TagNames/
  */
 export interface Tags
-  extends APPTags,
+  extends
+    APPTags,
     CompositeTags,
     DuckyTags,
     EXIFTags,
