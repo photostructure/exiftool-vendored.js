@@ -148,7 +148,7 @@
     "luxon": "^3.7.2"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "13.42.0",
-    "exiftool-vendored.pl": "13.42.0"
+    "exiftool-vendored.exe": "13.43.0",
+    "exiftool-vendored.pl": "13.43.0"
   }
 }
