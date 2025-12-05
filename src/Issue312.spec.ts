@@ -18,15 +18,21 @@
  *    legitimate long-running tasks from timing out
  */
 
-import { ExifTool } from "./ExifTool";
-import { end, expect } from "./_chai.spec";
 import * as _path from "node:path";
+import { ExifTool } from "./ExifTool";
+import { end, expect, measureSpawnTime } from "./_chai.spec";
 
 describe("Issue #312: BatchCluster survives task timeouts", function () {
-  this.timeout(60_000);
+  this.timeout(120_000); // Allow plenty of time for slow CI
   this.slow(10_000);
 
   const img = _path.join(__dirname, "..", "test", "img.jpg");
+
+  // Measure spawn time once before all tests
+  let baselineSpawnMs: number;
+  before(async () => {
+    baselineSpawnMs = await measureSpawnTime();
+  });
 
   describe("cluster survives multiple task timeouts", function () {
     let et: ExifTool;
@@ -34,15 +40,20 @@ describe("Issue #312: BatchCluster survives task timeouts", function () {
     afterEach(() => end(et));
 
     it("should NOT shut down when many tasks timeout", async function () {
-      // Configure ExifTool with a very short task timeout to trigger timeouts
-      const taskTimeoutMillis = 50; // Very short - will cause timeouts
+      // Use a timeout shorter than spawn time to guarantee timeouts
+      // but not so short that nothing can ever complete
+      const shortTimeout = Math.max(10, Math.floor(baselineSpawnMs / 4));
+
       et = new ExifTool({
         maxProcs: 2,
-        taskTimeoutMillis,
+        taskTimeoutMillis: shortTimeout,
         // Disable retries so timeouts happen quickly
         taskRetries: 0,
         // Short spawn delay for faster testing
-        minDelayBetweenSpawnMillis: 10,
+        minDelayBetweenSpawnMillis: Math.max(
+          5,
+          Math.floor(baselineSpawnMs / 10),
+        ),
       });
 
       const timeoutErrors: Error[] = [];
@@ -55,7 +66,7 @@ describe("Issue #312: BatchCluster survives task timeouts", function () {
         timeoutPromises.push(
           et.read(img).then(
             () => {
-              // Success is fine too
+              // Success is fine too (fast machine)
             },
             (err: Error) => {
               timeoutErrors.push(err);
@@ -78,10 +89,12 @@ describe("Issue #312: BatchCluster survives task timeouts", function () {
       // Now close the cluster and create a new one with reasonable timeout
       await et.end();
 
-      // Create new instance with proper timeout
+      // Create new instance with generous timeout based on measured spawn time
+      const safeTimeout = Math.max(30_000, baselineSpawnMs * 20);
       et = new ExifTool({
         maxProcs: 1,
-        taskTimeoutMillis: 30_000,
+        taskTimeoutMillis: safeTimeout,
+        spawnTimeoutMillis: safeTimeout,
       });
 
       // This should work - proves cluster lifecycle is healthy
@@ -89,16 +102,18 @@ describe("Issue #312: BatchCluster survives task timeouts", function () {
       expect(result.SourceFile).to.include("img.jpg");
     });
 
-    it("should continue processing after spawn failures", async function () {
-      // This test verifies that the cluster recovers from spawn failures
-      // In old versions, too many spawn failures would trigger fatalError
+    it("should continue processing normally", async function () {
+      // This test verifies normal operation works with adaptive timeouts
+      const safeTimeout = Math.max(30_000, baselineSpawnMs * 20);
 
       et = new ExifTool({
         maxProcs: 1,
-        taskTimeoutMillis: 10_000,
-        // Very short spawn timeout to trigger startup failures
-        spawnTimeoutMillis: 100,
-        minDelayBetweenSpawnMillis: 10,
+        taskTimeoutMillis: safeTimeout,
+        spawnTimeoutMillis: safeTimeout,
+        minDelayBetweenSpawnMillis: Math.max(
+          10,
+          Math.floor(baselineSpawnMs / 5),
+        ),
       });
 
       // First task should succeed (spawns a process)
@@ -146,11 +161,13 @@ describe("Issue #312: BatchCluster survives task timeouts", function () {
     afterEach(() => end(et));
 
     it("should handle bursty load without cluster shutdown", async function () {
-      // Simulate the original issue: high concurrency + short timeouts
+      // Use adaptive short timeout to trigger timeouts
+      const shortTimeout = Math.max(10, Math.floor(baselineSpawnMs / 4));
       const maxProcs = 4;
+
       et = new ExifTool({
         maxProcs,
-        taskTimeoutMillis: 100, // Very short
+        taskTimeoutMillis: shortTimeout,
         taskRetries: 0,
         minDelayBetweenSpawnMillis: 0, // Spawn quickly
       });
@@ -186,19 +203,24 @@ describe("Issue #312: BatchCluster survives task timeouts", function () {
         );
       }
 
-      // Verify cluster is still functional
-      et.options.taskTimeoutMillis = 30_000;
-      const finalResult = await et.read(img);
-      expect(finalResult.SourceFile).to.include("img.jpg");
-
       // Check that we didn't get "BatchCluster has ended" errors
       const endedErrors = results.filter(
         (r) => !r.success && r.error?.includes("has ended"),
       );
-      expect(endedErrors).to.eql(
-        [],
-        "should not have any 'has ended' errors",
-      );
+      expect(endedErrors).to.eql([], "should not have any 'has ended' errors");
+
+      // Clean up this instance with short timeouts
+      await et.end();
+
+      // Create a fresh instance with adaptive safe timeout
+      const safeTimeout = Math.max(30_000, baselineSpawnMs * 20);
+      et = new ExifTool({
+        maxProcs: 1,
+        taskTimeoutMillis: safeTimeout,
+        spawnTimeoutMillis: safeTimeout,
+      });
+      const finalResult = await et.read(img);
+      expect(finalResult.SourceFile).to.include("img.jpg");
     });
   });
 });

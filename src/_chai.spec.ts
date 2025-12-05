@@ -163,3 +163,39 @@ export const NonAlphaStrings = compact([
 // \u203a = › (single right-pointing angle quotation mark)
 export const UnicodeTestMessage = `Double quotes("\u201c\u201d\u00ab\u00bb) and single quotes('\u2018\u2019\u2039\u203a) and backquotes(\`), oh my 👍🌹🐱‍👓🚵‍♀️. ਸੁਆਗਤ ਹੈ ยินดีต้อนรับ 환영하다 ようこそ 歡迎 欢迎 ברוך הבא خوش آمدید`;
 
+let _cachedSpawnTimeMs: number | undefined;
+
+/**
+ * Measure how long it takes to spawn ExifTool and get a response. This provides
+ * a baseline for setting realistic timeout values in tests. CI environments
+ * (especially Windows) can be 10-100x slower than local dev.
+ *
+ * Results are cached after first measurement to avoid overhead.
+ *
+ * CAUTION: You probably want to schedule this in a before() block so it doesn't
+ * impact test timeouts!
+ */
+export async function measureSpawnTime(): Promise<number> {
+  if (_cachedSpawnTimeMs != null) {
+    return _cachedSpawnTimeMs;
+  }
+
+  // Take 3 measurements, each with a fresh ExifTool instance
+  // to accurately measure cold-start spawn time
+  const measurements: number[] = [];
+  for (let i = 0; i < 4; i++) {
+    await using et = new ExifTool({ maxProcs: 1 });
+    const start = Date.now();
+    await et.version();
+    measurements.push(Date.now() - start);
+  }
+
+  _cachedSpawnTimeMs = Math.ceil(
+    measurements.reduce((a, b) => a + b, 0) / measurements.length,
+  );
+  console.log("measureSpawnTime()", {
+    result: _cachedSpawnTimeMs,
+    measurements,
+  });
+  return _cachedSpawnTimeMs;
+}
