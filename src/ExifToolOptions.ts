@@ -12,7 +12,8 @@ import { Tags } from "./Tags";
  * @see {@link DefaultExifToolOptions} for default values.
  */
 export interface ExifToolOptions
-  extends bc.BatchClusterOptions,
+  extends
+    bc.BatchClusterOptions,
     bc.BatchProcessOptions,
     bc.ChildProcessFactory {
   /**

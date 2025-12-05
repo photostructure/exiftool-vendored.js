@@ -49,7 +49,8 @@ The `Tags` interface combines multiple tag categories:
 
 ```typescript
 export interface Tags
-  extends FileTags, // File system info (size, dates, permissions)
+  extends
+    FileTags, // File system info (size, dates, permissions)
     EXIFTags, // Camera settings (ISO, aperture, etc.)
     GPSTags, // Location data
     IPTCTags, // Descriptive metadata
