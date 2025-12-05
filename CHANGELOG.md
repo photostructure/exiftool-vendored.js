@@ -43,6 +43,8 @@ vendored versions of ExifTool match the version that they vendor.
 
 - 📦 The default `taskTimeoutMillis` is now 30 seconds (it was 20 seconds)
 
+- 🌱 Upgraded ExifTool to version [13.43](https://exiftool.org/history.html#13.43).
+
 ### v33.5.0
 
 - 🐞 `isZoneValid` now properly validates Luxon Zone instances (not just zone-like objects)
