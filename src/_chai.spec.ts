@@ -152,4 +152,14 @@ export const NonAlphaStrings = compact([
   { str: "ਸੁਆਗਤ ਹੈ", desc: "Punjabi" },
 ]);
 
-export const UnicodeTestMessage = `Double quotes("“”«») and single quotes('‘’‹›) and backquotes(\`), oh my 👍🌹🐱‍👓🚵‍♀️. ਸੁਆਗਤ ਹੈ ยินดีต้อนรับ 환영하다 ようこそ 歡迎 欢迎 ברוך הבא خوش آمدید`;
+// Using Unicode escapes for quote characters to prevent editor/tool mangling:
+// \u201c = " (left double quotation mark)
+// \u201d = " (right double quotation mark)
+// \u00ab = « (left-pointing double angle quotation mark)
+// \u00bb = » (right-pointing double angle quotation mark)
+// \u2018 = ' (left single quotation mark)
+// \u2019 = ' (right single quotation mark)
+// \u2039 = ‹ (single left-pointing angle quotation mark)
+// \u203a = › (single right-pointing angle quotation mark)
+export const UnicodeTestMessage = `Double quotes("\u201c\u201d\u00ab\u00bb) and single quotes('\u2018\u2019\u2039\u203a) and backquotes(\`), oh my 👍🌹🐱‍👓🚵‍♀️. ਸੁਆਗਤ ਹੈ ยินดีต้อนรับ 환영하다 ようこそ 歡迎 欢迎 ברוך הבא خوش آمدید`;
+
