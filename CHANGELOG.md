@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v34.1.0
+
+- 🌱 Upgraded ExifTool to version [13.44](https://exiftool.org/history.html#13.44).
+
 ### v34.0.0
 
 - 💔 A couple API changes from `batch-cluster` [v16.0.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v16.0.0)'s impact our API: the `maxReasonableProcessFailuresPerMinute` option and `fatalError` event is now gone -- batch-cluster never shuts down if there are too many timeouts or any failure rate is "too high". Error logs are emitted, however. These large changes were made to service [#312](https://github.com/photostructure/exiftool-vendored.js/issues/312) (thanks for the report and assistance, [@mertalev](https://github.com/mertalev) and [@skatsubo](https://github.com/skatsubo)!)
