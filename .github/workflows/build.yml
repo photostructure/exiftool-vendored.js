@@ -73,7 +73,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Set up SSH signing
-        uses: photostructure/git-ssh-signing-action@a770c2ff3aea31d9df9f2974ac9d672f2bfe62f3 # v1.1.0
+        uses: photostructure/git-ssh-signing-action@fdd4b062a9ba41473f013258cc9c7eea1640f826 # v1.2.0
         with:
           ssh-signing-key: ${{ secrets.SSH_SIGNING_KEY }}
           git-user-name: ${{ secrets.GIT_USER_NAME }}
