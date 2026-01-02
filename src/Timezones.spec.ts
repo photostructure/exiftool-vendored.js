@@ -1488,6 +1488,19 @@ describe("Timezones", () => {
       expect(parseTimezoneOffsetToMinutes("")).to.eql(undefined);
       expect(parseTimezoneOffsetToMinutes("+25:00")).to.eql(undefined);
     });
+
+    // https://github.com/photostructure/exiftool-vendored.js/issues/318
+    it("parses colon-less +0800 to 480", () => {
+      expect(parseTimezoneOffsetToMinutes("+0800")).to.eql(480);
+    });
+
+    it("parses colon-less -0300 to -180", () => {
+      expect(parseTimezoneOffsetToMinutes("-0300")).to.eql(-180);
+    });
+
+    it("parses colon-less -0530 to -330", () => {
+      expect(parseTimezoneOffsetToMinutes("-0530")).to.eql(-330);
+    });
   });
 
   describe("TimezoneOffsetRE", () => {
@@ -1525,6 +1538,21 @@ describe("Timezones", () => {
       expect(match?.groups?.tz_sign).to.eql("+");
       expect(match?.groups?.tz_hours).to.eql("8");
       expect(match?.groups?.tz_minutes).to.eql(undefined);
+    });
+
+    // https://github.com/photostructure/exiftool-vendored.js/issues/318
+    it("matches colon-less +0800", () => {
+      const match = TimezoneOffsetRE.exec("+0800");
+      expect(match?.groups?.tz_sign).to.eql("+");
+      expect(match?.groups?.tz_hours).to.eql("08");
+      expect(match?.groups?.tz_minutes).to.eql("00");
+    });
+
+    it("matches colon-less -0300", () => {
+      const match = TimezoneOffsetRE.exec("-0300");
+      expect(match?.groups?.tz_sign).to.eql("-");
+      expect(match?.groups?.tz_hours).to.eql("03");
+      expect(match?.groups?.tz_minutes).to.eql("00");
     });
 
     it("can be used in larger patterns", () => {
@@ -1578,6 +1606,19 @@ describe("Timezones", () => {
       const match = TimezoneOffsetRE.exec("−08:00");
       const result = parseTimezoneOffsetMatch(match);
       expect(result).to.eql({ offsetMinutes: -480, isUtc: false });
+    });
+
+    // https://github.com/photostructure/exiftool-vendored.js/issues/318
+    it("parses colonless -0300 match", () => {
+      const match = TimezoneOffsetRE.exec("-0300");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: -180, isUtc: false });
+    });
+
+    it("parses colonless +0530 match", () => {
+      const match = TimezoneOffsetRE.exec("+0530");
+      const result = parseTimezoneOffsetMatch(match);
+      expect(result).to.eql({ offsetMinutes: 330, isUtc: false });
     });
   });
 });

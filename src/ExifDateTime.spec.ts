@@ -145,6 +145,25 @@ describe("ExifDateTime", () => {
         millisecond: undefined,
       },
     },
+    // https://github.com/photostructure/exiftool-vendored.js/issues/318
+    {
+      desc: "with colon-less tzoffset (ISO 8601 basic format)",
+      exif: "2025:04:27 19:47:08-0300",
+      exifExp: "2025:04:27 19:47:08-03:00",
+      iso: "2025-04-27T19:47:08-0300",
+      isoExp: "2025-04-27T19:47:08-03:00",
+      d: {
+        hasZone: true,
+        zoneName: "UTC-3",
+        year: 2025,
+        month: 4,
+        day: 27,
+        hour: 19,
+        minute: 47,
+        second: 8,
+        millisecond: undefined,
+      },
+    },
   ]) {
     describe(ea.desc + " (iso: " + ea.iso + ")", () => {
       const fromExif = ExifDateTime.fromEXIF(ea.exif);

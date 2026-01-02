@@ -328,8 +328,37 @@ export const defaultVideosToUTC = "defaultVideosToUTC";
 // also a thing.
 const IanaFormatRE = /^\w{2,15}(?:\/\w{3,15}){0,2}$/;
 
+/**
+ * Regex for parsing timezone offset strings.
+ *
+ * Supports both ISO 8601 extended format (`+08:00`) and basic format (`+0800`).
+ * The colon between hours and minutes is optional (`:?`) for compatibility with
+ * multiple standards.
+ *
+ * ## Timezone Offset Format Standards
+ *
+ * | Standard              | Format     | Colon Required? |
+ * |-----------------------|------------|-----------------|
+ * | ISO 8601 Basic        | `-0300`    | No              |
+ * | ISO 8601 Extended     | `-03:00`   | Yes             |
+ * | RFC 3339              | `-03:00`   | **Yes** (strict)|
+ * | EXIF 2.31+ OffsetTime | `+01:00`   | Yes             |
+ * | IPTC                  | `+0300`    | **No**          |
+ *
+ * While ISO 8601 allows both formats, **mixing styles is discouraged**. A
+ * timestamp using extended format for date/time (e.g., `2025:04:27 19:47:08`)
+ * should use extended format for the offset (`-03:00`), not basic (`-0300`).
+ *
+ * ExifTool accepts both formats on input but normalizes to extended format
+ * (with colon) on output.
+ *
+ * @see https://en.wikipedia.org/wiki/ISO_8601 - ISO 8601 standard
+ * @see https://datatracker.ietf.org/doc/html/rfc3339 - RFC 3339 (colon required)
+ * @see https://lists.gnu.org/archive/html/bug-coreutils/2013-06/msg00023.html -
+ *      Discussion on colon requirement for extended format
+ */
 const OffsetStringRE =
-  /^(?:UTC|GMT)?(?<sign>[+−-])(?<hours>\d{1,2})(?::(?<minutes>\d{2})(?::(?<seconds>\d{2}))?)?$/;
+  /^(?:UTC|GMT)?(?<sign>[+−-])(?<hours>\d{1,2})(?::?(?<minutes>\d{2})(?::(?<seconds>\d{2}))?)?$/;
 
 const MinusRE = /[−-]/;
 
@@ -337,7 +366,8 @@ const MinusRE = /[−-]/;
  * Composable regex pattern for matching timezone offsets.
  *
  * Designed for embedding in larger patterns (no ^ or $ anchors).
- * Matches UTC/GMT/Z or signed offsets like +08:00, -05:30.
+ * Matches UTC/GMT/Z or signed offsets in both ISO 8601 extended format
+ * (+08:00, -05:30) and basic format (+0800, -0530).
  *
  * Named capture groups:
  * - `tz_utc`: Matches "Z", "UTC", or "GMT"
@@ -361,7 +391,7 @@ const MinusRE = /[−-]/;
  * ```
  */
 export const TimezoneOffsetRE =
-  /(?:(?<tz_utc>Z|UTC|GMT)|(?<tz_sign>[+−-])(?<tz_hours>[01]?\d)(?::(?<tz_minutes>\d\d))?)/;
+  /(?:(?<tz_utc>Z|UTC|GMT)|(?<tz_sign>[+−-])(?<tz_hours>[01]?\d)(?::?(?<tz_minutes>\d\d))?)/;
 
 /**
  * Result of parsing a timezone offset regex match.
@@ -669,12 +699,11 @@ function tzHourToOffset(n: unknown): Maybe<string> {
     : undefined;
 }
 
-// Accept "Z", "UTC+2", "UTC+02", "UTC+2:00", "UTC+02:00", "+2", "+02", and
-// "+02:00". Also accepts seconds like "-00:25:21" for archaic offsets.
-// Handles Unicode minus (−, U+2212)
-// Require the sign (+ or -) and a ":" separator if there are minutes.
+// Accept "Z", "UTC+2", "UTC+02", "UTC+2:00", "UTC+02:00", "+2", "+02",
+// "+02:00", and "+0200" (ISO 8601 basic format). Also accepts seconds like
+// "-00:25:21" for archaic offsets. Handles Unicode minus (−, U+2212).
 const tzRe =
-  /(?<Z>Z)|((UTC)?(?<sign>[+−-])(?<hours>\d\d?)(?::(?<minutes>\d\d)(?::(?<seconds>\d\d))?)?)$/;
+  /(?<Z>Z)|((UTC)?(?<sign>[+−-])(?<hours>\d\d?)(?::?(?<minutes>\d\d)(?::(?<seconds>\d\d))?)?)$/;
 
 export interface TzSrc {
   /**
