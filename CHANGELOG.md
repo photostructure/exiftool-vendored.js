@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v34.3.0
+
+- 🐞 Add support for colon-less timezone offsets (`2025:04:27 19:47:08-0300`). Thanks for the [report](https://github.com/photostructure/exiftool-vendored.js/issues/318), [@dosten](https://github.com/dosten)!
+
 ### v34.2.0
 
 - 🌱 Upgraded ExifTool to version [13.45](https://exiftool.org/history.html#13.45).
