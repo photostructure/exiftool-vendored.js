@@ -5,7 +5,7 @@ import { createHash, randomInt } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { copyFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { env } from "node:process";
+import process, { env } from "node:process";
 import { dirSync } from "tmp";
 import { compact } from "./Array";
 import { DateOrTime, toExifString } from "./DateTime";
@@ -17,6 +17,10 @@ import { fromEntries } from "./Object";
 import { isString } from "./String";
 import { Tags } from "./Tags";
 import { times } from "./Times";
+
+// Tests create many ExifTool instances, each adds a beforeExit listener via
+// batch-cluster. Increase the limit to avoid spurious warnings.
+process.setMaxListeners(20);
 
 use(chaiAsPromised);
 
