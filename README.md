@@ -192,16 +192,16 @@ if (dt instanceof ExifDateTime) {
 
 ### 🧹 Resource Cleanup
 
-**Always call `.end()` on ExifTool instances** to prevent Node.js from hanging:
+As of v35, **Node.js will exit naturally** without calling `.end()` — child processes are cleaned up automatically when the parent exits.
+
+For **long-running applications** (servers, daemons), calling `.end()` is still recommended for graceful shutdown:
 
 ```javascript
 import { exiftool } from "exiftool-vendored";
 
-// Use the singleton
-const tags = await exiftool.read("photo.jpg");
-
-// Clean up when done
-process.on("beforeExit", () => exiftool.end());
+// For servers/daemons: graceful shutdown on termination signals
+process.on("SIGINT", () => exiftool.end());
+process.on("SIGTERM", () => exiftool.end());
 ```
 
 #### Automatic Cleanup with Disposable Interfaces

@@ -104,16 +104,18 @@ const exiftool = new ExifTool({
 
 ## Resource Cleanup
 
-Always clean up ExifTool instances to prevent hanging processes:
+As of v35, Node.js will exit naturally without calling `.end()` — child processes are cleaned up automatically.
+
+For **long-running applications** (servers, daemons), calling `.end()` is still recommended for graceful shutdown. You can use disposables (TypeScript 5.2+) or manual cleanup:
 
 ```javascript
-// Modern approach with disposables (TypeScript 5.2+)
+// Disposables (TypeScript 5.2+)
 {
   await using exiftool = new ExifTool();
   const tags = await exiftool.read("photo.jpg");
 } // Automatic cleanup
 
-// Traditional approach
+// Manual cleanup
 const exiftool = new ExifTool();
 try {
   const tags = await exiftool.read("photo.jpg");

@@ -13,7 +13,7 @@ import { exiftool } from "exiftool-vendored";
 // Verify installation
 console.log(`ExifTool v${await exiftool.version()}`);
 
-// Shut down the `exiftool` child process so node can exit cleanly:
+// Optional: graceful shutdown (Node.js will exit naturally without this as of v35)
 await exiftool.end();
 ```
 
@@ -199,7 +199,7 @@ try {
   const tags = await exiftool.read("photo.jpg");
   console.log(tags.Make, tags.Model);
 } finally {
-  // Always clean up to prevent hanging processes
+  // Optional: graceful shutdown (recommended for long-running apps)
   await exiftool.end();
 }
 ```

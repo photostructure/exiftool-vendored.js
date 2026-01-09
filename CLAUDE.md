@@ -53,7 +53,7 @@ npm run release     # Run release process (requires proper permissions)
 ## Important Notes
 
 - Always run `npm run compile` before testing
-- End singleton `exiftool` instance with `.end()` to clean up child processes
+- As of v35, `.end()` is optional for scripts (Node.js exits naturally), but recommended for long-running apps
 - Tag interfaces not comprehensive - less common tags may exist in returned objects
 - Uses batch processing with automatic process pool management
 - TypeScript union type limits require careful tag selection

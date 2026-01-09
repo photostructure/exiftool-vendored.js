@@ -35,6 +35,22 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.0.0
+
+- 💔 **BREAKING**: Upgraded to [batch-cluster v17](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.0.0), which changes process cleanup behavior.
+
+  **Previously**, even though child processes were unreferenced, the stdio streams kept the parent Node.js process alive, requiring explicit `.end()` calls.
+
+  **Now**, stdio streams are unreferenced by default, so scripts can exit naturally without calling `.end()`. Child processes are cleaned up automatically when the parent exits.
+
+  To restore the previous behavior (parent process stays alive until `.end()` is called):
+
+  ```typescript
+  new ExifTool({ unrefStreams: false });
+  ```
+
+  Fixes [#319](https://github.com/photostructure/exiftool-vendored.js/discussions/319).
+
 ### v34.3.0
 
 - 🐞 Add support for colon-less timezone offsets (`2025:04:27 19:47:08-0300`). Thanks for the [report](https://github.com/photostructure/exiftool-vendored.js/issues/318), [@dosten](https://github.com/dosten)!
