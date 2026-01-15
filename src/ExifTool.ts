@@ -249,14 +249,20 @@ export class ExifTool {
       detached: false, // < no orphaned exiftool procs, please
       env,
     };
-    const processFactory = async () =>
-      ignoreShebang
-        ? _cp.spawn(
-            await whichPerl(),
-            [await this.exiftoolPath(), ...o.exiftoolArgs],
-            spawnOpts,
-          )
-        : _cp.spawn(await this.exiftoolPath(), o.exiftoolArgs, spawnOpts);
+
+    // Allow callers to provide a custom processFactory (e.g., for Flatpak
+    // sandboxes that need flatpak-spawn --host). If not provided, use the
+    // default factory that spawns perl directly.
+    const processFactory =
+      options.processFactory ??
+      (async () =>
+        ignoreShebang
+          ? _cp.spawn(
+              await whichPerl(),
+              [await this.exiftoolPath(), ...o.exiftoolArgs],
+              spawnOpts,
+            )
+          : _cp.spawn(await this.exiftoolPath(), o.exiftoolArgs, spawnOpts));
 
     this.options = {
       ...o,
