@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.1.0
+
+- 📦 Support custom ExifToolOption.`processFactory` implementations (for advanced use cases, not for general use)
+
 ### v35.0.0
 
 - 💔 **BREAKING**: Upgraded to [batch-cluster v17](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.0.0), which changes process cleanup behavior.
