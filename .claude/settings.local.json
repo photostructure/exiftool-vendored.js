@@ -42,7 +42,9 @@
       "Bash(do echo \"=== Tag $tag ===\")",
       "Bash(done)",
       "Bash(git stash:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(ls:*)",
+      "Bash(file:*)"
     ],
     "deny": [],
     "ask": [],
