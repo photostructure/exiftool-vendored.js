@@ -35,6 +35,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.2.0
+
+- 🐞 Pull in batch-cluster `on("exit")` sync cleanup fix in [v17.1.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.1.0)
+- 🐞 Fix [#320](https://github.com/photostructure/exiftool-vendored.js/issues/320): timezone info in IPTC `TimeCreated` and XMP datetime tags is now extracted by default. Set `inferTimezoneFromDatestamps: false` to restore prior behavior.
+
 ### v35.1.0
 
 - 📦 Support custom ExifToolOption.`processFactory` implementations (for advanced use cases, not for general use)

@@ -65,7 +65,10 @@ export const DefaultExifToolOptions: Omit<
   forceWrite: false,
   imageHashType: false,
   includeImageDataMD5: undefined,
-  inferTimezoneFromDatestamps: false, // to retain prior behavior
+  // Changed from false to true in v35.2.0 to fix issue #320 - timezone info
+  // in IPTC TimeCreated and XMP datetime tags should be used by default.
+  // See https://github.com/photostructure/exiftool-vendored.js/issues/320
+  inferTimezoneFromDatestamps: true,
   inferTimezoneFromDatestampTags: [...CapturedAtTagNames],
   inferTimezoneFromTimeStamp: false, // to retain prior behavior
   logger,

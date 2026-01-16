@@ -327,7 +327,11 @@ describe("ExifTool", function () {
             const img = await testImg({ srcBasename: "bad-exif-ifd.jpg" });
             const s = "2022-11-01T19:56:34.875";
             await et.write(img, { AllDates: s });
-            const t = await et.read(img);
+            // Disable inferTimezoneFromDatestamps to get the raw datetime value
+            // (this test isn't about timezone inference)
+            const t = await et.read(img, {
+              inferTimezoneFromDatestamps: false,
+            });
             expect(t.SubSecCreateDate?.toString()).to.eql(s);
           });
 

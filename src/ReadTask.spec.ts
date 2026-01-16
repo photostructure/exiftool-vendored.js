@@ -922,6 +922,8 @@ describe("ReadTask", () => {
             MIMEType: "video/mp4",
             CreateDate: "2014:07:17 08:46:27-05:00 DST",
           },
+          // Disable inferTimezoneFromDatestamps to test defaultVideosToUTC behavior
+          inferTimezoneFromDatestamps: false,
         });
         expect(renderTagsWithISO(t)).to.eql({
           // ALL DATES ARE IN ZULU!
@@ -1001,6 +1003,8 @@ describe("ReadTask", () => {
             DateTimeOriginal: "2020:08:03 15:00:19", // < missing zone!
             TimeStamp: "2020:08:03 15:00:19.01", // < missing zone!
           },
+          // Disable inferTimezoneFromDatestamps to test defaultVideosToUTC behavior
+          inferTimezoneFromDatestamps: false,
         });
         expect(renderTagsWithISO(t)).to.eql({
           MIMEType: "video/mp4",
@@ -1028,6 +1032,8 @@ describe("ReadTask", () => {
             TimeStamp: "2020:08:03 15:00:19.01", // < no zone!
           },
           backfillTimezones: false,
+          // Disable inferTimezoneFromDatestamps to test no-timezone behavior
+          inferTimezoneFromDatestamps: false,
         });
         expect(renderTagsWithISO(t)).to.eql({
           // No timezone found, so no normalization:
