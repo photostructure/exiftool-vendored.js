@@ -17,6 +17,15 @@ export interface ExifToolOptions
     bc.BatchProcessOptions,
     bc.ChildProcessFactory {
   /**
+   * Low-overhead command to verify ExifTool has started correctly. Runs
+   * immediately after spawn and must complete within `spawnTimeoutMillis`
+   * before any tasks are assigned to the process.
+   *
+   * @default `"-ver"` (ExifTool version check)
+   */
+  versionCommand: string;
+
+  /**
    * The maximum number of ExifTool child processes to spawn when load merits.
    *
    * @default `Math.max(1, Math.floor(os.cpus().length / 4))`
