@@ -89,6 +89,21 @@ const RequiredTags: Record<
   { t: string; grp: string; value?: any; doc?: string; see?: string }
 > = {
   ExifToolVersion: { t: "string", grp: "ExifTool" }, // < ExifTool stores the version as a float (!!) which causes 12.30 to become 12.3.
+  AccelerometerX: {
+    t: "number",
+    grp: "MakerNotes",
+    doc: "Accelerometer X-axis reading. Panasonic: positive is acceleration to the left.\nAlso found in DJI and Lytro cameras. Used for motion/orientation detection.",
+  },
+  AccelerometerY: {
+    t: "number",
+    grp: "MakerNotes",
+    doc: "Accelerometer Y-axis reading. Panasonic: positive is acceleration backwards.\nAlso found in DJI and Lytro cameras. Used for motion/orientation detection.",
+  },
+  AccelerometerZ: {
+    t: "number",
+    grp: "MakerNotes",
+    doc: "Accelerometer Z-axis reading. Panasonic: positive is acceleration upward.\nAlso found in DJI and Lytro cameras. Used for motion/orientation detection.",
+  },
   Album: { t: "string", grp: "XMP", value: "Twilight Dreams" },
   Aperture: {
     t: "number",
@@ -107,13 +122,30 @@ const RequiredTags: Record<
     see: "https://exiftool.org/TagNames/Composite.html",
   },
   BodySerialNumber: { t: "string", grp: "MakerNotes" },
+  BracketSettings: {
+    t: "string",
+    grp: "MakerNotes",
+    doc: "Panasonic exposure bracketing configuration.\nValues: 'No Bracket', '3 Images, Sequence 0/-/+', '3 Images, Sequence -/0/+',\n'5 Images, Sequence 0/-/+', '5 Images, Sequence -/0/+', '7 Images, Sequence 0/-/+', '7 Images, Sequence -/0/+'.",
+  },
   BurstID: { t: "string", grp: "XMP" },
   BurstUUID: { t: "string", grp: "MakerNotes" },
   CameraID: { t: "string", grp: "MakerNotes" },
   CameraOrientation: { t: "string", grp: "MakerNotes" },
-  CameraSerialNumber: { t: "number", grp: "APP1" },
-  Comment: { t: "string", grp: "XMP" },
-  Compass: { t: "string", grp: "APP5" },
+  CameraSerialNumber: {
+    t: "string",
+    grp: "EXIF",
+    doc: "Camera serial number. DNG tag 0xc62f, writable string in IFD0.",
+  },
+  Comment: {
+    t: "string",
+    grp: "File",
+    doc: "Comment text. JPEG COM segment, GIF comment, or other file-level comment.\nNot an XMP tag despite common confusion.",
+  },
+  Compass: {
+    t: "number",
+    grp: "MakerNotes",
+    doc: "Ricoh Theta compass heading direction in degrees.\nCamera orientation sensor data.",
+  },
   ContainerDirectory: {
     t: "ContainerDirectoryItem[] | Struct[]",
     grp: "XMP",
@@ -138,8 +170,8 @@ const RequiredTags: Record<
   CropAngle: {
     t: "number",
     grp: "XMP",
-    doc: "Crop rotation angle. From XMP-crd (Camera Raw Defaults) namespace, which is avoided when writing due to conflicts with standard schemas.",
-    see: "https://exiftool.org/TagNames/XMP.html#crd",
+    doc: "Crop rotation angle. Primarily from XMP-crs (Camera Raw Settings/Adobe Camera Raw) namespace.\nAlso found in Canon DPP recipe files.",
+    see: "https://exiftool.org/TagNames/XMP.html#crs",
   },
   CropBottom: { t: "number", grp: "XMP" },
   CropHeight: { t: "number", grp: "XMP" },
@@ -180,6 +212,31 @@ const RequiredTags: Record<
   ExifImageHeight: { t: "number", grp: "EXIF" },
   ExifImageWidth: { t: "number", grp: "EXIF" },
   ExposureTime: { t: "string", grp: "EXIF" },
+  EyeDetection: {
+    t: "string",
+    grp: "MakerNotes",
+    doc: "Canon eye detection AF setting. Values: 'On' or 'Off'.\nEnables autofocus tracking on detected eyes.",
+  },
+  FaceDetection: {
+    t: "string",
+    grp: "MakerNotes",
+    doc: "Sony face detection setting. Values: 'On' (16) or 'Off' (1).\nIndicates whether face detection was enabled during capture.",
+  },
+  FacesDetected: {
+    t: "number",
+    grp: "MakerNotes",
+    doc: "Number of faces detected by the camera during capture.\nFound in MakerNotes from Canon, Nikon, Sony, Panasonic, Olympus, Fujifilm, Pentax, Ricoh, and others.",
+  },
+  FacesRecognized: {
+    t: "number",
+    grp: "MakerNotes",
+    doc: "Panasonic: number of faces matched to user-registered known faces.\nRelated tags: RecognizedFace*Name, RecognizedFace*Position.",
+  },
+  FaceRecognition: {
+    t: "string",
+    grp: "MakerNotes",
+    doc: "Samsung face recognition setting. Values: 'On' or 'Off'.\nWhen enabled, camera attempts to match faces to registered profiles.",
+  },
   FileAccessDate: {
     t: "ExifDateTime | string",
     grp: "File",
@@ -207,13 +264,13 @@ const RequiredTags: Record<
   FileName: {
     t: "string",
     grp: "File",
-    doc: "Name of the file. Not stored metadata - intrinsic file property.\nWritable: can be used with -o option to set output filename.",
+    doc: "Name of the file. Not stored metadata - intrinsic file property.\nWritable: can rename files. May include full path to set Directory simultaneously.",
     see: "https://exiftool.org/TagNames/File.html",
   },
   FileSize: {
     t: "string",
     grp: "File",
-    doc: "Size of the file. Not stored metadata - intrinsic file property.\nRead-only composite calculated from file system.",
+    doc: "Size of the file. Not stored metadata - intrinsic file property.\nRead-only. Uses SI prefixes by default (1 kB = 1000 bytes).",
     see: "https://exiftool.org/TagNames/File.html",
   },
   FileType: {
@@ -240,7 +297,7 @@ const RequiredTags: Record<
   GPSAltitudeRef: {
     t: "number",
     grp: "EXIF",
-    doc: "GPS altitude reference.\nValid values: 0 (above sea level), 1 (below sea level)",
+    doc: "GPS altitude reference.\nValues: 0 (Above Sea Level), 1 (Below Sea Level), 2 (Positive Sea Level, sea-level ref), 3 (Negative Sea Level, sea-level ref).\nValues 2-3 added in EXIF 3.0 for ellipsoidal vs sea-level reference.",
   },
   GPSDateTime: {
     t: "ExifDateTime | string",
@@ -269,7 +326,12 @@ const RequiredTags: Record<
     grp: "EXIF",
     doc: "GPS longitude hemisphere.\nValid values: 'E' (East), 'W' (West)",
   },
-  GPSPosition: { t: "string", grp: "EXIF" },
+  GPSPosition: {
+    t: "string",
+    grp: "Composite",
+    doc: "Combined GPS latitude and longitude. Writable composite tag.\nWhen written, updates GPSLatitude, GPSLatitudeRef, GPSLongitude, GPSLongitudeRef.\nAccepts Google Maps coordinates (right-click format).",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
   GPSSpeed: { t: "string", grp: "EXIF" },
   GPSSpeedRef: {
     t: "string",
@@ -298,7 +360,7 @@ const RequiredTags: Record<
   ImageHeight: {
     t: "number",
     grp: "File",
-    doc: "Image height in pixels. Not stored metadata - intrinsic file property.\nRead-only composite derived from file analysis.",
+    doc: "Image height in pixels. File-level property derived from file analysis.\nRead-only.",
     see: "https://exiftool.org/TagNames/File.html",
   },
   ImageNumber: {
@@ -313,10 +375,16 @@ const RequiredTags: Record<
     doc: "Image dimensions combining width and height from various metadata fields.\nRead-only composite derived from ImageWidth, ImageHeight, ExifImageWidth, ExifImageHeight, or RawImageCroppedSize.",
     see: "https://exiftool.org/TagNames/Composite.html",
   },
+  ImageUniqueID: {
+    t: "string",
+    grp: "EXIF",
+    doc: "Unique identifier for the image, typically a 32-character hex string.\nUseful for image deduplication, tracking identity across edits, and linking related files (e.g., RAW + JPEG pairs).\nMay also appear in MakerNotes and XMP.",
+    see: "https://exiftool.org/TagNames/EXIF.html",
+  },
   ImageWidth: {
     t: "number",
     grp: "File",
-    doc: "Image width in pixels. Not stored metadata - intrinsic file property.\nRead-only composite derived from file analysis.",
+    doc: "Image width in pixels. File-level property derived from file analysis.\nRead-only.",
     see: "https://exiftool.org/TagNames/File.html",
   },
   InternalSerialNumber: { t: "string", grp: "MakerNotes" },
@@ -359,6 +427,11 @@ const RequiredTags: Record<
   LensType: { t: "string", grp: "MakerNotes" },
   LensType2: { t: "string", grp: "MakerNotes" },
   LensType3: { t: "string", grp: "MakerNotes" },
+  LightReading: {
+    t: "number",
+    grp: "MakerNotes",
+    doc: "Pentax light meter reading. Calibration varies by camera model.\nFor Optio WP, add 6 to get approximate LV (Light Value).",
+  },
   Make: {
     t: "string",
     grp: "EXIF",
@@ -406,14 +479,33 @@ const RequiredTags: Record<
   Orientation: {
     t: "number",
     grp: "EXIF",
-    doc: "Image orientation. MWG composite tag from EXIF:Orientation.\nValid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW)\nNote: Most images use values 1, 3, 6, and 8.",
-    see: "https://exiftool.org/TagNames/MWG.html",
+    doc: "Image orientation. Standard EXIF tag 0x112 in IFD0.\nValid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW).\nMost images use values 1, 3, 6, and 8.",
+    see: "https://exiftool.org/TagNames/EXIF.html",
   },
   OriginalCreateDateTime: { t: "ExifDateTime | string", grp: "XMP" },
+  PersonInImage: {
+    t: "string | string[]",
+    grp: "XMP",
+    doc: "Name(s) of person(s) shown in the image. XMP-iptcExt namespace.\nSimpler alternative to MWG RegionInfo when face coordinates aren't needed.\nMulti-value field; array when multiple people identified.",
+    see: "https://exiftool.org/TagNames/XMP.html#iptcExt",
+  },
+  PersonInImageWDetails: {
+    t: "Struct | Struct[]",
+    grp: "XMP",
+    doc: "Structured details about person(s) shown in the image. XMP-iptcExt namespace.\nIncludes PersonId, PersonName, PersonCharacteristic, PersonDescription.\nMore detailed than PersonInImage; IPTC Extension 2014+ standard.",
+    see: "https://exiftool.org/TagNames/XMP.html#iptcExt",
+  },
   PreviewImage: {
     t: "BinaryField",
     grp: "Composite",
     doc: "Embedded preview image data extracted from the file.\nCRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.\nCan only modify previews that already exist in the file.",
+    see: "https://exiftool.org/TagNames/Composite.html",
+  },
+  PreviewImageSize: {
+    t: "string",
+    grp: "Composite",
+    value: "816x459",
+    doc: "Dimensions of the embedded preview image (e.g., '816x459').\nRead-only composite. Useful for checking preview size without extracting binary data.",
     see: "https://exiftool.org/TagNames/Composite.html",
   },
   Rating: {
@@ -429,11 +521,102 @@ const RequiredTags: Record<
     doc: "Microsoft-specific percentage rating (1-99).",
     see: "https://exiftool.org/forum/index.php?topic=3567.msg16210#msg16210",
   },
+  RAWFileType: {
+    t: "string",
+    grp: "MakerNotes",
+    doc: "Sony RAW compression setting: 'Compressed RAW', 'Uncompressed RAW', or 'Lossless Compressed RAW'.\nIntroduced 2015 for uncompressed 14-bit RAW support.",
+  },
   RegistryID: {
     t: "Struct[]",
     grp: "XMP",
-    doc: "Registry identifiers for the image. XMP-iptcExt namespace struct type.\nFlattened fields: RegistryEntryRole, RegistryItemID.",
+    doc: "Registry identifiers for the image. XMP-iptcExt namespace struct type.\nFlattened fields: RegistryEntryRole, RegistryItemID, RegistryOrganisationID.",
     see: "https://exiftool.org/TagNames/XMP.html#iptcExt",
+  },
+  RegionAppliedToDimensionsH: {
+    t: "number",
+    grp: "XMP",
+    doc: "Height of image when regions were defined. From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0).",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionAppliedToDimensionsUnit: {
+    t: "string",
+    grp: "XMP",
+    value: "pixel",
+    doc: "Unit for AppliedToDimensions (typically 'pixel'). From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0).",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionAppliedToDimensionsW: {
+    t: "number",
+    grp: "XMP",
+    doc: "Width of image when regions were defined. From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0).",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionAreaH: {
+    t: "number | number[]",
+    grp: "XMP",
+    doc: "Height of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0). Array when multiple regions.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionAreaUnit: {
+    t: "string",
+    grp: "XMP",
+    value: "normalized",
+    doc: "Unit for RegionArea coordinates (typically 'normalized'). From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0).",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionAreaW: {
+    t: "number | number[]",
+    grp: "XMP",
+    doc: "Width of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0). Array when multiple regions.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionAreaX: {
+    t: "number | number[]",
+    grp: "XMP",
+    doc: "Horizontal center of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0). Array when multiple regions.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionAreaY: {
+    t: "number | number[]",
+    grp: "XMP",
+    doc: "Vertical center of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.\nFlattened from RegionInfo struct (requires struct=0). Array when multiple regions.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionInfo: {
+    t: "Struct",
+    grp: "XMP",
+    doc: "MWG face/region metadata structure containing AppliedToDimensions and RegionList.\nWith struct=1 (default), contains nested objects. With struct=0, fields are flattened.\nUsed by Lightroom, Picasa, Windows Photo Gallery, digiKam, and other photo organizers.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionInfoMP: {
+    t: "Struct",
+    grp: "XMP",
+    doc: "Microsoft Photo region metadata structure (XMP-MP namespace).\nAlternative format to MWG regions, used by Windows Photo Gallery and some Microsoft tools.",
+    see: "https://exiftool.org/TagNames/XMP.html#MP",
+  },
+  RegionName: {
+    t: "string | string[]",
+    grp: "XMP",
+    doc: "Name(s) of identified region(s), typically person names for face regions.\nFrom XMP-mwg-rs namespace. Flattened from RegionInfo struct (requires struct=0).\nFor Lightroom compatibility, also add names to Keywords/Subject.",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionPersonDisplayName: {
+    t: "string | string[]",
+    grp: "XMP",
+    doc: "Display name(s) for person(s) in face regions.\nFrom XMP-MP namespace (Microsoft Photo), not XMP-mwg-rs.\nFlattened from RegionInfoMP struct (requires struct=0).",
+    see: "https://exiftool.org/TagNames/XMP.html#MP",
+  },
+  RegionRotation: {
+    t: "number | number[]",
+    grp: "XMP",
+    doc: "Rotation angle(s) of region(s) in degrees.\nFrom XMP-mwg-rs namespace. Flattened from RegionInfo struct (requires struct=0).",
+    see: "https://exiftool.org/TagNames/MWG.html",
+  },
+  RegionType: {
+    t: "string | string[]",
+    grp: "XMP",
+    doc: "Type(s) of region(s) identified.\nValid values: 'Face', 'Pet', 'BarCode', 'Focus'.\nFrom XMP-mwg-rs namespace. Flattened from RegionInfo struct (requires struct=0).",
+    see: "https://exiftool.org/TagNames/MWG.html",
   },
   Rotation: {
     t: "number",
@@ -477,15 +660,30 @@ const RequiredTags: Record<
   },
   SubSecTime: { t: "number", grp: "EXIF" },
   SubSecTimeDigitized: { t: "number", grp: "EXIF" },
+  SubjectDetection: {
+    t: "string",
+    grp: "MakerNotes",
+    doc: "Nikon Z series subject detection mode.\nValues: 'Off', 'Auto', 'People', 'Animals', 'Vehicles', 'Birds', 'Airplanes'.\nIndicates what the camera's AI was configured to detect during capture.",
+  },
   ThumbnailImage: {
     t: "BinaryField",
     grp: "EXIF",
     doc: "Embedded thumbnail image data. Binary data type.\nWritable for updating existing thumbnails, but cannot create or delete thumbnails.",
   },
+  ThumbnailLength: {
+    t: "number",
+    grp: "EXIF",
+    doc: "Size in bytes of the embedded JPEG thumbnail.\nUseful for checking thumbnail availability without extracting binary data.",
+  },
+  ThumbnailOffset: {
+    t: "number",
+    grp: "EXIF",
+    doc: "Byte offset of the embedded JPEG thumbnail within the file.\nUsed with ThumbnailLength to locate thumbnail data.",
+  },
   ThumbnailTIFF: {
     t: "BinaryField",
-    grp: "EXIF",
-    doc: "Embedded TIFF thumbnail image data. Binary data type.\nWritable for updating existing thumbnails, but cannot create or delete thumbnails.",
+    grp: "Composite",
+    doc: "Embedded TIFF thumbnail image data. Composite tag rebuilt from component EXIF tags.\nRead-only - derived from SubfileType, Compression, ImageWidth, ImageHeight, etc.",
   },
   TimeStamp: { t: "ExifDateTime | string", grp: "MakerNotes" },
   TimeZone: { t: "string", grp: "MakerNotes" },

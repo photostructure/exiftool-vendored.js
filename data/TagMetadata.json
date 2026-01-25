@@ -184,11 +184,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "AFAccelDecelTracking": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "AFActivation": {
     "frequency": 0.008,
     "mainstream": true,
@@ -241,11 +236,6 @@
   },
   "AFAreaSelectMethod": {
     "frequency": 0.005,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "AFAreaSelectionMethod": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -331,11 +321,6 @@
   },
   "AFConfidence": {
     "frequency": 0.002,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "AFConfigTool": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -569,11 +554,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "AFPointSwitching": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "AFPoints": {
     "frequency": 0.0003,
     "mainstream": false,
@@ -619,11 +599,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "AFTrackingSensitivity": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "AFType": {
     "frequency": 0.002,
     "mainstream": true,
@@ -644,11 +619,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "AIServoFirstImage": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "AIServoFirstImagePriority": {
     "frequency": 0.001,
     "mainstream": true,
@@ -656,11 +626,6 @@
   },
   "AIServoImagePriority": {
     "frequency": 0.002,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "AIServoSecondImage": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -767,11 +732,6 @@
   "ActualCompensation": {
     "frequency": 0.0002,
     "mainstream": false,
-    "groups": ["MakerNotes"]
-  },
-  "AddAspectRatioInfo": {
-    "frequency": 0.009,
-    "mainstream": true,
     "groups": ["MakerNotes"]
   },
   "AddIPTCInformation": {
@@ -1854,11 +1814,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "CLModeShootingSpeed": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "COLOR1": {
     "frequency": 0.0006,
     "mainstream": true,
@@ -2230,7 +2185,7 @@
     "groups": ["MakerNotes"]
   },
   "CleanApertureDimensions": {
-    "frequency": 0.0007,
+    "frequency": 0.0008,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -2712,7 +2667,7 @@
   "Comment": {
     "frequency": 0.02,
     "mainstream": true,
-    "groups": ["File", "XMP"]
+    "groups": ["File"]
   },
   "Compass": {
     "frequency": 0.0004,
@@ -2840,7 +2795,7 @@
     "groups": ["XMP"]
   },
   "ContentDescribes": {
-    "frequency": 0.0006,
+    "frequency": 0.0007,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -3050,7 +3005,7 @@
     "groups": ["FlashPix"]
   },
   "CreationDate": {
-    "frequency": 0.0007,
+    "frequency": 0.0008,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -3699,16 +3654,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "DisplayedUnitsX": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["Photoshop"]
-  },
-  "DisplayedUnitsY": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["Photoshop"]
-  },
   "DistortionControl": {
     "frequency": 0.0002,
     "mainstream": true,
@@ -3718,11 +3663,6 @@
     "frequency": 0.02,
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes"]
-  },
-  "DistortionCorrParamsNumber": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
   },
   "DistortionCorrParamsPresent": {
     "frequency": 0.01,
@@ -3970,7 +3910,7 @@
     "groups": ["APP", "MakerNotes"]
   },
   "EncodedPixelsDimensions": {
-    "frequency": 0.0007,
+    "frequency": 0.0008,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -4714,11 +4654,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "FineTuneOptSpotMetering": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "FinishedImage": {
     "frequency": 0.002,
     "mainstream": true,
@@ -5204,11 +5139,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "FocalPlaneAFPointsUsed": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "FocalPlaneDiagonal": {
     "frequency": 0.07,
     "mainstream": true,
@@ -5286,6 +5216,36 @@
   },
   "FocusBracketing": {
     "frequency": 0.008,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "FocusBracketingCropDepthComposite": {
+    "frequency": 0.004,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "FocusBracketingDepthComposite": {
+    "frequency": 0.004,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "FocusBracketingExposureSmoothing": {
+    "frequency": 0.004,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "FocusBracketingFlashInterval": {
+    "frequency": 0.004,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "FocusBracketingFocusIncrement": {
+    "frequency": 0.004,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "FocusBracketingImageCount": {
+    "frequency": 0.004,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -5594,6 +5554,11 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
+  "FullFrameRatePlaybackIntent": {
+    "frequency": 0.0002,
+    "mainstream": true,
+    "groups": ["QuickTime"]
+  },
   "FullImageSize": {
     "frequency": 0.02,
     "mainstream": true,
@@ -5690,7 +5655,7 @@
     "groups": ["APP"]
   },
   "GPSAltitude": {
-    "frequency": 0.03,
+    "frequency": 0.04,
     "mainstream": true,
     "groups": ["APP", "Composite", "EXIF", "XMP"]
   },
@@ -5705,7 +5670,7 @@
     "groups": ["EXIF"]
   },
   "GPSCoordinates": {
-    "frequency": 0.0009,
+    "frequency": 0.001,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -5817,7 +5782,7 @@
   "GPSPosition": {
     "frequency": 0.04,
     "mainstream": true,
-    "groups": ["Composite", "EXIF"]
+    "groups": ["Composite"]
   },
   "GPSProcessingMethod": {
     "frequency": 0.01,
@@ -6225,7 +6190,7 @@
     "groups": ["QuickTime"]
   },
   "HandlerVendorID": {
-    "frequency": 0.0008,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -6433,6 +6398,11 @@
     "frequency": 0.002,
     "mainstream": true,
     "groups": ["XMP"]
+  },
+  "HybridLogGamma": {
+    "frequency": 0.002,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
   },
   "HyperfocalDistance": {
     "frequency": 0.5,
@@ -6927,11 +6897,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "InternalNDFilter": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "InternalSerialNumber": {
     "frequency": 0.2,
     "mainstream": true,
@@ -7182,6 +7147,26 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
+  "LUT1Name": {
+    "frequency": 0.001,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "LUT1Opacity": {
+    "frequency": 0.0009,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "LUT2Name": {
+    "frequency": 0.0009,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "LUT2Opacity": {
+    "frequency": 0.0009,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
   "LVShootingAreaDisplay": {
     "frequency": 0.002,
     "mainstream": true,
@@ -7264,11 +7249,6 @@
   },
   "LensDriveNoAF": {
     "frequency": 0.004,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "LensDriveWhenAFImpossible": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -7663,7 +7643,7 @@
     "groups": ["MakerNotes"]
   },
   "LocationAccuracyHorizontal": {
-    "frequency": 0.0007,
+    "frequency": 0.0008,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -7919,11 +7899,6 @@
   },
   "ManometerReading": {
     "frequency": 0.02,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "ManualAFPointSelPattern": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -8203,7 +8178,7 @@
     "groups": ["MakerNotes"]
   },
   "MetaFormat": {
-    "frequency": 0.002,
+    "frequency": 0.003,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -8697,11 +8672,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "MultiExposureControl": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "MultiExposureMode": {
     "frequency": 0.02,
     "mainstream": true,
@@ -9092,11 +9062,6 @@
     "mainstream": true,
     "groups": ["Composite", "EXIF", "PanasonicRaw", "XMP"]
   },
-  "OrientationLinkedAF": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "OrientationLinkedAFPoint": {
     "frequency": 0.002,
     "mainstream": true,
@@ -9457,6 +9422,11 @@
     "mainstream": true,
     "groups": ["XMP"]
   },
+  "PersonInImageWDetails": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
   "PerspectiveAspect": {
     "frequency": 0.001,
     "mainstream": true,
@@ -9529,11 +9499,6 @@
   },
   "PhotoShootingMenuBankImageArea": {
     "frequency": 0.002,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "PhotoStyle": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -10036,7 +10001,7 @@
     "groups": ["EXIF"]
   },
   "ProductionApertureDimensions": {
-    "frequency": 0.0007,
+    "frequency": 0.0008,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -10111,7 +10076,7 @@
     "groups": ["APP"]
   },
   "PurchaseFileFormat": {
-    "frequency": 0.0005,
+    "frequency": 0.0006,
     "mainstream": true,
     "groups": ["QuickTime"]
   },
@@ -10157,11 +10122,6 @@
   },
   "RFLensMFFocusRingSensitivity": {
     "frequency": 0.002,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "RFLensType": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -10625,6 +10585,46 @@
     "mainstream": false,
     "groups": ["APP"]
   },
+  "RegionAppliedToDimensionsH": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionAppliedToDimensionsUnit": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionAppliedToDimensionsW": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionAreaH": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionAreaUnit": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionAreaW": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionAreaX": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionAreaY": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
   "RegionInfo": {
     "frequency": 0.002,
     "mainstream": true,
@@ -10633,6 +10633,26 @@
   "RegionInfoMP": {
     "frequency": 0.0004,
     "mainstream": true,
+    "groups": ["XMP"]
+  },
+  "RegionName": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionPersonDisplayName": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionRotation": {
+    "frequency": 0,
+    "mainstream": false,
+    "groups": ["XMP"]
+  },
+  "RegionType": {
+    "frequency": 0,
+    "mainstream": false,
     "groups": ["XMP"]
   },
   "RegistryID": {
@@ -11135,11 +11155,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "SelectAFAreaSelectionMode": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "SelectableAFPoint": {
     "frequency": 0.001,
     "mainstream": true,
@@ -11359,11 +11374,6 @@
     "frequency": 0.1,
     "mainstream": true,
     "groups": ["APP", "EXIF", "MakerNotes", "Meta", "XMP"]
-  },
-  "SerialNumberFormat": {
-    "frequency": 0.009,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
   },
   "SerialNumberHash": {
     "frequency": 0.0004,
@@ -12005,11 +12015,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "SpotMeteringMode": {
-    "frequency": 0.09,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "StackedImage": {
     "frequency": 0.007,
     "mainstream": true,
@@ -12433,7 +12438,7 @@
   "ThumbnailTIFF": {
     "frequency": 0.006,
     "mainstream": true,
-    "groups": ["EXIF", "JFIF"]
+    "groups": ["Composite", "EXIF", "JFIF"]
   },
   "ThumbnailWidth": {
     "frequency": 0.002,
@@ -13197,11 +13202,6 @@
   },
   "WBShiftGM": {
     "frequency": 0.05,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "WBShiftIntelligentAuto": {
-    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },

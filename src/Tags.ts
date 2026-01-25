@@ -40,7 +40,7 @@ export interface ExifToolTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups ExifTool
-   * @example 13.43
+   * @example 13.46
    */
   ExifToolVersion?: string;
   /**
@@ -99,8 +99,10 @@ export interface FileTags {
   ColorComponents?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
-   * @groups File, XMP
+   * @groups File
    * @example "This is a comment."
+   * @remarks Comment text. JPEG COM segment, GIF comment, or other file-level comment.
+   * Not an XMP tag despite common confusion.
    */
   Comment?: string;
   /**
@@ -136,7 +138,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:12:05 15:50:43Z"
+   * @example "2026:01:25 18:36:13Z"
    * @remarks File system access date/time. Not stored metadata - file system property.
    * Writable on some systems. Changes when file is read.
    * @see https://exiftool.org/TagNames/File.html
@@ -154,7 +156,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2025:12:02 01:24:35Z"
+   * @example "2026:01:25 18:36:11Z"
    * @remarks File system inode change date/time (Unix/Linux). Not stored metadata - file system property.
    * Changes when file metadata (permissions, ownership) or content changes. Not available on Windows.
    * @see https://exiftool.org/TagNames/File.html
@@ -174,7 +176,7 @@ export interface FileTags {
    * @groups File
    * @example "zv_e10m2.jpg"
    * @remarks Name of the file. Not stored metadata - intrinsic file property.
-   * Writable: can be used with -o option to set output filename.
+   * Writable: can rename files. May include full path to set Directory simultaneously.
    * @see https://exiftool.org/TagNames/File.html
    */
   FileName?: string;
@@ -189,7 +191,7 @@ export interface FileTags {
    * @groups File
    * @example "990 bytes"
    * @remarks Size of the file. Not stored metadata - intrinsic file property.
-   * Read-only composite calculated from file system.
+   * Read-only. Uses SI prefixes by default (1 kB = 1000 bytes).
    * @see https://exiftool.org/TagNames/File.html
    */
   FileSize?: string;
@@ -224,8 +226,8 @@ export interface FileTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -239,8 +241,8 @@ export interface FileTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
@@ -553,7 +555,7 @@ export interface CompositeTags {
    */
   FOV?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -563,7 +565,8 @@ export interface CompositeTags {
    * @groups Composite, EXIF, XMP
    * @example "Unknown (Sea level reference)"
    * @remarks GPS altitude reference.
-   * Valid values: 0 (above sea level), 1 (below sea level)
+   * Values: 0 (Above Sea Level), 1 (Below Sea Level), 2 (Positive Sea Level, sea-level ref), 3 (Negative Sea Level, sea-level ref).
+   * Values 2-3 added in EXIF 3.0 for ellipsoidal vs sea-level reference.
    */
   GPSAltitudeRef?: number;
   /**
@@ -617,8 +620,12 @@ export interface CompositeTags {
   GPSLongitudeRef?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
-   * @groups Composite, EXIF
+   * @groups Composite
    * @example "7.196465 134.376806666667"
+   * @remarks Combined GPS latitude and longitude. Writable composite tag.
+   * When written, updates GPSLatitude, GPSLatitudeRef, GPSLongitude, GPSLongitudeRef.
+   * Accepts Google Maps coordinates (right-click format).
+   * @see https://exiftool.org/TagNames/Composite.html
    */
   GPSPosition?: string;
   /**
@@ -631,8 +638,8 @@ export interface CompositeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -649,8 +656,8 @@ export interface CompositeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
@@ -739,10 +746,10 @@ export interface CompositeTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
-   * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
-   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW)
-   * Note: Most images use values 1, 3, 6, and 8.
-   * @see https://exiftool.org/TagNames/MWG.html
+   * @remarks Image orientation. Standard EXIF tag 0x112 in IFD0.
+   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW).
+   * Most images use values 1, 3, 6, and 8.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Orientation?: number;
   /**
@@ -777,6 +784,9 @@ export interface CompositeTags {
    * @frequency 🔥 ★☆☆☆ (9%)
    * @groups Composite, MakerNotes
    * @example "816x459"
+   * @remarks Dimensions of the embedded preview image (e.g., '816x459').
+   * Read-only composite. Useful for checking preview size without extracting binary data.
+   * @see https://exiftool.org/TagNames/Composite.html
    */
   PreviewImageSize?: string;
   /**
@@ -889,6 +899,14 @@ export interface CompositeTags {
    * @see https://exiftool.org/TagNames/Composite.html
    */
   SubSecModifyDate?: ExifDateTime | string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (1%)
+   * @groups Composite, EXIF, JFIF
+   * @example "(Binary data 57816 bytes, use -b option to extract)"
+   * @remarks Embedded TIFF thumbnail image data. Composite tag rebuilt from component EXIF tags.
+   * Read-only - derived from SubfileType, Compression, ImageWidth, ImageHeight, etc.
+   */
+  ThumbnailTIFF?: BinaryField;
 }
 
 export const CompositeTagsNames = strEnum(
@@ -966,6 +984,7 @@ export const CompositeTagsNames = strEnum(
   "SubSecCreateDate",
   "SubSecDateTimeOriginal",
   "SubSecModifyDate",
+  "ThumbnailTIFF",
 ) satisfies StrEnum<keyof CompositeTags>;
 
 export type CompositeTag = StrEnumKeys<typeof CompositeTagsNames>;
@@ -1130,8 +1149,9 @@ export interface APPTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups APP, EXIF, XMP
    * @example 91702442
+   * @remarks Camera serial number. DNG tag 0xc62f, writable string in IFD0.
    */
-  CameraSerialNumber?: number;
+  CameraSerialNumber?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (1%)
    * @groups APP
@@ -1214,8 +1234,10 @@ export interface APPTags {
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups APP, MakerNotes
    * @example 45
+   * @remarks Ricoh Theta compass heading direction in degrees.
+   * Camera orientation sensor data.
    */
-  Compass?: string;
+  Compass?: number;
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups APP, EXIF, File, MakerNotes, XMP
@@ -1499,7 +1521,7 @@ export interface APPTags {
    */
   GMean?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -1621,7 +1643,7 @@ export interface APPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP
-   * @example "(Binary data 1458 bytes, use -b option to extract)"
+   * @example "(Binary data 1417 bytes, use -b option to extract)"
    */
   HDRGainCurve?: BinaryField | string;
   /**
@@ -1646,8 +1668,8 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -1664,8 +1686,8 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
@@ -1939,7 +1961,7 @@ export interface APPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (1%)
    * @groups APP
-   * @example "(Binary data 614604 bytes, use -b option to extract)"
+   * @example "(Binary data 153804 bytes, use -b option to extract)"
    */
   RawThermalImage?: BinaryField | string;
   /**
@@ -2667,8 +2689,9 @@ export interface EXIFTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups APP, EXIF, XMP
    * @example 91702442
+   * @remarks Camera serial number. DNG tag 0xc62f, writable string in IFD0.
    */
-  CameraSerialNumber?: number;
+  CameraSerialNumber?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
@@ -2992,7 +3015,7 @@ export interface EXIFTags {
    */
   Gamma?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -3002,7 +3025,8 @@ export interface EXIFTags {
    * @groups Composite, EXIF, XMP
    * @example "Unknown (Sea level reference)"
    * @remarks GPS altitude reference.
-   * Valid values: 0 (above sea level), 1 (below sea level)
+   * Values: 0 (Above Sea Level), 1 (Below Sea Level), 2 (Positive Sea Level, sea-level ref), 3 (Negative Sea Level, sea-level ref).
+   * Values 2-3 added in EXIF 3.0 for ellipsoidal vs sea-level reference.
    */
   GPSAltitudeRef?: number;
   /**
@@ -3136,12 +3160,6 @@ export interface EXIFTags {
    */
   GPSMeasureMode?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (4%)
-   * @groups Composite, EXIF
-   * @example "7.196465 134.376806666667"
-   */
-  GPSPosition?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, XMP
    * @example "gps"
@@ -3233,8 +3251,8 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -3257,14 +3275,18 @@ export interface EXIFTags {
    * @frequency 🔥 ★☆☆☆ (9%)
    * @groups EXIF, MakerNotes, XMP
    * @example "fefafc6093e2c1470ac8dfa06ef26990"
+   * @remarks Unique identifier for the image, typically a 32-character hex string.
+   * Useful for image deduplication, tracking identity across edits, and linking related files (e.g., RAW + JPEG pairs).
+   * May also appear in MakerNotes and XMP.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ImageUniqueID?: string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
@@ -3298,7 +3320,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 453632 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
    * Access via BinaryField to get raw bytes or base64 encoding.
    * @see https://exiftool.org/TagNames/EXIF.html
@@ -3367,7 +3389,7 @@ export interface EXIFTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 22102 bytes, use -b option to extract)"
+   * @example "(Binary data 22629 bytes, use -b option to extract)"
    */
   LinearizationTable?: BinaryField | string;
   /**
@@ -3503,10 +3525,10 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
-   * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
-   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW)
-   * Note: Most images use values 1, 3, 6, and 8.
-   * @see https://exiftool.org/TagNames/MWG.html
+   * @remarks Image orientation. Standard EXIF tag 0x112 in IFD0.
+   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW).
+   * Most images use values 1, 3, 6, and 8.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Orientation?: number;
   /**
@@ -3960,7 +3982,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -3969,20 +3991,24 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, MakerNotes
    * @example 9998
+   * @remarks Size in bytes of the embedded JPEG thumbnail.
+   * Useful for checking thumbnail availability without extracting binary data.
    */
   ThumbnailLength?: number;
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF
    * @example 998
+   * @remarks Byte offset of the embedded JPEG thumbnail within the file.
+   * Used with ThumbnailLength to locate thumbnail data.
    */
   ThumbnailOffset?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups EXIF, JFIF
+   * @groups Composite, EXIF, JFIF
    * @example "(Binary data 57816 bytes, use -b option to extract)"
-   * @remarks Embedded TIFF thumbnail image data. Binary data type.
-   * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
+   * @remarks Embedded TIFF thumbnail image data. Composite tag rebuilt from component EXIF tags.
+   * Read-only - derived from SubfileType, Compression, ImageWidth, ImageHeight, etc.
    */
   ThumbnailTIFF?: BinaryField;
   /**
@@ -4254,7 +4280,6 @@ export const EXIFTagsNames = strEnum(
   "GPSLongitudeRef",
   "GPSMapDatum",
   "GPSMeasureMode",
-  "GPSPosition",
   "GPSProcessingMethod",
   "GPSSatellites",
   "GPSSpeed",
@@ -4919,10 +4944,10 @@ export interface PanasonicRawTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
-   * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
-   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW)
-   * Note: Most images use values 1, 3, 6, and 8.
-   * @see https://exiftool.org/TagNames/MWG.html
+   * @remarks Image orientation. Standard EXIF tag 0x112 in IFD0.
+   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW).
+   * Most images use values 1, 3, 6, and 8.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Orientation?: number;
   /**
@@ -4971,18 +4996,6 @@ export interface PhotoshopTags {
    * @example true
    */
   CopyrightFlag?: boolean;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups Photoshop
-   * @example "inches"
-   */
-  DisplayedUnitsX?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups Photoshop
-   * @example "inches"
-   */
-  DisplayedUnitsY?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Photoshop
@@ -5089,8 +5102,6 @@ export interface PhotoshopTags {
 
 export const PhotoshopTagsNames = strEnum(
   "CopyrightFlag",
-  "DisplayedUnitsX",
-  "DisplayedUnitsY",
   "GlobalAltitude",
   "GlobalAngle",
   "HasRealMergedData",
@@ -5343,7 +5354,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
-   * @example "2025:06:24 15:24:45-07:00"
+   * @example "2025:10:21 12:15:18-07:00"
    */
   CreationDate?: ExifDateTime | string;
   /**
@@ -5388,6 +5399,12 @@ export interface QuickTimeTags {
    * @example "image/jpg"
    */
   Format?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups QuickTime
+   * @example 1
+   */
+  FullFrameRatePlaybackIntent?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups APP, EXIF, QuickTime
@@ -5464,8 +5481,8 @@ export interface QuickTimeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -5473,15 +5490,15 @@ export interface QuickTimeTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 453632 bytes, use -b option to extract)"
+   * @example "(Binary data 772608 bytes, use -b option to extract)"
    * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
    * Access via BinaryField to get raw bytes or base64 encoding.
    * @see https://exiftool.org/TagNames/EXIF.html
@@ -5541,7 +5558,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
-   * @example "2025:06:24 22:24:45"
+   * @example "2025:10:21 19:15:18"
    * @remarks Creation date/time for QuickTime/MOV/MP4 media track. Stored as seconds since 1904-01-01 UTC.
    * WARNING: Many cameras incorrectly store local time instead of UTC. ExifTool does not assume timezone unless QuickTimeUTC option is set.
    * For MOV/MP4 videos, use this tag instead of DateTimeOriginal.
@@ -5582,7 +5599,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
-   * @example "2025:06:24 22:24:47"
+   * @example "2025:10:21 19:15:21"
    */
   MediaModifyDate?: ExifDateTime | string;
   /**
@@ -5636,7 +5653,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
-   * @example 6
+   * @example 8
    */
   NextTrackID?: number;
   /**
@@ -5808,7 +5825,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
-   * @example "2025:06:24 22:24:45"
+   * @example "2025:10:21 19:15:18"
    */
   TrackCreateDate?: ExifDateTime | string;
   /**
@@ -5838,7 +5855,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
-   * @example "2025:06:24 22:24:47"
+   * @example "2025:10:21 19:15:21"
    */
   TrackModifyDate?: ExifDateTime | string;
   /**
@@ -5917,6 +5934,7 @@ export const QuickTimeTagsNames = strEnum(
   "FocalLengthIn35mmFormat",
   "FontName",
   "Format",
+  "FullFrameRatePlaybackIntent",
   "Gamma",
   "GenBalance",
   "GenFlags",
@@ -6213,8 +6231,8 @@ export interface RIFFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -6222,8 +6240,8 @@ export interface RIFFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
@@ -6346,17 +6364,17 @@ export interface JFIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
   ThumbnailImage?: BinaryField;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups EXIF, JFIF
+   * @groups Composite, EXIF, JFIF
    * @example "(Binary data 57816 bytes, use -b option to extract)"
-   * @remarks Embedded TIFF thumbnail image data. Binary data type.
-   * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
+   * @remarks Embedded TIFF thumbnail image data. Composite tag rebuilt from component EXIF tags.
+   * Read-only - derived from SubfileType, Compression, ImageWidth, ImageHeight, etc.
    */
   ThumbnailTIFF?: BinaryField;
   /**
@@ -6417,18 +6435,24 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 9
+   * @remarks Accelerometer X-axis reading. Panasonic: positive is acceleration to the left.
+   * Also found in DJI and Lytro cameras. Used for motion/orientation detection.
    */
   AccelerometerX?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 80
+   * @remarks Accelerometer Y-axis reading. Panasonic: positive is acceleration backwards.
+   * Also found in DJI and Lytro cameras. Used for motion/orientation detection.
    */
   AccelerometerY?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 56
+   * @remarks Accelerometer Z-axis reading. Panasonic: positive is acceleration upward.
+   * Also found in DJI and Lytro cameras. Used for motion/orientation detection.
    */
   AccelerometerZ?: number;
   /**
@@ -6461,12 +6485,6 @@ export interface MakerNotesTags {
    * @example "+0.0"
    */
   ActualCompensation?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Off"
-   */
-  AddAspectRatioInfo?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -6722,12 +6740,6 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
-   * @example
-   */
-  AFAccelDecelTracking?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
    * @example "Shutter/AF-On"
    */
   AFActivation?: string;
@@ -6791,12 +6803,6 @@ export interface MakerNotesTags {
    * @example "none"
    */
   AFAreas?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Main Dial"
-   */
-  AFAreaSelectionMethod?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -6887,12 +6893,6 @@ export interface MakerNotesTags {
    * @example 8
    */
   AFConfidence?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "n/a"
-   */
-  AFConfigTool?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -7226,12 +7226,6 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
-   * @example 0
-   */
-  AFPointSwitching?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
    * @example 903
    */
   AFPredictor?: number;
@@ -7241,12 +7235,6 @@ export interface MakerNotesTags {
    * @example "Off"
    */
   AFTracking?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example
-   */
-  AFTrackingSensitivity?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -7266,12 +7254,6 @@ export interface MakerNotesTags {
    */
   AIServoContinuousShooting?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Release Priority"
-   */
-  AIServoFirstImage?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Unknown (2)"
@@ -7283,12 +7265,6 @@ export interface MakerNotesTags {
    * @example "1: AF, 2: Tracking"
    */
   AIServoImagePriority?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Release High Priority"
-   */
-  AIServoSecondImage?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -7980,6 +7956,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "No Bracket"
+   * @remarks Panasonic exposure bracketing configuration.
+   * Values: 'No Bracket', '3 Images, Sequence 0/-/+', '3 Images, Sequence -/0/+',
+   * '5 Images, Sequence 0/-/+', '5 Images, Sequence -/0/+', '7 Images, Sequence 0/-/+', '7 Images, Sequence -/0/+'.
    */
   BracketSettings?: string;
   /**
@@ -8135,7 +8114,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
-   * @example "(Binary data 8412 bytes, use -b option to extract)"
+   * @example "(Binary data 8378 bytes, use -b option to extract)"
    */
   CameraParameters?: BinaryField | string;
   /**
@@ -8354,12 +8333,6 @@ export interface MakerNotesTags {
    * @example "Off"
    */
   ClearRetouch?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "6 fps"
-   */
-  CLModeShootingSpeed?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -8796,8 +8769,10 @@ export interface MakerNotesTags {
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups APP, MakerNotes
    * @example 45
+   * @remarks Ricoh Theta compass heading direction in degrees.
+   * Camera orientation sensor data.
    */
-  Compass?: string;
+  Compass?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -9555,12 +9530,6 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
-   * @example "Unknown (0)"
-   */
-  DistortionCorrParamsNumber?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
    * @example "Yes"
    */
   DistortionCorrParamsPresent?: string;
@@ -10108,6 +10077,8 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "Off"
+   * @remarks Canon eye detection AF setting. Values: 'On' or 'Off'.
+   * Enables autofocus tracking on detected eyes.
    */
   EyeDetection?: string;
   /**
@@ -10144,6 +10115,8 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "On"
+   * @remarks Sony face detection setting. Values: 'On' (16) or 'Off' (1).
+   * Indicates whether face detection was enabled during capture.
    */
   FaceDetection?: string;
   /**
@@ -10204,12 +10177,16 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "On"
+   * @remarks Samsung face recognition setting. Values: 'On' or 'Off'.
+   * When enabled, camera attempts to match faces to registered profiles.
    */
   FaceRecognition?: string;
   /**
    * @frequency 🔥 ★★★☆ (20%)
    * @groups MakerNotes
    * @example 65535
+   * @remarks Number of faces detected by the camera during capture.
+   * Found in MakerNotes from Canon, Nikon, Sony, Panasonic, Olympus, Fujifilm, Pentax, Ricoh, and others.
    */
   FacesDetected?: number;
   /**
@@ -10228,6 +10205,8 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
    * @example 12336
+   * @remarks Panasonic: number of faces matched to user-registered known faces.
+   * Related tags: RecognizedFace*Name, RecognizedFace*Position.
    */
   FacesRecognized?: number;
   /**
@@ -10362,12 +10341,6 @@ export interface MakerNotesTags {
    * @example 0
    */
   FineTuneOptMatrixMetering?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example 0
-   */
-  FineTuneOptSpotMetering?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -10879,12 +10852,6 @@ export interface MakerNotesTags {
    */
   FocalPlaneAFPointArea?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example 9
-   */
-  FocalPlaneAFPointsUsed?: number;
-  /**
    * @frequency 🔥 ★☆☆☆ (7%)
    * @groups MakerNotes
    * @example "9.45 mm"
@@ -10935,9 +10902,45 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
-   * @example "Disable"
+   * @example "Off"
    */
   FocusBracketing?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
+  FocusBracketingCropDepthComposite?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
+  FocusBracketingDepthComposite?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
+  FocusBracketingExposureSmoothing?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
+  FocusBracketingFlashInterval?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
+  FocusBracketingFocusIncrement?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
+  FocusBracketingImageCount?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -11635,6 +11638,12 @@ export interface MakerNotesTags {
    */
   HueAdjustment?: string;
   /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example "Off"
+   */
+  HybridLogGamma?: string;
+  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "(Binary data 8 bytes, use -b option to extract)"
@@ -11722,8 +11731,8 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -11842,14 +11851,18 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★☆☆☆ (9%)
    * @groups EXIF, MakerNotes, XMP
    * @example "fefafc6093e2c1470ac8dfa06ef26990"
+   * @remarks Unique identifier for the image, typically a 32-character hex string.
+   * Useful for image deduplication, tracking identity across edits, and linking related files (e.g., RAW + JPEG pairs).
+   * May also appear in MakerNotes and XMP.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ImageUniqueID?: string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
@@ -11955,12 +11968,6 @@ export interface MakerNotesTags {
    * @example 95
    */
   InternalFlashTable?: number;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example 0
-   */
-  InternalNDFilter?: number;
   /**
    * @frequency 🔥 ★★☆☆ (20%)
    * @groups MakerNotes
@@ -12346,12 +12353,6 @@ export interface MakerNotesTags {
    */
   LensDriveNoAF?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Continue Focus Search"
-   */
-  LensDriveWhenAFImpossible?: string;
-  /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "RL8 :V01390000 "
@@ -12576,6 +12577,8 @@ export interface MakerNotesTags {
    * @frequency 🧊 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example 8
+   * @remarks Pentax light meter reading. Calibration varies by camera model.
+   * For Optio WP, add 6 to get approximate LV (Light Value).
    */
   LightReading?: number;
   /**
@@ -12767,6 +12770,30 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
+   * @example "Sample LUT1"
+   */
+  LUT1Name?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 100
+   */
+  LUT1Opacity?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example ""
+   */
+  LUT2Name?: string;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
+   * @example 0
+   */
+  LUT2Opacity?: number;
+  /**
+   * @frequency 🔥 ☆☆☆☆ (0%)
+   * @groups MakerNotes
    * @example "Masked"
    */
   LVShootingAreaDisplay?: string;
@@ -12857,12 +12884,6 @@ export interface MakerNotesTags {
    * @example "Stops at AF area edges"
    */
   ManualAFPointSelectPattern?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Stops at AF Area Edges"
-   */
-  ManualAFPointSelPattern?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -13046,7 +13067,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1316 bytes, use -b option to extract)"
+   * @example "(Binary data 1748 bytes, use -b option to extract)"
    */
   MergedImage?: BinaryField | string;
   /**
@@ -13521,12 +13542,6 @@ export interface MakerNotesTags {
    */
   MultiExposureAutoGain?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Bright (comparative)"
-   */
-  MultiExposureControl?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
    * @example "Off"
@@ -13809,12 +13824,6 @@ export interface MakerNotesTags {
    */
   OrderNumber?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Separate Vert/Horiz Points"
-   */
-  OrientationLinkedAF?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Same for vertical and horizontal"
@@ -14084,12 +14093,6 @@ export interface MakerNotesTags {
    * @example "FX (36x24)"
    */
   PhotoShootingMenuBankImageArea?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Vivid"
-   */
-  PhotoStyle?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
@@ -14404,6 +14407,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★☆☆☆ (9%)
    * @groups Composite, MakerNotes
    * @example "816x459"
+   * @remarks Dimensions of the embedded preview image (e.g., '816x459').
+   * Read-only composite. Useful for checking preview size without extracting binary data.
+   * @see https://exiftool.org/TagNames/Composite.html
    */
   PreviewImageSize?: string;
   /**
@@ -14720,6 +14726,8 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "n/a"
+   * @remarks Sony RAW compression setting: 'Compressed RAW', 'Uncompressed RAW', or 'Lossless Compressed RAW'.
+   * Introduced 2015 for uncompressed 14-bit RAW support.
    */
   RAWFileType?: string;
   /**
@@ -14969,12 +14977,6 @@ export interface MakerNotesTags {
    */
   RFLensMFFocusRingSensitivity?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "n/a"
-   */
-  RFLensType?: string;
-  /**
    * @frequency 🧊 ☆☆☆☆ (1%)
    * @groups MakerNotes
    * @example "2012:03:29 18:17:52"
@@ -15213,12 +15215,6 @@ export interface MakerNotesTags {
    */
   SelectableAFPoint?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Single-point AF, Auto, Zone AF, Spot AF, [6], [8], [9], […], [14]"
-   */
-  SelectAFAreaSelectionMode?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Unknown (87)"
@@ -15446,12 +15442,6 @@ export interface MakerNotesTags {
    * @example "sw02028104 "
    */
   SerialNumber?: string;
-  /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example "Format 2"
-   */
-  SerialNumberFormat?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -16050,12 +16040,6 @@ export interface MakerNotesTags {
    */
   SpotFocusPointY?: number;
   /**
-   * @frequency 🔥 ★☆☆☆ (9%)
-   * @groups MakerNotes
-   * @example "Center"
-   */
-  SpotMeteringMode?: string;
-  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "Enable (use active AF point)"
@@ -16179,6 +16163,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
    * @example "People"
+   * @remarks Nikon Z series subject detection mode.
+   * Values: 'Off', 'Auto', 'People', 'Animals', 'Vehicles', 'Birds', 'Airplanes'.
+   * Indicates what the camera's AI was configured to detect during capture.
    */
   SubjectDetection?: string;
   /**
@@ -16364,7 +16351,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 10202 bytes, use -b option to extract)"
+   * @example "(Binary data 39781 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -16379,6 +16366,8 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, MakerNotes
    * @example 9998
+   * @remarks Size in bytes of the embedded JPEG thumbnail.
+   * Useful for checking thumbnail availability without extracting binary data.
    */
   ThumbnailLength?: number;
   /**
@@ -16513,7 +16502,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 1679 bytes, use -b option to extract)"
+   * @example "(Binary data 1505 bytes, use -b option to extract)"
    */
   ToneCurveTable?: BinaryField | string;
   /**
@@ -16997,12 +16986,6 @@ export interface MakerNotesTags {
    */
   WBShiftGM?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (1%)
-   * @groups MakerNotes
-   * @example 0
-   */
-  WBShiftIntelligentAuto?: number;
-  /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
@@ -17083,7 +17066,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 2217 bytes, use -b option to extract)"
+   * @example "(Binary data 2201 bytes, use -b option to extract)"
    */
   WhiteBalanceTable?: BinaryField | string;
   /**
@@ -17274,7 +17257,6 @@ export const MakerNotesTagsNames = strEnum(
   "ActionInAFCCont",
   "ActionPriority",
   "ActualCompensation",
-  "AddAspectRatioInfo",
   "AddIPTCInformation",
   "AddOriginalDecisionData",
   "ADJDebugInfo",
@@ -17317,7 +17299,6 @@ export const MakerNotesTagsNames = strEnum(
   "AETarget",
   "AEWhiteBalance",
   "AEXv",
-  "AFAccelDecelTracking",
   "AFActivation",
   "AFAdjustment",
   "AFAndMeteringButtons",
@@ -17329,7 +17310,6 @@ export const MakerNotesTagsNames = strEnum(
   "AFAreaModeSetting",
   "AFAreaPointSize",
   "AFAreas",
-  "AFAreaSelectionMethod",
   "AFAreaSelectMethod",
   "AFAreaSize",
   "AFAreaWidth",
@@ -17345,7 +17325,6 @@ export const MakerNotesTagsNames = strEnum(
   "AFButtonPressed",
   "AFCHold",
   "AFConfidence",
-  "AFConfigTool",
   "AFCoordinatesAvailable",
   "AFCPointTracking",
   "AFCSensitivity",
@@ -17401,17 +17380,13 @@ export const MakerNotesTagsNames = strEnum(
   "AFPointsSelected",
   "AFPointsSpecial",
   "AFPointsUsed",
-  "AFPointSwitching",
   "AFPredictor",
   "AFTracking",
-  "AFTrackingSensitivity",
   "AFType",
   "AFWithShutter",
   "AIServoContinuousShooting",
-  "AIServoFirstImage",
   "AIServoFirstImagePriority",
   "AIServoImagePriority",
-  "AIServoSecondImage",
   "AIServoSecondImagePriority",
   "AIServoTrackingMethod",
   "AIServoTrackingSensitivity",
@@ -17589,7 +17564,6 @@ export const MakerNotesTagsNames = strEnum(
   "Clarity",
   "ClarityControl",
   "ClearRetouch",
-  "CLModeShootingSpeed",
   "CmdDialsApertureSetting",
   "CmdDialsChangeMainSub",
   "CmdDialsMenuAndPlayback",
@@ -17787,7 +17761,6 @@ export const MakerNotesTagsNames = strEnum(
   "DistortionCorrectionValue",
   "DistortionCorrectionVersion",
   "DistortionCorrParams",
-  "DistortionCorrParamsNumber",
   "DistortionCorrParamsPresent",
   "DriveMode",
   "DriveModeSetting",
@@ -17922,7 +17895,6 @@ export const MakerNotesTagsNames = strEnum(
   "FineTuneOptCenterWeighted",
   "FineTuneOptHighlightWeighted",
   "FineTuneOptMatrixMetering",
-  "FineTuneOptSpotMetering",
   "FinishedImage",
   "Firmware",
   "FirmwareDate",
@@ -18008,7 +17980,6 @@ export const MakerNotesTagsNames = strEnum(
   "FocalLength",
   "FocalLengthTeleZoom",
   "FocalPlaneAFPointArea",
-  "FocalPlaneAFPointsUsed",
   "FocalPlaneDiagonal",
   "FocalPlaneXSize",
   "FocalPlaneYSize",
@@ -18018,6 +17989,12 @@ export const MakerNotesTagsNames = strEnum(
   "FocusAreaSelection",
   "FocusBracket",
   "FocusBracketing",
+  "FocusBracketingCropDepthComposite",
+  "FocusBracketingDepthComposite",
+  "FocusBracketingExposureSmoothing",
+  "FocusBracketingFlashInterval",
+  "FocusBracketingFocusIncrement",
+  "FocusBracketingImageCount",
   "FocusBracketStepSize",
   "FocusContinuous",
   "FocusDisplayAIServoAndMF",
@@ -18134,6 +18111,7 @@ export const MakerNotesTagsNames = strEnum(
   "Hue",
   "HueAdjust",
   "HueAdjustment",
+  "HybridLogGamma",
   "HyperlapsDebugInfo",
   "Illumination",
   "ImageAdjustment",
@@ -18186,7 +18164,6 @@ export const MakerNotesTagsNames = strEnum(
   "InternalFlashMode",
   "InternalFlashStrength",
   "InternalFlashTable",
-  "InternalNDFilter",
   "InternalSerialNumber",
   "IntervalDurationHours",
   "IntervalDurationMinutes",
@@ -18250,7 +18227,6 @@ export const MakerNotesTagsNames = strEnum(
   "LensDataVersion",
   "LensDistortionParams",
   "LensDriveNoAF",
-  "LensDriveWhenAFImpossible",
   "LensFirmware",
   "LensFirmwareVersion",
   "LensFocalLength",
@@ -18319,6 +18295,10 @@ export const MakerNotesTagsNames = strEnum(
   "LowLightAF",
   "LuminanceNoiseAmplitude",
   "LuminanceNoiseReduction",
+  "LUT1Name",
+  "LUT1Opacity",
+  "LUT2Name",
+  "LUT2Opacity",
   "LVShootingAreaDisplay",
   "M16CVersion",
   "Macro",
@@ -18334,7 +18314,6 @@ export const MakerNotesTagsNames = strEnum(
   "ManometerPressure",
   "ManometerReading",
   "ManualAFPointSelectPattern",
-  "ManualAFPointSelPattern",
   "ManualFlash",
   "ManualFlashOutput",
   "ManualFlashStrength",
@@ -18444,7 +18423,6 @@ export const MakerNotesTagsNames = strEnum(
   "MultiControllerWhileMetering",
   "MultiExposure",
   "MultiExposureAutoGain",
-  "MultiExposureControl",
   "MultiExposureMode",
   "MultiExposureOverlayMode",
   "MultiExposureShots",
@@ -18492,7 +18470,6 @@ export const MakerNotesTagsNames = strEnum(
   "OpticalZoomMode",
   "OpticalZoomOn",
   "OrderNumber",
-  "OrientationLinkedAF",
   "OrientationLinkedAFPoint",
   "OriginalDecisionDataOffset",
   "OriginalDirectory",
@@ -18538,7 +18515,6 @@ export const MakerNotesTagsNames = strEnum(
   "PhotosAppFeatureFlags",
   "PhotoShootingMenuBank",
   "PhotoShootingMenuBankImageArea",
-  "PhotoStyle",
   "PictureControlAdjust",
   "PictureControlBase",
   "PictureControlName",
@@ -18684,7 +18660,6 @@ export const MakerNotesTagsNames = strEnum(
   "ReverseIndicators",
   "ReverseShutterSpeedAperture",
   "RFLensMFFocusRingSensitivity",
-  "RFLensType",
   "RicohDate",
   "RicohImageHeight",
   "RicohImageWidth",
@@ -18724,7 +18699,6 @@ export const MakerNotesTagsNames = strEnum(
   "ScreenTips",
   "SecondarySlotFunction",
   "SelectableAFPoint",
-  "SelectAFAreaSelectionMode",
   "SelectAFAreaSelectMode",
   "SelfTimer",
   "SelfTimerInterval",
@@ -18763,7 +18737,6 @@ export const MakerNotesTagsNames = strEnum(
   "SequenceShotInterval",
   "SequentialShot",
   "SerialNumber",
-  "SerialNumberFormat",
   "ServoAFCharacteristics",
   "SetButtonCrossKeysFunc",
   "SetButtonWhenShooting",
@@ -18863,7 +18836,6 @@ export const MakerNotesTagsNames = strEnum(
   "SportEvents",
   "SpotFocusPointX",
   "SpotFocusPointY",
-  "SpotMeteringMode",
   "SpotMeterLinkToAFPoint",
   "SRActive",
   "SRAWQuality",
@@ -19020,7 +18992,6 @@ export const MakerNotesTagsNames = strEnum(
   "WBShiftAB",
   "WBShiftCreativeControl",
   "WBShiftGM",
-  "WBShiftIntelligentAuto",
   "WhiteBalance",
   "WhiteBalanceAutoAdjustment",
   "WhiteBalanceBias",
@@ -19235,15 +19206,16 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}]
+   * @example [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}]
    */
   Cameras?: Struct[];
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups APP, EXIF, XMP
    * @example 91702442
+   * @remarks Camera serial number. DNG tag 0xc62f, writable string in IFD0.
    */
-  CameraSerialNumber?: number;
+  CameraSerialNumber?: string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
@@ -19437,12 +19409,6 @@ export interface XMPTags {
    */
   ColorTemperature?: number;
   /**
-   * @frequency 🔥 ☆☆☆☆ (2%)
-   * @groups File, XMP
-   * @example "This is a comment."
-   */
-  Comment?: string;
-  /**
    * @frequency 🔥 ★★★★ (60%)
    * @groups EXIF, XMP
    * @example 90
@@ -19457,7 +19423,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]}
+   * @example {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]}
    */
   Container?: Struct;
   /**
@@ -19549,8 +19515,9 @@ export interface XMPTags {
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
    * @example 0
-   * @remarks Crop rotation angle. From XMP-crd (Camera Raw Defaults) namespace, which is avoided when writing due to conflicts with standard schemas.
-   * @see https://exiftool.org/TagNames/XMP.html#crd
+   * @remarks Crop rotation angle. Primarily from XMP-crs (Camera Raw Settings/Adobe Camera Raw) namespace.
+   * Also found in Canon DPP recipe files.
+   * @see https://exiftool.org/TagNames/XMP.html#crs
    */
   CropAngle?: number;
   /**
@@ -20058,7 +20025,7 @@ export interface XMPTags {
    */
   GimbalYawDegree?: string;
   /**
-   * @frequency 🔥 ☆☆☆☆ (3%)
+   * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
    */
@@ -20068,7 +20035,8 @@ export interface XMPTags {
    * @groups Composite, EXIF, XMP
    * @example "Unknown (Sea level reference)"
    * @remarks GPS altitude reference.
-   * Valid values: 0 (above sea level), 1 (below sea level)
+   * Values: 0 (Above Sea Level), 1 (Below Sea Level), 2 (Positive Sea Level, sea-level ref), 3 (Negative Sea Level, sea-level ref).
+   * Values 2-3 added in EXIF 3.0 for ellipsoidal vs sea-level reference.
    */
   GPSAltitudeRef?: number;
   /**
@@ -20289,8 +20257,8 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 960
-   * @remarks Image height in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image height in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageHeight?: number;
@@ -20325,14 +20293,18 @@ export interface XMPTags {
    * @frequency 🔥 ★☆☆☆ (9%)
    * @groups EXIF, MakerNotes, XMP
    * @example "fefafc6093e2c1470ac8dfa06ef26990"
+   * @remarks Unique identifier for the image, typically a 32-character hex string.
+   * Useful for image deduplication, tracking identity across edits, and linking related files (e.g., RAW + JPEG pairs).
+   * May also appear in MakerNotes and XMP.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ImageUniqueID?: string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, Composite, EXIF, File, MakerNotes, QuickTime, RIFF, XMP
    * @example 9728
-   * @remarks Image width in pixels. Not stored metadata - intrinsic file property.
-   * Read-only composite derived from file analysis.
+   * @remarks Image width in pixels. File-level property derived from file analysis.
+   * Read-only.
    * @see https://exiftool.org/TagNames/File.html
    */
   ImageWidth?: number;
@@ -20806,10 +20778,10 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups Composite, EXIF, PanasonicRaw, XMP
    * @example 8
-   * @remarks Image orientation. MWG composite tag from EXIF:Orientation.
-   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW)
-   * Note: Most images use values 1, 3, 6, and 8.
-   * @see https://exiftool.org/TagNames/MWG.html
+   * @remarks Image orientation. Standard EXIF tag 0x112 in IFD0.
+   * Valid values: 1 (Horizontal/normal), 2 (Mirror horizontal), 3 (Rotate 180°), 4 (Mirror vertical), 5 (Mirror horizontal + rotate 270° CW), 6 (Rotate 90° CW), 7 (Mirror horizontal + rotate 90° CW), 8 (Rotate 270° CW).
+   * Most images use values 1, 3, 6, and 8.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Orientation?: number;
   /**
@@ -20882,8 +20854,22 @@ export interface XMPTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example ["John Doe"]
+   * @remarks Name(s) of person(s) shown in the image. XMP-iptcExt namespace.
+   * Simpler alternative to MWG RegionInfo when face coordinates aren't needed.
+   * Multi-value field; array when multiple people identified.
+   * @see https://exiftool.org/TagNames/XMP.html#iptcExt
    */
-  PersonInImage?: string[];
+  PersonInImage?: string | string[];
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Structured details about person(s) shown in the image. XMP-iptcExt namespace.
+   * Includes PersonId, PersonName, PersonCharacteristic, PersonDescription.
+   * More detailed than PersonInImage; IPTC Extension 2014+ standard.
+   * @see https://exiftool.org/TagNames/XMP.html#iptcExt
+   */
+  PersonInImageWDetails?: Struct | Struct[];
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -21007,7 +20993,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example [{"CameraIndices":[0],"Type":"DepthPhoto"}]
+   * @example [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}]
    */
   Profiles?: Struct[];
   /**
@@ -21065,23 +21051,141 @@ export interface XMPTags {
    */
   RedSaturation?: number;
   /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Height of image when regions were defined. From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0).
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAppliedToDimensionsH?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "pixel"
+   * @remarks Unit for AppliedToDimensions (typically 'pixel'). From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0).
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAppliedToDimensionsUnit?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Width of image when regions were defined. From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0).
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAppliedToDimensionsW?: number;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Height of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0). Array when multiple regions.
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAreaH?: number | number[];
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example "normalized"
+   * @remarks Unit for RegionArea coordinates (typically 'normalized'). From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0).
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAreaUnit?: string;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Width of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0). Array when multiple regions.
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAreaW?: number | number[];
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Horizontal center of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0). Array when multiple regions.
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAreaX?: number | number[];
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Vertical center of region(s) as normalized value (0-1). From XMP-mwg-rs namespace.
+   * Flattened from RegionInfo struct (requires struct=0). Array when multiple regions.
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionAreaY?: number | number[];
+  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example {"AppliedToDimensions":{"H":3552,"W":2000},"RegionList":[…ace"}]}
+   * @remarks MWG face/region metadata structure containing AppliedToDimensions and RegionList.
+   * With struct=1 (default), contains nested objects. With struct=0, fields are flattened.
+   * Used by Lightroom, Picasa, Windows Photo Gallery, digiKam, and other photo organizers.
+   * @see https://exiftool.org/TagNames/MWG.html
    */
   RegionInfo?: Struct;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example {"Regions":""}
+   * @remarks Microsoft Photo region metadata structure (XMP-MP namespace).
+   * Alternative format to MWG regions, used by Windows Photo Gallery and some Microsoft tools.
+   * @see https://exiftool.org/TagNames/XMP.html#MP
    */
   RegionInfoMP?: Struct;
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Name(s) of identified region(s), typically person names for face regions.
+   * From XMP-mwg-rs namespace. Flattened from RegionInfo struct (requires struct=0).
+   * For Lightroom compatibility, also add names to Keywords/Subject.
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionName?: string | string[];
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Display name(s) for person(s) in face regions.
+   * From XMP-MP namespace (Microsoft Photo), not XMP-mwg-rs.
+   * Flattened from RegionInfoMP struct (requires struct=0).
+   * @see https://exiftool.org/TagNames/XMP.html#MP
+   */
+  RegionPersonDisplayName?: string | string[];
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Rotation angle(s) of region(s) in degrees.
+   * From XMP-mwg-rs namespace. Flattened from RegionInfo struct (requires struct=0).
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionRotation?: number | number[];
+  /**
+   * @frequency 🧊 ☆☆☆☆ (0%)
+   * @groups XMP
+   * @example
+   * @remarks Type(s) of region(s) identified.
+   * Valid values: 'Face', 'Pet', 'BarCode', 'Focus'.
+   * From XMP-mwg-rs namespace. Flattened from RegionInfo struct (requires struct=0).
+   * @see https://exiftool.org/TagNames/MWG.html
+   */
+  RegionType?: string | string[];
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
    * @example [{"RegItemId":"Number1","RegOrgId":"TestName1"},{"RegItem…ame3"}]
    * @remarks Registry identifiers for the image. XMP-iptcExt namespace struct type.
-   * Flattened fields: RegistryEntryRole, RegistryItemID.
+   * Flattened fields: RegistryEntryRole, RegistryItemID, RegistryOrganisationID.
    * @see https://exiftool.org/TagNames/XMP.html#iptcExt
    */
   RegistryID?: Struct[];
@@ -21256,7 +21360,7 @@ export interface XMPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example "(Binary data 696 bytes, use -b option to extract)"
+   * @example "(Binary data 676 bytes, use -b option to extract)"
    */
   ShotLogData?: BinaryField | string;
   /**
@@ -21682,7 +21786,6 @@ export const XMPTagsNames = strEnum(
   "ColorNoiseReductionSmoothness",
   "ColorSpace",
   "ColorTemperature",
-  "Comment",
   "CompressedBitsPerPixel",
   "Compression",
   "Container",
@@ -21913,6 +22016,7 @@ export const XMPTagsNames = strEnum(
   "ParametricShadows",
   "ParametricShadowSplit",
   "PersonInImage",
+  "PersonInImageWDetails",
   "PerspectiveAspect",
   "PerspectiveHorizontal",
   "PerspectiveRotate",
@@ -21942,8 +22046,20 @@ export const XMPTagsNames = strEnum(
   "RecommendedExposureIndex",
   "RedHue",
   "RedSaturation",
+  "RegionAppliedToDimensionsH",
+  "RegionAppliedToDimensionsUnit",
+  "RegionAppliedToDimensionsW",
+  "RegionAreaH",
+  "RegionAreaUnit",
+  "RegionAreaW",
+  "RegionAreaX",
+  "RegionAreaY",
   "RegionInfo",
   "RegionInfoMP",
+  "RegionName",
+  "RegionPersonDisplayName",
+  "RegionRotation",
+  "RegionType",
   "RegistryID",
   "RelativeAltitude",
   "ResolutionUnit",
@@ -22054,8 +22170,8 @@ declare const _XMPTag: Expect<Equal<XMPTag, keyof XMPTags>>;
  * - @groups: comma-separated list of metadata groups where this tag appears (e.g., "EXIF, MakerNotes")
  * - @example: representative value for the tag
  *
- * Autogenerated by "npm run mktags" by ExifTool 13.43 on Fri Dec 05 2025.
- * 2974 unique tags were found in 10528 photo and video files.
+ * Autogenerated by "npm run mktags" by ExifTool 13.46 on Sun Jan 25 2026.
+ * 2998 unique tags were found in 10529 photo and video files.
  *
  * @see https://exiftool.org/TagNames/
  */
