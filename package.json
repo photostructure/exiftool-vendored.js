@@ -119,7 +119,7 @@
     "eslint-plugin-redos": "^4.5.0",
     "eslint-plugin-regexp": "^2.10.0",
     "extract-zip": "^2.0.1",
-    "geo-tz": "^8.1.4",
+    "geo-tz": "^8.1.5",
     "globals": "^17.0.0",
     "globule": "^1.3.4",
     "mocha": "^11.7.5",
@@ -134,7 +134,7 @@
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.28.15",
+    "typedoc": "^0.28.16",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0",
     "xpath": "^0.0.34"
@@ -148,7 +148,7 @@
     "luxon": "^3.7.2"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "13.45.0",
-    "exiftool-vendored.pl": "13.45.0"
+    "exiftool-vendored.exe": "13.46.0",
+    "exiftool-vendored.pl": "13.46.0"
   }
 }
