@@ -1807,4 +1807,59 @@ describe("ReadTask", () => {
       });
     });
   });
+
+  describe("MWG Face Region parsing", () => {
+    const faceFile = join(testDir, "with_faces.jpg");
+
+    it("reads RegionInfo as nested struct with default struct=1", async () => {
+      const t = await exiftool.read(faceFile);
+      expect(t.RegionInfo).to.be.an("object");
+      const regionInfo = t.RegionInfo as any;
+      expect(regionInfo.AppliedToDimensions).to.containSubset({
+        W: 640,
+        H: 480,
+        Unit: "pixel",
+      });
+      expect(regionInfo.RegionList).to.be.an("array").with.lengthOf(2);
+      expect(regionInfo.RegionList[0]).to.containSubset({
+        Name: "Alice Smith",
+        Type: "Face",
+      });
+      expect(regionInfo.RegionList[0].Area).to.containSubset({
+        X: 0.35,
+        Y: 0.4,
+        W: 0.25,
+        H: 0.35,
+        Unit: "normalized",
+      });
+      expect(regionInfo.RegionList[1]).to.containSubset({
+        Name: "Bob Jones",
+        Type: "Face",
+      });
+    });
+
+    it("reads flattened region tags with struct=0", async () => {
+      const t = await exiftool.read(faceFile, { struct: 0 });
+      // With struct=0, RegionInfo becomes flattened tags
+      expect(t.RegionInfo).to.eql(undefined);
+
+      // Check flattened tags exist
+      const tags = t as any;
+      expect(tags.RegionAppliedToDimensionsW).to.eql(640);
+      expect(tags.RegionAppliedToDimensionsH).to.eql(480);
+      expect(tags.RegionAppliedToDimensionsUnit).to.eql("pixel");
+
+      // Multiple faces = arrays
+      expect(tags.RegionName).to.eql(["Alice Smith", "Bob Jones"]);
+      expect(tags.RegionType).to.eql(["Face", "Face"]);
+      expect(tags.RegionAreaX).to.eql([0.35, 0.7]);
+      expect(tags.RegionAreaY).to.eql([0.4, 0.45]);
+    });
+
+    it("reads PersonInImage as array", async () => {
+      const t = await exiftool.read(faceFile);
+      expect(t.PersonInImage).to.be.an("array");
+      expect(t.PersonInImage).to.eql(["Alice Smith", "Bob Jones"]);
+    });
+  });
 });
