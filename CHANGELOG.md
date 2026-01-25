@@ -35,6 +35,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.3.0
+
+- 🌱 Upgraded ExifTool to version [13.46](https://exiftool.org/history.html#13.46).
+
+- 📦 Added tags and improved descriptions in the [Tags](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.Tags.html) interface
+
 ### v35.2.0
 
 - 🐞 Pull in batch-cluster `on("exit")` sync cleanup fix in [v17.1.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.1.0)
