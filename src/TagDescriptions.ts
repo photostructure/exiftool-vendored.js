@@ -130,7 +130,7 @@ const CuratedDescriptions: Record<string, TagDescription> = {
     see: "https://exiftool.org/TagNames/File.html",
   },
   Flash: {
-    desc: "Flash status and mode as bitfield. Common values: 0x00 (No Flash), 0x01 (Fired), 0x05 (Fired, Return not detected), 0x07 (Fired, Return detected), 0x10 (Off, Did not fire), 0x18 (Auto, Did not fire), 0x19 (Auto, Fired), 0x41 (Fired, Red-eye reduction), 0x59 (Auto, Fired, Red-eye reduction). Bit 0: fired, Bit 1-2: return detection, Bit 3-4: mode, Bit 5: function present, Bit 6: red-eye mode.",
+    desc: "Flash status and mode encoded as EXIF bitfield. Combines fired status, return detection, mode (off/on/auto), and red-eye reduction into a single value. ExifTool decodes to human-readable strings.",
     see: "https://exiftool.org/TagNames/EXIF.html",
   },
   FNumber: {
@@ -169,13 +169,6 @@ const CuratedDescriptions: Record<string, TagDescription> = {
   GPSPosition: {
     desc: "Combined GPS latitude and longitude. Writable composite tag. When written, updates GPSLatitude, GPSLatitudeRef, GPSLongitude, GPSLongitudeRef. Accepts Google Maps coordinates (right-click format).",
     see: "https://exiftool.org/TagNames/Composite.html",
-  },
-  GPSSpeed: {
-    desc: "GPS speed of camera movement during capture. Units determined by GPSSpeedRef (K=km/h, M=mph, N=knots). Must be paired with GPSSpeedRef for meaningful interpretation.",
-    see: "https://exiftool.org/TagNames/GPS.html",
-  },
-  GPSSpeedRef: {
-    desc: "GPS speed measurement unit. Valid values: 'K' (km/h), 'M' (mph), 'N' (knots).",
   },
   GPSTimeStamp: {
     desc: "UTC time of GPS fix. When writing, date is stripped off if present, and time is adjusted to UTC if it includes a timezone.",
@@ -218,7 +211,7 @@ const CuratedDescriptions: Record<string, TagDescription> = {
     see: "https://exiftool.org/TagNames/MWG.html",
   },
   Lens: {
-    desc: "Lens information (model name or focal length range). Sources vary by camera manufacturer and file format - may come from MakerNotes, XMP aux:Lens, or be derived from focal length values. Read-only composite. For detailed lens identification from lookup tables, see LensID.",
+    desc: "Lens information (model name or focal length range). Sources vary by camera manufacturer and file format - may come from MakerNotes, XMP, or standard EXIF fields. For detailed lens identification from lookup tables, see LensID.",
     see: "https://exiftool.org/TagNames/Composite.html",
   },
   LensID: {
@@ -238,7 +231,7 @@ const CuratedDescriptions: Record<string, TagDescription> = {
     see: "https://exiftool.org/TagNames/Composite.html",
   },
   MeteringMode: {
-    desc: "Light metering mode used during capture. Values: 0 (Unknown), 1 (Average), 2 (Center-weighted average), 3 (Spot), 4 (Multi-spot), 5 (Multi-segment/Pattern/Evaluative), 6 (Partial), 255 (Other).",
+    desc: "Light metering mode used for exposure calculation (e.g., Average, Center-weighted, Spot, Multi-segment, Partial).",
     see: "https://exiftool.org/TagNames/EXIF.html",
   },
   MIMEType: {
