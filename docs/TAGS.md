@@ -225,3 +225,33 @@ if (tags.errors && tags.errors.length > 0) {
   console.warn("Metadata parsing issues:", tags.errors);
 }
 ```
+
+## Runtime Tag Descriptions
+
+For applications that need human-readable descriptions of tags at runtime (e.g., building metadata viewers or editors), use the `TagDescriptions` class:
+
+```typescript
+import { exiftool, TagDescriptions } from "exiftool-vendored";
+
+const descriptions = new TagDescriptions(exiftool);
+
+// Preload during app initialization for sync access later
+await descriptions.preload();
+
+// Sync lookup (instant if preloaded)
+const desc = descriptions.get("DateTimeOriginal");
+// => { desc: "When a photo was taken...", see: "https://..." }
+
+// Or use async lookup (auto-loads if needed)
+const desc2 = await descriptions.getAsync("ISO");
+```
+
+**Important caveats:**
+
+- First load takes several seconds (runs `exiftool -listx`)
+- In-memory cache uses several MB
+- Disk cache is versioned by ExifTool version and language
+- Sync `get()` only works after `preload()` is complete
+- English-only curated descriptions with `see` URLs; other languages use ExifTool's built-in descriptions
+
+See the [API documentation](https://photostructure.github.io/exiftool-vendored.js/classes/TagDescriptions.html) for full details.
