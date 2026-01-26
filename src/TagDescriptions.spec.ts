@@ -159,7 +159,9 @@ describe("TagDescriptions", function () {
     });
 
     it("getAsync() returns undefined for unknown tags", async () => {
-      expect(await descriptions.getAsync("NotARealTagName12345")).to.equal(undefined);
+      expect(await descriptions.getAsync("NotARealTagName12345")).to.equal(
+        undefined,
+      );
     });
 
     it("get() returns undefined for unknown tags", async () => {

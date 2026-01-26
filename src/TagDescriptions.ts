@@ -344,7 +344,7 @@ const CuratedDescriptions: Record<string, TagDescription> = {
  * **FOURTH CAUTION**: The synchronous `get()` method only works after descriptions
  * are loaded! Be sure to call `preload()` during application initialization for
  * sync access later.
- * 
+ *
  * **FIFTH CAUTION**: Tag descriptions may vary between ExifTool versions and languages.
  *
  * @example
@@ -493,7 +493,10 @@ export class TagDescriptions {
   }
 
   #getCacheFilename(version: string, lang: string): string {
-    return join(this.#getCacheDir(), `tag-descriptions-${version}-${lang}.json`);
+    return join(
+      this.#getCacheDir(),
+      `tag-descriptions-${version}-${lang}.json`,
+    );
   }
 
   #readDiskCache(

@@ -64,13 +64,13 @@ export { DefaultReadRawTaskOptions } from "./ReadRawTask";
 export { DefaultReadTaskOptions } from "./ReadTask";
 export { Setting, Settings } from "./Settings";
 export { strEnum } from "./StrEnum";
-export { TagDescriptions } from "./TagDescriptions";
 export type {
   StrEnum,
   StrEnumHelpers,
   StrEnumKeys,
   StrEnumType,
 } from "./StrEnum";
+export { TagDescriptions } from "./TagDescriptions";
 export {
   ArchaicTimezoneOffsets,
   defaultVideosToUTC,
@@ -131,10 +131,7 @@ export type { ResourceEvent } from "./ResourceEvent";
 export type { UnsubscribeFunction } from "./Settings";
 export type { ShortcutTags } from "./ShortcutTags";
 export type { Struct } from "./Struct";
-export type {
-  TagDescription,
-  TagDescriptionsOptions,
-} from "./TagDescriptions";
+export type { TagDescription, TagDescriptionsOptions } from "./TagDescriptions";
 export type {
   APPTags,
   CompositeTags,
