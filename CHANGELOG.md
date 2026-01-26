@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.4.0
+
+- ✨ New `TagDescriptions` class provides human-readable descriptions for metadata tags. Descriptions are sourced from ExifTool's tag database and merged with hand-curated descriptions for important tags. The hand-curated descriptions are currently English-only. Supports caching and multiple languages.
+
 ### v35.3.0
 
 - 🌱 Upgraded ExifTool to version [13.46](https://exiftool.org/history.html#13.46).
