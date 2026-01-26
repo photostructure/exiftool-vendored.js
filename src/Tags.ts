@@ -138,7 +138,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups File
-   * @example "2026:01:25 18:36:13Z"
+   * @example "2026:01:25 21:08:50Z"
    * @remarks File system access date/time. Not stored metadata - file system property.
    * Writable on some systems. Changes when file is read.
    * @see https://exiftool.org/TagNames/File.html
@@ -294,7 +294,7 @@ export interface FileTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 315546 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -510,8 +510,11 @@ export interface CompositeTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Composite, QuickTime, XMP
    * @example 9.5095
+   * @remarks Video/audio duration. QuickTime: stored in time scale units, converted to seconds using TimeScale.
+   * ExifTool formats as 'H:MM:SS' or seconds. Some iPhone live-photo MOV videos may show key frame time instead of total duration.
+   * @see https://exiftool.org/TagNames/QuickTime.html
    */
-  Duration?: number;
+  Duration?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups Composite, MakerNotes
@@ -528,8 +531,14 @@ export interface CompositeTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups APP, Composite, EXIF, MakerNotes, XMP
    * @example "Unknown (0xffff)"
+   * @remarks Flash status and mode as bitfield. Common values:
+   * 0x00 (No Flash), 0x01 (Fired), 0x05 (Fired, Return not detected), 0x07 (Fired, Return detected),
+   * 0x10 (Off, Did not fire), 0x18 (Auto, Did not fire), 0x19 (Auto, Fired),
+   * 0x41 (Fired, Red-eye reduction), 0x59 (Auto, Fired, Red-eye reduction).
+   * Bit 0: fired, Bit 1-2: return detection, Bit 3-4: mode, Bit 5: function present, Bit 6: red-eye mode.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  Flash?: string;
+  Flash?: number | string;
   /**
    * @frequency 🔥 ★☆☆☆ (6%)
    * @groups Composite, MakerNotes
@@ -558,6 +567,9 @@ export interface CompositeTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
+   * @remarks GPS altitude in meters. Always stored as positive value; sign determined by GPSAltitudeRef.
+   * Composite GPSAltitude combines this with Ref to return signed value with 'Above/Below Sea Level' text.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSAltitude?: number;
   /**
@@ -594,6 +606,9 @@ export interface CompositeTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
+   * @remarks GPS latitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLatitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLatitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLatitude?: number | string;
   /**
@@ -601,13 +616,16 @@ export interface CompositeTags {
    * @groups APP, Composite, EXIF
    * @example "Unknown ()"
    * @remarks GPS latitude hemisphere.
-   * Valid values: 'N' (North), 'S' (South)
+   * Valid values: 'N' (North), 'S' (South). When writing, ExifTool accepts signed numbers or direction strings.
    */
   GPSLatitudeRef?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
+   * @remarks GPS longitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLongitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLongitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLongitude?: number | string;
   /**
@@ -773,7 +791,7 @@ export interface CompositeTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 315546 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -1222,8 +1240,13 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "sRGB"
+   * @remarks Color space of image data. EXIF mandatory tag.
+   * Standard values: 1 (sRGB), 0xFFFF (Uncalibrated).
+   * Non-standard values: 2 (Adobe RGB, some cameras), 0xFFFD (Wide Gamut RGB, Sony), 0xFFFE (ICC Profile, Sony).
+   * Adobe RGB is typically indicated by 'Uncalibrated' with InteropIndex='R03'.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ColorSpace?: string;
+  ColorSpace?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP
@@ -1304,7 +1327,7 @@ export interface APPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups APP
-   * @example "(Binary data 1011393 bytes, use -b option to extract)"
+   * @example "(Binary data 275008 bytes, use -b option to extract)"
    */
   EmbeddedImage?: BinaryField | string;
   /**
@@ -1365,12 +1388,18 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
+   * @remarks Exposure bias/compensation in EV units (e.g., -0.67, +1.0). Also called ExposureBiasValue in EXIF spec.
+   * Signed value indicating deviation from metered exposure.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ExposureCompensation?: number;
+  ExposureCompensation?: number | string;
   /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
+   * @remarks Shutter speed in seconds (e.g., '1/250'). Primary source for ShutterSpeed composite.
+   * To write shutter speed, use this tag directly. BulbDuration takes priority in ShutterSpeed composite if present and > 0.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ExposureTime?: string;
   /**
@@ -1419,8 +1448,14 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups APP, Composite, EXIF, MakerNotes, XMP
    * @example "Unknown (0xffff)"
+   * @remarks Flash status and mode as bitfield. Common values:
+   * 0x00 (No Flash), 0x01 (Fired), 0x05 (Fired, Return not detected), 0x07 (Fired, Return detected),
+   * 0x10 (Off, Did not fire), 0x18 (Auto, Did not fire), 0x19 (Auto, Fired),
+   * 0x41 (Fired, Red-eye reduction), 0x59 (Auto, Fired, Red-eye reduction).
+   * Bit 0: fired, Bit 1-2: return detection, Bit 3-4: mode, Bit 5: function present, Bit 6: red-eye mode.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  Flash?: string;
+  Flash?: number | string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups APP
@@ -1434,12 +1469,6 @@ export interface APPTags {
    */
   FMean?: number;
   /**
-   * @frequency 🔥 ★★★★ (80%)
-   * @groups APP, EXIF, MakerNotes, XMP
-   * @example 90
-   */
-  FNumber?: number;
-  /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP
    * @example "F2.8"
@@ -1448,6 +1477,15 @@ export interface APPTags {
    * @see https://exiftool.org/TagNames/APP12.html
    */
   Fnumber?: string;
+  /**
+   * @frequency 🔥 ★★★★ (80%)
+   * @groups APP, EXIF, MakerNotes, XMP
+   * @example 90
+   * @remarks Lens aperture as f-number (e.g., 2.8, 5.6). Primary source for Aperture composite.
+   * To write aperture, use this tag - it's more intuitive than ApertureValue (which uses APEX units).
+   * @see https://exiftool.org/TagNames/EXIF.html
+   */
+  FNumber?: number;
   /**
    * @frequency 🔥 ★☆☆☆ (5%)
    * @groups APP, Composite, MakerNotes, XMP
@@ -1524,6 +1562,9 @@ export interface APPTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
+   * @remarks GPS altitude in meters. Always stored as positive value; sign determined by GPSAltitudeRef.
+   * Composite GPSAltitude combines this with Ref to return signed value with 'Above/Below Sea Level' text.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSAltitude?: number;
   /**
@@ -1548,6 +1589,9 @@ export interface APPTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
+   * @remarks GPS latitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLatitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLatitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLatitude?: number | string;
   /**
@@ -1555,13 +1599,16 @@ export interface APPTags {
    * @groups APP, Composite, EXIF
    * @example "Unknown ()"
    * @remarks GPS latitude hemisphere.
-   * Valid values: 'N' (North), 'S' (South)
+   * Valid values: 'N' (North), 'S' (South). When writing, ExifTool accepts signed numbers or direction strings.
    */
   GPSLatitudeRef?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
+   * @remarks GPS longitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLongitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLongitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLongitude?: number | string;
   /**
@@ -1582,6 +1629,9 @@ export interface APPTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups APP, EXIF, XMP
    * @example 5
+   * @remarks GPS speed of camera movement during capture. Units determined by GPSSpeedRef (K=km/h, M=mph, N=knots).
+   * Must be paired with GPSSpeedRef for meaningful interpretation.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSSpeed?: string;
   /**
@@ -1643,7 +1693,7 @@ export interface APPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups APP
-   * @example "(Binary data 1417 bytes, use -b option to extract)"
+   * @example "(Binary data 1458 bytes, use -b option to extract)"
    */
   HDRGainCurve?: BinaryField | string;
   /**
@@ -1961,7 +2011,7 @@ export interface APPTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (1%)
    * @groups APP
-   * @example "(Binary data 153804 bytes, use -b option to extract)"
+   * @example "(Binary data 614604 bytes, use -b option to extract)"
    */
   RawThermalImage?: BinaryField | string;
   /**
@@ -2172,8 +2222,12 @@ export interface APPTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
+   * @remarks White balance mode. Standard EXIF values: 0 (Auto), 1 (Manual).
+   * MakerNotes often contain more detailed WhiteBalance with values like Daylight, Cloudy, Tungsten, Fluorescent, Flash, Custom, etc.
+   * EXIF:WhiteBalance has lower priority than MakerNotes version when both exist.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  WhiteBalance?: string;
+  WhiteBalance?: number | string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, JFIF, MakerNotes, Photoshop, QuickTime, XMP
@@ -2285,8 +2339,8 @@ export const APPTagsNames = strEnum(
   "Flash",
   "FlashTime",
   "FMean",
-  "FNumber",
   "Fnumber",
+  "FNumber",
   "FocusDistance",
   "FocusMode",
   "FocusPos",
@@ -2495,7 +2549,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 315546 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -2517,7 +2571,7 @@ export interface FlashPixTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups FlashPix
-   * @example "(Binary data 57881 bytes, use -b option to extract)"
+   * @example "(Binary data 46285 bytes, use -b option to extract)"
    */
   ScreenNail?: BinaryField | string;
   /**
@@ -2587,12 +2641,18 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★☆ (40%)
    * @groups EXIF, MakerNotes, PanasonicRaw, XMP
    * @example 9016997700
+   * @remarks Lens aperture in APEX units. Secondary source for Aperture composite (FNumber takes priority).
+   * Formula: ApertureValue = 2 × log₂(FNumber). To write aperture, prefer FNumber as it's more intuitive.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ApertureValue?: number;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups EXIF, MakerNotes
    * @example "Arturo DeImage"
+   * @remarks Image creator/photographer name. ExifTool trims trailing whitespace.
+   * When MWG module is loaded, this becomes a list-type tag synchronized with XMP-dc:Creator and IPTC:By-line.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Artist?: string;
   /**
@@ -2732,8 +2792,13 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "sRGB"
+   * @remarks Color space of image data. EXIF mandatory tag.
+   * Standard values: 1 (sRGB), 0xFFFF (Uncalibrated).
+   * Non-standard values: 2 (Adobe RGB, some cameras), 0xFFFD (Wide Gamut RGB, Sony), 0xFFFE (ICC Profile, Sony).
+   * Adobe RGB is typically indicated by 'Uncalibrated' with InteropIndex='R03'.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ColorSpace?: string;
+  ColorSpace?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF
@@ -2916,14 +2981,21 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups EXIF, XMP
    * @example "Version 2.2"
+   * @remarks EXIF specification version (e.g., '0232' for EXIF 2.32). EXIF mandatory tag.
+   * Stored as 4-byte ASCII without separators. ExifTool accepts '2.32' format when writing.
+   * Some files incorrectly include null terminators which ExifTool removes.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ExifVersion?: string;
   /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
+   * @remarks Exposure bias/compensation in EV units (e.g., -0.67, +1.0). Also called ExposureBiasValue in EXIF spec.
+   * Signed value indicating deviation from metered exposure.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ExposureCompensation?: number;
+  ExposureCompensation?: number | string;
   /**
    * @frequency 🔥 ★☆☆☆ (6%)
    * @groups EXIF
@@ -2940,12 +3012,19 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (70%)
    * @groups EXIF, MakerNotes, XMP
    * @example "iAuto+"
+   * @remarks Camera exposure mode.
+   * Values: 0 (Not Defined), 1 (Manual), 2 (Program AE), 3 (Aperture-priority AE), 4 (Shutter speed priority AE), 5 (Creative/Slow speed), 6 (Action/High speed), 7 (Portrait), 8 (Landscape).
+   * Value 9 (Bulb) is non-standard but used by some Canon models.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ExposureProgram?: string;
+  ExposureProgram?: number | string;
   /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
+   * @remarks Shutter speed in seconds (e.g., '1/250'). Primary source for ShutterSpeed composite.
+   * To write shutter speed, use this tag directly. BulbDuration takes priority in ShutterSpeed composite if present and > 0.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ExposureTime?: string;
   /**
@@ -2958,8 +3037,14 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups APP, Composite, EXIF, MakerNotes, XMP
    * @example "Unknown (0xffff)"
+   * @remarks Flash status and mode as bitfield. Common values:
+   * 0x00 (No Flash), 0x01 (Fired), 0x05 (Fired, Return not detected), 0x07 (Fired, Return detected),
+   * 0x10 (Off, Did not fire), 0x18 (Auto, Did not fire), 0x19 (Auto, Fired),
+   * 0x41 (Fired, Red-eye reduction), 0x59 (Auto, Fired, Red-eye reduction).
+   * Bit 0: fired, Bit 1-2: return detection, Bit 3-4: mode, Bit 5: function present, Bit 6: red-eye mode.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  Flash?: string;
+  Flash?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups EXIF
@@ -2970,12 +3055,18 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 90
+   * @remarks Lens aperture as f-number (e.g., 2.8, 5.6). Primary source for Aperture composite.
+   * To write aperture, use this tag - it's more intuitive than ApertureValue (which uses APEX units).
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   FNumber?: number;
   /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "99.7 mm"
+   * @remarks Lens focal length in millimeters. Actual focal length, not 35mm equivalent.
+   * For 35mm equivalent, see FocalLengthIn35mmFormat or FocalLength35efl composite.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   FocalLength?: string;
   /**
@@ -3018,6 +3109,9 @@ export interface EXIFTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
+   * @remarks GPS altitude in meters. Always stored as positive value; sign determined by GPSAltitudeRef.
+   * Composite GPSAltitude combines this with Ref to return signed value with 'Above/Below Sea Level' text.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSAltitude?: number;
   /**
@@ -3123,6 +3217,9 @@ export interface EXIFTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
+   * @remarks GPS latitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLatitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLatitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLatitude?: number | string;
   /**
@@ -3130,13 +3227,16 @@ export interface EXIFTags {
    * @groups APP, Composite, EXIF
    * @example "Unknown ()"
    * @remarks GPS latitude hemisphere.
-   * Valid values: 'N' (North), 'S' (South)
+   * Valid values: 'N' (North), 'S' (South). When writing, ExifTool accepts signed numbers or direction strings.
    */
   GPSLatitudeRef?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
+   * @remarks GPS longitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLongitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLongitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLongitude?: number | string;
   /**
@@ -3175,6 +3275,9 @@ export interface EXIFTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups APP, EXIF, XMP
    * @example 5
+   * @remarks GPS speed of camera movement during capture. Units determined by GPSSpeedRef (K=km/h, M=mph, N=knots).
+   * Must be paired with GPSSpeedRef for meaningful interpretation.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSSpeed?: string;
   /**
@@ -3320,7 +3423,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 772608 bytes, use -b option to extract)"
+   * @example "(Binary data 571392 bytes, use -b option to extract)"
    * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
    * Access via BinaryField to get raw bytes or base64 encoding.
    * @see https://exiftool.org/TagNames/EXIF.html
@@ -3389,7 +3492,7 @@ export interface EXIFTags {
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups EXIF
-   * @example "(Binary data 22629 bytes, use -b option to extract)"
+   * @example "(Binary data 5438 bytes, use -b option to extract)"
    */
   LinearizationTable?: BinaryField | string;
   /**
@@ -3441,8 +3544,11 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Center-weighted average)"
+   * @remarks Light metering mode used during capture.
+   * Values: 0 (Unknown), 1 (Average), 2 (Center-weighted average), 3 (Spot), 4 (Multi-spot), 5 (Multi-segment/Pattern/Evaluative), 6 (Partial), 255 (Other).
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  MeteringMode?: string;
+  MeteringMode?: number | string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, QuickTime, XMP
@@ -3507,18 +3613,30 @@ export interface EXIFTags {
    * @frequency 🔥 ☆☆☆☆ (5%)
    * @groups EXIF
    * @example "-09:00"
+   * @remarks Timezone offset for ModifyDate (e.g., '+05:30', '-08:00', 'Z'). EXIF 2.31+ tag.
+   * Used by SubSecModifyDate composite to produce timezone-aware timestamps.
+   * Writing SubSecModifyDate automatically updates this field.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   OffsetTime?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups EXIF
    * @example "-09:00"
+   * @remarks Timezone offset for CreateDate (e.g., '+05:30', '-08:00', 'Z'). EXIF 2.31+ tag.
+   * Used by SubSecCreateDate composite to produce timezone-aware timestamps.
+   * Writing SubSecCreateDate automatically updates this field.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   OffsetTimeDigitized?: string;
   /**
    * @frequency 🔥 ☆☆☆☆ (5%)
    * @groups EXIF
    * @example "-09:00"
+   * @remarks Timezone offset for DateTimeOriginal (e.g., '+05:30', '-08:00', 'Z'). EXIF 2.31+ tag.
+   * Used by SubSecDateTimeOriginal composite to produce timezone-aware timestamps.
+   * Writing SubSecDateTimeOriginal automatically updates this field.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   OffsetTimeOriginal?: string;
   /**
@@ -3612,7 +3730,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 315546 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -3982,7 +4100,7 @@ export interface EXIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -4099,8 +4217,12 @@ export interface EXIFTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
+   * @remarks White balance mode. Standard EXIF values: 0 (Auto), 1 (Manual).
+   * MakerNotes often contain more detailed WhiteBalance with values like Daylight, Cloudy, Tungsten, Fluorescent, Flash, Custom, etc.
+   * EXIF:WhiteBalance has lower priority than MakerNotes version when both exist.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  WhiteBalance?: string;
+  WhiteBalance?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, MakerNotes
@@ -4695,7 +4817,7 @@ export interface MPFTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 315546 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -4884,6 +5006,9 @@ export interface PanasonicRawTags {
    * @frequency 🔥 ★★★☆ (40%)
    * @groups EXIF, MakerNotes, PanasonicRaw, XMP
    * @example 9016997700
+   * @remarks Lens aperture in APEX units. Secondary source for Aperture composite (FNumber takes priority).
+   * Formula: ApertureValue = 2 × log₂(FNumber). To write aperture, prefer FNumber as it's more intuitive.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ApertureValue?: number;
   /**
@@ -5041,7 +5166,7 @@ export interface PhotoshopTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Photoshop
-   * @example "(Binary data 5768 bytes, use -b option to extract)"
+   * @example "(Binary data 4291 bytes, use -b option to extract)"
    */
   PhotoshopThumbnail?: BinaryField | string;
   /**
@@ -5367,8 +5492,11 @@ export interface QuickTimeTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Composite, QuickTime, XMP
    * @example 9.5095
+   * @remarks Video/audio duration. QuickTime: stored in time scale units, converted to seconds using TimeScale.
+   * ExifTool formats as 'H:MM:SS' or seconds. Some iPhone live-photo MOV videos may show key frame time instead of total duration.
+   * @see https://exiftool.org/TagNames/QuickTime.html
    */
-  Duration?: number;
+  Duration?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups QuickTime
@@ -5498,7 +5626,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups EXIF, QuickTime
-   * @example "(Binary data 772608 bytes, use -b option to extract)"
+   * @example "(Binary data 571392 bytes, use -b option to extract)"
    * @remarks Embedded JPEG preview extracted from RAW files. Binary data type.
    * Access via BinaryField to get raw bytes or base64 encoding.
    * @see https://exiftool.org/TagNames/EXIF.html
@@ -5713,7 +5841,7 @@ export interface QuickTimeTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 315546 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -6364,7 +6492,7 @@ export interface JFIFTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -7368,6 +7496,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★☆ (40%)
    * @groups EXIF, MakerNotes, PanasonicRaw, XMP
    * @example 9016997700
+   * @remarks Lens aperture in APEX units. Secondary source for Aperture composite (FNumber takes priority).
+   * Formula: ApertureValue = 2 × log₂(FNumber). To write aperture, prefer FNumber as it's more intuitive.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ApertureValue?: number;
   /**
@@ -7416,6 +7547,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups EXIF, MakerNotes
    * @example "Arturo DeImage"
+   * @remarks Image creator/photographer name. ExifTool trims trailing whitespace.
+   * When MWG module is loaded, this becomes a list-type tag synchronized with XMP-dc:Creator and IPTC:By-line.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   Artist?: string;
   /**
@@ -8114,7 +8248,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
-   * @example "(Binary data 8378 bytes, use -b option to extract)"
+   * @example "(Binary data 8290 bytes, use -b option to extract)"
    */
   CameraParameters?: BinaryField | string;
   /**
@@ -8523,8 +8657,13 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "sRGB"
+   * @remarks Color space of image data. EXIF mandatory tag.
+   * Standard values: 1 (sRGB), 0xFFFF (Uncalibrated).
+   * Non-standard values: 2 (Adobe RGB, some cameras), 0xFFFD (Wide Gamut RGB, Sony), 0xFFFE (ICC Profile, Sony).
+   * Adobe RGB is typically indicated by 'Uncalibrated' with InteropIndex='R03'.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ColorSpace?: string;
+  ColorSpace?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (3%)
    * @groups MakerNotes
@@ -9269,7 +9408,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★☆☆☆ (10%)
    * @groups MakerNotes
-   * @example "(Binary data 114 bytes, use -b option to extract)"
+   * @example "(Binary data 280 bytes, use -b option to extract)"
    */
   DataDump?: BinaryField | string;
   /**
@@ -9795,8 +9934,11 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
+   * @remarks Exposure bias/compensation in EV units (e.g., -0.67, +1.0). Also called ExposureBiasValue in EXIF spec.
+   * Signed value indicating deviation from metered exposure.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ExposureCompensation?: number;
+  ExposureCompensation?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -9879,8 +10021,12 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (70%)
    * @groups EXIF, MakerNotes, XMP
    * @example "iAuto+"
+   * @remarks Camera exposure mode.
+   * Values: 0 (Not Defined), 1 (Manual), 2 (Program AE), 3 (Aperture-priority AE), 4 (Shutter speed priority AE), 5 (Creative/Slow speed), 6 (Action/High speed), 7 (Portrait), 8 (Landscape).
+   * Value 9 (Bulb) is non-standard but used by some Canon models.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ExposureProgram?: string;
+  ExposureProgram?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups MakerNotes
@@ -9897,6 +10043,9 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
+   * @remarks Shutter speed in seconds (e.g., '1/250'). Primary source for ShutterSpeed composite.
+   * To write shutter speed, use this tag directly. BulbDuration takes priority in ShutterSpeed composite if present and > 0.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ExposureTime?: string;
   /**
@@ -10399,8 +10548,14 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups APP, Composite, EXIF, MakerNotes, XMP
    * @example "Unknown (0xffff)"
+   * @remarks Flash status and mode as bitfield. Common values:
+   * 0x00 (No Flash), 0x01 (Fired), 0x05 (Fired, Return not detected), 0x07 (Fired, Return detected),
+   * 0x10 (Off, Did not fire), 0x18 (Auto, Did not fire), 0x19 (Auto, Fired),
+   * 0x41 (Fired, Red-eye reduction), 0x59 (Auto, Fired, Red-eye reduction).
+   * Bit 0: fired, Bit 1-2: return detection, Bit 3-4: mode, Bit 5: function present, Bit 6: red-eye mode.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  Flash?: string;
+  Flash?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes
@@ -10831,12 +10986,18 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 90
+   * @remarks Lens aperture as f-number (e.g., 2.8, 5.6). Primary source for Aperture composite.
+   * To write aperture, use this tag - it's more intuitive than ApertureValue (which uses APEX units).
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   FNumber?: number;
   /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "99.7 mm"
+   * @remarks Lens focal length in millimeters. Actual focal length, not 35mm equivalent.
+   * For 35mm equivalent, see FocalLengthIn35mmFormat or FocalLength35efl composite.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   FocalLength?: string;
   /**
@@ -13104,8 +13265,11 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Center-weighted average)"
+   * @remarks Light metering mode used during capture.
+   * Values: 0 (Unknown), 1 (Average), 2 (Center-weighted average), 3 (Spot), 4 (Multi-spot), 5 (Multi-segment/Pattern/Evaluative), 6 (Partial), 255 (Other).
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  MeteringMode?: string;
+  MeteringMode?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -13646,7 +13810,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 624 bytes, use -b option to extract)"
+   * @example "(Binary data 46 bytes, use -b option to extract)"
    */
   NEFLinearizationTable?: BinaryField | string;
   /**
@@ -14378,7 +14542,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★☆ (30%)
    * @groups Composite, EXIF, File, FlashPix, MPF, MakerNotes, QuickTime
-   * @example "(Binary data 37244 bytes, use -b option to extract)"
+   * @example "(Binary data 315546 bytes, use -b option to extract)"
    * @remarks Embedded preview image data extracted from the file.
    * CRITICAL: Writable for updating existing embedded images, but cannot create or delete previews.
    * Can only modify previews that already exist in the file.
@@ -14817,7 +14981,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
-   * @example "(Binary data 576 bytes, use -b option to extract)"
+   * @example "(Binary data 886 bytes, use -b option to extract)"
    */
   RectifaceText?: BinaryField | string;
   /**
@@ -16351,7 +16515,7 @@ export interface MakerNotesTags {
   /**
    * @frequency 🔥 ★★★★ (90%)
    * @groups EXIF, JFIF, MakerNotes
-   * @example "(Binary data 39781 bytes, use -b option to extract)"
+   * @example "(Binary data 10202 bytes, use -b option to extract)"
    * @remarks Embedded thumbnail image data. Binary data type.
    * Writable for updating existing thumbnails, but cannot create or delete thumbnails.
    */
@@ -16989,8 +17153,12 @@ export interface MakerNotesTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
+   * @remarks White balance mode. Standard EXIF values: 0 (Auto), 1 (Manual).
+   * MakerNotes often contain more detailed WhiteBalance with values like Daylight, Cloudy, Tungsten, Fluorescent, Flash, Custom, etc.
+   * EXIF:WhiteBalance has lower priority than MakerNotes version when both exist.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  WhiteBalance?: string;
+  WhiteBalance?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups MakerNotes
@@ -19081,6 +19249,9 @@ export interface XMPTags {
    * @frequency 🔥 ★★★☆ (40%)
    * @groups EXIF, MakerNotes, PanasonicRaw, XMP
    * @example 9016997700
+   * @remarks Lens aperture in APEX units. Secondary source for Aperture composite (FNumber takes priority).
+   * Formula: ApertureValue = 2 × log₂(FNumber). To write aperture, prefer FNumber as it's more intuitive.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ApertureValue?: number;
   /**
@@ -19206,7 +19377,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example [{"Camera":{"DepthMap":{"ConfidenceURI":"android/confiden…cal"}}]
+   * @example [{"DepthMap":{"ConfidenceURI":"android/confidencemap","De…ical"}]
    */
   Cameras?: Struct[];
   /**
@@ -19400,8 +19571,13 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "sRGB"
+   * @remarks Color space of image data. EXIF mandatory tag.
+   * Standard values: 1 (sRGB), 0xFFFF (Uncalibrated).
+   * Non-standard values: 2 (Adobe RGB, some cameras), 0xFFFD (Wide Gamut RGB, Sony), 0xFFFE (ICC Profile, Sony).
+   * Adobe RGB is typically indicated by 'Uncalibrated' with InteropIndex='R03'.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ColorSpace?: string;
+  ColorSpace?: number | string;
   /**
    * @frequency 🔥 ★☆☆☆ (7%)
    * @groups MakerNotes, XMP
@@ -19423,7 +19599,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example {"Directory":[{"Item":{"DataURI":"primary_image","Length"…eg"}}]}
+   * @example {"Directory":[{"DataURI":"primary_image","Length":0,"Mime…peg"}]}
    */
   Container?: Struct;
   /**
@@ -19734,8 +19910,11 @@ export interface XMPTags {
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups Composite, QuickTime, XMP
    * @example 9.5095
+   * @remarks Video/audio duration. QuickTime: stored in time scale units, converted to seconds using TimeScale.
+   * ExifTool formats as 'H:MM:SS' or seconds. Some iPhone live-photo MOV videos may show key frame time instead of total duration.
+   * @see https://exiftool.org/TagNames/QuickTime.html
    */
-  Duration?: number;
+  Duration?: number | string;
   /**
    * @frequency 🔥 ★★★★ (100%)
    * @groups EXIF, XMP
@@ -19752,6 +19931,10 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (100%)
    * @groups EXIF, XMP
    * @example "Version 2.2"
+   * @remarks EXIF specification version (e.g., '0232' for EXIF 2.32). EXIF mandatory tag.
+   * Stored as 4-byte ASCII without separators. ExifTool accepts '2.32' format when writing.
+   * Some files incorrectly include null terminators which ExifTool removes.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ExifVersion?: string;
   /**
@@ -19764,8 +19947,11 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 1
+   * @remarks Exposure bias/compensation in EV units (e.g., -0.67, +1.0). Also called ExposureBiasValue in EXIF spec.
+   * Signed value indicating deviation from metered exposure.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ExposureCompensation?: number;
+  ExposureCompensation?: number | string;
   /**
    * @frequency 🔥 ★★★★ (70%)
    * @groups EXIF, MakerNotes, XMP
@@ -19776,12 +19962,19 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (70%)
    * @groups EXIF, MakerNotes, XMP
    * @example "iAuto+"
+   * @remarks Camera exposure mode.
+   * Values: 0 (Not Defined), 1 (Manual), 2 (Program AE), 3 (Aperture-priority AE), 4 (Shutter speed priority AE), 5 (Creative/Slow speed), 6 (Action/High speed), 7 (Portrait), 8 (Landscape).
+   * Value 9 (Bulb) is non-standard but used by some Canon models.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  ExposureProgram?: string;
+  ExposureProgram?: number | string;
   /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "inf"
+   * @remarks Shutter speed in seconds (e.g., '1/250'). Primary source for ShutterSpeed composite.
+   * To write shutter speed, use this tag directly. BulbDuration takes priority in ShutterSpeed composite if present and > 0.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   ExposureTime?: string;
   /**
@@ -19830,8 +20023,14 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (90%)
    * @groups APP, Composite, EXIF, MakerNotes, XMP
    * @example "Unknown (0xffff)"
+   * @remarks Flash status and mode as bitfield. Common values:
+   * 0x00 (No Flash), 0x01 (Fired), 0x05 (Fired, Return not detected), 0x07 (Fired, Return detected),
+   * 0x10 (Off, Did not fire), 0x18 (Auto, Did not fire), 0x19 (Auto, Fired),
+   * 0x41 (Fired, Red-eye reduction), 0x59 (Auto, Fired, Red-eye reduction).
+   * Bit 0: fired, Bit 1-2: return detection, Bit 3-4: mode, Bit 5: function present, Bit 6: red-eye mode.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  Flash?: string;
+  Flash?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (2%)
    * @groups MakerNotes, XMP
@@ -19896,12 +20095,18 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example 90
+   * @remarks Lens aperture as f-number (e.g., 2.8, 5.6). Primary source for Aperture composite.
+   * To write aperture, use this tag - it's more intuitive than ApertureValue (which uses APEX units).
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   FNumber?: number;
   /**
    * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "99.7 mm"
+   * @remarks Lens focal length in millimeters. Actual focal length, not 35mm equivalent.
+   * For 35mm equivalent, see FocalLengthIn35mmFormat or FocalLength35efl composite.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
   FocalLength?: string;
   /**
@@ -20028,6 +20233,9 @@ export interface XMPTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 99.8
+   * @remarks GPS altitude in meters. Always stored as positive value; sign determined by GPSAltitudeRef.
+   * Composite GPSAltitude combines this with Ref to return signed value with 'Above/Below Sea Level' text.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSAltitude?: number;
   /**
@@ -20076,12 +20284,18 @@ export interface XMPTags {
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 48.857748
+   * @remarks GPS latitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLatitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLatitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLatitude?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (4%)
    * @groups APP, Composite, EXIF, XMP
    * @example 2.2918888
+   * @remarks GPS longitude stored as three rationals (degrees, minutes, seconds). Always positive; hemisphere from GPSLongitudeRef.
+   * ExifTool accepts decimal degrees, DMS, or mixed formats when writing. Composite GPSLongitude returns signed decimal.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSLongitude?: number | string;
   /**
@@ -20108,6 +20322,9 @@ export interface XMPTags {
    * @frequency 🔥 ☆☆☆☆ (1%)
    * @groups APP, EXIF, XMP
    * @example 5
+   * @remarks GPS speed of camera movement during capture. Units determined by GPSSpeedRef (K=km/h, M=mph, N=knots).
+   * Must be paired with GPSSpeedRef for meaningful interpretation.
+   * @see https://exiftool.org/TagNames/GPS.html
    */
   GPSSpeed?: string;
   /**
@@ -20175,7 +20392,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example "(Binary data 70716 bytes, use -b option to extract)"
+   * @example "(Binary data 66140 bytes, use -b option to extract)"
    */
   HDRPMakerNote?: BinaryField | string;
   /**
@@ -20634,8 +20851,11 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups EXIF, MakerNotes, XMP
    * @example "Unknown (Center-weighted average)"
+   * @remarks Light metering mode used during capture.
+   * Values: 0 (Unknown), 1 (Average), 2 (Center-weighted average), 3 (Spot), 4 (Multi-spot), 5 (Multi-segment/Pattern/Evaluative), 6 (Partial), 255 (Other).
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  MeteringMode?: string;
+  MeteringMode?: number | string;
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
@@ -20993,7 +21213,7 @@ export interface XMPTags {
   /**
    * @frequency 🔥 ☆☆☆☆ (0%)
    * @groups XMP
-   * @example [{"Profile":{"CameraIndices":[0],"Type":"DepthPhoto"}}]
+   * @example [{"CameraIndices":[0],"Type":"DepthPhoto"}]
    */
   Profiles?: Struct[];
   /**
@@ -21691,8 +21911,12 @@ export interface XMPTags {
    * @frequency 🔥 ★★★★ (80%)
    * @groups APP, EXIF, MakerNotes, XMP
    * @example "White Preset"
+   * @remarks White balance mode. Standard EXIF values: 0 (Auto), 1 (Manual).
+   * MakerNotes often contain more detailed WhiteBalance with values like Daylight, Cloudy, Tungsten, Fluorescent, Flash, Custom, etc.
+   * EXIF:WhiteBalance has lower priority than MakerNotes version when both exist.
+   * @see https://exiftool.org/TagNames/EXIF.html
    */
-  WhiteBalance?: string;
+  WhiteBalance?: number | string;
   /**
    * @frequency 🧊 ☆☆☆☆ (0%)
    * @groups XMP
