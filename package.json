@@ -117,7 +117,7 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-redos": "^4.5.0",
-    "eslint-plugin-regexp": "^2.10.0",
+    "eslint-plugin-regexp": "^3.0.0",
     "extract-zip": "^2.0.1",
     "geo-tz": "^8.1.5",
     "globals": "^17.0.0",
@@ -148,7 +148,7 @@
     "luxon": "^3.7.2"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "13.47.0",
-    "exiftool-vendored.pl": "13.47.0"
+    "exiftool-vendored.exe": "13.48.0",
+    "exiftool-vendored.pl": "13.48.0"
   }
 }
