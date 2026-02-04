@@ -184,7 +184,7 @@ Node.js will not exit cleanly while any `ExifTool` instance has any running `exi
 
 At least with this library, it's up to you end what you start.
 
-**Note**: depending on the platform, starting and ending an `exiftool` instance may be (very!) time consuming -- like, 5-30 seconds on Windows -- so ultrathink your code a bit to ensure you aren't spawning and killing exiftool instances needlessly.
+**Note**: depending on the platform, starting and ending an `exiftool` instance may be (very!) time consuming (like, 5-30 seconds on Windows), so ultrathink your code a bit to ensure you aren't spawning and killing exiftool instances needlessly.
 
 _yes I said ultrathink as if it was Proper English but you know you thought it was funny_
 

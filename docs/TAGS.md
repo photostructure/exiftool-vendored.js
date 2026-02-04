@@ -16,7 +16,7 @@ Tags are metadata fields embedded in image and video files. They contain informa
 
 ## JSDoc Annotations
 
-Each tag in the TypeScript interface includes semantic JSDoc annotations:
+Each tag in the TypeScript interface has JSDoc annotations:
 
 ```ts
 /**
@@ -39,7 +39,7 @@ These annotations provide:
 - **@frequency**
   - A 🔥 fire emoji will very professionally begin this value if the tag is found on common mainstream devices, like flagship phones and digital cameras.
   - A 🧊 ice cube emoji will begin this value if the tag is only found on more obscure camera makes and models.
-  - A star rating (★★★★ is found in >50% of samples, ☆☆☆☆ is rare), and the exact percentage in parentheses follows. Note that these values are _directionally_ correct -- it's based on the (large) sample set of test images from the ExifTool project and several other online image example repositories.
+  - A star rating (★★★★ is found in >50% of samples, ☆☆☆☆ is rare), and the exact percentage in parentheses follows. Note that these values are _directionally_ correct. They're based on the (large) sample set of test images from the ExifTool project and several other online image example repositories.
 - **@groups**: Comma-separated list of metadata groups where this tag appears
 - **@example**: Representative value for the tag
 
@@ -162,7 +162,7 @@ tags.  // <-- IDE shows all available tags with descriptions
 
 1. Visit the [online API docs](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.Tags.html) to browse all available tags with examples.
 
-2. Refer to the [excellent ExifTool documentation](https://exiftool.org/TagNames/index.html). Start with the [EXIF](https://exiftool.org/TagNames/EXIF.html), [IPTC](https://exiftool.org/TagNames/IPTC.html), and [XMP](https://exiftool.org/TagNames/XMP.html) groups -- those are the most common.
+2. Refer to the [excellent ExifTool documentation](https://exiftool.org/TagNames/index.html). Start with the [EXIF](https://exiftool.org/TagNames/EXIF.html), [IPTC](https://exiftool.org/TagNames/IPTC.html), and [XMP](https://exiftool.org/TagNames/XMP.html) groups. Those are the most common.
 
 ### 4. Research Your Use Case
 

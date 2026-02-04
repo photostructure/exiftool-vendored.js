@@ -41,11 +41,11 @@ await exiftool.end();
 
 Order of magnitude faster than other Node.js ExifTool modules. Powers [PhotoStructure](https://photostructure.com) and [1,000+ other projects](https://github.com/photostructure/exiftool-vendored.js/network/dependents).
 
-### 🔧 **Robust**
+### 🔧 **Battle-tested**
 
 - **Cross-platform**: macOS, Linux, Windows
-- **Comprehensive**: Read, write, extract embedded images
-- **Reliable**: Battle-tested with extensive test coverage
+- **Full-featured**: Read, write, extract embedded images
+- **Reliable**: Extensive test coverage across most camera manufacturers
 
 ### 📚 **Developer-Friendly**
 
@@ -111,7 +111,7 @@ await exiftool.extractJpgFromRaw("photo.cr2", "processed.jpg");
 
 ## Understanding Tags
 
-The `Tags` interface contains **thousands of metadata fields** from an auto-generated TypeScript file. Each tag includes semantic JSDoc annotations:
+The `Tags` interface contains **thousands of metadata fields** from an auto-generated TypeScript file. Each tag has JSDoc annotations:
 
 ```typescript
 /**
@@ -174,7 +174,7 @@ const exiftool = new ExifTool({
 
 ### ⏰ Dates & Timezones
 
-Images rarely specify timezones. This library uses sophisticated heuristics:
+Images rarely specify timezones. This library infers them using several heuristics:
 
 1. **Explicit metadata** (TimeZoneOffset, OffsetTime)
 2. **GPS location** → timezone lookup
