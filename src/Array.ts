@@ -83,12 +83,7 @@ export function uniq<T>(arr: T[]): T[] {
  * @returns true if arrays have same length and identical elements by reference
  */
 export function shallowArrayEql(a: unknown[], b: unknown[]): boolean {
-  return (
-    a != null &&
-    b != null &&
-    a.length === b.length &&
-    a.every((ea, idx) => ea === b[idx])
-  );
+  return a?.length === b?.length && a.every((ea, idx) => ea === b[idx]);
 }
 
 type Comparable = number | string | boolean;
