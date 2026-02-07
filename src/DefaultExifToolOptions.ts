@@ -40,8 +40,17 @@ export const DefaultExifToolOptions: Omit<
   maxProcs: DefaultMaxProcs,
   maxTasksPerProcess: 500,
   spawnTimeoutMillis: 30000,
-  // Reduced from 10 to 1: empirical testing on Windows and Linux shows
-  // ExifTool flushes reliably at 1ms, cutting per-task latency.
+  // ExifTool always flushes stderr before emitting "{ready}" on stdout when
+  // in -stay_open mode (see exiftool lines 426-438). It explicitly calls
+  // STDERR->flush() before printing "{ready}\n" with autoflush enabled on
+  // stdout. This means stderr data for a given task is guaranteed to arrive
+  // before the stdout sentinel, so we can safely use a very short flush delay.
+  //
+  // Caveat: the flush requires IO::Handle to load successfully (via eval),
+  // but this is available in all standard Perl installations.
+  //
+  // Reduced from batch-cluster's default (30-200ms) to 1ms based on
+  // empirical testing on Windows and Linux.
   streamFlushMillis: 1,
   // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
   taskTimeoutMillis: 30000,
