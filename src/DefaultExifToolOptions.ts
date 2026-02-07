@@ -40,7 +40,9 @@ export const DefaultExifToolOptions: Omit<
   maxProcs: DefaultMaxProcs,
   maxTasksPerProcess: 500,
   spawnTimeoutMillis: 30000,
-  streamFlushMillis: 10,
+  // Reduced from 10 to 1: empirical testing on Windows and Linux shows
+  // ExifTool flushes reliably at 1ms, cutting per-task latency.
+  streamFlushMillis: 1,
   // see https://github.com/photostructure/exiftool-vendored.js/issues/34 :
   taskTimeoutMillis: 30000,
   onIdleIntervalMillis: 2000,
