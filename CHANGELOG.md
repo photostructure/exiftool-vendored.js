@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.7.1
+
+- 📦 Pull in new [batch-cluster](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.3.0), and run the new `findStreamFlushMillis()` on linux and windows. After examining ExifTool code, he always force-flushes stderr before emitting `{ready}` -- so we're updating the default for `streamFlushMillis` to `1`.
+
 ### v35.7.0
 
 - 🌱 Upgraded ExifTool to version [13.49](https://exiftool.org/history.html#13.49).
