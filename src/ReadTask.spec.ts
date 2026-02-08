@@ -1715,7 +1715,7 @@ describe("ReadTask", () => {
         GPSLongitude: -63.569717,
         GPSLatitudeRef: "N",
         GPSLongitudeRef: "W",
-        GeolocationPosition: "44.6428 -63.5769",
+        GeolocationPosition: "44.6483 -63.5775",
         GPSPosition: "44.6462583333333 63.5697166666667",
         tz: "America/Halifax",
         tzSource: "GeolocationTimeZone",
