@@ -1704,11 +1704,6 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "BurstGroupID": {
-    "frequency": 0.003,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "BurstID": {
     "frequency": 0.0007,
     "mainstream": true,
@@ -1811,6 +1806,11 @@
   },
   "CHModeShootingSpeed": {
     "frequency": 0.003,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
+  "CLModeShootingSpeed": {
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -3664,6 +3664,11 @@
     "mainstream": true,
     "groups": ["EXIF", "MakerNotes"]
   },
+  "DistortionCorrParamsNumber": {
+    "frequency": 0.009,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
   "DistortionCorrParamsPresent": {
     "frequency": 0.01,
     "mainstream": true,
@@ -4654,6 +4659,11 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
+  "FineTuneOptSpotMetering": {
+    "frequency": 0.009,
+    "mainstream": true,
+    "groups": ["MakerNotes"]
+  },
   "FinishedImage": {
     "frequency": 0.002,
     "mainstream": true,
@@ -4714,13 +4724,8 @@
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
-  "FlashActivity": {
-    "frequency": 0.04,
-    "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
   "FlashBatteryLevel": {
-    "frequency": 0.002,
+    "frequency": 0.02,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -4955,7 +4960,7 @@
     "groups": ["MakerNotes"]
   },
   "FlashModel": {
-    "frequency": 0.01,
+    "frequency": 0.05,
     "mainstream": true,
     "groups": ["MakerNotes", "XMP"]
   },
@@ -4965,7 +4970,7 @@
     "groups": ["MakerNotes"]
   },
   "FlashOutput": {
-    "frequency": 0.07,
+    "frequency": 0.08,
     "mainstream": true,
     "groups": ["MakerNotes"]
   },
@@ -9662,7 +9667,7 @@
     "mainstream": true,
     "groups": ["MakerNotes", "Photoshop", "QuickTime"]
   },
-  "PixelShiftID": {
+  "PixelShiftActive": {
     "frequency": 0.003,
     "mainstream": true,
     "groups": ["MakerNotes"]
@@ -12048,11 +12053,6 @@
   "StaticMetadataText": {
     "frequency": 0.004,
     "mainstream": true,
-    "groups": ["MakerNotes"]
-  },
-  "StepCropShooting": {
-    "frequency": 0.0003,
-    "mainstream": false,
     "groups": ["MakerNotes"]
   },
   "StitchingSoftware": {
