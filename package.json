@@ -33,7 +33,7 @@
     "ncu": "run-s ncu:*",
     "ncu:owned": "ncu --filter 'batch-cluster,exiftool-vendored.exe,exiftool-vendored.pl' -u",
     "// ncu:others": "Rejected packages migrated to ESM and we're not ready for that yet",
-    "ncu:others": "ncu --cooldown 7 --reject 'batch-cluster,exiftool-vendored.exe,exiftool-vendored.pl,@types/chai-as-promised,@types/chai,@types/mocha,chai-as-promised,chai,deep-eql,mocha' -u",
+    "ncu:others": "ncu --cooldown 7 --reject 'batch-cluster,exiftool-vendored.exe,exiftool-vendored.pl,@types/chai-as-promised,@types/chai,@types/mocha,chai-as-promised,chai,deep-eql,eslint,mocha' -u",
     "update": "run-s ncu:* update:*",
     "update:install": "npm install",
     "install:pinact": "go install github.com/suzuki-shunsuke/pinact/v3/cmd/pinact@latest",
@@ -148,7 +148,7 @@
     "luxon": "^3.7.2"
   },
   "optionalDependencies": {
-    "exiftool-vendored.exe": "13.50.0",
-    "exiftool-vendored.pl": "13.50.0"
+    "exiftool-vendored.exe": "13.51.0",
+    "exiftool-vendored.pl": "13.51.0"
   }
 }
