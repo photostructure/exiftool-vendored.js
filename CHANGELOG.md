@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.10.0
+
+- 🌱 Upgraded ExifTool to version [13.51](https://exiftool.org/history.html#13.51).
+
 ### v35.9.0
 
 - 🌱 Upgraded ExifTool to version [13.50](https://exiftool.org/history.html#13.50).
