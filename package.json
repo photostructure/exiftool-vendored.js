@@ -134,7 +134,7 @@
     "source-map-support": "^0.5.21",
     "tmp": "^0.2.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.28.16",
+    "typedoc": "^0.28.17",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0",
     "xpath": "^0.0.34"
@@ -143,7 +143,7 @@
   "dependencies": {
     "@photostructure/tz-lookup": "^11.4.0",
     "@types/luxon": "^3.7.1",
-    "batch-cluster": "^17.3.0",
+    "batch-cluster": "^17.3.1",
     "he": "^1.2.0",
     "luxon": "^3.7.2"
   },
