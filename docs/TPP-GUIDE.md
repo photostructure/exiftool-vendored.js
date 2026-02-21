@@ -13,6 +13,7 @@ picks up where the last session left off.
 # TPP: Feature name
 
 ## Summary
+
 Short description (under 10 lines).
 
 ## Current phase
@@ -34,9 +35,11 @@ Short description (under 10 lines).
 - (add feature-specific files here)
 
 ## Description
+
 Detailed context (under 20 lines).
 
 ## Lore
+
 - Non-obvious details saving time
 - Prior gotchas and historical context
 - Relevant functions, classes, and file paths
@@ -44,12 +47,15 @@ Detailed context (under 20 lines).
 ## Solutions
 
 ### Option A (preferred)
+
 Pros/cons with code snippets.
 
 ### Option B (alternative)
+
 Why rejected in favor of Option A.
 
 ## Tasks
+
 - [x] Task 1: Deliverable, files, verification command
 - [ ] Task 2: ...
 ```
