@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.11.0
+
+- 🌱 Upgraded ExifTool to version [13.52](https://exiftool.org/history.html#13.52).
+
 ### v35.10.1
 
 - 🐞 Pull in batch-cluster v17.3.1: Fixed orphaned child processes after `end()`. When `end()` was called (either explicitly or via the `beforeExit` handler), the synchronous `process.on("exit")` SIGKILL backstop was removed before async cleanup completed. If the parent process exited before graceful termination finished, child processes survived as orphans. The fix snapshots live PIDs before cleanup begins and keeps the backstop registered until async teardown succeeds.
