@@ -38,6 +38,7 @@ vendored versions of ExifTool match the version that they vendor.
 ### v35.12.0
 
 - ✨ Added `type` field to `data/TagMetadata.json` (e.g. `"string"`, `"number"`, `"ExifDateTime | string"`, `"Struct"`)
+- 🐞 Fixed XML entity double-unescaping in `TagDescriptions` by decoding `&amp;` last
 
 ### v35.11.0
 
