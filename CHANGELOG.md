@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.12.1
+
+- 📦 Include `data/TagMetadata.json` in the npm package
+
 ### v35.12.0
 
 - ✨ Added `type` field to `data/TagMetadata.json` (e.g. `"string"`, `"number"`, `"ExifDateTime | string"`, `"Struct"`)
