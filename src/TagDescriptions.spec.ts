@@ -175,6 +175,15 @@ describe("TagDescriptions", function () {
       expect(all.get("DateTimeOriginal")).to.not.equal(undefined);
     });
 
+    it("decodes XML entities without double-unescaping", async () => {
+      const all = await descriptions.getAll();
+      for (const [tag, info] of all) {
+        expect(info.desc, `${tag} has undecoded entity`).to.not.match(
+          /&(?:lt|gt|amp|quot|apos);/,
+        );
+      }
+    });
+
     // Curated description tests - verify our curated descriptions are used
     const curatedTags = [
       "DateTimeOriginal",
