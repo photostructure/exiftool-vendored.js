@@ -19,5 +19,5 @@ snyk-linux
 
 # no directories except for dist and data
 */
-!dist/
-!data/
+!dist/*
+!data/*
