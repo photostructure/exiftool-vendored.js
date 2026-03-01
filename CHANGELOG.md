@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.12.0
+
+- ✨ Added `type` field to `data/TagMetadata.json` (e.g. `"string"`, `"number"`, `"ExifDateTime | string"`, `"Struct"`)
+
 ### v35.11.0
 
 - 🌱 Upgraded ExifTool to version [13.52](https://exiftool.org/history.html#13.52).

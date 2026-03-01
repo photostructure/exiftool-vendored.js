@@ -1713,7 +1713,12 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     const jsonDestFile = path.resolve(dataDir, "TagMetadata.json");
     const tagMetadata: Record<
       string,
-      { frequency: number; mainstream: boolean; groups: string[] }
+      {
+        frequency: number;
+        mainstream: boolean;
+        groups: string[];
+        type: string;
+      }
     > = {};
 
     for (const tag of tagMap.tags) {
@@ -1721,6 +1726,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         frequency: tag.popularity(files.length),
         mainstream: tag.important,
         groups: [...tag.groups].sort(),
+        type: tag.valueType,
       };
     }
 
