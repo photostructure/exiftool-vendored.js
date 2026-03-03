@@ -129,19 +129,27 @@ describe("AsyncRetry", () => {
   });
 
   it("retries with increasing durations", async () => {
-    const startTime = Date.now();
-    let attempts = 0;
+    const timestamps: number[] = [];
 
     try {
-      await retryOnReject(async () => {
-        attempts++;
-        await new Promise((resolve) => setTimeout(resolve, 50));
-        throw new Error("retry");
-      }, 2);
+      await retryOnReject(
+        () => {
+          timestamps.push(Date.now());
+          throw new Error("retry");
+        },
+        2,
+        50,
+      );
     } catch {
-      const duration = Date.now() - startTime;
-      expect(duration).to.be.gte(149); // 3 attempts * 50ms minimum
-      expect(attempts).to.eql(3);
+      expect(timestamps).to.have.length(3);
+      const [t0, t1, t2] = timestamps as [number, number, number];
+      // First retry delay should be ~50ms, second should be ~100ms
+      const delay1 = t1 - t0;
+      const delay2 = t2 - t1;
+      expect(delay1).to.be.gte(45);
+      expect(delay2).to.be.gte(90);
+      // Second delay should be roughly double the first
+      expect(delay2).to.be.gte(delay1 * 1.5);
     }
   });
 });
