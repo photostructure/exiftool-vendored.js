@@ -101,11 +101,13 @@ Record<
     frequency: number; // 0-1 decimal: percentage of sample files containing this tag
     mainstream: boolean; // true if tag is from mainstream consumer devices (iPhone, popular Canon/Nikon/Sony)
     groups: string[]; // sorted array of metadata groups where this tag appears (e.g., ["EXIF", "MakerNotes"])
+    type: string; // TypeScript type expression (e.g., "string", "number", "ExifDateTime | string")
+    typed: boolean; // true if this tag has a corresponding property in the Tags TypeScript interface
   }
 >;
 ```
 
-This allows developers to programmatically access the same frequency and device compatibility information shown in the JSDoc annotations, plus metadata group information for understanding where tags originate (EXIF, XMP, MakerNotes, etc.).
+This allows developers to programmatically access the same frequency and device compatibility information shown in the JSDoc annotations, plus metadata group information for understanding where tags originate (EXIF, XMP, MakerNotes, etc.). The `typed` field indicates whether the tag is included in the `Tags` interface — tags where `typed` is `false` are still returned by `ExifTool.read()` but lack TypeScript type definitions due to the union type complexity limit.
 
 ## Important Limitations
 

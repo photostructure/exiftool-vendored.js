@@ -1718,15 +1718,19 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         mainstream: boolean;
         groups: string[];
         type: string;
+        typed: boolean;
       }
     > = {};
 
-    for (const tag of tagMap.tags) {
+    const inTags = new Set<string>(tagMap.tags.map((t) => t.base));
+
+    for (const tag of tagMap.byBase.values()) {
       tagMetadata[tag.base] = {
         frequency: tag.popularity(files.length),
         mainstream: tag.important,
         groups: [...tag.groups].sort(),
         type: tag.valueType,
+        typed: inTags.has(tag.base),
       };
     }
 
