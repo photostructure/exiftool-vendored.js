@@ -1730,7 +1730,7 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         mainstream: tag.important,
         groups: [...tag.groups].sort(),
         type: tag.valueType,
-        typed: inTags.has(tag.base),
+        typed: inTags.has(tag.base) || tag.groups.has("Library"),
       };
     }
 
