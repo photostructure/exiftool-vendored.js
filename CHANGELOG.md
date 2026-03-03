@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.13.0
+
+- ✨ Include `.typed` in `data/TagMetadata.json`. All seen tags now go into this JSON.
+
 ### v35.12.1
 
 - 📦 Include `data/TagMetadata.json` in the npm package
