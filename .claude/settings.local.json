@@ -29,7 +29,6 @@
       "Bash(/tmp/xmp_iptccore.html)",
       "Bash(/tmp/xmp_crs.html)",
       "WebFetch(domain:www.color.org)",
-      "WebFetch(domain:s3.amazonaws.com)",
       "WebFetch(domain:www.iptc.org)",
       "WebFetch(domain:photometadata.org)",
       "WebFetch(domain:exiv2.org)",
