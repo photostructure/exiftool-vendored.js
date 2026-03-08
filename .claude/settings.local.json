@@ -44,11 +44,14 @@
       "Bash(git stash:*)",
       "Bash(node -e:*)",
       "Bash(ls:*)",
-      "Bash(file:*)"
+      "Bash(file:*)",
+      "WebFetch(domain:photostructure.com)"
     ],
     "deny": [],
     "ask": [],
-    "additionalDirectories": ["/home/mrm/src/exiftool"]
+    "additionalDirectories": [
+      "/home/mrm/src/exiftool"
+    ]
   },
   "enableAllProjectMcpServers": false
 }
