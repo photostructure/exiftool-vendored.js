@@ -13,6 +13,8 @@ depletes or the session ends.
 ## Required Reading First
 
 - [CLAUDE.md](CLAUDE.md)
+- [docs/SIMPLE-DESIGN.md](docs/SIMPLE-DESIGN.md)
+- [docs/TDD.md](docs/TDD.md)
 - [docs/TPP-GUIDE.md](docs/TPP-GUIDE.md)
 
 ## Your Task

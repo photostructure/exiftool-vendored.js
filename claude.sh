@@ -6,7 +6,7 @@
 #
 # Setup: Add to ~/.bashrc, ~/.bash_aliases, or ~/.zshrc:
 #
-#   claude() {
+#   cla() {
 #     if [ -f "./claude.sh" ]; then ./claude.sh "$@"; else command claude "$@"; fi
 #   }
 
