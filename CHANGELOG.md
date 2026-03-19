@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.14.0
+
+- 🌱 Upgraded ExifTool to version [13.53](https://exiftool.org/history.html#13.53).
+
 ### v35.13.0
 
 - ✨ Include `.typed` in `data/TagMetadata.json`. All seen tags now go into this JSON.
