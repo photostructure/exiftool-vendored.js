@@ -143,6 +143,13 @@ export class ExifDateTime {
       "MMM d y, HH:mm:ss",
       // Thu Oct 13 00:12:27 2016:
       "ccc MMM d HH:mm:ss y",
+      // POSIX locale dates from gnome-screenshot, etc.
+      // "Tue 17 Jun 2025 09:29:01 PM" (after TZA stripping):
+      "ccc d MMM y h:mm:ss a",
+      "ccc d MMM y HH:mm:ss",
+      // Without weekday prefix:
+      "d MMM y h:mm:ss a",
+      "d MMM y HH:mm:ss",
     ];
     const zone = notBlank(defaultZone) ? defaultZone : UnsetZone;
     for (const fmt of formats) {

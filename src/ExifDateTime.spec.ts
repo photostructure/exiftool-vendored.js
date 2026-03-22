@@ -242,6 +242,62 @@ describe("ExifDateTime", () => {
     expect(dt.zone).to.eql("UTC-7");
   });
 
+  describe("POSIX locale date parsing (gnome-screenshot, etc.)", () => {
+    it("parses 12-hour POSIX locale with PDT", () => {
+      const raw = "Tue 17 Jun 2025 09:29:01 PM PDT";
+      const dt = ExifDateTime.from(raw)!;
+      expect(dt).to.not.eql(undefined);
+      expect(dt.year).to.eql(2025);
+      expect(dt.month).to.eql(6);
+      expect(dt.day).to.eql(17);
+      expect(dt.hour).to.eql(21); // 9 PM = 21
+      expect(dt.minute).to.eql(29);
+      expect(dt.second).to.eql(1);
+      expect(dt.zone).to.eql("UTC-7");
+      expect(dt.tzoffsetMinutes).to.eql(-420);
+      expect(dt.inferredZone).to.eql(false);
+    });
+
+    it("parses 12-hour POSIX locale with PST", () => {
+      const raw = "Thu 16 Jan 2025 10:00:00 AM PST";
+      const dt = ExifDateTime.from(raw)!;
+      expect(dt).to.not.eql(undefined);
+      expect(dt.year).to.eql(2025);
+      expect(dt.month).to.eql(1);
+      expect(dt.day).to.eql(16);
+      expect(dt.hour).to.eql(10);
+      expect(dt.minute).to.eql(0);
+      expect(dt.second).to.eql(0);
+      expect(dt.zone).to.eql("UTC-8");
+      expect(dt.tzoffsetMinutes).to.eql(-480);
+    });
+
+    it("parses 24-hour POSIX locale with CEST", () => {
+      const raw = "Tue 15 Jul 2025 14:30:00 CEST";
+      const dt = ExifDateTime.from(raw)!;
+      expect(dt).to.not.eql(undefined);
+      expect(dt.year).to.eql(2025);
+      expect(dt.month).to.eql(7);
+      expect(dt.day).to.eql(15);
+      expect(dt.hour).to.eql(14);
+      expect(dt.minute).to.eql(30);
+      expect(dt.second).to.eql(0);
+      expect(dt.zone).to.eql("UTC+2");
+      expect(dt.tzoffsetMinutes).to.eql(120);
+    });
+
+    it("parses POSIX locale without weekday prefix", () => {
+      const raw = "17 Jun 2025 09:29:01 PM PDT";
+      const dt = ExifDateTime.from(raw)!;
+      expect(dt).to.not.eql(undefined);
+      expect(dt.year).to.eql(2025);
+      expect(dt.month).to.eql(6);
+      expect(dt.day).to.eql(17);
+      expect(dt.hour).to.eql(21);
+      expect(dt.zone).to.eql("UTC-7");
+    });
+  });
+
   it("try to repro issue #46", () => {
     const edt = new ExifDateTime(2019, 3, 8, 14, 24, 54, 0, -480);
     const dt = edt.toDateTime();

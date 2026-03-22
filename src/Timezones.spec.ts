@@ -240,6 +240,131 @@ describe("Timezones", () => {
     }
   });
 
+  describe("TZA abbreviation resolution", () => {
+    it("resolves PDT to UTC-7 from POSIX locale timestamp", () => {
+      const result = extractZone("Tue 17 Jun 2025 09:29:01 PM PDT");
+      expect(result?.zone).to.equal("UTC-7");
+      expect(result?.src).to.equal("tzAbbreviation");
+      expect(result?.leftovers).to.equal("Tue 17 Jun 2025 09:29:01 PM");
+    });
+
+    it("resolves PST to UTC-8 from POSIX locale timestamp", () => {
+      const result = extractZone("Thu 16 Jan 2025 10:00:00 AM PST");
+      expect(result?.zone).to.equal("UTC-8");
+      expect(result?.src).to.equal("tzAbbreviation");
+      expect(result?.leftovers).to.equal("Thu 16 Jan 2025 10:00:00 AM");
+    });
+
+    it("resolves EST to UTC-5", () => {
+      const result = extractZone("2025:01:15 10:30:00 EST");
+      expect(result?.zone).to.equal("UTC-5");
+      expect(result?.src).to.equal("tzAbbreviation");
+      expect(result?.leftovers).to.equal("2025:01:15 10:30:00");
+    });
+
+    it("resolves CEST to UTC+2", () => {
+      const result = extractZone("2025:07:15 14:00:00 CEST");
+      expect(result?.zone).to.equal("UTC+2");
+      expect(result?.src).to.equal("tzAbbreviation");
+    });
+
+    it("resolves NZDT to UTC+13", () => {
+      const result = extractZone("2025:01:15 10:30:00 NZDT");
+      expect(result?.zone).to.equal("UTC+13");
+      expect(result?.src).to.equal("tzAbbreviation");
+    });
+
+    it("resolves NST to UTC-3:30 (Newfoundland)", () => {
+      const result = extractZone("2025:01:15 10:30:00 NST");
+      expect(result?.zone).to.equal("UTC-3:30");
+      expect(result?.src).to.equal("tzAbbreviation");
+    });
+
+    it("resolves JST to UTC+9", () => {
+      const result = extractZone("2025:07:15 14:00:00 JST");
+      expect(result?.zone).to.equal("UTC+9");
+      expect(result?.src).to.equal("tzAbbreviation");
+    });
+
+    it("does not resolve ambiguous CST", () => {
+      const result = extractZone("2025:01:15 10:30:00 CST");
+      expect(result).to.eql(undefined);
+    });
+
+    it("does not resolve ambiguous IST", () => {
+      const result = extractZone("2025:01:15 10:30:00 IST");
+      expect(result).to.eql(undefined);
+    });
+
+    it("does not resolve ambiguous BST", () => {
+      const result = extractZone("2025:01:15 10:30:00 BST");
+      expect(result).to.eql(undefined);
+    });
+
+    it("prefers numeric offset over TZA when both present", () => {
+      // This already had a numeric offset — TZA is just stripped
+      const result = extractZone("2014:07:17 08:46:27-07:00 DST");
+      expect(result?.zone).to.equal("UTC-7");
+      expect(result?.src).to.equal("offsetMinutesToZoneName");
+    });
+
+    it("returns undefined for unknown abbreviations", () => {
+      const result = extractZone("2025:01:15 10:30:00 XYZW");
+      expect(result).to.eql(undefined);
+    });
+
+    it("does not resolve TZA when stripTZA is false", () => {
+      const result = extractZone("Tue 17 Jun 2025 09:29:01 PM PDT", {
+        stripTZA: false,
+      });
+      expect(result).to.eql(undefined);
+    });
+
+    describe("Settings.tzAbbreviationOffsets", () => {
+      afterEach(() => Settings.reset());
+
+      it("resolves ambiguous CST when user provides override", () => {
+        Settings.tzAbbreviationOffsets.value = { CST: -6 * 60 };
+        const result = extractZone("2025:01:15 10:30:00 CST");
+        expect(result?.zone).to.equal("UTC-6");
+        expect(result?.src).to.equal("tzAbbreviation");
+      });
+
+      it("resolves ambiguous IST to India when user provides override", () => {
+        Settings.tzAbbreviationOffsets.value = { IST: 5 * 60 + 30 };
+        const result = extractZone("2025:01:15 10:30:00 IST");
+        expect(result?.zone).to.equal("UTC+5:30");
+        expect(result?.src).to.equal("tzAbbreviation");
+      });
+
+      it("user override takes precedence over built-in", () => {
+        // PDT is built-in as UTC-7; override to something else
+        Settings.tzAbbreviationOffsets.value = { PDT: -8 * 60 };
+        const result = extractZone("Tue 17 Jun 2025 09:29:01 PM PDT");
+        expect(result?.zone).to.equal("UTC-8");
+      });
+
+      it("reverts to built-in after reset", () => {
+        Settings.tzAbbreviationOffsets.value = { PDT: -8 * 60 };
+        Settings.reset();
+        const result = extractZone("Tue 17 Jun 2025 09:29:01 PM PDT");
+        expect(result?.zone).to.equal("UTC-7");
+      });
+
+      it("does not affect unrelated abbreviations", () => {
+        Settings.tzAbbreviationOffsets.value = { CST: -6 * 60 };
+        const result = extractZone("2025:01:15 10:30:00 EST");
+        expect(result?.zone).to.equal("UTC-5");
+      });
+
+      it("rejects invalid offset from user override", () => {
+        Settings.tzAbbreviationOffsets.value = { CST: 99999 };
+        const result = extractZone("2025:01:15 10:30:00 CST");
+        expect(result).to.eql(undefined);
+      });
+    });
+  });
+
   describe("Unicode timezone signs", () => {
     it("should handle Unicode minus sign (U+2212) in offset", () => {
       const result = extractZone("−08:00"); // Unicode minus

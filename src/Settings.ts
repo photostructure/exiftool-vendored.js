@@ -130,6 +130,38 @@ export const Settings = {
   maxValidOffsetMinutes: new Setting(30),
 
   /**
+   * Additional timezone abbreviation → UTC offset (in minutes) mappings.
+   *
+   * These are merged on top of the built-in table, with user values taking
+   * precedence. This allows you to:
+   * - Resolve ambiguous abbreviations for your region
+   * - Override built-in mappings
+   * - Add abbreviations not in the default table
+   *
+   * Keys must be uppercase. Values are UTC offset in minutes.
+   *
+   * @default `{}` (only built-in unambiguous mappings are used)
+   *
+   * @example
+   * ```typescript
+   * import { Settings } from "exiftool-vendored"
+   *
+   * // US Central Standard Time (UTC-6):
+   * Settings.tzAbbreviationOffsets.value = { CST: -6 * 60 }
+   *
+   * // India Standard Time (UTC+5:30):
+   * Settings.tzAbbreviationOffsets.value = { IST: 5 * 60 + 30 }
+   *
+   * // Multiple at once:
+   * Settings.tzAbbreviationOffsets.value = {
+   *   CST: -6 * 60,
+   *   IST: 5 * 60 + 30,
+   * }
+   * ```
+   */
+  tzAbbreviationOffsets: new Setting<Readonly<Record<string, number>>>({}),
+
+  /**
    * Logger instance used throughout exiftool-vendored.
    *
    * By default, this is set to ConsoleLogger if NODE_DEBUG=exiftool-vendored is

@@ -25,7 +25,7 @@
       "WebFetch(domain:www.color.org)",
       "WebFetch(domain:www.iptc.org)",
       "WebFetch(domain:photostructure.com)",
-      "WebSearch",
+      "WebSearch"
     ],
     "deny": [],
     "ask": [],

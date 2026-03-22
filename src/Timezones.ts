@@ -104,6 +104,113 @@ export type TimezoneOffset = (
 )[number];
 
 /**
+ * Common, unique timezone abbreviations → UTC offset in minutes.
+ *
+ * Used as a last-resort fallback in {@link extractZone} when the only timezone
+ * info in a string is a trailing abbreviation (e.g. "PDT", "EST").
+ *
+ * We map to **fixed offsets**, not IANA zone names, because:
+ * 1. The abbreviation IS the offset — "PDT" always means UTC-7.
+ * 2. IANA zones apply DST rules that can contradict the abbreviation (e.g. PST
+ *    → America/Los_Angeles in June → Luxon returns UTC-7, not -8).
+ * 3. Abbreviations don't uniquely identify locations (MST = Denver with DST /
+ *    Phoenix without DST).
+ *
+ * Ambiguous abbreviations are **omitted** rather than guessed:
+ * - CST: US Central (-6) / China (+8) / Cuba (-5)
+ * - IST: India (+5:30) / Israel (+2) / Ireland (+1)
+ * - BST: British Summer (+1) / Bangladesh (+6)
+ * - AST: Atlantic (-4) / Arabia (+3)
+ * - GST: Gulf (+4) / South Georgia (-2)
+ * - AMT: Amazon (-4) / Armenia (+4)
+ * - SST: Samoa (-11) / Singapore (+8)
+ * - WST: West Samoa (-11) / Western Australia (+8)
+ *
+ * Sources: RFC 2822 §4.3, IANA tz database, POSIX TZ values, Wikipedia.
+ */
+const TzAbbreviationOffsetMinutes: Readonly<Record<string, number>> = {
+  // ── UTC / GMT ──
+  UTC: 0,
+  GMT: 0,
+
+  // ── North America ──
+  // standard
+  NST: -3 * 60 - 30, // Newfoundland Standard
+  NDT: -2 * 60 - 30, // Newfoundland Daylight
+  ADT: -3 * 60, //      Atlantic Daylight
+  EST: -5 * 60, //      Eastern Standard
+  EDT: -4 * 60, //      Eastern Daylight
+  CDT: -5 * 60, //      Central Daylight
+  MST: -7 * 60, //      Mountain Standard
+  MDT: -6 * 60, //      Mountain Daylight
+  PST: -8 * 60, //      Pacific Standard
+  PDT: -7 * 60, //      Pacific Daylight
+  AKST: -9 * 60, //     Alaska Standard
+  AKDT: -8 * 60, //     Alaska Daylight
+  HST: -10 * 60, //     Hawaii (no DST)
+
+  // ── Europe ──
+  WET: 0, //            Western European
+  WEST: 1 * 60, //      Western European Summer
+  CET: 1 * 60, //       Central European
+  CEST: 2 * 60, //      Central European Summer
+  EET: 2 * 60, //       Eastern European
+  EEST: 3 * 60, //      Eastern European Summer
+  MSK: 3 * 60, //       Moscow
+  TRT: 3 * 60, //       Turkey
+
+  // ── Africa ──
+  WAT: 1 * 60, //       West Africa
+  CAT: 2 * 60, //       Central Africa
+  SAST: 2 * 60, //      South Africa Standard
+  EAT: 3 * 60, //       East Africa
+
+  // ── West / Central Asia ──
+  IRST: 3 * 60 + 30, // Iran Standard
+  IRDT: 4 * 60 + 30, // Iran Daylight
+  AFT: 4 * 60 + 30, //  Afghanistan
+  PKT: 5 * 60, //       Pakistan
+  NPT: 5 * 60 + 45, //  Nepal
+  MMT: 6 * 60 + 30, //  Myanmar
+  ICT: 7 * 60, //       Indochina (Thailand, Vietnam, etc.)
+
+  // ── East Asia ──
+  SGT: 8 * 60, //       Singapore
+  HKT: 8 * 60, //       Hong Kong
+  PHT: 8 * 60, //       Philippines
+  JST: 9 * 60, //       Japan Standard
+  KST: 9 * 60, //       Korea Standard
+
+  // ── Australia / Pacific ──
+  AWST: 8 * 60, //      Australian Western Standard
+  ACST: 9 * 60 + 30, // Australian Central Standard
+  ACDT: 10 * 60 + 30, // Australian Central Daylight
+  AEST: 10 * 60, //     Australian Eastern Standard
+  AEDT: 11 * 60, //     Australian Eastern Daylight
+  NZST: 12 * 60, //     New Zealand Standard
+  NZDT: 13 * 60, //     New Zealand Daylight
+  CHAST: 12 * 60 + 45, // Chatham Standard
+  CHADT: 13 * 60 + 45, // Chatham Daylight
+
+  // ── South America ──
+  COT: -5 * 60, //      Colombia
+  PET: -5 * 60, //      Peru
+  VET: -4 * 60, //      Venezuela
+  BOT: -4 * 60, //      Bolivia
+  CLT: -4 * 60, //      Chile Standard
+  CLST: -3 * 60, //     Chile Summer
+  ART: -3 * 60, //      Argentina
+  BRT: -3 * 60, //      Brasilia
+  UYT: -3 * 60, //      Uruguay
+
+  // ── Atlantic / Indian Ocean ──
+  CVT: -1 * 60, //      Cape Verde
+  AZOT: -1 * 60, //     Azores Standard
+  MUT: 4 * 60, //       Mauritius
+  SCT: 4 * 60, //       Seychelles
+};
+
+/**
  * Get all valid timezone offset minutes based on current settings.
  * Used by both validOffsetMinutes (Set) and likelyOffsetMinutes (Array).
  */
@@ -852,13 +959,18 @@ export function extractZone(
   // Some EXIF datetime will "over-specify" and include both the utc offset
   // *and* the "time zone abbreviation"/TZA, like "PST" or "PDT". TZAs are
   // between 2 (AT) and 5 (WEST) characters.
+  let strippedTza: string | undefined;
   if (
     opts?.stripTZA !== false &&
     // We only want to strip off the TZA if the input _doesn't_ end with "UTC"
     // or "Z"
     !/[.\d\s](?:UTC|Z)$/.test(str)
   ) {
-    str = str.replace(/\s[a-z]{2,5}$/i, "");
+    const tzaMatch = str.match(/\s([a-z]{2,5})$/i);
+    if (tzaMatch != null) {
+      strippedTza = tzaMatch[1];
+      str = str.slice(0, tzaMatch.index);
+    }
   }
   {
     if (blank(str)) return;
@@ -894,6 +1006,27 @@ export function extractZone(
         src: "offsetMinutesToZoneName",
         ...(blank(leftovers) ? {} : { leftovers }),
       };
+    }
+  }
+
+  // Last resort: if we stripped a TZA but found no numeric offset, try
+  // resolving the abbreviation itself (e.g. "PDT" → UTC-7).
+  // User-provided overrides (Settings) take precedence over built-ins.
+  if (strippedTza != null) {
+    const key = strippedTza.toUpperCase();
+    const offsetMinutes =
+      Settings.tzAbbreviationOffsets.value[key] ??
+      TzAbbreviationOffsetMinutes[key];
+    if (offsetMinutes != null) {
+      const zone = offsetMinutesToZoneName(offsetMinutes);
+      if (zone != null) {
+        return {
+          zone,
+          tz: zone,
+          src: "tzAbbreviation",
+          ...(blank(str) ? {} : { leftovers: str }),
+        };
+      }
     }
   }
   return;

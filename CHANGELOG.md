@@ -35,6 +35,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.14.1
+
+- 🐞 Fixed parsing of POSIX locale date strings like `"Tue 17 Jun 2025 09:29:01 PM PDT"` (emitted by gnome-screenshot's `CreationTime` tag). Previously these fell through to raw strings, losing the time and timezone.
+- ✨ `extractZone()` now resolves common unambiguous timezone abbreviations (PDT, EST, CEST, JST, NZDT, etc.) to fixed UTC offsets (e.g. PDT → `UTC-7`) as a last-resort fallback when no numeric UTC offset is present. Ambiguous abbreviations (CST, IST, BST, AST) are intentionally omitted.
+- ✨ New `Settings.tzAbbreviationOffsets` allows users to resolve ambiguous abbreviations for their region (e.g. `{ CST: -6 * 60 }` for US Central, `{ IST: 5 * 60 + 30 }` for India).
+
 ### v35.14.0
 
 - 🌱 Upgraded ExifTool to version [13.53](https://exiftool.org/history.html#13.53).
