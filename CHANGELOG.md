@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.16.0
+
+- 🌱 Upgraded ExifTool to version [13.55](https://exiftool.org/history.html#13.55).
+
 ### v35.15.0
 
 - 🐞 Fixed parsing of POSIX locale date strings like `"Tue 17 Jun 2025 09:29:01 PM PDT"` (emitted by gnome-screenshot's `CreationTime` tag). Previously these fell through to raw strings, losing the time and timezone.
