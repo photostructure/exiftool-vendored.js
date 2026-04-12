@@ -25,7 +25,9 @@
       "WebFetch(domain:www.color.org)",
       "WebFetch(domain:www.iptc.org)",
       "WebFetch(domain:photostructure.com)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npx snyk:*)",
+      "WebFetch(domain:snyk.io)"
     ],
     "deny": [],
     "ask": [],

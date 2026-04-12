@@ -74,17 +74,17 @@ describe("GeolocationTags", function () {
   };
 
   const eiffelTower: ExpectedGeolocationTags = {
-    GeolocationBearing: 319,
-    GeolocationCity: "Neuilly-sur-Seine",
+    GeolocationBearing: 289,
+    GeolocationCity: "Paris 16 Passy",
     GeolocationCountry: "France",
     GeolocationCountryCode: "FR",
-    GeolocationDistance: "3.33 km",
+    GeolocationDistance: "1.25 km",
     GeolocationFeatureCode: "PPL",
     GeolocationFeatureType: "Populated Place",
-    GeolocationPopulation: 61000,
-    GeolocationPosition: "48.8845, 2.2697",
+    GeolocationPopulation: 160000,
+    GeolocationPosition: "48.8638, 2.2769",
     GeolocationRegion: "Île-de-France",
-    GeolocationSubregion: "Hauts-de-Seine",
+    GeolocationSubregion: "Paris",
     GeolocationTimeZone: "Europe/Paris",
     GeolocationWarning: undefined,
   };
@@ -101,7 +101,7 @@ describe("GeolocationTags", function () {
     GeolocationPopulation: 2100,
     GeolocationPosition: "-33.8592, 151.2083",
     GeolocationRegion: "New South Wales",
-    GeolocationSubregion: "City of Sydney",
+    GeolocationSubregion: "Sydney",
     GeolocationTimeZone: "Australia/Sydney",
     GeolocationWarning: undefined,
   };
