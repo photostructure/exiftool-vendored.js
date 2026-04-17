@@ -36,9 +36,9 @@ vendored versions of ExifTool match the version that they vendor.
 ## History
 
 ### v35.18.0
-                                                            
-- 🌱 Upgraded ExifTool to version [13.57](https://exiftool.org/history.html#13.57).                             
-- 🐞 Fixes an ExifTool 13.56 regression (shipped in v35.17.0) where XMP list-valued tags (`dc:subject`, `HierarchicalSubject`, `Keywords`) read from sidecar files were collapsed to just the last `<rdf:li>` as a scalar string when `-api struct=1` was in effect. Users on v35.17.0 who read XMP sidecars should upgrade.                  
+
+- 🌱 Upgraded ExifTool to version [13.57](https://exiftool.org/history.html#13.57).
+- 🐞 Fixes an ExifTool 13.56 regression (shipped in v35.17.0) where XMP list-valued tags (`dc:subject`, `HierarchicalSubject`, `Keywords`) read from sidecar files were collapsed to just the last `<rdf:li>` as a scalar string when `-api struct=1` was in effect. Users on v35.17.0 who read XMP sidecars should upgrade.
 
 ### v35.17.0
 
