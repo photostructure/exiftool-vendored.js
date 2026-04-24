@@ -37,6 +37,15 @@ describe("StrEnum", () => {
       expect(Examples.indexOf(v)).to.eql(idx);
     });
   }
+
+  it("does not accept inherited Object property names", () => {
+    for (const v of ["constructor", "toString", "__proto__", "valueOf"]) {
+      expect(Examples.has(v)).to.eql(false);
+      expect(Examples.includes(v)).to.eql(false);
+      expect(Examples.indexOf(v)).to.eql(undefined);
+    }
+  });
+
   for (const { v, exp } of fixtures) {
     it(`.toValid(${v}) -> ${exp ? v : "undefined"}`, () => {
       expect(Examples.toValid(v)).to.eql(exp ? v : undefined);

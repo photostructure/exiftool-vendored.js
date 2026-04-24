@@ -204,7 +204,7 @@ export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
   const lcToValue = new Map<string, T>(
     values.map((ea) => [ea.toLowerCase(), ea]),
   );
-  const valueToIndex = Object.fromEntries(
+  const valueToIndex = new Map<string, number>(
     values.map((ea, idx) => [ea as string, idx]),
   );
 
@@ -218,7 +218,7 @@ export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
     s == null ? undefined : lcToValue.get(s?.toLowerCase());
 
   const indexOf = (s: Nullable<string>) =>
-    s != null ? valueToIndex[s] : undefined;
+    s != null ? valueToIndex.get(s) : undefined;
 
   const ordinal = (s: Nullable<string>) => indexOf(s) ?? values.length;
 
