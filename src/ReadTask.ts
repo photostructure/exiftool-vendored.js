@@ -24,6 +24,7 @@ import { isObject } from "./Object";
 import { OnlyZerosRE } from "./OnlyZerosRE";
 import { pick } from "./Pick";
 import { isString, notBlank } from "./String";
+import { validateTagName } from "./TagNameValidation";
 import { Tags } from "./Tags";
 import {
   extractTzOffsetFromDatestamps,
@@ -140,7 +141,10 @@ export class ReadTask extends ExifToolTask<Tags> {
     }
     // IMPORTANT: "-all" must be after numeric tag references, as the first
     // reference in wins
-    args.push(...opts.numericTags.map((ea) => "-" + ea + "#"));
+    for (const ea of opts.numericTags) {
+      validateTagName(ea, "numericTags entry");
+      args.push("-" + ea + "#");
+    }
     // We have to add a -all or else we'll only get the numericTags. sad.
 
     // TODO: Do you need -xmp:all, -all, or -all:all? Is -* better?

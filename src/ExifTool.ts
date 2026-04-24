@@ -29,6 +29,7 @@ import { ReadTask, ReadTaskOptionFields, ReadTaskOptions } from "./ReadTask";
 import { RewriteAllTagsTask } from "./RewriteAllTagsTask";
 import { Settings } from "./Settings";
 import { blank, isString, notBlank } from "./String";
+import { validateTagName } from "./TagNameValidation";
 import { Tags } from "./Tags";
 import { VersionTask } from "./VersionTask";
 import { which } from "./Which";
@@ -103,7 +104,8 @@ export type { BinaryExtractionTaskOptions } from "./BinaryExtractionTask";
 export type { ContainerDirectoryItem } from "./ContainerDirectoryItem";
 export type { Defined, DefinedOrNullValued } from "./Defined";
 export type { ErrorsAndWarnings } from "./ErrorsAndWarnings";
-export type { ExifToolOptions } from "./ExifToolOptions";
+export { ImageHashTypes } from "./ExifToolOptions";
+export type { ExifToolOptions, ImageHashType } from "./ExifToolOptions";
 export type { ExifToolTaskOptions } from "./ExifToolTask";
 export type { ExifToolVendoredTags } from "./ExifToolVendoredTags";
 export type { GeolocationTags } from "./GeolocationTags";
@@ -532,12 +534,13 @@ export class ExifTool {
    * @param {(keyof Tags | string)[]} opts.retain optional. If provided, this is
    * a list of metadata keys to **not** delete.
    */
-  deleteAllTags(
+  async deleteAllTags(
     file: string,
     opts?: { retain?: (keyof Tags | string)[] } & Partial<ExifToolTaskOptions>,
   ): Promise<WriteTaskResult> {
     const writeArgs = [...DeleteAllTagsArgs];
     for (const ea of opts?.retain ?? []) {
+      validateTagName(ea, "retain tag name");
       writeArgs.push(`-${ea}<${ea}`);
     }
     return this.write(file, {}, { ...omit(opts ?? {}, "retain"), writeArgs });

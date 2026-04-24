@@ -1875,4 +1875,39 @@ describe("ReadTask", () => {
       expect(t.PersonInImage).to.eql(["Alice Smith", "Bob Jones"]);
     });
   });
+
+  describe("argument-injection hardening", () => {
+    it("rejects argument-injection via numericTags entry", async () => {
+      const f = join(testDir, "oly.jpg");
+      return expect(
+        exiftool.read(f, { numericTags: ["Orientation\n-p\n/etc/passwd"] }),
+      ).to.be.rejectedWith(/Invalid numericTags entry|control character/);
+    });
+
+    // Filename/path arguments are not covered by validateTagName; they rely
+    // on the defense-in-depth control-character check in
+    // ExifToolTask.renderCommand. These tests pin that safety net.
+    it("rejects filename containing a newline (defense-in-depth)", async () => {
+      return expect(
+        exiftool.read("input.jpg\n-p\n/etc/passwd\n-w!\nleak.txt"),
+      ).to.be.rejectedWith(/control character/);
+    });
+
+    it("rejects filename containing a NUL byte (defense-in-depth)", async () => {
+      return expect(
+        exiftool.read("input.jpg\0-p\0/etc/passwd"),
+      ).to.be.rejectedWith(/control character/);
+    });
+
+    // imageHashType is typed as a literal union in TypeScript but type
+    // erasure means a JS caller could still pass an arbitrary string.
+    it("rejects imageHashType containing a newline", async () => {
+      const f = join(testDir, "oly.jpg");
+      return expect(
+        exiftool.read(f, {
+          imageHashType: "MD5\n-p\n/etc/passwd" as any,
+        }),
+      ).to.be.rejectedWith(/Invalid imageHashType/);
+    });
+  });
 });

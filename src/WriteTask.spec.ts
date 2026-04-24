@@ -656,6 +656,47 @@ describe("WriteTask", function () {
           ).to.match(/Tag 'RandomTag' is not defined/);
         });
 
+        // Security regression tests for argument-injection via tag names.
+        // These assert the injection is refused BEFORE exiftool is invoked;
+        // if this ever regresses, the reporter's PoCs would (1) write
+        // ../exploit on the host filesystem and (2) exfiltrate /etc/passwd
+        // into the working directory.
+        it("rejects argument-injection via tag name (PoC #1: -o redirection)", async () => {
+          const src = await dest();
+          return expect(
+            exiftool.write(src, {
+              "XMP-dc:Title\n-o\n../exploit\n-XMP-dc:Title": "HELLOWORLD",
+            } as any),
+          ).to.be.rejectedWith(/Invalid tag name|control character/);
+        });
+
+        it("rejects argument-injection via tag name (PoC #2: -p /etc/passwd)", async () => {
+          const src = await dest();
+          return expect(
+            exiftool.write(src, {
+              "execute\n-p\n/etc/passwd\n-w!\nleak.txt\ninput.jpg\n-execute\n-Comment":
+                "HELLOWORLD",
+            } as any),
+          ).to.be.rejectedWith(/Invalid tag name|control character/);
+        });
+
+        it("rejects tag names containing = (value delimiter)", async () => {
+          const src = await dest();
+          return expect(
+            exiftool.write(src, { "Artist=evil": "x" } as any),
+          ).to.be.rejectedWith(/Invalid tag name|control character/);
+        });
+
+        // Filename arguments are not covered by validateTagName; they rely
+        // on the defense-in-depth control-character check in
+        // ExifToolTask.renderCommand. This test pins that safety net for the
+        // write path.
+        it("rejects filename containing a newline (defense-in-depth)", async () => {
+          return expect(
+            exiftool.write("input.jpg\n-o\n../exploit", { Artist: "x" }),
+          ).to.be.rejectedWith(/control character/);
+        });
+
         it("round-trips a struct tag with a ResourceEvent with primitive values", async () => {
           const inputValue: ResourceEvent[] = [
             {
@@ -962,6 +1003,15 @@ describe("WriteTask", function () {
       const after = await exiftool.read(img);
       assertMissingGeneralTags(after);
       expect(after).to.containSubset(ImageExifData);
+    });
+
+    it("rejects argument-injection via retain tag name", async () => {
+      const img = await testImg({ srcBasename: "oly.jpg" });
+      return expect(
+        exiftool.deleteAllTags(img, {
+          retain: ["Artist\n-o\n../retain-exploit"],
+        }),
+      ).to.be.rejectedWith(/Invalid retain tag name|control character/);
     });
 
     it("supports creating arrays in structs", async () => {

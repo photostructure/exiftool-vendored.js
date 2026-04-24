@@ -85,4 +85,14 @@ describe("BinaryToBufferTask", () => {
       expect(String(err)).to.match(/JpgFromRaw not found/i);
     }
   });
+
+  it("rejects argument-injection via tagname", async () => {
+    const src = path.join(testDir, "with_thumb.jpg");
+    return expect(
+      exiftool.extractBinaryTagToBuffer(
+        "ThumbnailImage\n-p\n/etc/passwd" as any,
+        src,
+      ),
+    ).to.be.rejectedWith(/Invalid tag name|control character/);
+  });
 });

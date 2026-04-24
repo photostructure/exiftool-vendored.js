@@ -3,6 +3,7 @@ import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { Maybe } from "./Maybe";
 import { notBlank } from "./String";
+import { validateTagName } from "./TagNameValidation";
 
 /**
  * Task that returns an error string (to prevent retries), or undefined if
@@ -22,8 +23,7 @@ export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
     imgSrc: string,
     options?: ExifToolTaskOptions,
   ): BinaryToBufferTask {
-    // NOTE TO FUTURE ME: we don't need to escape these arguments, because
-    // ExifTool separates them via newlines.
+    validateTagName(tagname);
     const args = [...Utf8FilenameCharsetArgs, "-json", "-b", "-" + tagname];
     args.push(path.resolve(imgSrc));
     return new BinaryToBufferTask(tagname, args, options);

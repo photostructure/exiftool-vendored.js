@@ -11,6 +11,20 @@ export type ExifToolTaskOptions = Pick<ExifToolOptions, "ignoreMinorErrors">;
 export abstract class ExifToolTask<T> extends bc.Task<T> {
   static renderCommand(args: string[], options?: ExifToolTaskOptions): string {
     const result = args.filter((ea) => !blank(ea));
+    // Defense-in-depth: exiftool is launched with `-stay_open True -@ -` so
+    // args are separated by newlines. Any \r \n or NUL inside an arg would
+    // split one arg into several — an argument-injection primitive. Per-site
+    // validators (see TagNameValidation) should prevent this upstream; this
+    // assertion catches regressions from any new interpolation site that
+    // forgets to validate.
+    for (const a of result) {
+      if (/[\r\n\0]/.test(a)) {
+        throw new Error(
+          "Internal error: argument contains control character: " +
+            JSON.stringify(a),
+        );
+      }
+    }
     if (options?.ignoreMinorErrors === true) {
       result.push("-ignoreMinorErrors");
     }

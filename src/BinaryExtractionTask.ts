@@ -5,6 +5,7 @@ import { ExifToolTask } from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { Maybe } from "./Maybe";
 import { toS } from "./String";
+import { validateTagName } from "./TagNameValidation";
 
 export type BinaryExtractionTaskOptions = Pick<
   ExifToolOptions,
@@ -37,6 +38,7 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     imgDest: string,
     options?: BinaryExtractionTaskOptions,
   ): BinaryExtractionTask {
+    validateTagName(tagname);
     // Ensure the destination directory exists:
     mkdirSync(path.dirname(imgDest), { recursive: true });
 

@@ -13,6 +13,7 @@ import { keys } from "./Object";
 import { pick } from "./Pick";
 import { isString, splitLines } from "./String";
 import { isStruct } from "./Struct";
+import { validateTagName } from "./TagNameValidation";
 import { WriteTags } from "./WriteTags";
 
 const sep = String.fromCharCode(31); // < unit separator
@@ -198,6 +199,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
     const fieldsToSet = [];
 
     for (const key of keys(tags)) {
+      validateTagName(key);
       const val = tags[key];
       fieldsToSet.push(`-${key}=${enc(val)}`);
     }

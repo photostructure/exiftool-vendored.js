@@ -109,4 +109,16 @@ describe("BinaryExtractionTask", () => {
       forceWrite: true,
     });
   });
+
+  it("rejects argument-injection via tagname", async () => {
+    const src = path.join(testDir, "with_thumb.jpg");
+    const dest = tmpname();
+    return expect(
+      exiftool.extractBinaryTag(
+        "ThumbnailImage\n-o\n../thumb-exploit",
+        src,
+        dest,
+      ),
+    ).to.be.rejectedWith(/Invalid tag name|control character/);
+  });
 });
