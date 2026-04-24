@@ -1,6 +1,7 @@
 .dccache
 .history
 .nyc_output
+.codex
 *.log
 coverage/
 dist/
