@@ -8,7 +8,11 @@ import { errorsAndWarnings } from "./ErrorsAndWarnings";
 import { ExifDate } from "./ExifDate";
 import { ExifDateTime } from "./ExifDateTime";
 import { ExifTime } from "./ExifTime";
-import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
+import {
+  ExifToolOptions,
+  handleDeprecatedOptions,
+  ImageHashTypes,
+} from "./ExifToolOptions";
 import { ExifToolTask } from "./ExifToolTask";
 import { compareFilePaths } from "./File";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
@@ -22,12 +26,12 @@ import { pick } from "./Pick";
 import { isString, notBlank } from "./String";
 import { Tags } from "./Tags";
 import {
-  TzSrc,
   extractTzOffsetFromDatestamps,
   extractTzOffsetFromTags,
   extractTzOffsetFromTimeStamp,
   extractTzOffsetFromUTCOffset,
   normalizeZone,
+  TzSrc,
 } from "./Timezones";
 
 /**
@@ -118,6 +122,12 @@ export class ReadTask extends ExifToolTask<Tags> {
       args.push("-use", "MWG");
     }
     if (opts.imageHashType != null && opts.imageHashType !== false) {
+      if (!ImageHashTypes.includes(opts.imageHashType)) {
+        throw new Error(
+          `Invalid imageHashType: ${JSON.stringify(opts.imageHashType)}. ` +
+            `Expected false or one of ${ImageHashTypes.values.join(", ")}.`,
+        );
+      }
       // See https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218
       args.push("-api", "requesttags=imagedatahash");
       args.push("-api", "imagehashtype=" + opts.imageHashType);

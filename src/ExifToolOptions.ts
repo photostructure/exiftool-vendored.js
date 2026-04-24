@@ -1,7 +1,15 @@
 import * as bc from "batch-cluster";
 import { geoTz } from "./GeoTz";
 import { Maybe } from "./Maybe";
+import { StrEnum, strEnum, StrEnumKeys } from "./StrEnum";
 import { Tags } from "./Tags";
+
+export const ImageHashTypes = strEnum(
+  "MD5",
+  "SHA256",
+  "SHA512",
+) satisfies StrEnum<"MD5" | "SHA256" | "SHA512">;
+export type ImageHashType = StrEnumKeys<typeof ImageHashTypes>;
 
 /**
  * Options for the {@link ExifTool} constructor.
@@ -138,7 +146,7 @@ export interface ExifToolOptions
    *
    * @default false (disabled, as it adds ~20ms of overhead to every read)
    */
-  imageHashType: false | "MD5" | "SHA256" | "SHA512";
+  imageHashType: false | ImageHashType;
 
   /**
    * @deprecated Use `imageHashType` instead.

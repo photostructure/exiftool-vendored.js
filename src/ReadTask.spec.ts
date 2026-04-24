@@ -320,6 +320,19 @@ describe("ReadTask", () => {
         }
       });
     }
+
+    it("rejects invalid runtime values", async () => {
+      for (const imageHashType of [
+        "md5",
+        "toString",
+        "MD5\n-p\n/etc/passwd",
+        123,
+      ]) {
+        await expect(
+          exiftool.read(file, undefined, { imageHashType } as any),
+        ).to.be.rejectedWith(/Invalid imageHashType/);
+      }
+    });
   });
 
   describe("date and time parsing", () => {
