@@ -36,4 +36,21 @@ describe("ReadRawTask", () => {
       });
     }
   });
+
+  // Filename arguments to readRaw rely on the defense-in-depth
+  // control-character check in ExifToolTask.renderCommand. These tests
+  // pin that safety net.
+  describe("argument-injection hardening", () => {
+    it("rejects filename containing a newline (defense-in-depth)", async () => {
+      return expect(
+        exiftool.readRaw("input.jpg\n-p\n/etc/passwd\n-w!\nleak.txt"),
+      ).to.be.rejectedWith(/control character/);
+    });
+
+    it("rejects filename containing a NUL byte (defense-in-depth)", async () => {
+      return expect(
+        exiftool.readRaw("input.jpg\0-p\0/etc/passwd"),
+      ).to.be.rejectedWith(/control character/);
+    });
+  });
 });

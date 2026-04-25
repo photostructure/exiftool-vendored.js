@@ -86,6 +86,24 @@ describe("RewriteAllTagsTask", () => {
           expectSameYmdHms(tags.CreateDate as any, d);
         });
       });
+
+      // Filename arguments to rewriteAllTags rely on the defense-in-depth
+      // control-character check in ExifToolTask.renderCommand. These tests
+      // pin that safety net.
+      describe("argument-injection hardening", () => {
+        it("rejects inputFile containing a newline (defense-in-depth)", async () => {
+          return expect(
+            exiftool.rewriteAllTags("input.jpg\n-o\n../exploit", "ignored.jpg"),
+          ).to.be.rejectedWith(/control character/);
+        });
+
+        it("rejects outputFile containing a newline (defense-in-depth)", async () => {
+          const img = await testImg();
+          return expect(
+            exiftool.rewriteAllTags(img, "out.jpg\n-o\n../exploit"),
+          ).to.be.rejectedWith(/control character/);
+        });
+      });
     });
   }
 });
