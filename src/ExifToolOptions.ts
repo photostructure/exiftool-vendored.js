@@ -132,6 +132,10 @@ export interface ExifToolOptions
    * If you're using tag values only for human consumption, you may want to
    * leave this blank.
    *
+   * Each entry must be a valid ExifTool tag reference; the read promise rejects
+   * entries containing whitespace, control characters, option delimiters, or
+   * value delimiters.
+   *
    * @default `["*Duration*", "GPSAltitude", "GPSLatitude", "GPSLongitude", "GPSPosition", "GeolocationPosition", "Orientation"]`
    */
   numericTags: string[];
@@ -319,6 +323,11 @@ export interface ExifToolOptions
    * to the ExifTool constructor can be overridden in the call to
    * {@link ExifTool.read}.
    *
+   * **Security:** entries are passed through to the underlying `exiftool`
+   * process verbatim. Never pass attacker-controlled strings here. The
+   * library rejects any entry containing `\r`, `\n`, or `\0` as a
+   * defense-in-depth measure, but provides no other sanitization.
+   *
    * @default `["-fast"]`
    */
   readArgs: string[];
@@ -327,6 +336,11 @@ export interface ExifToolOptions
    * Any additional arguments that should be added by default to all write
    * tasks, like `["-overwrite_original"]`. The value provided to the ExifTool
    * constructor can be overridden in the call to {@link ExifTool.write}.
+   *
+   * **Security:** entries are passed through to the underlying `exiftool`
+   * process verbatim. Never pass attacker-controlled strings here. The
+   * library rejects any entry containing `\r`, `\n`, or `\0` as a
+   * defense-in-depth measure, but provides no other sanitization.
    *
    * @default `[]`
    */

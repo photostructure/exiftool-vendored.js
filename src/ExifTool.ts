@@ -429,7 +429,11 @@ export class ExifTool {
    *
    * @param file an existing file to write `tags` to
    *
-   * @param tags the tags to write to `file`.
+   * @param tags the tags to write to `file`. Each key must be a valid ExifTool
+   * tag reference; the promise rejects keys containing whitespace, control
+   * characters, option delimiters, or value delimiters. Values are
+   * whitespace-encoded before transmission and are safe to populate from
+   * untrusted input.
    *
    * **IMPORTANT:** Partial dates (year-only or year-month) are only supported
    * for XMP tags. Use group-prefixed tag names like `"XMP:CreateDate"` for
@@ -481,9 +485,8 @@ export class ExifTool {
   /**
    * Write the given `tags` to `file`.
    *
-   * **NOTE: no input validation is done by this library.** ExifTool, however,
-   * is strict about tag names and values in the context of the format of file
-   * being written to.
+   * Tag keys are validated before being sent to ExifTool. Tag values are
+   * whitespace-encoded before transmission.
    *
    * **IMPORTANT:** Partial dates (year-only or year-month) are only supported
    * for XMP tags. Use group-prefixed tag names like `"XMP:CreateDate"` for
@@ -532,7 +535,9 @@ export class ExifTool {
    * @param {string} file the file to strip of metadata
    *
    * @param {(keyof Tags | string)[]} opts.retain optional. If provided, this is
-   * a list of metadata keys to **not** delete.
+   * a list of metadata keys to **not** delete. Each entry must be a valid
+   * ExifTool tag reference; the promise rejects entries containing whitespace,
+   * control characters, option delimiters, or value delimiters.
    */
   async deleteAllTags(
     file: string,
@@ -612,6 +617,11 @@ export class ExifTool {
    * `path/to/image.jpg` and write it to `dest` (which cannot exist and whose
    * directory must already exist).
    *
+   * @param tagname must be a valid ExifTool tag reference. The promise rejects
+   * tag names containing whitespace, control characters, option delimiters, or
+   * value delimiters, and rejects `src` or `dest` paths containing `\r`, `\n`,
+   * or `\0`.
+   *
    * @return a `Promise<void>`
    *
    * @throws if the binary output cannot be written to `dest`.
@@ -640,6 +650,11 @@ export class ExifTool {
    * `path/to/image.jpg` as a `Buffer`. This has the advantage of not writing to
    * a file, but if the payload associated to `tagname` is large, this can cause
    * out-of-memory errors.
+   *
+   * @param tagname must be a valid ExifTool tag reference. The promise rejects
+   * tag names containing whitespace, control characters, option delimiters, or
+   * value delimiters, and rejects `imageFile` paths containing `\r`, `\n`, or
+   * `\0`.
    *
    * @return a `Promise<Buffer>`
    *
@@ -683,6 +698,8 @@ export class ExifTool {
    * tags, allow ExifTool to apply heuristics to recover corrupt tags. See
    * exiftool's `-F` flag.
    * @return {Promise<void>} resolved after the outputFile has been written.
+   * @throws if `inputFile` or `outputFile` contain control characters (`\r`,
+   * `\n`, `\0`).
    */
   rewriteAllTags(
     inputFile: string,
