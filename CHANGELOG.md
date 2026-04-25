@@ -35,6 +35,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.18.1
+
+- 🔥 **Security: argument injection hardening [GHSA-cw26-7653-2rp5](https://github.com/photostructure/exiftool-vendored.js/security/advisories/GHSA-cw26-7653-2rp5).** ExifTool runs in `-stay_open True -@ -` mode, where arguments are read from stdin one per line. Several caller-supplied strings were previously interpolated into ExifTool arguments without rejecting line delimiters, so a `\n` inside a tag name or filename could split one argument into many. Two layers of defense have been added:
+  - **Per-site validation.** A new `validateTagName` helper rejects tag-name strings that fall outside the ExifTool tag grammar (letters, digits, `:`, `-`, `_`, and the modifiers `*`, `?`, `+`, `#`). Applied to write tag keys, `deleteAllTags({retain})`, `read({numericTags})`, and the binary-extraction tag names. `imageHashType` is now also validated against an `ImageHashTypes` allowlist at runtime.
+  - **Defense-in-depth at the command renderer.** `ExifToolTask.renderCommand` now rejects any argument containing `\r`, `\n`, or `\0` before transmission. This covers filename/path arguments, including `readRaw()` and `rewriteAllTags()`, raw `readArgs` / `writeArgs`, option values, and future newline-delimited interpolation sites.
+  - Tag values passed to `write()` were already whitespace-encoded and were not vulnerable.
+  - Reported by Hank Tam through coordinated disclosure.
+- ✨ Added `ImageHashTypes` runtime enum and `ImageHashType` type export, for callers that need runtime-checked construction of the `imageHashType` option.
+
 ### v35.18.0
 
 - 🌱 Upgraded ExifTool to version [13.57](https://exiftool.org/history.html#13.57).
