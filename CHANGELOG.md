@@ -35,7 +35,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
-### v35.18.1
+### v35.19.0
 
 - 🔥 **Security: argument injection hardening [GHSA-cw26-7653-2rp5](https://github.com/photostructure/exiftool-vendored.js/security/advisories/GHSA-cw26-7653-2rp5).** ExifTool runs in `-stay_open True -@ -` mode, where arguments are read from stdin one per line. Several caller-supplied strings were previously interpolated into ExifTool arguments without rejecting line delimiters, so a `\n` inside a tag name or filename could split one argument into many. Two layers of defense have been added:
   - **Per-site validation.** A new `validateTagName` helper rejects tag-name strings that fall outside the ExifTool tag grammar (letters, digits, `:`, `-`, `_`, and the modifiers `*`, `?`, `+`, `#`). Applied to write tag keys, `deleteAllTags({retain})`, `read({numericTags})`, and the binary-extraction tag names. `imageHashType` is now also validated against an `ImageHashTypes` allowlist at runtime.
