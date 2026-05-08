@@ -35,6 +35,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v35.20.0
+
+- 🌱 Upgraded ExifTool to version [13.58](https://exiftool.org/history.html#13.58).
+- 🐞 Restored support for the `^` write-even-if-empty modifier in tag names (e.g. `Description^`). The v35.19.0 argument-injection hardening tightened the tag-name grammar and inadvertently dropped `^`, breaking sidecar workflows that rely on ExifTool's `^=` operator to force-write empty values. Fixes [#331](https://github.com/photostructure/exiftool-vendored.js/issues/331).
+
 ### v35.19.0
 
 - 🔥 **Security: argument injection hardening [GHSA-cw26-7653-2rp5](https://github.com/photostructure/exiftool-vendored.js/security/advisories/GHSA-cw26-7653-2rp5).** ExifTool runs in `-stay_open True -@ -` mode, where arguments are read from stdin one per line. Several caller-supplied strings were previously interpolated into ExifTool arguments without rejecting line delimiters, so a `\n` inside a tag name or filename could split one argument into many. Two layers of defense have been added:
