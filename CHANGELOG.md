@@ -38,6 +38,7 @@ vendored versions of ExifTool match the version that they vendor.
 ### v35.20.0
 
 - 🌱 Upgraded ExifTool to version [13.58](https://exiftool.org/history.html#13.58).
+- ✨ Added Node.js 26 to the CI test matrix.
 - 🐞 Restored support for the `^` write-even-if-empty modifier in tag names (e.g. `Description^`). The v35.19.0 argument-injection hardening tightened the tag-name grammar and inadvertently dropped `^`, breaking sidecar workflows that rely on ExifTool's `^=` operator to force-write empty values. Fixes [#331](https://github.com/photostructure/exiftool-vendored.js/issues/331).
 
 ### v35.19.0
