@@ -22,11 +22,16 @@ describe("TagNameValidation", () => {
         "?mm",
         "Orientation*",
         "*:all",
-        // write modifiers — force numeric, list append
+        // write modifiers — force numeric, list append, write-even-if-empty
         "Orientation#",
         "History+",
         "Versions+",
         "XMP:History+",
+        // ^ is the "write even if empty" modifier — used to force-write empty
+        // values to sidecars (see #331).
+        "Description^",
+        "XMP-dc:Description^",
+        "XMP:Title^",
       ];
       for (const name of valid) {
         it(`accepts ${JSON.stringify(name)}`, () => {

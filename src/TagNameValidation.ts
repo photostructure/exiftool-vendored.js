@@ -11,14 +11,15 @@
  *   Orientation#      (force numeric on write)
  *   History+          (list append)
  *   Versions+         (list append)
+ *   Description^      (write tag even if value is empty — see #331)
  *
- * Allowed characters: letters, digits, `:`, `-`, `_`, `*`, `?`, `+`, `#`.
+ * Allowed characters: letters, digits, `:`, `-`, `_`, `*`, `?`, `+`, `#`, `^`.
  * First character may not be `-` — that would be ambiguous with an exiftool
  * flag (the interpolation site prefixes its own `-`).
  *
  * See https://exiftool.org/TagNames/ and https://exiftool.org/exiftool_pod.html
  */
-const ValidTagNameRE = /^[A-Za-z0-9_:*?+#][A-Za-z0-9_:\-*?+#]*$/;
+const ValidTagNameRE = /^[A-Za-z0-9_:*?+#^][A-Za-z0-9_:\-*?+#^]*$/;
 
 /**
  * Throw if `name` is not a safe ExifTool tag reference.
