@@ -35,6 +35,15 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v36.0.0
+
+- 🏚️ **Dropped Node.js 20 from the supported engines and CI matrix.** Node.js 20 ("Iron") has reached [end-of-life](https://github.com/nodejs/release#release-schedule), so the minimum supported runtime is now Node.js 22 (`engines.node` is `>=22`). The CI test matrix is now Node.js 22, 24, and 26.
+
+### v35.21.0
+
+- 🌱 Upgraded ExifTool to version [13.59](https://exiftool.org/history.html#13.59).
+- 📦 Updated dependencies.
+
 ### v35.20.0
 
 - 🌱 Upgraded ExifTool to version [13.58](https://exiftool.org/history.html#13.58).
