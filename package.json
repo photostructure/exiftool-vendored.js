@@ -10,7 +10,7 @@
   },
   "type": "commonjs",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22"
   },
   "scripts": {
     "clean": "rimraf lib dist coverage .nyc_output",
