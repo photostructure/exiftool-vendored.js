@@ -38,7 +38,7 @@
     "update:install": "npm install",
     "install:pinact": "go install github.com/suzuki-shunsuke/pinact/v3/cmd/pinact@latest",
     "update:actions": "pinact run -u --min-age 7",
-    "precommit": "run-s clean update fmt lint docs:build test",
+    "all": "run-s clean update fmt lint docs:build test",
     "release": "release-it"
   },
   "repository": {

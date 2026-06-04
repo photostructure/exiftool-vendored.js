@@ -47,7 +47,7 @@ For development and testing:
 1. `git clone` this repo
 2. `npm install`
 3. `npm run mktags ../test-images` # < assumes `../test-images` has the full ExifTool sample image suite
-4. `npm run precommit` (look for lint or documentation generation issues)
+4. `npm run all` (look for lint or documentation generation issues)
 5. `npm run test`
 6. Verify diffs are reasonable, `git commit` and `git push`
 7. Follow the Automatic Release steps above
