@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+import { DateTime, DateTimeMaybeValid } from "luxon";
 import { ExifDate } from "./ExifDate";
 import { ExifDateTime } from "./ExifDateTime";
 import { ExifTime } from "./ExifTime";
@@ -13,7 +13,11 @@ export const MinuteMs = 60 * SecondMs;
 export const HourMs = 60 * MinuteMs;
 export const DayMs = 24 * HourMs;
 
-export type DateOrTime = ExifDateTime | ExifDate | ExifTime | DateTime;
+export type DateOrTime =
+  | ExifDateTime
+  | ExifDate
+  | ExifTime
+  | DateTimeMaybeValid;
 
 export function isDateOrTime(o: unknown): o is DateOrTime {
   return (
@@ -39,7 +43,7 @@ export function toExifString(d: DateOrTime): Maybe<string> {
   if (DateTime.isDateTime(d)) {
     return dateTimeToExif(d);
   } else {
-    return d?.toExifString?.();
+    return d?.toExifString();
   }
 }
 
