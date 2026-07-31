@@ -49,6 +49,43 @@ export interface ExifToolOptions
   maxTasksPerProcess: number;
 
   /**
+   * How many task failures should retire an ExifTool process? Set to 0 to
+   * disable failure-count recycling.
+   *
+   * **Leave this at 0 for ExifTool.** A rejected task almost always means the
+   * *file* was bad--not found, unsupported, unwritable, or malformed--and not
+   * that ExifTool is sick. ExifTool in `-stay_open` mode emits `{ready}` after a
+   * per-file error and keeps working, so retiring it costs a respawn (and Perl
+   * interpreter startup) for every bad file. This counts failures over the
+   * process's entire lifetime, not consecutive ones, and
+   * {@link ExifToolOptions.taskRetries} defaults to 1, so a single unreadable
+   * file produces two failures: setting this to 2 would retire a process on its
+   * first bad file.
+   *
+   * Actually-sick processes are recycled by
+   * {@link ExifToolOptions.taskTimeoutMillis}, by stream errors, and by
+   * `healthCheckCommand`.
+   *
+   * @default 0 (disabled)
+   */
+  maxFailedTasksPerProcess: number;
+
+  /**
+   * Should termination signal the child's entire process group, rather than
+   * just the child?
+   *
+   * This is only useful with a `processFactory` that spawns with `detached:
+   * true`, which makes each child its own process-group leader and lets
+   * batch-cluster also stop any grandchildren. ExifTool's default factory
+   * deliberately spawns non-detached children, so enabling this does nothing:
+   * signalling a group that doesn't exist fails, and batch-cluster then signals
+   * the child directly.
+   *
+   * @default false
+   */
+  killProcessGroup: boolean;
+
+  /**
    * Spawning new ExifTool processes must not take longer than this before the
    * child process is timed out and a new attempt is made. Be pessimistic
    * here--windows can regularly take several seconds to spin up a process,

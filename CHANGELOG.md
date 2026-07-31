@@ -35,6 +35,34 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v37.1.0
+
+- 📦 Updated to [batch-cluster
+  v19.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
+  which closes several ways an ExifTool child process could be leaked, and two
+  ways a task's promise could be dropped: pending work now keeps the event loop
+  alive (a task queued while the pool was momentarily empty used to be
+  abandoned, with node exiting `0` and no error), and `.end()` now rejects
+  still-queued tasks instead of leaving them unsettled. `await exiftool.end()`
+  is now a barrier — it waits for in-flight spawns and recycling, so
+  `await exiftool.end(); process.exit(0)` can no longer orphan a child — and may
+  take slightly longer to resolve than in v37.0.0.
+
+- ✨ Documented `maxFailedTasksPerProcess` on `ExifToolOptions`. It stays
+  disabled (`0`), matching batch-cluster v19's new default. Enabling it suits
+  ExifTool poorly: a rejected task nearly always means the _file_ was bad, not
+  that ExifTool is sick, and `-stay_open` mode keeps working after per-file
+  errors, so recycling costs a Perl interpreter startup per bad file. Sick
+  processes are still recycled by `taskTimeoutMillis`, stream errors, and
+  `healthCheckCommand`.
+
+- ✨ Documented batch-cluster's new `killProcessGroup` option on
+  `ExifToolOptions`, defaulting to `false`. It only matters for a
+  `processFactory` that spawns with `detached: true`, which ExifTool's default
+  factory does not. TypeScript consumers who build a complete `ExifToolOptions`
+  object by hand must add this new required property; `Partial<ExifToolOptions>`
+  callers are unaffected.
+
 ### v37.0.0
 
 - 💔 **BREAKING: malformed UTF-8 in ExifTool JSON output is now marked with
