@@ -1655,6 +1655,12 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         );
       }
     }
+    // TODO: src/GroupedTags.ts hand-maintains a `Group:TagName`-prefixed
+    // composition of these same per-group interfaces (it isn't generated
+    // here because a full mktags run needs a large sample-image corpus). If
+    // a group interface is *removed*, GroupedTags.ts fails to compile; if a
+    // new group interface is *added* here, add a matching
+    // `PrefixedTags<"Group", GroupTags>` entry to GroupedTags.ts.
     const interfaceNames = [
       ...tagGroups.map((s) => s + "Tags"),
       "ExifToolVendoredTags",

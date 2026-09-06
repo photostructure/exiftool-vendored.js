@@ -14,6 +14,7 @@ import { DeleteAllTagsArgs } from "./DeleteAllTagsArgs";
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";
 import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
 import { exiftoolPath } from "./ExiftoolPath";
+import { GroupedTags } from "./GroupedTags";
 import { isWin32 } from "./IsWin32";
 import { lazy } from "./Lazy";
 import { isFunction, isObject, omit } from "./Object";
@@ -60,6 +61,7 @@ export { ExifTime } from "./ExifTime";
 export { ExifToolTask } from "./ExifToolTask";
 export { exiftoolPath } from "./ExiftoolPath";
 export { GeolocationTagNames, isGeolocationTag } from "./GeolocationTags";
+export { tag } from "./GroupedTags";
 export { parseJSON } from "./JSON";
 export type { Lazy } from "./Lazy";
 export { DefaultReadRawTaskOptions } from "./ReadRawTask";
@@ -110,6 +112,11 @@ export type { ExifToolOptions, ImageHashType } from "./ExifToolOptions";
 export type { ExifToolTaskOptions } from "./ExifToolTask";
 export type { ExifToolVendoredTags } from "./ExifToolVendoredTags";
 export type { GeolocationTags } from "./GeolocationTags";
+export type {
+  GroupedTags,
+  PrefixedTags,
+  UngroupedVendoredTags,
+} from "./GroupedTags";
 export type { ICCProfileTags } from "./ICCProfileTags";
 export type {
   // For backwards compatibility:
@@ -325,6 +332,39 @@ export class ExifTool {
   version(): Promise<string> {
     return this.enqueueTask(() => new VersionTask(this.options));
   }
+
+  /**
+   * Read the tags in `file`, with group-prefixed tag names.
+   *
+   * @param file the file to extract metadata tags from
+   *
+   * @param options overrides to the default ExifTool options provided to the
+   * ExifTool constructor. `groupNames: true` asks ExifTool for
+   * group-prefixed tag names (like `EXIF:Make`): see
+   * {@link ExifToolOptions.groupNames} and {@link GroupedTags} for the
+   * output contract, and {@link tag} for a lookup helper that handles both
+   * shapes.
+   *
+   * @returns A resolved GroupedTags promise. If there are errors during
+   * reading, the `.errors` field will be present.
+   */
+  read(
+    file: string,
+    options: ReadTaskOptions & { groupNames: true },
+  ): Promise<GroupedTags>;
+
+  /**
+   * Read the tags in `file`, with group-prefixed tag names.
+   *
+   * @deprecated use
+   * {@link ExifTool.read(file: string, options?: ReadTaskOptions)} instead
+   * (move `readArgs` into your `options` hash)
+   */
+  read(
+    file: string,
+    readArgs: string[],
+    options: ReadTaskOptions & { groupNames: true },
+  ): Promise<GroupedTags>;
 
   /**
    * Read the tags in `file`.

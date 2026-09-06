@@ -110,6 +110,7 @@ export const DefaultExifToolOptions: Omit<
   ],
   useMWG: true,
   struct: 1,
+  groupNames: false,
   readArgs: ["-fast"],
   writeArgs: [],
 

@@ -355,6 +355,43 @@ export interface ExifToolOptions
   struct: "undef" | 0 | 1 | 2;
 
   /**
+   * Should {@link ExifTool.read} ask ExifTool for group-prefixed tag names
+   * (ExifTool's `-G` option)?
+   *
+   * When enabled, every tag that ExifTool emits is keyed by
+   * `Group:TagName`--like `EXIF:Make`, `MakerNotes:MeteringMode`, or
+   * `ExifTool:Warning`--which disambiguates tags that appear in several
+   * groups. Tags synthesized by this library remain bare: `SourceFile`,
+   * `errors`, `warnings`, `zone`, `tz`, `tzSource`, `zoneSource`,
+   * `invalidUtf8Bytes`, and the parsed and validated GPS tags
+   * (`GPSLatitude`, `GPSLatitudeRef`, `GPSLongitude`, `GPSLongitudeRef`).
+   *
+   * This is the recommended forward path for new integrations: see the
+   * "Group names" section of the README for the full output contract, and
+   * {@link GroupedTags} for the matching interface returned by
+   * {@link ExifTool.read} when this is `true`.
+   *
+   * Timezone and video-detection heuristics look up bare tag names via a
+   * last-wins degrouped view of the metadata, so they are approximations
+   * when the same tag name appears in several groups.
+   *
+   * Note: setting this on the `ExifTool` **constructor** changes the runtime
+   * shape of every read, but {@link ExifTool.read}'s static return type only
+   * narrows to {@link GroupedTags} when `groupNames: true` is passed in the
+   * per-call options. When enabling it at construction, either pass
+   * `{ groupNames: true }` to each `read()` call anyway, or annotate the
+   * result yourself.
+   *
+   * A `-G` in {@link ExifToolOptions.readArgs} behaves like
+   * `groupNames: true` at runtime (all parsing keys off the final argument
+   * list) but without the {@link GroupedTags} return type. An explicit
+   * `groupNames: false` does not strip a caller-supplied `-G`.
+   *
+   * @default false
+   */
+  groupNames: boolean;
+
+  /**
    * Any additional arguments that should be added by default to all read
    * tasks, like `["-fast", "-api", "largefilesupport=1"]`. The value provided
    * to the ExifTool constructor can be overridden in the call to

@@ -55,6 +55,7 @@ export const ReadTaskOptionFields = [
   "defaultVideosToUTC",
   "geolocation",
   "geoTz",
+  "groupNames",
   "ignoreMinorErrors",
   "ignoreZeroZeroLatLon",
   "imageHashType",
@@ -122,6 +123,8 @@ export class ReadTask extends ExifToolTask<Tags> {
       ...Utf8FilenameCharsetArgs,
       "-json",
       ...readArgs,
+      // Don't double up -G if the caller already asked for it via readArgs:
+      ...(true === opts.groupNames && !readArgs.includes("-G") ? ["-G"] : []),
       ...utf8JsonFilterArgs(readArgs),
     ];
     // "-api struct=undef" doesn't work: but it's the same as struct=0:
