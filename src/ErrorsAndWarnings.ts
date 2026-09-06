@@ -18,13 +18,29 @@ export interface ErrorsAndWarnings {
   warnings?: string[];
 }
 
+/**
+ * The JSON fields that ExifTool uses to report errors and warnings: bare in
+ * default output, and prefixed with the `ExifTool` group when `-G` (see
+ * {@link ExifToolOptions.groupNames}) is in play.
+ */
+export interface RawErrorsAndWarnings {
+  Error?: string;
+  Warning?: string;
+  "ExifTool:Error"?: string;
+  "ExifTool:Warning"?: string;
+}
+
 export function errorsAndWarnings(
   task: ExifToolTask<unknown>,
-  t?: { Error?: string; Warning?: string },
+  t?: RawErrorsAndWarnings,
 ): Required<ErrorsAndWarnings> {
   return {
-    errors: uniq(compactBlanks([t?.Error, ...task.errors])),
-    warnings: uniq(compactBlanks([t?.Warning, ...task.warnings])),
+    errors: uniq(
+      compactBlanks([t?.Error, t?.["ExifTool:Error"], ...task.errors]),
+    ),
+    warnings: uniq(
+      compactBlanks([t?.Warning, t?.["ExifTool:Warning"], ...task.warnings]),
+    ),
   };
 }
 

@@ -1,7 +1,7 @@
 import { logger } from "batch-cluster";
 import * as _path from "node:path";
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions";
-import { errorsAndWarnings } from "./ErrorsAndWarnings";
+import { errorsAndWarnings, RawErrorsAndWarnings } from "./ErrorsAndWarnings";
 import { ExifToolOptions } from "./ExifToolOptions";
 import { ExifToolTask } from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
@@ -65,7 +65,7 @@ export class ReadRawTask extends ExifToolTask<RawTags> {
       const tags = decoded.tags as RawTags;
       const { errors, warnings } = errorsAndWarnings(
         this,
-        decoded.tags as { Error?: string; Warning?: string },
+        decoded.tags as RawErrorsAndWarnings,
       );
       tags.errors = errors;
       tags.warnings = warnings;
