@@ -337,6 +337,7 @@ describe("ReadTask", () => {
         zone: "America/Los_Angeles",
         tz: "America/Los_Angeles",
         tzSource: "GeolocationTimeZone",
+        zoneSource: "GeolocationTimeZone",
         errors: [],
         warnings: [],
       });
@@ -740,6 +741,7 @@ describe("ReadTask", () => {
         zone: "UTC-8",
         tz: "UTC-8",
         tzSource: "offset between SubSecDateTimeOriginal and GPSDateTime",
+        zoneSource: "offset between SubSecDateTimeOriginal and GPSDateTime",
         errors: [],
         warnings: [],
       });
@@ -807,6 +809,7 @@ describe("ReadTask", () => {
           zone: "UTC",
           tz: "UTC",
           tzSource: "TimeZone",
+          zoneSource: "TimeZone",
           TimeZone: "+00:00",
 
           errors: [],
@@ -864,6 +867,7 @@ describe("ReadTask", () => {
           zone: "UTC",
           tz: "UTC",
           tzSource: "defaultVideosToUTC",
+          zoneSource: "defaultVideosToUTC",
           MIMEType: "video/quicktime",
           FileModifyDate: "2023-07-19T15:38:32-07:00",
           FileAccessDate: "2023-07-19T15:38:42-07:00",
@@ -907,6 +911,7 @@ describe("ReadTask", () => {
           zone: "UTC+1",
           tz: "UTC+1",
           tzSource: "CreationDate",
+          zoneSource: "CreationDate",
           MIMEType: "video/quicktime",
           FileModifyDate: "2023-07-19T15:38:32-07:00",
           FileAccessDate: "2023-07-19T15:38:42-07:00",
@@ -952,6 +957,7 @@ describe("ReadTask", () => {
           zone: "Europe/London",
           tz: "Europe/London",
           tzSource: "GPSLatitude/GPSLongitude",
+          zoneSource: "GPSLatitude/GPSLongitude",
           FileModifyDate: "2023-07-19T15:38:32-07:00",
           FileAccessDate: "2023-07-19T15:38:42-07:00",
           FileInodeChangeDate: "2023-07-19T15:38:42-07:00",
@@ -987,6 +993,7 @@ describe("ReadTask", () => {
           zone: "UTC",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
+          zoneSource: defaultVideosToUTC,
           errors: [],
           warnings: [],
         });
@@ -1007,6 +1014,7 @@ describe("ReadTask", () => {
           zone: "UTC",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
+          zoneSource: defaultVideosToUTC,
           errors: [],
           warnings: [],
         });
@@ -1033,6 +1041,7 @@ describe("ReadTask", () => {
           zone: "UTC+1",
           tz: "UTC+1",
           tzSource: "TimeZone",
+          zoneSource: "TimeZone",
           errors: [],
           warnings: [],
         });
@@ -1064,6 +1073,7 @@ describe("ReadTask", () => {
           zone: "UTC+1",
           tz: "UTC+1",
           tzSource: "TimeZone",
+          zoneSource: "TimeZone",
 
           errors: [],
           warnings: [],
@@ -1092,6 +1102,7 @@ describe("ReadTask", () => {
           zone: "UTC",
           tz: "UTC",
           tzSource: defaultVideosToUTC,
+          zoneSource: defaultVideosToUTC,
 
           errors: [],
           warnings: [],
@@ -1166,6 +1177,7 @@ describe("ReadTask", () => {
           zone: "UTC-5",
           tz: "UTC-5",
           tzSource: "OffsetTimeOriginal",
+          zoneSource: "OffsetTimeOriginal",
           errors: [],
           warnings: [],
         });
@@ -1190,6 +1202,7 @@ describe("ReadTask", () => {
           zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          zoneSource: "GPSLatitude/GPSLongitude",
           errors: [],
           warnings: [],
         });
@@ -1218,6 +1231,7 @@ describe("ReadTask", () => {
           zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          zoneSource: "GPSLatitude/GPSLongitude",
           errors: [],
           warnings: [],
         });
@@ -1243,6 +1257,7 @@ describe("ReadTask", () => {
           zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          zoneSource: "GPSLatitude/GPSLongitude",
           errors: [],
           warnings: [],
         });
@@ -1265,6 +1280,7 @@ describe("ReadTask", () => {
           zone: "America/New_York",
           tz: "America/New_York",
           tzSource: "GPSLatitude/GPSLongitude",
+          zoneSource: "GPSLatitude/GPSLongitude",
           errors: [],
           warnings: [],
         });
@@ -1303,6 +1319,7 @@ describe("ReadTask", () => {
           zone: "UTC-5",
           tz: "UTC-5",
           tzSource: "OffsetTimeOriginal",
+          zoneSource: "OffsetTimeOriginal",
           errors: [],
           warnings: [],
         });

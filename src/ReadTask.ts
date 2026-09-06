@@ -237,6 +237,9 @@ export class ReadTask extends ExifToolTask<Tags> {
       tags.zone = tzSrc.zone;
       tags.tz = tzSrc.tz;
       tags.tzSource = tzSrc.src;
+      // `zoneSource` is `tzSource`'s documented successor (see
+      // ExifToolVendoredTags): set both.
+      tags.zoneSource = tzSrc.src;
     }
 
     for (const [key, value] of Object.entries(this.#raw)) {
