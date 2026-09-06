@@ -35,7 +35,7 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
-### Unreleased / v38.0.0
+### v38.0.0
 
 - ✨ New first-class `groupNames` option: `exiftool.read(file, { groupNames:
 true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
