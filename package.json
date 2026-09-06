@@ -119,7 +119,7 @@
   "dependencies": {
     "@photostructure/tz-lookup": "^11.6.1",
     "@types/luxon": "^3.7.5",
-    "batch-cluster": "^19.0.1",
+    "batch-cluster": "^19.1.0",
     "he": "^1.2.0",
     "luxon": "^3.7.2"
   },
