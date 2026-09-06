@@ -167,10 +167,12 @@ export class ReadTask extends ExifToolTask<Tags> {
   // only exposed for tests
   parse(data: string, err?: Error): Tags {
     try {
-      // Fix ExifToolVersion to be a string to preserve version distinctions like 12.3 vs 12.30
+      // Fix ExifToolVersion to be a string to preserve version distinctions
+      // like 12.3 vs 12.30. Under -G the key is "ExifTool:ExifToolVersion";
+      // the replacement preserves whichever key matched.
       const versionFixedData = data.replace(
-        /"ExifToolVersion"\s*:\s*(\d+(?:\.\d+)?)/,
-        '"ExifToolVersion":"$1"',
+        /"((?:ExifTool:)?ExifToolVersion)"\s*:\s*(\d+(?:\.\d+)?)/,
+        '"$1":"$2"',
       );
       const parsed = JSON.parse(versionFixedData)[0] as Record<string, unknown>;
       const decoded = this.#unwrapInvalidUtf8

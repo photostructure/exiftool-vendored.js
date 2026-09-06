@@ -1852,6 +1852,17 @@ describe("ReadTask", () => {
       expect(result.ExifToolVersion).to.eql("12");
     });
 
+    it("preserves the ExifTool:ExifToolVersion key emitted under -G", () => {
+      const src = tmpname();
+      const tt = ReadTask.for(src, { readArgs: ["-G"] });
+      const json = `[{"SourceFile":${JSON.stringify(src)},"ExifTool:ExifToolVersion":13.30}]`;
+      // Tags is bare-name keyed; -G payload keys need a widened view:
+      const result = tt.parse(json) as Record<string, unknown>;
+
+      expect(result["ExifTool:ExifToolVersion"]).to.be.a("string");
+      expect(result["ExifTool:ExifToolVersion"]).to.eql("13.30");
+    });
+
     it("matches version from exiftool.version() method", async () => {
       const tags = await exiftool.read(join(testDir, "img.jpg"));
       const version = await exiftool.version();
