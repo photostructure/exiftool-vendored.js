@@ -388,9 +388,12 @@ export class ExifTool {
    * @param file the file to extract metadata tags from
    *
    * @param readArgs any additional ExifTool arguments, like `["-fast"]`,
-   * `["-fast2"]`, `["-g"]`, or `["-api", "largefilesupport=1"]`. Note that
-   * providing a value here will override the `readArgs` array provided to the
-   * ExifTool constructor. **Note that most other arguments will require you to
+   * `["-fast2"]`, or `["-api", "largefilesupport=1"]`. (For group-prefixed
+   * tag names, use the `groupNames` option rather than passing `-G` here,
+   * and avoid lowercase `-g`: it makes ExifTool emit nested objects that
+   * this library does not handle.) Note that providing a value here will
+   * override the `readArgs` array provided to the ExifTool constructor.
+   * **Note that most other arguments will require you to
    * use `readRaw`.** Note that the default is `["-fast"]`, so if you want
    * ExifTool to read the entire file for metadata, you should pass an empty
    * array as the second parameter. See https://exiftool.org/#performance for

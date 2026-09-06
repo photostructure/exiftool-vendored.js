@@ -35,6 +35,38 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### Unreleased / v38.0.0
+
+- ✨ New first-class `groupNames` option: `exiftool.read(file, { groupNames:
+true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
+  option) and returns the new `GroupedTags` interface, whose keys are
+  `Group:TagName` (like `EXIF:Make`). This is the recommended forward path
+  for new integrations: see the new "Group names" section of the README for
+  the full output contract. Library-synthesized tags stay bare
+  (`SourceFile`, `errors`, `warnings`, `zone`, `tz`, `tzSource`,
+  `zoneSource`, `invalidUtf8Bytes`, and the parsed, validated GPS
+  quartet). The new `tag(tags, name)` helper looks up bare or prefixed
+  names against either shape.
+
+- 💔 **Behavior changes for existing `-G` users** (callers passing `-G` via
+  `readArgs`--behavior with default options is unchanged):
+
+  1. Errors and warnings that ExifTool embeds in its JSON output under
+     `ExifTool:Error` / `ExifTool:Warning` now populate the `errors` and
+     `warnings` arrays, matching how the bare `Error` / `Warning` fields
+     have always been handled. Code that only inspected those arrays in
+     bare mode now sees the same diagnostics under `-G`. (Bugfix.)
+
+  2. `read()` now preserves `ExifTool:ExifToolVersion` as a **string**,
+     exactly like the bare `ExifToolVersion` always was, so version `12.30`
+     is no longer mangled into the number `12.3` under `-G`. (Bugfix.
+     `readRaw()` is unaffected: it stays raw and still returns the number
+     that ExifTool emitted.)
+
+- 🐞 `zoneSource` (the documented successor to the deprecated `tzSource`) is
+  now populated whenever `zone` / `tz` / `tzSource` are. It was previously
+  declared but never set.
+
 ### v37.2.0
 
 - 🐞 Pull in new exiftool-vendored.pl and exiftool-vendored.exe that have [this

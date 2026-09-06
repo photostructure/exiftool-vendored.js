@@ -410,7 +410,9 @@ export class TagDescriptions {
    *
    * For guaranteed results, call `preload()` first or use `getAsync()`.
    *
-   * @param tagName The tag name (e.g., "DateTimeOriginal", "ISO")
+   * @param tagName The bare tag name (e.g., "DateTimeOriginal", "ISO").
+   * Strip any `Group:` prefix from keys read with
+   * {@link ExifToolOptions.groupNames} first.
    * @returns Tag description or undefined
    */
   get(tagName: string): TagDescription | undefined {
@@ -421,7 +423,9 @@ export class TagDescriptions {
    * Asynchronous lookup of a tag description.
    * Automatically loads descriptions if not yet loaded.
    *
-   * @param tagName The tag name (e.g., "DateTimeOriginal", "ISO")
+   * @param tagName The bare tag name (e.g., "DateTimeOriginal", "ISO").
+   * Strip any `Group:` prefix from keys read with
+   * {@link ExifToolOptions.groupNames} first.
    * @returns Promise resolving to tag description or undefined
    */
   async getAsync(tagName: string): Promise<TagDescription | undefined> {

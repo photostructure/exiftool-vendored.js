@@ -139,6 +139,65 @@ LensSpec?: string;
 - **@groups** = Metadata categories (EXIF, GPS, IPTC, XMP, etc.)
 - **@example** = Representative values
 
+## 🏷️🏷️ Group names: the recommended forward path
+
+By default, `read()` returns bare tag names, like `Make` or `MeteringMode`.
+Many tag names appear in **several** metadata groups of the same file, though
+(`MeteringMode` may be in both `EXIF` and `MakerNotes`), and in bare mode
+ExifTool silently picks one winner per name.
+
+Set `groupNames: true` to key each tag by its group instead, exactly as
+ExifTool's `-G` option renders it. This removes that ambiguity, and is the
+**recommended path for new integrations**; bare mode remains fully supported,
+but new features will target group-prefixed output first.
+
+```ts
+import { exiftool, tag } from "exiftool-vendored";
+
+const t = await exiftool.read("photo.jpg", { groupNames: true });
+// returns a GroupedTags object:
+// { "EXIF:Make": "Canon", "EXIF:MeteringMode": "Multi-segment",
+//   "MakerNotes:MeteringMode": "Pattern", zone: "America/Los_Angeles", ... }
+
+t["EXIF:Make"]; // typed via the GroupedTags interface
+tag(t, "Make"); // "Canon": tag() looks up bare names in either mode
+```
+
+### The output contract
+
+- **Prefixed keys are ExifTool's output, verbatim.** Every tag that ExifTool
+  emits (except `SourceFile`, which ExifTool itself leaves bare) is keyed
+  `Group:TagName` using family-0 group names (`EXIF:Make`,
+  `ExifTool:Warning`, `Composite:ImageSize`). The two exceptions are for data
+  safety: the group-prefixed GPS position tags carry the library's validated,
+  sign-corrected values, and if the GPS position is invalid, **all** GPS tags
+  are omitted.
+- **Bare keys are the library's own namespace**: `SourceFile`, `errors`,
+  `warnings`, `zone`, `tz`, `tzSource`, `zoneSource`, `invalidUtf8Bytes`, and
+  the parsed, validated GPS quartet (`GPSLatitude`, `GPSLatitudeRef`,
+  `GPSLongitude`, `GPSLongitudeRef`).
+- **`errors` and `warnings` aggregate everything**: ExifTool's stderr plus the
+  JSON-embedded `Error`/`Warning` fields, whether bare or
+  `ExifTool:`-prefixed.
+- **`ExifToolVersion` stays a string** (`"12.30"` is not the same version as
+  `"12.3"`), under the `ExifTool:ExifToolVersion` key.
+
+### Caveats
+
+- **Heuristics degroup first.** Timezone inference, video detection, and other
+  heuristics look tags up by bare name via a degrouped view where the **last**
+  group listed for a name wins. When a tag name appears in several groups with
+  different values, those heuristics are approximations (in bare mode,
+  ExifTool's internal priority picks the winner instead--neither view can
+  reproduce the other).
+- **Bare-name APIs**: `TagDescriptions.get()` and the
+  `inferTimezoneFromDatestampTags` / `extractTzOffsetFromTags` machinery are
+  keyed by bare tag names. Strip the `Group:` prefix before passing
+  group-prefixed keys to them.
+- **`APP0`...`APP15` segment tags** are only loosely typed in `GroupedTags`
+  (as an `` `APP${number}:${string}` `` index signature): those groups hold a
+  grab-bag of vendor-specific tags.
+
 ## 🛡️ Code defensively!
 
 The generated `Tags` interface is a deliberately bounded, best-effort model of

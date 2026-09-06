@@ -1081,6 +1081,11 @@ export function incrementZone(
  * Handles camera-specific quirks like Nikon's DaylightSavings tag, which
  * requires adjusting the TimeZone offset forward by one hour during DST.
  *
+ * Note that this (and the other `extractTzOffsetFrom*` functions) looks tags
+ * up by **bare** name: degroup `Group:TagName` keys read with
+ * {@link ExifToolOptions.groupNames} before calling this directly.
+ * ({@link ExifTool.read} does this for you.)
+ *
  * @param t - EXIF tags object
  * @param opts.adjustTimeZoneIfDaylightSavings - Optional function to adjust
  *        timezone for DST. Defaults to handling Nikon's DaylightSavings quirk.
