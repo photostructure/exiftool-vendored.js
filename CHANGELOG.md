@@ -35,6 +35,11 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v38.0.1
+
+- 🐞 Request hidden windows when the default process factory starts ExifTool on
+  Windows, avoiding visible background process windows in GUI applications.
+
 ### v38.0.0
 
 - ✨ New first-class `groupNames` option: `exiftool.read(file, { groupNames:
