@@ -10,6 +10,10 @@ describe("ExifTool Windows process startup", () => {
   it("hides the default process factory's window", async function () {
     if (!isWin32()) return this.skip();
 
+    // PowerShell startup and Add-Type compilation took 29.94s on a Windows
+    // CI runner, exceeding the suite's 30s deadline on other runners.
+    this.timeout(120_000);
+
     const script = `
 Add-Type -TypeDefinition @'
 using System;
@@ -59,7 +63,8 @@ public static class StartupInfoProbe {
       const [stdout, stderr, [code]] = await Promise.all([
         text(child.stdout!),
         text(child.stderr!),
-        once(child, "close"),
+        // Abort before Mocha's deadline so finally can kill a stuck probe.
+        once(child, "close", { signal: AbortSignal.timeout(90_000) }),
       ]);
       expect(code, stderr).to.eql(0);
       const [flags, showWindow] = stdout.trim().split(",").map(Number);
