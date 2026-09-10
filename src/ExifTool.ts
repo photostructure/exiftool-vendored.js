@@ -279,6 +279,7 @@ export class ExifTool {
     const spawnOpts: _cp.SpawnOptions = {
       stdio: "pipe",
       shell: false,
+      windowsHide: true,
       detached: false, // < no orphaned exiftool procs, please
       env,
     };
