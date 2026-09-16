@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v38.1.0
+
+- 📦 Updated batch-cluster and tz-lookup
+
 ### v38.0.1
 
 - 🐞 Request hidden windows when the default process factory starts ExifTool on
