@@ -35,6 +35,13 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v38.1.1
+
+- 📦 Updated batch-cluster to v19.3.0.
+- 🐞 `ExifTool.end()` now resolves only after the ExifTool process has exited.
+  If it is still running after termination, `end()` and `await using`
+  disposal reject instead of leaving it running silently.
+
 ### v38.1.0
 
 - 📦 Updated batch-cluster and tz-lookup
