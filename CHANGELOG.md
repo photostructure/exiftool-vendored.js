@@ -46,6 +46,10 @@ vendored versions of ExifTool match the version that they vendor.
   `exiftoolPath` without it behaves as before.
 - 📦 Updated exiftool-vendored.pl and exiftool-vendored.exe to v13.59.3, which
   add the `ImageHashProgress` patch.
+- 📦 Updated batch-cluster to v19.4.1, so hashing progress reports are no
+  longer logged as warnings, and `maxProcAgeMillis` may now be less than
+  `taskTimeoutMillis`. It must still be at least `spawnTimeoutMillis`, which
+  is now checked even when `taskTimeoutMillis` is 0.
 
 ### v38.1.2
 
