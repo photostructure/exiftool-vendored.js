@@ -35,6 +35,10 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v38.1.2
+
+- 📦 Updated batch-cluster to v19.3.1.
+
 ### v38.1.1
 
 - 📦 Updated batch-cluster to v19.3.0.
