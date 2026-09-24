@@ -13,7 +13,11 @@ import {
   handleDeprecatedOptions,
   ImageHashTypes,
 } from "./ExifToolOptions";
-import { ExifToolTask } from "./ExifToolTask";
+import {
+  ExifToolTask,
+  ExifToolTaskProgressOptions,
+  ImageHashProgressArgs,
+} from "./ExifToolTask";
 import { compareFilePaths } from "./File";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { GpsLocationTags, parseGPSLocation } from "./GPS";
@@ -81,7 +85,8 @@ export const DefaultReadTaskOptions = {
   ...pick(DefaultExifToolOptions, ...ReadTaskOptionFields),
 } as const satisfies Partial<ExifToolOptions>;
 
-export type ReadTaskOptions = Partial<typeof DefaultReadTaskOptions>;
+export type ReadTaskOptions = Partial<typeof DefaultReadTaskOptions> &
+  ExifToolTaskProgressOptions;
 
 const MaybeDateOrTimeRe = /when|date|time|subsec|creat|modif/i;
 
@@ -102,7 +107,7 @@ export class ReadTask extends ExifToolTask<Tags> {
   constructor(
     readonly sourceFile: string,
     override readonly args: string[],
-    override options: Required<ReadTaskOptions>,
+    override options: Required<Omit<ReadTaskOptions, "onProgress">>,
   ) {
     super(args, options);
     this.#unwrapInvalidUtf8 = hasBuiltInUtf8Filter(args);
@@ -113,10 +118,12 @@ export class ReadTask extends ExifToolTask<Tags> {
   }
 
   static for(filename: string, options: ReadTaskOptions): ReadTask {
-    const opts: Required<ReadTaskOptions> = handleDeprecatedOptions({
-      ...DefaultReadTaskOptions,
-      ...options,
-    });
+    const { onProgress, ...readOptions } = options;
+    const opts: Required<Omit<ReadTaskOptions, "onProgress">> =
+      handleDeprecatedOptions({
+        ...DefaultReadTaskOptions,
+        ...readOptions,
+      });
     const sourceFile = _path.resolve(filename);
     const readArgs = toArray(opts.readArgs);
     const args = [
@@ -142,6 +149,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       // See https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218
       args.push("-api", "requesttags=imagedatahash");
       args.push("-api", "imagehashtype=" + opts.imageHashType);
+      args.push(...ImageHashProgressArgs);
     }
     if (true === opts.geolocation) {
       args.push("-api", "geolocation");
@@ -160,7 +168,9 @@ export class ReadTask extends ExifToolTask<Tags> {
     // TODO: Do you need -xmp:all, -all, or -all:all? Is -* better?
     args.push("-all", sourceFile);
 
-    return new ReadTask(sourceFile, args, opts);
+    const task = new ReadTask(sourceFile, args, opts);
+    task.onProgress = onProgress;
+    return task;
   }
 
   override toString(): string {

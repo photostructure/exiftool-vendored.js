@@ -2001,3 +2001,19 @@ describe("ReadTask", () => {
     });
   });
 });
+
+describe("ReadTask image data hash progress", () => {
+  function progressArg(options: ReadTaskOptions) {
+    return ReadTask.for("file.jpg", options).args.find((ea) =>
+      ea.startsWith("imagehashprogress="),
+    );
+  }
+
+  it("asks ExifTool for progress once a second", () => {
+    expect(progressArg({ imageHashType: "MD5" })).to.eql("imagehashprogress=1");
+  });
+
+  it("does not ask when it does not hash image data", () => {
+    expect(progressArg({ imageHashType: false })).to.eql(undefined);
+  });
+});

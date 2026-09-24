@@ -1,7 +1,8 @@
-import { copyFile } from "node:fs/promises";
+import { copyFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { exiftool } from "./ExifTool";
+import { ExifTool, exiftool } from "./ExifTool";
 import { InvalidUtf8Marker } from "./InvalidUtf8Bytes";
+import { ReadRawTask } from "./ReadRawTask";
 import {
   NonAlphaStrings,
   UnicodeTestMessage,
@@ -287,5 +288,81 @@ describe("ReadRawTask", () => {
         exiftool.readRaw("input.jpg\0-p\0/etc/passwd"),
       ).to.be.rejectedWith(/control character/);
     });
+  });
+});
+
+describe("ReadRawTask image data hash progress", () => {
+  // A JPEG scan in 64 KiB runs: ExifTool adds each run between 0xff markers
+  // to the hash separately, so it reports more than once.
+  const file = path.join(tmpdir(), "hash-progress.jpg");
+  before(async () => {
+    const run = Buffer.alloc(64 << 10, 0x5a);
+    await writeFile(
+      file,
+      Buffer.concat([
+        Buffer.from([0xff, 0xd8, 0xff, 0xda, 0x00, 0x08, 0x01, 0x01, 0x00]),
+        Buffer.from([0x00, 0x3f, 0x00]),
+        ...Array.from({ length: 64 }, () =>
+          Buffer.concat([run, Buffer.from([0xff, 0x00])]),
+        ),
+        Buffer.from([0xff, 0xd9]),
+      ]),
+    );
+  });
+  const readArgs = [
+    "-api",
+    "imagehashtype=MD5",
+    // Explicit readArgs win over the default interval:
+    "-api",
+    "imagehashprogress=0.000001",
+    "-ImageDataHash",
+  ];
+
+  it("reports bytes hashed by a patched ExifTool", async () => {
+    const seen: number[] = [];
+    const tags = await exiftool.readRaw(file, {
+      readArgs,
+      onProgress: (bytes) => seen.push(bytes),
+    });
+    expect(tags.ImageDataHash).to.match(/^[0-9a-f]{32}$/);
+    expect(seen.length).to.be.gte(2, JSON.stringify(seen));
+    expect(seen).to.eql([...seen].sort((a, b) => a - b));
+    expect(new Set(seen).size).to.eql(seen.length);
+  });
+
+  it("rejects the read with the first error onProgress throws", async () => {
+    // Before this was handled, each report threw an uncaughtException and
+    // the read still resolved (59 to 73 per read of this file).
+    const et = new ExifTool({ maxProcs: 1, taskRetries: 1 });
+    try {
+      let calls = 0;
+      await expect(
+        et.readRaw(file, {
+          readArgs,
+          onProgress: () => {
+            calls++;
+            throw new Error("onProgress failed");
+          },
+        }),
+      ).to.be.rejectedWith("onProgress failed");
+      // Once per attempt: ExifTool.enqueueTask's retryOnReject retries every
+      // rejected read (src/AsyncRetry.ts), here once.
+      expect(calls).to.eql(2);
+      // ExifTool finished the command, so its process is still in sync:
+      const tags = await et.readRaw(file, { readArgs });
+      expect(tags.ImageDataHash).to.match(/^[0-9a-f]{32}$/);
+    } finally {
+      await et.end();
+    }
+  });
+
+  it("asks ExifTool for progress once a second", () => {
+    expect(ReadRawTask.for("file.jpg").args).to.include("imagehashprogress=1");
+  });
+
+  it("does not add the default readArgs when options omit readArgs", () => {
+    // Before progress support, ReadRawTask.for() read only
+    // `options?.readArgs ?? []` (git show 3bfea56:src/ReadRawTask.ts):
+    expect(ReadRawTask.for("file.jpg").args).to.not.include("-fast");
   });
 });

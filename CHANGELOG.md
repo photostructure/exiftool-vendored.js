@@ -35,6 +35,18 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v38.2.0
+
+- ✨ A read that computes `ImageDataHash` no longer times out while ExifTool is
+  still hashing a large file. Each such read asks ExifTool to report hashing
+  progress with the new `ImageHashProgress` API option, and every report
+  restarts `taskTimeoutMillis`. `read()` and `readRaw()` accept an
+  `onProgress(bytesHashed)` option. The option is a downstream patch that
+  exiftool-vendored.pl and exiftool-vendored.exe apply to ExifTool; a custom
+  `exiftoolPath` without it behaves as before.
+- 📦 Updated exiftool-vendored.pl and exiftool-vendored.exe to v13.59.3, which
+  add the `ImageHashProgress` patch.
+
 ### v38.1.2
 
 - 📦 Updated batch-cluster to v19.3.2.

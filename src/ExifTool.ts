@@ -109,7 +109,10 @@ export type { Defined, DefinedOrNullValued } from "./Defined";
 export type { ErrorsAndWarnings } from "./ErrorsAndWarnings";
 export { ImageHashTypes } from "./ExifToolOptions";
 export type { ExifToolOptions, ImageHashType } from "./ExifToolOptions";
-export type { ExifToolTaskOptions } from "./ExifToolTask";
+export type {
+  ExifToolTaskOptions,
+  ExifToolTaskProgressOptions,
+} from "./ExifToolTask";
 export type { ExifToolVendoredTags } from "./ExifToolVendoredTags";
 export type { GeolocationTags } from "./GeolocationTags";
 export type {
