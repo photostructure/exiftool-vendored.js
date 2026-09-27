@@ -164,6 +164,38 @@ describe("parseGPSLocation", () => {
       expect(result.result?.GPSLongitudeRef).to.eql("E");
       expect(result.invalid).to.eql(false);
     });
+
+    it("should not flip longitude when the nearest city is across the prime meridian", () => {
+      const tags: GpsLocationTags = {
+        GPSLatitude: 51.053811,
+        GPSLongitude: 0.038078,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "W",
+        GeolocationPosition: "51.0964 0.0326",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result?.GPSLatitude).to.eql(51.053811);
+      expect(result.result?.GPSLongitude).to.eql(-0.038078);
+      expect(result.result?.GPSLatitudeRef).to.eql("N");
+      expect(result.result?.GPSLongitudeRef).to.eql("W");
+      expect(result.warnings).to.eql([]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should not flip latitude when the nearest city is across the equator", () => {
+      const tags: GpsLocationTags = {
+        GPSLatitude: 0.05,
+        GPSLongitude: 32.5,
+        GPSLatitudeRef: "S",
+        GPSLongitudeRef: "E",
+        GeolocationPosition: "0.1 32.5",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result?.GPSLatitude).to.eql(-0.05);
+      expect(result.result?.GPSLatitudeRef).to.eql("S");
+      expect(result.warnings).to.eql([]);
+      expect(result.invalid).to.eql(false);
+    });
   });
 
   it("should handle mismatched ref and coordinate signs", () => {

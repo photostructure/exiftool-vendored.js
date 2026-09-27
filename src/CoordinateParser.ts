@@ -368,7 +368,8 @@ export function processCoordinate(
   // Check for mismatched signs with GeolocationPosition
   if (
     geoValue != null &&
-    Math.abs(Math.abs(geoValue) - Math.abs(value)) < MAX_LAT_LON_DIFF
+    Math.abs(Math.abs(geoValue) - Math.abs(value)) < MAX_LAT_LON_DIFF &&
+    Math.abs(geoValue - value) >= MAX_LAT_LON_DIFF
   ) {
     if (Math.sign(geoValue) !== Math.sign(value)) {
       value = -value;
