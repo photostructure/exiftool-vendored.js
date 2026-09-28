@@ -310,13 +310,11 @@ export type CoordinateType = "Latitude" | "Longitude";
 export interface CoordinateConfig {
   value: number;
   ref: string | undefined;
-  geoValue: number | undefined;
   expectedRefPositive: "N" | "E";
   expectedRefNegative: "S" | "W";
   max: 90 | 180;
   coordinateType: CoordinateType;
 }
-const MAX_LAT_LON_DIFF = 1;
 
 export function roundGpsDecimal(decimal: number): number {
   return roundToDecimalPlaces(decimal, 6);
@@ -334,7 +332,7 @@ export function processCoordinate(
   warnings: string[],
 ): { value: number; ref: string; isInvalid: boolean } {
   let { value, ref } = config;
-  const { geoValue, coordinateType } = config;
+  const { coordinateType } = config;
   const { expectedRefPositive, expectedRefNegative, max } = config;
   let isInvalid = false;
 
@@ -363,32 +361,6 @@ export function processCoordinate(
   // Apply hemisphere reference
   if (ref === expectedRefNegative) {
     value = -Math.abs(value);
-  }
-
-  // Check for mismatched signs with GeolocationPosition
-  if (
-    geoValue != null &&
-    Math.abs(Math.abs(geoValue) - Math.abs(value)) < MAX_LAT_LON_DIFF &&
-    Math.abs(geoValue - value) >= MAX_LAT_LON_DIFF
-  ) {
-    if (Math.sign(geoValue) !== Math.sign(value)) {
-      value = -value;
-      warnings.push(
-        `Corrected GPS${coordinateType} sign based on GeolocationPosition`,
-      );
-    }
-
-    // Force ref to correct value
-    const expectedRef =
-      geoValue < 0 ? expectedRefNegative : expectedRefPositive;
-    if (ref !== expectedRef) {
-      ref = expectedRef;
-      if (!blank(config.ref)) {
-        warnings.push(
-          `Corrected GPS${coordinateType}Ref to ${expectedRef} based on GeolocationPosition`,
-        );
-      }
-    }
   }
 
   // Ensure ref matches coordinate sign

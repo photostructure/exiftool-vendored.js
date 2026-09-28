@@ -35,6 +35,19 @@ vendored versions of ExifTool match the version that they vendor.
 
 ## History
 
+### v38.3.0
+
+- 🐞 With `geolocation` enabled, GPS coordinates near the prime meridian, the
+  equator, or the antimeridian no longer get flipped into the other hemisphere
+  when ExifTool's nearest city (`GeolocationPosition`) is on the other side of
+  the line. The hemisphere correction for mis-signed coordinates (like XMP from
+  Apple Photos exports) now flips a sign only when that puts the coordinates at
+  `GeolocationDistance` from `GeolocationPosition`, which is where ExifTool's
+  own reading of them lies. Coordinates are not corrected when ExifTool
+  geolocates from city names, as it then omits `GeolocationDistance`. Thanks
+  for the [report and first fix](https://github.com/photostructure/exiftool-vendored.js/pull/334),
+  [@bo0tzz](https://github.com/bo0tzz)!
+
 ### v38.2.0
 
 - ✨ A read that computes `ImageDataHash` no longer times out while ExifTool is

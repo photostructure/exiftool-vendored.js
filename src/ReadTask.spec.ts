@@ -10,6 +10,7 @@ import {
   renderTagsWithISO,
   renderTagsWithRawValues,
   testDir,
+  testImg,
   tmpdir,
   tmpname,
   UnicodeTestMessage,
@@ -1833,6 +1834,43 @@ describe("ReadTask", () => {
         tzSource: "GeolocationTimeZone",
       });
     });
+  });
+
+  describe("GPS near the prime meridian, equator, and antimeridian", () => {
+    // ExifTool's nearest city is on the other side of the line, so its
+    // GeolocationPosition has the opposite sign
+    for (const { GPSLatitude, GPSLongitude, GeolocationCity } of [
+      {
+        GPSLatitude: 51.053811,
+        GPSLongitude: -0.038078,
+        GeolocationCity: "Forest Row",
+      },
+      { GPSLatitude: 29, GPSLongitude: -0.9, GeolocationCity: "Timimoun" },
+      {
+        GPSLatitude: 0.9,
+        GPSLongitude: -67,
+        GeolocationCity: "São Gabriel da Cachoeira",
+      },
+      {
+        GPSLatitude: -16.83,
+        GPSLongitude: -179.97,
+        GeolocationCity: "Savusavu",
+      },
+    ]) {
+      it(`keeps ${GPSLatitude}, ${GPSLongitude} (nearest city: ${GeolocationCity})`, async () => {
+        const img = await testImg();
+        await exiftool.write(img, { GPSLatitude, GPSLongitude });
+        const t = await exiftool.read(img, { geolocation: true });
+        expect(t).to.containSubset({
+          GPSLatitude,
+          GPSLongitude,
+          GeolocationCity,
+        });
+        expect(
+          (t.warnings ?? []).filter((ea) => ea.includes("GeolocationPosition")),
+        ).to.eql([]);
+      });
+    }
   });
 
   describe("ExifToolVersion parsing", () => {

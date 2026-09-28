@@ -50,11 +50,16 @@ describe("parseGPSLocation", () => {
   });
 
   describe("GeolocationPosition hemisphere handling", () => {
+    // Each GeolocationPosition and GeolocationDistance is ExifTool's output for
+    // the expected (correctly signed) coordinates, from:
+    // node_modules/exiftool-vendored.pl/bin/exiftool -api "geolocation=LAT,LON" -n -GeolocationPosition -GeolocationDistance test/bad-exif-ifd.jpg
+
     it("should handle Northeast hemisphere coordinates", () => {
       const tags: GpsLocationTags = {
         GPSLatitude: 35.6762,
         GPSLongitude: 139.6503,
-        GeolocationPosition: "35.6762,139.6503", // Tokyo
+        GeolocationPosition: "35.6755 139.6400", // Eifuku, Tokyo
+        GeolocationDistance: "0.93 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
       expect(result.result?.GPSLatitude).to.eql(35.6762);
@@ -68,7 +73,8 @@ describe("parseGPSLocation", () => {
       const tags: GpsLocationTags = {
         GPSLatitude: 40.7128,
         GPSLongitude: -74.006, // Fixed: Input longitude should be negative
-        GeolocationPosition: "40.7128,-74.0060", // New York
+        GeolocationPosition: "40.7143 -74.0060", // New York
+        GeolocationDistance: "0.17 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
       expect(result.result?.GPSLatitude).to.eql(40.7128);
@@ -82,7 +88,8 @@ describe("parseGPSLocation", () => {
       const tags: GpsLocationTags = {
         GPSLatitude: 33.8688,
         GPSLongitude: 151.2093,
-        GeolocationPosition: "-33.8688,151.2093", // Sydney
+        GeolocationPosition: "-33.8679 151.2072", // Sydney
+        GeolocationDistance: "0.21 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
       expect(result.result?.GPSLatitude).to.eql(-33.8688);
@@ -96,7 +103,8 @@ describe("parseGPSLocation", () => {
       const tags: GpsLocationTags = {
         GPSLatitude: 33.9249,
         GPSLongitude: 70.9264,
-        GeolocationPosition: "-33.9249,-70.9264", // Santiago
+        GeolocationPosition: "-33.9823 -70.7104", // San Francisco de Mostazal, near Santiago
+        GeolocationDistance: "20.91 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
       expect(result.result?.GPSLatitude).to.eql(-33.9249);
@@ -112,7 +120,8 @@ describe("parseGPSLocation", () => {
         GPSLongitude: 70.9264, // Wrong sign
         GPSLatitudeRef: "N", // Wrong ref
         GPSLongitudeRef: "E", // Wrong ref
-        GeolocationPosition: "-33.9249,-70.9264", // Santiago (correct)
+        GeolocationPosition: "-33.9823 -70.7104", // San Francisco de Mostazal, near Santiago
+        GeolocationDistance: "20.91 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
       expect(result.result?.GPSLatitude).to.eql(-33.9249);
@@ -138,7 +147,8 @@ describe("parseGPSLocation", () => {
       const tags: GpsLocationTags = {
         GPSLatitude: 40.7128,
         GPSLongitude: 74.006, // Wrong sign (positive instead of negative)
-        GeolocationPosition: "40.7128,-74.0060", // New York (correct)
+        GeolocationPosition: "40.7143 -74.0060", // New York
+        GeolocationDistance: "0.17 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
       expect(result.result?.GPSLatitude).to.eql(40.7128);
@@ -155,7 +165,8 @@ describe("parseGPSLocation", () => {
       const tags: GpsLocationTags = {
         GPSLatitude: 0.3476,
         GPSLongitude: 0.2345,
-        GeolocationPosition: "0.3476,0.2345", // Near 0,0
+        GeolocationPosition: "4.8982 -1.7602", // Takoradi, Ghana
+        GeolocationDistance: "552.36 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
       expect(result.result?.GPSLatitude).to.eql(0.3476);
@@ -165,34 +176,292 @@ describe("parseGPSLocation", () => {
       expect(result.invalid).to.eql(false);
     });
 
-    it("should not flip longitude when the nearest city is across the prime meridian", () => {
-      const tags: GpsLocationTags = {
+    // In each case the nearest city is on the other side of the prime
+    // meridian, the equator, or the antimeridian, but ExifTool's
+    // GeolocationDistance was measured from these same coordinates.
+    for (const { desc, tags, GPSLatitude, GPSLongitude } of [
+      {
+        desc: "west of the prime meridian, Forest Row to the east",
+        tags: {
+          GPSLatitude: 51.053811,
+          GPSLatitudeRef: "N",
+          GPSLongitude: 0.038078,
+          GPSLongitudeRef: "W",
+          GeolocationPosition: "51.0964 0.0326",
+          GeolocationDistance: "6.84 km",
+        },
         GPSLatitude: 51.053811,
-        GPSLongitude: 0.038078,
+        GPSLongitude: -0.038078,
+      },
+      {
+        desc: "west of the prime meridian, Timimoun 114 km to the east",
+        tags: {
+          GPSLatitude: 29,
+          GPSLatitudeRef: "N",
+          GPSLongitude: 0.9,
+          GPSLongitudeRef: "W",
+          GeolocationPosition: "29.2641 0.2359",
+          GeolocationDistance: "114.15 km",
+        },
+        GPSLatitude: 29,
+        GPSLongitude: -0.9,
+      },
+      {
+        desc: "south of the equator, Entebbe to the north",
+        tags: {
+          GPSLatitude: 0.05,
+          GPSLatitudeRef: "S",
+          GPSLongitude: 32.5,
+          GPSLongitudeRef: "E",
+          GeolocationPosition: "0.0561 32.4794",
+          GeolocationDistance: "12.02 km",
+        },
+        GPSLatitude: -0.05,
+        GPSLongitude: 32.5,
+      },
+      {
+        desc: "north of the equator, São Gabriel da Cachoeira 114 km to the south",
+        tags: {
+          GPSLatitude: 0.9,
+          GPSLatitudeRef: "N",
+          GPSLongitude: 67,
+          GPSLongitudeRef: "W",
+          GeolocationPosition: "-0.1181 -67.0853",
+          GeolocationDistance: "113.61 km",
+        },
+        GPSLatitude: 0.9,
+        GPSLongitude: -67,
+      },
+      {
+        desc: "west of the antimeridian on Taveuni, Savusavu to the east",
+        tags: {
+          GPSLatitude: 16.83,
+          GPSLatitudeRef: "S",
+          GPSLongitude: 179.97,
+          GPSLongitudeRef: "W",
+          GeolocationPosition: "-16.7794 179.3357",
+          GeolocationDistance: "74.11 km",
+        },
+        GPSLatitude: -16.83,
+        GPSLongitude: -179.97,
+      },
+    ]) {
+      it(`should not flip coordinates already at GeolocationDistance: ${desc}`, () => {
+        const result = parseGPSLocation(tags, defaultOpts)!;
+        expect(result.result).to.eql({
+          GPSLatitude,
+          GPSLongitude,
+          GPSLatitudeRef: tags.GPSLatitudeRef,
+          GPSLongitudeRef: tags.GPSLongitudeRef,
+        });
+        expect(result.warnings).to.eql([]);
+        expect(result.invalid).to.eql(false);
+      });
+    }
+
+    it("should correct a wrong longitude sign near the prime meridian", () => {
+      const tags: GpsLocationTags = {
+        GPSLatitude: 51.5072,
         GPSLatitudeRef: "N",
-        GPSLongitudeRef: "W",
-        GeolocationPosition: "51.0964 0.0326",
+        GPSLongitude: 0.1276,
+        GPSLongitudeRef: "E", // Wrong ref
+        GeolocationPosition: "51.5085 -0.1257", // London
+        GeolocationDistance: "0.21 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
-      expect(result.result?.GPSLatitude).to.eql(51.053811);
-      expect(result.result?.GPSLongitude).to.eql(-0.038078);
-      expect(result.result?.GPSLatitudeRef).to.eql("N");
-      expect(result.result?.GPSLongitudeRef).to.eql("W");
+      expect(result.result).to.eql({
+        GPSLatitude: 51.5072,
+        GPSLongitude: -0.1276,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "W",
+      });
+      expect(result.warnings).to.eql([
+        "Corrected GPSLongitude sign based on GeolocationPosition",
+        "Corrected GPSLongitudeRef to W based on GeolocationPosition",
+      ]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should correct a wrong longitude sign 80 m from the prime meridian", () => {
+      // Read as 0.0011 E, this is 0.339 km from Blackwall, 49 m more than
+      // GeolocationDistance: more than ExifTool's rounding explains, so a
+      // tolerance over 49 m would keep the wrong sign. Flipped, it is 0.281 km
+      // away.
+      const tags: GpsLocationTags = {
+        GPSLatitude: 51.5072,
+        GPSLatitudeRef: "N",
+        GPSLongitude: 0.0011,
+        GPSLongitudeRef: "E", // Wrong ref
+        GeolocationPosition: "51.5097 -0.0017", // Blackwall, London
+        GeolocationDistance: "0.29 km",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result).to.eql({
+        GPSLatitude: 51.5072,
+        GPSLongitude: -0.0011,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "W",
+      });
+      expect(result.warnings).to.eql([
+        "Corrected GPSLongitude sign based on GeolocationPosition",
+        "Corrected GPSLongitudeRef to W based on GeolocationPosition",
+      ]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should not correct signs without GeolocationDistance", () => {
+      // ExifTool omits GeolocationDistance when it geolocates from city name
+      // tags instead of GPS coordinates
+      const tags: GpsLocationTags = {
+        GPSLatitude: 33.8688,
+        GPSLongitude: 151.2093,
+        GeolocationPosition: "-33.8679 151.2072", // Sydney
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result).to.eql({
+        GPSLatitude: 33.8688,
+        GPSLongitude: 151.2093,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "E",
+      });
       expect(result.warnings).to.eql([]);
       expect(result.invalid).to.eql(false);
     });
 
-    it("should not flip latitude when the nearest city is across the equator", () => {
+    it("should not correct signs when more than one flipped position is at GeolocationDistance", () => {
+      // ExifTool read 0.179 S, 0.5 W, which is 581.66 km from Takoradi.
+      // Flipping the latitude of 0.179 S, 0.5 E instead lands within 34 m of
+      // that too, so GeolocationDistance can't tell which sign is wrong.
       const tags: GpsLocationTags = {
-        GPSLatitude: 0.05,
-        GPSLongitude: 32.5,
+        GPSLatitude: 0.179,
         GPSLatitudeRef: "S",
-        GPSLongitudeRef: "E",
-        GeolocationPosition: "0.1 32.5",
+        GPSLongitude: 0.5,
+        GPSLongitudeRef: "E", // Wrong ref
+        GeolocationPosition: "4.8982 -1.7602", // Takoradi, Ghana
+        GeolocationDistance: "581.66 km",
       };
       const result = parseGPSLocation(tags, defaultOpts)!;
-      expect(result.result?.GPSLatitude).to.eql(-0.05);
-      expect(result.result?.GPSLatitudeRef).to.eql("S");
+      expect(result.result).to.eql({
+        GPSLatitude: -0.179,
+        GPSLongitude: 0.5,
+        GPSLatitudeRef: "S",
+        GPSLongitudeRef: "E",
+      });
+      expect(result.warnings).to.eql([]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should correct a wrong longitude sign when the latitude is 0", () => {
+      const tags: GpsLocationTags = {
+        GPSLatitude: 0,
+        GPSLatitudeRef: "N",
+        GPSLongitude: 78.5,
+        GPSLongitudeRef: "E", // Wrong ref
+        GeolocationPosition: "-0.0542 -78.4537", // Pomasqui, Ecuador
+        GeolocationDistance: "7.93 km",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result).to.eql({
+        GPSLatitude: 0,
+        GPSLongitude: -78.5,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "W",
+      });
+      expect(result.warnings).to.eql([
+        "Corrected GPSLongitude sign based on GeolocationPosition",
+        "Corrected GPSLongitudeRef to W based on GeolocationPosition",
+      ]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should correct a wrong latitude sign when the longitude is 0", () => {
+      const tags: GpsLocationTags = {
+        GPSLatitude: 51.4779,
+        GPSLatitudeRef: "S", // Wrong ref
+        GPSLongitude: 0,
+        GPSLongitudeRef: "E",
+        GeolocationPosition: "51.4778 -0.0117", // Greenwich
+        GeolocationDistance: "0.81 km",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result).to.eql({
+        GPSLatitude: 51.4779,
+        GPSLongitude: 0,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "E",
+      });
+      expect(result.warnings).to.eql([
+        "Corrected GPSLatitude sign based on GeolocationPosition",
+        "Corrected GPSLatitudeRef to N based on GeolocationPosition",
+      ]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should correct a wrong latitude sign on the antimeridian", () => {
+      // 180 E and 180 W are the same place, so flipping the longitude too
+      // isn't a second match
+      const tags: GpsLocationTags = {
+        GPSLatitude: 16.83,
+        GPSLatitudeRef: "N", // Wrong ref
+        GPSLongitude: 180,
+        GPSLongitudeRef: "E",
+        GeolocationPosition: "-16.7794 179.3357", // Savusavu, Fiji
+        GeolocationDistance: "70.94 km",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result).to.eql({
+        GPSLatitude: -16.83,
+        GPSLongitude: 180,
+        GPSLatitudeRef: "S",
+        GPSLongitudeRef: "E",
+      });
+      expect(result.warnings).to.eql([
+        "Corrected GPSLatitude sign based on GeolocationPosition",
+        "Corrected GPSLatitudeRef to S based on GeolocationPosition",
+      ]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should correct a wrong latitude sign at a pole", () => {
+      // Every longitude is the same place at a pole, so flipping the longitude
+      // too isn't a second match
+      const tags: GpsLocationTags = {
+        GPSLatitude: 90,
+        GPSLatitudeRef: "S", // Wrong ref
+        GPSLongitude: 45,
+        GPSLongitudeRef: "E",
+        GeolocationPosition: "78.2233 15.6469", // Longyearbyen, Svalbard
+        GeolocationDistance: "1309.49 km",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result).to.eql({
+        GPSLatitude: 90,
+        GPSLongitude: 45,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "E",
+      });
+      expect(result.warnings).to.eql([
+        "Corrected GPSLatitude sign based on GeolocationPosition",
+        "Corrected GPSLatitudeRef to N based on GeolocationPosition",
+      ]);
+      expect(result.invalid).to.eql(false);
+    });
+
+    it("should not correct signs when no sign combination is at GeolocationDistance", () => {
+      // ExifTool geolocated from different GPS coordinates than these
+      const tags: GpsLocationTags = {
+        GPSLatitude: 33.8688,
+        GPSLongitude: 151.2093,
+        GeolocationPosition: "-33.8679 151.2072", // Sydney
+        GeolocationDistance: "25.00 km",
+      };
+      const result = parseGPSLocation(tags, defaultOpts)!;
+      expect(result.result).to.eql({
+        GPSLatitude: 33.8688,
+        GPSLongitude: 151.2093,
+        GPSLatitudeRef: "N",
+        GPSLongitudeRef: "E",
+      });
       expect(result.warnings).to.eql([]);
       expect(result.invalid).to.eql(false);
     });
