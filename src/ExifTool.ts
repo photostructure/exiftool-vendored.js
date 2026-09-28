@@ -731,8 +731,8 @@ export class ExifTool {
 
   /**
    * Extract a given binary value from "tagname" tag associated to
-   * `path/to/image.jpg` and write it to `dest` (which cannot exist and whose
-   * directory must already exist).
+   * `path/to/image.jpg` and write it to `dest` (which cannot exist). Missing
+   * parent directories of `dest` are created.
    *
    * @param tagname must be a valid ExifTool tag reference. The promise rejects
    * tag names containing whitespace, control characters, option delimiters, or

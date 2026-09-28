@@ -56,6 +56,9 @@ vendored versions of ExifTool match the version that they vendor.
 - 🐞 The "Corrected GPSLatitudeRef to … to match coordinate sign" warning (and
   its `GPSLongitudeRef` counterpart) now names the ref it corrected to, rather
   than the original ref.
+- 🐞 Corrected the API docs for `inferTimezoneFromDatestamps` (it has defaulted
+  to `true` since v35.2.0), `ignoreShebang` (Perl is spawned without a shell),
+  and `extractBinaryTag()` (missing parent directories of `dest` are created).
 
 ### v38.2.0
 

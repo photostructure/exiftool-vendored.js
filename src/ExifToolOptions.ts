@@ -224,7 +224,7 @@ export interface ExifToolOptions
    * timezone from non-UTC datestamps included in the
    * {@link inferTimezoneFromDatestampTags} value.
    *
-   * @default false (fewer "fuzzy" heuristics are enabled by default)
+   * @default true
    */
   inferTimezoneFromDatestamps: boolean;
 
@@ -234,8 +234,8 @@ export interface ExifToolOptions
    * datestamps with UTC offsets are ignored, as they are frequently
    * incorrectly set.
    *
-   * This setting is only in play if {@link inferTimezoneFromDatestamps} has
-   * been overridden to be `true`.
+   * This setting is only in play if {@link inferTimezoneFromDatestamps} is
+   * `true`.
    *
    * @default {@link CapturedAtTagNames}
    */
@@ -326,7 +326,9 @@ export interface ExifToolOptions
    * Lambda), but `perl` may be available in your `PATH` some place else (like
    * `/opt/bin/perl`), if you pull in a perl layer.
    *
-   * Note that when enabled, `perl` will be spawned in a sub-shell.
+   * When enabled, `/usr/bin/perl` (or, if that doesn't exist, the first `perl`
+   * in your `PATH`) is spawned directly, without a shell, with the ExifTool
+   * script as its first argument.
    *
    * @default `true` on systems without `/usr/bin/perl`, `false` otherwise
    */
