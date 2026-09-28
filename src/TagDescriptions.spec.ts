@@ -99,6 +99,28 @@ describe("TagDescriptions", function () {
       expect(descriptions2.size).to.equal(size1);
     });
 
+    it("does not cache on disk without a cacheDir", async () => {
+      // A default cache in the shared os.tmpdir() would let another local user
+      // plant forged descriptions or a symlink that redirects the cache write.
+      // Point every env var os.tmpdir() reads at an empty directory:
+      const tmpEnvKeys = ["TMPDIR", "TMP", "TEMP"] as const;
+      const priorEnv = tmpEnvKeys.map((k) => process.env[k]);
+      for (const k of tmpEnvKeys) process.env[k] = testCacheDir;
+      try {
+        expect(tmpdir()).to.equal(testCacheDir);
+        const defaultDescriptions = new TagDescriptions(exiftool);
+        await defaultDescriptions.preload();
+        expect(defaultDescriptions.size).to.be.greaterThan(1000);
+        expect(readdirSync(testCacheDir)).to.eql([]);
+      } finally {
+        tmpEnvKeys.forEach((k, i) => {
+          const prior = priorEnv[i];
+          if (prior == null) Reflect.deleteProperty(process.env, k);
+          else process.env[k] = prior;
+        });
+      }
+    });
+
     it("respects disableDiskCache option", async () => {
       const noCacheDir = join(tmpdir(), "exiftool-nocache-" + randomChars());
       mkdirSync(noCacheDir, { recursive: true });

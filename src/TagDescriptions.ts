@@ -1,5 +1,4 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { ExifTool } from "./ExifTool";
 import { lazy } from "./Lazy";
@@ -25,8 +24,12 @@ export interface TagDescription {
  */
 export interface TagDescriptionsOptions {
   /**
-   * Directory to cache parsed tag descriptions.
-   * Defaults to system temp directory.
+   * Directory to cache parsed tag descriptions. Descriptions are only cached
+   * on disk if this is set; otherwise every process runs `exiftool -listx` on
+   * its first load.
+   *
+   * Only this application's user should be able to write to this directory:
+   * anyone who can write here can replace the descriptions this class returns.
    */
   cacheDir?: string;
   /**
@@ -35,7 +38,7 @@ export interface TagDescriptionsOptions {
    */
   language?: string;
   /**
-   * If true, disables disk caching. Useful for testing or memory-constrained environments.
+   * If true, disables disk caching even if {@link cacheDir} is set.
    * Defaults to false.
    */
   disableDiskCache?: boolean;
@@ -332,7 +335,8 @@ const CuratedDescriptions: Record<string, TagDescription> = {
  * **SECOND CAUTION**: The in-memory cache can consume significant memory (several
  * MB).
  *
- * **THIRD CAUTION**: The on-disk cache can consume disk space (several MB).
+ * **THIRD CAUTION**: If you set `cacheDir`, the on-disk cache can consume disk
+ * space (several MB).
  *
  * **FOURTH CAUTION**: The synchronous `get()` method only works after descriptions
  * are loaded! Be sure to call `preload()` during application initialization for
@@ -456,9 +460,11 @@ export class TagDescriptions {
     const version = await this.#exiftool.version();
     const lang = this.#options.language ?? "en";
 
+    const cacheDir = this.#getCacheDir();
+
     // Try to load from disk cache first
-    if (!this.#options.disableDiskCache) {
-      const cached = this.#readDiskCache(version, lang);
+    if (cacheDir != null) {
+      const cached = this.#readDiskCache(cacheDir, version, lang);
       if (cached != null) {
         this.#cacheSync = cached;
         return cached;
@@ -477,31 +483,34 @@ export class TagDescriptions {
     }
 
     // Write to disk cache
-    if (!this.#options.disableDiskCache) {
-      this.#writeDiskCache(version, lang, parsed);
+    if (cacheDir != null) {
+      this.#writeDiskCache(cacheDir, version, lang, parsed);
     }
 
     this.#cacheSync = parsed;
     return parsed;
   });
 
-  #getCacheDir(): string {
-    return this.#options.cacheDir ?? join(tmpdir(), "exiftool-vendored");
+  /**
+   * There is deliberately no default cache directory: a shared one like
+   * `os.tmpdir()` would let another local user plant a cache file with forged
+   * descriptions, or a symlink that redirects the cache write.
+   */
+  #getCacheDir(): Maybe<string> {
+    return this.#options.disableDiskCache ? undefined : this.#options.cacheDir;
   }
 
-  #getCacheFilename(version: string, lang: string): string {
-    return join(
-      this.#getCacheDir(),
-      `tag-descriptions-${version}-${lang}.json`,
-    );
+  #getCacheFilename(cacheDir: string, version: string, lang: string): string {
+    return join(cacheDir, `tag-descriptions-${version}-${lang}.json`);
   }
 
   #readDiskCache(
+    cacheDir: string,
     version: string,
     lang: string,
   ): Maybe<Map<string, TagDescription>> {
     try {
-      const filename = this.#getCacheFilename(version, lang);
+      const filename = this.#getCacheFilename(cacheDir, version, lang);
       if (!existsSync(filename)) return;
 
       const data = readFileSync(filename, "utf-8");
@@ -524,17 +533,17 @@ export class TagDescriptions {
   }
 
   #writeDiskCache(
+    cacheDir: string,
     version: string,
     lang: string,
     descriptions: Map<string, TagDescription>,
   ): void {
     try {
-      const dir = this.#getCacheDir();
-      if (!existsSync(dir)) {
-        mkdirSync(dir, { recursive: true });
+      if (!existsSync(cacheDir)) {
+        mkdirSync(cacheDir, { recursive: true });
       }
 
-      const filename = this.#getCacheFilename(version, lang);
+      const filename = this.#getCacheFilename(cacheDir, version, lang);
       const data = JSON.stringify(
         {
           version,

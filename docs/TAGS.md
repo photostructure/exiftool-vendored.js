@@ -252,7 +252,10 @@ const desc2 = await descriptions.getAsync("ISO");
 
 - First load takes several seconds (runs `exiftool -listx`)
 - In-memory cache uses several MB
-- Disk cache is versioned by ExifTool version and language
+- Descriptions are only cached on disk if you pass `cacheDir`, which should be
+  a directory only your application's user can write. Without it, every
+  process pays the first-load cost. The cache is versioned by ExifTool version
+  and language.
 - Sync `get()` only works after `preload()` is complete
 - English-only curated descriptions with `see` URLs; other languages use ExifTool's built-in descriptions
 

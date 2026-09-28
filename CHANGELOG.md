@@ -37,6 +37,12 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v38.3.0
 
+- 🔥 `TagDescriptions` no longer caches descriptions in a shared
+  `exiftool-vendored` directory under `os.tmpdir()`. On a multi-user Linux
+  host, another local user could plant forged descriptions there, or a symlink
+  that redirected the cache write to another file. Descriptions are now cached
+  on disk only if you pass `cacheDir`; without it, each process runs
+  `exiftool -listx` on its first load.
 - 🐞 With `geolocation` enabled, GPS coordinates near the prime meridian, the
   equator, or the antimeridian no longer get flipped into the other hemisphere
   when ExifTool's nearest city (`GeolocationPosition`) is on the other side of
