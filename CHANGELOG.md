@@ -12,10 +12,7 @@ See the [releases page](https://github.com/photostructure/exiftool-vendored.js/r
 
 ## Versioning
 
-Providing the flexibility to reversion the API or UPDATE version slots as
-features or bugfixes arise and using ExifTool's version number is at odds with
-each other, so this library follows [Semver](https://semver.org/), and the
-vendored versions of ExifTool match the version that they vendor.
+Providing the flexibility to reversion the API or UPDATE version slots as features or bugfixes arise and using ExifTool's version number is at odds with each other, so this library follows [Semver](https://semver.org/), and the vendored versions of ExifTool match the version that they vendor.
 
 ### The `MAJOR` or `API` version is incremented for
 
@@ -37,44 +34,21 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v38.3.0
 
-- 🔥 `TagDescriptions` no longer caches descriptions in a shared
-  `exiftool-vendored` directory under `os.tmpdir()`. On a multi-user Linux
-  host, another local user could plant forged descriptions there, or a symlink
-  that redirected the cache write to another file. Descriptions are now cached
-  on disk only if you pass `cacheDir`; without it, each process runs
-  `exiftool -listx` on its first load.
-- 🐞 With `geolocation` enabled, GPS coordinates near the prime meridian, the
-  equator, or the antimeridian no longer get flipped into the other hemisphere
-  when ExifTool's nearest city (`GeolocationPosition`) is on the other side of
-  the line. The hemisphere correction for mis-signed coordinates (like XMP from
-  Apple Photos exports) now flips a sign only when that puts the coordinates at
-  `GeolocationDistance` from `GeolocationPosition`, which is where ExifTool's
-  own reading of them lies. Coordinates are not corrected when ExifTool
-  geolocates from city names, as it then omits `GeolocationDistance`. Thanks
-  for the [report and first fix](https://github.com/photostructure/exiftool-vendored.js/pull/334),
-  [@bo0tzz](https://github.com/bo0tzz)!
-- 🐞 The "Corrected GPSLatitudeRef to … to match coordinate sign" warning (and
-  its `GPSLongitudeRef` counterpart) now names the ref it corrected to, rather
-  than the original ref.
-- 🐞 Corrected the API docs for `inferTimezoneFromDatestamps` (it has defaulted
-  to `true` since v35.2.0), `ignoreShebang` (Perl is spawned without a shell),
-  and `extractBinaryTag()` (missing parent directories of `dest` are created).
+- 🔥 `TagDescriptions` no longer caches descriptions in a shared `exiftool-vendored` directory under `os.tmpdir()`. On a multi-user Linux host, another local user could plant forged descriptions there, or a symlink that redirected the cache write to another file. Descriptions are now cached on disk only if you pass `cacheDir`; without it, each process runs `exiftool -listx` on its first load.
+
+- 🐞 With `geolocation` enabled, GPS coordinates near the prime meridian, the equator, or the antimeridian no longer get flipped into the other hemisphere when ExifTool's nearest city (`GeolocationPosition`) is on the other side of the line. The hemisphere correction for mis-signed coordinates (like XMP from Apple Photos exports) now flips a sign only when that puts the coordinates at `GeolocationDistance` from `GeolocationPosition`, which is where ExifTool's own reading of them lies. Coordinates are not corrected when ExifTool geolocates from city names, as it then omits `GeolocationDistance`. Thanks for the [report and first fix](https://github.com/photostructure/exiftool-vendored.js/pull/334), [@bo0tzz](https://github.com/bo0tzz)!
+
+- 🐞 The "Corrected GPSLatitudeRef to … to match coordinate sign" warning (and its `GPSLongitudeRef` counterpart) now names the ref it corrected to, rather than the original ref.
+
+- 🐞 Corrected the API docs for `inferTimezoneFromDatestamps` (it has defaulted to `true` since v35.2.0), `ignoreShebang` (Perl is spawned without a shell), and `extractBinaryTag()` (missing parent directories of `dest` are created).
 
 ### v38.2.0
 
-- ✨ A read that computes `ImageDataHash` no longer times out while ExifTool is
-  still hashing a large file. Each such read asks ExifTool to report hashing
-  progress with the new `ImageHashProgress` API option, and every report
-  restarts `taskTimeoutMillis`. `read()` and `readRaw()` accept an
-  `onProgress(bytesHashed)` option. The option is a downstream patch that
-  exiftool-vendored.pl and exiftool-vendored.exe apply to ExifTool; a custom
-  `exiftoolPath` without it behaves as before.
-- 📦 Updated exiftool-vendored.pl and exiftool-vendored.exe to v13.59.3, which
-  add the `ImageHashProgress` patch.
-- 📦 Updated batch-cluster to v19.4.1, so hashing progress reports are no
-  longer logged as warnings, and `maxProcAgeMillis` may now be less than
-  `taskTimeoutMillis`. It must still be at least `spawnTimeoutMillis`, which
-  is now checked even when `taskTimeoutMillis` is 0.
+- ✨ A read that computes `ImageDataHash` no longer times out while ExifTool is still hashing a large file. Each such read asks ExifTool to report hashing progress with the new `ImageHashProgress` API option, and every report restarts `taskTimeoutMillis`. `read()` and `readRaw()` accept an `onProgress(bytesHashed)` option. The option is a downstream patch that exiftool-vendored.pl and exiftool-vendored.exe apply to ExifTool; a custom `exiftoolPath` without it behaves as before.
+
+- 📦 Updated exiftool-vendored.pl and exiftool-vendored.exe to v13.59.3, which add the `ImageHashProgress` patch.
+
+- 📦 Updated batch-cluster to v19.4.1, so hashing progress reports are no longer logged as warnings, and `maxProcAgeMillis` may now be less than `taskTimeoutMillis`. It must still be at least `spawnTimeoutMillis`, which is now checked even when `taskTimeoutMillis` is 0.
 
 ### v38.1.2
 
@@ -83,9 +57,7 @@ vendored versions of ExifTool match the version that they vendor.
 ### v38.1.1
 
 - 📦 Updated batch-cluster to v19.3.0.
-- 🐞 `ExifTool.end()` now resolves only after the ExifTool process has exited.
-  If it is still running after termination, `end()` and `await using`
-  disposal reject instead of leaving it running silently.
+- 🐞 `ExifTool.end()` now resolves only after the ExifTool process has exited. If it is still running after termination, `end()` and `await using` disposal reject instead of leaving it running silently.
 
 ### v38.1.0
 
@@ -93,98 +65,41 @@ vendored versions of ExifTool match the version that they vendor.
 
 ### v38.0.1
 
-- 🐞 Request hidden windows when the default process factory starts ExifTool on
-  Windows, avoiding visible background process windows in GUI applications.
+- 🐞 Request hidden windows when the default process factory starts ExifTool on Windows, avoiding visible background process windows in GUI applications.
 
 ### v38.0.0
 
-- ✨ New first-class `groupNames` option: `exiftool.read(file, { groupNames:
-true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
-  option) and returns the new `GroupedTags` interface, whose keys are
-  `Group:TagName` (like `EXIF:Make`). This is the recommended forward path
-  for new integrations: see the new "Group names" section of the README for
-  the full output contract. Library-synthesized tags stay bare
-  (`SourceFile`, `errors`, `warnings`, `zone`, `tz`, `tzSource`,
-  `zoneSource`, `invalidUtf8Bytes`, and the parsed, validated GPS
-  quartet). The new `tag(tags, name)` helper looks up bare or prefixed
-  names against either shape.
+- ✨ New first-class `groupNames` option: `exiftool.read(file, { groupNames: true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G` option) and returns the new `GroupedTags` interface, whose keys are `Group:TagName` (like `EXIF:Make`). This is the recommended forward path for new integrations: see the new "Group names" section of the README for the full output contract. Library-synthesized tags stay bare (`SourceFile`, `errors`, `warnings`, `zone`, `tz`, `tzSource`, `zoneSource`, `invalidUtf8Bytes`, and the parsed, validated GPS quartet). The new `tag(tags, name)` helper looks up bare or prefixed names against either shape.
 
-- 💔 **Behavior changes for existing `-G` users** (callers passing `-G` via
-  `readArgs`--behavior with default options is unchanged):
+- 💔 **Behavior changes for existing `-G` users** (callers passing `-G` via `readArgs`--behavior with default options is unchanged):
 
-  1. Errors and warnings that ExifTool embeds in its JSON output under
-     `ExifTool:Error` / `ExifTool:Warning` now populate the `errors` and
-     `warnings` arrays, matching how the bare `Error` / `Warning` fields
-     have always been handled. Code that only inspected those arrays in
-     bare mode now sees the same diagnostics under `-G`. (Bugfix.)
+  1. Errors and warnings that ExifTool embeds in its JSON output under `ExifTool:Error` / `ExifTool:Warning` now populate the `errors` and `warnings` arrays, matching how the bare `Error` / `Warning` fields have always been handled. Code that only inspected those arrays in bare mode now sees the same diagnostics under `-G`. (Bugfix.)
 
-  2. `read()` now preserves `ExifTool:ExifToolVersion` as a **string**,
-     exactly like the bare `ExifToolVersion` always was, so version `12.30`
-     is no longer mangled into the number `12.3` under `-G`. (Bugfix.
-     `readRaw()` is unaffected: it stays raw and still returns the number
-     that ExifTool emitted.)
+  2. `read()` now preserves `ExifTool:ExifToolVersion` as a **string**, exactly like the bare `ExifToolVersion` always was, so version `12.30` is no longer mangled into the number `12.3` under `-G`. (Bugfix. `readRaw()` is unaffected: it stays raw and still returns the number that ExifTool emitted.)
 
-- 🐞 `zoneSource` (the documented successor to the deprecated `tzSource`) is
-  now populated whenever `zone` / `tz` / `tzSource` are. It was previously
-  declared but never set.
+- 🐞 `zoneSource` (the documented successor to the deprecated `tzSource`) is now populated whenever `zone` / `tz` / `tzSource` are. It was previously declared but never set.
 
 ### v37.2.0
 
-- 🐞 Pull in new exiftool-vendored.pl and exiftool-vendored.exe that have [this
-  patch applied](https://github.com/exiftool/exiftool/issues/458) to avoid
-  orphaned ExifTool processes if the parent process is killed or crashes
+- 🐞 Pull in new exiftool-vendored.pl and exiftool-vendored.exe that have [this patch applied](https://github.com/exiftool/exiftool/issues/458) to avoid orphaned ExifTool processes if the parent process is killed or crashes
 
-- 📦 The published package now contains only runtime output, tag metadata, and
-  the standard package documents. Compiled tests and maintainer-only update
-  tools are no longer shipped, which removes 130 files from the tarball. Code
-  that imported `exiftool-vendored/dist/update/*` or a compiled `*.spec.js`
-  must stop doing so.
+- 📦 The published package now contains only runtime output, tag metadata, and the standard package documents. Compiled tests and maintainer-only update tools are no longer shipped, which removes 130 files from the tarball. Code that imported `exiftool-vendored/dist/update/*` or a compiled `*.spec.js` must stop doing so.
 
-- 📦 Replaced direct npm publishing with a least-privilege, tag-bound release
-  flow. CI now verifies signed tags and the exact package artifact, stages the
-  package behind maintainer 2FA approval, and excludes compiled tests and
-  maintainer tools from the public tarball.
+- 📦 Replaced direct npm publishing with a least-privilege, tag-bound release flow. CI now verifies signed tags and the exact package artifact, stages the package behind maintainer 2FA approval, and excludes compiled tests and maintainer tools from the public tarball.
 
 ### v37.1.0
 
-- 📦 Updated to [batch-cluster
-  v19.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
-  which closes several ways an ExifTool child process could be leaked, and two
-  ways a task's promise could be dropped: pending work now keeps the event loop
-  alive (a task queued while the pool was momentarily empty used to be
-  abandoned, with node exiting `0` and no error), and `.end()` now rejects
-  still-queued tasks instead of leaving them unsettled. `await exiftool.end()`
-  is now a barrier — it waits for in-flight spawns and recycling, so
-  `await exiftool.end(); process.exit(0)` can no longer orphan a child — and may
-  take slightly longer to resolve than in v37.0.0.
+- 📦 Updated to [batch-cluster v19.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md), which closes several ways an ExifTool child process could be leaked, and two ways a task's promise could be dropped: pending work now keeps the event loop alive (a task queued while the pool was momentarily empty used to be abandoned, with node exiting `0` and no error), and `.end()` now rejects still-queued tasks instead of leaving them unsettled. `await exiftool.end()` is now a barrier — it waits for in-flight spawns and recycling, so `await exiftool.end(); process.exit(0)` can no longer orphan a child — and may take slightly longer to resolve than in v37.0.0.
 
-- ✨ Documented `maxFailedTasksPerProcess` on `ExifToolOptions`. It stays
-  disabled (`0`), matching batch-cluster v19's new default. Enabling it suits
-  ExifTool poorly: a rejected task nearly always means the _file_ was bad, not
-  that ExifTool is sick, and `-stay_open` mode keeps working after per-file
-  errors, so recycling costs a Perl interpreter startup per bad file. Sick
-  processes are still recycled by `taskTimeoutMillis`, stream errors, and
-  `healthCheckCommand`.
+- ✨ Documented `maxFailedTasksPerProcess` on `ExifToolOptions`. It stays disabled (`0`), matching batch-cluster v19's new default. Enabling it suits ExifTool poorly: a rejected task nearly always means the _file_ was bad, not that ExifTool is sick, and `-stay_open` mode keeps working after per-file errors, so recycling costs a Perl interpreter startup per bad file. Sick processes are still recycled by `taskTimeoutMillis`, stream errors, and `healthCheckCommand`.
 
-- ✨ Documented batch-cluster's new `killProcessGroup` option on
-  `ExifToolOptions`, defaulting to `false`. It only matters for a
-  `processFactory` that spawns with `detached: true`, which ExifTool's default
-  factory does not. TypeScript consumers who build a complete `ExifToolOptions`
-  object by hand must add this new required property; `Partial<ExifToolOptions>`
-  callers are unaffected.
+- ✨ Documented batch-cluster's new `killProcessGroup` option on `ExifToolOptions`, defaulting to `false`. It only matters for a `processFactory` that spawns with `detached: true`, which ExifTool's default factory does not. TypeScript consumers who build a complete `ExifToolOptions` object by hand must add this new required property; `Partial<ExifToolOptions>` callers are unaffected.
 
 ### v37.0.0
 
-- 💔 **BREAKING: malformed UTF-8 in ExifTool JSON output is now marked with
-  Unicode replacement character U+FFFD (`�`) instead of ASCII question mark
-  (`?`).** For example, malformed bytes `dc 4b` previously surfaced as `?K`
-  and now surface as `�K`. This applies to both `read()` and `readRaw()`,
-  including scalar and list values and calls that override `readArgs`. Valid
-  Unicode and authored question marks are unchanged.
-  - The original malformed string bytes are available without rereading the
-    media through an optional sparse `invalidUtf8Bytes` sidecar. It mirrors tag
-    paths, uses numeric object keys for damaged list items, stores each leaf as
-    a `Uint8Array`, and is absent when no malformed strings were found:
+- 💔 **BREAKING: malformed UTF-8 in ExifTool JSON output is now marked with Unicode replacement character U+FFFD (`�`) instead of ASCII question mark (`?`).** For example, malformed bytes `dc 4b` previously surfaced as `?K` and now surface as `�K`. This applies to both `read()` and `readRaw()`, including scalar and list values and calls that override `readArgs`. Valid Unicode and authored question marks are unchanged.
+
+  - The original malformed string bytes are available without rereading the media through an optional sparse `invalidUtf8Bytes` sidecar. It mirrors tag paths, uses numeric object keys for damaged list items, stores each leaf as a `Uint8Array`, and is absent when no malformed strings were found:
 
     ```js
     const tags = await exiftool.read(file);
@@ -192,39 +107,21 @@ true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
     tags.invalidUtf8Bytes?.City; // Uint8Array([0xdc, 0x4b])
     ```
 
-    `exiftool-vendored` does not guess a legacy charset. Consumers may decode
-    only these captured bytes using camera, tag, locale, or user-specific
-    evidence while retaining the U+FFFD value as a deterministic fallback.
+    `exiftool-vendored` does not guess a legacy charset. Consumers may decode only these captured bytes using camera, tag, locale, or user-specific evidence while retaining the U+FFFD value as a deterministic fallback.
 
-  - Nested structures mirror the paths ExifTool returns for the selected
-    `struct` mode. XML element text, attribute values, CDATA, opaque XML string
-    values, and leaves parsed from embedded binary XML packets are supported.
-    The captured bytes are the extracted value after XML parsing, not the
-    original XML token. Malformed XML element and attribute names are outside
-    this mechanism: value filters never receive names, and ExifTool's JSON
-    output repairs or canonicalizes them before the library sees them.
+  - Nested structures mirror the paths ExifTool returns for the selected `struct` mode. XML element text, attribute values, CDATA, opaque XML string values, and leaves parsed from embedded binary XML packets are supported. The captured bytes are the extracted value after XML parsing, not the original XML token. Malformed XML element and attribute names are outside this mechanism: value filters never receive names, and ExifTool's JSON output repairs or canonicalizes them before the library sees them.
 
-  - The change affects new metadata reads only. Upgrading does not rewrite
-    values that applications have already persisted. Applications that use
-    extracted metadata as identifiers, facets, or tags may want to rescan or
-    reindex existing files.
-  - Consumers may replace ambiguous `?` corruption heuristics with explicit
-    U+FFFD checks where their data flow preserves the marker. Whether to
-    reject, display, or retain a marked value remains application policy.
-  - To restore the previous rendering, replace the marker in the string values
-    you consume (it never appears in numbers, dates, or binary fields). This is
-    a one-way transform — the reverse is impossible once malformed bytes have
-    collapsed to `?`, which is why the marker is preserved by default:
+  - The change affects new metadata reads only. Upgrading does not rewrite values that applications have already persisted. Applications that use extracted metadata as identifiers, facets, or tags may want to rescan or reindex existing files.
+
+  - Consumers may replace ambiguous `?` corruption heuristics with explicit U+FFFD checks where their data flow preserves the marker. Whether to reject, display, or retain a marked value remains application policy.
+
+  - To restore the previous rendering, replace the marker in the string values you consume (it never appears in numbers, dates, or binary fields). This is a one-way transform — the reverse is impossible once malformed bytes have collapsed to `?`, which is why the marker is preserved by default:
 
     ```js
     typeof value === "string" ? value.replace(/\uFFFD/g, "?") : value;
     ```
 
-  - Advanced callers that provide their own non-empty ExifTool
-    `-api Filter=...` through `readArgs` retain ownership of the complete
-    filtering pipeline. A custom filter must perform its own UTF-8 repair and
-    byte capture if those behaviors are desired; `invalidUtf8Bytes` will be
-    absent.
+  - Advanced callers that provide their own non-empty ExifTool `-api Filter=...` through `readArgs` retain ownership of the complete filtering pipeline. A custom filter must perform its own UTF-8 repair and byte capture if those behaviors are desired; `invalidUtf8Bytes` will be absent.
 
 - 📦 Corrected resource-cleanup documentation to distinguish normal shutdown, non-blocking `using`, awaited `await using`, and best-effort disposal timeouts.
 
@@ -250,10 +147,15 @@ true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
 ### v35.19.0
 
 - 🔥 **Security: argument injection hardening [GHSA-cw26-7653-2rp5](https://github.com/photostructure/exiftool-vendored.js/security/advisories/GHSA-cw26-7653-2rp5).** ExifTool runs in `-stay_open True -@ -` mode, where arguments are read from stdin one per line. Several caller-supplied strings were previously interpolated into ExifTool arguments without rejecting line delimiters, so a `\n` inside a tag name or filename could split one argument into many. Two layers of defense have been added:
+
   - **Per-site validation.** A new `validateTagName` helper rejects tag-name strings that fall outside the ExifTool tag grammar (letters, digits, `:`, `-`, `_`, and the modifiers `*`, `?`, `+`, `#`). Applied to write tag keys, `deleteAllTags({retain})`, `read({numericTags})`, and the binary-extraction tag names. `imageHashType` is now also validated against an `ImageHashTypes` allowlist at runtime.
+
   - **Defense-in-depth at the command renderer.** `ExifToolTask.renderCommand` now rejects any argument containing `\r`, `\n`, or `\0` before transmission. This covers filename/path arguments, including `readRaw()` and `rewriteAllTags()`, raw `readArgs` / `writeArgs`, option values, and future newline-delimited interpolation sites.
+
   - Tag values passed to `write()` were already whitespace-encoded and were not vulnerable.
+
   - Reported by Hank Tam through coordinated disclosure.
+
 - ✨ Added `ImageHashTypes` runtime enum and `ImageHashType` type export, for callers that need runtime-checked construction of the `imageHashType` option.
 
 ### v35.18.0
@@ -272,7 +174,9 @@ true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
 ### v35.15.0
 
 - 🐞 Fixed parsing of POSIX locale date strings like `"Tue 17 Jun 2025 09:29:01 PM PDT"` (emitted by gnome-screenshot's `CreationTime` tag). Previously these fell through to raw strings, losing the time and timezone.
+
 - ✨ `extractZone()` now resolves common unambiguous timezone abbreviations (PDT, EST, CEST, JST, NZDT, etc.) to fixed UTC offsets (e.g. PDT → `UTC-7`) as a last-resort fallback when no numeric UTC offset is present. Ambiguous abbreviations (CST, IST, BST, AST) are intentionally omitted.
+
 - ✨ New `Settings.tzAbbreviationOffsets` allows users to resolve ambiguous abbreviations for their region (e.g. `{ CST: -6 * 60 }` for US Central, `{ IST: 5 * 60 + 30 }` for India).
 
 ### v35.14.0
@@ -384,9 +288,13 @@ true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
 ### v33.5.0
 
 - 🐞 `isZoneValid` now properly validates Luxon Zone instances (not just zone-like objects)
+
 - 🐞 `isObject` no longer incorrectly returns `true` for Arrays
+
 - 🐞 `isIterable` now correctly handles arrays
+
 - 🐞 Improved GPS data type safety in `ReadTask`
+
 - 📦 Enhanced documentation across multiple modules
 
 ### v33.4.0
@@ -399,9 +307,13 @@ true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
 ### v33.3.0
 
 - ✨ Export timezone utility functions: `extractZone`, `extractTzOffsetFromTags`, `extractTzOffsetFromUTCOffset`, `normalizeZone`, `inferLikelyOffsetMinutes`, `isUTC`, `isZone`, `isZoneValid`, `isZoneUnset`, `validTzOffsetMinutes`, `zoneToShortOffset`, `equivalentZones`
+
 - ✨ Export timezone types: `TzSrc`, `TimezoneOffset`
+
 - ✨ Unicode minus sign (U+2212) now supported in timezone offset parsing
+
 - ✨ Add `Settings.maxValidOffsetMinutes` (default: 30 minutes, which was used by prior versions) to configure GPS-based timezone inference tolerance
+
 - 🐞 When `Settings.allowArchaicTimezoneOffsets` is `false`, archaic offsets (e.g., Hawaii -10:30) now round to nearest valid offset instead of being rejected
 
 ### v33.2.0
@@ -411,14 +323,19 @@ true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
 ### v33.1.0
 
 - 🐞 Fixed `GPSTimeStamp` to be `ExifTime | string`
+
 - 🐞 Removed `GPSPositionRef` (not a thing!)
 
 ### v33.0.0
 
 - 🐞/💔 `SubSecMediaCreateDate` was removed from `CompositeTags` and `Tags`. It apparently never _was_ a thing, and, worse: I can't blame AI for hallucinating it, because I added it several years ago. Oops!
+
 - ✨ `mktags` was enhanced to detect and avoid duplicate field definitions from included static interfaces.
+
 - ✨ Increased MAX_TAGS from 2500 to 2700 to accommodate additional tags, so there's a bunch of new tags in there! Please open an issue if you see `error TS2590: Expression produces a union type that is too complex to represent` (please be sure to include a reproduction!)
+
 - 📦 Added jsdocs to many, many fields.
+
 - 🐞 `mktags` calculates `@frequency` correctly now (it was measuring "average occurrences per file across all groups" rather than "percentage of files containing this tag" -- this led to some tags having a frequency of 200% (!!))
 
 ### v32.1.0
@@ -428,9 +345,13 @@ true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G`
 ### v32.0.1
 
 - 💔 Archaic timezones are no longer supported by default. If you have relevant (old) digital media, set `Settings.allowArchaicTimezoneOffsets.value = true`.
+
 - 💔 ExifToolOptions.useMWG now defaults to `true`, the ExifTool recommendation. See [the ExifTool page](https://exiftool.org/TagNames/MWG.html) for more details.
+
 - ✨ Added **Settings** for global library configuration. See [CONFIGURATION](https://photostructure.github.io/exiftool-vendored.js/documents/docs_CONFIGURATION.html) for details.
+
 - 📦 `MakerNotes.AspectRatio` was restored to the Tags union
+
 - 📦 `ExifTool.readRaw()` now accepts the option `useMWG` (which also defaults to `true`) and has a signature that matches `read()`.
 
 ### v31.3.0
