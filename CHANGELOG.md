@@ -42,6 +42,8 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 Corrected the API docs for `inferTimezoneFromDatestamps` (it has defaulted to `true` since v35.2.0), `ignoreShebang` (Perl is spawned without a shell), and `extractBinaryTag()` (missing parent directories of `dest` are created).
 
+- 🐞 `TagDescriptions` now matches its `language` option as a literal language code. It was previously inserted into a regular expression unescaped, so `"d."` returned German descriptions and `"zh(cn"` threw a `SyntaxError`.
+
 ### v38.2.0
 
 - ✨ A read that computes `ImageDataHash` no longer times out while ExifTool is still hashing a large file. Each such read asks ExifTool to report hashing progress with the new `ImageHashProgress` API option, and every report restarts `taskTimeoutMillis`. `read()` and `readRaw()` accept an `onProgress(bytesHashed)` option. The option is a downstream patch that exiftool-vendored.pl and exiftool-vendored.exe apply to ExifTool; a custom `exiftoolPath` without it behaves as before.

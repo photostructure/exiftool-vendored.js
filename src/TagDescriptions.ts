@@ -568,8 +568,10 @@ export class TagDescriptions {
     // Format: <tag ... name='TagName' ...><desc lang='en'>Description</desc>...</tag>
     const tagRegex =
       /<tag[^>]*\sname=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/tag>/gi;
+    // Escape by hand: RegExp.escape() needs Node 24, and we support Node 22.
+    const escapedLang = lang.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const descRegex = new RegExp(
-      `<desc\\s+lang=['"]${lang}['"]>([^<]+)</desc>`,
+      `<desc\\s+lang=['"]${escapedLang}['"]>([^<]+)</desc>`,
       "i",
     );
 

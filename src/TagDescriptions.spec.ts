@@ -275,4 +275,10 @@ describe("TagDescriptions", function () {
       expect(desc!.see).to.equal(undefined);
     });
   });
+
+  it("matches the language code literally, not as a regex", async () => {
+    // As a regex, "d." would match ExifTool's "de" descriptions
+    const descriptions = new TagDescriptions(exiftool, { language: "d." });
+    expect((await descriptions.getAll()).size).to.equal(0);
+  });
 });
