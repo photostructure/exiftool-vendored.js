@@ -953,14 +953,12 @@ export class ExifTool {
           `ExifTool synchronous disposal timeout after ${timeoutMs}ms, requesting forceful cleanup`,
         );
         // Request immediate termination of child processes if they still exist
-        try {
-          this.batchCluster.closeChildProcesses(false);
-        } catch (err) {
+        this.batchCluster.closeChildProcesses(false).catch((err) => {
           logger.error(
             "Error while requesting forceful child process cleanup during sync disposal:",
             err,
           );
-        }
+        });
       }, timeoutMs);
 
       cleanup

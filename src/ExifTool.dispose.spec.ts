@@ -64,6 +64,57 @@ describe("ExifTool disposal", () => {
     expect(et.ended).to.be.true;
   }).timeout(8000);
 
+  it("should log a rejected forceful cleanup request after a sync disposal timeout", async () => {
+    const errorLogs: unknown[][] = [];
+    const noop = (): void => undefined;
+    const et = new ExifTool({
+      disposalTimeoutMs: 10,
+      logger: () => ({
+        trace: noop,
+        debug: noop,
+        info: noop,
+        warn: noop,
+        error: (...args: unknown[]) => errorLogs.push(args),
+      }),
+    });
+
+    // Hang graceful cleanup so the disposal timeout fires
+    const originalEnd = et.end.bind(et);
+    let releaseEnd = noop;
+    (et as any).end = () =>
+      new Promise<void>((resolve) => (releaseEnd = resolve));
+
+    const forcefulError = new Error("forceful cleanup failed");
+    let onCloseChildProcesses = noop;
+    const closeChildProcessesCalled = new Promise<void>(
+      (resolve) => (onCloseChildProcesses = resolve),
+    );
+    et.batchCluster.closeChildProcesses = () => {
+      onCloseChildProcesses();
+      return Promise.reject(forcefulError);
+    };
+
+    const unhandled: unknown[] = [];
+    const onUnhandled = (reason: unknown) => unhandled.push(reason);
+    process.on("unhandledRejection", onUnhandled);
+    try {
+      et[Symbol.dispose]();
+      await closeChildProcessesCalled;
+      // Node emits unhandledRejection before the next macrotask runs
+      await new Promise((resolve) => setImmediate(resolve));
+
+      expect(unhandled).to.eql([]);
+      expect(errorLogs).to.deep.include([
+        "Error while requesting forceful child process cleanup during sync disposal:",
+        forcefulError,
+      ]);
+    } finally {
+      process.off("unhandledRejection", onUnhandled);
+      releaseEnd();
+      await originalEnd(false);
+    }
+  });
+
   it("should actually stop child processes on disposal", async () => {
     const et = new ExifTool({ maxProcs: 2 });
 

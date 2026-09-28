@@ -32,6 +32,10 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## History
 
+### v38.3.1
+
+- 🐞 If synchronous disposal (`using`) hits `disposalTimeoutMs` and the forceful child process cleanup it then requests fails, the error is now logged instead of escaping as an unhandled rejection, which terminates Node.js by default.
+
 ### v38.3.0
 
 - 🔥 `TagDescriptions` no longer caches descriptions in a shared `exiftool-vendored` directory under `os.tmpdir()`. On a multi-user Linux host, another local user could plant forged descriptions there, or a symlink that redirected the cache write to another file. Descriptions are now cached on disk only if you pass `cacheDir`; without it, each process runs `exiftool -listx` on its first load.
