@@ -1,15 +1,11 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Overview
 
-This is exiftool-vendored.js, a Node.js library that provides cross-platform access to ExifTool for reading and writing metadata in photos and videos. The library includes comprehensive TypeScript type definitions for metadata tags and is used by PhotoStructure and 500+ other projects.
+This is exiftool-vendored.js, a Node.js library that provides cross-platform access to ExifTool for reading and writing metadata in photos and videos.
 
 ## Key Commands
 
 ```bash
-# Everything that should pass before a release
+# Everything that should pass before a release. Caution: updated dependencies and fmt may result in diffs!
 make preflight       # or: npm run preflight
 
 # Development
@@ -72,4 +68,4 @@ npm run mktags ../path/to/images  # Regenerate src/Tags.ts and data/TagMetadata.
 - Strict TypeScript settings enabled
 - Always use standard imports at the top of the file. Never use dynamic imports like `await import("node:fs/promises").then(fs => fs.access(path))` - instead import normally: `import { access } from "node:fs/promises"`
 
-**File Patterns**: `src/*.ts` (source), `src/*.spec.ts` (tests), `src/update/*.ts` (scripts), `bin/` (binaries), `dist/` (compiled), `test/` (test images)
+**File Patterns**: `src/*.ts` (source), `src/*.spec.ts` (tests), `src/update/*.ts` (scripts), `dist/` (compiled), `test/` (test images)
