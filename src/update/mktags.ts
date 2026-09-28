@@ -21,6 +21,7 @@ import { isNumber } from "../Number";
 import { nullish } from "../ReadTask";
 import { blank, isString, leftPad } from "../String";
 import { times } from "../Times";
+import { escapeJSDoc } from "./JSDoc";
 
 /**
  * Unfortunately, TypeScript has a limit on the complexity of types it can
@@ -1066,9 +1067,9 @@ function sigFigs(i: number, digits: number): number {
   return Math.round(i * pow) / pow;
 }
 
-function toStr(o: any): any {
+function toStr(o: any): string {
   if (o == null) return "";
-  else if (isNumber(o)) return sigFigs(o, 8);
+  else if (isNumber(o)) return String(sigFigs(o, 8));
   else if (isString(o)) return `"${ellipsize(o, 65)}"`;
   else if (isString(o.rawValue)) return `"${ellipsize(o.rawValue, 65)}"`;
   else return ellipsize(JSON.stringify(o), 65);
@@ -1218,7 +1219,7 @@ class Tag {
     const lines = [
       ` * @frequency ${mainstreamEmoji} ${starRating} (${frequencyPercent}%)`,
       ` * @groups ${groups}`,
-      ` * @example ${this.example()}`,
+      ` * @example ${escapeJSDoc(this.example())}`,
     ];
 
     // Add @remarks tag if documentation is provided

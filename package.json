@@ -23,7 +23,7 @@
     "lint": "eslint",
     "fmt": "prettier --write .",
     "test": "run-s compile test:mocha",
-    "test:mocha": "mocha dist/**/*.spec.js",
+    "test:mocha": "mocha \"dist/**/*.spec.js\"",
     "docs:build": "typedoc",
     "docs:serve": "npm run docs:build && npx serve build/docs",
     "docs": "npm run docs:serve",
