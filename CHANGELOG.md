@@ -47,6 +47,9 @@ vendored versions of ExifTool match the version that they vendor.
   geolocates from city names, as it then omits `GeolocationDistance`. Thanks
   for the [report and first fix](https://github.com/photostructure/exiftool-vendored.js/pull/334),
   [@bo0tzz](https://github.com/bo0tzz)!
+- 🐞 The "Corrected GPSLatitudeRef to … to match coordinate sign" warning (and
+  its `GPSLongitudeRef` counterpart) now names the ref it corrected to, rather
+  than the original ref.
 
 ### v38.2.0
 

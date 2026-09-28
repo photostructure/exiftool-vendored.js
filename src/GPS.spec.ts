@@ -477,7 +477,10 @@ describe("parseGPSLocation", () => {
     const result = parseGPSLocation(tags, defaultOpts)!;
     expect(result.result?.GPSLatitudeRef).to.eql("S");
     expect(result.result?.GPSLongitudeRef).to.eql("W");
-    expect(result.warnings?.length).to.eql(2);
+    expect(result.warnings).to.eql([
+      "Corrected GPSLatitudeRef to S to match coordinate sign",
+      "Corrected GPSLongitudeRef to W to match coordinate sign",
+    ]);
   });
 
   it("should handle missing ref values", () => {

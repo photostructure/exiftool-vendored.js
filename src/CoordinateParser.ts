@@ -367,7 +367,7 @@ export function processCoordinate(
   const expectedRef = value < 0 ? expectedRefNegative : expectedRefPositive;
   if (ref != null && ref !== expectedRef && !blank(config.ref)) {
     warnings.push(
-      `Corrected GPS${coordinateType}Ref to ${ref} to match coordinate sign`,
+      `Corrected GPS${coordinateType}Ref to ${expectedRef} to match coordinate sign`,
     );
   }
   ref = expectedRef;
