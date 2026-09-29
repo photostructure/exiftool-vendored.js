@@ -8,4 +8,4 @@ async function run() {
   });
 }
 
-run().then(() => exiftool.end());
+void run().then(() => exiftool.end());

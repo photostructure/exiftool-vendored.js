@@ -31,6 +31,7 @@ export default tseslint.config(
     rules: {
       // Enable strict rules for main library code
       "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
