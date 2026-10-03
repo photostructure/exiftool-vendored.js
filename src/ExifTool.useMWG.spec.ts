@@ -1,3 +1,4 @@
+import { writeFile } from "node:fs/promises";
 import { end, expect, testImg, tmpname } from "./_chai.spec";
 import { ExifDateTime } from "./ExifDateTime";
 import {
@@ -7,10 +8,17 @@ import {
   WriteTaskOptions,
 } from "./ExifTool";
 import { TagDescriptions } from "./TagDescriptions";
+import { WriteTags } from "./WriteTags";
 
 // ExifTool.jpg has a CIFF DateTimeOriginal that differs from its EXIF
 // DateTimeOriginal. The MWG composite reports the EXIF value.
+const NonMwgDateTimeOriginal = "1998:05:01 21:33:18";
 const MwgDateTimeOriginal = "2001:05:19 18:36:41";
+
+async function readDateTimeOriginal(et: ExifTool, file: string) {
+  const t = await et.read(file);
+  return (t.DateTimeOriginal as ExifDateTime).rawValue;
+}
 
 describe("ExifTool useMWG", function () {
   this.slow(1); // always show timings
@@ -52,6 +60,92 @@ describe("ExifTool useMWG", function () {
       });
     });
   }
+
+  describe("new ExifTool({ useMWG: false }) with MWG tag references", () => {
+    // maxProcs: 1 makes every task run on the same ExifTool process:
+    let et: ExifTool;
+    beforeEach(() => (et = new ExifTool({ maxProcs: 1, useMWG: false })));
+    afterEach(() => end(et));
+
+    for (const { desc, loadMWG } of [
+      {
+        desc: "write() with an MWG: tag",
+        loadMWG: (f: string) =>
+          et.write(f, { "MWG:Description": "desc" } as WriteTags),
+      },
+      {
+        desc: "a failed write() with an MWG: tag",
+        loadMWG: (f: string) =>
+          expect(
+            et.write(f + ".missing", {
+              "MWG:Description": "desc",
+            } as WriteTags),
+          ).to.be.rejectedWith(/not found/i),
+      },
+      {
+        desc: "read() with an MWG: tag in readArgs",
+        loadMWG: (f: string) =>
+          et.read(f, { readArgs: ["-MWG:DateTimeOriginal"] }),
+      },
+      {
+        desc: "readRaw() with -use MWG in readArgs",
+        loadMWG: (f: string) => et.readRaw(f, { readArgs: ["-use", "MWG"] }),
+      },
+      // ExifTool strips leading whitespace from each argument and decodes
+      // "#[CSTR]" arguments, so these load MWG too. Verified with:
+      // printf '%s\n' -j -DateTimeOriginal test/ExifTool.jpg -execute1 -use " MWG" -j -DateTimeOriginal test/ExifTool.jpg -execute2 -j -DateTimeOriginal test/ExifTool.jpg -execute3 -stay_open False | perl node_modules/exiftool-vendored.pl/bin/exiftool -stay_open True -@ -
+      ...[" MWG", "#[CSTR]MWG"].map((module) => ({
+        desc: `readRaw() with -use ${JSON.stringify(module)} in readArgs`,
+        loadMWG: (f: string) => et.readRaw(f, { readArgs: ["-use", module] }),
+      })),
+      // ExifTool reads more arguments from an -@ argument file, and accepts
+      // U+2212 as the option prefix. Verified with an argfile of "-use\nMWG\n":
+      // printf '%s\n' -j -DateTimeOriginal test/ExifTool.jpg -execute1 -j -DateTimeOriginal -@ mwg.args test/ExifTool.jpg -execute2 -j -DateTimeOriginal test/ExifTool.jpg -execute3 -stay_open False | perl node_modules/exiftool-vendored.pl/bin/exiftool -stay_open True -@ -
+      ...["-@", "\u2212@"].map((option) => ({
+        desc: `readRaw() with ${option} and an argument file`,
+        loadMWG: async (f: string) => {
+          const argfile = tmpname("mwg-") + ".args";
+          await writeFile(argfile, "-use\nMWG\n");
+          return et.readRaw(f, { readArgs: [option, argfile] });
+        },
+      })),
+      {
+        // The same command with -p and a format file of "$MWG:Description\n"
+        // also loads MWG. readRaw() rejects, as -p output isn't JSON.
+        desc: "readRaw() with -p and a format file",
+        loadMWG: async (f: string) => {
+          const fmtfile = tmpname("mwg-") + ".fmt";
+          await writeFile(fmtfile, "$MWG:Description\n");
+          return expect(
+            et.readRaw(f, { readArgs: ["-p", fmtfile] }),
+          ).to.be.rejectedWith(/JSON/);
+        },
+      },
+    ]) {
+      it(`replaces the ExifTool process after ${desc}`, async () => {
+        const f = await testImg({ srcBasename: "ExifTool.jpg" });
+        expect(await readDateTimeOriginal(et, f)).to.eql(
+          NonMwgDateTimeOriginal,
+        );
+        const retired = new Promise<void>((resolve) =>
+          et.batchCluster.on("childEnd", (_proc, why) => {
+            if (why === "retired") resolve();
+          }),
+        );
+        await loadMWG(f);
+        await retired;
+        expect(await readDateTimeOriginal(et, f)).to.eql(
+          NonMwgDateTimeOriginal,
+        );
+      });
+    }
+
+    it("gives MWG results to the command that references MWG", async () => {
+      const f = await testImg({ srcBasename: "ExifTool.jpg" });
+      const t = await et.readRaw(f, { readArgs: ["-use", "MWG"] });
+      expect(t.DateTimeOriginal).to.eql(MwgDateTimeOriginal);
+    });
+  });
 
   describe("per-call useMWG", () => {
     let et: ExifTool;

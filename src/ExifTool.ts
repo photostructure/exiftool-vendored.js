@@ -233,6 +233,28 @@ const whichPerl = lazy(async () => {
   return result;
 });
 
+// ExifTool loads MWG for `-use MWG` and for any `MWG:` group reference, such as
+// `-MWG:all` or `-MWG:Description=...`:
+const MWGArgRE = /^mwg$|mwg:/i;
+// `-@ ARGFILE`, `-p FMTFILE`, and `-printFormat FMTFILE` can do the same from a
+// file. ExifTool also accepts U+2212 as the option prefix. `-P` isn't `-p`.
+const ArgFileOptionRE = /^[-\u2212](?:@|p-?)$/;
+const PrintFormatOptionRE = /^[-\u2212]printformat-?$/i;
+
+/**
+ * @return true if ExifTool may load MWG for this command argument. False
+ * positives, like a file name that contains "mwg:", only cost an unneeded
+ * process restart.
+ */
+function mayLoadMWG(arg: string): boolean {
+  // ExifTool strips leading whitespace from each argument, or the "#[CSTR]"
+  // prefix that marks a C-string argument:
+  const a = arg.replace(/^(?:#\[CSTR\]|\s+)/, "");
+  return (
+    MWGArgRE.test(a) || ArgFileOptionRE.test(a) || PrintFormatOptionRE.test(a)
+  );
+}
+
 /**
  * Manages delegating calls to a cluster of ExifTool child processes.
  *
@@ -307,6 +329,21 @@ export class ExifTool {
       processFactory,
     };
     this.batchCluster = new bc.BatchCluster(this.options);
+
+    if (!o.useMWG) {
+      // ExifTool never unloads MWG, so retire each ExifTool process that
+      // loaded it. batch-cluster emits these events before it assigns the
+      // process another task.
+      const retireIfMWGLoaded = (task: bc.Task, proc: bc.BatchProcess) => {
+        if (task.command.split("\n").some(mayLoadMWG)) {
+          proc.requestRetirement();
+        }
+      };
+      this.batchCluster.on("taskResolved", retireIfMWGLoaded);
+      this.batchCluster.on("taskError", (_error, task, proc) =>
+        retireIfMWGLoaded(task, proc),
+      );
+    }
   }
 
   readonly exiftoolPath = lazy<Promise<string>>(async () => {

@@ -38,6 +38,8 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 On a `useMWG: true` instance, `rewriteAllTags()`, `extractThumbnail()`, `extractPreview()`, `extractJpgFromRaw()`, `extractBinaryTag()`, `extractBinaryTagToBuffer()`, `version()`, and `TagDescriptions` now also send `-use MWG`. Before, they ran with MWG only if their ExifTool process had already served a read or write. For `rewriteAllTags()`, this matters because MWG's strict mode skips non-standard EXIF, IPTC, and XMP when copying tags. Custom `enqueueTask()` tasks can pass `exiftool.options` to the `ExifToolTask` constructor to do the same.
 
+- 🐞 On a `useMWG: false` instance, a command that may load MWG anyway, by referencing an `MWG:` tag (like a `write()` key of `"MWG:Description"`) or by passing `-use MWG`, an `-@` argument file, or a `-p` format file in `readArgs` or `writeArgs`, now retires its ExifTool process afterward, so later commands don't get MWG tags. batch-cluster starts at most one new process per `minDelayBetweenSpawnMillis` (1.5 seconds by default).
+
 - 🐞 If synchronous disposal (`using`) hits `disposalTimeoutMs` and the forceful child process cleanup it then requests fails, the error is now logged instead of escaping as an unhandled rejection, which terminates Node.js by default.
 
 - 📦 Updated to ESLint 10 and enabled typescript-eslint's type-checked rules, plus rules from `eslint-plugin-n`, `eslint-plugin-regexp`, `eslint-plugin-redos`, `eslint-plugin-mocha`, and `eslint-plugin-chai-friendly`. None of the resulting fixes change runtime behavior. Editors now suggest `ThumbnailImage`, `PreviewImage`, and `JpgFromRaw` for `PreviewTag`, and tag names for `deleteAllTags()`'s `retain` option.

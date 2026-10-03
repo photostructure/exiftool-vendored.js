@@ -162,6 +162,12 @@ export interface ExifToolOptions
    * commands on the same ExifTool process get MWG tags too. To use both, create
    * two ExifTool instances.
    *
+   * With `useMWG: false`, a command that references an `MWG:` tag (like a
+   * `write()` key of `"MWG:Description"`) or passes `-use MWG` in `readArgs`
+   * or `writeArgs` still loads MWG for that command, and an `-@` argument file
+   * or `-p` format file can too. After any such command, its ExifTool process
+   * is replaced before it runs another command.
+   *
    * @default true
    * @see https://exiftool.org/TagNames/MWG.html for details
    */
