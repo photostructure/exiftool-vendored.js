@@ -472,7 +472,9 @@ export class TagDescriptions {
     }
 
     // Query ExifTool for tag information
-    const xml = await this.#exiftool.enqueueTask(() => new ListXTask());
+    const xml = await this.#exiftool.enqueueTask(
+      () => new ListXTask(this.#exiftool.options),
+    );
 
     // Parse XML and extract descriptions
     const parsed = this.#parseListX(xml, lang);

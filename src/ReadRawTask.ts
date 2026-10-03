@@ -7,6 +7,7 @@ import {
   ExifToolTask,
   ExifToolTaskProgressOptions,
   ImageHashProgressArgs,
+  UseMWGTaskOption,
 } from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { unwrapInvalidUtf8Tags } from "./InvalidUtf8Bytes";
@@ -17,7 +18,6 @@ import { hasBuiltInUtf8Filter, utf8JsonFilterArgs } from "./Utf8JsonFilter";
 export const ReadRawTaskOptionFields = [
   "readArgs",
   "ignoreMinorErrors",
-  "useMWG",
 ] as const satisfies (keyof ExifToolOptions)[];
 
 export const DefaultReadRawTaskOptions = {
@@ -30,7 +30,10 @@ export type ReadRawTaskOptions = Partial<typeof DefaultReadRawTaskOptions> &
 export class ReadRawTask extends ExifToolTask<RawTags> {
   readonly #unwrapInvalidUtf8: boolean;
 
-  static for(filename: string, options?: ReadRawTaskOptions): ReadRawTask {
+  static for(
+    filename: string,
+    options?: ReadRawTaskOptions & UseMWGTaskOption,
+  ): ReadRawTask {
     const { onProgress, ...readOptions } = options ?? {};
     const opts = { ...DefaultReadRawTaskOptions, ...readOptions };
     const readArgs = readOptions.readArgs ?? [];
@@ -42,9 +45,6 @@ export class ReadRawTask extends ExifToolTask<RawTags> {
       ...utf8JsonFilterArgs(readArgs),
     ];
     if (!args.includes("-json")) args.push("-json");
-    if (opts.useMWG) {
-      args.push("-use", "MWG");
-    }
 
     const sourceFile = _path.resolve(filename);
     args.push(sourceFile);
@@ -56,7 +56,8 @@ export class ReadRawTask extends ExifToolTask<RawTags> {
   private constructor(
     readonly sourceFile: string,
     override readonly args: string[],
-    options: Required<Omit<ReadRawTaskOptions, "onProgress">>,
+    options: Required<Omit<ReadRawTaskOptions, "onProgress">> &
+      UseMWGTaskOption,
   ) {
     super(args, options);
     this.#unwrapInvalidUtf8 = hasBuiltInUtf8Filter(args);

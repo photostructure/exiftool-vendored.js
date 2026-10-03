@@ -1,13 +1,20 @@
 import * as _path from "node:path";
 import { compact } from "./Array";
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
+import {
+  ExifToolTask,
+  ExifToolTaskOptions,
+  UseMWGTaskOption,
+} from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 
 /**
  * Task for rewriting all metadata tags in a file, which can repair corrupted metadata.
  */
 export class RewriteAllTagsTask extends ExifToolTask<void> {
-  private constructor(args: string[], options: ExifToolTaskOptions) {
+  private constructor(
+    args: string[],
+    options: ExifToolTaskOptions & UseMWGTaskOption,
+  ) {
     super(args, options);
   }
 
@@ -21,7 +28,8 @@ export class RewriteAllTagsTask extends ExifToolTask<void> {
   static for(
     imgSrc: string,
     imgDest: string,
-    opts: { allowMakerNoteRepair?: boolean } & ExifToolTaskOptions,
+    opts: { allowMakerNoteRepair?: boolean } & ExifToolTaskOptions &
+      UseMWGTaskOption,
   ): RewriteAllTagsTask {
     // -all= -tagsfromfile @ -all:all -unsafe -icc_profile bad.jpg
 

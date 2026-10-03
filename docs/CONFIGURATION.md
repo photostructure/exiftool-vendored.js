@@ -102,6 +102,15 @@ const exiftool = new ExifTool({
 });
 ```
 
+`useMWG` applies to every command an instance sends. ExifTool never unloads
+MWG once a command loads it, so `useMWG` can't be set per call. If you need
+both behaviors, create two instances:
+
+```javascript
+const exiftool = new ExifTool({ useMWG: true });
+const exiftoolWithoutMWG = new ExifTool({ useMWG: false });
+```
+
 ## Resource Cleanup
 
 With the default settings, ExifTool workers no longer keep Node.js alive after

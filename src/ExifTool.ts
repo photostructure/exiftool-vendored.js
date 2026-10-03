@@ -319,6 +319,25 @@ export class ExifTool {
   #taskOptions = lazy(() => pick(this.options, "ignoreMinorErrors"));
 
   /**
+   * @return `perCall` with this instance's `useMWG`. ExifTool never unloads
+   * MWG, so a per-call `useMWG` would also change later calls that run on the
+   * same ExifTool process.
+   *
+   * @throws if `perCall` has a `useMWG` that differs from this instance's
+   */
+  #withUseMWG<T extends object>(
+    perCall: T,
+  ): T & Pick<ExifToolOptions, "useMWG"> {
+    const { useMWG } = perCall as { useMWG?: unknown };
+    if (useMWG != null && useMWG !== this.options.useMWG) {
+      throw new Error(
+        `useMWG can't be set per call. This ExifTool instance has useMWG: ${this.options.useMWG}; create a separate instance with useMWG: ${JSON.stringify(useMWG)}.`,
+      );
+    }
+    return { ...perCall, useMWG: this.options.useMWG };
+  }
+
+  /**
    * Register life cycle event listeners. Delegates to BatchCluster.
    */
   readonly on: bc.BatchCluster["on"] = (event, listener) =>
@@ -432,7 +451,9 @@ export class ExifTool {
     };
     opts.readArgs =
       ifArray(argsOrOptions) ?? ifArray(opts.readArgs) ?? this.options.readArgs;
-    return this.enqueueTask(() => ReadTask.for(file, opts)) as Promise<T>; // < no way to know at compile time if we're going to get back a T!
+    return this.enqueueTask(() =>
+      ReadTask.for(file, this.#withUseMWG(opts)),
+    ) as Promise<T>; // < no way to know at compile time if we're going to get back a T!
   }
 
   /**
@@ -495,7 +516,9 @@ export class ExifTool {
     opts.readArgs =
       ifArray(argsOrOptions) ?? ifArray(opts.readArgs) ?? this.options.readArgs;
 
-    return this.enqueueTask(() => ReadRawTask.for(file, opts));
+    return this.enqueueTask(() =>
+      ReadRawTask.for(file, this.#withUseMWG(opts)),
+    );
   }
 
   /**
@@ -597,7 +620,10 @@ export class ExifTool {
     // don't retry because writes might not be idempotent (e.g. incrementing
     // timestamps by an hour)
     const retriable = false;
-    return this.enqueueTask(() => WriteTask.for(file, tags, opts), retriable);
+    return this.enqueueTask(
+      () => WriteTask.for(file, tags, this.#withUseMWG(opts)),
+      retriable,
+    );
   }
 
   /**
@@ -638,7 +664,7 @@ export class ExifTool {
 
     // Edits such as additions are not necessarily idempotent.
     return this.enqueueTask(
-      () => WriteTask.forTagEdits(file, edits, opts),
+      () => WriteTask.forTagEdits(file, edits, this.#withUseMWG(opts)),
       false,
     );
   }
@@ -754,10 +780,12 @@ export class ExifTool {
     // BinaryExtractionTask returns a stringified error if the output indicates
     // the task should not be retried.
     const maybeError = await this.enqueueTask(() =>
-      BinaryExtractionTask.for(tagname, src, dest, {
-        ...this.#taskOptions(),
-        ...opts,
-      }),
+      BinaryExtractionTask.for(
+        tagname,
+        src,
+        dest,
+        this.#withUseMWG({ ...this.#taskOptions(), ...opts }),
+      ),
     );
     if (maybeError != null) {
       throw new Error(maybeError);
@@ -785,10 +813,11 @@ export class ExifTool {
     opts?: ExifToolTaskOptions,
   ): Promise<Buffer> {
     const result = await this.enqueueTask(() =>
-      BinaryToBufferTask.for(tagname, imageFile, {
-        ...this.#taskOptions(),
-        ...opts,
-      }),
+      BinaryToBufferTask.for(
+        tagname,
+        imageFile,
+        this.#withUseMWG({ ...this.#taskOptions(), ...opts }),
+      ),
     );
     if (Buffer.isBuffer(result)) {
       return result;
@@ -826,11 +855,15 @@ export class ExifTool {
     opts?: { allowMakerNoteRepair?: boolean } & ExifToolTaskOptions,
   ): Promise<void> {
     return this.enqueueTask(() =>
-      RewriteAllTagsTask.for(inputFile, outputFile, {
-        allowMakerNoteRepair: false,
-        ...this.#taskOptions(),
-        ...opts,
-      }),
+      RewriteAllTagsTask.for(
+        inputFile,
+        outputFile,
+        this.#withUseMWG({
+          allowMakerNoteRepair: false,
+          ...this.#taskOptions(),
+          ...opts,
+        }),
+      ),
     );
   }
 

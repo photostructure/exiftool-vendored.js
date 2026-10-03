@@ -32,7 +32,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## History
 
-### v38.3.1
+### v39.0.0
+
+- 💔 `useMWG` can now only be set in the `ExifTool` constructor. `read()`, `readRaw()`, `write()`, and `editTags()` no longer accept it, and `DefaultReadTaskOptions`, `DefaultReadRawTaskOptions`, `DefaultWriteTaskOptions`, and `WriteTaskOptionFields` no longer include it. ExifTool never unloads MWG once a command loads it, so the per-call option gave wrong results on reused ExifTool processes: a `useMWG: false` read returned MWG tags if its process had already served a `useMWG: true` read or write, and a `useMWG: true` call made later calls on its process return MWG tags. Passing a `useMWG` that differs from the instance's now rejects. To use both, create two `ExifTool` instances.
+
+- 🐞 On a `useMWG: true` instance, `rewriteAllTags()`, `extractThumbnail()`, `extractPreview()`, `extractJpgFromRaw()`, `extractBinaryTag()`, `extractBinaryTagToBuffer()`, `version()`, and `TagDescriptions` now also send `-use MWG`. Before, they ran with MWG only if their ExifTool process had already served a read or write. For `rewriteAllTags()`, this matters because MWG's strict mode skips non-standard EXIF, IPTC, and XMP when copying tags. Custom `enqueueTask()` tasks can pass `exiftool.options` to the `ExifToolTask` constructor to do the same.
 
 - 🐞 If synchronous disposal (`using`) hits `disposalTimeoutMs` and the forceful child process cleanup it then requests fails, the error is now logged instead of escaping as an unhandled rejection, which terminates Node.js by default.
 

@@ -1,4 +1,8 @@
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
+import {
+  ExifToolTask,
+  ExifToolTaskOptions,
+  UseMWGTaskOption,
+} from "./ExifToolTask";
 
 /**
  * Task for retrieving the ExifTool version string.
@@ -9,7 +13,7 @@ export class VersionTask extends ExifToolTask<string> {
   /**
    * @param options task options
    */
-  constructor(options?: ExifToolTaskOptions) {
+  constructor(options?: ExifToolTaskOptions & UseMWGTaskOption) {
     super(["-ver"], options);
   }
 

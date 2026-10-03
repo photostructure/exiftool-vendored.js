@@ -157,6 +157,11 @@ export interface ExifToolOptions
    * in many tag value differences from `ExifTool.read`, and makes
    * `ExifTool.write` write to "synonymous" MWG tags automatically.
    *
+   * This applies to every command the instance sends, and can't be set per
+   * call: ExifTool never unloads MWG, so once one command loads it, later
+   * commands on the same ExifTool process get MWG tags too. To use both, create
+   * two ExifTool instances.
+   *
    * @default true
    * @see https://exiftool.org/TagNames/MWG.html for details
    */

@@ -17,6 +17,7 @@ import {
   ExifToolTask,
   ExifToolTaskProgressOptions,
   ImageHashProgressArgs,
+  UseMWGTaskOption,
 } from "./ExifToolTask";
 import { compareFilePaths } from "./File";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
@@ -72,7 +73,6 @@ export const ReadTaskOptionFields = [
   "preferTimezoneInferenceFromGps",
   "readArgs",
   "struct",
-  "useMWG",
 ] as const satisfies (keyof ExifToolOptions)[];
 
 const NullIsh = ["undef", "null", "undefined"];
@@ -107,7 +107,8 @@ export class ReadTask extends ExifToolTask<Tags> {
   constructor(
     readonly sourceFile: string,
     override readonly args: string[],
-    override options: Required<Omit<ReadTaskOptions, "onProgress">>,
+    override options: Required<Omit<ReadTaskOptions, "onProgress">> &
+      UseMWGTaskOption,
   ) {
     super(args, options);
     this.#unwrapInvalidUtf8 = hasBuiltInUtf8Filter(args);
@@ -117,13 +118,16 @@ export class ReadTask extends ExifToolTask<Tags> {
     this.#tags.errors = this.errors;
   }
 
-  static for(filename: string, options: ReadTaskOptions): ReadTask {
+  static for(
+    filename: string,
+    options: ReadTaskOptions & UseMWGTaskOption,
+  ): ReadTask {
     const { onProgress, ...readOptions } = options;
-    const opts: Required<Omit<ReadTaskOptions, "onProgress">> =
-      handleDeprecatedOptions({
-        ...DefaultReadTaskOptions,
-        ...readOptions,
-      });
+    const opts: Required<Omit<ReadTaskOptions, "onProgress">> &
+      UseMWGTaskOption = handleDeprecatedOptions({
+      ...DefaultReadTaskOptions,
+      ...readOptions,
+    });
     const sourceFile = _path.resolve(filename);
     const readArgs = toArray(opts.readArgs);
     const args = [
@@ -136,9 +140,6 @@ export class ReadTask extends ExifToolTask<Tags> {
     ];
     // "-api struct=undef" doesn't work: but it's the same as struct=0:
     args.push("-api", "struct=" + (isNumber(opts.struct) ? opts.struct : "0"));
-    if (opts.useMWG) {
-      args.push("-use", "MWG");
-    }
     if (opts.imageHashType != null && opts.imageHashType !== false) {
       if (!ImageHashTypes.includes(opts.imageHashType)) {
         throw new Error(

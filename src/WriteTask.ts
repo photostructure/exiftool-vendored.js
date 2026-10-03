@@ -5,7 +5,11 @@ import { isDateOrTime, toExifString } from "./DateTime";
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions";
 import { errorsAndWarnings } from "./ErrorsAndWarnings";
 import { ExifToolOptions } from "./ExifToolOptions";
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
+import {
+  ExifToolTask,
+  ExifToolTaskOptions,
+  UseMWGTaskOption,
+} from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { Maybe } from "./Maybe";
 import { isNumber, toInt } from "./Number";
@@ -83,7 +87,6 @@ function enc(
 }
 
 export const WriteTaskOptionFields = [
-  "useMWG",
   "struct",
   "ignoreMinorErrors",
   "writeArgs",
@@ -92,7 +95,6 @@ export const WriteTaskOptionFields = [
 /**
  * Options for {@link ExifTool.write}
  *
- * @see {@link ExifToolOptions#useMWG}
  * @see {@link ExifToolOptions#struct}
  * @see {@link ExifToolOptions#ignoreMinorErrors}
  * @see {@link ExifToolOptions#writeArgs}
@@ -142,7 +144,7 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   constructor(
     readonly sourceFile: string,
     override readonly args: string[],
-    override readonly options: ExifToolTaskOptions,
+    override readonly options: ExifToolTaskOptions & UseMWGTaskOption,
   ) {
     super(args, options);
   }
@@ -157,7 +159,9 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   static for(
     filename: string,
     tags: WriteTags,
-    options: Partial<WriteTaskOptions> & Required<ExifToolTaskOptions>,
+    options: Partial<WriteTaskOptions> &
+      Required<ExifToolTaskOptions> &
+      UseMWGTaskOption,
   ): WriteTask {
     // Special handling for GPSLatitude and GPSLongitude (due to differences
     // in EXIF, XMP, and MIE encodings). See
@@ -216,7 +220,9 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   static forTagEdits(
     filename: string,
     edits: readonly TagEdit[],
-    options: Partial<WriteTaskOptions> & Required<ExifToolTaskOptions>,
+    options: Partial<WriteTaskOptions> &
+      Required<ExifToolTaskOptions> &
+      UseMWGTaskOption,
   ): WriteTask {
     for (const arg of toArray(options.writeArgs)) {
       if (/^-(?:api|sep)/i.test(arg)) {
@@ -243,7 +249,9 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
   static #forFields(
     filename: string,
     fieldsToSet: string[],
-    options: Partial<WriteTaskOptions> & Required<ExifToolTaskOptions>,
+    options: Partial<WriteTaskOptions> &
+      Required<ExifToolTaskOptions> &
+      UseMWGTaskOption,
   ): WriteTask {
     const sourceFile = _path.resolve(filename);
     const args: string[] = [
@@ -259,10 +267,6 @@ export class WriteTask extends ExifToolTask<WriteTaskResult> {
       "-api",
       "struct=" + (isNumber(options?.struct) ? options.struct : "2"),
     );
-
-    if (options?.useMWG ?? DefaultWriteTaskOptions.useMWG) {
-      args.push("-use", "MWG");
-    }
 
     if (fieldsToSet.length === 0) {
       // This is a hack to prevent ExifTool from thinking it should be in "read"

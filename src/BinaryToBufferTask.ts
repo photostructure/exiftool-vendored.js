@@ -1,5 +1,9 @@
 import path from "node:path";
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
+import {
+  ExifToolTask,
+  ExifToolTaskOptions,
+  UseMWGTaskOption,
+} from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { Maybe } from "./Maybe";
 import { notBlank } from "./String";
@@ -13,7 +17,7 @@ export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
   private constructor(
     readonly tagname: string,
     args: string[],
-    options?: ExifToolTaskOptions,
+    options?: ExifToolTaskOptions & UseMWGTaskOption,
   ) {
     super(args, options);
   }
@@ -21,7 +25,7 @@ export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
   static for(
     tagname: string,
     imgSrc: string,
-    options?: ExifToolTaskOptions,
+    options?: ExifToolTaskOptions & UseMWGTaskOption,
   ): BinaryToBufferTask {
     validateTagName(tagname);
     const args = [...Utf8FilenameCharsetArgs, "-json", "-b", "-" + tagname];

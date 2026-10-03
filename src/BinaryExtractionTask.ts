@@ -1,7 +1,7 @@
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { ExifToolOptions } from "./ExifToolOptions";
-import { ExifToolTask } from "./ExifToolTask";
+import { ExifToolTask, UseMWGTaskOption } from "./ExifToolTask";
 import { Utf8FilenameCharsetArgs } from "./FilenameCharsetArgs";
 import { Maybe } from "./Maybe";
 import { toS } from "./String";
@@ -20,7 +20,10 @@ const StdoutRe = /\b(\d+) output files? created/i;
  * everything seems to have worked.
  */
 export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
-  private constructor(args: string[], options?: BinaryExtractionTaskOptions) {
+  private constructor(
+    args: string[],
+    options?: BinaryExtractionTaskOptions & UseMWGTaskOption,
+  ) {
     super(args, options);
   }
 
@@ -36,7 +39,7 @@ export class BinaryExtractionTask extends ExifToolTask<Maybe<string>> {
     tagname: string,
     imgSrc: string,
     imgDest: string,
-    options?: BinaryExtractionTaskOptions,
+    options?: BinaryExtractionTaskOptions & UseMWGTaskOption,
   ): BinaryExtractionTask {
     validateTagName(tagname);
     // Ensure the destination directory exists:

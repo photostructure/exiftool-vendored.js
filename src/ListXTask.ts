@@ -1,4 +1,8 @@
-import { ExifToolTask, ExifToolTaskOptions } from "./ExifToolTask";
+import {
+  ExifToolTask,
+  ExifToolTaskOptions,
+  UseMWGTaskOption,
+} from "./ExifToolTask";
 
 /**
  * Task for retrieving the ExifTool tag information in XML format.
@@ -8,7 +12,7 @@ export class ListXTask extends ExifToolTask<string> {
   /**
    * @param options task options
    */
-  constructor(options?: ExifToolTaskOptions) {
+  constructor(options?: ExifToolTaskOptions & UseMWGTaskOption) {
     // -listx outputs XML tag information
     super(["-listx"], options);
   }

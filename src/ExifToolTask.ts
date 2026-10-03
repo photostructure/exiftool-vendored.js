@@ -23,6 +23,12 @@ export const ImageHashProgressArgs = ["-api", "imagehashprogress=1"];
 
 export type ExifToolTaskOptions = Pick<ExifToolOptions, "ignoreMinorErrors">;
 
+/**
+ * Every command an ExifTool instance sends gets `useMWG` from that instance,
+ * never from a single call. See {@link ExifToolOptions.useMWG}.
+ */
+export type UseMWGTaskOption = Partial<Pick<ExifToolOptions, "useMWG">>;
+
 export interface ExifToolTaskProgressOptions {
   /**
    * Called with the bytes of image data ExifTool has hashed for this file,
@@ -38,7 +44,10 @@ export interface ExifToolTaskProgressOptions {
 }
 
 export abstract class ExifToolTask<T> extends bc.Task<T> {
-  static renderCommand(args: string[], options?: ExifToolTaskOptions): string {
+  static renderCommand(
+    args: string[],
+    options?: ExifToolTaskOptions & UseMWGTaskOption,
+  ): string {
     const result = args.filter((ea) => !blank(ea));
     // Defense-in-depth: exiftool is launched with `-stay_open True -@ -` so
     // args are separated by newlines. Any \r \n or NUL inside an arg would
@@ -56,6 +65,9 @@ export abstract class ExifToolTask<T> extends bc.Task<T> {
     }
     if (options?.ignoreMinorErrors === true) {
       result.push("-ignoreMinorErrors");
+    }
+    if (options?.useMWG === true) {
+      result.push("-use", "MWG");
     }
     result.push("-execute");
     return result.join("\n") + "\n";
@@ -84,9 +96,13 @@ export abstract class ExifToolTask<T> extends bc.Task<T> {
   #hashedBytes = -1;
   #onProgressError: Maybe<Error>;
 
+  /**
+   * @param options pass the ExifTool instance's `useMWG` so this command
+   * matches every other command the instance sends.
+   */
   constructor(
     readonly args: string[],
-    readonly options?: ExifToolTaskOptions,
+    readonly options?: ExifToolTaskOptions & UseMWGTaskOption,
   ) {
     super(ExifToolTask.renderCommand(args, options), (stdout, stderr, passed) =>
       this.#parser(stdout, stderr, passed),
