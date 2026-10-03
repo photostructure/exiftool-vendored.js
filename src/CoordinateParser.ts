@@ -32,7 +32,7 @@ export interface CoordinateResult {
 }
 
 // Regex to match simple decimal coordinates, like "37.5, -122.5"
-const DecimalCoordsRE = /^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/;
+const DecimalCoordsRE = /^-?\d+(?:\.\d+)?[,\s]+-?\d+(?:\.\d+)?$/;
 
 /**
  * Parses a string containing both latitude and longitude coordinates.
@@ -131,7 +131,7 @@ export function parseDecimalCoordinate(
   return { decimal: toDecimalDegrees(coord), direction: coord.direction };
 }
 
-const DecimalCoordRE = /^(-?\d+(?:\.\d+)?)$/;
+const DecimalCoordRE = /^-?\d+(?:\.\d+)?$/;
 
 /**
  * Parses a single coordinate string into its components.

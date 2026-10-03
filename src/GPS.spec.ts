@@ -4,7 +4,7 @@ describe("parseGPSLocation", () => {
   const defaultOpts = { ignoreZeroZeroLatLon: false };
 
   it("should return empty object when no GPS data present", () => {
-    const result = parseGPSLocation({} as GpsLocationTags, defaultOpts);
+    const result = parseGPSLocation({}, defaultOpts);
     expect(result).to.containSubset({ invalid: false });
   });
 
@@ -17,7 +17,7 @@ describe("parseGPSLocation", () => {
     expect(result.invalid).to.eql(true);
     expect(result.warnings?.some((w) => /Ignoring zero/.test(w))).to.eql(
       true,
-      `Expected warning about zero coordinates, but got: ${result.warnings}`,
+      `Expected warning about zero coordinates, but got: ${JSON.stringify(result.warnings)}`,
     );
   });
 

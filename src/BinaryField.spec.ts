@@ -12,7 +12,7 @@ describe("BinaryField", () => {
     it("rejects EXIF date time", () => {
       expect(BinaryField.fromRawValue("2022:10:21 14:55:32")).to.eql(undefined);
     });
-    it("accepts ExifTool's binary data value", async () => {
+    it("accepts ExifTool's binary data value", () => {
       const rawValue = "(Binary data 2506078 bytes, use -b option to extract)";
       const actual = BinaryField.fromRawValue(rawValue);
       expect(actual).to.containSubset({

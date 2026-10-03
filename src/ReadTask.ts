@@ -113,7 +113,7 @@ export class ReadTask extends ExifToolTask<Tags> {
     this.#unwrapInvalidUtf8 = hasBuiltInUtf8Filter(args);
     // See https://github.com/photostructure/exiftool-vendored.js/issues/147#issuecomment-1642580118
     this.degroup = this.args.includes("-G");
-    this.#tags = { SourceFile: sourceFile } as Tags;
+    this.#tags = { SourceFile: sourceFile };
     this.#tags.errors = this.errors;
   }
 
@@ -187,7 +187,9 @@ export class ReadTask extends ExifToolTask<Tags> {
         /"((?:ExifTool:)?ExifToolVersion)"\s*:\s*(\d+(?:\.\d+)?)/,
         '"$1":"$2"',
       );
-      const parsed = JSON.parse(versionFixedData)[0] as Record<string, unknown>;
+      const [parsed] = JSON.parse(versionFixedData) as [
+        Record<string, unknown>,
+      ];
       const decoded = this.#unwrapInvalidUtf8
         ? unwrapInvalidUtf8Tags(parsed)
         : { tags: parsed };
@@ -338,7 +340,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       }
     } catch (error) {
       this.warnings.push(
-        "Failed to determine timezone from GPS coordinates: " + error,
+        "Failed to determine timezone from GPS coordinates: " + String(error),
       );
     }
     return;
@@ -469,7 +471,7 @@ export class ReadTask extends ExifToolTask<Tags> {
       return value;
     } catch (e) {
       this.warnings.push(
-        `Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${e}`,
+        `Failed to parse ${tagName} with value ${JSON.stringify(value)}: ${String(e)}`,
       );
       return value;
     }

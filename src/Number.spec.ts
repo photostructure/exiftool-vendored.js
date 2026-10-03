@@ -103,7 +103,7 @@ describe("Number", () => {
 
   describe("isFloat()", () => {
     examples.forEach(({ n, isFractional }) => {
-      it(JSON.stringify(n) + " => " + isFloat, () =>
+      it(JSON.stringify(n) + " => " + isFractional, () =>
         expect(isFloat(n)).to.eql(isFractional),
       );
     });

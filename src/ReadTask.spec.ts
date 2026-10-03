@@ -765,7 +765,7 @@ describe("ReadTask", () => {
     });
 
     describe("try to reproduce issue #118", () => {
-      it("invalid GPSTimeStamp doesn't throw", async () => {
+      it("invalid GPSTimeStamp doesn't throw", () => {
         const t = parse({
           tags: {
             GPSTimeStamp: "1970:01:01 00:00:00Z", // < INVALID, this field is always a timestamp without a date

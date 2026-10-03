@@ -234,7 +234,7 @@ describe("Timezones", () => {
     ];
 
     for (const { zone, exp } of ex) {
-      it(`("${zone}") => ${JSON.stringify(exp)}`, () => {
+      it(`("${String(zone)}") => ${JSON.stringify(exp)}`, () => {
         expect(extractZone(zone)).to.containSubset(exp);
       });
     }

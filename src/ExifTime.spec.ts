@@ -64,9 +64,6 @@ describe("ExifTime", () => {
   it("renders EXIF for 01:02:03", () => {
     expect(toExifString(new ExifTime(1, 2, 3))).to.eql("01:02:03");
   });
-  it("renders EXIF for 01:02:03", () => {
-    expect(toExifString(new ExifTime(1, 2, 3))).to.eql("01:02:03");
-  });
 
   describe("rejects invalid raw values", () => {
     for (const ea of [

@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import { copyFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {

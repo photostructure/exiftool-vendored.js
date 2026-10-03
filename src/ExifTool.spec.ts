@@ -1,4 +1,3 @@
-import { BatchCluster } from "batch-cluster";
 import * as _fs from "node:fs";
 import * as _path from "node:path";
 import { BinaryField } from "./BinaryField";
@@ -287,7 +286,7 @@ describe("ExifTool", function () {
             const tags = await Promise.all(promises);
 
             // I don't want to expose the .batchCluster field as part of the public API:
-            const bc = et2["batchCluster"] as BatchCluster;
+            const bc = et2["batchCluster"];
             expect(bc.spawnedProcCount).to.be.gte(maxProcs);
             expect(bc.meanTasksPerProc).to.be.within(
               maxTasksPerProcess / 2,

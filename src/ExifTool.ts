@@ -658,7 +658,9 @@ export class ExifTool {
    */
   async deleteAllTags(
     file: string,
-    opts?: { retain?: (keyof Tags | string)[] } & Partial<ExifToolTaskOptions>,
+    opts?: {
+      retain?: (keyof Tags | (string & {}))[];
+    } & Partial<ExifToolTaskOptions>,
   ): Promise<WriteTaskResult> {
     const writeArgs = [...DeleteAllTagsArgs];
     for (const ea of opts?.retain ?? []) {

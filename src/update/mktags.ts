@@ -867,7 +867,6 @@ const ExcludedTagRe = new RegExp(
     "AEC",
     "AFR",
     "AFS",
-    "AFStatus_",
     "AFTrace",
     "AFV",
     "ASF\\d",
@@ -904,7 +903,7 @@ const ExcludedTagRe = new RegExp(
     "TL84",
     "WB[_\\d]",
     "YhiY",
-    "\\w{6,}\\d{1,2}$",
+    "\\w{6,}\\d$",
   ].join("|"),
 );
 
@@ -962,17 +961,18 @@ setLogger(
 );
 
 process.on("uncaughtException", (error: unknown) => {
-  console.error("Caught uncaughtException: " + error);
+  console.error("Caught uncaughtException: " + String(error));
 });
 
 process.on("unhandledRejection", (reason: unknown) => {
-  console.error("Caught unhandledRejection: " + reason);
+  console.error("Caught unhandledRejection: " + String(reason));
 });
 
 function usage() {
   console.log("Usage: `npm run mktags IMG_DIR`");
   console.log("\nRebuilds src/Tags.ts from tags found in IMG_DIR.");
 
+  // eslint-disable-next-line n/no-process-exit -- CLI usage error
   process.exit(1);
 }
 
@@ -994,12 +994,12 @@ const files = roots
       nocase: true,
       nodir: true,
       absolute: true,
-    } as any);
+    });
   })
   .reduce((prev, curr) => prev.concat(curr));
 
 if (files.length === 0) {
-  console.error(`No files found in ${roots}`);
+  console.error(`No files found in ${roots.join(",")}`);
   usage();
 }
 
@@ -1533,7 +1533,7 @@ async function readAndAddToTagMap(file: string) {
       bar.interrupt(`Error from ${file}: ${tags.errors}`);
     }
   } catch (err) {
-    bar.interrupt(`Error from ${file}: ${err}`);
+    bar.interrupt(`Error from ${file}: ${String(err)}`);
     failedFiles.push(file);
   }
   ticks++;
@@ -1551,7 +1551,7 @@ async function readAndAddToTagMap(file: string) {
 const start = Date.now();
 
 process.on("unhandledRejection", (reason) => {
-  console.error("Unhandled rejection: " + reason);
+  console.error("Unhandled rejection: " + String(reason));
 });
 
 function escapeKey(s: string): string {

@@ -32,7 +32,7 @@ function wireValue(value: unknown): InvalidUtf8WireValue | undefined {
   if (value == null || typeof value !== "object" || Array.isArray(value)) {
     return;
   }
-  const outerEntries = Object.entries(value);
+  const outerEntries = Object.entries(value as Record<string, unknown>);
   if (outerEntries.length !== 1 || outerEntries[0]?.[0] !== InvalidUtf8Marker) {
     return;
   }

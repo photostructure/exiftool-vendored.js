@@ -356,7 +356,7 @@ describe("ExifDateTime", () => {
     it("retains values with no zone", () => {
       console.dir({ timestamp: ts });
       // we want a timestamp where adding a second won't change the minute:
-      const e = ExifDateTime.fromMillis(ts)!;
+      const e = ExifDateTime.fromMillis(ts);
       expect(e.hasZone).to.eql(false);
       const json = e.toJSON();
       const e2 = e.plus({ seconds: 1 })!;
@@ -369,7 +369,7 @@ describe("ExifDateTime", () => {
     it("retains values with zone", () => {
       const zoneStr = "UTC+6";
       // we want a timestamp where adding a second won't change the minute:
-      const e = ExifDateTime.fromMillis(ts)!.setZone(zoneStr)!;
+      const e = ExifDateTime.fromMillis(ts).setZone(zoneStr)!;
       expect(e.hasZone).to.eql(true);
       const json = e.toJSON();
       const e2 = e.plus({ seconds: 1 })!;

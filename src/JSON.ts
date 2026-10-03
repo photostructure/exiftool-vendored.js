@@ -37,6 +37,7 @@ const Revivers: Record<string, (value: JsonObject) => unknown> = {
  * - `invalidUtf8Bytes` sidecars are revived as nested `Uint8Array` values
  */
 export function parseJSON(s: string) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- parseJSON() has always returned `any`; `unknown` would break callers
   return JSON.parse(s, (key, value: Json) => {
     if (
       typeof value === "object" &&

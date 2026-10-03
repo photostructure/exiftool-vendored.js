@@ -145,7 +145,7 @@ describe("ExifTool disposal", () => {
   });
 
   // This test demonstrates the usage with TypeScript 5.2+
-  it("should work with using keyword", async () => {
+  it("should work with using keyword", () => {
     let _: any; // < to hold reference outside using block
     {
       using et = new ExifTool();

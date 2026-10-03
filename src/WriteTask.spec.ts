@@ -185,7 +185,7 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest(),
             tagName: textTagName,
-            inputValue: "new comment from " + new Date(),
+            inputValue: "new comment from " + new Date().toString(),
           });
         });
 
@@ -193,7 +193,7 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest(),
             tagName: textTagName,
-            inputValue: "a\rnew\ncomment\n\r\tfrom\r\n" + new Date(),
+            inputValue: "a\rnew\ncomment\n\r\tfrom\r\n" + new Date().toString(),
           });
         });
 
@@ -201,7 +201,7 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest(),
             tagName: textTagName,
-            inputValue: "早安晨之美" + new Date(),
+            inputValue: "早安晨之美" + new Date().toString(),
           });
         });
 
@@ -209,7 +209,7 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest(),
             tagName: textTagName,
-            inputValue: "⌚✨💑🏽👰🏽🦏🌈🦍🦄🧑‍🤝‍🧑🚵‍♀️ " + new Date(),
+            inputValue: "⌚✨💑🏽👰🏽🦏🌈🦍🦄🧑‍🤝‍🧑🚵‍♀️ " + new Date().toString(),
           });
         });
 
@@ -217,7 +217,7 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest("中文.jpg"),
             tagName: textTagName,
-            inputValue: "new comment from " + new Date(),
+            inputValue: "new comment from " + new Date().toString(),
           });
         });
 
@@ -225,7 +225,7 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest("中文.jpg"),
             tagName: textTagName,
-            inputValue: "早安晨之美" + new Date(),
+            inputValue: "早安晨之美" + new Date().toString(),
           });
         });
 
@@ -233,7 +233,7 @@ describe("WriteTask", function () {
           return assertRoundTrip({
             dest: await dest(),
             tagName: textTagName,
-            inputValue: "مرحبا بالعالم " + new Date(),
+            inputValue: "مرحبا بالعالم " + new Date().toString(),
           });
         });
 
@@ -511,7 +511,7 @@ describe("WriteTask", function () {
           expect(
             (
               await exiftool.write(src, {
-                DateTimeOriginal: "this is not a time" as any,
+                DateTimeOriginal: "this is not a time",
               })
             ).warnings?.join("\n"),
           ).to.match(/Invalid date\/time/);
@@ -591,7 +591,7 @@ describe("WriteTask", function () {
             "Orientation#": 3,
             ExposureTime,
             UserComment,
-          } as WriteTags);
+          });
 
           {
             expect(await isFileEmpty(src)).to.eql(false);
@@ -603,7 +603,7 @@ describe("WriteTask", function () {
             });
           }
 
-          await exiftool.write(src, { Orientation: null } as WriteTags);
+          await exiftool.write(src, { Orientation: null });
 
           {
             expect(await isFileEmpty(src)).to.eql(false);
@@ -936,7 +936,7 @@ describe("WriteTask", function () {
 
     function isIntrinsticTag(
       k: string,
-    ): k is keyof (FileTags | ExifToolTags | ExifToolVendoredTags) {
+    ): k is keyof FileTags | keyof ExifToolTags | keyof ExifToolVendoredTags {
       return (
         FileTagsNames.includes(k) ||
         ExifToolTagsNames.includes(k) ||
@@ -988,7 +988,7 @@ describe("WriteTask", function () {
         const after = await exiftool.read(img);
         assertMissingGeneralTags(after);
         expect(after).to.haveOwnProperty(key);
-        for (const k in Object.keys(ImageExifData)) {
+        for (const k of Object.keys(ImageExifData)) {
           if (k !== key) {
             expect(after).to.not.haveOwnProperty(k);
           }

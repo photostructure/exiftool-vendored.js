@@ -31,7 +31,7 @@ export class BinaryToBufferTask extends ExifToolTask<Buffer | Error> {
 
   parse(data: string, err?: Error): Buffer | Error {
     try {
-      const obj = JSON.parse(data)?.[0];
+      const [obj] = JSON.parse(data) as [Record<string, Maybe<string>>];
       // did they get the casing right?
       {
         const result = decode(obj[this.tagname]);

@@ -61,7 +61,7 @@ describe("Array", () => {
       { a: ["a", 1], b: ["a ", 1], exp: false },
     ]) {
       it(`(${JSON.stringify(a)}, ${JSON.stringify(b)}) -> ${exp}`, () => {
-        expect(shallowArrayEql(a as any, b as any)).to.eql(exp);
+        expect(shallowArrayEql(a, b as any)).to.eql(exp);
       });
     }
   });

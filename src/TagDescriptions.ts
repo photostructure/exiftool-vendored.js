@@ -567,6 +567,7 @@ export class TagDescriptions {
     // Simple regex-based parsing - more robust than DOM for large files
     // Format: <tag ... name='TagName' ...><desc lang='en'>Description</desc>...</tag>
     const tagRegex =
+      // eslint-disable-next-line redos/no-vulnerable -- only parses the -listx output of ExifTool's own tag tables, not file metadata
       /<tag[^>]*\sname=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/tag>/gi;
     // Escape by hand: RegExp.escape() needs Node 24, and we support Node 22.
     const escapedLang = lang.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

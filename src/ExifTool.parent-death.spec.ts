@@ -84,7 +84,7 @@ describe("hard parent death", function () {
     });
     const ready = new Promise<number>((resolve, reject) => {
       const inspectOutput = () => {
-        const match = /EXIFTOOL_PARENT_DEATH_READY ({[^\n]+})/.exec(stdout);
+        const match = /EXIFTOOL_PARENT_DEATH_READY (\{[^\n]+\})/.exec(stdout);
         if (match?.[1] != null) {
           const parsed = JSON.parse(match[1]) as { pid: number };
           resolve(parsed.pid);

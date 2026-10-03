@@ -6,6 +6,7 @@ export function isString(o: unknown): o is string {
 }
 
 export function blank(s: unknown): s is undefined {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string -- coerces any input by design
   return s == null || String(s).trim().length === 0;
 }
 
@@ -35,6 +36,7 @@ function padding(padChar: "0" | " ", count: number): string {
 }
 
 export function toS(s: Maybe<unknown>): string {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string -- coerces any input by design
   return s == null ? "" : String(s);
 }
 

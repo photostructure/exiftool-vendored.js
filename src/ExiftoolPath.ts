@@ -15,8 +15,8 @@ async function tryImport({
 }: { prefix?: string; logger?: Maybe<Logger> } = {}): Promise<Maybe<string>> {
   const id = prefix + vendorPackage();
   try {
-    const module = await import(id);
-    return module.default ?? module;
+    const module = (await import(id)) as { default: string };
+    return module.default;
   } catch (error) {
     logger?.warn(id + " not found: ", error);
     return;

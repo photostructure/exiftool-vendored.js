@@ -31,11 +31,13 @@ async function main() {
   // the spec spawns this manager detached, so it survives a Ctrl-C aimed at the
   // test runner. An unbounded keep-alive would leak exactly the orphaned
   // manager/ExifTool pair that this test exists to prevent.
+  // eslint-disable-next-line n/no-process-exit -- this child process reports to ExifTool.parent-death.spec.ts through its exit code
   timers.setTimeout(() => process.exit(3), 120_000);
 }
 
 main().catch(async (err: unknown) => {
   await et?.end(false);
   process.stderr.write(String(err) + "\n");
+  // eslint-disable-next-line n/no-process-exit -- see above
   process.exit(1);
 });

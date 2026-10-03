@@ -16,6 +16,7 @@ export function toFloat(n: unknown): Maybe<number> {
   if (n == null) return;
   if (isNumber(n)) return n;
   try {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- coerces any input by design
     const f = parseFloat(String(n).trim());
     return isNumber(f) ? f : undefined;
   } catch {
@@ -30,6 +31,7 @@ export function toInt(n: unknown): Maybe<number> {
     return Math.floor(n);
   }
   try {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- coerces any input by design
     return parseInt(String(n).trim());
   } catch {
     return undefined;

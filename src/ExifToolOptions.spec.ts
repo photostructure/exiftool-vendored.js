@@ -1,4 +1,4 @@
-import { join } from "path";
+import { join } from "node:path";
 import { ExifDateTime } from "./ExifDateTime";
 import { DefaultExifToolOptions, ExifTool } from "./ExifTool";
 import { ExifToolOptions, handleDeprecatedOptions } from "./ExifToolOptions";

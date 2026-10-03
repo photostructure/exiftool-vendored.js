@@ -200,13 +200,13 @@ export function parseGPSLocation(
     try {
       latitude = _parseCoordinate(tags.GPSLatitude);
     } catch (e) {
-      warnings.push(`Error parsing GPSLatitude: ${e}`);
+      warnings.push(`Error parsing GPSLatitude: ${String(e)}`);
     }
 
     try {
       longitude = _parseCoordinate(tags.GPSLongitude);
     } catch (e) {
-      warnings.push(`Error parsing GPSLongitude: ${e}`);
+      warnings.push(`Error parsing GPSLongitude: ${String(e)}`);
     }
 
     // If either coordinate is missing, try GPSPosition
@@ -215,7 +215,7 @@ export function parseGPSLocation(
         try {
           return _parseCoordinates(tags.GPSPosition);
         } catch (e) {
-          warnings.push(`Error parsing GPSPosition: ${e}`);
+          warnings.push(`Error parsing GPSPosition: ${String(e)}`);
           return undefined;
         }
       });
@@ -240,7 +240,7 @@ export function parseGPSLocation(
     try {
       geoPos = _parseCoordinates(tags.GeolocationPosition);
     } catch (e) {
-      warnings.push(`Error parsing GeolocationPosition: ${e}`);
+      warnings.push(`Error parsing GeolocationPosition: ${String(e)}`);
     }
 
     // Process coordinates with validation and ref-based sign correction
@@ -287,7 +287,7 @@ export function parseGPSLocation(
       warnings,
     };
   } catch (e) {
-    warnings.push(`Error parsing coordinates: ${e}`);
+    warnings.push(`Error parsing coordinates: ${String(e)}`);
     return { invalid: true, warnings };
   }
 }

@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 import crypto from "node:crypto";
 import { copyFile } from "node:fs/promises";
 import path from "node:path";
@@ -89,10 +89,7 @@ describe("BinaryToBufferTask", () => {
   it("rejects argument-injection via tagname", async () => {
     const src = path.join(testDir, "with_thumb.jpg");
     return expect(
-      exiftool.extractBinaryTagToBuffer(
-        "ThumbnailImage\n-p\n/etc/passwd" as any,
-        src,
-      ),
+      exiftool.extractBinaryTagToBuffer("ThumbnailImage\n-p\n/etc/passwd", src),
     ).to.be.rejectedWith(/Invalid tag name|control character/);
   });
 });

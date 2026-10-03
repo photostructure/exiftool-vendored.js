@@ -36,6 +36,8 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 If synchronous disposal (`using`) hits `disposalTimeoutMs` and the forceful child process cleanup it then requests fails, the error is now logged instead of escaping as an unhandled rejection, which terminates Node.js by default.
 
+- 📦 Updated to ESLint 10 and enabled typescript-eslint's type-checked rules, plus rules from `eslint-plugin-n`, `eslint-plugin-regexp`, `eslint-plugin-redos`, `eslint-plugin-mocha`, and `eslint-plugin-chai-friendly`. None of the resulting fixes change runtime behavior. Editors now suggest `ThumbnailImage`, `PreviewImage`, and `JpgFromRaw` for `PreviewTag`, and tag names for `deleteAllTags()`'s `retain` option.
+
 ### v38.3.0
 
 - 🔥 `TagDescriptions` no longer caches descriptions in a shared `exiftool-vendored` directory under `os.tmpdir()`. On a multi-user Linux host, another local user could plant forged descriptions there, or a symlink that redirected the cache write to another file. Descriptions are now cached on disk only if you pass `cacheDir`; without it, each process runs `exiftool -listx` on its first load.

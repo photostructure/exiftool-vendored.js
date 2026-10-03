@@ -24,5 +24,5 @@ export function lazy<T>(thunk: () => T): Lazy<T> {
     result = undefined as unknown as T;
     error = undefined as unknown as Error;
   };
-  return f as Lazy<T>;
+  return f;
 }

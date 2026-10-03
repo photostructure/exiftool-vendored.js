@@ -145,7 +145,7 @@ describe("TagDescriptions", function () {
     let descriptions: TagDescriptions;
     let testCacheDir: string;
 
-    before(async function () {
+    before(function () {
       testCacheDir = join(tmpdir(), "exiftool-test-" + randomChars());
       mkdirSync(testCacheDir, { recursive: true });
       descriptions = new TagDescriptions(exiftool, {

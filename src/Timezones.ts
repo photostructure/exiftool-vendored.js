@@ -304,7 +304,7 @@ export function isUTC(zone: unknown): boolean {
     return false;
   }
   if (typeof zone === "string" || typeof zone === "number") {
-    return Zulus.includes(zone as string | number);
+    return Zulus.includes(zone);
   }
   if (isZone(zone)) {
     return zone.isUniversal && zone.offset(Date.now()) === 0;
@@ -796,7 +796,9 @@ export function offsetMinutesToZoneName(
   const hours = Math.floor(absMinutes / 60);
   const minutes = Math.abs(absMinutes % 60);
   // luxon now renders simple hour offsets without padding:
-  return `UTC${sign}` + hours + (minutes === 0 ? "" : `:${pad2(minutes)}`);
+  return (
+    `UTC${sign}` + hours + (minutes === 0 ? "" : `:${pad2(minutes).join("")}`)
+  );
 }
 
 function tzHourToOffset(n: unknown): Maybe<string> {
@@ -1352,7 +1354,7 @@ export function extractTzOffsetFromUTCOffset(
     GPSDateTimeStamp: map2(
       toNotBlank(t.GPSDateStamp), // Example: "2022:04:13"
       toNotBlank(t.GPSTimeStamp), // Example: "23:59:41.001"
-      (a, b) => a + " " + b,
+      (a, b) => a.toString() + " " + b.toString(),
     ),
   };
 

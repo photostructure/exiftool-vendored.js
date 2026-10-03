@@ -19,7 +19,7 @@
  *
  * See https://exiftool.org/TagNames/ and https://exiftool.org/exiftool_pod.html
  */
-const ValidTagNameRE = /^[A-Za-z0-9_:*?+#^][A-Za-z0-9_:\-*?+#^]*$/;
+const ValidTagNameRE = /^[\w:*?+#^][\w:\-*?+#^]*$/;
 
 /**
  * Throw if `name` is not a safe ExifTool tag reference.

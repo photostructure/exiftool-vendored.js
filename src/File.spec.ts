@@ -57,6 +57,7 @@ describe("File", () => {
     });
 
     if (isWin32()) {
+      // eslint-disable-next-line mocha/no-conditional-tests -- Windows-only behavior
       it("handles different path separators on Windows", () => {
         expect(compareFilePaths("/path/to/file", "\\path\\to/file")).to.eql(
           true,

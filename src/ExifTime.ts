@@ -87,7 +87,9 @@ export class ExifTime {
   }
 
   #subsec() {
-    return this.millisecond == null ? "" : "." + pad3(this.millisecond);
+    return this.millisecond == null
+      ? ""
+      : "." + pad3(this.millisecond).join("");
   }
 
   #shortZone() {

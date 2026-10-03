@@ -137,7 +137,7 @@ function editContext(index: number): string {
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (value == null || typeof value !== "object") return false;
-  const prototype = Object.getPrototypeOf(value);
+  const prototype: unknown = Object.getPrototypeOf(value);
   return prototype === Object.prototype || prototype === null;
 }
 
@@ -150,13 +150,17 @@ function validateSupportedTagName(
 
   const parts = (tag as string).split(":");
   if (parts.length < 2 || parts.some((part) => part.length === 0)) {
-    throw new Error(`${context} must use a group-qualified tag name: ${tag}`);
+    throw new Error(
+      `${context} must use a group-qualified tag name: ${tag as string}`,
+    );
   }
   const canonical = CanonicalTagNamesByLowercase.get(
     (tag as string).toLowerCase(),
   );
   if (canonical == null) {
-    throw new Error(`${context} tag is not supported for exact edits: ${tag}`);
+    throw new Error(
+      `${context} tag is not supported for exact edits: ${tag as string}`,
+    );
   }
   if (tag !== canonical) {
     throw new Error(`${context} must use canonical tag casing ${canonical}`);
@@ -247,7 +251,7 @@ function validateCollectionFields(
     if (descriptor == null || !("value" in descriptor)) {
       throw new Error(`${context} Collection fields must be data properties`);
     }
-    const fieldValue = descriptor.value;
+    const fieldValue: unknown = descriptor.value;
     if (typeof fieldValue !== "string") {
       throw new Error(`${context} Collection ${field} must be a string`);
     }
@@ -298,10 +302,7 @@ function rejectUnorderableConflicts(edits: readonly TagEdit[]): void {
       const conflicts =
         addition.tag === CollectionEditTagName &&
         removal.tag === CollectionEditTagName
-          ? collectionMatches(
-              (addition as AddCollectionEdit).value,
-              (removal as RemoveCollectionEdit).predicate,
-            )
+          ? collectionMatches(addition.value, removal.predicate)
           : "value" in addition &&
             "value" in removal &&
             (addition as AddTagEdit).value === (removal as RemoveTagEdit).value;
@@ -340,7 +341,7 @@ export function validateTagEdits(
     const operation = edit.operation;
     validateSupportedTagName(tag, index);
     if (operation !== "add" && operation !== "remove") {
-      throw new Error(`${context} has invalid operation ${operation}`);
+      throw new Error(`${context} has invalid operation ${String(operation)}`);
     }
     const hasValue = Object.hasOwn(edit, "value");
     const hasPredicate = Object.hasOwn(edit, "predicate");
@@ -366,11 +367,7 @@ export function validateTagEdits(
         normalized.push({
           tag,
           operation,
-          predicate: validateCollectionFields(
-            predicate,
-            index,
-            false,
-          ) as CollectionPredicate,
+          predicate: validateCollectionFields(predicate, index, false),
         });
       }
     } else {

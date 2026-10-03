@@ -242,7 +242,7 @@ export function strEnum<T extends string>(...o: T[]): StrEnum<T> {
   };
 
   const mapValid = <R>(s: Nullable<string>, f: (t: T) => R) =>
-    includes(s) ? f(s as T) : undefined;
+    includes(s) ? f(s) : undefined;
 
   const cmp = (a: Nullable<string>, b: Nullable<string>) => {
     const a_ = indexOf(a);

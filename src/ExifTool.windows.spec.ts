@@ -8,6 +8,7 @@ import { expect } from "./_chai.spec";
 
 describe("ExifTool Windows process startup", () => {
   it("hides the default process factory's window", async function () {
+    // eslint-disable-next-line mocha/no-pending-tests -- Windows-only test
     if (!isWin32()) return this.skip();
 
     // PowerShell startup and Add-Type compilation took 29.94s on a Windows

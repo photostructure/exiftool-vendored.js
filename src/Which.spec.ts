@@ -3,6 +3,7 @@ import { which } from "./Which";
 import { expect } from "./_chai.spec";
 
 if (!isWin32()) {
+  // eslint-disable-next-line mocha/no-conditional-tests -- these assertions expect POSIX paths
   describe("Which", () => {
     it("finds perl", async () => {
       const act = await which("perl");

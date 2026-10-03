@@ -15,7 +15,7 @@ export function isIterable(obj: unknown): obj is Iterable<unknown> {
  * @param arr - value to check
  * @returns the array if input is an array, otherwise undefined
  */
-export function ifArray<T = unknown>(arr: T[] | unknown): Maybe<T[]> {
+export function ifArray<T = unknown>(arr: unknown): Maybe<T[]> {
   return Array.isArray(arr) ? arr : undefined;
 }
 
@@ -26,14 +26,14 @@ export function ifArray<T = unknown>(arr: T[] | unknown): Maybe<T[]> {
  */
 export function toArray<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
   return Array.isArray(arr) // < strings are not arrays
-    ? (arr as T[])
+    ? arr
     : arr == null
       ? []
       : isString(arr) // < don't rely on isIterable rejecting Strings
-        ? [arr as T]
+        ? [arr]
         : isIterable(arr)
           ? Array.from(arr)
-          : [arr as T];
+          : [arr];
 }
 
 /**
@@ -42,7 +42,7 @@ export function toArray<T>(arr: undefined | null | T[] | T | Iterable<T>): T[] {
  * @returns a new array with nullish values removed
  */
 export function compact<T>(array: Nullable<T>[]): T[] {
-  return array.filter((elem) => elem != null) as T[];
+  return array.filter((elem) => elem != null);
 }
 
 /**

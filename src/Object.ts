@@ -53,7 +53,7 @@ export function fromEntries<K extends PropertyKey, V = unknown>(
 
   for (const pair of pairs) {
     if (pair?.[0] != null && pair[1] !== undefined) {
-      base[pair[0] as K] = pair[1] as V;
+      base[pair[0]] = pair[1];
     }
   }
   return base;

@@ -1,7 +1,7 @@
 import { logger } from "batch-cluster";
 import * as _path from "node:path";
 import { DefaultExifToolOptions } from "./DefaultExifToolOptions";
-import { errorsAndWarnings, RawErrorsAndWarnings } from "./ErrorsAndWarnings";
+import { errorsAndWarnings } from "./ErrorsAndWarnings";
 import { ExifToolOptions } from "./ExifToolOptions";
 import {
   ExifToolTask,
@@ -68,15 +68,12 @@ export class ReadRawTask extends ExifToolTask<RawTags> {
 
   protected parse(data: string, err?: Error): RawTags {
     try {
-      const parsed = JSON.parse(data)[0] as Record<string, unknown>;
+      const [parsed] = JSON.parse(data) as [Record<string, unknown>];
       const decoded = this.#unwrapInvalidUtf8
         ? unwrapInvalidUtf8Tags(parsed)
         : { tags: parsed };
       const tags = decoded.tags as RawTags;
-      const { errors, warnings } = errorsAndWarnings(
-        this,
-        decoded.tags as RawErrorsAndWarnings,
-      );
+      const { errors, warnings } = errorsAndWarnings(this, decoded.tags);
       tags.errors = errors;
       tags.warnings = warnings;
       if (decoded.invalidUtf8Bytes != null) {
