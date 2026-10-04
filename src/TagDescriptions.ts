@@ -33,8 +33,10 @@ export interface TagDescriptionsOptions {
    */
   cacheDir?: string;
   /**
-   * Language code for descriptions (e.g., 'en', 'de', 'fr').
-   * Defaults to 'en'.
+   * Language code for descriptions (e.g., 'en', 'de', 'zh_cn'), as ExifTool
+   * writes it in `-listx` output: note the underscore, not `zh-cn`. The
+   * constructor throws for any other form, as the code is part of the cache
+   * filename. Defaults to 'en'.
    */
   language?: string;
   /**
@@ -374,6 +376,12 @@ export class TagDescriptions {
       disableDiskCache: false,
       ...options,
     };
+    const lang = this.#options.language;
+    if (lang != null && !/^[a-z]{2}(?:_[a-z]{2})?$/i.test(lang)) {
+      throw new Error(
+        `TagDescriptions: language must be a code like "de" or "zh_cn", not ${JSON.stringify(lang)}`,
+      );
+    }
   }
 
   /**
@@ -571,10 +579,8 @@ export class TagDescriptions {
     const tagRegex =
       // eslint-disable-next-line redos/no-vulnerable -- only parses the -listx output of ExifTool's own tag tables, not file metadata
       /<tag[^>]*\sname=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/tag>/gi;
-    // Escape by hand: RegExp.escape() needs Node 24, and we support Node 22.
-    const escapedLang = lang.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const descRegex = new RegExp(
-      `<desc\\s+lang=['"]${escapedLang}['"]>([^<]+)</desc>`,
+      `<desc\\s+lang=['"]${lang}['"]>([^<]+)</desc>`,
       "i",
     );
 

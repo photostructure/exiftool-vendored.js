@@ -40,6 +40,8 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 On a `useMWG: false` instance, a command that may load MWG anyway, by referencing an `MWG:` tag (like a `write()` key of `"MWG:Description"`) or by passing `-use MWG`, an `-@` argument file, or a `-p` format file in `readArgs` or `writeArgs`, now retires its ExifTool process afterward, so later commands don't get MWG tags. batch-cluster starts at most one new process per `minDelayBetweenSpawnMillis` (1.5 seconds by default).
 
+- 🐞 `TagDescriptions` now throws if `language` isn't a language code like `de` or `zh_cn`. `language` is part of the disk cache filename, so a value like `"../../../x"` made it read and write `x.json` outside `cacheDir`.
+
 - 🐞 If synchronous disposal (`using`) hits `disposalTimeoutMs` and the forceful child process cleanup it then requests fails, the error is now logged instead of escaping as an unhandled rejection, which terminates Node.js by default.
 
 - 📦 Updated to ESLint 10 and enabled typescript-eslint's type-checked rules, plus rules from `eslint-plugin-n`, `eslint-plugin-regexp`, `eslint-plugin-redos`, `eslint-plugin-mocha`, and `eslint-plugin-chai-friendly`. None of the resulting fixes change runtime behavior. Editors now suggest `ThumbnailImage`, `PreviewImage`, and `JpgFromRaw` for `PreviewTag`, and tag names for `deleteAllTags()`'s `retain` option.

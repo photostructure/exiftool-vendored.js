@@ -276,9 +276,40 @@ describe("TagDescriptions", function () {
     });
   });
 
-  it("matches the language code literally, not as a regex", async () => {
-    // As a regex, "d." would match ExifTool's "de" descriptions
-    const descriptions = new TagDescriptions(exiftool, { language: "d." });
-    expect((await descriptions.getAll()).size).to.equal(0);
+  for (const language of ["de", "DE", "zh_cn"]) {
+    it(`accepts language ${JSON.stringify(language)}`, () => {
+      expect(() => new TagDescriptions(exiftool, { language })).to.not.throw();
+    });
+  }
+
+  // As a regex, "d." would match ExifTool's "de" descriptions. ExifTool's
+  // -listx output uses "zh_cn", not "zh-cn".
+  for (const language of ["d.", "zh-cn"]) {
+    it(`rejects language ${JSON.stringify(language)}`, () => {
+      expect(() => new TagDescriptions(exiftool, { language })).to.throw(
+        /language must be a code like "de" or "zh_cn"/,
+      );
+    });
+  }
+
+  it("rejects a language that would move the cache file out of cacheDir", async () => {
+    const parentDir = join(tmpdir(), "exiftool-test-" + randomChars());
+    const cacheDir = join(parentDir, "cache");
+    mkdirSync(cacheDir, { recursive: true });
+    try {
+      // The language is part of the cache filename, and join() resolves its
+      // ".." segments, so this would read and write parentDir/x.json:
+      const preload = async () =>
+        new TagDescriptions(exiftool, {
+          cacheDir,
+          language: "../../../x",
+        }).preload();
+      const err: unknown = await preload().catch((e: unknown) => e);
+      expect(readdirSync(parentDir)).to.eql(["cache"]);
+      expect(err).to.be.instanceOf(Error);
+      expect((err as Error).message).to.match(/language/);
+    } finally {
+      rmSync(parentDir, { recursive: true, force: true });
+    }
   });
 });
