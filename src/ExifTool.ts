@@ -138,6 +138,7 @@ export type {
 } from "./MWGTags";
 export type { Maybe, Nullable } from "./Maybe";
 export type { Omit } from "./Omit";
+export type { PreviewTag } from "./PreviewTag";
 export type { RawTags } from "./RawTags";
 export type { ReadRawTaskOptions } from "./ReadRawTask";
 export type { ReadTaskOptions } from "./ReadTask";

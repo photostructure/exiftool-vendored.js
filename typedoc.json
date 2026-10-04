@@ -9,6 +9,11 @@
   "githubPages": true,
   "gitRevision": "main",
   "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/test/**", "**/update/**"],
+  "externalSymbolLinkMappings": {
+    "batch-cluster": {
+      "Task.resetTimeout": "https://photostructure.github.io/batch-cluster.js/classes/BatchCluster.Task.html#resettimeout"
+    }
+  },
   "navigationLinks": {
     "GitHub": "https://github.com/photostructure/exiftool-vendored.js",
     "NPM": "https://www.npmjs.com/package/exiftool-vendored"
