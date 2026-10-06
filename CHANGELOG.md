@@ -32,6 +32,10 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## History
 
+### v39.0.1
+
+- 📦 Updated batch-cluster for [several task stream handling bugfixes](https://github.com/photostructure/batch-cluster.js/releases/tag/v19.5.0).
+
 ### v39.0.0
 
 - 💔 `useMWG` can now only be set in the `ExifTool` constructor. `read()`, `readRaw()`, `write()`, and `editTags()` no longer accept it, and `DefaultReadTaskOptions`, `DefaultReadRawTaskOptions`, `DefaultWriteTaskOptions`, and `WriteTaskOptionFields` no longer include it. ExifTool never unloads MWG once a command loads it, so the per-call option gave wrong results on reused ExifTool processes: a `useMWG: false` read returned MWG tags if its process had already served a `useMWG: true` read or write, and a `useMWG: true` call made later calls on its process return MWG tags. Passing a `useMWG` that differs from the instance's now rejects. To use both, create two `ExifTool` instances.
