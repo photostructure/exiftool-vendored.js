@@ -32,6 +32,14 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## History
 
+### v39.1.0
+
+- 🌱 Upgraded ExifTool to version [13.60](https://exiftool.org/history.html#13.60).
+
+- 📦 Updated exiftool-vendored.pl and exiftool-vendored.exe to v13.60.0. ExifTool 13.60 now [exits stay-open mode when its piped stdin closes](https://github.com/exiftool/exiftool/issues/458), so those packages no longer carry that fix as a downstream patch. They still apply the `ImageHashProgress` patch.
+
+- 📦 Updated dependencies.
+
 ### v39.0.1
 
 - 📦 Updated batch-cluster for [several task stream handling bugfixes](https://github.com/photostructure/batch-cluster.js/releases/tag/v19.5.0).
