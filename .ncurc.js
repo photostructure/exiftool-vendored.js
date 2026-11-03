@@ -31,5 +31,9 @@ module.exports = {
     "deep-eql",
     "eslint",
     "mocha",
+
+    // he 2 is ESM-only, and dist/WriteTask.js require()s it, which Node only
+    // supports from 22.12.0. engines.node accepts every Node 22.
+    "he",
   ],
 };

@@ -122,7 +122,7 @@
     "@photostructure/tz-lookup": "^11.7.0",
     "@types/luxon": "^3.7.6",
     "batch-cluster": "^19.5.0",
-    "he": "^2.0.0",
+    "he": "^1.2.0",
     "luxon": "^3.7.2"
   },
   "optionalDependencies": {
