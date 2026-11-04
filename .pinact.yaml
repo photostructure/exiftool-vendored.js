@@ -2,3 +2,9 @@ version: 3
 min_age:
   value: 14
   always: true
+# rules needs pinact v4; v3 ignores the key.
+rules:
+  # Our own actions skip the cooldown, so a release can pin a new version at once.
+  - min_age: 0
+    conditions:
+      - expr: ActionRepoOwner == "photostructure"

@@ -276,9 +276,26 @@ jobs:
     permissions:
       contents: write # Create the immutable GitHub release.
     steps:
+      # Create the release only once npm serves the version, so the watcher
+      # email announces an installable package.
+      - name: Wait for the npm stage approval
+        uses: photostructure/changelog-release-action@efbfab9798f52b3e1538ab1f1d3b73b261b73885 # v0.1.0
+        with:
+          command: wait-for-npm
+          tag: ${{ github.ref_name }}
+
+      - name: Extract the release notes from CHANGELOG.md
+        id: notes
+        uses: photostructure/changelog-release-action@efbfab9798f52b3e1538ab1f1d3b73b261b73885 # v0.1.0
+        with:
+          command: notes
+          tag: ${{ github.ref_name }}
+
+      # Check the tag after the wait: it can move while the job waits.
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          NOTES: ${{ steps.notes.outputs.notes-file }}
           REF_NAME: ${{ github.ref_name }}
           TAG: ${{ github.ref_name }}
         run: |
@@ -317,4 +334,5 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --verify-tag \
             --title "Release $TAG" \
+            --notes-file "$NOTES" \
             --generate-notes

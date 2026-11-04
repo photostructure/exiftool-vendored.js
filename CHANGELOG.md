@@ -8,7 +8,7 @@ See the [releases page](https://github.com/photostructure/exiftool-vendored.js/r
 - tag links, and
 - commits for a given version
 
-(The changes in this document are manually copied into the GitHub release notes)
+(The release workflow copies each version's section into its GitHub release notes.)
 
 ## Versioning
 
@@ -30,7 +30,9 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 🐞 Backwards-compatible bug fixes
 - 📦 Minor packaging changes
 
-## [Unreleased]
+## [Unreleased (patch)]
+
+- 📦 GitHub releases now wait for the npm package to be approved, and carry these release notes.
 
 ## [39.1.0] - 2026-10-28
 

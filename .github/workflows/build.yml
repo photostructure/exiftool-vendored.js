@@ -8,17 +8,9 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # The version bump comes from the "## [Unreleased (patch|minor|major)]"
+  # heading in CHANGELOG.md.
   workflow_dispatch:
-    inputs:
-      version:
-        description: Version bump
-        required: true
-        default: patch
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
 
 permissions:
   contents: read
@@ -62,10 +54,27 @@ jobs:
       - name: Verify the tested source stayed unchanged
         run: git diff --exit-code
 
+  changelog:
+    name: Read the version bump from CHANGELOG.md
+    runs-on: ubuntu-24.04
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    outputs:
+      bump: ${{ steps.bump.outputs.bump }}
+    steps:
+      - name: Checkout the commit being released
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Read the Unreleased heading
+        id: bump
+        uses: photostructure/changelog-release-action@efbfab9798f52b3e1538ab1f1d3b73b261b73885 # v0.1.0
+        with:
+          command: bump
+
   release:
     name: Create signed release commit and tag
     runs-on: ubuntu-24.04
-    needs: build
+    needs: [build, changelog]
     if: ${{ github.event_name == 'workflow_dispatch' }}
     outputs:
       tag: ${{ steps.version.outputs.tag }}
@@ -116,7 +125,7 @@ jobs:
       - name: Bump the package version
         id: version
         env:
-          BUMP: ${{ inputs.version }}
+          BUMP: ${{ needs.changelog.outputs.bump }}
         run: |
           set -euo pipefail
 
@@ -153,12 +162,18 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=$VERSION" >> "$GITHUB_OUTPUT"
 
+      - name: Stamp the release section of CHANGELOG.md
+        uses: photostructure/changelog-release-action@efbfab9798f52b3e1538ab1f1d3b73b261b73885 # v0.1.0
+        with:
+          command: stamp
+          tag: ${{ steps.version.outputs.tag }}
+
       - name: Create the signed release commit and tag
         env:
           TAG: ${{ steps.version.outputs.tag }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          git add package.json package-lock.json
+          git add package.json package-lock.json CHANGELOG.md
           git commit -m "Release $VERSION"
           git tag -m "Release $VERSION" "$TAG"
 
