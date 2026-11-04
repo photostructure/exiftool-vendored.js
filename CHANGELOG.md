@@ -413,7 +413,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🌱 Upgraded ExifTool to version [13.34](https://exiftool.org/history.html#13.34).
 
-- 📦 Upgrade to batch-cluster [v15.0.1](https://github.com/photostructure/batch-cluster.js/releases/tag/v15.0.0) which includes a macos and linux /proc permission workaround, and is now built with OIDC, so it includes https://www.npmjs.com/package/batch-cluster#user-content-provenance
+- 📦 Upgrade to batch-cluster [v15.0.1](https://github.com/photostructure/batch-cluster.js/releases/tag/v15.0.1) which includes a macos and linux /proc permission workaround, and is now built with OIDC, so it includes https://www.npmjs.com/package/batch-cluster#user-content-provenance
 
 - 📦 Automated publishing (like batch-cluster!), so https://www.npmjs.com/package/exiftool-vendored#user-content-provenance will be a thing
 
@@ -1017,7 +1017,7 @@ const exiftool = new ExifTool({
 
 - 📦 Expose `closeChildProcesses` from underlying BatchCluster instance
 
-- 🐞 Pull in [batch-cluster bugfix](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1042)
+- 🐞 Pull in [batch-cluster bugfix](https://github.com/photostructure/batch-cluster.js/releases/tag/v10.4.2)
 
 (Note that this build _does not_ pull in ExifTool v12.44, [due to this bug](https://exiftool.org/forum/index.php?topic=13863.0))
 
@@ -1085,7 +1085,7 @@ const exiftool = new ExifTool({
 ## [16.1.0] - 2022-03-28
 
 - ✨ Updated dependencies, including batch-cluster
-  [v10.4.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1040)).
+  [v10.4.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v10.4.0)).
 
   This new version will detect when tasks are rejected (due to parsing issues or
   any other reason), and in that case, the child `exiftool` process will be
@@ -1145,14 +1145,14 @@ const exiftool = new ExifTool({
   couple extra objects fed to the GC.
 
 - 📦 Updated dependencies, including batch-cluster
-  [v10.3.2](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1032)),
+  [v10.3.2](https://github.com/photostructure/batch-cluster.js/releases/tag/v10.3.2)),
   which fixed several race conditions and added several process performance
   improvements including support for zero-wait multi-process launches.
 
 ## [15.12.1] - 2022-02-25
 
 - 📦 Updated dependencies (batch-cluster
-  [v10.3.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1030)),
+  [v10.3.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v10.3.0)),
   including more pessimistic defaults for `streamFlushMillis` and new
   `noTaskData` event.
 
@@ -1164,13 +1164,13 @@ const exiftool = new ExifTool({
 
 - 📦 We now verify external `exiftool`s are healthy with a `-ver` ping every 30 seconds.
 
-- 📦 Updated dependencies (batch-cluster [v10.2.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1020)) that includes this [performance improvement/bugfix](https://github.com/photostructure/batch-cluster.js/issues/15)
+- 📦 Updated dependencies (batch-cluster [v10.2.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v10.2.0)) that includes this [performance improvement/bugfix](https://github.com/photostructure/batch-cluster.js/issues/15)
 
 ## [15.11.0] - 2022-02-12
 
 - 🌱 ExifTool upgraded to [v12.40](https://exiftool.org/history.html#v12.40).
 
-- 📦 Updated dependencies (batch-cluster [v10.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1000))
+- 📦 Updated dependencies (batch-cluster [v10.0.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v10.0.0))
 
 - 📦 Rebuild `Tags.ts` and docs
 
@@ -1253,7 +1253,7 @@ const exiftool = new ExifTool({
 ## [15.2.0] - 2021-07-14
 
 - 📦 Updated dependencies (including [batch-cluster
-  v7.1.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v710),
+  v7.1.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v7.1.0),
   which fixes a 2s startup delay
 
 ## [15.1.0] - 2021-07-07
@@ -1272,7 +1272,7 @@ const exiftool = new ExifTool({
 
 - ✨ Expose `ExifTool.childEndCounts` (counts of why child processes were recycled: useful for debugging)
 
-- 📦 Updated dependencies (including [batch-cluster v7.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v700))
+- 📦 Updated dependencies (including [batch-cluster v7.0.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v7.0.0))
 
 ## [14.6.2] - 2021-07-01
 
