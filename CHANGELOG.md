@@ -30,9 +30,9 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 🐞 Backwards-compatible bug fixes
 - 📦 Minor packaging changes
 
-## History
+## [Unreleased]
 
-### v39.1.0
+## [39.1.0] - 2026-10-28
 
 - 🌱 Upgraded ExifTool to version [13.60](https://exiftool.org/history.html#13.60).
 
@@ -40,11 +40,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated dependencies.
 
-### v39.0.1
+## [39.0.1] - 2026-10-06
 
 - 📦 Updated batch-cluster for [several task stream handling bugfixes](https://github.com/photostructure/batch-cluster.js/releases/tag/v19.5.0).
 
-### v39.0.0
+## [39.0.0] - 2026-10-05
 
 - 💔 `useMWG` can now only be set in the `ExifTool` constructor. `read()`, `readRaw()`, `write()`, and `editTags()` no longer accept it, and `DefaultReadTaskOptions`, `DefaultReadRawTaskOptions`, `DefaultWriteTaskOptions`, and `WriteTaskOptionFields` no longer include it. ExifTool never unloads MWG once a command loads it, so the per-call option gave wrong results on reused ExifTool processes: a `useMWG: false` read returned MWG tags if its process had already served a `useMWG: true` read or write, and a `useMWG: true` call made later calls on its process return MWG tags. Passing a `useMWG` that differs from the instance's now rejects. To use both, create two `ExifTool` instances.
 
@@ -58,7 +58,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated to ESLint 10 and enabled typescript-eslint's type-checked rules, plus rules from `eslint-plugin-n`, `eslint-plugin-regexp`, `eslint-plugin-redos`, `eslint-plugin-mocha`, and `eslint-plugin-chai-friendly`. None of the resulting fixes change runtime behavior. Editors now suggest `ThumbnailImage`, `PreviewImage`, and `JpgFromRaw` for `PreviewTag`, and tag names for `deleteAllTags()`'s `retain` option.
 
-### v38.3.0
+## [38.3.0] - 2026-09-28
 
 - 🔥 `TagDescriptions` no longer caches descriptions in a shared `exiftool-vendored` directory under `os.tmpdir()`. On a multi-user Linux host, another local user could plant forged descriptions there, or a symlink that redirected the cache write to another file. Descriptions are now cached on disk only if you pass `cacheDir`; without it, each process runs `exiftool -listx` on its first load.
 
@@ -70,7 +70,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 `TagDescriptions` now matches its `language` option as a literal language code. It was previously inserted into a regular expression unescaped, so `"d."` returned German descriptions and `"zh(cn"` threw a `SyntaxError`.
 
-### v38.2.0
+## [38.2.0] - 2026-09-24
 
 - ✨ A read that computes `ImageDataHash` no longer times out while ExifTool is still hashing a large file. Each such read asks ExifTool to report hashing progress with the new `ImageHashProgress` API option, and every report restarts `taskTimeoutMillis`. `read()` and `readRaw()` accept an `onProgress(bytesHashed)` option. The option is a downstream patch that exiftool-vendored.pl and exiftool-vendored.exe apply to ExifTool; a custom `exiftoolPath` without it behaves as before.
 
@@ -78,24 +78,24 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated batch-cluster to v19.4.1, so hashing progress reports are no longer logged as warnings, and `maxProcAgeMillis` may now be less than `taskTimeoutMillis`. It must still be at least `spawnTimeoutMillis`, which is now checked even when `taskTimeoutMillis` is 0.
 
-### v38.1.2
+## [38.1.2] - 2026-09-24
 
 - 📦 Updated batch-cluster to v19.3.2.
 
-### v38.1.1
+## [38.1.1] - 2026-09-23
 
 - 📦 Updated batch-cluster to v19.3.0.
 - 🐞 `ExifTool.end()` now resolves only after the ExifTool process has exited. If it is still running after termination, `end()` and `await using` disposal reject instead of leaving it running silently.
 
-### v38.1.0
+## [38.1.0] - 2026-09-16
 
 - 📦 Updated batch-cluster and tz-lookup
 
-### v38.0.1
+## [38.0.1] - 2026-09-10
 
 - 🐞 Request hidden windows when the default process factory starts ExifTool on Windows, avoiding visible background process windows in GUI applications.
 
-### v38.0.0
+## [38.0.0] - 2026-09-06
 
 - ✨ New first-class `groupNames` option: `exiftool.read(file, { groupNames: true })` asks ExifTool for group-prefixed tag names (ExifTool's `-G` option) and returns the new `GroupedTags` interface, whose keys are `Group:TagName` (like `EXIF:Make`). This is the recommended forward path for new integrations: see the new "Group names" section of the README for the full output contract. Library-synthesized tags stay bare (`SourceFile`, `errors`, `warnings`, `zone`, `tz`, `tzSource`, `zoneSource`, `invalidUtf8Bytes`, and the parsed, validated GPS quartet). The new `tag(tags, name)` helper looks up bare or prefixed names against either shape.
 
@@ -107,7 +107,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 `zoneSource` (the documented successor to the deprecated `tzSource`) is now populated whenever `zone` / `tz` / `tzSource` are. It was previously declared but never set.
 
-### v37.2.0
+## [37.2.0] - 2026-08-08
 
 - 🐞 Pull in new exiftool-vendored.pl and exiftool-vendored.exe that have [this patch applied](https://github.com/exiftool/exiftool/issues/458) to avoid orphaned ExifTool processes if the parent process is killed or crashes
 
@@ -115,7 +115,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Replaced direct npm publishing with a least-privilege, tag-bound release flow. CI now verifies signed tags and the exact package artifact, stages the package behind maintainer 2FA approval, and excludes compiled tests and maintainer tools from the public tarball.
 
-### v37.1.0
+## [37.1.0] - 2026-07-31
 
 - 📦 Updated to [batch-cluster v19.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md), which closes several ways an ExifTool child process could be leaked, and two ways a task's promise could be dropped: pending work now keeps the event loop alive (a task queued while the pool was momentarily empty used to be abandoned, with node exiting `0` and no error), and `.end()` now rejects still-queued tasks instead of leaving them unsettled. `await exiftool.end()` is now a barrier — it waits for in-flight spawns and recycling, so `await exiftool.end(); process.exit(0)` can no longer orphan a child — and may take slightly longer to resolve than in v37.0.0.
 
@@ -123,7 +123,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - ✨ Documented batch-cluster's new `killProcessGroup` option on `ExifToolOptions`, defaulting to `false`. It only matters for a `processFactory` that spawns with `detached: true`, which ExifTool's default factory does not. TypeScript consumers who build a complete `ExifToolOptions` object by hand must add this new required property; `Partial<ExifToolOptions>` callers are unaffected.
 
-### v37.0.0
+## [37.0.0] - 2026-07-15
 
 - 💔 **BREAKING: malformed UTF-8 in ExifTool JSON output is now marked with Unicode replacement character U+FFFD (`�`) instead of ASCII question mark (`?`).** For example, malformed bytes `dc 4b` previously surfaced as `?K` and now surface as `�K`. This applies to both `read()` and `readRaw()`, including scalar and list values and calls that override `readArgs`. Valid Unicode and authored question marks are unchanged.
 
@@ -153,26 +153,26 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Corrected resource-cleanup documentation to distinguish normal shutdown, non-blocking `using`, awaited `await using`, and best-effort disposal timeouts.
 
-### v36.1.0
+## [36.1.0] - 2026-07-13
 
 - ✨ Added `ExifTool.editTags()` for validated exact list-value additions/removals, MWG Collection additions/predicate removals, and audited scalar or flattened person-name removals without replacing unrelated metadata. See the [usage examples](docs/USAGE-EXAMPLES.md#editing-individual-tag-values).
 
-### v36.0.0
+## [36.0.0] - 2026-06-03
 
 - 🏚️ **Dropped Node.js 20 from the supported engines and CI matrix.** Node.js 20 ("Iron") has reached [end-of-life](https://github.com/nodejs/release#release-schedule), so the minimum supported runtime is now Node.js 22 (`engines.node` is `>=22`). The CI test matrix is now Node.js 22, 24, and 26.
 
-### v35.21.0
+## [35.21.0] - 2026-05-28
 
 - 🌱 Upgraded ExifTool to version [13.59](https://exiftool.org/history.html#13.59).
 - 📦 Updated dependencies.
 
-### v35.20.0
+## [35.20.0] - 2026-05-08
 
 - 🌱 Upgraded ExifTool to version [13.58](https://exiftool.org/history.html#13.58).
 - ✨ Added Node.js 26 to the CI test matrix.
 - 🐞 Restored support for the `^` write-even-if-empty modifier in tag names (e.g. `Description^`). The v35.19.0 argument-injection hardening tightened the tag-name grammar and inadvertently dropped `^`, breaking sidecar workflows that rely on ExifTool's `^=` operator to force-write empty values. Fixes [#331](https://github.com/photostructure/exiftool-vendored.js/issues/331).
 
-### v35.19.0
+## [35.19.0] - 2026-04-25
 
 - 🔥 **Security: argument injection hardening [GHSA-cw26-7653-2rp5](https://github.com/photostructure/exiftool-vendored.js/security/advisories/GHSA-cw26-7653-2rp5).** ExifTool runs in `-stay_open True -@ -` mode, where arguments are read from stdin one per line. Several caller-supplied strings were previously interpolated into ExifTool arguments without rejecting line delimiters, so a `\n` inside a tag name or filename could split one argument into many. Two layers of defense have been added:
 
@@ -186,20 +186,20 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - ✨ Added `ImageHashTypes` runtime enum and `ImageHashType` type export, for callers that need runtime-checked construction of the `imageHashType` option.
 
-### v35.18.0
+## [35.18.0] - 2026-04-17
 
 - 🌱 Upgraded ExifTool to version [13.57](https://exiftool.org/history.html#13.57).
 - 🐞 Fixes an ExifTool 13.56 regression (shipped in v35.17.0) where XMP list-valued tags (`dc:subject`, `HierarchicalSubject`, `Keywords`) read from sidecar files were collapsed to just the last `<rdf:li>` as a scalar string when `-api struct=1` was in effect. Users on v35.17.0 who read XMP sidecars should upgrade.
 
-### v35.17.0
+## [35.17.0] - 2026-04-15
 
 - 🌱 Upgraded ExifTool to version [13.56](https://exiftool.org/history.html#13.56).
 
-### v35.16.0
+## [35.16.0] - 2026-04-12
 
 - 🌱 Upgraded ExifTool to version [13.55](https://exiftool.org/history.html#13.55).
 
-### v35.15.0
+## [35.15.0] - 2026-03-22
 
 - 🐞 Fixed parsing of POSIX locale date strings like `"Tue 17 Jun 2025 09:29:01 PM PDT"` (emitted by gnome-screenshot's `CreationTime` tag). Previously these fell through to raw strings, losing the time and timezone.
 
@@ -207,75 +207,75 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - ✨ New `Settings.tzAbbreviationOffsets` allows users to resolve ambiguous abbreviations for their region (e.g. `{ CST: -6 * 60 }` for US Central, `{ IST: 5 * 60 + 30 }` for India).
 
-### v35.14.0
+## [35.14.0] - 2026-03-19
 
 - 🌱 Upgraded ExifTool to version [13.53](https://exiftool.org/history.html#13.53).
 
-### v35.13.0
+## [35.13.0] - 2026-03-03
 
 - ✨ Include `.typed` in `data/TagMetadata.json`. All seen tags now go into this JSON.
 
-### v35.12.1
+## [35.12.1] - 2026-03-01
 
 - 📦 Include `data/TagMetadata.json` in the npm package
 
-### v35.12.0
+## [35.12.0] - 2026-03-01
 
 - ✨ Added `type` field to `data/TagMetadata.json` (e.g. `"string"`, `"number"`, `"ExifDateTime | string"`, `"Struct"`)
 - 🐞 Fixed XML entity double-unescaping in `TagDescriptions` by decoding `&amp;` last
 
-### v35.11.0
+## [35.11.0] - 2026-02-27
 
 - 🌱 Upgraded ExifTool to version [13.52](https://exiftool.org/history.html#13.52).
 
-### v35.10.1
+## [35.10.1] - 2026-02-21
 
 - 🐞 Pull in batch-cluster v17.3.1: Fixed orphaned child processes after `end()`. When `end()` was called (either explicitly or via the `beforeExit` handler), the synchronous `process.on("exit")` SIGKILL backstop was removed before async cleanup completed. If the parent process exited before graceful termination finished, child processes survived as orphans. The fix snapshots live PIDs before cleanup begins and keeps the backstop registered until async teardown succeeds.
 
-### v35.10.0
+## [35.10.0] - 2026-02-19
 
 - 🌱 Upgraded ExifTool to version [13.51](https://exiftool.org/history.html#13.51).
 
-### v35.9.0
+## [35.9.0] - 2026-02-08
 
 - 🌱 Upgraded ExifTool to version [13.50](https://exiftool.org/history.html#13.50).
 
-### v35.8.0
+## [35.8.0] - 2026-02-07
 
 - 📦 Pull in new [batch-cluster](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.3.0), and run the new `findStreamFlushMillis()` on linux and windows. After examining ExifTool code, he always force-flushes stderr before emitting `{ready}` -- so we're updating the default for `streamFlushMillis` to `1`.
 
-### v35.7.0
+## [35.7.0] - 2026-02-05
 
 - 🌱 Upgraded ExifTool to version [13.49](https://exiftool.org/history.html#13.49).
 
-### v35.6.0
+## [35.6.0] - 2026-01-31
 
 - 🌱 Upgraded ExifTool to version [13.48](https://exiftool.org/history.html#13.48).
 
-### v35.5.0
+## [35.5.0] - 2026-01-28
 
 - 🌱 Upgraded ExifTool to version [13.47](https://exiftool.org/history.html#13.47).
 
-### v35.4.0
+## [35.4.0] - 2026-01-26
 
 - ✨ New `TagDescriptions` class provides human-readable descriptions for metadata tags. Descriptions are sourced from ExifTool's tag database and merged with hand-curated descriptions for important tags. The hand-curated descriptions are currently English-only. Supports caching and multiple languages.
 
-### v35.3.0
+## [35.3.0] - 2026-01-25
 
 - 🌱 Upgraded ExifTool to version [13.46](https://exiftool.org/history.html#13.46).
 
 - 📦 Added tags and improved descriptions in the [Tags](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.Tags.html) interface
 
-### v35.2.0
+## [35.2.0] - 2026-01-16
 
 - 🐞 Pull in batch-cluster `on("exit")` sync cleanup fix in [v17.1.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.1.0)
 - 🐞 Fix [#320](https://github.com/photostructure/exiftool-vendored.js/issues/320): timezone info in IPTC `TimeCreated` and XMP datetime tags is now extracted by default. Set `inferTimezoneFromDatestamps: false` to restore prior behavior.
 
-### v35.1.0
+## [35.1.0] - 2026-01-15
 
 - 📦 Support custom ExifToolOption.`processFactory` implementations (for advanced use cases, not for general use)
 
-### v35.0.0
+## [35.0.0] - 2026-01-09
 
 - 💔 **BREAKING**: Upgraded to [batch-cluster v17](https://github.com/photostructure/batch-cluster.js/releases/tag/v17.0.0), which changes process cleanup behavior.
 
@@ -291,19 +291,19 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
   Fixes [#319](https://github.com/photostructure/exiftool-vendored.js/discussions/319).
 
-### v34.3.0
+## [34.3.0] - 2026-01-02
 
 - 🐞 Add support for colon-less timezone offsets (`2025:04:27 19:47:08-0300`). Thanks for the [report](https://github.com/photostructure/exiftool-vendored.js/issues/318), [@dosten](https://github.com/dosten)!
 
-### v34.2.0
+## [34.2.0] - 2025-12-27
 
 - 🌱 Upgraded ExifTool to version [13.45](https://exiftool.org/history.html#13.45).
 
-### v34.1.0
+## [34.1.0] - 2025-12-15
 
 - 🌱 Upgraded ExifTool to version [13.44](https://exiftool.org/history.html#13.44).
 
-### v34.0.0
+## [34.0.0] - 2025-12-05
 
 - 💔 A couple API changes from `batch-cluster` [v16.0.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v16.0.0)'s impact our API: the `maxReasonableProcessFailuresPerMinute` option and `fatalError` event is now gone -- batch-cluster never shuts down if there are too many timeouts or any failure rate is "too high". Error logs are emitted, however. These large changes were made to service [#312](https://github.com/photostructure/exiftool-vendored.js/issues/312) (thanks for the report and assistance, [@mertalev](https://github.com/mertalev) and [@skatsubo](https://github.com/skatsubo)!)
 
@@ -313,7 +313,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🌱 Upgraded ExifTool to version [13.43](https://exiftool.org/history.html#13.43).
 
-### v33.5.0
+## [33.5.0] - 2025-11-26
 
 - 🐞 `isZoneValid` now properly validates Luxon Zone instances (not just zone-like objects)
 
@@ -325,14 +325,14 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Enhanced documentation across multiple modules
 
-### v33.4.0
+## [33.4.0] - 2025-11-24
 
 - ✨ Export `TimezoneOffsetRE`, `parseTimezoneOffsetMatch`, `parseTimezoneOffsetToMinutes`, and `TimezoneOffsetMatch` type for composable timezone parsing
 - ✨ `normalizeZone` now accepts numeric offset minutes (e.g., `480` → `UTC+8`)
 - ✨ `isUTC` now recognizes additional variants: `"0"`, `"Etc/UTC"`, `"-00"`, `"-00:00"`, `"+00"`
 - 🐞 `isZone` now only returns `true` for valid zones
 
-### v33.3.0
+## [33.3.0] - 2025-11-22
 
 - ✨ Export timezone utility functions: `extractZone`, `extractTzOffsetFromTags`, `extractTzOffsetFromUTCOffset`, `normalizeZone`, `inferLikelyOffsetMinutes`, `isUTC`, `isZone`, `isZoneValid`, `isZoneUnset`, `validTzOffsetMinutes`, `zoneToShortOffset`, `equivalentZones`
 
@@ -344,17 +344,17 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 When `Settings.allowArchaicTimezoneOffsets` is `false`, archaic offsets (e.g., Hawaii -10:30) now round to nearest valid offset instead of being rejected
 
-### v33.2.0
+## [33.2.0] - 2025-11-17
 
 - 🌱 Upgraded ExifTool to version [13.42](https://exiftool.org/history.html#13.42).
 
-### v33.1.0
+## [33.1.0] - 2025-11-13
 
 - 🐞 Fixed `GPSTimeStamp` to be `ExifTime | string`
 
 - 🐞 Removed `GPSPositionRef` (not a thing!)
 
-### v33.0.0
+## [33.0.0] - 2025-11-13
 
 - 🐞/💔 `SubSecMediaCreateDate` was removed from `CompositeTags` and `Tags`. It apparently never _was_ a thing, and, worse: I can't blame AI for hallucinating it, because I added it several years ago. Oops!
 
@@ -366,11 +366,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 `mktags` calculates `@frequency` correctly now (it was measuring "average occurrences per file across all groups" rather than "percentage of files containing this tag" -- this led to some tags having a frequency of 200% (!!))
 
-### v32.1.0
+## [32.1.0] - 2025-11-13
 
 - 🐞 Async `disposable` timeouts are now cancelled properly. Prior versions could prevent the process from exiting until the timeout elapsed.
 
-### v32.0.1
+## [32.0.1] - 2025-11-13
 
 - 💔 Archaic timezones are no longer supported by default. If you have relevant (old) digital media, set `Settings.allowArchaicTimezoneOffsets.value = true`.
 
@@ -382,34 +382,34 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 `ExifTool.readRaw()` now accepts the option `useMWG` (which also defaults to `true`) and has a signature that matches `read()`.
 
-### v31.3.0
+## [31.3.0] - 2025-11-05
 
 - 🌱 Upgraded ExifTool to version [13.41](https://exiftool.org/history.html#13.41).
 
 - 📦 Rebuilt `Tags.ts` after adding new cameras from the last couple months. A couple obscure tags have been added and removed.
 
-### v31.2.0
+## [31.2.0] - 2025-10-25
 
 - 🌱 Upgraded ExifTool to version [13.40](https://exiftool.org/history.html#13.40).
 - 📦 Added Node.js v25 to the build matrix
 
-### v31.1.0
+## [31.1.0] - 2025-09-30
 
 - 🌱 Upgraded ExifTool to version [13.38](https://exiftool.org/history.html#13.38).
 - ✨ Rebuilt `Tags.ts`: fields that live in multiple groups **are now included in every group**. Prior versions would pick the first-seen group for these fields, and that was nondeterministic between versions.
 - 📦 `TagMetadata.json` keys are sorted to minimize later per-version diffs
 - 📦 (did you know that `File:Comment` was writable? TIL!)
 
-### v31.0.0
+## [31.0.0] - 2025-09-25
 
 - 💔 Rebuilt `Tags.ts` with new exiftool v13.37 and additional newer exemplar test images. Several prior fields (that hopefully no one is using) were dropped, and new fields were added (see the git diff of Tags.ts from the prior release for details)
 - 🌱 Upgraded ExifTool to version [13.37](https://exiftool.org/history.html#13.37).
 
-### v30.5.0
+## [30.5.0] - 2025-09-07
 
 - 🌱 Upgraded ExifTool to version [13.35](https://exiftool.org/history.html#13.35).
 
-### v30.4.0
+## [30.4.0] - 2025-08-27
 
 - 🌱 Upgraded ExifTool to version [13.34](https://exiftool.org/history.html#13.34).
 
@@ -417,7 +417,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Automated publishing (like batch-cluster!), so https://www.npmjs.com/package/exiftool-vendored#user-content-provenance will be a thing
 
-### v30.3.0
+## [30.3.0] - 2025-06-27
 
 - 🌱 Upgraded ExifTool to version [13.31](https://exiftool.org/history.html#13.31).
 
@@ -441,11 +441,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
   - Custom TypeDoc tags defined in tsdoc.json for proper tooling support
   - Star ratings maintain same thresholds: ★★★★ (>50%), ★★★☆ (>20%), ★★☆☆ (>10%), ★☆☆☆ (>5%), ☆☆☆☆ (≤5%)
 
-### v30.2.0
+## [30.2.0] - 2025-05-27
 
 - ✨ Enhanced `StrEnum` with iterator support and JSDoc
 
-### v30.1.0
+## [30.1.0] - 2025-05-27
 
 - 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).
 
@@ -477,7 +477,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Upgrade to batch-cluster [v14.0.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v14.0.0) which removes the requirement for `procps` on most linux distributions.
 
-### v30.0.0
+## [30.0.0] - 2025-05-17
 
 - 🏚️ Dropped support for Node v18, whose End-of-Life was 2025-04-30.
 
@@ -489,13 +489,13 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - ✨ Updating to new versions of ExifTool is now fully automated via GitHub Actions.
 
-### v29.3.0
+## [29.3.0] - 2025-04-03
 
 - 🌱 Upgraded ExifTool to version [13.26](https://exiftool.org/history.html#13.26).
 
 - ✨ Added support for [keepUTCTime](https://exiftool.org/ExifTool.html#KeepUTCTime) to ExifToolOptions. This is a new ExifTool feature specifically for unixtime-encoded datetimes, but seems to be rarely applicable as unixtime is not a valid encoding format for most datetime tags.
 
-### v29.2.0
+## [29.2.0] - 2025-03-12
 
 - 🌱 Upgraded ExifTool to version [13.25](https://exiftool.org/history.html#13.25).
 
@@ -503,7 +503,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated the default for ExifToolOptions.maxProcs to use [availableParallelism](https://nodejs.org/api/os.html#osavailableparallelism) where available.
 
-### v29.1.0
+## [29.1.0] - 2025-01-30
 
 - 🌱 Upgraded ExifTool to version [13.17](https://exiftool.org/history.html#13.17). Note that this release includes **seventeen** ExifTool version bumps (from November 2024 through January 2025--Phil Harvey has been _busy_!). Although I haven't seen any breaking changes in the Tags generation or test suite with the new versions, please do your own validation.
 
@@ -517,7 +517,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Deleted most of the `prettier` config to accept their defaults. This created a huge [no-op commit](https://github.com/photostructure/exiftool-vendored.js/commit/622e8a814e22697c25efeb911215855753a97892) but now it's over.
 
-### v29.0.0
+## [29.0.0] - 2024-11-04
 
 - 💔/🐞/📦 ExifTool sometimes returns `boolean` values for some tags, like `SemanticStylePreset`, but uses "Yes" or "No" values for other tags, like `GPSValid` (TIL!). If the tag name ends in `Valid` and is truthy (1, true, "Yes") or falsy (0, false, "No"), we'll convert it to a boolean for you. Note that this is arguably a breaking API change, but it should be what you were already expecting (so is it a bug fix?). See the diff to the Tags interface in this version to verify what types have changed.
 
@@ -525,7 +525,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 💔 TypeScript now emits ES2022, which requires Node.js 18.
 
-#### GPS improvements
+### GPS improvements
 
 - 🐞/📦 GPS Latitude and GPS Longitude values are now parsed from [DMS notation](<https://en.wikipedia.org/wiki/Degree_(angle)#Subdivisions>), which seems to avoid some incorrectly signed values in some file formats (especially for some problematic XMP exports, like from Apple Photos). Numeric GPSLatitude and GPSLongitude are still accepted: to avoid the new coordinates parsing code, restore `GPSLatitude` and `GPSLongitude` to the `ExifToolOptions.numericTags` array.
 
@@ -539,7 +539,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 GPS coordinates are now round to 6 decimal places (≈11cm precision). This exceeds consumer GPS accuracy while simplifying test assertions and reducing noise in comparisons. Previously storing full float precision added complexity without practical benefit.
 
-### v28.8.0
+## [28.8.0] - 2024-10-30
 
 **Important:** ExifTool versions use the format `NN.NN` and do not follow semantic versioning. The version from ExifTool will not parse correctly with the `semver` library (for the next 10 versions) since they are zero- padded.
 
@@ -549,35 +549,35 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Added Node.js v23 to the build matrix.
 
-### v28.7.0
+## [28.7.0] - 2024-10-20
 
 - 🌱 ExifTool upgraded to version [12.99](https://exiftool.org/history.html#12.99)
 
-### v28.6.0
+## [28.6.0] - 2024-10-07
 
 - 🌱 ExifTool upgraded to version [12.97](https://exiftool.org/history.html#12.97)
 
 - 📦 Fields in `Tags` sub-interfaces are correctly sorted
 
-### v28.5.0
+## [28.5.0] - 2024-10-06
 
 - 🐞/📦 Add new `ExifToolOptions.preferTimezoneInferenceFromGps` to prefer GPS timezones. See the jsdoc for details.
 
 - 🐞 Support triple-deep IANA timezones, like `America/Indiana/Indianapolis`.
 
-### v28.4.1
+## [28.4.1] - 2024-10-05
 
 - 📦 The warning "Invalid GPSLatitude or GPSLongitude. Deleting geolocation tags" will only be added if `GPSLatitude` or `GPSLongitude` is non-null.
 
-### v28.4.0
+## [28.4.0] - 2024-10-05
 
 - ✨ Add workaround for abberant Nikon `TimeZone` encoding. Addresses [#215](https://github.com/photostructure/exiftool-vendored.js/issues/215). Set `ExifToolOptions.adjustTimeZoneIfDaylightSavings` to `() => undefined` to retain prior behavior.
 
-### v28.3.1
+## [28.3.1] - 2024-10-03
 
 - 🐞 Re-add +13:00 as a valid timezone offset. Addresses [#214](https://github.com/photostructure/exiftool-vendored.js/issues/214).
 
-### v28.3.0
+## [28.3.0] - 2024-09-22
 
 - 🌱 ExifTool upgraded to [v12.96](https://exiftool.org/history.html#12.96)
 
@@ -589,21 +589,21 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦/💔 Possible breaking change: several archane timezone offsets were removed from the `ValidTimezoneOffsets` array, to better address [#208](https://github.com/photostructure/exiftool-vendored.js/pull/208).
 
-### v28.2.1
+## [28.2.1] - 2024-08-15
 
 - 📦 Add `snyk-linux` to npmignore to fix [#200](https://github.com/photostructure/exiftool-vendored.js/issues/200)
 
-### v28.2.0
+## [28.2.0] - 2024-07-24
 
 - 🌱/✨/🐞 ExifTool upgraded to [v12.91](https://exiftool.org/history.html#12.91). Notably, the shebang line has changed from `/usr/bin/perl` to `/usr/bin/env perl`. The [exiftool-vendored.pl package](https://github.com/photostructure/exiftool-vendored.pl/blob/9606de60669da56908c472b8b964f7fd17784df8/update.sh#L24) works around [a new error from this shebang line](https://exiftool.org/forum/index.php?topic=16271.0).
 
-### v28.1.0
+## [28.1.0] - 2024-07-24
 
 - 📦 Add tests for [#187](https://github.com/photostructure/exiftool-vendored.js/issues/187)
 
 - 📦 Export `ImageDataHashTag` interface
 
-### v28.0.0
+## [28.0.0] - 2024-07-22
 
 - 🌱/✨/🐞 ExifTool upgraded to [v12.89](https://exiftool.org/history.html#12.89). Notably, ExifTool on Windows is now using the "official" packaging. This should be equivalent to prior builds, as [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe) was already using Oliver Betz's perl launcher.
 
@@ -617,7 +617,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Fought AND WON [a very obscure issue with Node v22.5.0](https://photostructure.com/coding/node-22-exit-handler-never-called/)
 
-### v27.0.0
+## [27.0.0] - 2024-06-12
 
 - 💔 `ExifToolOptions.struct` is now `"undef" | 0 | 1 | 2`. See
   [#184](https://github.com/photostructure/exiftool-vendored.js/issues/184)
@@ -626,19 +626,19 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
   specified both at `ExifTool` construction, as well as calls to `ExifTool.read`
   and `ExifTool.write`. The prior method signatures are deprecated.
 
-### v26.2.0
+## [26.2.0] - 2024-06-03
 
 - ✨ Support for all ExifTool `struct` modes (fixes [#184](https://github.com/photostructure/exiftool-vendored.js/issues/184)). See ExifToolOptions.struct for details.
 
 - 📦 Fix documentation to reference ExifTool.read() (fixes [#183](https://github.com/photostructure/exiftool-vendored.js/issues/183))
 
-### v26.1.0
+## [26.1.0] - 2024-05-29
 
 - 🌱/✨/🐞 ExifTool upgraded to [v12.85](https://exiftool.org/history.html#12.85). Notably, this addresses [reversed HEIC orientation](https://exiftool.org/forum/index.php?topic=15240.msg86229#msg86229).
 
 - 🐞 Perhaps address [Perl not installed error](https://github.com/photostructure/exiftool-vendored.js/issues/182).
 
-### v26.0.0
+## [26.0.0] - 2024-04-26
 
 - 🌱/✨ ExifTool upgraded to [v12.84](https://exiftool.org/history.html#12.84)
 
@@ -646,7 +646,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 ExifTool on Windows was upgraded to Strawberry Perl 5.32.1
 
-### v25.2.0
+## [25.2.0] - 2024-04-11
 
 - 🌱/✨ ExifTool upgraded to [v12.82](https://exiftool.org/history.html#v12.82)
 
@@ -655,7 +655,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 📦 Export `exiftoolPath()` so custom implementations can use it as a fallback
   (or default, and provide their own fallback)
 
-### v25.1.0
+## [25.1.0] - 2024-03-28
 
 - ✨ Added `retain` field to ExifTool.deleteAllTags() to address [#178](https://github.com/photostructure/exiftool-vendored.js/issues/178)
 
@@ -665,7 +665,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Add `FileTags.FileCreateDate` (only a thing on Windows)
 
-### v25.0.0
+## [25.0.0] - 2024-03-27
 
 - 🌱/✨ ExifTool upgraded to [v12.80](https://exiftool.org/history.html#v12.80), which **adds support for reverse-geo lookups** and [several other geolocation features](https://exiftool.org/geolocation.html)
 
@@ -677,39 +677,39 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Added support for `electron-forge`: [see the docs for details](https://photostructure.github.io/exiftool-vendored.js/documents/docs_ELECTRON.html).
 
-### v24.6.0
+## [24.6.0] - 2024-03-07
 
 - 🌱 ExifTool upgraded to [v12.78](https://exiftool.org/history.html#v12.78)
 
 - 📦 Added ExifTool.off() for unregistering event listeners
 
-### v24.5.0
+## [24.5.0] - 2024-02-11
 
 - 🌱 ExifTool upgraded to [v12.76](https://exiftool.org/history.html#v12.76). Note that an ARW file corrupting issue was found that's existed since v12.45.
 
 - 📦 Updated dependencies, including new [batch-cluster v13](https://github.com/photostructure/batch-cluster.js/releases/tag/v13.0.0) 🍀
 
-### v24.4.0
+## [24.4.0] - 2024-01-17
 
 - 🌱 ExifTool upgraded to [v12.73](https://exiftool.org/history.html#v12.73).
 
 - 📦 If the underlying Perl installation is invalid, throw an error. [See #168 for details.](https://github.com/photostructure/exiftool-vendored.js/issues/168)
 
-### v24.3.0
+## [24.3.0] - 2024-01-02
 
 - 🌱 ExifTool upgraded to [v12.72](https://exiftool.org/history.html#v12.72).
 
 - 📦 Relax GPS latitude/longitude parser to handle invalid Ref values (a warning will be appended to the Tags.warnings field. See [#165](https://github.com/photostructure/exiftool-vendored.js/issues/165).
 
-### v24.2.0
+## [24.2.0] - 2023-12-16
 
 - 🐞 If `perl` isn't installed in `/usr/bin`, feed the full path to `perl` (if we can find it) to `spawn` (rather than relying on the shell to use `$PATH`). This should address issues like [#163](https://github.com/photostructure/exiftool-vendored.js/issues/163)
 
-### v24.1.0
+## [24.1.0] - 2023-12-09
 
 - 📦 Relaxed `isWarning()` detection to be simply `/warning:/i`. v24.0.0 would throw errors when extracting binary thumbnails due to issues like "Warning: Ignored non-standard EXIF at TIFF-IFD0-JPEG-APP1-IFD0", which is decidedly a warning. `ExifTool.write` now leans (hard) on returning Tags.warnings rather than throwing errors: **It is up to you to inspect `.warnings` and decide for your own usecase if the issue is exceptional**. See [issue #162](https://github.com/photostructure/exiftool-vendored.js/issues/162) for details.
 
-### v24.0.0
+## [24.0.0] - 2023-12-08
 
 - 💔 In the interests of reducing complexity, the `ExifToolOptions.isIgnorableError` predicate field was removed -- if this was used by anyone, please open an issue and we can talk about it.
 
@@ -723,7 +723,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Added [`node:` prefix](https://nodejs.org/api/esm.html#node-imports) to Node.js module imports. This requires node v14.13, v16.0, or later.
 
-### v23.7.0
+## [23.7.0] - 2023-12-06
 
 - 📦 Added MWG `.HierarchicalKeywords` and `.Collections` to `Tags`
 
@@ -731,7 +731,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
   be encoded as an EXIF orientation value, or a degree rotation, and it should
   be up to the application to figure it out.
 
-### v23.6.0
+## [23.6.0] - 2023-12-01
 
 - 📦 Added new option, `ignoreZeroZeroLatLon`, and **defaulted this new option
   to `true`**. Several camera manufacturers and image applications will write
@@ -748,13 +748,13 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 🐞 Some `ExifToolOption`s were not passed from ExifTool into the ReadTask,
   which caused ReadTask to revert to defaults.
 
-### v23.5.0
+## [23.5.0] - 2023-11-21
 
 - 🌱 ExifTool upgraded to [v12.70](https://exiftool.org/history.html#v12.70). **🏆 Thanks for 20 years of updates, Phil Harvey! 🏆**
 
 - 📦 `XMPTags.Album` was added to `Tags`
 
-### v23.4.0
+## [23.4.0] - 2023-10-27
 
 - 🌱 ExifTool upgraded to [v12.69](https://exiftool.org/history.html#v12.69)
 
@@ -763,11 +763,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated dependencies
 
-### v23.3.0
+## [23.3.0] - 2023-10-03
 
 - 🐞 Restored datestamp parsing of `ResourceEvent.When`
 
-### v23.2.0
+## [23.2.0] - 2023-10-02
 
 - ✨ Timezone parsing improvements:
   - Added inferTimezoneFromDatestampTags().
@@ -780,7 +780,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Add `creationDate` to `CapturedAtTagNames`. [See PR#159](https://github.com/photostructure/exiftool-vendored.js/pull/159).
 
-### v23.1.0
+## [23.1.0] - 2023-09-30
 
 - 🌱 ExifTool upgraded to [v12.67](https://exiftool.org/history.html#v12.67)
 
@@ -794,7 +794,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated all dependencies, but only `devDependencies` were impacted.
 
-### v23.0.0
+## [23.0.0] - 2023-09-14
 
 - 🏚️ Dropped support for Node.js v16, which is [End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol).
 
@@ -820,25 +820,25 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
   in helping to determine how "trustworthy" the zone and actual datestamp
   value is.
 
-### v22.2.3
+## [22.2.3] - 2023-09-08
 
 - 🐞 Apply the v22.2.3 bugfix _even wider_ (just found a `SubSecTime` value of "01" in the wild, and it was happily parsed into today's date, oops).
 
-### v22.2.2
+## [22.2.2] - 2023-09-08
 
 - 🐞 Apply the v22.2.1 bugfix wider: we now reject parsing any date-ish or time-ish value that matches `/^0+$/`.
 
-### v22.2.1
+## [22.2.1] - 2023-09-07
 
 - 🐞 `ExifTime` now properly rejects invalid `SubSecTime`, `SubSecTimeOriginal`, ... values of "0" or "00".
 
-### v22.2.0
+## [22.2.0] - 2023-09-04
 
 - ✨ Add support for zone extraction from `ExifDateTime`, `ExifTime`, `number[]`, and `number` fields.
 
 - 📦 Improve type signature of `extractTzOffsetFromTags`.
 
-### v22.1.0
+## [22.1.0] - 2023-09-04
 
 - 🌱 ExifTool upgraded to [v12.65](https://exiftool.org/history.html#v12.65)
 
@@ -846,7 +846,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 `perl` is checked for on non-windows machines at startup. This resolves [#152](https://github.com/photostructure/exiftool-vendored.js/issues/152). You can disable this with the new `checkPerl` ExifToolOption.
 
-### v22.0.0
+## [22.0.0] - 2023-05-10
 
 - 🏚️ Drop support for Node 14, which EOL'ed 2023-04-30
 
@@ -854,13 +854,13 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 Fix exports for DefaultExifToolOptions and several other non-type values. Thanks for the [bug report, renambot!](https://github.com/photostructure/exiftool-vendored.js/issues/144)
 
-### v21.5.1
+## [21.5.1] - 2023-04-13
 
 - 📦 Avoid double-rendering of ImageDataMD5 (Thanks, Phil! See [forum post for details](https://exiftool.org/forum/index.php?topic=14706.msg79218#msg79218))
 
 - 📦 Pull down new camera test images, rebuild Tags and docs
 
-### v21.5.0
+## [21.5.0] - 2023-04-12
 
 - ✨ Added support for ExifTool's [MWG Composite Tags](https://exiftool.org/TagNames/MWG.html). Set the new ExifToolOptions.useMWG option to `true` to enable.
 
@@ -869,11 +869,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 📦 Extracted options-related code into modules to remove a couple circular
   dependencies. Exports should make this transparent to external clients.
 
-### v21.4.0
+## [21.4.0] - 2023-04-11
 
 - 🐞 Improved types from `ExifTool.readRaw()`. Thanks for the suggestion, [Silvio Brändle](https://github.com/photostructure/exiftool-vendored.js/issues/138)!
 
-### v21.3.0
+## [21.3.0] - 2023-04-11
 
 - 🌱 ExifTool upgraded to [v12.60](https://exiftool.org/history.html#v12.60)
 
@@ -881,11 +881,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
   `"GPSLatitude/GPSLongitude"` to be more consistent with other timezone
   source messages.
 
-### v21.2.0
+## [21.2.0] - 2023-02-16
 
 - ✨ Implemented `ExifDateTime.plus()`. Added tests.
 
-### v21.1.0
+## [21.1.0] - 2023-02-13
 
 - 🐞 Negative GPSLatitude and GPSLongitude values are now supported for EXIF
   (like `.JPEG`), `.XMP`, and `.MIE` files. Thanks for the [bug
@@ -896,7 +896,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🌱 ExifTool upgraded to [v12.56](https://exiftool.org/history.html#v12.56)
 
-### v21.0.0
+## [21.0.0] - 2023-02-05
 
 - 💔 `ExifDateTime.fromDateTime()` now takes an option hash as the second
   argument (instead of the second argument being `rawValue`)
@@ -910,7 +910,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 📦 Switched `package.json` scripts from `yarn` to `npm`, as yarn@1 doesn't
   work with Node v22.5 and GitHub Actions.
 
-### v20.0.0
+## [20.0.0] - 2023-02-03
 
 - 💔 `ExifTool.write` took a generic that defaulted to `WriteTags`, but the type wasn't used for anything. I removed the generic typing, which may require consumers to change their code.
 
@@ -920,7 +920,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated dependencies, re-ran prettier, rebuilt tags, rebuilt docs
 
-### v19.0.0
+## [19.0.0] - 2023-01-11
 
 - 💔/🐞 [Fix #124](https://github.com/photostructure/exiftool-vendored.js/issues/124): Improved support for filenames with non-latin (a-z0-9) characters on Windows machines that weren't set to UTF-8. Thanks for the bug report and PR, [Jürg Rast](https://github.com/jrast)!
 
@@ -932,13 +932,13 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Node v19 added to the CI test matrix
 
-### v18.6.0
+## [18.6.0] - 2022-11-08
 
 - 🌱 ExifTool upgraded to [v12.50](https://exiftool.org/history.html#v12.50)
 
 - 📦 Updated dependencies, rebuild tags and docs
 
-### v18.5.0
+## [18.5.0] - 2022-11-02
 
 - ✨ `ExifToolOptions` now supports an `ignorableError` predicate, used for characterizing errors as "ignorable". Defaults to ignoring the following styles of warnings:
   - `Warning: Duplicate MakerNoteUnknown tag in ExifIFD`
@@ -946,19 +946,19 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🐞 Only read operations are now retried. See [#119](https://github.com/photostructure/exiftool-vendored.js/issues/119#issuecomment-1299423164)
 
-### v18.4.2
+## [18.4.2] - 2022-11-01
 
 - 🐞 Date-time tags with exactly Common Epoch (`1970-01-01T00:00:00Z`) are no longer filtered as invalid. See [#118](https://github.com/photostructure/exiftool-vendored.js/issues/118) for details.
 
 - 📦 Updated dependencies, rebuild tags and docs
 
-### v18.4.1
+## [18.4.1] - 2022-10-22
 
 - 🐞 The public export for `BinaryField` mistakenly exposed it being named
   `BinaryDataField`. The name of the export and the class are now both
   `BinaryField`.
 
-### v18.4.0
+## [18.4.0] - 2022-10-21
 
 - ✨ Binary fields are now parsed to a new `BinaryField` object which parses
   out the length of the binary field
@@ -968,7 +968,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 `ExifTime` now retains the raw value to be consistent with `ExifDate` and `ExifDateTime`
 
-### v18.3.0
+## [18.3.0] - 2022-10-21
 
 - 🌱 ExifTool upgraded to [v12.49](https://exiftool.org/history.html#v12.49), which adds write support to WEBP and a bunch of other goodness
 
@@ -976,7 +976,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 Updated dependencies
 
-### v18.2.0
+## [18.2.0] - 2022-09-27
 
 - ✨ Add support for alternative gps timezone lookup libraries. If you want to use `geo-tz` instead, use something like this:
 
@@ -996,13 +996,13 @@ const exiftool = new ExifTool({
 
 - 📦 Restore `GPSPosition` to the default `numericTags` so all GPS lat/lon values are consistent.
 
-### v18.1.0
+## [18.1.0] - 2022-09-24
 
 - 📦 Switch from the abandoned `tz-lookup` package to [`@photostructure/tz-lookup`](https://github.com/photostructure/tz-lookup). Note that this uses an updated time zone geo database, so some time zone names and geo shapes have changed.
 
 - 📦 The `GPSPosition` tag is no longer included in the default set of numeric tags, as this results in ExifTool returning two floats, whitespace-separated. Use `GPSLatitude` and `GPSLongitude` instead.
 
-### v18.0.0
+## [18.0.0] - 2022-09-20
 
 - 💔 `ReadTask.for()` now takes an options hash, which includes the new `defaultVideosToUTC` option.
 
@@ -1010,7 +1010,7 @@ const exiftool = new ExifTool({
 
 - 🌱 ExifTool upgraded to [v12.45](https://exiftool.org/history.html#v12.45).
 
-### v17.1.0
+## [17.1.0] - 2022-09-15
 
 - ✨ `ExifDateTime` and `ExifDate` now have a `toMillis()` to render in
   milliseconds from common epoch
@@ -1021,12 +1021,12 @@ const exiftool = new ExifTool({
 
 (Note that this build _does not_ pull in ExifTool v12.44, [due to this bug](https://exiftool.org/forum/index.php?topic=13863.0))
 
-### v17.0.1
+## [17.0.1] - 2022-07-13
 
 - 🐞 `reasonableTzOffsetMinutes()`, `extractOffset()`, and
   `offsetMinutesToZoneName()` handle `UnsetZone` properly. This shouldn't normally come into play, as this would require serialization of the unset timezone, but... why not, eh?
 
-### v17.0.0
+## [17.0.0] - 2022-07-13
 
 - 💔 Luxon has a [breaking change](https://moment.github.io/luxon/#/upgrading?id=_2x-to-30). Please verify that date parsing and zone assignments work as expected.
 
@@ -1036,7 +1036,7 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v16.5.1
+## [16.5.1] - 2022-06-25
 
 - 🌱 ExifTool upgraded to [v12.42](https://exiftool.org/history.html#v12.42).
 
@@ -1046,7 +1046,7 @@ const exiftool = new ExifTool({
 
 - 📦 Added [RELEASE.md](https://github.com/photostructure/exiftool-vendored.js/blob/main/RELEASE.md)
 
-### v16.4.0
+## [16.4.0] - 2022-04-21
 
 - 🐞 Struct values are now properly encoded when writing. Specifically, prior
   versions didn't support JSON string values (and now WriteTask knows how to
@@ -1060,7 +1060,7 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v16.3.0
+## [16.3.0] - 2022-04-14
 
 - ✨ Added `ExifDateTime.fromMillis()`
 
@@ -1068,7 +1068,7 @@ const exiftool = new ExifTool({
 
 - 📦 Migrated `omit()` to `Object`.
 
-### v16.2.0
+## [16.2.0] - 2022-04-13
 
 - ✨ Added read/write support for
   [History](https://exiftool.org/TagNames/XMP.html#ResourceEvent) and
@@ -1082,7 +1082,7 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v16.1.0
+## [16.1.0] - 2022-03-28
 
 - ✨ Updated dependencies, including batch-cluster
   [v10.4.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1040)).
@@ -1091,7 +1091,7 @@ const exiftool = new ExifTool({
   any other reason), and in that case, the child `exiftool` process will be
   verified to be "healthy" before being put back into the service pool.
 
-### v16.0.0
+## [16.0.0] - 2022-03-07
 
 - 💔/🐞 Timezone extraction has been adjusted: if there is a GPS location, we'll
   prefer that `tzlookup` as the authoritative timezone offset. If there isn't
@@ -1149,7 +1149,7 @@ const exiftool = new ExifTool({
   which fixed several race conditions and added several process performance
   improvements including support for zero-wait multi-process launches.
 
-### v15.12.1
+## [15.12.1] - 2022-02-25
 
 - 📦 Updated dependencies (batch-cluster
   [v10.3.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1030)),
@@ -1160,13 +1160,13 @@ const exiftool = new ExifTool({
   `Maybe`, `Omit`, and `Struct` to improve `typedoc`-generated documentation.
   Rebuilt docs.
 
-### v15.12.0
+## [15.12.0] - 2022-02-25
 
 - 📦 We now verify external `exiftool`s are healthy with a `-ver` ping every 30 seconds.
 
 - 📦 Updated dependencies (batch-cluster [v10.2.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v1020)) that includes this [performance improvement/bugfix](https://github.com/photostructure/batch-cluster.js/issues/15)
 
-### v15.11.0
+## [15.11.0] - 2022-02-12
 
 - 🌱 ExifTool upgraded to [v12.40](https://exiftool.org/history.html#v12.40).
 
@@ -1174,31 +1174,31 @@ const exiftool = new ExifTool({
 
 - 📦 Rebuild `Tags.ts` and docs
 
-### v15.10.1
+## [15.10.1] - 2022-01-19
 
 - 📦 Updated dependencies (batch-cluster v8.1.0)
 
 - 📦 Rebuild docs
 
-### v15.10.0
+## [15.10.0] - 2022-01-15
 
 - 🌱 ExifTool upgraded to [v12.39](https://exiftool.org/history.html#v12.39).
 
 - 🐞/📦 Include `@types/luxon` in `dependencies` (thanks, [davidmz](https://github.com/photostructure/exiftool-vendored.js/pull/108)!)
 
-### v15.9.2
+## [15.9.2] - 2021-12-29
 
 - 📦 Rebuild tags and docs with updated test images. Note that some `GPS` tags types changed to `string`: see v15.8.0.
 
-### v15.9.1
+## [15.9.1] - 2021-12-27
 
 - 📦 Exposed `UnsetZoneOffsetMinutes` from `Timezones`
 
-### v15.9.0
+## [15.9.0] - 2021-12-26
 
 - 📦 Exposed `UnsetZone` and `UnsetZoneName` from `Timezones`
 
-### v15.8.0
+## [15.8.0] - 2021-12-22
 
 - 🐞 `GPSDateTime` in prior versions could be incorrectly parsed, resulting in an incorrectly inferred current-date and encoded-time.
 
@@ -1206,7 +1206,7 @@ const exiftool = new ExifTool({
 
 - 📦 The prior default of making all `GPS*` tags numeric has been reduced to only `GPSLatitude` and `GPSLongitude`, which means tags like `GPSImgDirectionRef` will now be something like "Magnetic North" instead of the more cryptic "M", and `GPSAltitudeRef` will now be "Below Sea Level" instead of "1".
 
-### v15.7.0
+## [15.7.0] - 2021-12-21
 
 - 🌱 ExifTool upgraded to [v12.38](https://exiftool.org/history.html#v12.38).
 
@@ -1220,13 +1220,13 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v15.6.0
+## [15.6.0] - 2021-10-29
 
 - ✨ Added [serialization support](https://github.com/photostructure/exiftool-vendored.js/issues/102)
 
 - 🌱 ExifTool upgraded to [v12.34](https://exiftool.org/history.html#v12.34).
 
-### v15.5.0
+## [15.5.0] - 2021-10-23
 
 - 🌱 ExifTool upgraded to [v12.33](https://exiftool.org/history.html#v12.33).
 
@@ -1234,13 +1234,13 @@ const exiftool = new ExifTool({
 
 - 📦 Now ignoring `yarn.lock`
 
-### v15.4.0
+## [15.4.0] - 2021-09-23
 
 - 🌱 ExifTool upgraded to [v12.31](https://exiftool.org/history.html#v12.31).
 
 - 📦 Updated dependencies (including new TypeScript, which required import [adjustments](https://github.com/microsoft/TypeScript/issues/46027#issuecomment-926019016).
 
-### v15.3.0
+## [15.3.0] - 2021-09-04
 
 - ✨ `ExifTool.read` and `ExifTool.write` [now accept generics](https://github.com/photostructure/exiftool-vendored.js/issues/103).
 
@@ -1250,18 +1250,18 @@ const exiftool = new ExifTool({
 
 - 📦 Rebuilt docs
 
-### v15.2.0
+## [15.2.0] - 2021-07-14
 
 - 📦 Updated dependencies (including [batch-cluster
   v7.1.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v710),
   which fixes a 2s startup delay
 
-### v15.1.0
+## [15.1.0] - 2021-07-07
 
 - 📦 Rebuild `Tags.ts` from more recent exemplars and tag type overrides
   (v15.0.0 changed to `Keywords: string`, this version reverts that change)
 
-### v15.0.0
+## [15.0.0] - 2021-07-07
 
 - 💔 TypeScript now renders modern (ES2018) JavaScript, which requires a
   [supported version of Node.js](https://nodejs.org/en/about/releases/).
@@ -1274,33 +1274,33 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies (including [batch-cluster v7.0.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md#v700))
 
-### v14.6.2
+## [14.6.2] - 2021-07-01
 
 - 📦 Updated batch-cluster (support for listing current tasks)
 
-### v14.6.1
+## [14.6.1] - 2021-07-01
 
 - 📦 Updated batch-cluster (support for nullable pids)
 
-### v14.6.0
+## [14.6.0] - 2021-07-01
 
 - 🌱 ExifTool upgraded to [v12.28](https://exiftool.org/history.html#v12.28).
 
 - 📦 Updated dependencies
 
-### v14.5.0
+## [14.5.0] - 2021-05-31
 
 - 🌱 ExifTool upgraded to [v12.26](https://exiftool.org/history.html#v12.26).
 
 - 📦 Updated dependencies
 
-### v14.4.0
+## [14.4.0] - 2021-05-14
 
 - ✨ Added `ExifDate.rawValue`
 
 - 📦 Updated dependencies
 
-### v14.3.0 🔥
+## [14.3.0] - 2021-05-03 🔥
 
 - 🔥/🌱 ExifTool upgraded to [v12.25](https://exiftool.org/history.html#v12.25).
 
@@ -1310,15 +1310,15 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v14.2.0
+## [14.2.0] - 2021-04-12
 
 - 🌱 ExifTool upgraded to [v12.23](https://exiftool.org/history.html#v12.23)
 
-### v14.1.1
+## [14.1.1] - 2021-03-17
 
 - 📦 Republish of 14.1.0 (`np` failed to publish 14.1.0 properly)
 
-### v14.1.0
+## [14.1.0] - 2021-03-17
 
 - 🌱 ExifTool upgraded to [v12.21](https://exiftool.org/history.html#v12.21)
 
@@ -1326,7 +1326,7 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v14.0.0
+## [14.0.0] - 2021-02-22
 
 - 💔 `ExifDateTime.zone` will now return the actual IANA zone name (like `America/Los_Angeles`) rather than the time offset. This addresses issues with timezones like `Europe/Kiev` where, from 1900-1924, had an offset of `UTC +2:02:04`.
 
@@ -1338,13 +1338,13 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v13.2.0
+## [13.2.0] - 2021-02-16
 
 - 🌱 ExifTool upgraded to [v12.18](https://exiftool.org/history.html#v12.18)
 
 - 📦 Updated dependencies
 
-### v13.1.0
+## [13.1.0] - 2021-01-10
 
 - 🐞 More complex characters, like emoji that use compound codepoints, like 🦍,
   🦄, or 🚵‍♀️, are now supported. See
@@ -1359,7 +1359,7 @@ const exiftool = new ExifTool({
 
 - 📦 Updated dependencies
 
-### v13.0.0
+## [13.0.0] - 2020-12-05
 
 - 💔 The `Tags.ts` types have changed. **Some newly-found types were added, many
   rarely-occurring types have been removed, and `Tag` sub-interfaces have
@@ -1383,28 +1383,28 @@ const exiftool = new ExifTool({
   Note that this version renders file sizes a bit differently: "756 kB" will now
   be rendered as "756 KiB".
 
-### v12.3.1
+## [12.3.1] - 2020-11-20
 
 - 📦 Removed dev dependency on `npm-check-updates`, as it no longer supports
   Node v10 (wth, ncu)
 
-### v12.3.0
+## [12.3.0] - 2020-11-20
 
 - 🌱 ExifTool upgraded to [v12.10](https://exiftool.org/history.html#v12.10)
 - 📦 Rebuilt Tags.ts and docs
 - 📦 Updated dependencies
 
-### v12.2.0
+## [12.2.0] - 2020-09-20
 
 - 🌱 ExifTool upgraded to [v12.06](https://exiftool.org/history.html#v12.06)
 - 📦 Added quoted-file test
 
-### v12.1.0
+## [12.1.0] - 2020-08-25
 
 - 🌱 ExifTool upgraded to [v12.05](https://exiftool.org/history.html#v12.05)
 - 📦 Updated dependencies
 
-### v12.0.0
+## [12.0.0] - 2020-08-14
 
 - 💔 `ExifDateTime.toISOString()` now returns `string | undefined` (as it
   proxies for Luxon's `DateTime.toISO()`, which now may return `null`.)
@@ -1412,18 +1412,18 @@ const exiftool = new ExifTool({
 - 📦 Rebuilt Tags.ts and docs
 - 📦 Updated dependencies
 
-### v11.5.0
+## [11.5.0] - 2020-07-21
 
 - 🐞 `ExifDateTime` and `ExifDate` no longer accept just a year or year and month.
 - 📦 Updated dependencies
 
-### v11.4.0
+## [11.4.0] - 2020-07-01
 
 - 🌱 ExifTool upgraded to [v12.01](https://exiftool.org/history.html#v12.01)
 - ✨ ExifTool now takes a `Logger` thunk in the constructor options.
 - 📦 Updated dependencies
 
-### v11.3.0
+## [11.3.0] - 2020-05-08
 
 - 🌱 ExifTool upgraded to [v11.98](https://exiftool.org/history.html#v11.98)
 - 📦 BinaryExtractionTasks don't bother retrying when binary payloads are
@@ -1431,25 +1431,25 @@ const exiftool = new ExifTool({
 - 📦 ExifToolTask is now exported
 - 📦 Updated dependencies
 
-### v11.2.0
+## [11.2.0] - 2020-04-24
 
 - 🌱 ExifTool upgraded to [v11.95](https://exiftool.org/history.html#v11.95)
 - 📦 Updated dependencies
 
-### v11.1.0
+## [11.1.0] - 2020-04-11
 
 - 📦 Updated dependencies, including `batch-cluster`. The new
   `maxIdleMsPerProcess` option shuts down ExifTool processes automatically if
   they are idle for longer than `maxIdleMsPerProcess` milliseconds. New
   processes are forked when needed.
 
-### v11.0.0
+## [11.0.0] - 2020-04-06
 
 - 💔 **Breaking change:** A number of tags were removed from `Tags` because we
   were getting dangerously close to TypeScript's `error TS2590: Expression produces a union type that is too complex to represent.`
 - 🌱 ExifTool upgraded to [v11.93](https://exiftool.org/history.html#v11.93)
 
-### v10.1.0
+## [10.1.0] - 2020-03-30
 
 - 🐞 ExifTool doesn't (currently) respect `-ignoreMinorErrors` when extracting
   binary blobs. `BinaryExtractionTask` now assumes stderr messages matching
@@ -1458,7 +1458,7 @@ const exiftool = new ExifTool({
 - 📦 Updated dependencies
 - 📦 Prettier 2.0.0 pulled in and codebase reformatted with new defaults, causing huge (no-op) diff.
 
-### v10.0.0
+## [10.0.0] - 2020-03-07
 
 - 💔 **Breaking change:** For the past many major versions, when date and time
   fields are invalid, this library returns the raw (invalid) string provided by
@@ -1470,23 +1470,23 @@ const exiftool = new ExifTool({
 - 🌱 ExifTool upgraded to [v11.91](https://exiftool.org/history.html#v11.91)
 - 📦 Updated dependencies
 
-### v9.7.0
+## [9.7.0] - 2020-02-13
 
 - 🐞/✨ Date, DateTime, and Time tags can now ISO formatted. See
   [#71](https://github.com/photostructure/exiftool-vendored.js/issues/71).
   Thanks for the report, [Roland Ayala](https://github.com/rolanday)!
 
-### v9.6.0
+## [9.6.0] - 2020-02-12
 
 - 🌱 ExifTool upgraded to [v11.86](https://exiftool.org/history.html#v11.86)
 - 📦 Replace tslint with eslint. Fixed new linting errors.
 - 📦 Updated dependencies
 
-### v9.5.0
+## [9.5.0] - 2019-12-20
 
 - 🌱 ExifTool upgraded to [v11.80](https://exiftool.org/history.html#v11.80)
 
-### v9.4.0
+## [9.4.0] - 2019-12-06
 
 - 🌱 ExifTool upgraded to [v11.78](https://exiftool.org/history.html#v11.78)
 - 📦 Updated ExifTool's homepage from
@@ -1495,12 +1495,12 @@ const exiftool = new ExifTool({
   ended processes anymore, which should address [issue
   #46](https://github.com/photostructure/exiftool-vendored.js/issues/69).
 
-### v9.3.1
+## [9.3.1] - 2019-11-21
 
 - 📦 Updated dependencies. New batch-cluster shouldn't throw errors within async
   blocks anymore.
 
-### v9.3.0
+## [9.3.0] - 2019-11-14
 
 - ✨ Rebuilt `Tags` from 8008 example images and videos. New tags were found, but
   some of the more obscure tags have been dropped.
@@ -1508,17 +1508,17 @@ const exiftool = new ExifTool({
   [v11.76](https://exiftool.org/history.html#v11.76)
 - 📦 Updated dependencies
 
-### v9.2.0
+## [9.2.0] - 2019-11-05
 
 - 🌱 ExifTool upgraded to
   [v11.75](https://exiftool.org/history.html#v11.75)
 - 📦 Updated dependencies, including TypeScript 2.7
 
-### v9.1.0
+## [9.1.0] - 2019-10-26
 
 - ✨ Added `ExifTool.deleteAllTags`.
 
-### v9.0.0
+## [9.0.0] - 2019-10-25
 
 - 📦 This version is using the new Windows packaging of ExifTool written by
   [Oliver Betz](https://oliverbetz.de/pages/Artikel/ExifTool-for-Windows), and
@@ -1527,7 +1527,7 @@ const exiftool = new ExifTool({
 - 🌱 ExifTool upgraded to
   [v11.73](https://exiftool.org/history.html#v11.73)
 
-### v8.22.0
+## [8.22.0] - 2019-09-01
 
 - ✨ Added `ExifDateTime.hasZone`
 - ✨ `ExifDateTime.toISOString` automatically omits the timezone offset if unset
@@ -1536,17 +1536,17 @@ const exiftool = new ExifTool({
 - 🌱 ExifTool upgraded to
   [v11.65](https://exiftool.org/history.html#v11.65).
 
-### v8.21.1
+## [8.21.1] - 2019-08-11
 
 - 🐞 Fixed timezone inference rounding bug (`UTC+2` would return `UTC+02:15`)
 
-### v8.21.0
+## [8.21.0] - 2019-08-10
 
 - ✨ Exposed `Tags.tzSource` from `.read`. This is an optional string holding a
   description of where and how the source timezone offset, `Tags.tz`, was
   extracted. You will love it.
 
-### v8.20.0
+## [8.20.0] - 2019-08-04
 
 - ✨ Support for `.ExifTool_config` files was added. Either place your [user
   configuration file](http://owl.phy.queensu.ca/~phil/exiftool/config.html) in
@@ -1554,14 +1554,14 @@ const exiftool = new ExifTool({
   fully-qualified path that contains your user config. Addresses
   [#55](https://github.com/photostructure/exiftool-vendored.js/issues/55).
 
-### v8.19.0
+## [8.19.0] - 2019-07-27
 
 - 🌱 ExifTool upgraded to
   [v11.59](https://exiftool.org/history.html#v11.59).
 - ✨ Rebuilt `Tags` from 6,818 sample images.
 - 🐞 `GPSDateTime` is now forced to be `UTC`.
 
-### v8.18.0
+## [8.18.0] - 2019-07-26
 
 - ✨ Expose `Tags.tz` from `.read`. This is an optional string holding the
   timezone offset, like `UTC+1`, or an actual location specification, like
@@ -1570,7 +1570,7 @@ const exiftool = new ExifTool({
 - ✨ Added another timezone offset extraction heuristic: if `DateTimeUTC` and
   another created-at time is present, the offset is inferred from the delta.
 
-### v8.17.0
+## [8.17.0] - 2019-07-22
 
 - ✨ Automagick workaround for AWS Lambda. See the new `ExifToolOption.ignoreShebang`
   option,
@@ -1578,12 +1578,12 @@ const exiftool = new ExifTool({
   don't have `/usr/bin/perl` installed. [See
   #53](https://github.com/photostructure/exiftool-vendored.js/issues/53).
 
-### v8.16.0
+## [8.16.0] - 2019-07-16
 
 - 🌱 ExifTool upgraded to
   [v11.55](https://exiftool.org/history.html#v11.55).
 
-### v8.15.0
+## [8.15.0] - 2019-07-15
 
 - ✨ Write support has been improved
   - Creation of new sidecar files is now supported
@@ -1592,7 +1592,7 @@ const exiftool = new ExifTool({
 - 📦 Set up `nyc` (test coverage report)
 - 📦 Updated dependencies
 
-### v8.14.0
+## [8.14.0] - 2019-07-09
 
 - 🌱 ExifTool upgraded to
   [v11.54](https://exiftool.org/history.html#v11.54).
@@ -1600,11 +1600,11 @@ const exiftool = new ExifTool({
 - 📦 Mention the need for `perl` in the installation instructions. [See
   #51](https://github.com/photostructure/exiftool-vendored.js/issues/51).
 
-### v8.13.1
+## [8.13.1] - 2019-06-25
 
 - 📦 Updated dependencies
 
-### v8.13.0
+## [8.13.0] - 2019-06-17
 
 - 🐞 Better support for writing tags with date and time values. [See
   #50](https://github.com/photostructure/exiftool-vendored.js/issues/50).
@@ -1615,30 +1615,30 @@ const exiftool = new ExifTool({
 - 🌱 ExifTool upgraded to
   [v11.51](https://exiftool.org/history.html#v11.51).
 
-### v8.12.0
+## [8.12.0] - 2019-06-08
 
 - ✨ Rebuilt `Tags` from 6779 examples. New tags were found, including `PreviewTIFF`.
 - 📦 Updated dependencies
 - 🌱 ExifTool upgraded to
   [v11.49](https://exiftool.org/history.html#v11.49).
 
-### v8.11.0
+## [8.11.0] - 2019-06-01
 
 - 📦 Updated dependencies
 - 🌱 ExifTool upgraded to
   [v11.47](https://exiftool.org/history.html#v11.47).
 
-### v8.10.1
+## [8.10.1] - 2019-05-18
 
 - 📦 Updated dependencies
 
-### v8.10.0
+## [8.10.0] - 2019-05-18
 
 - 🌱 ExifTool upgraded to
   [v11.43](https://exiftool.org/history.html#v11.43).
 - 📦 Updated dependencies
 
-### v8.9.0
+## [8.9.0] - 2019-04-20
 
 - 🐞 Throw an error if
   [process.platform()](https://nodejs.org/api/process.html#process_process_platform)
@@ -1647,7 +1647,7 @@ const exiftool = new ExifTool({
   [v11.37](https://exiftool.org/history.html#v11.37).
 - 📦 Updated dependencies, fixed a couple typing nits
 
-### v8.8.0
+## [8.8.0] - 2019-04-07
 
 - 🌱 ExifTool upgraded to
   [v11.34](https://exiftool.org/history.html#v11.34).
@@ -1655,23 +1655,23 @@ const exiftool = new ExifTool({
   parsing methods.
 - 📦 Updated dependencies
 
-### v8.7.1
+## [8.7.1] - 2019-04-03
 
 - 📦 Updated dependencies
 - 📦 Moved project to the PhotoStructure github org
 
-### v8.7.0
+## [8.7.0] - 2019-03-27
 
 - ✨ `ExifDateTime` now has a `rawValue` field holding the raw value provided by
   `exiftool`.
 
-### v8.6.1
+## [8.6.1] - 2019-03-26
 
 - 🐞 Luxon 1.12.0 caused [issue
   #46](https://github.com/mceachen/exiftool-vendored.js/issues/46). Fixed
   ExifDateTime to use new API.
 
-### v8.6.0
+## [8.6.0] - 2019-03-15
 
 - 🌱 ExifTool upgraded to
   [v11.32](https://exiftool.org/history.html#v11.32).
@@ -1679,7 +1679,7 @@ const exiftool = new ExifTool({
   5.6.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
   which fixed an issue with graceful `end` promise resolutions.
 
-### v8.5.0
+## [8.5.0] - 2019-03-13
 
 - 🌱 ExifTool upgraded to
   [v11.31](https://exiftool.org/history.html#v11.31).
@@ -1688,7 +1688,7 @@ const exiftool = new ExifTool({
   5.4.0](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
   which fixed `maxProcs`.
 
-### v8.4.0
+## [8.4.0] - 2019-03-06
 
 - ✨ Pulled in new [batch-cluster
   5.3.1](https://github.com/photostructure/batch-cluster.js/blob/main/CHANGELOG.md),
@@ -1701,21 +1701,21 @@ const exiftool = new ExifTool({
 - 📦 `WriteTags` now is a proper superset of values from Tags.
 - 📦 Updated dependencies
 
-### v8.3.0
+## [8.3.0] - 2019-03-02
 
 - 📦 Updated dependencies
 - 📦 `yarn update` now uses `extract-zip`.
 - 🌱 ExifTool upgraded to
   [v11.29](https://exiftool.org/history.html#v11.29).
 
-### v8.2.0
+## [8.2.0] - 2019-02-27
 
 - ✨ Implemented `ExifTool.readRaw`. If you decide to use this method, please
   take care to read the method's documentation. Addresses both
   [#44](https://github.com/mceachen/exiftool-vendored.js/issues/44) and
   [#45](https://github.com/mceachen/exiftool-vendored.js/issues/45).
 
-### v8.1.0
+## [8.1.0] - 2019-02-20
 
 - ✨ Added support for EXIF dates that include both the UTC offset as well as the
   time zone abbreviation, like `2014:07:17 08:46:27-07:00 DST`. The TZA is
@@ -1725,7 +1725,7 @@ const exiftool = new ExifTool({
 - 📦 Updated dependencies
 - 📦 Mocha 6.0.0 broke `mocha.opts`, switched to `.mocharc.yaml`
 
-### v8.0.0
+## [8.0.0] - 2019-01-31
 
 Note that this release supports structures. The value associated to `struct`
 tags will be different from prior versions (in that they will actually be a
@@ -1740,12 +1740,12 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 📦 `update` now requires `https` for new ExifTool instance checksums.
 - 📦 Updated dependencies
 
-### v7.6.1
+## [7.6.1] - 2019-01-12
 
 - 🐞 Removed `yyyy` padding references that would break under Japanese year
   eras. Also removed 0 and 1 year validity heuristics.
 
-### v7.6.0
+## [7.6.0] - 2019-01-11
 
 - 🌱 ExifTool upgraded to
   [v11.24](https://exiftool.org/history.html#v11.24).
@@ -1753,17 +1753,17 @@ most users won't be affected, unless you've been waiting for this feature!)
   bug](https://github.com/mceachen/exiftool-vendored.js/pull/42). Thanks, [David
   Randler](https://github.com/draity)!
 
-### v7.5.0
+## [7.5.0] - 2018-12-07
 
 - 🌱 ExifTool upgraded to
   [v11.21](https://exiftool.org/history.html#v11.21).
 
-### v7.4.0
+## [7.4.0] - 2018-12-04
 
 - 🐞 `WriteTask` now supports newlines. [Fixes
   #37](https://github.com/mceachen/exiftool-vendored.js/issues/37).
 
-### v7.3.0
+## [7.3.0] - 2018-11-29
 
 - 📦 Rebuilt tags using new numeric default for GPS and new smartphone test
   images. Note that some tags were incorrect, and have now changed types (like
@@ -1771,12 +1771,12 @@ most users won't be affected, unless you've been waiting for this feature!)
   `FlashPixTags` group of tags, as well.
 - 📦 Rebuilt docs
 
-### v7.2.1
+## [7.2.1] - 2018-11-29
 
 - 📦 Update dependencies to deal with
   [event-stream](https://github.com/dominictarr/event-stream/issues/116) 💩🌩️
 
-### v7.2.0
+## [7.2.0] - 2018-11-22
 
 - 🌱 ExifTool upgraded to
   [v11.20](https://exiftool.org/history.html#v11.20).
@@ -1787,17 +1787,17 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 🐞 Timezone offset from GPS will be ignored if the date is > 14 hours different
 - 📦 added more timezone extraction tests
 
-### v7.1.0
+## [7.1.0] - 2018-10-26
 
 - 📦 Moved the date and time parsing into the `ExifDateTime`, `ExifDate`, and
   `ExifTime` classes.
 
-### v7.0.1: "nbd it's just the tags"
+## [7.0.1] - 2018-10-26: "nbd it's just the tags"
 
 - 📦 Added more test images to corpus, so there are more tags now.
 - 📦 Found error in `Directory` tag example, rebuilt tags
 
-### v7.0.0: the "time zones & types are hard" edition
+## [7.0.0] - 2018-10-26: the "time zones & types are hard" edition
 
 - ✨ More robust time zone extraction: this required adding `luxon` and
   `tz-lookup` as dependencies. See <https://photostructure.github.io/exiftool-vendored.js/documents/docs_DATES.html> for
@@ -1827,42 +1827,42 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 🌱 ExifTool upgraded to
   [v11.15](https://exiftool.org/history.html#v11.15).
 
-### v6.3.0
+## [6.3.0] - 2018-10-10
 
 - 🌱 ExifTool upgraded to
   [v11.13](https://exiftool.org/history.html#v11.13).
 - ✨ Rebuilt `Tags` based on new phone and camera models
 
-### v6.2.3
+## [6.2.3] - 2018-09-18
 
 - 📦 Better tag ratings by rebuilding tags with ExifTool's default category
   sorting. This fixed a number of tags (like ExposureTime, ISO, and FNumber)
   that were erroneously marked as "rare" because they were also (rarely) found
   in APP categories.
 
-### v6.2.2
+## [6.2.2] - 2018-09-14
 
 - 🐞 Increased default task timeout to 20s to resolve
   [#34](https://github.com/mceachen/exiftool-vendored.js/issues/34)
 
-### v6.2.1
+## [6.2.1] - 2018-09-14
 
 - 📦 Pull in batch-cluster 4.3.0, which exposes `taskData` events.
 
-### v6.2.0
+## [6.2.0] - 2018-09-07
 
 - ✨/🐞 [Joshua Harris](https://github.com/Circuit8) added support for [writing
   arrays](https://github.com/mceachen/exiftool-vendored.js/pull/32)
 - 🌱 ExifTool upgraded to
   [v11.10](https://exiftool.org/history.html#v11.10).
 
-### v6.1.2
+## [6.1.2] - 2018-08-18
 
 - 📦 By pulling in the latest batch-cluster, the default logger is NoLogger,
   which may be a nicer default for people. Added logging, event, and error
   information to the README.
 
-### v6.1.1
+## [6.1.1] - 2018-08-17
 
 - 🐞 Warnings work now, _and I even have a test to prove it_. 😳
 - ✨ Warning-vs-fatal errors can be configured via the new
@@ -1871,19 +1871,19 @@ most users won't be affected, unless you've been waiting for this feature!)
   `rejectTaskOnStderr`
   implementation to the ExifTool constructor.
 
-### v6.1.0
+## [6.1.0] - 2018-08-17
 
 - ✨ Warnings are back! Non-fatal processing errors are added to the Tags.errors field.
 - 📦 Pulled in new typedoc version and switched to "file" rendering, which seems
   to generate better docs. This unfortunately broke links to underlying jsdocs.
 
-### v6.0.1
+## [6.0.1] - 2018-08-15
 
 - 📦 Typedoc fails to render `Partial<>` composites, so `mktags` now renders
   each Tag as optional. The `Tag` interface should be exactly the same as from
   v6.0.0.
 
-### v6.0.0
+## [6.0.0] - 2018-08-15
 
 - 💔 `ExifTool`'s many constructor parameters turned out to be quite unwieldy. Version 6's constructor now takes an options hash. If you used the defaults, those haven't changed, and your code won't need to change.
 - 💔 `ExifTool.enqueueTask` takes a Task thunk now, to enable cleaner task retry
@@ -1900,18 +1900,18 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 🌱 ExifTool upgraded to
   [v11.09](https://exiftool.org/history.html#v11.09).
 
-### v5.5.0
+## [5.5.0] - 2018-08-08
 
 - 🌱 ExifTool upgraded to
   [v11.08](https://exiftool.org/history.html#v11.08).
 
-### v5.4.0
+## [5.4.0] - 2018-07-21
 
 - ✨ Some photo sharing sites will set the `CreateDate` or `SubSecCreateDate` to
   invalid values like `0001:01:01 00:00:00.00`. These values are now returned as
   strings so consumers can more consistently discriminate invalid metadata.
 
-### v5.3.0
+## [5.3.0] - 2018-07-13
 
 - ✨ Prior versions of `ExifTool.read()` always added the `-fast` option. This
   read mode omits metadata found after the image payload. This makes reads much
@@ -1925,7 +1925,7 @@ most users won't be affected, unless you've been waiting for this feature!)
   want to use "slow mode", just give an empty array to the second argument. If
   you want `-fast2` mode, provide `["-fast2"]` as the second argument.
 
-### v5.2.0
+## [5.2.0] - 2018-07-12
 
 - 🌱 ExifTool upgraded to
   [v11.06](https://exiftool.org/history.html#v11.06).
@@ -1933,7 +1933,7 @@ most users won't be affected, unless you've been waiting for this feature!)
   <https://github.com/nodejs/Release#release-schedule>
 - 📦 Pull in latest dependencies
 
-### v5.1.0
+## [5.1.0] - 2018-06-17
 
 - ✨ new `exiftool.rewriteAllTags()`, which may repair problematic image
   metadata.
@@ -1944,7 +1944,7 @@ most users won't be affected, unless you've been waiting for this feature!)
   sooner.
 - 📦 Pull in latest dependencies, include new batch-cluster.
 
-### v5.0.0
+## [5.0.0] - 2018-06-13
 
 - 💔/✨ Task rejections are always `Error`s now, and `ExifTool.on` observers will
   be provided Errors on failure cases. Previously, rejections and events had
@@ -1953,7 +1953,7 @@ most users won't be affected, unless you've been waiting for this feature!)
   for most people. Thanks for the suggestion, [Nils
   Knappmeier](https://github.com/nknapp)!
 
-### v4.26.0
+## [4.26.0] - 2018-06-13
 
 - 🌱 ExifTool upgraded to
   [v11.01](https://exiftool.org/history.html#v11.01).
@@ -1963,18 +1963,18 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 📦 Fix version spec because exiftool now has a left-zero-padded version that
   semver is not happy about.
 
-### v4.25.0
+## [4.25.0] - 2018-05-24
 
 - 🌱 ExifTool upgraded to
   [v10.98](https://exiftool.org/history.html#v10.98)
 
-### v4.24.0
+## [4.24.0] - 2018-05-06
 
 - 🌱 ExifTool upgraded to
   [v10.95](https://exiftool.org/history.html#v10.95)
 - 📦 Fix `.pl` dependency to omit test files and documentation
 
-### v4.23.0
+## [4.23.0] - 2018-04-30
 
 - 🌱 ExifTool upgraded to
   [v10.94](https://exiftool.org/history.html#v10.94)
@@ -1982,18 +1982,18 @@ most users won't be affected, unless you've been waiting for this feature!)
   (which may help with rare child zombies during long-lived parent processes on
   macOS)
 
-### v4.22.1
+## [4.22.1] - 2018-04-22
 
 - 📦 Pull in latest dependencies, including less-verbose BatchCluster
 
-### v4.22.0
+## [4.22.0] - 2018-04-18
 
 - ✨ Support for writing `AllDates` (closes
   [#21](https://github.com/mceachen/exiftool-vendored.js/issues/21).)
 - 🌱 ExifTool upgraded to
   [v10.93](https://exiftool.org/history.html#v10.93)
 
-### v4.21.0
+## [4.21.0] - 2018-04-12
 
 - ✨ Before reading or writing tags, we stat the file first to ensure it exists.
   Expect `ENOENT` rejections from `ExifTool.read` and `ExifTool.write` now.
@@ -2001,7 +2001,7 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 🌱 ExifTool upgraded to
   [v10.92](https://exiftool.org/history.html#v10.92)
 
-### v4.20.0
+## [4.20.0] - 2018-04-03
 
 - ✨ Support for [Electron](https://electronjs.org). Added `exiftoolPath` to the
   `ExifTool` constructor. See the
@@ -2010,53 +2010,53 @@ most users won't be affected, unless you've been waiting for this feature!)
 - 🌱 ExifTool upgraded to
   [v10.89](https://exiftool.org/history.html#v10.89)
 
-### v4.19.0
+## [4.19.0] - 2018-03-16
 
 - 🌱 ExifTool upgraded to
   [v10.86](https://exiftool.org/history.html#v10.86)
 
-### v4.18.1
+## [4.18.1] - 2018-03-01
 
 - 📦 Pick up batch-cluster 1.10.0 to possibly address [this
   issue](https://stackoverflow.com/questions/48961238/electron-setinterval-implementation-difference-between-chrome-and-node).
 
-### v4.18.0
+## [4.18.0] - 2018-02-28
 
 - 🌱 ExifTool upgraded to
   [v10.81](https://exiftool.org/history.html#v10.81)
 - 📦 Update deps, including batch-cluster 1.9.0
 - 📦 Dropped support for node 4 (EOLs in 1 month).
 
-### v4.17.0
+## [4.17.0] - 2018-02-18
 
 - 🌱 ExifTool upgraded to
   [v10.79](https://exiftool.org/history.html#v10.79)
 - 📦 Update deps, including TypeScript 2.7.2
 - 📦 [Removed 🐱](https://github.com/mceachen/exiftool-vendored.js/issues/16)
 
-### v4.16.0
+## [4.16.0] - 2018-02-06
 
 - 🌱 ExifTool upgraded to
   [v10.78](https://exiftool.org/history.html#v10.78)
 - 📦 Update deps, including TypeScript 2.7.1
 
-### v4.15.0
+## [4.15.0] - 2018-01-24
 
 - 🌱 ExifTool upgraded to
   [v10.76](https://exiftool.org/history.html#v10.76)
 - 📦 Update deps
 
-### v4.14.1
+## [4.14.1] - 2018-01-03
 
 - 📦 Update deps
 
-### v4.14.0
+## [4.14.0] - 2018-01-03
 
 - 🐞 Use `spawn` instead of `execFile`, as the latter has buggy `maxBuffer`
   exit behavior and could leak exiftool processes on windows
 - 🐞 The `.exiftool` singleton now properly uses a `DefaultMaxProcs` const.
 
-### v4.13.1
+## [4.13.1] - 2018-01-01
 
 - 🌱 ExifTool upgraded to
   [v10.70](https://exiftool.org/history.html#v10.70)
@@ -2066,49 +2066,49 @@ most users won't be affected, unless you've been waiting for this feature!)
 (due to buggy interactions between `yarn` and `np`, v4.13.0 was published in
 an incomplete state and subsequently unpublished)
 
-### v4.12.1
+## [4.12.1] - 2017-12-01
 
 - 📦 Rollback the rollback, as it's a [known issue with
   par](https://u88.n24.queensu.ca/exiftool/forum/index.php/topic,8747.msg44932.html#msg44932).
   If this happens again I'll add a windows-specific validation of the par
   directory.
 
-### v4.12.0
+## [4.12.0] - 2017-12-01
 
 - 🐞 Rollback to ExifTool v10.65 to avoid [this windows
   issue](https://u88.n24.queensu.ca/exiftool/forum/index.php?topic=8747.msg44926)
 
-### v4.11.0
+## [4.11.0] - 2017-11-25
 
 - ✨ Support for [non-latin filenames and tag
   values](https://github.com/mceachen/exiftool-vendored.js/issues/14)
   Thanks, [Demiurga](https://github.com/apolkingg8)!
 
-### v4.10.0
+## [4.10.0] - 2017-11-18
 
 - 🌱 ExifTool upgraded to
   [v10.67](https://exiftool.org/history.html#v10.67)
 
-### v4.9.2
+## [4.9.2] - 2017-11-18
 
 - 📦 More conservative default for `maxProcs`: `Math.max(1, system cpus / 4)`.
 
-### v4.9.0
+## [4.9.0] - 2017-11-18
 
 - 📦 Expose `ExifTool.ended`
 
-### v4.8.0
+## [4.8.0] - 2017-11-16
 
 - ✨ Corrected the type interface to `ExifTool.write()` to be only string or
   numeric values with keys from `Tags` so intellisense can work it's magicks
 - 📦 Updated the README with more examples
 - 📦 Added timestamp write tests
 
-### v4.7.1
+## [4.7.1] - 2017-11-15
 
 - ✨ Metadata writing is now supported. Closes [#6](https://github.com/mceachen/exiftool-vendored.js/issues/6)
 
-### v4.6.0
+## [4.6.0] - 2017-11-15
 
 - 🌱 ExifTool upgraded to
   [v10.66](https://exiftool.org/history.html#v10.66)
@@ -2119,16 +2119,16 @@ an incomplete state and subsequently unpublished)
   blocks and the README so `--exit` isn't necessary.
 - 📦 Upgraded all dependencies
 
-### v4.5.0
+## [4.5.0] - 2017-10-24
 
 - 🌱 ExifTool upgraded to
   [v10.64](https://exiftool.org/history.html#v10.64)
 
-### v4.4.1
+## [4.4.1] - 2017-09-10
 
 - 📦 reverted batch-cluster reference
 
-### v4.4.0
+## [4.4.0] - 2017-09-10
 
 - 🌱 ExifTool upgraded to
   [v10.61](https://exiftool.org/history.html#v10.61)
@@ -2136,25 +2136,25 @@ an incomplete state and subsequently unpublished)
   reliable than only using signal traps.
 - 📦 `yarn upgrade --latest`
 
-### v4.3.0
+## [4.3.0] - 2017-08-13
 
 - 🌱 ExifTool upgraded to
   [v10.60](https://exiftool.org/history.html#v10.60)
 - 📦 Upgraded all dependencies
 
-### v4.2.0
+## [4.2.0] - 2017-06-29
 
 - 🌱 ExifTool upgraded to
   [v10.58](https://exiftool.org/history.html#v10.58)
 
-### v4.1.0
+## [4.1.0] - 2017-06-20
 
 - 📦 Added `QuickTimeTags` from several example movies (previous versions of
   `Tags` didn't have movie tag exemplar values)
 - 🌱 ExifTool upgraded to
   [v10.57](https://exiftool.org/history.html#v10.57)
 
-### v4.0.0
+## [4.0.0]
 
 - 💔 All `Tags` fields are now marked as possibly undefined, as there are no
   EXIF, IPTC, or other values that are guaranteed to be set. Sorry for the major
@@ -2166,7 +2166,7 @@ an incomplete state and subsequently unpublished)
 - 📦 Added `ExifTool.pids` (used by a couple new integration tests)
 - 📦 Rebuilt `Tags` with additional sample images and looser tag filtering.
 
-### v3.2.0
+## [3.2.0] - 2017-05-27
 
 - 🌱 ExifTool upgraded to
   [v10.54](https://exiftool.org/history.html#v10.54)
@@ -2176,17 +2176,17 @@ an incomplete state and subsequently unpublished)
   Mokrushin](https://github.com/amokrushin) submitted several PRs to address
   this. Thanks!
 
-### v3.1.1
+## [3.1.1] - 2017-05-12
 
 - 🐞 Fixed `package.json` references to `types` and `main`
 
-### v3.1.0
+## [3.1.0] - 2017-05-09
 
 - 📦 Completed jsdocs for ExifTool constructor
 - 📦 Pulled in batch-cluster v1.1.0 that adds both `on("beforeExit")` and
   `on("exit")` handlers
 
-### v3.0.0
+## [3.0.0] - 2017-05-08
 
 - ✨ Extracted [batch-cluster](https://github.com/photostructure/batch-cluster.js) to
   power child process management. Task timeout, retry, and failure handling has
@@ -2199,26 +2199,26 @@ an incomplete state and subsequently unpublished)
 - 📦 Using `.npmignore` instead of package.json's `files` directive to specify
   the contents of the module.
 
-### v2.17.1
+## [2.17.1]
 
 - 🐛 Rounded milliseconds were not set by `ExifDateTime.toDate()` when timezone
   was not available. Breaking tests were added.
 
-### v2.16.1
+## [2.16.1] - 2017-04-27
 
 - 📦 Exposed datetime parsing via static methods on `ExifDateTime`, `ExifDate`, and `ExifTime`.
 
-### v2.16.0
+## [2.16.0] - 2017-04-26
 
 - ✨ Some newer smartphones (like the Google Pixel) render timestamps with
   microsecond precision, which is now supported.
 
-### v2.15.0
+## [2.15.0] - 2017-04-22
 
 - ✨ Added example movies to the sample image corpus used to build the tag
   definitions.
 
-### v2.14.0
+## [2.14.0] - 2017-04-22
 
 - ✨ Added `taskTimeoutMillis`, which will cause the promise to be rejected if
   exiftool takes longer than this value to parse the file. Note that this
@@ -2233,43 +2233,43 @@ an incomplete state and subsequently unpublished)
   (via `npm run mktags ~/sample-images`), including many RAW image types
   (like `.ORF`, `.CR2`, and `.NEF`).
 
-### v2.13.0
+## [2.13.0] - 2017-04-21
 
 - ✨ Added `maxReuses` before exiftool processes are recycled
 - 🌱 ExifTool upgraded to
   [v10.50](https://exiftool.org/history.html#v10.50)
 
-### v2.12.0
+## [2.12.0] - 2017-03-27
 
 - 🐛 Fixed [`gps.toDate is not a function`](https://github.com/mceachen/exiftool-vendored.js/issues/3)
 
-### v2.11.0
+## [2.11.0] - 2017-03-27
 
 - 🌱 ExifTool upgraded to v10.47
 - ✨ Added call to `.kill()` on `.end()` in case the stdin command was missed by ExifTool
 
-### v2.10.0
+## [2.10.0] - 2017-03-13
 
 - ✨ Added support for Node 4. TypeScript builds under es5 mode.
 
-### v2.9.0
+## [2.9.0] - 2017-03-12
 
 - 🌱 ExifTool upgraded to v10.46
 
-### v2.8.0
+## [2.8.0] - 2017-02-28
 
 - 🌱 ExifTool upgraded to v10.44
 - 📦 Upgraded to TypeScript 2.2
 - 🐞 `update/io.ts` error message didn't handle null statuscodes properly
 - 🐞 `update/mktags.ts` had a counting bug exposed by TS 2.2
 
-### v2.7.0
+## [2.7.0] - 2017-02-10
 
 - ✨ More robust error handling for child processes (previously there was no
   `.on("error")` added to the process itself, only on `stderr` of the child
   process).
 
-### v2.6.0
+## [2.6.0] - 2017-02-09
 
 - 🌱 ExifTool upgraded to v10.41
 - ✨ `Orientation` is [rendered as a string by
@@ -2277,82 +2277,82 @@ an incomplete state and subsequently unpublished)
   which was surprising (to me, at least). By exposing optional args in
   `ExifTool.read`, the caller can choose how ExifTool renders tag values.
 
-### v2.5.0
+## [2.5.0] - 2017-02-08
 
 - 🐞 `LANG` and `LC_` environment variables were passed through to exiftool (and
   subsequently, perl). These are now explicitly unset when exec'ing ExifTool,
   both to ensure tag names aren't internationalized, and to prevent perl errors
   from bubbling up to the caller due to missing locales.
 
-### v2.4.0
+## [2.4.0] - 2017-01-30
 
 - ✨ `extractBinaryTag` exposed because there are a **lot** of binary tags (and
   they aren't all embedded images)
 - 🐞 `JpgFromRaw` was missing in `Tag` (no raw images were in the example corpus!)
 
-### v2.3.0
+## [2.3.0] - 2017-01-20
 
 - ✨ `extractJpgFromRaw` implemented to pull out EXIF-embedded images from RAW formats
 
-### v2.2.0
+## [2.2.0] - 2017-01-19
 
 - 🌱 ExifTool upgraded to v10.40
 
-### v2.1.1
+## [2.1.1] - 2017-01-14
 
 - ✨ `extractThumbnail` and `extractPreview` implemented to pull out EXIF-embedded images
 - 📦 Rebuilt package.json.files section
 
-### v2.0.1
+## [2.0.1] - 2017-01-10
 
 - 💔 Switched from home-grown `logger` to [debug](https://www.npmjs.com/package/debug)
 
-### v1.5.3
+## [1.5.3] - 2017-01-10
 
 - 📦 Switch back to `platform-dependent-modules`.
   [npm warnings](https://stackoverflow.com/questions/15176082/npm-package-json-os-specific-dependency)
   aren't awesome.
 - 📦 Don't include tests or updater in the published package
 
-### v1.5.0
+## [1.5.0] - 2017-01-10
 
 - 🌱 ExifTool upgraded to v10.38
 - 📦 Use `npm`'s os-specific optionalDependencies rather than `platform-dependent-modules`.
 
-### v1.4.1
+## [1.4.1] - 2016-12-26
 
 - 🐛 Several imports (like `process`) name-collided on the globals imported by Electron
 
-### v1.4.0
+## [1.4.0] - 2016-12-22
 
 - 🌱 ExifTool upgraded to v10.37
 
-### v1.3.0
+## [1.3.0] - 2016-12-09
 
 - 🌱 ExifTool upgraded to v10.36
 - ✨ `Tag.Error` exposed for unsupported file types.
 
-### v1.2.0
+## [1.2.0] - 2016-11-17
 
 - 🐛 It was too easy to miss calling `ExifTool.end()`, which left child ExifTool
   processes running. The constructor to ExifTool now adds a shutdown hook to
   send all child processes a shutdown signal.
 
-### v1.1.0
+## [1.1.0] - 2016-11-17
 
 - ✨ Added `toString()` for all date/time types
 
-### v1.0.0
+## [1.0.0] - 2016-11-14
 
 - ✨ Added typings reference in the package.json
 - 🌱 Upgraded vendored exiftool to 10.33
 
-### v0.4.0
+## [0.4.0] - 2016-11-08
 
 - 📦 Fixed packaging (maintain jsdocs in .d.ts and added typings reference)
 - 📦 Using [np](https://www.npmjs.com/package/np) for packaging
 
-### v0.3.0
+## [0.3.0] - 2016-10-25
 
 - ✨ Multithreading support with the `maxProcs` ctor param
 - ✨ Added tests for reading images with truncated or missing EXIF headers
@@ -2360,12 +2360,317 @@ an incomplete state and subsequently unpublished)
 - ✨ Subsecond resolution from the Google Pixel has 8 significant digits(!!),
   added support for that.
 
-### v0.2.0
+## [0.2.0] - 2016-10-24
 
 - ✨ More rigorous TimeZone extraction from assets, and added the
   `ExifTimeZoneOffset` to handle the `TimeZone` composite tag
 - ✨ Added support for millisecond timestamps
 
-### v0.1.1
+## [0.1.1] - 2016-10-23
 
 🌱✨ Initial Release. Packages ExifTool v10.31.
+
+[39.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/39.1.0
+[39.0.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/39.0.1
+[39.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/39.0.0
+[38.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/38.3.0
+[38.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/38.2.0
+[38.1.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/38.1.2
+[38.1.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/38.1.1
+[38.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/38.1.0
+[38.0.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/38.0.1
+[38.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/38.0.0
+[37.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/37.2.0
+[37.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/37.1.0
+[37.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/37.0.0
+[36.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/36.1.0
+[36.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/36.0.0
+[35.21.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.21.0
+[35.20.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.20.0
+[35.19.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.19.0
+[35.18.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.18.0
+[35.17.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.17.0
+[35.16.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.16.0
+[35.15.0]: https://www.npmjs.com/package/exiftool-vendored/v/35.15.0
+[35.14.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.14.0
+[35.13.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.13.0
+[35.12.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.12.1
+[35.12.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.12.0
+[35.11.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.11.0
+[35.10.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.10.1
+[35.10.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.10.0
+[35.9.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.9.0
+[35.8.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.8.0
+[35.7.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.7.0
+[35.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.6.0
+[35.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.5.0
+[35.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.4.0
+[35.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.3.0
+[35.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.2.0
+[35.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.1.0
+[35.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/35.0.0
+[34.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/34.3.0
+[34.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/34.2.0
+[34.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/34.1.0
+[34.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/34.0.0
+[33.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/33.5.0
+[33.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/33.4.0
+[33.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/33.3.0
+[33.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/33.2.0
+[33.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/33.1.0
+[33.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/33.0.0
+[32.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/32.1.0
+[32.0.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/32.0.1
+[31.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/31.3.0
+[31.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/31.2.0
+[31.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/31.1.0
+[31.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/31.0.0
+[30.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.5.0
+[30.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.4.0
+[30.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.3.0
+[30.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.2.0
+[30.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.1.0
+[30.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/30.0.0
+[29.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v29.3.0
+[29.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v29.2.0
+[29.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v29.1.0
+[29.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v29.0.0
+[28.8.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.8.0
+[28.7.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.7.0
+[28.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.6.0
+[28.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.5.0
+[28.4.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.4.1
+[28.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.4.0
+[28.3.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.3.1
+[28.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.3.0
+[28.2.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.2.1
+[28.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.2.0
+[28.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.1.0
+[28.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v28.0.0
+[27.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v27.0.0
+[26.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v26.2.0
+[26.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v26.1.0
+[26.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v26.0.0
+[25.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v25.2.0
+[25.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v25.1.0
+[25.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v25.0.0
+[24.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v24.6.0
+[24.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v24.5.0
+[24.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v24.4.0
+[24.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v24.3.0
+[24.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v24.2.0
+[24.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v24.1.0
+[24.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v24.0.0
+[23.7.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.7.0
+[23.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.6.0
+[23.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.5.0
+[23.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.4.0
+[23.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.3.0
+[23.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.2.0
+[23.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.1.0
+[23.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v23.0.0
+[22.2.3]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v22.2.3
+[22.2.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v22.2.2
+[22.2.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v22.2.1
+[22.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v22.2.0
+[22.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v22.1.0
+[22.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v22.0.0
+[21.5.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v21.5.1
+[21.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v21.5.0
+[21.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v21.4.0
+[21.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v21.3.0
+[21.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v21.2.0
+[21.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v21.1.0
+[21.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v21.0.0
+[20.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v20.0.0
+[19.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v19.0.0
+[18.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.6.0
+[18.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.5.0
+[18.4.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.4.2
+[18.4.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.4.1
+[18.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.4.0
+[18.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.3.0
+[18.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.2.0
+[18.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.1.0
+[18.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v18.0.0
+[17.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v17.1.0
+[17.0.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v17.0.1
+[17.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v17.0.0
+[16.5.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v16.5.1
+[16.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v16.4.0
+[16.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v16.3.0
+[16.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v16.2.0
+[16.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v16.1.0
+[16.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v16.0.0
+[15.12.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.12.1
+[15.12.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.12.0
+[15.11.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.11.0
+[15.10.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.10.1
+[15.10.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.10.0
+[15.9.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.9.2
+[15.9.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.9.1
+[15.9.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.9.0
+[15.8.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.8.0
+[15.7.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.7.0
+[15.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.6.0
+[15.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.5.0
+[15.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.4.0
+[15.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.3.0
+[15.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.2.0
+[15.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.1.0
+[15.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v15.0.0
+[14.6.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.6.2
+[14.6.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.6.1
+[14.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.6.0
+[14.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.5.0
+[14.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.4.0
+[14.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.3.0
+[14.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.2.0
+[14.1.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.1.1
+[14.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.1.0
+[14.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v14.0.0
+[13.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v13.2.0
+[13.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v13.1.0
+[13.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v13.0.0
+[12.3.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v12.3.1
+[12.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v12.3.0
+[12.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v12.2.0
+[12.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v12.1.0
+[12.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v12.0.0
+[11.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v11.5.0
+[11.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v11.4.0
+[11.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v11.3.0
+[11.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v11.2.0
+[11.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v11.1.0
+[11.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v11.0.0
+[10.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v10.1.0
+[10.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v10.0.0
+[9.7.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.7.0
+[9.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.6.0
+[9.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.5.0
+[9.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.4.0
+[9.3.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.3.1
+[9.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.3.0
+[9.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.2.0
+[9.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.1.0
+[9.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v9.0.0
+[8.22.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.22.0
+[8.21.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.21.1
+[8.21.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.21.0
+[8.20.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.20.0
+[8.19.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.19.0
+[8.18.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.18.0
+[8.17.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.17.0
+[8.16.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.16.0
+[8.15.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.15.0
+[8.14.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.14.0
+[8.13.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.13.1
+[8.13.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.13.0
+[8.12.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.12.0
+[8.11.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.11.0
+[8.10.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.10.1
+[8.10.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.10.0
+[8.9.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.9.0
+[8.8.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.8.0
+[8.7.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.7.1
+[8.7.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.7.0
+[8.6.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.6.1
+[8.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.6.0
+[8.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.5.0
+[8.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.4.0
+[8.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.3.0
+[8.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.2.0
+[8.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.1.0
+[8.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v8.0.0
+[7.6.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.6.1
+[7.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.6.0
+[7.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.5.0
+[7.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.4.0
+[7.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.3.0
+[7.2.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.2.1
+[7.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.2.0
+[7.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.1.0
+[7.0.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.0.1
+[7.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v7.0.0
+[6.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.3.0
+[6.2.3]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.2.3
+[6.2.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.2.2
+[6.2.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.2.1
+[6.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.2.0
+[6.1.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.1.2
+[6.1.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.1.1
+[6.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.1.0
+[6.0.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.0.1
+[6.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v6.0.0
+[5.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v5.5.0
+[5.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v5.4.0
+[5.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v5.3.0
+[5.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v5.2.0
+[5.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v5.1.0
+[5.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v5.0.0
+[4.26.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.26.0
+[4.25.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.25.0
+[4.24.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.24.0
+[4.23.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.23.0
+[4.22.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.22.1
+[4.22.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.22.0
+[4.21.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.21.0
+[4.20.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.20.0
+[4.19.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.19.0
+[4.18.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.18.1
+[4.18.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.18.0
+[4.17.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.17.0
+[4.16.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.16.0
+[4.15.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.15.0
+[4.14.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.14.1
+[4.14.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.14.0
+[4.13.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.13.1
+[4.12.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.12.1
+[4.12.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.12.0
+[4.11.0]: https://www.npmjs.com/package/exiftool-vendored/v/4.11.0
+[4.10.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.10.0
+[4.9.2]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.9.2
+[4.9.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.9.0
+[4.8.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.8.0
+[4.7.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.7.1
+[4.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.6.0
+[4.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.5.0
+[4.4.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.4.1
+[4.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.4.0
+[4.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.3.0
+[4.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.2.0
+[4.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v4.1.0
+[3.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v3.2.0
+[3.1.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v3.1.1
+[3.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v3.1.0
+[3.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v3.0.0
+[2.16.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.16.1
+[2.16.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.16.0
+[2.15.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.15.0
+[2.14.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.14.0
+[2.13.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.13.0
+[2.12.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.12.0
+[2.11.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.11.0
+[2.10.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.10.0
+[2.9.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.9.0
+[2.8.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.8.0
+[2.7.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.7.0
+[2.6.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.6.0
+[2.5.0]: https://www.npmjs.com/package/exiftool-vendored/v/2.5.0
+[2.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.4.0
+[2.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.3.0
+[2.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.2.0
+[2.1.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.1.1
+[2.0.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v2.0.1
+[1.5.3]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.5.3
+[1.5.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.5.0
+[1.4.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.4.1
+[1.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.4.0
+[1.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.3.0
+[1.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.2.0
+[1.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.1.0
+[1.0.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v1.0.0
+[0.4.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v0.4.0
+[0.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v0.3.0
+[0.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/v0.2.0
+[0.1.1]: https://www.npmjs.com/package/exiftool-vendored/v/0.1.1
