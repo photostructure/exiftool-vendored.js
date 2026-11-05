@@ -47,8 +47,8 @@ workstation.
   changing the package's trusted-publisher settings on npmjs.com.
 - npm validates a staged package, which takes 5 to 20 minutes, then holds it
   until a maintainer approves it with 2FA.
-- The **Create immutable GitHub release** job checks npm 10, 20, 35 and 55
-  minutes after staging, then every 30 minutes, for up to 5 hours 25 minutes.
+- The **Create immutable GitHub release** job checks npm every 5 minutes, for up to
+  5 hours 45 minutes.
   Any npm error other than "not found" (E404) ends the job early. Once npm
   serves the version, it re-verifies the signed tag and creates the immutable
   GitHub release. Its notes are the version's `CHANGELOG.md` section, followed
