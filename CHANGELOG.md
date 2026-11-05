@@ -32,6 +32,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [Unreleased (patch)]
 
+- 📦 Updated batch-cluster to [v19.6.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v19.6.0). If the event loop is blocked past a task's `taskTimeoutMillis`, a reply ExifTool sent during the block now resolves the task instead of timing it out. Health checks no longer keep an otherwise idle ExifTool process alive past `maxIdleMsPerProcess`.
 - 📦 GitHub releases now wait for the npm package to be approved, and carry these release notes.
 
 ## [39.1.0] - 2026-10-28
