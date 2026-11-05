@@ -80,6 +80,12 @@ workstation.
   The rejected run's **Create immutable GitHub release** job then runs out of
   checks and fails without creating a release. Cancel that run, or ignore its
   failure, and do not re-run it.
+- In the two cases above, the release commit has already moved the notes under
+  `## [X.Y.Z] - YYYY-MM-DD` in `CHANGELOG.md`, and the next release run fails
+  until `## [Unreleased]` names a bump and has notes. Rename that empty heading
+  to `## [Unreleased (patch|minor|major)]`, move the unpublished version's notes
+  under it, leave a line under `## [X.Y.Z]` saying that version was never
+  published, and then start the new release.
 - If the **Create immutable GitHub release** job fails before it creates the
   release (its checks ran out before you approved the stage, or `npm view`
   failed with an error other than E404), approve the stage if you have not,
