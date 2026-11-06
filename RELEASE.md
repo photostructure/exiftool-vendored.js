@@ -12,8 +12,10 @@ workstation.
 1. Add the release notes to `CHANGELOG.md` on `main`, under a heading that
    names the version bump from the consumer-visible change:
    `## [Unreleased (patch)]`, `## [Unreleased (minor)]`, or
-   `## [Unreleased (major)]`. The release workflow renames it to
-   `## [X.Y.Z] - YYYY-MM-DD`, and those notes become the GitHub release notes.
+   `## [Unreleased (major)]`. When the release must have a particular version,
+   name it instead, such as `## [Unreleased (13.61.0)]`. The release workflow
+   renames it to `## [X.Y.Z] - YYYY-MM-DD`, and those notes become the GitHub
+   release notes.
 2. Push the completed changes and wait for the ordinary `main` build to pass.
 3. Confirm that `main` has not moved to a different commit.
 

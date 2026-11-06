@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [main]
   # The version bump comes from the "## [Unreleased (patch|minor|major)]"
-  # heading in CHANGELOG.md.
+  # heading in CHANGELOG.md, or "## [Unreleased (X.Y.Z)]" for an exact version.
   workflow_dispatch:
 
 permissions:
@@ -67,7 +67,7 @@ jobs:
           persist-credentials: false
       - name: Read the Unreleased heading
         id: bump
-        uses: photostructure/changelog-release-action@2319f91de9a32bccbb3996cd674df93ba5160d1a # v0.2.0
+        uses: photostructure/changelog-release-action@825db4b9ae5a05bc906491f442b2d949ed8c43f8 # v0.3.0
         with:
           command: bump
 
@@ -130,7 +130,7 @@ jobs:
           set -euo pipefail
 
           case "$BUMP" in
-            patch|minor|major) ;;
+            patch|minor|major|[0-9]*.[0-9]*.[0-9]*) ;;
             *)
               echo "::error::Unsupported version bump: $BUMP"
               exit 1
@@ -163,7 +163,7 @@ jobs:
           echo "tag=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Stamp the release section of CHANGELOG.md
-        uses: photostructure/changelog-release-action@2319f91de9a32bccbb3996cd674df93ba5160d1a # v0.2.0
+        uses: photostructure/changelog-release-action@825db4b9ae5a05bc906491f442b2d949ed8c43f8 # v0.3.0
         with:
           command: stamp
           tag: ${{ steps.version.outputs.tag }}
