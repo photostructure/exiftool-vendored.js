@@ -67,7 +67,7 @@ jobs:
           persist-credentials: false
       - name: Read the Unreleased heading
         id: bump
-        uses: photostructure/changelog-release-action@825db4b9ae5a05bc906491f442b2d949ed8c43f8 # v0.3.0
+        uses: photostructure/changelog-release-action@92acc67a08c30e5dae96e7b8c0fc4585d2af3aa2 # v0.3.1
         with:
           command: bump
 
@@ -163,7 +163,7 @@ jobs:
           echo "tag=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Stamp the release section of CHANGELOG.md
-        uses: photostructure/changelog-release-action@825db4b9ae5a05bc906491f442b2d949ed8c43f8 # v0.3.0
+        uses: photostructure/changelog-release-action@92acc67a08c30e5dae96e7b8c0fc4585d2af3aa2 # v0.3.1
         with:
           command: stamp
           tag: ${{ steps.version.outputs.tag }}
