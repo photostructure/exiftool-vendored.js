@@ -46,7 +46,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [39.1.0] - 2026-10-28
 
-- 🌱 Upgraded ExifTool to version [13.60](https://exiftool.org/history.html#13.60).
+- 🌱 Upgraded ExifTool to version [13.60](https://exiftool.org/history.html#v13.60).
 
 - 📦 Updated exiftool-vendored.pl and exiftool-vendored.exe to v13.60.0. ExifTool 13.60 now [exits stay-open mode when its piped stdin closes](https://github.com/exiftool/exiftool/issues/458), so those packages no longer carry that fix as a downstream patch. They still apply the `ImageHashProgress` patch.
 
@@ -175,12 +175,12 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [35.21.0] - 2026-05-28
 
-- 🌱 Upgraded ExifTool to version [13.59](https://exiftool.org/history.html#13.59).
+- 🌱 Upgraded ExifTool to version [13.59](https://exiftool.org/history.html#v13.59).
 - 📦 Updated dependencies.
 
 ## [35.20.0] - 2026-05-08
 
-- 🌱 Upgraded ExifTool to version [13.58](https://exiftool.org/history.html#13.58).
+- 🌱 Upgraded ExifTool to version [13.58](https://exiftool.org/history.html#v13.58).
 - ✨ Added Node.js 26 to the CI test matrix.
 - 🐞 Restored support for the `^` write-even-if-empty modifier in tag names (e.g. `Description^`). The v35.19.0 argument-injection hardening tightened the tag-name grammar and inadvertently dropped `^`, breaking sidecar workflows that rely on ExifTool's `^=` operator to force-write empty values. Fixes [#331](https://github.com/photostructure/exiftool-vendored.js/issues/331).
 
@@ -200,16 +200,16 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [35.18.0] - 2026-04-17
 
-- 🌱 Upgraded ExifTool to version [13.57](https://exiftool.org/history.html#13.57).
+- 🌱 Upgraded ExifTool to version [13.57](https://exiftool.org/history.html#v13.57).
 - 🐞 Fixes an ExifTool 13.56 regression (shipped in v35.17.0) where XMP list-valued tags (`dc:subject`, `HierarchicalSubject`, `Keywords`) read from sidecar files were collapsed to just the last `<rdf:li>` as a scalar string when `-api struct=1` was in effect. Users on v35.17.0 who read XMP sidecars should upgrade.
 
 ## [35.17.0] - 2026-04-15
 
-- 🌱 Upgraded ExifTool to version [13.56](https://exiftool.org/history.html#13.56).
+- 🌱 Upgraded ExifTool to version [13.56](https://exiftool.org/history.html#v13.56).
 
 ## [35.16.0] - 2026-04-12
 
-- 🌱 Upgraded ExifTool to version [13.55](https://exiftool.org/history.html#13.55).
+- 🌱 Upgraded ExifTool to version [13.55](https://exiftool.org/history.html#v13.55).
 
 ## [35.15.0] - 2026-03-22
 
@@ -221,7 +221,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [35.14.0] - 2026-03-19
 
-- 🌱 Upgraded ExifTool to version [13.53](https://exiftool.org/history.html#13.53).
+- 🌱 Upgraded ExifTool to version [13.53](https://exiftool.org/history.html#v13.53).
 
 ## [35.13.0] - 2026-03-03
 
@@ -238,7 +238,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [35.11.0] - 2026-02-27
 
-- 🌱 Upgraded ExifTool to version [13.52](https://exiftool.org/history.html#13.52).
+- 🌱 Upgraded ExifTool to version [13.52](https://exiftool.org/history.html#v13.52).
 
 ## [35.10.1] - 2026-02-21
 
@@ -246,11 +246,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [35.10.0] - 2026-02-19
 
-- 🌱 Upgraded ExifTool to version [13.51](https://exiftool.org/history.html#13.51).
+- 🌱 Upgraded ExifTool to version [13.51](https://exiftool.org/history.html#v13.51).
 
 ## [35.9.0] - 2026-02-08
 
-- 🌱 Upgraded ExifTool to version [13.50](https://exiftool.org/history.html#13.50).
+- 🌱 Upgraded ExifTool to version [13.50](https://exiftool.org/history.html#v13.50).
 
 ## [35.8.0] - 2026-02-07
 
@@ -258,15 +258,15 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [35.7.0] - 2026-02-05
 
-- 🌱 Upgraded ExifTool to version [13.49](https://exiftool.org/history.html#13.49).
+- 🌱 Upgraded ExifTool to version [13.49](https://exiftool.org/history.html#v13.49).
 
 ## [35.6.0] - 2026-01-31
 
-- 🌱 Upgraded ExifTool to version [13.48](https://exiftool.org/history.html#13.48).
+- 🌱 Upgraded ExifTool to version [13.48](https://exiftool.org/history.html#v13.48).
 
 ## [35.5.0] - 2026-01-28
 
-- 🌱 Upgraded ExifTool to version [13.47](https://exiftool.org/history.html#13.47).
+- 🌱 Upgraded ExifTool to version [13.47](https://exiftool.org/history.html#v13.47).
 
 ## [35.4.0] - 2026-01-26
 
@@ -274,7 +274,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [35.3.0] - 2026-01-25
 
-- 🌱 Upgraded ExifTool to version [13.46](https://exiftool.org/history.html#13.46).
+- 🌱 Upgraded ExifTool to version [13.46](https://exiftool.org/history.html#v13.46).
 
 - 📦 Added tags and improved descriptions in the [Tags](https://photostructure.github.io/exiftool-vendored.js/interfaces/ExifTool.Tags.html) interface
 
@@ -309,11 +309,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [34.2.0] - 2025-12-27
 
-- 🌱 Upgraded ExifTool to version [13.45](https://exiftool.org/history.html#13.45).
+- 🌱 Upgraded ExifTool to version [13.45](https://exiftool.org/history.html#v13.45).
 
 ## [34.1.0] - 2025-12-15
 
-- 🌱 Upgraded ExifTool to version [13.44](https://exiftool.org/history.html#13.44).
+- 🌱 Upgraded ExifTool to version [13.44](https://exiftool.org/history.html#v13.44).
 
 ## [34.0.0] - 2025-12-05
 
@@ -323,7 +323,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 📦 The default `taskTimeoutMillis` is now 30 seconds (it was 20 seconds)
 
-- 🌱 Upgraded ExifTool to version [13.43](https://exiftool.org/history.html#13.43).
+- 🌱 Upgraded ExifTool to version [13.43](https://exiftool.org/history.html#v13.43).
 
 ## [33.5.0] - 2025-11-26
 
@@ -358,7 +358,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [33.2.0] - 2025-11-17
 
-- 🌱 Upgraded ExifTool to version [13.42](https://exiftool.org/history.html#13.42).
+- 🌱 Upgraded ExifTool to version [13.42](https://exiftool.org/history.html#v13.42).
 
 ## [33.1.0] - 2025-11-13
 
@@ -396,18 +396,18 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [31.3.0] - 2025-11-05
 
-- 🌱 Upgraded ExifTool to version [13.41](https://exiftool.org/history.html#13.41).
+- 🌱 Upgraded ExifTool to version [13.41](https://exiftool.org/history.html#v13.41).
 
 - 📦 Rebuilt `Tags.ts` after adding new cameras from the last couple months. A couple obscure tags have been added and removed.
 
 ## [31.2.0] - 2025-10-25
 
-- 🌱 Upgraded ExifTool to version [13.40](https://exiftool.org/history.html#13.40).
+- 🌱 Upgraded ExifTool to version [13.40](https://exiftool.org/history.html#v13.40).
 - 📦 Added Node.js v25 to the build matrix
 
 ## [31.1.0] - 2025-09-30
 
-- 🌱 Upgraded ExifTool to version [13.38](https://exiftool.org/history.html#13.38).
+- 🌱 Upgraded ExifTool to version [13.38](https://exiftool.org/history.html#v13.38).
 - ✨ Rebuilt `Tags.ts`: fields that live in multiple groups **are now included in every group**. Prior versions would pick the first-seen group for these fields, and that was nondeterministic between versions.
 - 📦 `TagMetadata.json` keys are sorted to minimize later per-version diffs
 - 📦 (did you know that `File:Comment` was writable? TIL!)
@@ -415,15 +415,15 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 ## [31.0.0] - 2025-09-25
 
 - 💔 Rebuilt `Tags.ts` with new exiftool v13.37 and additional newer exemplar test images. Several prior fields (that hopefully no one is using) were dropped, and new fields were added (see the git diff of Tags.ts from the prior release for details)
-- 🌱 Upgraded ExifTool to version [13.37](https://exiftool.org/history.html#13.37).
+- 🌱 Upgraded ExifTool to version [13.37](https://exiftool.org/history.html#v13.37).
 
 ## [30.5.0] - 2025-09-07
 
-- 🌱 Upgraded ExifTool to version [13.35](https://exiftool.org/history.html#13.35).
+- 🌱 Upgraded ExifTool to version [13.35](https://exiftool.org/history.html#v13.35).
 
 ## [30.4.0] - 2025-08-27
 
-- 🌱 Upgraded ExifTool to version [13.34](https://exiftool.org/history.html#13.34).
+- 🌱 Upgraded ExifTool to version [13.34](https://exiftool.org/history.html#v13.34).
 
 - 📦 Upgrade to batch-cluster [v15.0.1](https://github.com/photostructure/batch-cluster.js/releases/tag/v15.0.1) which includes a macos and linux /proc permission workaround, and is now built with OIDC, so it includes https://www.npmjs.com/package/batch-cluster#user-content-provenance
 
@@ -431,7 +431,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [30.3.0] - 2025-06-27
 
-- 🌱 Upgraded ExifTool to version [13.31](https://exiftool.org/history.html#13.31).
+- 🌱 Upgraded ExifTool to version [13.31](https://exiftool.org/history.html#v13.31).
 
 - ✨ Added **Disposable interface support** for automatic resource cleanup:
   - `ExifTool` now implements both `Disposable` and `AsyncDisposable` interfaces
@@ -459,7 +459,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [30.1.0] - 2025-05-27
 
-- 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#13.30).
+- 🌱 Upgraded ExifTool to version [13.30](https://exiftool.org/history.html#v13.30).
 
 - 🐞 Fixed `ExifToolVersion` to be a `string`. Prior versions used `exiftool`'s JSON representation, which rendered a numeric float. This caused versions like "12.3" and "12.30" to appear identical. We now preserve the exact version string to enable proper version comparisons.
 
@@ -493,7 +493,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🏚️ Dropped support for Node v18, whose End-of-Life was 2025-04-30.
 
-- 🌱 Upgraded ExifTool to version [13.29](https://exiftool.org/history.html#13.29).
+- 🌱 Upgraded ExifTool to version [13.29](https://exiftool.org/history.html#v13.29).
 
 - ✨ Added new `TagNames` string enumeration with the most popular 2,500(ish) tag field names that is automatically updated by `mktags`. As a reminder: the `Tags` interface _is not comprehensive_. If we're missing any of your favorite fields, open an issue with an attached example media file and I look into promoting it to a "guaranteed" status (like we've done with several hundred fields already).
 
@@ -503,13 +503,13 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [29.3.0] - 2025-04-03
 
-- 🌱 Upgraded ExifTool to version [13.26](https://exiftool.org/history.html#13.26).
+- 🌱 Upgraded ExifTool to version [13.26](https://exiftool.org/history.html#v13.26).
 
 - ✨ Added support for [keepUTCTime](https://exiftool.org/ExifTool.html#KeepUTCTime) to ExifToolOptions. This is a new ExifTool feature specifically for unixtime-encoded datetimes, but seems to be rarely applicable as unixtime is not a valid encoding format for most datetime tags.
 
 ## [29.2.0] - 2025-03-12
 
-- 🌱 Upgraded ExifTool to version [13.25](https://exiftool.org/history.html#13.25).
+- 🌱 Upgraded ExifTool to version [13.25](https://exiftool.org/history.html#v13.25).
 
 - ✨ ExifTool.write() now supports `boolean` field values. Thanks for the [suggestion](https://github.com/photostructure/exiftool-vendored.js/issues/228), [Kira-Kitsune](https://github.com/Kira-Kitsune).
 
@@ -517,7 +517,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [29.1.0] - 2025-01-30
 
-- 🌱 Upgraded ExifTool to version [13.17](https://exiftool.org/history.html#13.17). Note that this release includes **seventeen** ExifTool version bumps (from November 2024 through January 2025--Phil Harvey has been _busy_!). Although I haven't seen any breaking changes in the Tags generation or test suite with the new versions, please do your own validation.
+- 🌱 Upgraded ExifTool to version [13.17](https://exiftool.org/history.html#v13.17). Note that this release includes **seventeen** ExifTool version bumps (from November 2024 through January 2025--Phil Harvey has been _busy_!). Although I haven't seen any breaking changes in the Tags generation or test suite with the new versions, please do your own validation.
 
 - ✨ Thanks to [Mert](https://github.com/mertalev) for [adding forceWrite to binary tag extraction](https://github.com/photostructure/exiftool-vendored.js/pull/222).
 
@@ -555,7 +555,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 **Important:** ExifTool versions use the format `NN.NN` and do not follow semantic versioning. The version from ExifTool will not parse correctly with the `semver` library (for the next 10 versions) since they are zero- padded.
 
-- 🌱 Upgraded ExifTool to version [13.00](https://exiftool.org/history.html#13.00)
+- 🌱 Upgraded ExifTool to version [13.00](https://exiftool.org/history.html#v13.00)
 
   **Note:** ExifTool version numbers increment by 0.01 and do not follow semantic versioning conventions. The changes between version 12.99 and 13.00 are minor updates without any known breaking changes.
 
@@ -563,11 +563,11 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [28.7.0] - 2024-10-20
 
-- 🌱 ExifTool upgraded to version [12.99](https://exiftool.org/history.html#12.99)
+- 🌱 ExifTool upgraded to version [12.99](https://exiftool.org/history.html#v12.99)
 
 ## [28.6.0] - 2024-10-07
 
-- 🌱 ExifTool upgraded to version [12.97](https://exiftool.org/history.html#12.97)
+- 🌱 ExifTool upgraded to version [12.97](https://exiftool.org/history.html#v12.97)
 
 - 📦 Fields in `Tags` sub-interfaces are correctly sorted
 
@@ -591,7 +591,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [28.3.0] - 2024-09-22
 
-- 🌱 ExifTool upgraded to [v12.96](https://exiftool.org/history.html#12.96)
+- 🌱 ExifTool upgraded to [v12.96](https://exiftool.org/history.html#v12.96)
 
 - ✨ Add support for timezone offset extraction from `TimeStamp`. Note that this is disabled by default to retain prior behavior (and due to me being chicken that this might break other random cameras). Addresses [#209](https://github.com/photostructure/exiftool-vendored.js/issues/209)
 
@@ -607,7 +607,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [28.2.0] - 2024-07-24
 
-- 🌱/✨/🐞 ExifTool upgraded to [v12.91](https://exiftool.org/history.html#12.91). Notably, the shebang line has changed from `/usr/bin/perl` to `/usr/bin/env perl`. The [exiftool-vendored.pl package](https://github.com/photostructure/exiftool-vendored.pl/blob/9606de60669da56908c472b8b964f7fd17784df8/update.sh#L24) works around [a new error from this shebang line](https://exiftool.org/forum/index.php?topic=16271.0).
+- 🌱/✨/🐞 ExifTool upgraded to [v12.91](https://exiftool.org/history.html#v12.91). Notably, the shebang line has changed from `/usr/bin/perl` to `/usr/bin/env perl`. The [exiftool-vendored.pl package](https://github.com/photostructure/exiftool-vendored.pl/blob/9606de60669da56908c472b8b964f7fd17784df8/update.sh#L24) works around [a new error from this shebang line](https://exiftool.org/forum/index.php?topic=16271.0).
 
 ## [28.1.0] - 2024-07-24
 
@@ -617,7 +617,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [28.0.0] - 2024-07-22
 
-- 🌱/✨/🐞 ExifTool upgraded to [v12.89](https://exiftool.org/history.html#12.89). Notably, ExifTool on Windows is now using the "official" packaging. This should be equivalent to prior builds, as [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe) was already using Oliver Betz's perl launcher.
+- 🌱/✨/🐞 ExifTool upgraded to [v12.89](https://exiftool.org/history.html#v12.89). Notably, ExifTool on Windows is now using the "official" packaging. This should be equivalent to prior builds, as [exiftool-vendored.exe](https://github.com/photostructure/exiftool-vendored.exe) was already using Oliver Betz's perl launcher.
 
 - 💔 Prior versions included `APP1Tags`, `APP4Tags`, `APP5Tags`, `APP6Tags`, `APP12Tags`, and `APP14Tags`. Unfortunately, due to field name duplications, fields could hop between these interfaces between versions. These have all been collapsed into a single new `APPTags`.
 
@@ -646,13 +646,13 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 ## [26.1.0] - 2024-05-29
 
-- 🌱/✨/🐞 ExifTool upgraded to [v12.85](https://exiftool.org/history.html#12.85). Notably, this addresses [reversed HEIC orientation](https://exiftool.org/forum/index.php?topic=15240.msg86229#msg86229).
+- 🌱/✨/🐞 ExifTool upgraded to [v12.85](https://exiftool.org/history.html#v12.85). Notably, this addresses [reversed HEIC orientation](https://exiftool.org/forum/index.php?topic=15240.msg86229#msg86229).
 
 - 🐞 Perhaps address [Perl not installed error](https://github.com/photostructure/exiftool-vendored.js/issues/182).
 
 ## [26.0.0] - 2024-04-26
 
-- 🌱/✨ ExifTool upgraded to [v12.84](https://exiftool.org/history.html#12.84)
+- 🌱/✨ ExifTool upgraded to [v12.84](https://exiftool.org/history.html#v12.84)
 
 - 📦 Support **disabling** `-ignoreMinorErrors` to work around shenanigans like [#181](https://github.com/photostructure/exiftool-vendored.js/issues/181). This is an optional field that defaults to prior behavior (enabled, which ignores minor errors, which is normally desired, _but has some side effects like fully reading tags that may be extremely long_). See ExifToolOptions.ignoreMinorErrors for details.
 
