@@ -30,12 +30,18 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 🐞 Backwards-compatible bug fixes
 - 📦 Minor packaging changes
 
-## [Unreleased]
+## [Unreleased (minor)]
+
+- 🌱 Upgraded ExifTool to version [13.61](https://exiftool.org/history.html#v13.61).
+
+- 📦 Updated @photostructure/tz-lookup to [v11.8.0](https://github.com/photostructure/tz-lookup/releases/tag/11.8.0), which is built from [timezone-boundary-builder 2026f](https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2026f). Timezones inferred from GPS coordinates use these boundaries.
 
 ## [39.1.1] - 2026-11-06
 
 - 🐞 `require("exiftool-vendored")` works again on Node 22.0 through 22.11: 39.1.0 depended on the ESM-only he 2.0.0, which threw ERR_REQUIRE_ESM there.
+
 - 📦 Updated batch-cluster to [v19.6.0](https://github.com/photostructure/batch-cluster.js/releases/tag/v19.6.0). If the event loop is blocked past a task's `taskTimeoutMillis`, a reply ExifTool sent during the block now resolves the task instead of timing it out. Health checks no longer keep an otherwise idle ExifTool process alive past `maxIdleMsPerProcess`.
+
 - 📦 GitHub releases now wait for the npm package to be approved, and carry these release notes.
 
 ## [39.1.0] - 2026-10-28
