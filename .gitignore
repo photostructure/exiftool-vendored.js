@@ -10,3 +10,4 @@ dl/
 node_modules/
 snyk-linux
 yarn.lock
+.claude/settings.local.json
