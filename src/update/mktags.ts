@@ -1510,6 +1510,12 @@ const bar = new ProgressBar(
   },
 );
 
+// ProgressBar.interrupt() calls stream.clearLine(), which only exists on a TTY:
+function interrupt(msg: string) {
+  if (process.stderr.isTTY) bar.interrupt(msg);
+  else console.error(msg);
+}
+
 let nextTick = Date.now();
 let ticks = 0;
 
@@ -1531,10 +1537,10 @@ async function readAndAddToTagMap(file: string) {
       }
     }
     if (tags.errors?.length > 0) {
-      bar.interrupt(`Error from ${file}: ${tags.errors}`);
+      interrupt(`Error from ${file}: ${tags.errors}`);
     }
   } catch (err) {
-    bar.interrupt(`Error from ${file}: ${String(err)}`);
+    interrupt(`Error from ${file}: ${String(err)}`);
     failedFiles.push(file);
   }
   ticks++;
