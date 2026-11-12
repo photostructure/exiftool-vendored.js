@@ -911,6 +911,8 @@ function sortBy<T>(
   arr: T[],
   f: (t: T, index: number) => Maybe<string | number>,
 ): T[] {
+  // Compare [key, idx] element-wise: `>` on arrays compares their string
+  // forms, which sorts -99610000 after -50.
   return arr
     .filter((ea) => ea != null)
     .map((item, idx) => ({
@@ -918,8 +920,7 @@ function sortBy<T>(
       cmp: map(f(item, idx), (ea) => [ea, idx]),
     }))
     .filter((ea) => ea.cmp != null)
-
-    .sort((a, b) => cmp(a.cmp!, b.cmp!))
+    .sort((a, b) => cmp(a.cmp![0], b.cmp![0]) || cmp(a.cmp![1], b.cmp![1]))
     .map((ea) => ea.item);
 }
 
