@@ -30,7 +30,9 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 🐞 Backwards-compatible bug fixes
 - 📦 Minor packaging changes
 
-## [Unreleased (minor)]
+## [Unreleased]
+
+## [39.3.0] - 2026-11-12
 
 - 🌱 Upgraded ExifTool to version [13.63](https://exiftool.org/history.html#v13.63).
 
@@ -2388,6 +2390,7 @@ an incomplete state and subsequently unpublished)
 
 🌱✨ Initial Release. Packages ExifTool v10.31.
 
+[39.3.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/39.3.0
 [39.2.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/39.2.0
 [39.1.1]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/39.1.1
 [39.1.0]: https://github.com/photostructure/exiftool-vendored.js/releases/tag/39.1.0
