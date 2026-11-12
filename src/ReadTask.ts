@@ -401,6 +401,9 @@ export class ReadTask extends ExifToolTask<Tags> {
         // something like "GPSTimeStamp"):
       }
 
+      if (tagName === "Duration" && isObject(value)) {
+        return xmpDMTimeToSeconds(value);
+      }
       if (Array.isArray(value)) {
         return value.map((ea) => this.#parseTag(tagName, ea));
       }
@@ -477,6 +480,24 @@ export class ReadTask extends ExifToolTask<Tags> {
       return value;
     }
   }
+}
+
+/**
+ * Adobe writes XMP-xmpDM:duration as a Time struct whose `Value` counts units
+ * of `Scale` seconds (like 1/90000 for a 90 kHz timescale, or 1001/30000 for
+ * 29.97 fps frames). With `struct: 1`, ExifTool returns that struct as
+ * `Duration`, which would otherwise be seconds.
+ *
+ * @see https://github.com/photostructure/exiftool-vendored.js/issues/335
+ */
+function xmpDMTimeToSeconds(time: object): number {
+  const { Value, Scale } = time as { Value?: unknown; Scale?: unknown };
+  if (!isNumber(Value) || !isNumber(Scale)) {
+    throw new Error(
+      "expected an XMP-xmpDM Time struct with numeric Value and Scale",
+    );
+  }
+  return Value * Scale;
 }
 
 function isUtcTagName(tagName: string): boolean {

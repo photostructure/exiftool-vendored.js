@@ -34,6 +34,8 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🌱 Upgraded ExifTool to version [13.63](https://exiftool.org/history.html#v13.63).
 
+- ✨ `Duration` from Adobe XMP is now a number of seconds, as `Tags` declares, instead of an object. Adobe software writes XMP-xmpDM:duration as a struct of `Value` and `Scale` (seconds per unit), and with the default `struct: 1`, ExifTool returned that struct as `Duration`, replacing QuickTime's numeric duration in MP4 files. `read()` now returns `Value * Scale` seconds instead of the `{ Value, Scale }` object. Thanks for the [report](https://github.com/photostructure/exiftool-vendored.js/issues/335), [@mdoi2](https://github.com/mdoi2)!
+
 ## [39.2.0] - 2026-11-07
 
 - 🌱 Upgraded ExifTool to version [13.61](https://exiftool.org/history.html#v13.61).
