@@ -1,9 +1,11 @@
 import { join } from "node:path";
 import { end, expect, testDir, tmpdir } from "./_chai.spec";
+import { Equal } from "./Equal";
 import { ExifDateTime } from "./ExifDateTime";
 import { ExifTool } from "./ExifTool";
 import { ExifToolVendoredTagNames } from "./ExifToolVendoredTags";
-import { GroupedTags, tag } from "./GroupedTags";
+import { Expect } from "./Expect";
+import { GroupedTags, tag, UngroupedVendoredTags } from "./GroupedTags";
 import { InvalidUtf8Marker } from "./InvalidUtf8Bytes";
 import { ReadTask, ReadTaskOptions } from "./ReadTask";
 import { Tags } from "./Tags";
@@ -452,6 +454,58 @@ describe("GroupNames (-G) support", () => {
       // and a prefixed name doesn't match another group's identically-named
       // tag in -G mode:
       expect(tag(grouped, "Composite:Make" as never)).to.eql(undefined);
+    });
+
+    it("pins tag()'s return type for each kind of name", () => {
+      // compile-time assertions of the exact return types: a prefixed name
+      // returns its GroupedTags type; a library (bare) key of GroupedTags also
+      // includes the Tags declaration, for the degrouped fallback; a bare
+      // ExifTool name returns its Tags type; an APP segment tag is unknown.
+      const make = tag(grouped, "EXIF:Make");
+      const lat = tag(grouped, "GPSLatitude");
+      const bareMake = tag(grouped, "Make");
+      const app = tag(grouped, "APP14:DCTEncodeVersion");
+      const checks: [
+        Expect<Equal<typeof make, GroupedTags["EXIF:Make"] | undefined>>,
+        Expect<
+          Equal<
+            typeof lat,
+            GroupedTags["GPSLatitude"] | Tags["GPSLatitude"] | undefined
+          >
+        >,
+        Expect<Equal<typeof bareMake, Tags["Make"] | undefined>>,
+        Expect<Equal<typeof app, unknown>>,
+        // tag()'s first overload relies on this: the library keys are the
+        // only names in both GroupedTags and Tags.
+        Expect<
+          Equal<
+            Exclude<
+              Extract<keyof GroupedTags, keyof Tags>,
+              keyof UngroupedVendoredTags
+            >,
+            never
+          >
+        >,
+      ] = [true, true, true, true, true];
+      expect(checks).to.eql([true, true, true, true, true]);
+      expect([make, lat, bareMake, app]).to.have.length(4);
+    });
+
+    it("no longer accepts tag()'s 39.2.0 return type as an explicit annotation", () => {
+      // The first overload now tests K against the library keys, not `keyof
+      // Tags`. TypeScript relates conditional types only when they are
+      // written identically, so a wrapper that spells out the old return
+      // type fails to compile (see CHANGELOG.md). K is narrowed to two keys
+      // because relating the two conditionals over every GroupedTags key
+      // took 2.1 of this project's 3.8 seconds of TypeScript 6 check time:
+      function lookup<K extends "EXIF:Make" | "GPSLatitude">(
+        tags: Tags | GroupedTags,
+        name: K,
+      ): GroupedTags[K] | (K extends keyof Tags ? Tags[K] : never) | undefined {
+        // @ts-expect-error TS2322: the old conditional is not assignable
+        return tag(tags, name);
+      }
+      expect(lookup(grouped, "EXIF:Make")).to.eql("Canon");
     });
 
     it("tolerates nullish tag objects", () => {

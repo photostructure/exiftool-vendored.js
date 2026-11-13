@@ -151,7 +151,13 @@ export type AppSegmentIndex =
 export function tag<K extends Extract<keyof GroupedTags, string>>(
   tags: Maybe<Tags | GroupedTags>,
   name: K,
-): GroupedTags[K] | (K extends keyof Tags ? Tags[K] : never) | undefined;
+):
+  | GroupedTags[K]
+  // The library keys are the only names in both GroupedTags and Tags.
+  // Testing K against `keyof Tags` instead gives the same type, but took
+  // almost half of this project's TypeScript 6 check time.
+  | (K extends keyof UngroupedVendoredTags ? Tags[K] : never)
+  | undefined;
 export function tag<K extends Extract<keyof Tags, string>>(
   tags: Maybe<Tags | GroupedTags>,
   name: K,
