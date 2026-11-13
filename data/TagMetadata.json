@@ -35,7 +35,7 @@
     "typed": true
   },
   "AEAverage": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -98,7 +98,7 @@
     "typed": true
   },
   "AEError": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -238,14 +238,14 @@
     "typed": true
   },
   "AEStable": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
   },
   "AETarget": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -269,8 +269,8 @@
     "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
-    "type": "string",
-    "typed": false
+    "type": "number | string",
+    "typed": true
   },
   "AFActivation": {
     "frequency": 0.008,
@@ -354,7 +354,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AFAreaSize": {
     "frequency": 0.002,
@@ -441,7 +441,7 @@
     "typed": true
   },
   "AFBoundary": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -476,7 +476,7 @@
     "typed": true
   },
   "AFCollectEndStat": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -494,7 +494,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AFCoordinatesAvailable": {
     "frequency": 0.005,
@@ -517,6 +517,20 @@
     "type": "number",
     "typed": true
   },
+  "AFDetectedParts": {
+    "frequency": 0.0008,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "AFDetectedSubject": {
+    "frequency": 0.0008,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "AFDetectionMethod": {
     "frequency": 0.02,
     "mainstream": true,
@@ -532,28 +546,35 @@
     "typed": true
   },
   "AFEnable": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
+  "AFEyeUsed": {
+    "frequency": 0.0008,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "AFFarEnd": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "AFFineSrchPoints": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "AFFineStep": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -594,8 +615,22 @@
     "type": "string",
     "typed": true
   },
+  "AFFocusDistance": {
+    "frequency": 0.0008,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "AFFocusPosition": {
+    "frequency": 0.0008,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
   "AFFocusTime": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -609,14 +644,14 @@
     "typed": true
   },
   "AFGrossStep": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "AFHold": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -714,7 +749,7 @@
     "typed": true
   },
   "AFNearEnd": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -879,7 +914,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
-    "typed": false
+    "typed": true
   },
   "AFPoints": {
     "frequency": 0.0003,
@@ -931,21 +966,21 @@
     "typed": true
   },
   "AFPosDefMacro": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "AFPosDefNorm": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "AFPosition": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -959,14 +994,14 @@
     "typed": true
   },
   "AFProcess": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "AFTestMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -979,12 +1014,33 @@
     "type": "string",
     "typed": true
   },
+  "AFTrackingArea": {
+    "frequency": 0.0008,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "AFTrackingHistory": {
+    "frequency": 0.002,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string[]",
+    "typed": true
+  },
   "AFTrackingSensitivity": {
     "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
+    "type": "number | string",
+    "typed": true
+  },
+  "AFTrackingTarget": {
+    "frequency": 0.0008,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AFType": {
     "frequency": 0.002,
@@ -994,7 +1050,7 @@
     "typed": true
   },
   "AFUndershootProtect": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -1026,7 +1082,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AIServoFirstImagePriority": {
     "frequency": 0.001,
@@ -1047,7 +1103,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AIServoSecondImagePriority": {
     "frequency": 0.001,
@@ -1166,7 +1222,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ActionInAFCCont": {
     "frequency": 0.0003,
@@ -1183,8 +1239,8 @@
     "typed": true
   },
   "Actions": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "Struct",
     "typed": true
@@ -1208,7 +1264,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AddIPTCInformation": {
     "frequency": 0.005,
@@ -1219,6 +1275,13 @@
   },
   "AddOriginalDecisionData": {
     "frequency": 0.007,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "AddOriginalDescisionData": {
+    "frequency": 0.0002,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -1267,8 +1330,8 @@
     "typed": true
   },
   "Alg": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "string",
     "typed": true
@@ -1331,7 +1394,7 @@
   },
   "AndroidRelease": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
@@ -1344,7 +1407,7 @@
     "typed": true
   },
   "AndroidVideoTemporalLayersCount": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "BinaryField | string",
@@ -1358,14 +1421,14 @@
     "typed": true
   },
   "AntiBadingPixelClk": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "AntiBadingPixelClkPerLine": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -1386,7 +1449,7 @@
     "typed": true
   },
   "AntibandingEnable": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -1436,14 +1499,14 @@
   },
   "AppVersion": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
   },
   "Application": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
@@ -1705,7 +1768,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AudioFormat": {
     "frequency": 0.002,
@@ -1719,7 +1782,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AudioSampleCount": {
     "frequency": 0.0003,
@@ -1740,14 +1803,14 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AudioSamplingResolution": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AudioStream": {
     "frequency": 0.0003,
@@ -1761,17 +1824,17 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "AudioVendorID": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
     "typed": true
   },
   "Author": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
@@ -1848,14 +1911,14 @@
     "typed": true
   },
   "AutoBrightness": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "boolean",
     "typed": false
   },
   "AutoContrast": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "boolean",
@@ -1876,7 +1939,7 @@
     "typed": true
   },
   "AutoExposure": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "boolean",
@@ -1980,15 +2043,36 @@
     "type": "string",
     "typed": true
   },
+  "AutoSceneLighting": {
+    "frequency": 0.03,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "AutoSceneMode": {
+    "frequency": 0.03,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "AutoSceneSubject": {
+    "frequency": 0.03,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "AutoShadows": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "boolean",
     "typed": false
   },
   "Autofix": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "boolean",
@@ -2051,7 +2135,7 @@
     "typed": true
   },
   "BGamma": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -2086,7 +2170,7 @@
     "typed": true
   },
   "BOutputRef": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -2107,7 +2191,7 @@
     "typed": true
   },
   "BStdDev": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -2125,6 +2209,13 @@
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
+    "typed": true
+  },
+  "BWGrainEffect": {
+    "frequency": 0.0004,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
     "typed": true
   },
   "BWMode": {
@@ -2303,7 +2394,7 @@
     "typed": true
   },
   "BestQualityScale": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "number",
@@ -2317,14 +2408,14 @@
     "typed": true
   },
   "BfHighLight": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
     "typed": false
   },
   "BfMean": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -2429,14 +2520,14 @@
     "typed": true
   },
   "BlckLvlEvenCols": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "BlckLvlOddCols": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -2492,14 +2583,14 @@
     "typed": true
   },
   "Blur": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
     "typed": false
   },
   "BlurAtInfinity": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -2590,14 +2681,14 @@
     "typed": true
   },
   "BokehLevel": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
     "typed": false
   },
   "BokehStrength": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -2639,7 +2730,7 @@
     "typed": true
   },
   "Box": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -2797,14 +2888,14 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "By-lineTitle": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "CAFArea": {
     "frequency": 0.0004,
@@ -2909,52 +3000,52 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "CMContrast": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": false
   },
   "CMHue": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": false
   },
   "CMSaturation": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": false
   },
   "CMSharpness": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": false
   },
   "CMWhiteBalance": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "CMWhiteBalanceComp": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "CMWhiteBalanceGrayPoint": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -3003,21 +3094,21 @@
     "typed": true
   },
   "CalibratedFocalLength": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
     "typed": false
   },
   "CalibratedOpticalCenterX": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
     "typed": false
   },
   "CalibratedOpticalCenterY": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -3031,7 +3122,7 @@
     "typed": true
   },
   "CamMclkHz": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -3045,7 +3136,7 @@
     "typed": true
   },
   "CameraBody": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -3059,7 +3150,7 @@
     "typed": true
   },
   "CameraCalibration": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -3150,7 +3241,7 @@
     "typed": true
   },
   "CameraPitch": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -3171,14 +3262,14 @@
     "typed": true
   },
   "CameraProfiles": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "Struct[]",
     "typed": false
   },
   "CameraRoll": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -3213,7 +3304,7 @@
     "typed": true
   },
   "CameraYaw": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -3301,7 +3392,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "CaptureConditionsPAR": {
     "frequency": 0.0002,
@@ -3437,7 +3528,7 @@
     "typed": true
   },
   "ChromSupress": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -3507,7 +3598,7 @@
     "typed": true
   },
   "CircularGradientBasedCorrections": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "Struct[]",
@@ -3546,13 +3637,41 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "CleanApertureDimensions": {
     "frequency": 0.0008,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
+    "typed": true
+  },
+  "CleanApertureHeight": {
+    "frequency": 0.0002,
+    "mainstream": false,
+    "groups": ["QuickTime"],
+    "type": "number",
+    "typed": true
+  },
+  "CleanApertureOffsetX": {
+    "frequency": 0.0002,
+    "mainstream": false,
+    "groups": ["QuickTime"],
+    "type": "number",
+    "typed": true
+  },
+  "CleanApertureOffsetY": {
+    "frequency": 0.0002,
+    "mainstream": false,
+    "groups": ["QuickTime"],
+    "type": "number",
+    "typed": true
+  },
+  "CleanApertureWidth": {
+    "frequency": 0.0002,
+    "mainstream": false,
+    "groups": ["QuickTime"],
+    "type": "number",
     "typed": true
   },
   "ClearRetouch": {
@@ -3563,7 +3682,7 @@
     "typed": true
   },
   "ClipToAfRato": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -3623,7 +3742,7 @@
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "Color": {
     "frequency": 0.0002,
@@ -3913,14 +4032,14 @@
     "typed": true
   },
   "ColorPrimaries": {
-    "frequency": 0.0009,
+    "frequency": 0.002,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
     "typed": true
   },
   "ColorProfile": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -3934,7 +4053,7 @@
     "typed": true
   },
   "ColorProfiles": {
-    "frequency": 0.0009,
+    "frequency": 0.002,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
@@ -3952,7 +4071,7 @@
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ColorTempAsShot": {
     "frequency": 0.03,
@@ -4288,7 +4407,7 @@
     "mainstream": true,
     "groups": ["EXIF", "XMP"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "CompositeImage": {
     "frequency": 0.01,
@@ -4347,7 +4466,7 @@
     "typed": true
   },
   "Compress": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -4410,7 +4529,7 @@
     "typed": true
   },
   "Condition": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -4428,7 +4547,7 @@
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ContTake": {
     "frequency": 0.001,
@@ -4453,7 +4572,7 @@
   },
   "ContainerDirectory": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["XMP"],
     "type": "ContainerDirectoryItem[] | Struct[]",
     "typed": true
@@ -4477,14 +4596,14 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ContentLocationName": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ContinuousBracketing": {
     "frequency": 0.0002,
@@ -4725,7 +4844,7 @@
     "typed": true
   },
   "CopyrightStatus": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -4739,7 +4858,7 @@
     "typed": true
   },
   "CoringValues": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -4764,14 +4883,14 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "Country-PrimaryLocationName": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "CountryCode": {
     "frequency": 0.004,
@@ -4914,7 +5033,7 @@
     "typed": true
   },
   "CropFlag": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -4991,28 +5110,28 @@
     "typed": true
   },
   "CroppedAreaImageHeightPixels": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "number",
     "typed": true
   },
   "CroppedAreaImageWidthPixels": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "number",
     "typed": true
   },
   "CroppedAreaLeftPixels": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "number",
     "typed": true
   },
   "CroppedAreaTopPixels": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "number",
@@ -5053,8 +5172,15 @@
     "type": "string",
     "typed": true
   },
+  "CrossProcessingColorTone": {
+    "frequency": 0.0003,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "CurrResol": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -5180,14 +5306,14 @@
     "typed": true
   },
   "DNGLensInfo": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
     "typed": false
   },
   "DNGPrivateData": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "BinaryField | string",
@@ -5229,7 +5355,7 @@
     "typed": true
   },
   "Data": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "BinaryField | string",
@@ -5243,7 +5369,7 @@
     "typed": true
   },
   "DataImprint": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -5362,14 +5488,14 @@
     "typed": true
   },
   "DefLumaGammaMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "DefRgbGammaMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -5418,21 +5544,21 @@
     "typed": true
   },
   "DefectPixCorEnable": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "DefectPixMaxThresh": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "DefectPixMinThresh": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -5516,7 +5642,7 @@
     "typed": true
   },
   "DepthOfField": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -5572,7 +5698,7 @@
     "typed": true
   },
   "DevelopmentTypeDescription": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "number",
@@ -5583,25 +5709,25 @@
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DeviceCodename": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
   },
   "DeviceHardwareRevision": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
   },
   "DeviceMake": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
@@ -5611,14 +5737,14 @@
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DeviceMfgDesc": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DeviceModel": {
     "frequency": 0.002,
@@ -5632,7 +5758,7 @@
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DeviceName": {
     "frequency": 0.0006,
@@ -5761,7 +5887,7 @@
     "typed": true
   },
   "DigitalSourceType": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -5796,7 +5922,7 @@
     "typed": true
   },
   "DirectoryIndex": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -5817,7 +5943,7 @@
     "typed": true
   },
   "DiscardFrstFrm": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -5849,14 +5975,14 @@
     "mainstream": true,
     "groups": ["Photoshop"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DisplayedUnitsY": {
     "frequency": 0.009,
     "mainstream": true,
     "groups": ["Photoshop"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DistortionControl": {
     "frequency": 0.0002,
@@ -5877,7 +6003,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DistortionCorrParamsPresent": {
     "frequency": 0.01,
@@ -5933,7 +6059,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DocumentID": {
     "frequency": 0.02,
@@ -5954,7 +6080,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "DriveMode": {
     "frequency": 0.2,
@@ -6178,7 +6304,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "EditTagArray": {
     "frequency": 0.0002,
@@ -6192,10 +6318,10 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "Effect": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -6349,8 +6475,8 @@
     "typed": true
   },
   "Exclusions": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "Struct[]",
     "typed": true
@@ -6367,7 +6493,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ExifImageHeight": {
     "frequency": 1,
@@ -6397,6 +6523,13 @@
     "type": "string",
     "typed": true
   },
+  "ExitPupilCode": {
+    "frequency": 0.005,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
   "ExitPupilPosition": {
     "frequency": 0.01,
     "mainstream": true,
@@ -6409,14 +6542,14 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ExpirationTime": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ExposRatio": {
     "frequency": 0.0003,
@@ -6433,7 +6566,7 @@
     "typed": true
   },
   "ExposureBias": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -6609,14 +6742,14 @@
   },
   "ExposureTimeMax": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
   },
   "ExposureTimeMin": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
@@ -6664,7 +6797,7 @@
     "typed": true
   },
   "Extender": {
-    "frequency": 0.01,
+    "frequency": 0.02,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -6986,7 +7119,7 @@
     "typed": true
   },
   "FaceOrientation": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -7196,7 +7329,7 @@
     "typed": true
   },
   "FilmCategory": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Meta"],
     "type": "number",
@@ -7297,7 +7430,7 @@
     "frequency": 0.0002,
     "mainstream": false,
     "groups": ["XMP"],
-    "type": "string",
+    "type": "string | string[]",
     "typed": true
   },
   "FinalRatio": {
@@ -7377,6 +7510,13 @@
     "type": "number",
     "typed": true
   },
+  "FirmwareInfo": {
+    "frequency": 0.02,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "FirmwareName": {
     "frequency": 0.002,
     "mainstream": true,
@@ -7417,7 +7557,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "Flash": {
     "frequency": 0.9,
@@ -7630,7 +7770,7 @@
     "typed": true
   },
   "FlashFocalLength": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -7823,7 +7963,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "FlashSource": {
     "frequency": 0.02,
@@ -7900,7 +8040,7 @@
     "mainstream": true,
     "groups": ["EXIF", "XMP"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "FlexibleSpotPosition": {
     "frequency": 0.01,
@@ -8008,7 +8148,7 @@
     "typed": true
   },
   "FocalDistance": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -8054,7 +8194,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
-    "typed": false
+    "typed": true
   },
   "FocalPlaneDiagonal": {
     "frequency": 0.07,
@@ -8099,14 +8239,14 @@
     "typed": true
   },
   "FocalPointX": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
     "typed": false
   },
   "FocalPointY": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -8127,7 +8267,7 @@
     "typed": true
   },
   "Focus": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -8498,7 +8638,7 @@
     "typed": true
   },
   "FocusShiftShooting": {
-    "frequency": 0.001,
+    "frequency": 0.002,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -8603,7 +8743,7 @@
     "typed": true
   },
   "FrameHeight": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -8624,7 +8764,7 @@
     "typed": true
   },
   "FrameWidth": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -8652,7 +8792,7 @@
     "typed": true
   },
   "FrmSkipPttrn": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -8680,7 +8820,7 @@
     "typed": true
   },
   "FujiRatingAlreadyApplied": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "boolean",
@@ -8694,7 +8834,7 @@
     "typed": true
   },
   "FullHDHighSpeedRec": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -8708,14 +8848,14 @@
     "typed": true
   },
   "FullPanoHeightPixels": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "number",
     "typed": true
   },
   "FullPanoWidthPixels": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "number",
@@ -8729,7 +8869,7 @@
     "typed": true
   },
   "FullyAuto": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -8820,14 +8960,14 @@
     "typed": true
   },
   "GFileMetadata": {
-    "frequency": 0.0001,
-    "mainstream": false,
+    "frequency": 0.0002,
+    "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "GGamma": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -8855,7 +8995,7 @@
     "typed": true
   },
   "GOutputRef": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -9142,7 +9282,7 @@
     "typed": true
   },
   "GStdDev": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -9177,7 +9317,7 @@
     "typed": true
   },
   "GammaEnable": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -9307,7 +9447,7 @@
     "mainstream": true,
     "groups": ["ExifTool"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "GeometricDistortionParams": {
     "frequency": 0.002,
@@ -9317,14 +9457,14 @@
     "typed": true
   },
   "GfHighLight": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
     "typed": false
   },
   "GfMean": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -9362,7 +9502,7 @@
     "frequency": 0.002,
     "mainstream": false,
     "groups": ["XMP"],
-    "type": "string",
+    "type": "number | string",
     "typed": true
   },
   "GlobalAltitude": {
@@ -9534,7 +9674,7 @@
     "typed": true
   },
   "HDREditMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -9605,7 +9745,7 @@
   },
   "HDRPSoftware": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
@@ -9667,7 +9807,7 @@
     "typed": true
   },
   "HasExtendedXMP": {
-    "frequency": 0.003,
+    "frequency": 0.004,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
@@ -9688,8 +9828,8 @@
     "typed": true
   },
   "Hash": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "BinaryField | string",
     "typed": true
@@ -9706,7 +9846,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "HiddenDataLength": {
     "frequency": 0.002,
@@ -9727,7 +9867,7 @@
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "HierarchicalSubject": {
     "frequency": 0.0007,
@@ -9776,6 +9916,13 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
+    "typed": true
+  },
+  "HighLowKey": {
+    "frequency": 0.0004,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "number",
     "typed": true
   },
   "HighLowKeyAdj": {
@@ -9968,7 +10115,7 @@
     "typed": true
   },
   "HueSetting": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -10010,7 +10157,7 @@
     "typed": true
   },
   "IDString": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -10094,7 +10241,7 @@
     "typed": true
   },
   "ISOAutoSettings": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -10130,14 +10277,14 @@
   },
   "ISOMax": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
   },
   "ISOMin": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
@@ -10213,7 +10360,7 @@
     "typed": true
   },
   "ITem": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -10280,7 +10427,7 @@
     "mainstream": true,
     "groups": ["Composite"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ImageDataMD5": {
     "frequency": 0,
@@ -10394,7 +10541,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ImageProcessing": {
     "frequency": 0.03,
@@ -10446,7 +10593,7 @@
     "typed": true
   },
   "ImageRotationStatus": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Meta"],
     "type": "number",
@@ -10482,6 +10629,13 @@
   },
   "ImageStabilization": {
     "frequency": 0.2,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "ImageStabilizationMode": {
+    "frequency": 0.001,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -10534,7 +10688,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ImageUIDList": {
     "frequency": 0.01,
@@ -10574,7 +10728,7 @@
     "typed": true
   },
   "Information": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["QuickTime"],
     "type": "string",
@@ -10595,7 +10749,7 @@
     "typed": true
   },
   "InitialAFPointAIServoAF": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -10692,6 +10846,13 @@
     "type": "string",
     "typed": true
   },
+  "InternalFirmwareVersion": {
+    "frequency": 0.02,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "InternalFlash": {
     "frequency": 0.02,
     "mainstream": true,
@@ -10725,7 +10886,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
-    "typed": false
+    "typed": true
   },
   "InternalSerialNumber": {
     "frequency": 0.2,
@@ -10819,7 +10980,7 @@
     "typed": true
   },
   "IntervalShooting": {
-    "frequency": 0.005,
+    "frequency": 0.006,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -10833,14 +10994,14 @@
     "typed": true
   },
   "Iris": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
     "typed": false
   },
   "IrisPos": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -10882,22 +11043,22 @@
     "typed": true
   },
   "Item0": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "BinaryField | string",
     "typed": true
   },
   "Item1": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "Struct",
     "typed": true
   },
   "Item3": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "BinaryField | string",
     "typed": true
@@ -10917,7 +11078,7 @@
     "typed": true
   },
   "JPEGProc": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
@@ -10931,7 +11092,7 @@
     "typed": true
   },
   "JPEGSize": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -10945,15 +11106,15 @@
     "typed": true
   },
   "JUMDLabel": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "string",
     "typed": true
   },
   "JUMDType": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "string",
     "typed": true
@@ -10963,7 +11124,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "JpgFromRaw": {
     "frequency": 0.009,
@@ -11008,14 +11169,14 @@
     "typed": true
   },
   "KeystoneDirection": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
   },
   "KeystoneValue": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -11026,7 +11187,7 @@
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "Keywords": {
     "frequency": 0.004,
@@ -11064,7 +11225,7 @@
     "typed": true
   },
   "KodakMaker": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -11085,14 +11246,14 @@
     "typed": true
   },
   "LADetect": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "LAEnable": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -11141,21 +11302,21 @@
     "typed": true
   },
   "LUT1Opacity": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
   },
   "LUT2Name": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
   },
   "LUT2Opacity": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -11169,7 +11330,7 @@
     "typed": true
   },
   "Label": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
@@ -11194,7 +11355,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "LastFileNumber": {
     "frequency": 0.001,
@@ -11259,6 +11420,13 @@
     "type": "string",
     "typed": true
   },
+  "LensAFCount": {
+    "frequency": 0.007,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
   "LensApertureRange": {
     "frequency": 0.002,
     "mainstream": false,
@@ -11267,7 +11435,7 @@
     "typed": true
   },
   "LensAttached": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["PanasonicRaw"],
     "type": "string",
@@ -11280,11 +11448,32 @@
     "type": "string",
     "typed": true
   },
+  "LensCorrectionPoints": {
+    "frequency": 0.0009,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
+  "LensCorrectionPositions": {
+    "frequency": 0.0009,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "LensDataVersion": {
     "frequency": 0.02,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
+    "typed": true
+  },
+  "LensDiaphragmCount": {
+    "frequency": 0.007,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
     "typed": true
   },
   "LensDistortionParams": {
@@ -11306,7 +11495,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "LensFStops": {
     "frequency": 0.02,
@@ -11330,7 +11519,7 @@
     "typed": true
   },
   "LensFirmwareVersion": {
-    "frequency": 0.03,
+    "frequency": 0.05,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -11387,6 +11576,13 @@
   },
   "LensIDNumber": {
     "frequency": 0.01,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
+  "LensISCount": {
+    "frequency": 0.006,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -11470,7 +11666,7 @@
     "typed": true
   },
   "LensProfileChromaticAberrationScale": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -11498,7 +11694,7 @@
     "typed": true
   },
   "LensProfileFilename": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -11771,7 +11967,7 @@
     "typed": true
   },
   "LivePhotoAuto": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["QuickTime"],
     "type": "number",
@@ -11785,14 +11981,14 @@
     "typed": true
   },
   "LivePhotoVitalityScore": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["QuickTime"],
     "type": "number",
     "typed": false
   },
   "LivePhotoVitalityScoringVersion": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["QuickTime"],
     "type": "number",
@@ -11841,7 +12037,7 @@
     "typed": true
   },
   "LiveViewExposureSimulation": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -11880,7 +12076,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "LocalLocationName": {
     "frequency": 0.002,
@@ -11890,7 +12086,7 @@
     "typed": true
   },
   "LocalizedCameraModel": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
@@ -11918,7 +12114,7 @@
     "typed": true
   },
   "LocationCreated": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "Struct[]",
@@ -11967,7 +12163,7 @@
     "typed": true
   },
   "Look": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "Struct",
@@ -11985,7 +12181,7 @@
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "LuminanceAdjustmentAqua": {
     "frequency": 0.001,
@@ -12148,8 +12344,15 @@
     "type": "string",
     "typed": true
   },
+  "MPUVersion": {
+    "frequency": 0.02,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
   "MSPropertySetStorage": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "BinaryField | string",
@@ -12205,7 +12408,7 @@
     "typed": true
   },
   "MajorVersion": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
@@ -12300,7 +12503,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ManualAFPointSelectPattern": {
     "frequency": 0.002,
@@ -12363,7 +12566,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "ExifDate | string",
-    "typed": false
+    "typed": true
   },
   "Marked": {
     "frequency": 0.0006,
@@ -12384,7 +12587,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "MasterGain": {
     "frequency": 0.0002,
@@ -12394,7 +12597,7 @@
     "typed": true
   },
   "MatrixCoefficients": {
-    "frequency": 0.0009,
+    "frequency": 0.002,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
@@ -12416,7 +12619,7 @@
   },
   "MaxAnalogISO": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
@@ -12485,14 +12688,14 @@
     "typed": true
   },
   "MaxPrviewFps": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "MaxVideoFps": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -12548,28 +12751,28 @@
     "typed": true
   },
   "Meas3Label": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Meas3Params": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Meas3Type": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "MeasureType": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -12695,7 +12898,7 @@
     "typed": true
   },
   "MemoryCardConfiguration": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -12751,7 +12954,7 @@
     "typed": true
   },
   "MetaType": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["QuickTime"],
     "type": "string",
@@ -13031,7 +13234,7 @@
     "typed": true
   },
   "ModelID": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -13402,7 +13605,7 @@
     "typed": true
   },
   "MovieStreamName": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -13462,7 +13665,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "MultiExposureMode": {
     "frequency": 0.02,
@@ -13626,14 +13829,14 @@
     "typed": true
   },
   "NghtshtFps": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "NightshotMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -13668,7 +13871,7 @@
     "typed": true
   },
   "Noise": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["EXIF"],
     "type": "number",
@@ -13861,14 +14064,14 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ObjectCycle": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ObjectDistance": {
     "frequency": 0.008,
@@ -13910,21 +14113,21 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ObjectPreviewFileVersion": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ObjectTypeReference": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "Offset": {
     "frequency": 0.0003,
@@ -13965,14 +14168,14 @@
     "frequency": 0.001,
     "mainstream": false,
     "groups": ["APP"],
-    "type": "string",
+    "type": "number | string",
     "typed": true
   },
   "OffsetY": {
     "frequency": 0.001,
     "mainstream": false,
     "groups": ["APP"],
-    "type": "string",
+    "type": "number | string",
     "typed": true
   },
   "OlympusImageHeight": {
@@ -14064,7 +14267,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "OrientationLinkedAFPoint": {
     "frequency": 0.002,
@@ -14074,7 +14277,7 @@
     "typed": true
   },
   "OriginalBestQualitySize": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
@@ -14102,14 +14305,14 @@
     "typed": true
   },
   "OriginalDefaultCropSize": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
     "typed": false
   },
   "OriginalDefaultFinalSize": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
@@ -14158,7 +14361,7 @@
     "typed": true
   },
   "OriginalRawFileName": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
@@ -14169,7 +14372,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "OriginatingProgram": {
     "frequency": 0.0005,
@@ -14214,7 +14417,7 @@
     "typed": true
   },
   "OutlierDistance": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -14235,7 +14438,7 @@
     "typed": true
   },
   "OverrideLookVignette": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "boolean",
@@ -14246,7 +14449,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "OwnerName": {
     "frequency": 0.1,
@@ -14270,15 +14473,15 @@
     "typed": true
   },
   "Pad": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "BinaryField | string",
     "typed": true
   },
   "Pad2": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "BinaryField | string",
     "typed": true
@@ -14480,7 +14683,7 @@
     "typed": true
   },
   "Parallax": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -14494,7 +14697,7 @@
     "typed": true
   },
   "Param1": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -14550,15 +14753,15 @@
     "typed": true
   },
   "Parent": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
     "typed": false
   },
   "Parts": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "Struct[]",
     "typed": true
@@ -14571,7 +14774,7 @@
     "typed": true
   },
   "PclkInvert": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -14610,7 +14813,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "PerChannelBlackLevel": {
     "frequency": 0.03,
@@ -14622,6 +14825,13 @@
   "PeripheralIlluminationCorr": {
     "frequency": 0.03,
     "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "PeripheralIlluminationCurve": {
+    "frequency": 0.0009,
+    "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
@@ -14648,7 +14858,7 @@
     "typed": true
   },
   "PersonInImage": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string | string[]",
@@ -14771,7 +14981,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "Photographer": {
     "frequency": 0.0002,
@@ -14802,7 +15012,7 @@
     "typed": true
   },
   "PhotoshopBGRThumbnail": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Photoshop"],
     "type": "BinaryField | string",
@@ -15019,7 +15229,7 @@
     "typed": true
   },
   "PixelShiftResolution": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -15068,7 +15278,7 @@
     "typed": true
   },
   "PlayMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
@@ -15117,7 +15327,7 @@
     "typed": true
   },
   "PointColors": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string[]",
@@ -15138,7 +15348,7 @@
     "typed": true
   },
   "PortraitNote": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -15152,14 +15362,14 @@
     "typed": true
   },
   "PortraitRelightingLightPos": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
     "typed": false
   },
   "PortraitRelightingRenderingOptions": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -15228,6 +15438,27 @@
     "type": "string",
     "typed": true
   },
+  "PowerOnDirectoryNumber": {
+    "frequency": 0.001,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
+  "PowerOnFileNumber": {
+    "frequency": 0.001,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
+  "PowerOnTime": {
+    "frequency": 0.002,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "ExifDateTime | string",
+    "typed": true
+  },
   "PowerSource": {
     "frequency": 0.005,
     "mainstream": true,
@@ -15264,7 +15495,7 @@
     "typed": true
   },
   "Predictor": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
@@ -15292,14 +15523,14 @@
     "typed": true
   },
   "PreservedFileName": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
     "typed": true
   },
   "PresetMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -15468,21 +15699,21 @@
     "typed": true
   },
   "PrintPosition": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["Photoshop"],
     "type": "string",
     "typed": true
   },
   "PrintScale": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["Photoshop"],
     "type": "number",
     "typed": true
   },
   "PrintStyle": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["Photoshop"],
     "type": "string",
@@ -15503,7 +15734,7 @@
     "typed": true
   },
   "ProcessingNotes": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -15535,7 +15766,7 @@
     "mainstream": true,
     "groups": ["ICC_Profile"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ProfileEmbedPolicy": {
     "frequency": 0.0009,
@@ -15552,14 +15783,14 @@
     "typed": true
   },
   "ProfileHueSatMapDims": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
     "typed": false
   },
   "ProfileID": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -15622,7 +15853,7 @@
     "typed": true
   },
   "ProjectionType": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
@@ -15647,17 +15878,17 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "PrviewFps": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "PrviewResol": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -15738,10 +15969,10 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "RGamma": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -15776,7 +16007,7 @@
     "typed": true
   },
   "ROutputRef": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -15797,7 +16028,7 @@
     "typed": true
   },
   "RStdDev": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -16168,7 +16399,7 @@
     "typed": true
   },
   "RawInfoVersion": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -16280,56 +16511,56 @@
     "typed": true
   },
   "Reading1Description": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Reading1Device": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Reading1Units": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Reading1Value": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
     "typed": false
   },
   "Reading2Description": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Reading2Device": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Reading2Units": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
     "typed": false
   },
   "Reading2Value": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -16466,21 +16697,21 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ReferenceNumber": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ReferenceService": {
     "frequency": 0,
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ReflectedApparentTemperature": {
     "frequency": 0.006,
@@ -16490,7 +16721,7 @@
     "typed": true
   },
   "ReflectedTemperature": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -16655,7 +16886,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ReleaseMode": {
     "frequency": 0.05,
@@ -16669,17 +16900,17 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "RelitInputImageData": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "BinaryField | string",
     "typed": false
   },
   "RelitInputImageMime": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -16819,14 +17050,14 @@
     "typed": true
   },
   "RfHighLight": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
     "typed": false
   },
   "RfMean": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -16889,7 +17120,7 @@
     "typed": true
   },
   "RightAlbedo": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "BinaryField | string",
@@ -16924,21 +17155,21 @@
     "typed": true
   },
   "RollGuidElements": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Meta"],
     "type": "string",
     "typed": false
   },
   "RolloffEnable": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "Room": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -16959,35 +17190,35 @@
     "typed": true
   },
   "RunTimeEpoch": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
   },
   "RunTimeFlags": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
   },
   "RunTimeScale": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
   },
   "RunTimeSincePowerUp": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["Composite"],
     "type": "string",
     "typed": true
   },
   "RunTimeValue": {
-    "frequency": 0.01,
+    "frequency": 0.009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -17001,28 +17232,28 @@
     "typed": true
   },
   "SBAExposureRecord": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Meta"],
     "type": "BinaryField | string",
     "typed": false
   },
   "SBAInputImageBitDepth": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Meta"],
     "type": "string",
     "typed": false
   },
   "SBAInputImageColorspace": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Meta"],
     "type": "number",
     "typed": false
   },
   "SPIFFVersion": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -17099,7 +17330,7 @@
     "typed": true
   },
   "SampleFormat": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "string",
@@ -17323,14 +17554,14 @@
     "typed": true
   },
   "SceneDetectResultConfidences": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
     "typed": true
   },
   "SceneDetectResultIds": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string",
@@ -17404,7 +17635,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "SelectableAFPoint": {
     "frequency": 0.001,
@@ -17526,7 +17757,7 @@
     "typed": true
   },
   "SensitivityValue": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["PanasonicRaw"],
     "type": "number",
@@ -17575,7 +17806,7 @@
     "typed": true
   },
   "SensorFmt": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -17673,28 +17904,28 @@
     "typed": true
   },
   "SensrFulHght": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "SensrFulWdth": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "SensrQtrHght": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": false
   },
   "SensrQtrWdth": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -17761,7 +17992,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "SerialNumberHash": {
     "frequency": 0.0004,
@@ -17797,6 +18028,13 @@
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": true
+  },
+  "Shading": {
+    "frequency": 0.00009,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": false
   },
   "ShadingCompensation": {
     "frequency": 0.03,
@@ -18013,7 +18251,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "ShortOwnerName": {
     "frequency": 0.0002,
@@ -18087,6 +18325,13 @@
   },
   "ShutterAELButton": {
     "frequency": 0.001,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": true
+  },
+  "ShutterButtonAFOn": {
+    "frequency": 0.0002,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -18219,8 +18464,8 @@
     "typed": true
   },
   "Signature": {
-    "frequency": 0.0002,
-    "mainstream": false,
+    "frequency": 0.0003,
+    "mainstream": true,
     "groups": ["JUMBF"],
     "type": "string",
     "typed": true
@@ -18237,7 +18482,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "SingleFrame": {
     "frequency": 0.003,
@@ -18309,8 +18554,15 @@
     "type": "string",
     "typed": true
   },
+  "SnapFocusDistance": {
+    "frequency": 0.00009,
+    "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "string",
+    "typed": false
+  },
   "SnapshotResol": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -18339,7 +18591,7 @@
   },
   "SoftwareDate": {
     "frequency": 0.002,
-    "mainstream": false,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "ExifDateTime | string",
     "typed": true
@@ -18481,7 +18733,7 @@
     "frequency": 0.0008,
     "mainstream": true,
     "groups": ["MakerNotes"],
-    "type": "string",
+    "type": "ExifTime | string",
     "typed": true
   },
   "SonyToneCurve": {
@@ -18492,7 +18744,7 @@
     "typed": true
   },
   "Source": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["IPTC", "XMP"],
     "type": "string",
@@ -18548,7 +18800,7 @@
     "typed": true
   },
   "SpecialEffectLevel": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -18573,7 +18825,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "SpecialMode": {
     "frequency": 0.07,
@@ -18583,7 +18835,7 @@
     "typed": true
   },
   "SpecialTypeID": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["XMP"],
     "type": "string[]",
@@ -18594,6 +18846,13 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
+    "typed": true
+  },
+  "SpeedIncrements": {
+    "frequency": 0.0002,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "string",
     "typed": true
   },
   "SpeedX": {
@@ -18692,7 +18951,7 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "StackedImage": {
     "frequency": 0.007,
@@ -18744,7 +19003,7 @@
     "typed": true
   },
   "StepCropShooting": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -18818,7 +19077,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "SubDialFrameAdvance": {
     "frequency": 0.004,
@@ -18891,7 +19150,7 @@
     "typed": true
   },
   "SubSelectorPlusDials": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -19007,7 +19266,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "SubjectSwitching": {
     "frequency": 0.006,
@@ -19056,7 +19315,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "SurveyingMode": {
     "frequency": 0.0002,
@@ -19150,7 +19409,7 @@
     "typed": true
   },
   "TagX": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -19262,14 +19521,14 @@
     "typed": true
   },
   "ThermalCalibration": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "BinaryField | string",
     "typed": false
   },
   "ThermalData": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "BinaryField | string",
@@ -19290,7 +19549,7 @@
     "typed": true
   },
   "ThumbnailFormat": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["EXIF"],
     "type": "number",
@@ -19486,7 +19745,7 @@
     "typed": true
   },
   "Timer": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -19654,7 +19913,7 @@
     "typed": true
   },
   "TotalFrameCount": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["RIFF"],
     "type": "number",
@@ -19738,7 +19997,7 @@
     "typed": true
   },
   "TransferCharacteristics": {
-    "frequency": 0.0009,
+    "frequency": 0.002,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
@@ -19787,14 +20046,14 @@
     "typed": true
   },
   "Type": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "number",
     "typed": false
   },
   "URL": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["Photoshop"],
     "type": "string",
@@ -19847,7 +20106,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "UniqueID": {
     "frequency": 0.0002,
@@ -19857,7 +20116,7 @@
     "typed": true
   },
   "Units": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -20081,7 +20340,7 @@
     "typed": true
   },
   "ValidPixelDepth": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -20102,7 +20361,7 @@
     "typed": true
   },
   "VendorID": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": true,
     "groups": ["QuickTime"],
     "type": "string",
@@ -20200,14 +20459,14 @@
     "typed": true
   },
   "VideoCompression": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": false
   },
   "VideoFps": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "number",
@@ -20242,7 +20501,7 @@
     "typed": true
   },
   "VideoRecordingMode": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -20263,7 +20522,7 @@
     "typed": true
   },
   "ViewfinderWarning": {
-    "frequency": 0.001,
+    "frequency": 0.0009,
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "string",
@@ -20305,7 +20564,7 @@
     "typed": true
   },
   "VignetteCorrectionAlreadyApplied": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "boolean",
@@ -20354,7 +20613,7 @@
     "typed": true
   },
   "Voice": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "number",
@@ -20498,7 +20757,14 @@
     "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
-    "typed": false
+    "typed": true
+  },
+  "WakeFileNumber": {
+    "frequency": 0.001,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
   },
   "Warning": {
     "frequency": 0.04,
@@ -20536,7 +20802,7 @@
     "typed": true
   },
   "WebStatement": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["XMP"],
     "type": "string",
@@ -20571,10 +20837,10 @@
     "typed": true
   },
   "WhiteBalanceBracket": {
-    "frequency": 0.05,
+    "frequency": 0.02,
     "mainstream": true,
     "groups": ["MakerNotes"],
-    "type": "string",
+    "type": "number",
     "typed": true
   },
   "WhiteBalanceBracketing": {
@@ -20585,25 +20851,25 @@
     "typed": true
   },
   "WhiteBalanceComp": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",
     "typed": false
   },
   "WhiteBalanceDetected": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["PanasonicRaw"],
     "type": "string",
     "typed": false
   },
   "WhiteBalanceFineTune": {
-    "frequency": 0.09,
+    "frequency": 0.1,
     "mainstream": true,
     "groups": ["MakerNotes"],
-    "type": "number",
-    "typed": false
+    "type": "string",
+    "typed": true
   },
   "WhiteBalanceMatching": {
     "frequency": 0.0004,
@@ -20722,7 +20988,7 @@
     "mainstream": true,
     "groups": ["IPTC"],
     "type": "string",
-    "typed": false
+    "typed": true
   },
   "WriterName": {
     "frequency": 0.001,
@@ -20824,7 +21090,7 @@
     "typed": true
   },
   "Xxx": {
-    "frequency": 0.0001,
+    "frequency": 0.00009,
     "mainstream": false,
     "groups": ["APP"],
     "type": "string",
@@ -20933,7 +21199,7 @@
     "frequency": 0.001,
     "mainstream": true,
     "groups": ["APP"],
-    "type": "string",
+    "type": "number | string",
     "typed": true
   },
   "ZoomMultiple": {

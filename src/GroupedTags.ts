@@ -1,4 +1,5 @@
 import { ExifToolVendoredTags } from "./ExifToolVendoredTags";
+import { GeneratedGroupedTags } from "./GeneratedGroupedTags";
 import { GeolocationTags } from "./GeolocationTags";
 import { GpsLocationTags } from "./GPS";
 import { ICCProfileTags } from "./ICCProfileTags";
@@ -6,30 +7,7 @@ import { ImageDataHashTag } from "./ImageDataHashTag";
 import { IPTCApplicationRecordTags } from "./IPTCApplicationRecordTags";
 import { Maybe } from "./Maybe";
 import { MWGCollectionsTags, MWGKeywordTags } from "./MWGTags";
-import {
-  CompositeTags,
-  DuckyTags,
-  EXIFTags,
-  ExifToolTags,
-  FileTags,
-  FlashPixTags,
-  IPTCTags,
-  JFIFTags,
-  JPEGTags,
-  JSONTags,
-  JUMBFTags,
-  MakerNotesTags,
-  MetaTags,
-  MPFTags,
-  PanasonicRawTags,
-  PhotoshopTags,
-  PrintIMTags,
-  QuickTimeTags,
-  RAFTags,
-  RIFFTags,
-  Tags,
-  XMPTags,
-} from "./Tags";
+import { Tags } from "./Tags";
 
 /**
  * Renames every key of `T` to `` `${Group}:${Key}` ``, mirroring ExifTool's
@@ -69,48 +47,28 @@ export interface UngroupedVendoredTags
  *
  * Like {@link Tags}, this interface is **not** comprehensive--ExifTool may
  * return tags (or whole groups) that are not listed here. `APP0`...`APP15`
- * segment tags (see `APPTags`) are only covered by the loosely-typed
- * `` `APP${AppSegmentIndex}:${string}` `` index signature below, because
- * one interface per APP segment group isn't worth the maintenance cost.
+ * segment tags that the sample files didn't have are only covered by the
+ * loosely-typed `` `APP${AppSegmentIndex}:${string}` `` index signature below.
  *
  * @see https://exiftool.org/#GroupNames
  */
 export interface GroupedTags
   extends
     UngroupedVendoredTags,
-    PrefixedTags<"Composite", CompositeTags>,
-    PrefixedTags<"Ducky", DuckyTags>,
-    PrefixedTags<"EXIF", EXIFTags>,
-    PrefixedTags<"ExifTool", Omit<ExifToolTags, "SourceFile">>,
+    GeneratedGroupedTags,
+    // The static (hand-written) interfaces that Tags extends:
     PrefixedTags<"ExifTool", GeolocationTags>,
-    PrefixedTags<"File", FileTags>,
     // ImageDataHash comes from ExifTool's "Extra" table, whose family-0
     // group is "File" (verified against the vendored ExifTool 13.59):
     PrefixedTags<"File", ImageDataHashTag>,
-    PrefixedTags<"FlashPix", FlashPixTags>,
     PrefixedTags<"ICC_Profile", ICCProfileTags>,
     PrefixedTags<"IPTC", IPTCApplicationRecordTags>,
-    PrefixedTags<"IPTC", IPTCTags>,
-    PrefixedTags<"JFIF", JFIFTags>,
-    PrefixedTags<"JPEG", JPEGTags>,
-    PrefixedTags<"JSON", JSONTags>,
-    PrefixedTags<"JUMBF", JUMBFTags>,
-    PrefixedTags<"MPF", MPFTags>,
-    PrefixedTags<"MakerNotes", MakerNotesTags>,
-    PrefixedTags<"Meta", MetaTags>,
-    PrefixedTags<"PanasonicRaw", PanasonicRawTags>,
-    PrefixedTags<"Photoshop", PhotoshopTags>,
-    PrefixedTags<"PrintIM", PrintIMTags>,
-    PrefixedTags<"QuickTime", QuickTimeTags>,
-    PrefixedTags<"RAF", RAFTags>,
-    PrefixedTags<"RIFF", RIFFTags>,
     PrefixedTags<"XMP", MWGCollectionsTags>,
-    PrefixedTags<"XMP", MWGKeywordTags>,
-    PrefixedTags<"XMP", XMPTags> {
+    PrefixedTags<"XMP", MWGKeywordTags> {
   /**
-   * Tags from JPEG `APP0`...`APP15` segments (see `APPTags` for the known
-   * bare names). These groups hold a hodgepodge of vendor-specific tags, so
-   * they are not individually typed.
+   * Tags from JPEG `APP0`...`APP15` segments that
+   * {@link GeneratedGroupedTags} doesn't list. These groups hold a hodgepodge
+   * of vendor-specific tags.
    */
   [appSegmentTag: `APP${AppSegmentIndex}:${string}`]: unknown;
 }
@@ -143,7 +101,9 @@ export type AppSegmentIndex =
  * {@link Tags} and {@link GroupedTags} namespaces is typed as the union of
  * both declarations (`GPSLatitude` is a validated `number` as a bare key of
  * a grouped read, but may be a raw string in bare mode or via the degrouped
- * fallback).
+ * fallback), and a group-prefixed name also includes its bare name's
+ * {@link Tags} type (`"EXIF:BitsPerSample"` is a `string` in grouped reads of
+ * the sample images, but the bare-mode `BitsPerSample` is a `number`).
  *
  * @return the tag value, or `undefined` if the tag is missing or `tags` is
  * nullish.
@@ -157,6 +117,12 @@ export function tag<K extends Extract<keyof GroupedTags, string>>(
   // Testing K against `keyof Tags` instead gives the same type, but took
   // almost half of this project's TypeScript 6 check time.
   | (K extends keyof UngroupedVendoredTags ? Tags[K] : never)
+  // A prefixed name against a bare-mode read returns the bare value:
+  | (K extends `${string}:${infer B}`
+      ? B extends keyof Tags
+        ? Tags[B]
+        : never
+      : never)
   | undefined;
 export function tag<K extends Extract<keyof Tags, string>>(
   tags: Maybe<Tags | GroupedTags>,

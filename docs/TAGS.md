@@ -107,7 +107,7 @@ Record<
 >;
 ```
 
-This allows developers to programmatically access the same frequency and device compatibility information shown in the JSDoc annotations, plus metadata group information for understanding where tags originate (EXIF, XMP, MakerNotes, etc.). The `typed` field indicates whether the tag is included in the `Tags` interface — tags where `typed` is `false` are still returned by `ExifTool.read()` but lack TypeScript type definitions due to the union type complexity limit.
+This allows developers to programmatically access the same frequency and device compatibility information shown in the JSDoc annotations, plus metadata group information for understanding where tags originate (EXIF, XMP, MakerNotes, etc.). The `typed` field indicates whether the tag is included in the `Tags` interface — tags where `typed` is `false` are still returned by `ExifTool.read()` but lack TypeScript type definitions because they had fewer than two values in the sample images and came from no mainstream device.
 
 ## Important Limitations
 
@@ -115,11 +115,11 @@ This allows developers to programmatically access the same frequency and device 
 
 **The `Tags` interface does not include every possible metadata field.**
 
-This is by design due to TypeScript limitations:
+This is by design:
 
 - ExifTool can extract **thousands** of different tag fields
-- TypeScript crashes with "union type too complex" errors if we include everything
-- We focus on the **most commonly used** fields
+- The interface is generated from sample images, which only contain a subset of those
+- Tags with fewer than two values in the samples are left out, unless they came from a mainstream device
 
 ### Unknown Fields Still Returned
 

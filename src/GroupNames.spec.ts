@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { end, expect, testDir, tmpdir } from "./_chai.spec";
 import { Equal } from "./Equal";
 import { ExifDateTime } from "./ExifDateTime";
-import { ExifTool } from "./ExifTool";
+import { EXIFGroupedTags, ExifTool, XMPGroupedTags } from "./ExifTool";
 import { ExifToolVendoredTagNames } from "./ExifToolVendoredTags";
 import { Expect } from "./Expect";
 import { GroupedTags, tag, UngroupedVendoredTags } from "./GroupedTags";
@@ -458,13 +458,15 @@ describe("GroupNames (-G) support", () => {
 
     it("pins tag()'s return type for each kind of name", () => {
       // compile-time assertions of the exact return types: a prefixed name
-      // returns its GroupedTags type; a library (bare) key of GroupedTags also
-      // includes the Tags declaration, for the degrouped fallback; a bare
-      // ExifTool name returns its Tags type; an APP segment tag is unknown.
+      // returns its GroupedTags type and its bare name's Tags type, for the
+      // bare-mode fallback (both `string` for Make); a library (bare) key of
+      // GroupedTags also includes the Tags declaration, for the degrouped
+      // fallback; a bare ExifTool name returns its Tags type; an APP segment
+      // name that the sample files didn't have is unknown.
       const make = tag(grouped, "EXIF:Make");
       const lat = tag(grouped, "GPSLatitude");
       const bareMake = tag(grouped, "Make");
-      const app = tag(grouped, "APP14:DCTEncodeVersion");
+      const app = tag(grouped, "APP14:NoSuchTag");
       const checks: [
         Expect<Equal<typeof make, GroupedTags["EXIF:Make"] | undefined>>,
         Expect<
@@ -506,6 +508,51 @@ describe("GroupNames (-G) support", () => {
         return tag(tags, name);
       }
       expect(lookup(grouped, "EXIF:Make")).to.eql("Canon");
+    });
+
+    it("types each Group:TagName from that group's values", () => {
+      // ISO is a RequiredTags entry curated as `number` for EXIF, but
+      // `exiftool.read("test-images/Canon/CanonEOS_KissX5.jpg", ["-G"])`
+      // returns `"XMP:ISO": [1600]`. Keywords is curated as `string |
+      // string[]` for IPTC; most Composite:Keywords values are arrays, but
+      // test-images/exif-oxide-test-images/fujifilm/x_t3_03.jpg returns
+      // `"Composite:Keywords": "http://www.archive.org/details/historyofdaviess00leop"`,
+      // so other groups keep the curated type too. With no majority type, a field gets
+      // every observed type: the only sample images with XMP:Exposure return
+      // `"+0.15"` (test-images/Leica/LeicaR8-DigitalBackDMR.jpg) and `-0.35`
+      // (test-images/important/test-images/canon/eos_1ds_mark_ii.jpg):
+      const checks: [
+        Expect<Equal<Extract<GroupedTags["EXIF:ISO"], number>, number>>,
+        Expect<Equal<Extract<GroupedTags["XMP:ISO"], number[]>, number[]>>,
+        Expect<
+          Equal<Extract<GroupedTags["Composite:Keywords"], string>, string>
+        >,
+        Expect<Equal<GroupedTags["XMP:Exposure"], number | string | undefined>>,
+      ] = [true, true, true, true];
+      expect(checks).to.eql([true, true, true, true]);
+    });
+
+    it("splits the generated fields into exported per-group interfaces", () => {
+      const checks: [
+        Expect<Equal<EXIFGroupedTags["EXIF:ISO"], GroupedTags["EXIF:ISO"]>>,
+        // each holds only its own group's fields:
+        Expect<Equal<Exclude<keyof EXIFGroupedTags, `EXIF:${string}`>, never>>,
+        Expect<Equal<Exclude<keyof XMPGroupedTags, `XMP:${string}`>, never>>,
+      ] = [true, true, true];
+      expect(checks).to.eql([true, true, true]);
+    });
+
+    it("includes the bare Tags type in a prefixed name's return type", () => {
+      // Grouped reads of the sample images return `"EXIF:BitsPerSample":
+      // "8 8 8"`, but a bare-mode read returns `BitsPerSample: 8`, which a
+      // prefixed lookup falls back to:
+      const bare: Tags = { BitsPerSample: 8 };
+      const bits = tag(bare, "EXIF:BitsPerSample");
+      const checks: [Expect<Equal<Extract<typeof bits, number>, number>>] = [
+        true,
+      ];
+      expect(checks).to.eql([true]);
+      expect(bits).to.eql(8);
     });
 
     it("tolerates nullish tag objects", () => {

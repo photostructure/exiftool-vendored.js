@@ -29,7 +29,7 @@ npm run docs        # Generate TypeDoc docs and serve at http://localhost:3000
 npm run docs:build  # Build documentation only (without serving)
 
 # Tag Generation
-npm run mktags ../path/to/images  # Regenerate src/Tags.ts and data/TagMetadata.json (with frequency, mainstream flags, groups, type, and typed) from sample images; follow with `npm run fmt`
+npm run mktags ../path/to/images  # Regenerate src/Tags.ts, src/GeneratedGroupedTags.ts, and data/TagMetadata.json (with frequency, mainstream flags, groups, type, and typed) from sample images; follow with `npm run fmt`
 
 # Release Management
 # Use Build & Prepare Release on GitHub; see RELEASE.md
@@ -39,13 +39,13 @@ npm run mktags ../path/to/images  # Regenerate src/Tags.ts and data/TagMetadata.
 
 ## Architecture & Key Concepts
 
-**Core Components**: `ExifTool` class (`src/ExifTool.ts`) wraps ExifTool process management using batch-cluster. `Tags` interface (`src/Tags.ts`) contains ~2000 auto-generated metadata fields with popularity ratings. Custom date/time classes (`ExifDate`, `ExifTime`, `ExifDateTime`) handle timezone complexities. Task system includes `ReadTask`, `WriteTask`, `BinaryExtractionTask`, and `RewriteAllTagsTask`. Platform-specific binaries via optional dependencies.
+**Core Components**: `ExifTool` class (`src/ExifTool.ts`) wraps ExifTool process management using batch-cluster. `Tags` interface (`src/Tags.ts`) contains ~3,000 auto-generated metadata fields with popularity ratings. Custom date/time classes (`ExifDate`, `ExifTime`, `ExifDateTime`) handle timezone complexities. Task system includes `ReadTask`, `WriteTask`, `BinaryExtractionTask`, and `RewriteAllTagsTask`. Platform-specific binaries via optional dependencies.
 
 **Process Management**: Uses [batch-cluster](https://photostructure.github.io/batch-cluster.js/) with configurable `maxProcs`, `minDelayBetweenSpawnMillis`, and `streamFlushMillis`. Singleton `exiftool` instance configured conservatively.
 
 **Timezone Handling**: Sophisticated heuristics using explicit timezone metadata, GPS location inference, UTC timestamp deltas, and daylight saving transitions.
 
-**Tag Generation**: `mktags.ts` analyzes sample images to generate TypeScript interfaces with ~2000 most common tags and popularity ratings.
+**Tag Generation**: `mktags.ts` analyzes sample images to generate TypeScript interfaces of the tags seen at least twice, with popularity ratings: bare names in `src/Tags.ts`, and `Group:TagName` fields with per-group ratings in one `${Group}GroupedTags` interface per group in `src/GeneratedGroupedTags.ts`.
 
 **Testing**: Mocha with Chai assertions, unit/integration tests, test images in `test/` directory including non-English filenames.
 
@@ -59,7 +59,6 @@ npm run mktags ../path/to/images  # Regenerate src/Tags.ts and data/TagMetadata.
   should be awaited when cleanup must finish before the application continues or exits
 - Tag interfaces not comprehensive - less common tags may exist in returned objects
 - Uses batch processing with automatic process pool management
-- TypeScript union type limits require careful tag selection
 
 ## TypeScript Hygiene
 

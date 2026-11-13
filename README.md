@@ -163,6 +163,11 @@ t["EXIF:Make"]; // typed via the GroupedTags interface
 tag(t, "Make"); // "Canon": tag() looks up bare names in either mode
 ```
 
+Each `Group:TagName` field of `GroupedTags` has its own JSDoc frequency,
+example, and type, taken from that group's values in the sample images. Where
+the generator curates a tag's type, every group's field also includes that
+type, so `XMP:ISO` is `number | number[]` while `EXIF:ISO` is `number`.
+
 ### The output contract
 
 - **Prefixed keys are ExifTool's output, verbatim.** Every tag that ExifTool
@@ -194,9 +199,10 @@ tag(t, "Make"); // "Canon": tag() looks up bare names in either mode
   `inferTimezoneFromDatestampTags` / `extractTzOffsetFromTags` machinery are
   keyed by bare tag names. Strip the `Group:` prefix before passing
   group-prefixed keys to them.
-- **`APP0`...`APP15` segment tags** are only loosely typed in `GroupedTags`
-  (as an `` `APP${number}:${string}` `` index signature): those groups hold a
-  grab-bag of vendor-specific tags.
+- **`APP0`...`APP15` segment tags** are typed in `GroupedTags` only when the
+  sample images had them. Any other `` `APP${number}:${string}` `` key falls
+  back to an index signature typed `unknown`: those groups hold a grab-bag of
+  vendor-specific tags.
 
 ## 🛡️ Code defensively!
 
@@ -211,9 +217,8 @@ it is common for the files you currently handle.
 
 ### Undeclared fields may be included
 
-The interface favors the most common and useful fields. Without tag pruning,
-TypeScript fails with `TS2590: Expression produces a union type that is too
-complex to represent`.
+The interface only includes tags that had at least two values in the sample
+images, or that came from a mainstream device.
 
 Rare, vendor-specific, and custom tags may still appear at runtime. If your app
 needs arbitrary tags, intersect `Tags` with `Record<string, unknown>`; if a tag

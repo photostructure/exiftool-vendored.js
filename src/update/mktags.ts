@@ -24,21 +24,19 @@ import { times } from "../Times";
 import { escapeJSDoc } from "./JSDoc";
 
 /**
- * Unfortunately, TypeScript has a limit on the complexity of types it can
- * represent.
+ * The most tags (required tags first, then by {@link Tag.sortBy}) that Tags.ts
+ * includes.
  *
- * If we build a union type of all the tags ExifTool knows about (which is north
- * of 15,000 tags last time we checked), we exceed that limit and get `error
- * TS2590: Expression produces a union type that is too complex to represent`.
+ * This used to avoid `error TS2590: Expression produces a union type that is
+ * too complex to represent` (at about 3,100 tags in 2023). TypeScript 6.0.3
+ * and 7.0.2 compile this project without errors with 28,000 tags, so the cap
+ * now only bounds compile time: with 25,000 extra tags, `tsc --noEmit` takes
+ * 16.6s (TypeScript 6) and 4.6s (TypeScript 7), versus 2.4s and 0.4s.
  *
- * So, we have to hack around this by only including the N "most popular" and
- * "most important" tags.
- *
- * Note that this limit is much less than that threshold (which was about 3,100
- * in 2023), but remember to account for the 8+ static interfaces we're also
- * including in the final Tags union.
+ * The November 2026 sample corpus has 3,039 unique tags, 2,837 of which pass
+ * `keep(2)`, so this cap drops none of them.
  */
-const MAX_TAGS = 2700;
+const MAX_TAGS = 5000;
 
 // Static interfaces that Tags extends - these need special handling to avoid
 // name collisions and to ensure their tag names appear in TagMetadata.json
@@ -855,9 +853,6 @@ const js_docs = {
   XMPTags: ["@see https://exiftool.org/TagNames/XMP.html"],
 };
 
-// If we don't do tag pruning, TypeScript fails with
-// error TS2590: Expression produces a union type that is too complex to represent.
-
 // This is a set of regexp patterns that match tags that are (probably)
 // ignorable:
 const ExcludedTagRe = new RegExp(
@@ -1116,6 +1111,13 @@ class Tag {
   valueTypeOverride?: string;
   doc?: string; // Optional documentation/remarks for this tag
   see?: string; // Optional @see reference (URL or other reference)
+  /**
+   * Stats for each `Group:TagName` key of this tag, keyed by its verbatim
+   * family-0 group: unlike {@link groups}, APP segments stay `APP14`.
+   */
+  readonly byGroup = new Map<string, Tag>();
+  /** Set only on the per-group Tags in a {@link byGroup}: their group. */
+  group?: string;
   constructor(readonly tag: string) {
     // Initialize with the first group from the tag
     const firstGroup = map(tag.split(":")[0], normalizeGroup);
@@ -1129,6 +1131,16 @@ class Tag {
     if (group) {
       this.groups.add(group);
     }
+  }
+
+  /**
+   * @param groupTag expected to be "$group:$tagname"
+   */
+  groupTag(groupTag: string): Tag {
+    const group = groupTag.split(":")[0]!;
+    return getOrSet(this.byGroup, group, () =>
+      Object.assign(new Tag(groupTag), { group }),
+    );
   }
 
   toString() {
@@ -1156,15 +1168,26 @@ class Tag {
       .forEach((ea) => {
         if (!nullish(ea)) cm.add(ea);
       });
-    return cm.byP(0.5).sort();
+    const majority = cm.byP(0.5);
+    // With no type in a majority of the values (a tie), every observed type
+    // is plausible:
+    return (majority.length > 0 ? majority : cm.byCountDesc()).sort();
   }
 
   get valueType(): string {
-    return (
-      this.valueTypeOverride ??
-      RequiredTags[this.base as any]?.t ??
-      (this.valueTypes.length === 0 ? "string" : this.valueTypes.join(" | "))
-    );
+    if (this.valueTypeOverride != null) return this.valueTypeOverride;
+    const required = RequiredTags[this.base as any];
+    if (required != null && (this.group == null || this.group === required.grp))
+      return required.t;
+    const types = [
+      // Other groups of a RequiredTags tag (see byGroup) keep its curated
+      // type, which covers values their majority type can miss, and add their
+      // own observed types:
+      ...(required?.t.split(" | ") ?? []),
+      ...this.valueTypes.flatMap((ea) => ea.split(" | ")),
+    ];
+    // uniq: a tie can union "ExifTime | string" with "string"
+    return types.length === 0 ? "string" : uniq(types).join(" | ");
   }
 
   get sortBy() {
@@ -1210,7 +1233,11 @@ class Tag {
             : "☆☆☆☆";
   }
 
-  jsdocTags(totalValues: number): string {
+  /**
+   * @param withGroups false omits `@groups`, which a `Group:TagName` field
+   * already names
+   */
+  jsdocTags(totalValues: number, withGroups = true): string {
     const frequencyDecimal = this.popularity(totalValues);
     const frequencyPercent = Math.round(frequencyDecimal * 100);
     const starRating = this.stars(totalValues);
@@ -1219,7 +1246,7 @@ class Tag {
 
     const lines = [
       ` * @frequency ${mainstreamEmoji} ${starRating} (${frequencyPercent}%)`,
-      ` * @groups ${groups}`,
+      ...(withGroups ? [` * @groups ${groups}`] : []),
       ` * @example ${escapeJSDoc(this.example())}`,
     ];
 
@@ -1384,8 +1411,10 @@ class TagMap {
         collisions.push(k);
       }
       const t = this.tag(v.grp + ":" + k);
+      const gt = t.groupTag(v.grp + ":" + k);
       if (v.value != null) {
         t.values.push(v.value);
+        gt.values.push(v.value);
       }
       if (v.doc != null) {
         t.doc = v.doc;
@@ -1444,12 +1473,16 @@ class TagMap {
     tag.files.add(filename);
     // Add this group to the tag's groups set (in case it appears in multiple groups)
     tag.addGroup(tagName);
+    const groupTag = tag.groupTag(tagName);
+    groupTag.files.add(filename);
     if (important) {
       tag.important = true;
+      groupTag.important = true;
     }
     if (value != null) {
       const values = tag.values;
       values.push(value);
+      groupTag.values.push(value);
       this.maxValueCount = Math.max(values.length, this.maxValueCount);
     }
   }
@@ -1663,12 +1696,6 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         );
       }
     }
-    // TODO: src/GroupedTags.ts hand-maintains a `Group:TagName`-prefixed
-    // composition of these same per-group interfaces (it isn't generated
-    // here because a full mktags run needs a large sample-image corpus). If
-    // a group interface is *removed*, GroupedTags.ts fails to compile; if a
-    // new group interface is *added* here, add a matching
-    // `PrefixedTags<"Group", GroupTags>` entry to GroupedTags.ts.
     const interfaceNames = [
       ...tagGroups.map((s) => s + "Tags"),
       "ExifToolVendoredTags",
@@ -1685,9 +1712,9 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
         `/**`,
         ` * This is a partial list of fields returned by {@link ExifTool.read}.`,
         ` *`,
-        ` * This interface is **not** comprehensive: we only include the most popular`,
-        ` * ~2 thousand fields so as to avoid TypeScript error TS2590: (Expression`,
-        ` * produces a union type that is too complex to represent).`,
+        ` * This interface is **not** comprehensive: it only includes tags that had`,
+        ` * at least two values in the sample files, or that came from a mainstream`,
+        ` * device.`,
         ` *`,
         ` * If this interface is missing a field you need, you should handle that`,
         ` * typecasting safely in your own code.`,
@@ -1738,6 +1765,91 @@ Promise.all(files.map((file) => readAndAddToTagMap(file)))
     );
 
     tagWriter.end();
+
+    // Generate the `Group:TagName` fields that GroupedTags extends, in one
+    // `${Group}GroupedTags` interface per family-0 group. Each field's
+    // frequency and example come only from that group's values, and so does
+    // its type, apart from curated RequiredTags types (see valueType). The
+    // static interfaces are prefixed by hand in GroupedTags.ts.
+    const groupedFields = new Map<string, { key: string; tag: Tag }[]>();
+    for (const tag of tagMap.tags) {
+      if (tag.staticInterface != null) continue;
+      // ReadTask returns SourceFile bare, even under -G:
+      if (tag.base === "SourceFile") continue;
+      for (const [group, groupTag] of tag.byGroup) {
+        if (tag.doc != null) groupTag.doc = tag.doc;
+        if (tag.see != null) groupTag.see = tag.see;
+        getOrSet(groupedFields, group, () => []).push({
+          key: group + ":" + tag.base,
+          tag: groupTag,
+        });
+      }
+    }
+    // Numeric, so APP4 sorts before APP10:
+    const groups = [...groupedFields.keys()].sort((a, b) =>
+      a.localeCompare(b, "en", { numeric: true, sensitivity: "base" }),
+    );
+    const groupedInterfaces = groups.map((group) => {
+      // The bare interface's docs apply here too:
+      const docs: string[] =
+        (js_docs as Record<string, string[]>)[normalizeGroup(group) + "Tags"] ??
+        [];
+      const fields = sortBy(groupedFields.get(group)!, (ea) =>
+        ea.key.toLowerCase(),
+      ).map(
+        ({ key, tag }) =>
+          `  /**\n${tag.jsdocTags(files.length, false)}\n   */\n` +
+          `  ${JSON.stringify(key)}?: ${tag.valueType};\n`,
+      );
+      return [
+        "/**",
+        ` * The \`${group}:\` fields of {@link GroupedTags}.`,
+        ...(docs.length > 0 ? [" *", ...docs.map((ea) => " * " + ea)] : []),
+        " */",
+        `export interface ${group}GroupedTags {`,
+        ...fields,
+        "}",
+        "",
+      ];
+    });
+    const groupedTypes = [...groupedFields.values()]
+      .flat()
+      .map((ea) => ea.tag.valueType)
+      .join(" ");
+    const groupedImports = [
+      "BinaryField",
+      "ContainerDirectoryItem",
+      "ExifDate",
+      "ExifDateTime",
+      "ExifTime",
+      "ResourceEvent",
+      "Struct",
+      "Version",
+    ]
+      .filter((name) => new RegExp(`\\b${name}\\b`).test(groupedTypes))
+      .map((name) => `import { ${name} } from "./${name}";`);
+    fs.writeFileSync(
+      path.resolve(__dirname, "../../src/GeneratedGroupedTags.ts"),
+      [
+        ...groupedImports,
+        "",
+        ...groupedInterfaces.flat(),
+        "/**",
+        " * The `Group:TagName` fields of {@link GroupedTags}, for every generated",
+        " * {@link Tags} field, in every family-0 group the sample files had it in.",
+        " *",
+        " * Each field's @frequency, @example, and type come only from that group's",
+        " * values, except that a curated RequiredTags type applies in every group,",
+        " * so `XMP:ISO` is `number | number[]` while `EXIF:ISO` is `number`.",
+        " *",
+        ` * Autogenerated by "npm run mktags" by ExifTool ${version} on ${new Date().toDateString()}.`,
+        " */",
+        "export interface GeneratedGroupedTags",
+        "  extends",
+        "    " + groups.map((ea) => ea + "GroupedTags").join(",\n    ") + " {}",
+        "",
+      ].join("\n"),
+    );
 
     // Generate JSON file with tag metadata
     const dataDir = path.resolve(__dirname, "../../data");

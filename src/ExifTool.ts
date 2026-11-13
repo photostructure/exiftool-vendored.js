@@ -114,6 +114,38 @@ export type {
   ExifToolTaskProgressOptions,
 } from "./ExifToolTask";
 export type { ExifToolVendoredTags } from "./ExifToolVendoredTags";
+export type {
+  APP10GroupedTags,
+  APP12GroupedTags,
+  APP14GroupedTags,
+  APP1GroupedTags,
+  APP4GroupedTags,
+  APP5GroupedTags,
+  APP6GroupedTags,
+  APP8GroupedTags,
+  CompositeGroupedTags,
+  DuckyGroupedTags,
+  EXIFGroupedTags,
+  ExifToolGroupedTags,
+  FileGroupedTags,
+  FlashPixGroupedTags,
+  GeneratedGroupedTags,
+  IPTCGroupedTags,
+  JFIFGroupedTags,
+  JPEGGroupedTags,
+  JSONGroupedTags,
+  JUMBFGroupedTags,
+  MakerNotesGroupedTags,
+  MetaGroupedTags,
+  MPFGroupedTags,
+  PanasonicRawGroupedTags,
+  PhotoshopGroupedTags,
+  PrintIMGroupedTags,
+  QuickTimeGroupedTags,
+  RAFGroupedTags,
+  RIFFGroupedTags,
+  XMPGroupedTags,
+} from "./GeneratedGroupedTags";
 export type { GeolocationTags } from "./GeolocationTags";
 export type {
   GroupedTags,
