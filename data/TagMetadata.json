@@ -706,6 +706,20 @@
     "type": "number",
     "typed": true
   },
+  "AFMicroAdjAllValue": {
+    "frequency": 0.0002,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
+  "AFMicroAdjByLensValue": {
+    "frequency": 0.0002,
+    "mainstream": true,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
   "AFMicroAdjMode": {
     "frequency": 0.02,
     "mainstream": true,
@@ -2211,13 +2225,6 @@
     "type": "number",
     "typed": true
   },
-  "BWGrainEffect": {
-    "frequency": 0.0004,
-    "mainstream": false,
-    "groups": ["MakerNotes"],
-    "type": "string",
-    "typed": true
-  },
   "BWMode": {
     "frequency": 0.04,
     "mainstream": true,
@@ -2858,6 +2865,13 @@
   "BurstShot": {
     "frequency": 0.0008,
     "mainstream": false,
+    "groups": ["MakerNotes"],
+    "type": "number",
+    "typed": true
+  },
+  "BurstShotNumber": {
+    "frequency": 0.001,
+    "mainstream": true,
     "groups": ["MakerNotes"],
     "type": "number",
     "typed": true
@@ -5167,13 +5181,6 @@
   },
   "CrossProcess": {
     "frequency": 0.003,
-    "mainstream": false,
-    "groups": ["MakerNotes"],
-    "type": "string",
-    "typed": true
-  },
-  "CrossProcessingColorTone": {
-    "frequency": 0.0003,
     "mainstream": false,
     "groups": ["MakerNotes"],
     "type": "string",

@@ -34,6 +34,7 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 
 - 🌱 Upgraded ExifTool to version [13.64](https://exiftool.org/history.html#v13.64).
 
+- 📦 Rebuilt `Tags` and `GeneratedGroupTags`
 
 ## [39.3.0] - 2026-11-12
 
