@@ -30,7 +30,10 @@ Providing the flexibility to reversion the API or UPDATE version slots as featur
 - 🐞 Backwards-compatible bug fixes
 - 📦 Minor packaging changes
 
-## [Unreleased]
+## [Unreleased (minor)]
+
+- 🌱 Upgraded ExifTool to version [13.64](https://exiftool.org/history.html#v13.64).
+
 
 ## [39.3.0] - 2026-11-12
 
